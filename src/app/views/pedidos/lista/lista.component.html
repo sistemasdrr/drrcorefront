@@ -1,0 +1,136 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="materialTableHeader">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h2>Listado de Pedidos</h2>
+                </li>
+                <li class="tbl-search-box">
+                  <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                  <input placeholder="Buscar" type="text" #filter class="browser-default search-field"
+                    aria-label="Search box">
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" matTooltip="ADD">
+                    <button mat-mini-fab color="primary" >
+                      <mat-icon class="col-white">add</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" matTooltip="REFRESH">
+                    <button mat-mini-fab color="primary">
+                      <mat-icon class="col-white">refresh</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li>
+                  <div class="export-button m-l-10" matTooltip="XLSX">
+                    <img src="assets/images/icons/xlsx.png" alt="" />
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+    <table mat-table
+    [dataSource]="dataSource" multiTemplateDataRows
+    class="mat-elevation-z8">
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+      <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+      <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+      </ng-container>
+      <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button aria-label="expand row" (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+          <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+        </button>
+      </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+          <div class="example-element-detail"
+              [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+            <div class="example-element-diagram w-100">
+              <h5>Datos del Abonado</h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Crédito Consultado:</b>  {{element.detalle_pedido.credito_consultado}}</label><br>
+                  <label><b>Nro. de Orden: </b> {{element.detalle_pedido.num_orden}}</label>
+                </div>
+                <div class="col-md-4">
+                  <label><b>Revelar Nombre:</b>  {{element.detalle_pedido.revelar_nombre}}</label><br>
+                  <label><b>Nro. de Referencia: </b> {{element.detalle_pedido.numero_referencia}}</label>
+                </div>
+                <div class="col-md-4">
+                  <label><b>Indicaciones del Abonado: </b> {{element.detalle_pedido.indicaciones_abonado}}</label>
+                </div>
+              </div>
+              <hr>
+              <h5>Datos de la Empresa</h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Nombre de Empresa: </b>  {{element.detalle_pedido.nombre_empresa}}</label><br>
+                  <label><b>Registro Tributario: </b>  {{element.detalle_pedido.reg_tributario}}</label>
+                </div>
+                <div class="col-md-4">
+                  <label><b>Continente: </b>  {{element.detalle_pedido.continente}}</label><br>
+                  <label><b>País: </b>  {{element.detalle_pedido.pais}}</label><br>
+                  <label><b>Ciudad: </b>  {{element.detalle_pedido.ciudad}}</label><br>
+                </div>
+                <div class="col-md-4">
+                  <label><b>Dirección: </b>  {{element.detalle_pedido.direccion}}</label><br>
+                  <label><b>Correo: </b> {{element.detalle_pedido.correo}}</label><br>
+                  <label><b>Telefono: </b>  {{element.detalle_pedido.telefono}}</label><br>
+                </div>
+              </div>
+              <hr>
+              <h5>Datos del Informe</h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Tipo de Trámite: </b>  {{element.detalle_pedido.tipo_tramite}}</label><br>
+                </div>
+                <div class="col-md-4">
+                  <label><b>Tipo de Informe: </b> {{element.detalle_pedido.tipo_informe}}</label><br>
+                </div>
+                <div class="col-md-4">
+                  <label><b>Precio de Informe: </b>  {{element.detalle_pedido.precio_informe}}</label><br>
+                </div>
+              </div>
+              <br>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+
+
+  </div>
+</section>
