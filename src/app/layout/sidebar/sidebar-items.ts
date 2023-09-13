@@ -45,7 +45,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: 'advance-table',
     title: 'MENUITEMS.ADVANCE-TABLE.TEXT',
-    icon: 'trello',
+    icon: 'arrows-alt-v',
     class: '',
     groupTitle: false,
     submenu: [],
