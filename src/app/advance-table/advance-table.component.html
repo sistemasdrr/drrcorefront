@@ -18,8 +18,8 @@
                 </li>
                 <li class="tbl-search-box">
                   <label for="search-input"><i class="material-icons search-icon">search</i></label>
-                  <input placeholder="Search" type="text" #filter class="browser-default search-field"
-                    aria-label="Search box">
+                  <!--input placeholder="Buscar" type="text" #filter class="browser-default search-field" aria-label="Search box"-->
+
                 </li>
               </ul>
             </div>
@@ -108,12 +108,12 @@
                   </mat-header-cell>
                   <mat-cell mat-cell *matCellDef="let row">
                     <span class="mobile-label">Gender:</span>
-                    <div *ngIf="row.gender==='male'">
-                      <span class="badge badge-solid-green">
+                    <div *ngIf="row.gender==='male'" >
+                      <span class="badge badge-solid-yellow" style="width:80px">
                         {{row.gender}}</span>
                     </div>
-                    <div *ngIf="row.gender==='female'">
-                      <span class="badge badge-solid-red">
+                    <div *ngIf="row.gender==='female'" >
+                      <span class="badge badge-solid-red" style="width:80px">
                         {{row.gender}}</span>
                     </div>
                   </mat-cell>
@@ -134,7 +134,10 @@
                   </mat-header-cell>
                   <mat-cell *matCellDef="let row" class="column-nowrap" (contextmenu)="onContextMenu($event, row)"
                     [ngClass]="'tbl-col-width-per-20'">
-                    <span class="truncate-text"><span class="mobile-label">Address:</span>{{row.address}}</span>
+                    <span class="truncate-text " style="align-items: center;"><span class="mobile-label">
+
+                      Address:
+                    </span ><mat-icon   matSuffix [ngStyle]="{'color': 'red'}">circle</mat-icon> {{row.address}}</span>
                   </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="country">
