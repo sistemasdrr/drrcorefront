@@ -1,9 +1,127 @@
 <section class="content">
   <div class="container-fluid">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        agregar
+        <!-- DATOS GENERALES -->
+        <div class="row counter-box p-3">
+            <h3>Datos Generales</h3>
+            <div class="col-md-4">
+              <div class="d-flex align-content-center align-items-center">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Código del Abonado</mat-label>
+                  <input matInput placeholder="Ej. 1234" value="">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="search()" class="button-with-icon" style="margin-bottom: 1.5rem; margin-left: 1rem;">
+                  <i class="fa-solid fa-magnifying-glass icon"></i> Buscar
+                </button>
+
+              </div>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center">
+              <mat-form-field color="accent" style="margin-right: .5rem;">
+                <mat-label>Fecha del Pedido</mat-label>
+                <input matInput [matDatepicker]="fecha_pedido">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="fecha_pedido"></mat-datepicker-toggle>
+                <mat-datepicker #fecha_pedido color="primary"></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field color="accent" style="margin-left: .5rem;">
+                <mat-label>Fecha de Venc. Real</mat-label>
+                <input matInput [matDatepicker]="fecha_vencimiento_real">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
+                <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 d-flex ">
+              <mat-form-field color="accent" style="margin-right: .5rem;">
+                <mat-label>Fecha de Vencimiento</mat-label>
+                <input matInput [matDatepicker]="fecha_vencimiento">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento"></mat-datepicker-toggle>
+                <mat-datepicker #fecha_vencimiento color="primary"></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field style="margin-left: .5rem;">
+                <mat-label>Idioma: </mat-label>
+                <mat-select [(value)]="idiomaSeleccionado">
+                  <mat-option [value]="idioma.value" *ngFor="let idioma of idiomas">{{ idioma.viewValue }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- DATOS DEL ABONADO -->
+            <div class="col-md-4 mt-3">
+              <div class="counter-box shadow m-1">
+                <h3>Datos Referenciales del Abonado</h3>
+                <div class="d-flex align-items-center">
+                  <mat-form-field class="example-full-width" style="margin-right: 1rem;">
+                    <mat-label>Abonado</mat-label>
+                    <input matInput placeholder="" value="1045 - Abonado" readonly>
+                  </mat-form-field>
+                  <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:15rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+
+
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Pais</mat-label>
+                      <input matInput placeholder="" value="PERU" readonly>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Idioma</mat-label>
+                      <input matInput placeholder="" value="ESP" readonly>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Estado</mat-label>
+                      <input matInput placeholder="" value="ACTIVO" readonly>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                      <mat-label>...</mat-label>
+                      <input matInput placeholder="" value="..." readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-7">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Crédito Consultado</mat-label>
+                      <input matInput placeholder="" value="10000000" readonly>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Nro. Referencia</mat-label>
+                      <input matInput placeholder="" value="1546374" readonly>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Indicaciones del Abonado</mat-label>
+                      <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Datos Adicionales</mat-label>
+                      <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- DATOS DE LA EMPRESA -->
+            <div class="col-md-8 mt-3">
+              <div class="counter-box shadow m-1" >
+                <h3>Datos de la Empresa</h3>
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
       </div>
-    </div>
+
+
   </div>
 </section>

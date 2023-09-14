@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'lista', component: ListaComponent
   },
   {
-    path: 'agregar', component: DetalleComponent
+    path: 'detalle/:tipo/:cupon', component: DetalleComponent
   }
 ];
 
