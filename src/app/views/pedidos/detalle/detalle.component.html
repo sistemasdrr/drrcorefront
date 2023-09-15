@@ -9,44 +9,60 @@
         <!-- DATOS GENERALES -->
         <div class="row counter-box p-3">
             <h3>Datos Generales</h3>
-            <div class="col-md-4">
-              <div class="d-flex align-content-center align-items-center">
-                <mat-form-field class="example-full-width">
-                  <mat-label>Código del Abonado</mat-label>
-                  <input matInput placeholder="Ej. 1234" value="">
-                </mat-form-field>
-                <button mat-raised-button color="primary" (click)="search()" class="button-with-icon" style="margin-bottom: 1.5rem; margin-left: 1rem;">
-                  <i class="fa-solid fa-magnifying-glass icon"></i> Buscar
-                </button>
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
+              <div class=" bg-c-green order-info-box7 w-100 shadow" style="border-radius: .5rem; padding: .5rem; margin-bottom: .8rem;">
+                <div class="d-flex justify-content-between">
+                  <h3 class=" text-end m-b-5 " style="margin-top: .5rem;"><i class="fas fa-ticket-alt float-start" style="margin-top: .2rem; margin-right: .5rem;"> </i> Nro. del Cupón</h3>
+                  <h2 class="text-end" style="margin-top: .5rem;">{{ nmrCupon }}</h2>
+                </div>
 
               </div>
             </div>
-            <div class="col-md-4 d-flex justify-content-center">
-              <mat-form-field color="accent" style="margin-right: .5rem;">
+            <div class="col-md-6 d-flex justify-content-center align-items-center ">
+              <button mat-raised-button color="primary"  class="button-with-icon" style="margin-bottom: 1.5rem; margin-right: 1rem; width: 10rem; height: 5rem;">
+                <i class="fa-solid fa-floppy-disk" style="font-size: 32px;"></i><div style="font-size: 28px;"> Guardar </div>
+              </button>
+              <button mat-raised-button color="warn"  class="button-with-icon" style="margin-bottom: 1.5rem; margin-left: 1rem; width: 10rem; height: 5rem;">
+                <i class="fa-solid fa-right-from-bracket" style="font-size: 32px;"></i><div style="font-size: 28px;"> Cancelar </div>
+              </button>
+            </div>
+            <hr>
+            <div class="col-md-4 d-flex align-items-center">
+              <mat-form-field class="example-full-width">
+                <mat-label>Código del Abonado</mat-label>
+                <input matInput placeholder="Ej. 1234" value="">
+               </mat-form-field>
+              <button mat-raised-button color="primary" (click)="search()" class="button-with-icon" style="margin-bottom: 1.5rem; margin-left: 1rem;">
+                <i class="fa-solid fa-magnifying-glass icon"></i> Buscar
+              </button>
+            </div>
+            <div class="col-md-2 d-flex justify-content-center">
+              <mat-form-field color="primary" style="width: 100%;">
                 <mat-label>Fecha del Pedido</mat-label>
                 <input matInput [matDatepicker]="fecha_pedido">
-                <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="fecha_pedido"></mat-datepicker-toggle>
                 <mat-datepicker #fecha_pedido color="primary"></mat-datepicker>
               </mat-form-field>
-              <mat-form-field color="accent" style="margin-left: .5rem;">
+            </div>
+            <div class="col-md-2 d-flex justify-content-center">
+            <mat-form-field color="primary" style="width: 100%;">
                 <mat-label>Fecha de Venc. Real</mat-label>
                 <input matInput [matDatepicker]="fecha_vencimiento_real">
-                <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
                 <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
               </mat-form-field>
             </div>
-            <div class="col-md-4 d-flex ">
-              <mat-form-field color="accent" style="margin-right: .5rem;">
+            <div class="col-md-2 d-flex justify-content-center">
+              <mat-form-field color="primary" style="width: 100%;">
                 <mat-label>Fecha de Vencimiento</mat-label>
                 <input matInput [matDatepicker]="fecha_vencimiento">
-                <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento"></mat-datepicker-toggle>
                 <mat-datepicker #fecha_vencimiento color="primary"></mat-datepicker>
               </mat-form-field>
-              <mat-form-field style="margin-left: .5rem;">
-                <mat-label>Idioma: </mat-label>
+            </div>
+            <div class="col-md-2 d-flex justify-content-center">
+              <mat-form-field style="width: 100%;">
+                <mat-label>Idioma </mat-label>
                 <mat-select [(value)]="idiomaSeleccionado">
                   <mat-option [value]="idioma.value" *ngFor="let idioma of idiomas">{{ idioma.viewValue }}</mat-option>
                 </mat-select>
@@ -54,6 +70,7 @@
             </div>
           </div>
 
+          <!-- DATOS DEL ABONADO Y DE LA EMPRESA -->
           <div class="row">
             <!-- DATOS DEL ABONADO -->
             <div class="col-md-4 mt-3">
@@ -67,44 +84,45 @@
                   <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:15rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
                 </div>
                 <div class="row">
-                  <div class="col-md-5">
-
-
+                  <div class="col-md-6">
                     <mat-form-field class="example-full-width">
                       <mat-label>Pais</mat-label>
                       <input matInput placeholder="" value="PERU" readonly>
                     </mat-form-field>
-                    <mat-form-field class="example-full-width">
-                      <mat-label>Idioma</mat-label>
-                      <input matInput placeholder="" value="ESP" readonly>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="example-full-width d-flex">
                       <mat-label>Estado</mat-label>
-                      <input matInput placeholder="" value="ACTIVO" readonly>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width">
-                      <mat-label>...</mat-label>
-                      <input matInput placeholder="" value="..." readonly>
+                      <div class="input-container">
+                        <input matInput placeholder="" value="ACTIVO" readonly>
+                        <div class="circle-inactive"></div>
+                        <div class="circle-active"></div>
+                      </div>
                     </mat-form-field>
                   </div>
-                  <div class="col-md-7">
-                    <mat-form-field class="example-full-width">
-                      <mat-label>Crédito Consultado</mat-label>
-                      <input matInput placeholder="" value="10000000" readonly>
-                    </mat-form-field>
+                  <div class="col-md-6">
                     <mat-form-field class="example-full-width">
                       <mat-label>Nro. Referencia</mat-label>
                       <input matInput placeholder="" value="1546374" readonly>
                     </mat-form-field>
                     <mat-form-field class="example-full-width">
-                      <mat-label>Indicaciones del Abonado</mat-label>
-                      <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width">
-                      <mat-label>Datos Adicionales</mat-label>
-                      <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+                      <mat-label>Crédito Consultado</mat-label>
+                      <input matInput placeholder="" value="10000000" readonly>
                     </mat-form-field>
                   </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field class="example-full-width" >
+                      <mat-label>Indicaciones del Abonado</mat-label>
+                      <textarea matInput placeholder="" style="min-height: 7rem;"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Datos Adicionales</mat-label>
+                      <textarea matInput placeholder="" style="min-height: 7rem;"></textarea>
+                    </mat-form-field>
+                  </div>
+
                 </div>
 
               </div>
@@ -112,12 +130,131 @@
             <!-- DATOS DE LA EMPRESA -->
             <div class="col-md-8 mt-3">
               <div class="counter-box shadow m-1" >
-                <h3>Datos de la Empresa</h3>
+                <h3>Datos de la Empresa/Persona a Investigar</h3>
+                <div class="row">
+                  <div class="col-md-8 d-flex align-items-center">
+                    <mat-form-field class="w-100">
+                      <mat-label>Nombre de la Empresa/Persona</mat-label>
+                      <input matInput placeholder="Ej. ALICORP SA" value="">
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" (click)="search()" class="button-with-icon" style="margin-bottom: 1.5rem; margin-left: 1rem;">
+                      <i class="fa-solid fa-magnifying-glass icon"></i> Buscar
+                    </button>
+                  </div>
+                  <div class="col-md-4 d-flex justify-content-center">
+                    <!--mat-form-field style="width: 100%;">
+                      <mat-label>Tipo de Informe </mat-label>
+                      <mat-select [(value)]="idiomaSeleccionado">
+                        <mat-option [value]="idioma.value" *ngFor="let idioma of idiomas">{{ idioma.viewValue }}</mat-option>
+                      </mat-select>
+                    </!--mat-form-field-->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>RUC</mat-label>
+                      <input matInput placeholder="" value="123456789" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Continente </mat-label>
+                      <mat-select [(value)]="continenteSeleccionado">
+                        <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>País</mat-label>
+                      <input matInput placeholder="" value="PERU" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Ciudad</mat-label>
+                      <input matInput placeholder="" value="LIMA" readonly>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Dirección</mat-label>
+                      <input matInput placeholder="" value="DIRECCION" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Correo</mat-label>
+                      <input matInput type="email" placeholder="" value="correo@example.com" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Teléfono</mat-label>
+                      <input matInput placeholder="" value="123456789" readonly>
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
-
+              <!-- DETALLES DEL INFORME -->
+              <div class="counter-box shadow m-1 mt-3">
+                <h3>Detalles del Informe</h3>
+                <div class="row">
+                  <div class="col-md-2">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Tipo de Informe </mat-label>
+                      <mat-select [(value)]="tipoInformeSeleccionado">
+                        <mat-option [value]="tipoInforme.value" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.viewValue }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2 d-flex justify-content-center">
+                    <mat-form-field color="primary" style="width: 100%;">
+                      <mat-label>A la Fecha</mat-label>
+                      <input matInput [matDatepicker]="fecha_informe">
+                      <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+                      <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-1"></div>
+                  <div class="col-md-2">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Tipo de Trámite </mat-label>
+                      <mat-select [(value)]="tipoTramiteSeleccionado">
+                        <mat-option [value]="tipoTramite.value" *ngFor="let tipoTramite of tipoTramites">{{ tipoTramite.viewValue }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="example-full-width">
+                      <mat-label>Precio del Informe ($)</mat-label>
+                      <input matInput type="number" placeholder="" value="25" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3 d-flex justify-content-center">
+                    <mat-form-field color="primary" style="width: 100%;">
+                      <mat-label>Para el Abonado </mat-label>
+                      <input matInput [matDatepicker]="fecha_abonado">
+                      <mat-datepicker-toggle matIconSuffix [for]="fecha_abonado"></mat-datepicker-toggle>
+                      <mat-datepicker #fecha_abonado color="primary"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
+          <!-- OTROS ABONADOS PIDIERON ESTE INFORME -->
+          <div class="row">
+            <div class="col-md-12 mt-3">
+              <div class="counter-box shadow m-1">
+                <h3>Abonados que Pidieron este Informe</h3>
+              </div>
+            </div>
+          </div>
 
         </div>
       </div>

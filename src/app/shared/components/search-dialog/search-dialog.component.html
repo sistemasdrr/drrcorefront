@@ -1,3 +1,50 @@
-<div class="container">
-  Lista de abonados
+<div class="container" style="width: 100%;">
+  <div class="row p-2">
+    <h2>Buscar {{ titulo }}</h2>
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width" style="margin-right: 1rem;">
+        <mat-label>Abonado</mat-label>
+        <input matInput placeholder="" value="" readonly>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-radio-group aria-label="Filtrar Por" style="font-size: 20px;">
+        Filtrar Por<br>
+        <mat-radio-button value="EMPRESA">Empresas</mat-radio-button>
+        <mat-radio-button value="PERSONA">Personas</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field class="example-full-width" style="margin-right: 1rem;">
+        <mat-label>Reg. Tributario</mat-label>
+        <input matInput placeholder="" value="" readonly>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row p-3">
+    <div class="col-md-12">
+      <mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="codigo">
+          <mat-header-cell *matHeaderCellDef class="text-center"> Código </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center">{{ element.codigo }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+          <mat-header-cell *matHeaderCellDef class="text-center"> Nombre del Abonado</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center">{{ element.nombre }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="Seleccionar">
+          <mat-header-cell *matHeaderCellDef class="text-center"> Seleccionar </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center">
+            <button mat-raised-button color="primary">Sel</button>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Encabezado de la tabla -->
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <!-- Fila de la tabla -->
+        <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+      </mat-table>
+
+    </div>
+  </div>
 </div>
