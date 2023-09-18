@@ -4,6 +4,7 @@ export interface Abonado{
   codigo : string
   revelarNombre : boolean
   pais : string
+  codigoPais : string,
   estado : string
   nroReferencia : string
   creditoConsultado : string

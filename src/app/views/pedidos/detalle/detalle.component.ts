@@ -36,6 +36,7 @@ export class DetalleComponent implements OnInit {
   nombreAbonado : string = ''
   isChecked = true;
   pais : string = ''
+  codigoPais : string = ''
   estado : string = ''
   nmrReferencia : string = ''
   creditoConsultado : string = ''
@@ -170,6 +171,7 @@ export class DetalleComponent implements OnInit {
       this.nombreAbonado = abonado.codigo + ' - ' + abonado.nombre;
       this.isChecked = abonado.revelarNombre;
       this.pais = abonado.pais;
+      this.codigoPais = abonado.codigoPais;
       this.estado = abonado.estado;
       this.nmrReferencia = abonado.nroReferencia;
       this.creditoConsultado = abonado.creditoConsultado;
