@@ -37,7 +37,7 @@ export class ListaComponent implements AfterViewInit {
   dataSource: MatTableDataSource<Order>;
   columnsToDisplay = ['Cupon', 'Informe', 'Estado', 'Tipo_informe', 'Tipo_tramite', 'Calidad', 'Fecha_ingreso', 'Fecha_vencimiento', 'Fecha_descarga', 'Acciones' ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement: Order | null = null;
+  expandedOrder: Order | null = null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -52,8 +52,6 @@ export class ListaComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.loadData();
-
 
     fromEvent(this.filter.nativeElement, 'keyup')
       .pipe(

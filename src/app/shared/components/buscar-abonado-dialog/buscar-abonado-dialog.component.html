@@ -1,12 +1,10 @@
-<div class="container" style="width: 100%;">
-  <div class="row p-2">
-    <h2>Buscar {{ titulo }}</h2>
-    <div class="col-md-4">
+<div class="container" style="width: 25rem;">
+    <!--div class="col-md-4">
       <mat-form-field class="example-full-width" style="margin-right: 1rem;">
         <mat-label>Abonado</mat-label>
         <input matInput placeholder="" value="" readonly>
       </mat-form-field>
-    </div>
+    </!--div>
     <div class="col-md-4">
       <mat-radio-group aria-label="Filtrar Por" style="font-size: 20px;">
         Filtrar Por<br>
@@ -20,10 +18,19 @@
         <input matInput placeholder="" value="" readonly>
       </mat-form-field>
     </div>
-  </div>
-  <div class="row p-3">
+  </div-->
+  <div class="row p-3 ">
     <div class="col-md-12">
+      <h2>Buscar {{ titulo }}</h2>
+      <hr>
       <mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef class="text-center"> Seleccionar </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center">
+            <mat-radio-button class="example-radio-button" [value]="element.codigo" (click)="setCodigoAbonado(element.codigo)">
+            </mat-radio-button>
+          </mat-cell>
+        </ng-container>
         <ng-container matColumnDef="codigo">
           <mat-header-cell *matHeaderCellDef class="text-center"> Código </mat-header-cell>
           <mat-cell *matCellDef="let element" class="text-center">{{ element.codigo }}</mat-cell>
@@ -32,19 +39,17 @@
           <mat-header-cell *matHeaderCellDef class="text-center"> Nombre del Abonado</mat-header-cell>
           <mat-cell *matCellDef="let element" class="text-center">{{ element.nombre }}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="Seleccionar">
-          <mat-header-cell *matHeaderCellDef class="text-center"> Seleccionar </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="text-center">
-            <button mat-raised-button color="primary">Sel</button>
-          </mat-cell>
-        </ng-container>
+
 
         <!-- Encabezado de la tabla -->
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
         <!-- Fila de la tabla -->
         <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
       </mat-table>
-
+      <hr>
+      <div class="d-flex justify-content-end">
+        <button id="btnSeleccionarAbonado" class="btn bg-cyan btn-lg btn-block waves-effect" type="button" (click)="realizarEnvioCodigo()"  [disabled]="botonDeshabilitado"> Seleccionar
+        </button>
+      </div>
     </div>
-  </div>
 </div>

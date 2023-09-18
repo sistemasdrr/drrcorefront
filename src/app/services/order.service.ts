@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Order } from 'app/models/order';
-const ped : Order[] =[{
+
+const orders : Order[] =[{
   id : '1',
   Cupon : "432412",
   Informe : "KARINTO",
@@ -242,6 +243,6 @@ export class OrderService {
 
   constructor() { }
   getOrders(){
-    return ped;
+    return orders;
   }
 }
