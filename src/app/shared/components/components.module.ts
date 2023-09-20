@@ -5,6 +5,10 @@ import { SharedModule } from "../shared.module";
 import { BuscarAbonadoDialogComponent } from "./buscar-abonado-dialog/buscar-abonado-dialog.component";
 import {MatRadioModule} from '@angular/material/radio';
 import { BuscarEmpresaDialogComponent } from './buscar-empresa-dialog/buscar-empresa-dialog.component';
+import { AdjuntarArchivosComponent } from './adjuntar-archivos/adjuntar-archivos.component';
+import { ComentarioComponent } from './comentario/comentario.component';
+import { FormsModule } from '@angular/forms';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -12,16 +16,22 @@ import { BuscarEmpresaDialogComponent } from './buscar-empresa-dialog/buscar-emp
     BreadcrumbComponent,
     BuscarAbonadoDialogComponent,
     BuscarEmpresaDialogComponent,
+    AdjuntarArchivosComponent,
+    ComentarioComponent,
   ],
   imports: [
     SharedModule,
-    MatRadioModule
+    MatRadioModule,
+    FormsModule,
+    CKEditorModule
   ],
   exports: [
     FileUploadComponent,
     BreadcrumbComponent,
     BuscarAbonadoDialogComponent,
-    BuscarEmpresaDialogComponent
+    BuscarEmpresaDialogComponent,
+    ComentarioComponent,
+    AdjuntarArchivosComponent
   ],
 })
 export class ComponentsModule {}

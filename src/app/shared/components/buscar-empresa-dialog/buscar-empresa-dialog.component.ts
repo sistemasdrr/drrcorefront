@@ -45,7 +45,6 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit{
   columnsToDisplay = ['select', 'tipo', 'nombreBuscado', 'nombreSolicitado', 'pais', 'ruc', 'fecha', 'situacion'];
 
   dataSource: MatTableDataSource<CompanyPerson>;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
@@ -53,7 +52,6 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit{
   constructor(){
     this.dataSource = new MatTableDataSource(datosEmpresaPersona)
   }
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -71,13 +69,10 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit{
   }
 
   applyFilter() {
-    const filterValue = (this.filter.nativeElement as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    const filterValue = (this.filter.nativeElement as HTMLInputElement).value.toLowerCase().trim();
+    this.dataSource.filter = filterValue;
   }
+
 
   mostrarCodigoEmpresa(cod : string){
     console.log(cod)

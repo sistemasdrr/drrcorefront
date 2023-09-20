@@ -19,12 +19,12 @@
               </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center align-items-center" >
-              <button class="btn bg-cyan btn-lg btn-block waves-effect mb-3" style="margin-left: 2rem; margin-right: 2rem;" type="button">
+              <button class="btn bg-cyan btn-lg btn-block waves-effect mb-3" style="margin-left: 1rem; margin-right: 1rem;" type="button">
                 <div class="d-flex align-items-center" style="font-size: 20px;">
                   <i class="fa-solid fa-floppy-disk"></i>&nbsp; <div style="font-size: 20px;"> Guardar</div>
                 </div>
               </button>
-              <button class="btn bg-red btn-lg btn-block waves-effect mb-3" style="margin-left: 2rem; margin-right: 2rem; " (click)="volver()" type="button">
+              <button class="btn bg-red btn-lg btn-block waves-effect mb-3" style="margin-left: 1rem; margin-right: 1rem; " (click)="volver()" type="button">
                 <div class="d-flex align-items-center" style="font-size: 20px;">
                   <i class="fa-solid fa-right-from-bracket"></i>&nbsp; <div style="font-size: 20px;"> Cancelar</div>
                 </div>
@@ -103,8 +103,8 @@
                       <mat-label>Estado</mat-label>
                       <div class="input-container">
                         <input matInput placeholder="" value="" [(ngModel)]="estado" readonly>
-                        <div class="circle-inactive"></div>
-                        <div class="circle-active"></div>
+                        <div class="circle-inactive" *ngIf="estado === 'INACTIVO'"></div>
+                        <div class="circle-active" *ngIf="estado === 'ACTIVO'"></div>
                       </div>
                     </mat-form-field>
                   </div>

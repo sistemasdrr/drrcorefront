@@ -183,4 +183,5 @@ export class DetalleComponent implements OnInit {
     }
   }
 
+
 }

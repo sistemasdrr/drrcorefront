@@ -4,12 +4,12 @@ import { Abonado } from 'app/models/abonado';
 const listaAbonado : Abonado[] = [
   {
     id : "1",
-    nombre : "Abonado 1",
+    nombre : "Abonado 1 Abonado Abonado",
     codigo : "12345",
     revelarNombre : true,
     pais : "PERU",
     codigoPais : "pe",
-    estado : "ACTIVO",
+    estado : "INACTIVO",
     nroReferencia : "1234546789",
     creditoConsultado : "1 000 000",
     indicaciones : "Aqui van las indicaciones",
@@ -83,5 +83,6 @@ export class AbonadoService {
     const abonadoEncontrado = listaAbonado.find(abonado => abonado.codigo === codigo);
     return abonadoEncontrado || null;
   }
+
 
 }

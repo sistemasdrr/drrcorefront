@@ -16,11 +16,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { SharedModule } from '@shared';
 import { ComponentsModule } from '@shared/components/components.module';
+import { AsignacionComponent } from './asignacion/asignacion.component';
 
 @NgModule({
   declarations: [
     ListaComponent,
-    DetalleComponent
+    DetalleComponent,
+    AsignacionComponent
 
   ],
   imports: [

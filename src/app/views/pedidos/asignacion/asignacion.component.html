@@ -1,0 +1,129 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+    <div class="card">
+      <div class="materialTableHeader" >
+        <div class="left">
+          <ul class="header-buttons-left ms-0">
+            <li class="tbl-title">
+              <h2>Listado de Pedidos para Asignar</h2>
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <ul class="tbl-export-btn">
+            <li class="tbl-header-btn">
+              <div class="m-l-10" >
+                <button class="btn bg-red btn-sm btn-block waves-effect d-flex" type="button" (click)="volver()">
+                  <i class="fa-solid fa-right-from-bracket" style="font-size: 20px; margin-top: .4rem;"></i>
+                  <div style="font-size: 20px;">&nbsp;Volver</div>
+                </button>
+              </div>
+            </li>
+            <li class="tbl-header-btn">
+              <div class="m-l-10" >
+                <button class="btn bg-cyan btn-sm btn-block waves-effect d-flex" type="button" >
+                  <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin-top: .4rem;"></i>
+                  <div style="font-size: 20px;">&nbsp;Guardar</div>
+                </button>
+              </div>
+            </li>
+            <li class="tbl-header-btn">
+              <div class="m-l-10">
+                <button class="btn bg-green btn-sm btn-block waves-effect d-flex" type="button" >
+                  <i class="fa-solid fa-envelope" style="font-size: 20px; margin-top: .4rem;"></i>
+                  <div style="font-size: 20px;">&nbsp;Guardar y Enviar</div>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+
+    </div>
+    <div class="col-md-12">
+      <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox color="primary" (change)="$event ? toggleAllRows() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="selection.hasValue() && !isAllSelected()"
+                          [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let order">
+            <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(order) : null"
+                          [checked]="selection.isSelected(order)"
+                          [aria-label]="checkboxLabel(order)"
+                          value="{{order[columnsToDisplay[1]]}}">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[1]]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
+        <td mat-cell *matCellDef="let order" class="text-left"> {{order[columnsToDisplay[2]]}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="{{columnsToDisplay[3]}}" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[3]]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="{{columnsToDisplay[4]}}" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Tramite</th>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[4]]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="{{columnsToDisplay[5]}}" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[5]]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="{{columnsToDisplay[6]}}" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[6]]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="{{columnsToDisplay[7]}}" >
+          <th mat-header-cell *matHeaderCellDef  class="text-center"> Acciones </th>
+          <td mat-cell *matCellDef="let order" class="text-center d-flex">
+            <mat-form-field style="width: 12rem; margin: .5rem 1rem 0 0;">
+              <mat-label>Destinatario</mat-label>
+              <mat-select >
+                <mat-option *ngFor="let agente of agentes" [value]="agente.codigo">
+                  {{agente.codigo + " - " + agente.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button class="btn btn-primary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem; margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasAttachments === true" (click)="agregarAdjuntos(order[columnsToDisplay[1]])">
+              <i class="fa-solid fa-paperclip"></i> &nbsp;Adjuntos
+            </button>
+            <button class="btn btn-outline-primary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem; margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasAttachments === false" (click)="agregarAdjuntos(order[columnsToDisplay[1]])">
+              <i class="fa-solid fa-paperclip"></i> &nbsp;Adjuntos
+            </button>
+            <button class="btn btn-secondary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem;  margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasComment === true" (click)="agregarComentario(order[columnsToDisplay[1]])">
+              <i class="fa-regular fa-comment-dots"></i> &nbsp;Comentario
+            </button>
+            <button class="btn btn-outline-secondary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem;  margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasComment === false" (click)="agregarComentario(order[columnsToDisplay[1]])">
+              <i class="fa-regular fa-comment-dots"></i> &nbsp;Comentario
+            </button>
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let order; columns: columnsToDisplay;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[ 20]" aria-label="Seleccionar página de Pedidos"></mat-paginator>
+    </div>
+  </div>
+
+
+</section>

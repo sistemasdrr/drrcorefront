@@ -1,27 +1,20 @@
 <div class="container" style=" width: 70rem; padding: 1rem;">
 </div>
-
     <h2>Buscar {{ titulo }}</h2>
     <hr>
     <div class="row mt-3">
-      <div class="col-md-4" >
-        <mat-form-field class="example-full-width" style="margin-right: 1rem;">
+      <div class="col-md-6" >
+        <mat-form-field class="example-full-width" style="margin-left: 1rem;">
           <mat-label>Empresa o Persona</mat-label>
           <input matInput placeholder="" value="" #filter >
         </mat-form-field>
       </div>
-      <div class="col-md-4" style="padding-top: .5rem;">
+      <div class="col-md-6" style="padding-top: .5rem;">
         <mat-radio-group [(ngModel)]="mostrarEmpresas" aria-label="Filtrar Por" style="font-size: 20px; margin-right: 1rem;margin-left: 1rem;">
           Filtrar Por
           <mat-radio-button [value]="true">Empresas</mat-radio-button>
           <mat-radio-button [value]="false">Personas</mat-radio-button>
         </mat-radio-group>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field class="example-full-width" style="margin-right: 1rem;">
-          <mat-label>Reg. Tributario</mat-label>
-          <input matInput placeholder="" value="" >
-        </mat-form-field>
       </div>
     </div>
     <hr>

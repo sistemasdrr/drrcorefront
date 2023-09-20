@@ -46,7 +46,7 @@ export class ListaComponent implements AfterViewInit {
   constructor(private orderService : OrderService, private router : Router) {
     this.dataSource = new MatTableDataSource(this.orderService.getOrders());
   }
-  public loadData() {
+  loadData() {
     this.dataSource = new MatTableDataSource(this.orderService.getOrders());
   }
   ngAfterViewInit() {
@@ -84,4 +84,8 @@ export class ListaComponent implements AfterViewInit {
   editOrder(cupon : string){
     this.router.navigate(['pedidos/detalle/editar/' + cupon]);
   }
+  assignOrder(){
+    this.router.navigate(['pedidos/asignacion']);
+  }
+
 }

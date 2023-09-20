@@ -1,0 +1,68 @@
+<div class="container" >
+  <div class="row ">
+    <div class="card">
+      <div class="materialTableHeader mt-3" >
+        <div class="left">
+          <ul class="header-buttons-left ms-0">
+            <li class="tbl-title">
+              <h2>Adjuntar Archivos al Cupón {{cupon}}</h2>
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <ul class="tbl-export-btn">
+            <li class="tbl-header-btn">
+              <div class="m-l-10" >
+                <button class="btn btn-primary btn-sm btn-block waves-effect d-flex"  type="button">
+                  <i class="fa-solid fa-upload" style="font-size: 16px; margin-top: .4rem;"></i>
+                  <div style="font-size: 16px;">&nbsp;Agregar Archivo</div>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 mb-3">
+      <mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 2rem; max-width: 2rem; min-width: 2rem; justify-content: center;"> N° </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center" style="width: 2rem; max-width: 2rem; min-width: 2rem;">{{ element.position }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre del Archivo</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center">{{ element.name }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="path">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> Ruta </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center">{{ element.path }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef class="text-center" style=" justify-content: center;"> Tipo</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center">
+            <img width="40" height="40" *ngIf="element.type === 'PDF'" src="https://img.icons8.com/external-bearicons-flat-bearicons/64/external-PDF-file-extension-bearicons-flat-bearicons.png" alt="external-PDF-file-extension-bearicons-flat-bearicons"/>
+            <img width="40" height="40" *ngIf="element.type === 'WORD'" src="https://img.icons8.com/color/48/microsoft-word-2019--v2.png" alt="microsoft-word-2019--v2"/>
+            <img width="40" height="40" *ngIf="element.type === 'EXCEL'" src="https://img.icons8.com/fluency/48/microsoft-excel-2019.png" alt="microsoft-excel-2019"/>
+            <img width="40" height="40" *ngIf="element.type === 'TXT'" src="https://img.icons8.com/ios/50/document--v1.png" alt="document--v1"/>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> Acciones </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center">
+            <button class="btn bg-teal btn-sm btn-block waves-effect d-flex"  type="button" style=" margin: 0 .5rem 0 0;">
+              <i class="fa-solid fa-download" style="font-size: 16px; margin-top: .4rem;"></i>
+              <div style="font-size: 16px;">&nbsp;Descargar</div>
+            </button>
+            <button class="btn bg-red btn-sm btn-block waves-effect d-flex"  type="button" style=" margin: 0 0 0 .5rem;">
+              <i class="fa-solid fa-trash" style="font-size: 16px; margin-top: .4rem;"></i>
+              <div style="font-size: 16px;">&nbsp;Quitar</div>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayColumn"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayColumn;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>

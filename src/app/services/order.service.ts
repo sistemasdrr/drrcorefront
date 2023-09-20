@@ -12,6 +12,11 @@ const orders : Order[] =[{
   Fecha_vencimiento : "19/09/2024",
   Fecha_descarga : "19/09/2024",
   Estado: "PENDIENTE",
+  hasComment : true,
+  comment: "comentario 1",
+  hasAttachments : false,
+  attachments : [
+  ],
   detalle_pedido : {
     credito_consultado : 100000,
     num_orden: 10345,
@@ -33,7 +38,8 @@ const orders : Order[] =[{
     precio_informe: 50,
     tipo_informe: "RV",
     fecha_informe: "10/06/2022"
-  }
+  },
+
 },{
   id : '2',
   Cupon : "432413",
@@ -45,6 +51,12 @@ const orders : Order[] =[{
   Fecha_vencimiento : "25/07/2023",
   Fecha_descarga : "26/07/2023",
   Estado: "ENVIADO",
+  hasComment : true,
+  comment : "comentario 2",
+  hasAttachments : true,
+  attachments : [
+
+  ],
   detalle_pedido : {
     credito_consultado : 100001,
     num_orden: 10345,
@@ -78,6 +90,11 @@ const orders : Order[] =[{
   Fecha_vencimiento : "19/09/2023",
   Fecha_descarga : "19/09/2023",
   Estado: "ENV. VENCIDO",
+  hasComment : false,
+  comment : "comentario 3",
+  hasAttachments : false,
+  attachments : [
+  ],
   detalle_pedido : {
     credito_consultado : 100002,
     num_orden: 10345,
@@ -111,6 +128,11 @@ const orders : Order[] =[{
   Fecha_vencimiento : "19/09/2023",
   Fecha_descarga : "19/09/2023",
   Estado: "PENDIENTE",
+  hasComment : false,
+  comment : "comentario 4",
+  hasAttachments : true,
+  attachments : [
+  ],
   detalle_pedido : {
     credito_consultado : 100003,
     num_orden: 10345,
@@ -144,6 +166,11 @@ const orders : Order[] =[{
   Fecha_vencimiento : "19/09/2023",
   Fecha_descarga : "19/09/2023",
   Estado: "PEND. VENCIDO",
+  hasComment : true,
+  comment : "comentario 5",
+  hasAttachments : false,
+  attachments : [
+  ],
   detalle_pedido : {
     credito_consultado : 100004,
     num_orden: 10345,
@@ -177,6 +204,11 @@ const orders : Order[] =[{
   Fecha_vencimiento : "17/09/2023",
   Fecha_descarga : "21/09/2023",
   Estado: "ENVIADO",
+  hasComment : false,
+  comment : "comentario ",
+  hasAttachments : true,
+  attachments : [
+  ],
   detalle_pedido : {
     credito_consultado : 100005,
     num_orden: 10345,
@@ -210,6 +242,11 @@ const orders : Order[] =[{
   Fecha_vencimiento : "14/09/2023",
   Fecha_descarga : "22/09/2023",
   Estado: "ENV. VENCIDO",
+  hasComment : false,
+  comment : "comentario a",
+  hasAttachments : false,
+  attachments : [
+  ],
   detalle_pedido : {
     credito_consultado : 100006,
     num_orden: 10345,
@@ -244,5 +281,8 @@ export class OrderService {
   constructor() { }
   getOrders(){
     return orders;
+  }
+  getCommentByCupon(cupon : string){
+    return orders.filter(x => x.Cupon === cupon)
   }
 }
