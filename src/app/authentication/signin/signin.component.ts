@@ -52,10 +52,13 @@ export class SigninComponent
         .login(this.form['email'].value, this.form['password'].value)
         .subscribe(
           (res) => {
+
             if (res) {
               const token = this.authService.currentUserValue.token;
               if (token) {
-                this.router.navigate(['/dashboard/main']);
+                if(this.authService.getIsLoginValue()){
+                  this.router.navigate(['/dashboard/main']);
+                }
               }
             } else {
               this.error = 'Invalid Login';

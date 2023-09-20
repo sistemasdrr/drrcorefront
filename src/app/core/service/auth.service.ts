@@ -9,6 +9,7 @@ import { environment } from 'environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
+  private isLogin : boolean = false;
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -17,6 +18,7 @@ export class AuthService {
       JSON.parse(localStorage.getItem('currentUser') || '{}')
     );
     this.currentUser = this.currentUserSubject.asObservable();
+    console.log(this.currentUserSubject)
   }
 
   public get currentUserValue(): User {
@@ -31,10 +33,13 @@ export class AuthService {
       })
       .pipe(
         map((user) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
+          if (user) {
+            this.isLogin = true;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+          } else {
+            this.isLogin = false;
+          }
           return user;
         })
       );
@@ -44,6 +49,10 @@ export class AuthService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(this.currentUserValue);
+    this.isLogin = false;
     return of({ success: false });
+  }
+  getIsLoginValue(){
+    return this.isLogin;
   }
 }
