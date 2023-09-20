@@ -10,16 +10,12 @@ export class AuthGuard  {
   constructor(private authService: AuthService, private router: Router) {}
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if(this.authService.getIsLoginValue()){
+    //return this.authService.getIsLoginValue() || (this.router.navigate(['/authentication/signin']), false);
+
+    if (this.authService.currentUserValue) {
       return true;
-    }else{
-      this.router.navigate(['/authentication/signin']);
-    return false;
     }
-    // if (this.authService.currentUserValue) {
-    //   return true;
-    // }
-    // this.router.navigate(['/authentication/signin']);
-    // return false;
+    this.router.navigate(['/authentication/signin']);
+    return false;
   }
 }

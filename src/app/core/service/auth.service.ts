@@ -18,7 +18,6 @@ export class AuthService {
       JSON.parse(localStorage.getItem('currentUser') || '{}')
     );
     this.currentUser = this.currentUserSubject.asObservable();
-    console.log(this.currentUserSubject)
   }
 
   public get currentUserValue(): User {

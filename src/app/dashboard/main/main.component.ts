@@ -47,6 +47,7 @@ export class MainComponent implements OnInit {
   public smallColumnChart!: Partial<ChartOptions>;
   public smallLineChart!: Partial<ChartOptions>;
 
+
   public sampleData = [
     31, 40, 28, 44, 60, 55, 68, 51, 42, 85, 77, 31, 40, 28, 44, 60, 55,
   ];
@@ -59,7 +60,6 @@ export class MainComponent implements OnInit {
     },
   ];
   constructor() {
-    //constructor
   }
 
   ngOnInit() {

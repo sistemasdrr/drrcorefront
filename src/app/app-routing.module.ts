@@ -61,6 +61,13 @@ const routes: Routes = [
             (m) => m.PedidosModule
           ),
       },
+      {
+        path: 'informes',
+        loadChildren: () =>
+          import('./views/informe/informe.module').then(
+            (m) => m.InformeModule
+          ),
+      },
     ],
   },
   {

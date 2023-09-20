@@ -208,11 +208,87 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
-    path: '/pedidos/lista',
+    path: '',
     title: 'Pedidos',
     icon: 'keyboard_double_arrow_down',
-    class: '',
+    class: 'menu-toggle',
     groupTitle: false,
-    submenu: [],
+    submenu: [
+      {
+        path: '/pedidos/lista',
+        title: 'Lista',
+        icon: 'keyboard_double_arrow_down',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: '/pedidos/asignacion',
+        title: 'Asignación',
+        icon: 'keyboard_double_arrow_down',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+    ],
+  },
+  {
+    path: '',
+    title: 'Informes',
+    icon: 'keyboard_double_arrow_down',
+    class: 'menu-toggle',
+    groupTitle: false,
+    submenu: [
+      {
+        path: '',
+        title: 'Empresas',
+        icon: 'keyboard_double_arrow_down',
+        class: 'ml-sub-menu',
+        groupTitle: false,
+        submenu: [
+          {
+            path: '/informes/empresa/lista',
+            title: 'Lista',
+            icon: 'keyboard_double_arrow_down',
+            class: 'ml-menu2',
+            groupTitle: false,
+            submenu: []
+          },
+          {
+            path: '/informes/empresa/detalle',
+            title: 'Detalle',
+            icon: 'keyboard_double_arrow_down',
+            class: 'ml-menu2',
+            groupTitle: false,
+            submenu: []
+          },
+        ]
+      },
+      {
+        path: '',
+        title: 'Personas',
+        icon: 'keyboard_double_arrow_down',
+        class: 'ml-sub-menu',
+        groupTitle: false,
+        submenu: [
+          {
+            path: '/informes/persona/lista',
+            title: 'Lista',
+            icon: 'keyboard_double_arrow_down',
+            class: 'ml-menu2',
+            groupTitle: false,
+            submenu: []
+          },
+          {
+            path: '/informes/persona/detalle',
+            title: 'Detalle',
+            icon: 'keyboard_double_arrow_down',
+            class: 'ml-menu2',
+            groupTitle: false,
+            submenu: []
+          },
+        ]
+      },
+    ],
   },
 ];
