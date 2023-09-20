@@ -29,6 +29,7 @@ import { OrderReceptionModule } from './order-reception/order-reception.module';
 import { DashGerenciaComponent } from './views/dashboard/dash-gerencia/dash-gerencia.component';
 import { MaestroModule } from './views/maestro/maestro.module';
 import { PedidosModule } from './views/pedidos/pedidos.module';
+import { InformeModule } from './views/informe/informe.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -63,7 +64,8 @@ export function createTranslateLoader(http: HttpClient) {
     SharedModule,
     OrderReceptionModule,
     MaestroModule,
-    PedidosModule
+    PedidosModule,
+    InformeModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

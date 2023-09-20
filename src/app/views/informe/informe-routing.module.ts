@@ -10,13 +10,13 @@ const routes: Routes = [
     path : 'empresa/lista', component : IEListaComponent
   },
   {
-    path : 'empresa/detalle/:codigo', component : IEDetalleComponent
+    path : 'empresa/detalle', component : IEDetalleComponent
   },
   {
     path : 'persona/lista', component : IPListaComponent
   },
   {
-    path : 'persona/detalle/:codigo', component : IPDetalleComponent
+    path : 'persona/detalle', component : IPDetalleComponent
   },
 ];
 

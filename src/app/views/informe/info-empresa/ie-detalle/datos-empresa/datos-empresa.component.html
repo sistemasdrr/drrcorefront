@@ -1,0 +1,222 @@
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow ">
+      <h2>Datos Comerciales</h2>
+      <div class="col-md-3">
+        <mat-form-field color="primary" style="width: 100%;">
+          <mat-label>Informe Investigado el</mat-label>
+          <input matInput [matDatepicker]="fecha_informe">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Idioma</mat-label>
+          <mat-select >
+            <mat-option [value]="'CASTELLANO'">
+              <span class="fi fi-es"></span>
+              CASTELLANO
+            </mat-option>
+            <mat-option [value]="'INGLES'">
+              <span class="fi fi-gb"></span>
+              INGLÉS
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Tipo de Institución</mat-label>
+          <mat-select >
+            <mat-option [value]="'PERSONA JURIDICA'">
+              PERSONA JURÍDICA
+            </mat-option>
+            <mat-option [value]="'PERSONA CON NEGOCIO'">
+              PERSONA N. CON NEGOCIO
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <mat-label>Año de Fundación</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <div class="row justify-content-center">
+          <div class="col-md-6 d-flex justify-content-center mb-2">
+            <button class="btn bg-red d-flex" type="button">
+              <i class="fa-solid fa-right-from-bracket" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;">&nbsp;Volver</div>
+            </button>
+          </div>
+          <div class="col-md-6 d-flex justify-content-center mb-2">
+            <button class="btn bg-cyan d-flex" type="button">
+              <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;">&nbsp;Guardar</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <hr>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Razón Social</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Nombre Comercial / Sigla</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Personería Jurídica</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <div>
+          <h4>Ruc(Registro Tributario)</h4>
+        </div>
+        <hr>
+      </div>
+      <div class="col-md-5 d-flex">
+        <mat-form-field class="">
+          <mat-label>Tipo</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Código</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Situación RUC</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <div class="row counter-box shadow">
+      <h2>Información de Contacto</h2>
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width">
+          <mat-label>Dirección Completa</mat-label>
+          <input matInput placeholder="" value="">
+          <mat-hint>Av., N° de Barrio, Urb., Fracc., Colonia, Dist., Prov.</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Dpto. o Estado</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>País</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-5 d-flex">
+        <mat-form-field class="">
+          <mat-label>Código</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Teléfonos Fijos</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-5">
+        <mat-form-field class="example-full-width">
+          <mat-label>Teléfonos Celulares</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary btn-sm btn-block waves-effect" >
+          Comentario de Identificación
+        </button>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Whatsapp Empresarial</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Email Corporativo</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Página Web</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-5 mb-2">
+    <div class="row counter-box shadow">
+      <h2>Información de </h2>
+      <div class="col-md-12 d-flex">
+        <mat-form-field class="example-full-width">
+          <mat-label>Riesgo Credicio</mat-label>
+          <input matInput placeholder="" value="" readonly="">
+        </mat-form-field>
+        <button class="btn bg-primary d-flex" style="color: white; margin: .5rem .5rem 2rem .5rem;">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 18px; margin-top: .1rem;"></i>
+          Buscar
+        </button>
+      </div>
+      <div class="col-md-12 d-flex" style="margin-bottom: .8rem;">
+        <mat-form-field class="example-full-width">
+          <mat-label>Política de Pagos</mat-label>
+          <input matInput placeholder="" value="" readonly="">
+        </mat-form-field>
+        <button class="btn bg-primary d-flex" style="color: white; margin: .5rem .5rem 2rem .5rem;">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 18px; margin-top: .1rem;"></i>
+          Buscar
+        </button>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center">
+        <button class="btn bg-blue d-flex" style="color: white; margin: .5rem .5rem 0 .5rem;">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 18px; margin-top: .1rem;"></i>
+          Detalles de Reputación
+        </button>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center">
+        <button class="btn bg-c-yellow d-flex" style="color: white; margin: .5rem .5rem 0 .5rem;">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 18px; margin-top: .1rem;"></i>
+          Comentarios de Reputación
+        </button>
+      </div>
+      <div class="col-md-4 d-flex justify-content-center">
+        <button class="btn bg-c-green d-flex" style="color: white; margin: .5rem .5rem 0 .5rem;">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 18px; margin-top: .1rem;"></i>
+          Comentarios de Prensa
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="row counter-box shadow">
+      <h2>Histórico de Pedidos</h2>
+    </div>
+  </div>
+</div>

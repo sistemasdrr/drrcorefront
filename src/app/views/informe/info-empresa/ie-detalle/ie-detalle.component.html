@@ -1,5 +1,41 @@
 <section class="content">
-  <div class="container-fluid">
-a
+  <div class="container-fluid" style="width: 100%;">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+
+    <div class="" style="width:100%;">
+      <mat-tab-group headerPosition="below">
+        <mat-tab label="Datos de la Empresa" >
+          <app-datos-empresa></app-datos-empresa>
+        </mat-tab>
+        <mat-tab label="Antecedentes Legales">
+          Content 2
+        </mat-tab>
+        <mat-tab label="Ramo de Negocio">
+          Content 3
+        </mat-tab>
+        <mat-tab label="Información Financiera">
+          Content 3
+        </mat-tab>
+        <mat-tab label="Balance General">
+          Content 3
+        </mat-tab>
+        <mat-tab label="Pagos / SBS / C. Riesgo">
+          Content 3
+        </mat-tab>
+        <mat-tab label="Opinión de Crédito">
+           Content 3
+        </mat-tab>
+        <mat-tab label="Información General">
+          Content 3
+
+        </mat-tab>
+        <mat-tab label="Fotos e Imágenes">
+          Content 3
+       </mat-tab>
+      </mat-tab-group>
+    </div>
   </div>
 </section>
