@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../service/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard  {
+export class AuthGuard {
   constructor(private authService: AuthService, private router: Router) {}
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    //return this.authService.getIsLoginValue() || (this.router.navigate(['/authentication/signin']), false);
 
-    if (this.authService.currentUserValue) {
+  canActivate() {
+    const isUserLoggedIn = this.authService.getIsLoginValue();
+
+    if (isUserLoggedIn) {
       return true;
+    } else {
+      this.router.navigate(['/authentication/signin']);
+      return false;
     }
-    this.router.navigate(['/authentication/signin']);
-    return false;
   }
 }

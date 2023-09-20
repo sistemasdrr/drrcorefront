@@ -9,7 +9,8 @@ import { environment } from 'environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private isLogin : boolean = false;
+
+  private readonly CACHE_KEY = 'authCache';
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -33,11 +34,12 @@ export class AuthService {
       .pipe(
         map((user) => {
           if (user) {
-            this.isLogin = true;
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            const cacheData = {
+              isLogin: true,
+              timestamp: new Date().getTime(),
+            };
+            localStorage.setItem(this.CACHE_KEY, JSON.stringify(cacheData));
             this.currentUserSubject.next(user);
-          } else {
-            this.isLogin = false;
           }
           return user;
         })
@@ -45,13 +47,18 @@ export class AuthService {
   }
 
   logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
+    localStorage.removeItem(this.CACHE_KEY);
     this.currentUserSubject.next(this.currentUserValue);
-    this.isLogin = false;
     return of({ success: false });
   }
-  getIsLoginValue(){
-    return this.isLogin;
+
+  getIsLoginValue() {
+    const cacheData = JSON.parse(localStorage.getItem(this.CACHE_KEY) || '{}');
+    const timestamp = cacheData.timestamp || 0;
+    const currentTime = new Date().getTime();
+    const isCacheValid = currentTime - timestamp < 3600000;
+
+    return isCacheValid && cacheData.isLogin === true;
   }
 }
