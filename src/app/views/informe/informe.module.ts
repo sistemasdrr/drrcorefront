@@ -13,10 +13,14 @@ import { DatosEmpresaComponent } from './info-empresa/ie-detalle/datos-empresa/d
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AntecedentesComponent } from './info-empresa/ie-detalle/antecedentes/antecedentes.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,7 @@ import { MatSelectModule } from '@angular/material/select';
     IPListaComponent,
     IPDetalleComponent,
     DatosEmpresaComponent,
+    AntecedentesComponent,
   ],
   imports: [
     CommonModule,
@@ -36,9 +41,13 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     MatSlideToggleModule,
     MatRadioModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatTooltipModule,
+    MatTableModule
   ]
 })
 export class InformeModule { }

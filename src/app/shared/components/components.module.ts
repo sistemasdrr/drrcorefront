@@ -9,6 +9,7 @@ import { AdjuntarArchivosComponent } from './adjuntar-archivos/adjuntar-archivos
 import { ComentarioComponent } from './comentario/comentario.component';
 import { FormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { TraduccionDialogComponent } from './traduccion-dialog/traduccion-dialog.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     BuscarEmpresaDialogComponent,
     AdjuntarArchivosComponent,
     ComentarioComponent,
+    TraduccionDialogComponent,
   ],
   imports: [
     SharedModule,

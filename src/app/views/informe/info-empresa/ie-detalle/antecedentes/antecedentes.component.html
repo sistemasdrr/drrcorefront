@@ -1,0 +1,247 @@
+
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow mb-2">
+      <h3>Antecedentes Legales - Nombre de empresa</h3>
+      <div class="col-md-3">
+        <mat-form-field color="primary" style="width: 100%;">
+          <mat-label>Fecha de Constitución</mat-label>
+          <input matInput [matDatepicker]="fecha_informe">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <mat-label>Inicio de Actividades</mat-label>
+          <span matSuffix style="margin-right: .5rem; color:gray;">
+            <i class="fa-solid fa-flag-checkered"></i>
+          </span>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <mat-label>Duración</mat-label>
+          <span matSuffix style="margin-right: .5rem; color:gray;">
+            <i class="fa-solid fa-hourglass-start"></i>
+          </span>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-3">
+        <div class="row justify-content-center">
+          <div class="col-md-6 d-flex justify-content-center mb-2">
+            <button class="btn bg-red d-flex" type="button">
+              <i class="fa-solid fa-right-from-bracket" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;">&nbsp;Volver</div>
+            </button>
+          </div>
+          <div class="col-md-6 d-flex justify-content-center mb-2">
+            <button class="btn bg-cyan d-flex" type="button">
+              <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;">&nbsp;Guardar</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Registrada en</mat-label>
+          <input matInput placeholder="" value="">
+          <button class="btn-traduccion" matSuffix mat-icon-button >
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Notaria</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Registros Públicos</mat-label>
+          <input matInput placeholder="" value="">
+          <button class="btn-traduccion" matSuffix mat-icon-button>
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Capital Pagado Actual</mat-label>
+          <input matInput placeholder="" value="">
+          <button class="btn-traduccion" matSuffix mat-icon-button >
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 d-flex">
+        <mat-form-field class="example-full-width">
+          <mat-label>Fecha Aumento</mat-label>
+          <input matInput placeholder="" value="">
+          <button class="btn-traduccion" matSuffix mat-icon-button >
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Origen</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Moneda del País</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <span matSuffix style="margin-right: .5rem; color:gray;">
+            <i class="fa-solid fa-coins"></i>
+          </span>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 ">
+        <div class="d-flex">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Empresa Cotizada en Bolsa</mat-label>
+            <mat-select >
+              <mat-option [value]="''">
+              </mat-option>
+              <mat-option [value]="'SI'">
+                SI
+              </mat-option>
+              <mat-option [value]="'NO'">
+                NO
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field style="width: 60%;">
+            <mat-label>Por</mat-label>
+            <mat-select >
+              <mat-option [value]="''">
+              </mat-option>
+              <mat-option [value]="'CAPITALIZACION'">
+                Capitalización
+              </mat-option>
+              <mat-option [value]="'NUEVOS APORTES'">
+                Nuevo Aportes
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-4 d-flex">
+        <mat-form-field class="example-full-width">
+          <mat-label>Actual T.C. X 1 US$</mat-label>
+          <input matInput placeholder="" value="">
+          <button class="btn-traduccion" matSuffix mat-icon-button >
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field color="primary" style="width: 100%;">
+          <mat-label>Fecha de Ultima Consulta a RR.PP.</mat-label>
+          <input matInput [matDatepicker]="fecha_informe2">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_informe2"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_informe2 color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width">
+          <mat-label>Por</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <div class="row counter-box">
+      <h3>Empresas Relacionadas Integrantes del Grupo Económico</h3>
+
+
+      <div class="col-md-12">
+        <div class="counter-box shadow m-1" style="overflow-x: auto;">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0 w-100" >
+            <ng-container matColumnDef="{{columnsToDisplay[0]}}">
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Razón Social </th>
+              <td mat-cell *matCellDef="let report" class="text-center" >{{report[columnsToDisplay[0]]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="{{columnsToDisplay[1]}}">
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> País </th>
+              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[1]]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="{{columnsToDisplay[2]}}">
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fec. de Estab. </th>
+              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[2]]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="{{columnsToDisplay[3]}}">
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Registro Tributario </th>
+              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[3]]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="{{columnsToDisplay[4]}}">
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Estado </th>
+              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[4]]}} </td>
+            </ng-container>
+            <ng-container matColumnDef="{{columnsToDisplay[5]}}">
+              <th mat-header-cell *matHeaderCellDef class="text-center d-flex " style="font-size: 18px;">
+                  <div class="d-flex justify-content-center" style="margin-top: 1rem;">
+                    Acciones &nbsp;
+                  </div>
+                 <button class="btn btn-primary d-flex justify-content-center" style="color: white; margin: .5rem 0 1rem 0;">
+                  <i class="fa-solid fa-plus"></i>
+                  &nbsp;Agregar
+                  </button>
+                </th>
+              <td mat-cell *matCellDef="let report" class="text-center d-flex" >
+                <button class="btn bg-green d-flex justify-content-center" style="color: white; margin: .5rem 0 1rem 0;">
+                  <i class="fa-solid fa-edit" style="margin: .3rem .3rem 0 0;"></i>
+                  &nbsp;Editar
+                </button>
+                <button class="btn bg-red d-flex justify-content-center" style="color: white; margin: .5rem 0 1rem 0;">
+                  <i class="fa-solid fa-remove" style="margin: .3rem .3rem 0 0;"></i>
+                  &nbsp;Quitar
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="row counter-box">
+      <h3>Comentarios e Historial de Antecedentes</h3>
+      <div class="col-md-12 d-flex justify-content-center mb-2">
+        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;">
+          <i class="fa-solid fa-clock-rotate-left" style="font-size: 18px; margin-top: .1rem;"></i>
+           &nbsp;Capital
+        </button>
+      </div>
+      <div class="col-md-12 d-flex justify-content-center mb-2">
+        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;">
+          <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
+          &nbsp;Antecedentes
+        </button>
+      </div>
+      <div class="col-md-12 d-flex justify-content-center mb-2">
+        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;">
+          <i class="fa-solid fa-magnifying-glass"  style="font-size: 18px; margin-top: .1rem;"></i>
+          &nbsp;Historia
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
