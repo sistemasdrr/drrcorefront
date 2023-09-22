@@ -1,0 +1,59 @@
+<div class="container" >
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="row clearfix">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="header">
+                <h2>Ramo de Negocio</h2>
+
+              </div>
+              <div class="body">
+                <input type="text" class="form-control" [(ngModel)]="buscarRamo" placeholder="Buscar">
+                <mat-selection-list #shoes>
+                  <mat-list *ngFor="let ramo of ramos" (click)="selectRamo(ramo.id)">
+                    {{ ramo.id }} - {{ ramo.nombre}}
+                  </mat-list>
+                </mat-selection-list>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="header">
+                <h2>Actividades Específicas</h2>
+
+              </div>
+              <div class="body">
+                <input type="text" class="form-control" [(ngModel)]="buscar" placeholder="Buscar">
+                <mat-selection-list #shoes>
+                  <mat-list *ngFor="let act of filtrar" (click)="select(act)">
+                    {{ act }}
+                  </mat-list>
+                </mat-selection-list>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="header">
+                <h2>Actividades Específicas Seleccionadas</h2>
+
+              </div>
+              <div class="body">
+                <mat-selection-list #shoes>
+                  <mat-list *ngFor="let shoe of actividadesSeleccionadas" (click)="deselect(shoe)">
+                    {{shoe}}
+                  </mat-list>
+                </mat-selection-list>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

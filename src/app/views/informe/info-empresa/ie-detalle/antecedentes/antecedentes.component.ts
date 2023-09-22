@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { EmpresaRelacionada } from 'app/models/empresa-relacionada';
 import { EmpresaRelacionadaService } from 'app/services/empresa-relacionada.service';
 import { Observable, map, startWith } from 'rxjs';
@@ -58,4 +59,35 @@ constructor(
 
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
+
+  agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+    data: {
+      titulo1 : titulo1,
+      titulo2 : titulo2,
+      subtitulo : subtitulo,
+      empresa: empresa,
+
+    },
+  });
+  console.log(dialogRef)
+    // dialogRef.afterClosed().subscribe((codAbonado) => {
+    //   if (codAbonado) {
+    //     this.codAbonado = codAbonado.codigoAbonado
+    //     this.asignarDatosAbonado()
+    //   }
+    // });
+  }
+
+  //TITULOS DE COMENTARIOS
+  titulo : string = 'Comentario - Traduccion'
+  tituloRegistradaEn : string = 'Registrada En => '
+  tituloRegistrosPublicos : string = 'Registros Públicos => '
+  tituloCapitalActual : string = 'Capital Actual => '
+  tituloFechaAumento : string = 'Fecha de Aumento => '
+  tituloActualTC : string = 'Actual T.C. Por 1US$ => '
+  tituloComentarioAntecedentes : string = 'Antecedentes Legales => '
+  subtituloComentarioAntecedentes: string = 'Anote aquí unicamente Datos de Contitución, Gestores del Negocio, Aumentos del Capital, Cambios de Razón Social, Objeto Social, Fusiones, Cotización de la Acciones, entre otros.'
+  tituloHistoria : string = 'Historia (Antecedentes) => '
+  subtituloHistoria: string = 'Anote aquí unicamente el Historial de la Empresa a travéz del tiempo, a que grupo económico pertenecen, destacar al principal accionista, posición en el mercado, etc.'
 }

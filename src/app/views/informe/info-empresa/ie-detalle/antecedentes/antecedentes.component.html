@@ -2,7 +2,7 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
-      <h3>Antecedentes Legales - Nombre de empresa</h3>
+      <h4>Antecedentes Legales - Nombre de empresa</h4>
       <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
@@ -17,7 +17,7 @@
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-flag-checkered"></i>
           </span>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" value="" type="number">
         </mat-form-field>
       </div>
       <div class="col-md-2">
@@ -50,7 +50,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Registrada en</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloRegistradaEn,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -65,7 +65,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Registros Públicos</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button>
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloRegistrosPublicos,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -74,7 +74,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Capital Pagado Actual</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloCapitalActual,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -83,7 +83,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Fecha Aumento</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button  (click)="agregarComentario(titulo, tituloFechaAumento,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -143,7 +143,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Actual T.C. X 1 US$</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloActualTC,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -167,12 +167,10 @@
   </div>
   <div class="col-md-9">
     <div class="row counter-box">
-      <h3>Empresas Relacionadas Integrantes del Grupo Económico</h3>
-
-
+      <h4>Empresas Relacionadas Integrantes del Grupo Económico</h4>
       <div class="col-md-12">
-        <div class="counter-box shadow m-1" style="overflow-x: auto;">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z0 w-100" >
+        <div class="shadow m-1" style="overflow-x: auto;">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
             <ng-container matColumnDef="{{columnsToDisplay[0]}}">
               <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Razón Social </th>
               <td mat-cell *matCellDef="let report" class="text-center" >{{report[columnsToDisplay[0]]}}</td>
@@ -223,7 +221,7 @@
   </div>
   <div class="col-md-3">
     <div class="row counter-box">
-      <h3>Comentarios e Historial de Antecedentes</h3>
+      <h4>Comentarios e Historial de Antecedentes</h4>
       <div class="col-md-12 d-flex justify-content-center mb-2">
         <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;">
           <i class="fa-solid fa-clock-rotate-left" style="font-size: 18px; margin-top: .1rem;"></i>
@@ -231,13 +229,13 @@
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;">
+        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"(click)="agregarComentario(titulo, tituloComentarioAntecedentes,subtituloComentarioAntecedentes, 'ALICORP S.A.')">
           <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Antecedentes
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;">
+        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" (click)="agregarComentario(titulo, tituloHistoria,subtituloHistoria, 'ALICORP S.A.')">
           <i class="fa-solid fa-magnifying-glass"  style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Historia
         </button>

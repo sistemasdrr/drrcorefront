@@ -7,9 +7,12 @@ import {MatRadioModule} from '@angular/material/radio';
 import { BuscarEmpresaDialogComponent } from './buscar-empresa-dialog/buscar-empresa-dialog.component';
 import { AdjuntarArchivosComponent } from './adjuntar-archivos/adjuntar-archivos.component';
 import { ComentarioComponent } from './comentario/comentario.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { TraduccionDialogComponent } from './traduccion-dialog/traduccion-dialog.component';
+import { MatSelectModule } from "@angular/material/select";
+import { MatListModule } from "@angular/material/list";
+import { RamoActividadDialogComponent } from "./ramo-actividad/ramo-actividad.component";
 
 @NgModule({
   declarations: [
@@ -20,12 +23,16 @@ import { TraduccionDialogComponent } from './traduccion-dialog/traduccion-dialog
     AdjuntarArchivosComponent,
     ComentarioComponent,
     TraduccionDialogComponent,
+    RamoActividadDialogComponent
   ],
   imports: [
     SharedModule,
     MatRadioModule,
     FormsModule,
-    CKEditorModule
+    CKEditorModule,
+    MatSelectModule,
+    MatListModule,
+    ReactiveFormsModule
   ],
   exports: [
     FileUploadComponent,
@@ -33,7 +40,8 @@ import { TraduccionDialogComponent } from './traduccion-dialog/traduccion-dialog
     BuscarAbonadoDialogComponent,
     BuscarEmpresaDialogComponent,
     ComentarioComponent,
-    AdjuntarArchivosComponent
+    AdjuntarArchivosComponent,
+    RamoActividadDialogComponent
   ],
 })
 export class ComponentsModule {}

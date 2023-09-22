@@ -1,0 +1,102 @@
+
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow mb-2">
+      <h4>Ramo de Negocio - Nombre de empresa</h4>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Sector (Principal)</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Ramo de Negocios (Principal)</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Actividad Específica</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-1">
+        <div class="row justify-content-center">
+          <div class="col-md-6 d-flex justify-content-center mb-2">
+            <button class="btn bg-primary d-flex" type="button" (click)="ramoActividadDialog()">
+              <i class="fa-regular fa-circle-question" style="font-size: 24px; color: white; margin: .5rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="row justify-content-center">
+          <div class="col-md-12 d-flex justify-content-center mb-2">
+            <button class="btn bg-cyan d-flex" type="button">
+              <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;">&nbsp;Guardar</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--COMERCIO EXTERIOR-->
+      <h5>Comercio Exterior</h5>
+      <div class="col-md-5 d-flex">
+        <mat-form-field style="width: 40%;">
+          <mat-label>¿Importan?</mat-label>
+          <mat-select >
+            <mat-option [value]="'SI'">
+              SI
+            </mat-option>
+            <mat-option [value]="'NO'">
+              NO
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Países</mat-label>
+          <input matInput placeholder="" value="">
+          <button class="btn-traduccion" matSuffix mat-icon-button >
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-5 d-flex">
+        <mat-form-field style="width: 40%;">
+          <mat-label>¿Exportan?</mat-label>
+          <mat-select >
+            <mat-option [value]="'SI'">
+              SI
+            </mat-option>
+            <mat-option [value]="'NO'">
+              NO
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Países</mat-label>
+          <input matInput placeholder="" value="">
+          <button class="btn-traduccion" matSuffix mat-icon-button >
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <div class="row justify-content-center">
+          <div class="col-md-12 mb-2">
+            <button class="btn bg-cyan d-flex" type="button">
+              <i class="fa-solid fa-circle-info"></i>
+              <div >&nbsp;Importación</div>
+            </button>
+            <button class="btn bg-cyan d-flex" type="button">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <div>&nbsp;Exportación</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

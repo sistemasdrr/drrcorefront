@@ -1,0 +1,64 @@
+<div class="container" >
+  <div class="row ">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="row clearfix">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="header">
+                <h2>Ramos de Negocios y Actividades Específicas</h2>
+
+              </div>
+              <div class="body mat-elevation-z8">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Buscar Ramo</mat-label>
+                  <input matInput type="text" [(ngModel)]="buscarRamo" >
+                </mat-form-field>
+                <mat-selection-list #rn>
+                  <mat-list id="{{ramo.id}}-{{ramo.nombre}}" *ngFor="let ramo of filtrarRamo" (click)="selectRamo(ramo.id, ramo.nombre)" >
+                    {{ ramo.id }} - {{ ramo.nombre}}
+                  </mat-list>
+                </mat-selection-list>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="body mat-elevation-z8 ">
+              <div class="header ">
+                <h2>Actividades Específicas</h2>
+
+              </div>
+              <div class="body">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Buscar Actividad</mat-label>
+                  <input matInput type="text" [(ngModel)]="buscar" >
+                </mat-form-field>
+                <mat-selection-list #act>
+                  <mat-list *ngFor="let act of filtrar" (click)="select(act)">
+                    {{ act }}
+                  </mat-list>
+                </mat-selection-list>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class=" body mat-elevation-z8">
+              <div class="header">
+                <h2>Actividades Específicas Seleccionadas</h2>
+
+              </div>
+              <div class="body">
+                <mat-selection-list #actslc>
+                  <mat-list *ngFor="let act of actividadesSeleccionadas" (click)="deselect(act)">
+                    {{act}}
+                  </mat-list>
+                </mat-selection-list>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

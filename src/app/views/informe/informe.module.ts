@@ -21,6 +21,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AntecedentesComponent } from './info-empresa/ie-detalle/antecedentes/antecedentes.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
+import { RamoComponent } from './info-empresa/ie-detalle/ramo/ramo.component';
+import { RamoActividadComponent } from './info-empresa/ie-detalle/ramo-actividad/ramo-actividad.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import { MatTableModule } from '@angular/material/table';
     IPDetalleComponent,
     DatosEmpresaComponent,
     AntecedentesComponent,
+    RamoComponent,
+    RamoActividadComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +52,8 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatAutocompleteModule,
     MatTooltipModule,
-    MatTableModule
+    MatTableModule,
+    MatListModule
   ]
 })
 export class InformeModule { }
