@@ -101,18 +101,20 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button class="btn btn-primary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem; margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasAttachments === true" (click)="agregarAdjuntos(order[columnsToDisplay[1]])">
-              <i class="fa-solid fa-paperclip"></i> &nbsp;Adjuntos
+            <button mat-icon-button *ngIf="order.hasAttachments === true" (click)="agregarAdjuntos(order[columnsToDisplay[1]])"  #tooltip="matTooltip" matTooltip="Adjuntos">
+              <mat-icon style="color: red;">attach_file</mat-icon>
             </button>
-            <button class="btn btn-outline-primary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem; margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasAttachments === false" (click)="agregarAdjuntos(order[columnsToDisplay[1]])">
-              <i class="fa-solid fa-paperclip"></i> &nbsp;Adjuntos
+            <button mat-icon-button *ngIf="order.hasAttachments === false" (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
+              <mat-icon style="color: gray;">attach_file</mat-icon>
+
             </button>
-            <button class="btn btn-secondary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem;  margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasComment === true" (click)="agregarComentario(order[columnsToDisplay[1]])">
-              <i class="fa-regular fa-comment-dots"></i> &nbsp;Comentario
+            <button mat-icon-button *ngIf="order.hasComment === true" (click)="agregarComentario(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Comentario">
+              <i class="fa-solid fa-circle-info" style="font-size: 24px; color: red;"></i>
             </button>
-            <button class="btn btn-outline-secondary btn-sm btn-block waves-effect" style="width: 7rem; height: 2.5rem;  margin: 1rem 1rem 0 1rem;" type="button" *ngIf="order.hasComment === false" (click)="agregarComentario(order[columnsToDisplay[1]])">
-              <i class="fa-regular fa-comment-dots"></i> &nbsp;Comentario
+            <button mat-icon-button *ngIf="order.hasComment === false" (click)="agregarComentario(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Comentario">
+              <i class="fa-solid fa-circle-info" style="font-size: 24px; color: gray;"></i>
             </button>
+
           </td>
         </ng-container>
 

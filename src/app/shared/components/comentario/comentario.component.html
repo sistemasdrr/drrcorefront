@@ -1,12 +1,12 @@
 <div class="container" >
-  <div class="row ">
+  <div class="row">
     <div class="col-md-12">
       <div class="card">
         <div class="materialTableHeader mt-3" >
           <div class="left">
             <ul class="header-buttons-left ms-0">
               <li class="tbl-title">
-                <h2>Comentario para el Cupón {{cupon}}</h2>
+                <h3>Comentario para el Cupón {{cupon}}</h3>
               </li>
             </ul>
           </div>
@@ -16,6 +16,13 @@
                 <div class="m-l-10" >
                   <button class="btn btn-primary btn-sm btn-block waves-effect" style="width: 7rem;" type="button">
                     <i class="fa-regular fa-floppy-disk"></i>&nbsp;Guardar
+                  </button>
+                </div>
+              </li>
+              <li class="tbl-header-btn">
+                <div class="m-l-10" >
+                  <button class="btn bg-red btn-sm btn-block waves-effect" style="width: 7rem;" type="button" (click)="cerrarDialog()">
+                    <i class="fa-solid fa-right-from-bracket"></i>&nbsp;Salir
                   </button>
                 </div>
               </li>

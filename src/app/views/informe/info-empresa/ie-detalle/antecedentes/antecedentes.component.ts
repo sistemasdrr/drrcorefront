@@ -56,7 +56,6 @@ constructor(
 
   private _filter(name: string): data[] {
     const filterValue = name.toLowerCase();
-
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 

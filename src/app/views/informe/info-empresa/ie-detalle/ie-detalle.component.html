@@ -1,5 +1,5 @@
 <section class="content">
-  <div class="container-fluid" style="width: 100%;">
+  <div class="container-fluid" style="width: 100%; margin: 0; padding: 0;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
       <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
       </app-breadcrumb>
@@ -10,7 +10,7 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <i class="fa-solid fa-building-wheat" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Empresa"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Empresa</b></div>
+            <div class="d-md-block d-none" style="font-size: 18px;"><b> Empresa</b></div>
           </ng-template>
           <app-datos-empresa></app-datos-empresa>
         </mat-tab>
@@ -33,7 +33,7 @@
             <i class="fa-solid fa-coins" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Finanzas</b></div>
           </ng-template>
-          <app-ramo-actividad></app-ramo-actividad>
+          <app-finanzas></app-finanzas>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
@@ -54,7 +54,7 @@
             <i class="fa-solid fa-comment-dollar" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Opinión de Crédito</b></div>
           </ng-template>
-           Content 3
+           <app-opinion-credito></app-opinion-credito>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>

@@ -91,7 +91,7 @@ const orders : Order[] =[{
   Fecha_descarga : "19/09/2023",
   Estado: "ENV. VENCIDO",
   hasComment : false,
-  comment : "comentario 3",
+  comment : "",
   hasAttachments : false,
   attachments : [
   ],
@@ -129,8 +129,8 @@ const orders : Order[] =[{
   Fecha_descarga : "19/09/2023",
   Estado: "PENDIENTE",
   hasComment : false,
-  comment : "comentario 4",
-  hasAttachments : true,
+  comment : "",
+  hasAttachments : false,
   attachments : [
   ],
   detalle_pedido : {
@@ -205,7 +205,7 @@ const orders : Order[] =[{
   Fecha_descarga : "21/09/2023",
   Estado: "ENVIADO",
   hasComment : false,
-  comment : "comentario ",
+  comment : "",
   hasAttachments : true,
   attachments : [
   ],
@@ -243,7 +243,7 @@ const orders : Order[] =[{
   Fecha_descarga : "22/09/2023",
   Estado: "ENV. VENCIDO",
   hasComment : false,
-  comment : "comentario a",
+  comment : "",
   hasAttachments : false,
   attachments : [
   ],

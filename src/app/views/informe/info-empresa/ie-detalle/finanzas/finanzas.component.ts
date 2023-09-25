@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { RamoActividadDialogComponent } from '@shared/components/ramo-actividad/ramo-actividad.component';
 import { Observable, map, startWith } from 'rxjs';
 
 export interface data {
@@ -9,47 +7,19 @@ export interface data {
 }
 
 @Component({
-  selector: 'app-ramo',
-  templateUrl: './ramo.component.html',
-  styleUrls: ['./ramo.component.scss']
+  selector: 'app-finanzas',
+  templateUrl: './finanzas.component.html',
+  styleUrls: ['./finanzas.component.scss']
 })
+export class FinanzasComponent implements OnInit {
 
-export class RamoComponent implements OnInit{
-  checkImportacion = false;
-  importacion = "NO"
-  checkExportacion = false;
-  exportacion = "NO"
-
-  constructor(  private dialog : MatDialog){
+  constructor(){
     this.filteredOptions = new Observable<data[]>();
-  }
-
-  importan(){
-    if(this.checkImportacion){
-      this.importacion = "SI"
-
-    }else{
-      this.importacion = "NO"
-    }
-  }
-  exportan(){
-    if(this.checkExportacion){
-      this.exportacion = "SI"
-    }else{
-      this.exportacion = "NO"
-    }
-  }
-
-  ramoActividadDialog() {
-    const dialogRef = this.dialog.open(RamoActividadDialogComponent, {
-    data: {
-    },
-  });
   }
 
   //titularidad
   myControl = new FormControl<string | data>('');
-  options: data[] = [{name: 'Propio Cancelado'}, {name: 'Alquilado'}, {name: 'Otro'}];
+  options: data[] = [{name: 'TF: Se logro preparar el informe exclusivamente por terceros'}, {name: 'otro 1'}, {name: 'otro 2'}];
   filteredOptions: Observable<data[]>;
 
   private _filter(name: string): data[] {

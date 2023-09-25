@@ -25,4 +25,8 @@ export class ComentarioComponent {
     this.cupon = dialogData.data;
     this.order = this.orderService.getCommentByCupon(dialogData.data)
   }
+
+  cerrarDialog(){
+    this.dialogRef.close()
+  }
 }

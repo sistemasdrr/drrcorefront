@@ -1,7 +1,7 @@
 
 import { Component, Inject, Output, EventEmitter,  } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { DialogData, TraduccionData } from 'app/models/dialog-data';
 
 @Component({
@@ -40,4 +40,8 @@ export class TraduccionDialogComponent{
   //CKEDITOR
   public Editor: any = ClassicEditor;
 
+
+  cerrarDialog(){
+    this.dialogRef.close()
+  }
 }

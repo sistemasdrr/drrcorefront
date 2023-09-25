@@ -25,4 +25,7 @@ export class AdjuntarArchivosComponent {
     this.cupon = dialogData.data;
     this.dataSource = new MatTableDataSource(this.attachmentService.getAttachmentsByCupon(dialogData.data))
   }
+  cerrarDialog(){
+    this.dialogRef.close()
+  }
 }
