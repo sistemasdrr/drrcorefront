@@ -13,16 +13,17 @@
           <ul class="tbl-export-btn">
             <li class="tbl-header-btn">
               <div class="m-l-10" >
-                <button class="btn btn-primary btn-sm btn-block waves-effect d-flex"  type="button">
-                  <i class="fa-solid fa-upload" style="font-size: 16px; margin-top: .4rem;"></i>
-                  <div style="font-size: 16px;">&nbsp;Agregar Archivo</div>
+                <button class="btn bg-blue d-flex"  type="button">
+                  <i class="fa-solid fa-file-zipper" style="font-size: 16px; margin-top: .2rem;"></i>
+                  <div style="font-size: 16px;">&nbsp;Descargar Todos</div>
                 </button>
               </div>
             </li>
             <li class="tbl-header-btn">
               <div class="m-l-10" >
-                <button class="btn bg-red btn-sm btn-block waves-effect" style="width: 7rem;" type="button" (click)="cerrarDialog()">
-                  <i class="fa-solid fa-right-from-bracket"></i>&nbsp;Salir
+                <button class="btn btn-primary d-flex"  type="button">
+                  <i class="fa-solid fa-upload" style="font-size: 16px; margin-top: .4rem;"></i>
+                  <div style="font-size: 16px;">&nbsp;Agregar Archivo</div>
                 </button>
               </div>
             </li>
@@ -70,6 +71,11 @@
         <mat-header-row *matHeaderRowDef="displayColumn"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayColumn;"></mat-row>
       </mat-table>
+    </div>
+    <div class="col-md-12 d-flex justify-content-end">
+      <button class="btn bg-red btn-sm btn-block waves-effect" style="width: 7rem; margin: 0rem 2rem 1rem 2rem;" type="button" (click)="cerrarDialog()">
+        <i class="fa-solid fa-right-from-bracket"></i>&nbsp;Salir
+      </button>
     </div>
   </div>
 </div>
