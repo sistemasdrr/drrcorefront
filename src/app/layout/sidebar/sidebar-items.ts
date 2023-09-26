@@ -42,171 +42,7 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
-  {
-    path: 'advance-table',
-    title: 'MENUITEMS.ADVANCE-TABLE.TEXT',
-    icon: 'arrows-alt-v',
-    class: '',
-    groupTitle: false,
-    submenu: [],
-  },
-  {
-    path: '',
-    title: '-- Pages',
-    icon: '',
-    class: '',
-    groupTitle: true,
-    submenu: [],
-  },
-  {
-    path: '',
-    title: 'Authentication',
-    icon: 'user-check',
-    class: 'menu-toggle',
-    groupTitle: false,
-    submenu: [
-      {
-        path: '/authentication/signin',
-        title: 'Sign In',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-      {
-        path: '/authentication/signup',
-        title: 'Sign Up',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-      {
-        path: '/authentication/forgot-password',
-        title: 'Forgot Password',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-      {
-        path: '/authentication/locked',
-        title: 'Locked',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-      {
-        path: '/authentication/page404',
-        title: '404 - Not Found',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-      {
-        path: '/authentication/page500',
-        title: '500 - Server Error',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-    ],
-  },
-  {
-    path: '',
-    title: 'Extra Pages',
-    icon: 'anchor',
-    class: 'menu-toggle',
-    groupTitle: false,
-    submenu: [
-      {
-        path: '/extra-pages/blank',
-        title: 'Blank Page',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-    ],
-  },
-  {
-    path: '',
-    title: 'Multi level Menu',
-    icon: 'paperclip',
-    class: 'menu-toggle',
-    groupTitle: false,
-    submenu: [
-      {
-        path: '/multilevel/first1',
-        title: 'First',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-      {
-        path: '/',
-        title: 'Second',
-        icon: '',
-        class: 'ml-sub-menu',
-        groupTitle: false,
-        submenu: [
-          {
-            path: '/multilevel/secondlevel/second1',
-            title: 'Second 1',
-            icon: '',
-            class: 'ml-menu2',
-            groupTitle: false,
-            submenu: [],
-          },
-          {
-            path: '/',
-            title: 'Second 2',
-            icon: '',
-            class: 'ml-sub-menu2',
-            groupTitle: false,
-            submenu: [
-              {
-                path: '/multilevel/thirdlevel/third1',
-                title: 'third 1',
-                icon: '',
-                class: 'ml-menu3',
-                groupTitle: false,
-                submenu: [],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: '/multilevel/first3',
-        title: 'Third',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: [],
-      },
-    ],
-  },
-  {
-    path: '/order-reception',
-    title: 'Recepcion de Pedido',
-    icon: 'keyboard_double_arrow_down',
-    class: '',
-    groupTitle: false,
-    submenu: [],
-  },
-  {
-    path: '/maestro/abonados/lista',
-    title: 'Abonados',
-    icon: 'keyboard_double_arrow_down',
-    class: '',
-    groupTitle: false,
-    submenu: [],
-  },
+
   {
     path: '',
     title: 'Pedidos',
@@ -234,61 +70,60 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '',
-    title: 'Informes',
+    title: '-- Informes',
+    icon: '',
+    class: '',
+    groupTitle: true,
+    submenu: [],
+  },
+  {
+    path: '',
+    title: 'Empresas',
     icon: 'keyboard_double_arrow_down',
-    class: 'menu-toggle',
+    class: 'ml-sub-menu',
     groupTitle: false,
     submenu: [
       {
-        path: '',
-        title: 'Empresas',
+        path: '/informes/empresa/lista',
+        title: 'Lista',
         icon: 'keyboard_double_arrow_down',
-        class: 'ml-sub-menu',
+        class: 'ml-menu2',
         groupTitle: false,
-        submenu: [
-          {
-            path: '/informes/empresa/lista',
-            title: 'Lista',
-            icon: 'keyboard_double_arrow_down',
-            class: 'ml-menu2',
-            groupTitle: false,
-            submenu: []
-          },
-          {
-            path: '/informes/empresa/detalle',
-            title: 'Detalle',
-            icon: 'keyboard_double_arrow_down',
-            class: 'ml-menu2',
-            groupTitle: false,
-            submenu: []
-          },
-        ]
+        submenu: []
       },
       {
-        path: '',
-        title: 'Personas',
+        path: '/informes/empresa/detalle',
+        title: 'Detalle',
         icon: 'keyboard_double_arrow_down',
-        class: 'ml-sub-menu',
+        class: 'ml-menu2',
         groupTitle: false,
-        submenu: [
-          {
-            path: '/informes/persona/lista',
-            title: 'Lista',
-            icon: 'keyboard_double_arrow_down',
-            class: 'ml-menu2',
-            groupTitle: false,
-            submenu: []
-          },
-          {
-            path: '/informes/persona/detalle',
-            title: 'Detalle',
-            icon: 'keyboard_double_arrow_down',
-            class: 'ml-menu2',
-            groupTitle: false,
-            submenu: []
-          },
-        ]
+        submenu: []
       },
-    ],
+    ]
+  },
+  {
+    path: '',
+    title: 'Personas',
+    icon: 'keyboard_double_arrow_down',
+    class: 'ml-sub-menu',
+    groupTitle: false,
+    submenu: [
+      {
+        path: '/informes/persona/lista',
+        title: 'Lista',
+        icon: 'keyboard_double_arrow_down',
+        class: 'ml-menu2',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: '/informes/persona/detalle',
+        title: 'Detalle',
+        icon: 'keyboard_double_arrow_down',
+        class: 'ml-menu2',
+        groupTitle: false,
+        submenu: []
+      },
+    ]
   },
 ];

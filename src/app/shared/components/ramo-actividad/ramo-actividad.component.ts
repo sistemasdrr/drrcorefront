@@ -1,7 +1,8 @@
 import { RamoNegocio } from 'app/models/ramo-negocio';
 import { RamoNegocioService } from 'app/services/ramo-negocio.service';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AgregarEditarRamoNegocioComponent } from './agregar-editar/agregar-editar.component';
 
 @Component({
   selector: 'app-ramo-actividad-dialog',
@@ -21,7 +22,7 @@ export class RamoActividadDialogComponent {
    @Output()
    eventSelectAbonado = new EventEmitter<string[]>();
 
-  constructor(public dialogRef: MatDialogRef<RamoActividadDialogComponent>,private ramoNegocioService :RamoNegocioService){
+  constructor(public dialogRef: MatDialogRef<RamoActividadDialogComponent>,private ramoNegocioService :RamoNegocioService, private dialog : MatDialog){
     this.ramos = this.ramoNegocioService.getRamoNegocio()
   }
   select(act : string){
@@ -65,13 +66,35 @@ export class RamoActividadDialogComponent {
     }
 
     this.actividadesSeleccionadas = []
-    const ramo = this.ramos.find(ramo => ramo.id === id);
+    const ramo = this.ramos.find(ramo => ramo.codigo === id);
     if (ramo) {
-      this.actividades = [...ramo.actividades];
+      const actividad = ramo.actividades
+      this.actividades = []
+      actividad.forEach(act => {
+
+        this.actividades.push(act.nombre)
+      });
+
     } else {
       this.actividades = [];
     }
     this.idRamoSeleccionado = id
     this.nombreRamoSeleccionado = nombre
   }
+
+  ramo(){
+    const dialogRef1 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
+      data: {
+        accion : "RAMO",
+      },
+    });
+  }
+  actividad(){
+    const dialogRef2 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
+      data: {
+        accion : "ACTIVIDAD",
+      },
+    });
+  }
+
 }

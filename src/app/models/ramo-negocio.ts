@@ -1,5 +1,14 @@
 export interface RamoNegocio{
-  id : string
+  codigo : string
   nombre : string
-  actividades : string[]
+  nombreIng : string
+  enable : boolean
+  actividades : Actividad[]
+}
+
+export interface Actividad{
+  codigo : string
+  nombre : string
+  nombreIng : string
+  enable : boolean
 }

@@ -1,0 +1,65 @@
+<div class="container" style="width: 40rem;">
+  <div class="row p-3 ">
+    <div class="card">
+      <div class="materialTableHeader mt-3" >
+        <div class="left">
+          <ul class="header-buttons-left ms-0">
+            <li class="tbl-title">
+              <h3>{{titulo}}</h3>
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <ul class="tbl-export-btn">
+            <li class="tbl-header-btn">
+              <div class="m-l-10" >
+                <button class="btn bg-red d-flex"  type="button" (click)="cerrarDialog()">
+                  <i class="fa-solid fa-right-from-bracket" style="font-size: 16px; margin-top: .2rem;"></i>
+                  <div style="font-size: 16px;">&nbsp;Salir</div>
+                </button>
+              </div>
+            </li>
+            <li class="tbl-header-btn">
+              <div class="m-l-10" >
+                <button class="btn btn-primary d-flex"  type="button" (click)="agregar()">
+                  <i class="fa-solid fa-square-plus" style="font-size: 16px; margin-top: .2rem;"></i>
+                  <div style="font-size: 16px;">&nbsp;Agregar</div>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+        </div>
+      </div>
+      <mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="año">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 3rem; justify-content: center;"> Año </mat-header-cell>
+          <mat-cell *matCellDef="let cuadro" class="text-center w-100 justify-content-center">{{ cuadro.anio }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="monto">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre del Abonado</mat-header-cell>
+          <mat-cell *matCellDef="let cuadro" class="text-center w-100 justify-content-center">{{ cuadro.monto }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> </mat-header-cell>
+          <mat-cell *matCellDef="let cuadro" class="text-center w-100 justify-content-center">
+            <button  mat-icon-button  type="button" (click)="editar(cuadro.id, cuadro.anio, cuadro.monto)">
+              <i class="fa-solid fa-pen-to-square" style="color: green; font-size: 24px;"></i>
+            </button>
+            <button  mat-icon-button (click)="eliminar(cuadro.anio,cuadro.monto)">
+              <i class="fa-solid fa-xmark" style="color: red; font-size: 24px;"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+      </mat-table>
+
+    </div>
+</div>

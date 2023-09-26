@@ -25,11 +25,7 @@ import {
 import { WINDOW_PROVIDERS } from './core/service/window.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { OrderReceptionModule } from './order-reception/order-reception.module';
 import { DashGerenciaComponent } from './views/dashboard/dash-gerencia/dash-gerencia.component';
-import { MaestroModule } from './views/maestro/maestro.module';
-import { PedidosModule } from './views/pedidos/pedidos.module';
-import { InformeModule } from './views/informe/informe.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -62,10 +58,6 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     CoreModule,
     SharedModule,
-    OrderReceptionModule,
-    MaestroModule,
-    PedidosModule,
-    InformeModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

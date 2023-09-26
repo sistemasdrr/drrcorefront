@@ -55,10 +55,10 @@ export class AuthService {
 
   getIsLoginValue() {
     const cacheData = JSON.parse(localStorage.getItem(this.CACHE_KEY) || '{}');
-    const timestamp = cacheData.timestamp || 0;
-    const currentTime = new Date().getTime();
-    const isCacheValid = currentTime - timestamp < 3600000;
-
+    // const timestamp = cacheData.timestamp || 0;
+    // const currentTime = new Date().getTime();
+    // const isCacheValid = currentTime - timestamp < 3600000;
+    const isCacheValid = 3600000;
     return isCacheValid && cacheData.isLogin === true;
   }
 }

@@ -43,30 +43,30 @@ const routes: Routes = [
       {
         path: 'order-reception',
         loadChildren: () =>
-          import('./order-reception/order-reception.module').then(
-            (m) => m.OrderReceptionModule
-          ),
+          import('./order-reception/order-reception.module')
+          .then((m) => m.OrderReceptionModule)
+          ,canActivate: [AuthGuard]
       },
       {
         path: 'maestro',
         loadChildren: () =>
-          import('./views/maestro/maestro.module').then(
-            (m) => m.MaestroModule
-          ),
+          import('./views/maestro/maestro.module')
+          .then((m) => m.MaestroModule)
+          ,canActivate: [AuthGuard]
       },
       {
         path: 'pedidos',
         loadChildren: () =>
-          import('./views/pedidos/pedidos.module').then(
-            (m) => m.PedidosModule
-          ),
+          import('./views/pedidos/pedidos.module').
+          then((m) => m.PedidosModule)
+            ,canActivate: [AuthGuard]
       },
       {
         path: 'informes',
         loadChildren: () =>
-          import('./views/informe/informe.module').then(
-            (m) => m.InformeModule
-          ),
+          import('./views/informe/informe.module').
+          then((m) => m.InformeModule)
+            ,canActivate: [AuthGuard]
       },
     ],
   },

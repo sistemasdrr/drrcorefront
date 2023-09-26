@@ -12,16 +12,16 @@
       <mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
         <ng-container matColumnDef="codigo">
           <mat-header-cell *matHeaderCellDef class="text-center" style="width: 3rem; justify-content: center;"> Código </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center">{{ element.codigo }}</mat-cell>
+          <mat-cell *matCellDef="let abonado" class="text-center w-100 justify-content-center">{{ abonado.codigo }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="nombre">
           <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre del Abonado</mat-header-cell>
-          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center">{{ element.nombre }}</mat-cell>
+          <mat-cell *matCellDef="let abonado" class="text-center w-100 justify-content-center">{{ abonado.nombre }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="select">
           <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="text-center w-100 justify-content-center">
-            <button class="btn bg-green btn-sm btn-block waves-effect" style="width: 7rem;" type="button" (click)="realizarEnvioCodigo(element.codigo)"><i class="fa-solid fa-circle-check"></i> Seleccionar </button>
+          <mat-cell *matCellDef="let abonado" class="text-center w-100 justify-content-center">
+            <button class="btn bg-green btn-sm btn-block waves-effect" style="width: 7rem;" type="button" (click)="realizarEnvioCodigo(abonado.codigo)"><i class="fa-solid fa-circle-check"></i> Seleccionar </button>
           </mat-cell>
         </ng-container>
 

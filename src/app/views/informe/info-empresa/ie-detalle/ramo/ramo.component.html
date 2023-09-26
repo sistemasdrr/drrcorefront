@@ -49,7 +49,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
           <input  matInput placeholder="" value=""  [disabled]="!checkImportacion">
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="!checkImportacion">
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="!checkImportacion" (click)="agregarComentario(titulo, tituloExportacion,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -61,7 +61,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
           <input matInput placeholder="" value="" [disabled]="!checkExportacion">
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="!checkExportacion">
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="!checkExportacion" (click)="agregarComentario(titulo, tituloImportacion,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -69,11 +69,11 @@
       <div class="col-md-2">
         <div class="row justify-content-center">
           <div class="col-md-12 mb-2">
-            <button class="btn bg-brown d-flex mb-2" type="button" #tooltip="matTooltip" matTooltip="Cuadro de Importación">
+            <button class="btn bg-brown d-flex mb-2" type="button" #tooltip="matTooltip" matTooltip="Cuadro de Importación" (click)="ImportacionDialog()">
               <i class="fa-solid fa-table-cells-large" style="font-size: 20px;"></i>
               <div >&nbsp;Importación</div>
             </button>
-            <button class="btn bg-brown d-flex" type="button" #tooltip="matTooltip" matTooltip="Cuadro de Exportación">
+            <button class="btn bg-brown d-flex" type="button" #tooltip="matTooltip" matTooltip="Cuadro de Exportación" (click)="ExportacionDialog()">
               <i class="fa-solid fa-table-cells-large" style="font-size: 20px;"></i>
               <div>&nbsp;Exportación</div>
             </button>
@@ -84,7 +84,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Venta Contado/Forma</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloVentaContado,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -93,7 +93,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Crédito/Términos</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloCreditoTerminos,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -102,7 +102,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Territorio de Ventas</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloTerritorioVentas,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -111,7 +111,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Ventas al Exterior</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloVentaExterior,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -120,7 +120,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Compras Nacionales</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloComprasNacionales,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -129,7 +129,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Del Exterior</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloExterior,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -162,7 +162,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Area Total</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloAreaTotal,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -177,7 +177,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Otros Locales (Plantas, Almacenes, Depósitos, Sucursales)</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button >
+            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloOtrosLocales,subtituloOtrosLocales, codEmpresa)">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>

@@ -8,3 +8,8 @@ export interface TraduccionData{
   titulo2 : string
   subtitulo : string
 }
+
+export interface ImpoExpoDialogData{
+  titulo : string
+  codigoEmpresa : string
+}

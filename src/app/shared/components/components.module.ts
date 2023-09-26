@@ -13,6 +13,9 @@ import { TraduccionDialogComponent } from './traduccion-dialog/traduccion-dialog
 import { MatSelectModule } from "@angular/material/select";
 import { MatListModule } from "@angular/material/list";
 import { RamoActividadDialogComponent } from "./ramo-actividad/ramo-actividad.component";
+import { CuadroImpoExpoComponent } from './cuadro-impo-expo/cuadro-impo-expo.component';
+import { AgregarEditarComponent } from './cuadro-impo-expo/agregar-editar/agregar-editar.component';
+import { AgregarEditarRamoNegocioComponent } from './ramo-actividad/agregar-editar/agregar-editar.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { RamoActividadDialogComponent } from "./ramo-actividad/ramo-actividad.co
     AdjuntarArchivosComponent,
     ComentarioComponent,
     TraduccionDialogComponent,
-    RamoActividadDialogComponent
+    RamoActividadDialogComponent,
+    CuadroImpoExpoComponent,
+    AgregarEditarComponent,
+    AgregarEditarRamoNegocioComponent,
   ],
   imports: [
     SharedModule,
@@ -41,7 +47,8 @@ import { RamoActividadDialogComponent } from "./ramo-actividad/ramo-actividad.co
     BuscarEmpresaDialogComponent,
     ComentarioComponent,
     AdjuntarArchivosComponent,
-    RamoActividadDialogComponent
+    RamoActividadDialogComponent,
+    CuadroImpoExpoComponent
   ],
 })
 export class ComponentsModule {}

@@ -22,7 +22,6 @@ import { AntecedentesComponent } from './info-empresa/ie-detalle/antecedentes/an
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { RamoComponent } from './info-empresa/ie-detalle/ramo/ramo.component';
-import { RamoActividadComponent } from './info-empresa/ie-detalle/ramo-actividad/ramo-actividad.component';
 import { MatListModule } from '@angular/material/list';
 import { FinanzasComponent } from './info-empresa/ie-detalle/finanzas/finanzas.component';
 import { OpinionCreditoComponent } from './info-empresa/ie-detalle/opinion-credito/opinion-credito.component';
@@ -36,7 +35,6 @@ import { OpinionCreditoComponent } from './info-empresa/ie-detalle/opinion-credi
     DatosEmpresaComponent,
     AntecedentesComponent,
     RamoComponent,
-    RamoActividadComponent,
     FinanzasComponent,
     OpinionCreditoComponent,
   ],
