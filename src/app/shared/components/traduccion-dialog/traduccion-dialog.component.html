@@ -44,15 +44,19 @@
           </div>
         </div>
         <hr>
-       <div class="body mat-elevation-z8">
-        <h4>Español</h4>
-        <ckeditor [editor]="Editor" style="min-height: 10rem;" data=""></ckeditor>
-       </div>
+        <div class="row">
+          <div class="col-md-6"><div class="body mat-elevation-z8">
+            <h4>Español</h4>
+            <ckeditor [editor]="Editor" style="min-height: 8rem;" data=""></ckeditor>
+           </div></div>
+          <div class="col-md-6"><div class="body mat-elevation-z8">
+            <h4>Inglés</h4>
+            <ckeditor [editor]="Editor" style="height: 8rem;" data=""></ckeditor>
+           </div></div>
+        </div>
+
        <br>
-       <div class="body mat-elevation-z8">
-        <h4>Inglés</h4>
-        <ckeditor [editor]="Editor" style="height: 10rem;" data=""></ckeditor>
-       </div>
+
       </div>
 
 

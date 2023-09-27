@@ -7,7 +7,7 @@ import { FormDialogComponent as advanceTableForm } from './dialogs/form-dialog/f
 import { DeleteDialogComponent } from './dialogs/delete/delete.component';
 import { AdvanceTableService } from './advance-table.service';
 import { ComponentsModule } from '../shared/components/components.module';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '@shared';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     AdvanceTableRoutingModule,
     ComponentsModule,
-    SharedModule,
+    SharedModule
   ],
   providers: [AdvanceTableService],
 })

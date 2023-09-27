@@ -57,9 +57,16 @@
           <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center">{{ ramo.nombreIng }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="enable">
-          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> </mat-header-cell>
-          <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center">
-            a
+          <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;"> Activo</mat-header-cell>
+          <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center" style="max-width: 6rem;">
+            <div class="circle-inactive" *ngIf="ramo.enable === false"></div>
+            <div class="circle-active" *ngIf="ramo.enable === true"></div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;"> Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center" style="max-width: 6rem;">
+            s
           </mat-cell>
         </ng-container>
 
@@ -70,17 +77,29 @@
     <div class="col-md-12">
       <mat-table [dataSource]="dataSourceA" multiTemplateDataRows class="mat-elevation-z8" *ngIf="accion === 'ACTIVIDAD'">
         <ng-container matColumnDef="nombre">
-          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 3rem; justify-content: center;"> Nombre Esp. </mat-header-cell>
-          <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center">{{ ramo.nombre }}</mat-cell>
+          <mat-header-cell *matHeaderCellDef class="text-center" style="justify-content: center;"> Nombre Esp. </mat-header-cell>
+          <mat-cell *matCellDef="let actividad" class="text-center w-100 justify-content-center">{{ actividad.nombre }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="nombreIng">
           <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre Ing.</mat-header-cell>
-          <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center">{{ ramo.nombreIng }}</mat-cell>
+          <mat-cell *matCellDef="let actividad" class="text-center w-100 justify-content-center">{{ actividad.nombreIng }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="enable">
-          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> </mat-header-cell>
-          <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center">
-            a
+          <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;">Activo</mat-header-cell>
+          <mat-cell *matCellDef="let actividad" class="text-center w-100 justify-content-center" style="max-width: 6rem;">
+            <div class="circle-inactive" *ngIf="actividad.enable === false"></div>
+            <div class="circle-active" *ngIf="actividad.enable === true"></div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;"> Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center" style="max-width: 6rem;">
+            <button class="btn bg-green d-flex justify-content-center" style="color: white; margin: .5rem 0 1rem 0;"#tooltip="matTooltip" matTooltip="Editar">
+              <i class="fa-solid fa-edit" style="font-size: 20px;"></i>
+            </button>
+            <button class="btn bg-red d-flex justify-content-center" style="color: white; margin: .5rem 0 1rem 0;" #tooltip="matTooltip" matTooltip="Quitar">
+              <i class="fa-solid fa-remove" style="font-size: 20px;"></i>
+            </button>
           </mat-cell>
         </ng-container>
 

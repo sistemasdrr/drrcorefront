@@ -1,5 +1,5 @@
 export interface RamoNegocio{
-  codigo : string
+  id : number
   nombre : string
   nombreIng : string
   enable : boolean
@@ -7,7 +7,7 @@ export interface RamoNegocio{
 }
 
 export interface Actividad{
-  codigo : string
+  id : number
   nombre : string
   nombreIng : string
   enable : boolean

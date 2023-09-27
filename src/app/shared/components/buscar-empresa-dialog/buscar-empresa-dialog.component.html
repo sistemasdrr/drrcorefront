@@ -25,14 +25,10 @@
             <ng-container matColumnDef="select">
               <mat-header-cell *matHeaderCellDef class="text-center"> Seleccionar</mat-header-cell>
               <mat-cell *matCellDef="let data" class="text-center" >
-                <mat-radio-button class="example-radio-button" [value]="data.codigo" (click)="mostrarCodigoEmpresa(data.codigo)">
+                <mat-radio-button class="example-radio-button" [value]="data.codigo" (click)="seleccionarCodigoEmpresa(data.codigo)">
                 </mat-radio-button>
 
               </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="tipo">
-              <mat-header-cell *matHeaderCellDef class="text-center" > Tipo </mat-header-cell>
-              <mat-cell *matCellDef="let data" class="text-center">{{ data.tipo }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="nombreBuscado">
               <mat-header-cell *matHeaderCellDef class="text-center"> Nombre Buscado</mat-header-cell>
@@ -45,8 +41,8 @@
             <ng-container matColumnDef="pais">
               <mat-header-cell *matHeaderCellDef class="text-center"> País</mat-header-cell>
               <mat-cell *matCellDef="let data" class="text-center">
-                {{ data.pais }} <span class="fi {{data['iconoPais']}}" style="font-size: 20px;"></span>
-
+                {{ paises[data.pais -1].nombre }}
+                <span class="fi fi-{{paises[data.pais-1].icono}}" style="font-size: 20px;"></span>
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="ruc">
@@ -75,7 +71,7 @@
 
     <hr>
     <div class="d-flex justify-content-end p-3">
-      <button class="btn bg-cyan btn-lg btn-block waves-effect" type="button">
+      <button class="btn bg-cyan btn-lg btn-block waves-effect" type="button" (click)="realizarEnvioCodigo()">
         Seleccionar
       </button>
 </div>

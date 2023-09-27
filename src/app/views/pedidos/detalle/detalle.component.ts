@@ -1,3 +1,5 @@
+import { EmpresaPersonaService } from 'app/services/empresa-persona.service';
+import { PaisService } from './../../../services/pais.service';
 import { OnInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +10,7 @@ import { RequestedReportsService } from 'app/services/requested-reports.service'
 import { BuscarEmpresaDialogComponent } from '@shared/components/buscar-empresa-dialog/buscar-empresa-dialog.component';
 import { Abonado } from 'app/models/abonado';
 import { AbonadoService } from 'app/services/abonado.service';
+import { Pais } from 'app/models/pais';
 
 interface Idioma {
   value: string;
@@ -25,6 +28,8 @@ interface TipoTramite {
   value: string;
   viewValue: string;
 }
+
+
 @Component({
   selector: 'app-detalle',
   templateUrl: './detalle.component.html',
@@ -33,6 +38,17 @@ interface TipoTramite {
 export class DetalleComponent implements OnInit {
 
   /**/
+  paisSeleccionado : number =0
+  iconoSeleccionado: string = ""
+  actualizarSeleccion(id: number) {
+    const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
+    if (paisSeleccionadoObj) {
+      this.paisSeleccionado = paisSeleccionadoObj.id;
+      this.iconoSeleccionado = paisSeleccionadoObj.icono;
+    }
+  }
+
+  //FORM ABONADO
   nombreAbonado : string = ''
   isChecked = true;
   pais : string = ''
@@ -42,6 +58,17 @@ export class DetalleComponent implements OnInit {
   creditoConsultado : string = ''
   indicacionesAbonado : string = ''
   datosAdicionales : string = ''
+
+  //FORM EMPRESA
+  ruc : string = ''
+  continente : string = ''
+  paisEmp : string = ''
+  ciudad : string = ''
+  direccion : string = ''
+  correo : string = ''
+  telefono : string = ''
+
+  paises : Pais[] = []
 
   /**/
   idiomas: Idioma[] = [
@@ -126,11 +153,14 @@ export class DetalleComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private requestedReportsService : RequestedReportsService,
     private router : Router,
-    private abonadoService : AbonadoService
+    private abonadoService : AbonadoService,
+    private PaisService : PaisService,
+    private empresaPersonaService : EmpresaPersonaService
   ) {
 
     this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
-    console.log(this.dataSource)
+    this.paises = this.PaisService.getPaises()
+
   }
   TipoFormulario(tipo: string) {
     this.tipo_formulario = tipo;
@@ -158,7 +188,21 @@ export class DetalleComponent implements OnInit {
     });
   }
   buscarEmpresaPersona() {
-    this.dialog.open(BuscarEmpresaDialogComponent);
+    const dialogRef1 = this.dialog.open(BuscarEmpresaDialogComponent);
+    dialogRef1.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        const val = this.empresaPersonaService.getEmpresaPersonaByCodigo(data.datos)
+        this.paisSeleccionado = val[0].pais
+        this.actualizarSeleccion(this.paisSeleccionado)
+        this.ruc = val[0].ruc
+        this.continente = val[0].continente
+        this.ciudad = val[0].ciudad
+        this.direccion = val[0].direccion
+        this.correo = val[0].correo
+        this.telefono = val[0].telefono
+      }
+    });
   }
   volver(){
     this.router.navigate(['pedidos/lista']);

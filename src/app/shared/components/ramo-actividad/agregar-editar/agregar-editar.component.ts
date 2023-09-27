@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Actividad, RamoNegocio } from 'app/models/ramo-negocio';
+import { MatRadioButton } from '@angular/material/radio';
 
 @Component({
   selector: 'app-agregar-editar-ramo-negocio',
@@ -12,7 +13,7 @@ import { Actividad, RamoNegocio } from 'app/models/ramo-negocio';
 export class AgregarEditarRamoNegocioComponent {
   titulo = ""
   accion = ""
-  columnasR : string[] = ['nombre','nombreIng','enable']
+  columnasR : string[] = ['nombre','nombreIng','enable', 'accion']
   datosR : RamoNegocio[] = []
   datosA : Actividad[] = []
   dataSourceR : MatTableDataSource<RamoNegocio>
@@ -51,7 +52,6 @@ export class AgregarEditarRamoNegocioComponent {
 
 
   //ACTIVIDAD
-
 
 
 

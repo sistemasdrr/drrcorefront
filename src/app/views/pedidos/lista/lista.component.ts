@@ -35,7 +35,7 @@ export class ListaComponent implements AfterViewInit {
   ];
 
   dataSource: MatTableDataSource<Order>;
-  columnsToDisplay = ['Cupon', 'Informe', 'Estado', 'Tipo_informe', 'Tipo_tramite', 'Calidad', 'Fecha_ingreso', 'Fecha_vencimiento', 'Fecha_descarga', 'Acciones' ];
+  columnsToDisplay = ['cupon', 'informe', 'estado', 'tipoInforme', 'tipoTramite', 'calidad', 'fechaIngreso', 'fechaVencimiento', 'fechaDescarga', 'Acciones' ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedOrder: Order | null = null;
 

@@ -36,7 +36,7 @@ export class AsignacionComponent implements AfterViewInit {
 
   //TABLA
   dataSource: MatTableDataSource<Order>;
-  columnsToDisplay = ['position','Cupon', 'Informe', 'Tipo_informe', 'Tipo_tramite', 'Fecha_ingreso', 'Fecha_vencimiento', 'Acciones' ];
+  columnsToDisplay = ['position','cupon', 'informe', 'tipoInforme', 'tipoTramite', 'fechaIngreso', 'fechaVencimiento', 'Acciones' ];
   selection = new SelectionModel<Order>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -47,6 +47,7 @@ export class AsignacionComponent implements AfterViewInit {
     private router : Router,
     public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource(this.orderService.getOrders());
+    console.log(this.dataSource)
   }
 
   ngAfterViewInit() {

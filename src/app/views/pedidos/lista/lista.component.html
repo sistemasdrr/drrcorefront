@@ -56,65 +56,70 @@
 
       <ng-container matColumnDef="{{columnsToDisplay[0]}}" >
       <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
-      <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[0]]}} </td>
+      <td mat-cell *matCellDef="let order" class="text-center"> {{order.cupon}} </td>
       </ng-container>
       <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
       <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
-      <td mat-cell *matCellDef="let order" class="text-left"> {{order[columnsToDisplay[1]]}} </td>
+      <td mat-cell *matCellDef="let order" class="text-left"> {{order.informe}} </td>
       </ng-container>
       <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
       <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-center"> Estado</th>
       <td mat-cell *matCellDef="let order" class="text-center">
-        <div *ngIf="order[columnsToDisplay[2]]==='PEND. VENCIDO'" >
-          <span class="badge badge-solid-red" style="width:120px">
-            {{order[columnsToDisplay[2]]}}
+        <div *ngIf="order.estado==='PEND. VENCIDO'" >
+          <span class="float-end progress-percent label label-danger m-b-5 shadow" style="width: 170px;">
+            {{order.estado}}
           </span>
         </div>
-        <div *ngIf="order[columnsToDisplay[2]]==='PENDIENTE'" >
-          <span class="badge badge-solid-cyan" style="width:120px">
-            {{order[columnsToDisplay[2]]}}
+        <div *ngIf="order.estado==='PENDIENTE'" >
+          <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
+            {{order.estado}}
           </span>
         </div>
-        <div *ngIf="order[columnsToDisplay[2]]==='ENVIADO'" >
-          <span class="badge badge-solid-green" style="width:120px">
-            {{order[columnsToDisplay[2]]}}
+        <div *ngIf="order.estado==='ENVIADO'" >
+          <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
+            {{order.estado}}
           </span>
         </div>
-        <div *ngIf="order[columnsToDisplay[2]]==='ENV. VENCIDO'" >
-          <span class="badge badge-solid-orange" style="width:120px">
-            {{order[columnsToDisplay[2]]}}
+        <div *ngIf="order.estado==='ENV. VENCIDO'" >
+          <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
+            {{order.estado}}
           </span>
         </div>
       </td>
       </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[3]}}" >
+      <ng-container matColumnDef="tipoInforme" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[3]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order.tipoInforme}} </td>
       </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[4]}}" >
+      <ng-container matColumnDef="tipoTramite" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Tramite</th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[4]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order.tipoTramite}} </td>
       </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[5]}}" >
+      <ng-container matColumnDef="calidad" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[5]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order.calidad}} </td>
       </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[6]}}" >
+      <ng-container matColumnDef="fechaIngreso" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[6]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaIngreso}} </td>
       </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[7]}}" >
+      <ng-container matColumnDef="fechaVencimiento" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[7]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaVencimiento}} </td>
       </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[8]}}" >
+      <ng-container matColumnDef="fechaDescarga" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Descarga </th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[8]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaDescarga}} </td>
       </ng-container>
       <ng-container matColumnDef="{{columnsToDisplay[9]}}" >
         <th mat-header-cell *matHeaderCellDef  class="text-center"> Acciones </th>
         <td mat-cell *matCellDef="let order" class="text-center">
-        <button mat-raised-button color="primary" (click)="editOrder(order[columnsToDisplay[0]])">Editar</button>
+          <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.cupon)" class="tbl-action-btn ">
+            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+          </button>
+          <button mat-icon-button class="tbl-action-btn">
+            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+          </button>
         </td>
       </ng-container>
 
@@ -139,15 +144,16 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-4">
-                    <label><b>Crédito Consultado:</b>  {{order.detalle_pedido.credito_consultado}}</label><br>
-                    <label><b>Nro. de Orden: </b> {{order.detalle_pedido.num_orden}}</label>
+                    <label><b>Abonado: </b>{{ order.abonado.codigo }} - {{ order.abonado.nombre }}</label><br>
+                    <label><b>Crédito Consultado:</b>  {{order.creditoConsultado}}</label><br>
+                    <label><b>Nro. de Orden: </b> {{order.numOrden}}</label>
                   </div>
                   <div class="col-md-4">
-                    <label><b>Revelar Nombre:</b>  {{order.detalle_pedido.revelar_nombre}}</label><br>
-                    <label><b>Nro. de Referencia: </b> {{order.detalle_pedido.numero_referencia}}</label>
+                    <label><b>Revelar Nombre:</b>  {{order.revelarNombre}}</label><br>
+                    <label><b>Nro. de Referencia: </b> {{order.numeroReferencia}}</label>
                   </div>
                   <div class="col-md-4">
-                    <label><b>Indicaciones del Abonado: </b> {{order.detalle_pedido.indicaciones_abonado}}</label>
+                    <label><b>Indicaciones del Abonado: </b> {{order.indicacionesAbonado}}</label>
                   </div>
                 </div>
                 <br>
@@ -158,18 +164,19 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-4">
-                    <label><b>Nombre de Empresa: </b>  {{order.detalle_pedido.nombre_empresa}}</label><br>
-                    <label><b>Registro Tributario: </b>  {{order.detalle_pedido.reg_tributario}}</label>
+                    <label><b>Nombre Real de la Empresa: </b>  {{order.nombreReal}}</label><br>
+                    <label><b>Nombre Solicitado de la Empresa: </b>  {{order.nombreSolicitado}}</label><br>
+                    <label><b>Registro Tributario: </b>  {{order.regTributario}}</label>
                   </div>
                   <div class="col-md-4">
-                    <label><b>Continente: </b>  {{order.detalle_pedido.continente}}</label><br>
-                    <label><b>País: </b>  {{order.detalle_pedido.pais}}</label><br>
-                    <label><b>Ciudad: </b>  {{order.detalle_pedido.ciudad}}</label><br>
+                    <label><b>Continente: </b>  {{order.continente}}</label><br>
+                    <label><b>País: </b>  {{order.pais}}</label><br>
+                    <label><b>Ciudad: </b>  {{order.ciudad}}</label><br>
                   </div>
                   <div class="col-md-4">
-                    <label><b>Dirección: </b>  {{order.detalle_pedido.direccion}}</label><br>
-                    <label><b>Correo: </b> {{order.detalle_pedido.correo}}</label><br>
-                    <label><b>Telefono: </b>  {{order.detalle_pedido.telefono}}</label><br>
+                    <label><b>Dirección: </b>  {{order.direccion}}</label><br>
+                    <label><b>Correo: </b> {{order.correo}}</label><br>
+                    <label><b>Telefono: </b>  {{order.telefono}}</label><br>
                   </div>
                   <br>
                 </div>
@@ -180,13 +187,16 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-4">
-                    <label><b>Tipo de Trámite: </b>  {{order.detalle_pedido.tipo_tramite}}</label><br>
+                    <label><b>Tipo de Trámite: </b>  {{order.tipoTramite}}</label><br>
+                    <label><b>Fecha de Ingreso: </b>  {{order.fechaIngreso}}</label><br>
                   </div>
                   <div class="col-md-4">
-                    <label><b>Tipo de Informe: </b> {{order.detalle_pedido.tipo_informe}}</label><br>
+                    <label><b>Tipo de Informe: </b> {{order.tipoInforme}}</label><br>
+                    <label><b>Fecha de Vencimiento: </b> {{order.fechaVencimiento}}</label><br>
                   </div>
                   <div class="col-md-4">
-                    <label><b>Precio de Informe: </b>  {{order.detalle_pedido.precio_informe}}</label><br>
+                    <label><b>Precio de Informe: </b>  {{order.precioInforme}}</label><br>
+                    <label><b>Fecha de Vencimiento Real: </b>  {{order.fechaVencimientoReal}}</label><br>
                   </div>
                   <br>
                 </div>

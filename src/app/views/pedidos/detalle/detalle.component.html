@@ -8,7 +8,7 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <!-- DATOS GENERALES -->
         <div class="row counter-box p-3">
-            <h3>Datos Generales</h3>
+            <h4>Datos Generales</h4>
             <div class="col-md-6 d-flex align-items-center justify-content-center">
               <div class=" bg-c-green order-info-box7 w-100 shadow" style="border-radius: .5rem; padding: .5rem; margin-bottom: .8rem; ">
                 <div class="d-flex justify-content-between">
@@ -36,10 +36,18 @@
               <mat-form-field class="example-full-width">
                 <mat-label>Código del Abonado</mat-label>
                 <input matInput placeholder="Ej. 1234" value="" [(ngModel)]="codAbonado" (ngModelChange)="asignarDatosAbonado()">
-               </mat-form-field>
-              <button mat-raised-button color="primary" (click)="buscarAbonado()" class="button-with-icon" style="margin-bottom: 1.5rem; margin-left: 1rem;">
-                <i class="fa-solid fa-magnifying-glass icon"></i> Buscar
-              </button>
+                <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2 d-flex justify-content-center">
+              <mat-form-field class="example-full-width">
+                <mat-label>Tipo de Trámite </mat-label>
+                <mat-select [(value)]="tipoTramiteSeleccionado">
+                  <mat-option [value]="tipoTramite.value" *ngFor="let tipoTramite of tipoTramites">{{ tipoTramite.viewValue }}</mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <div class="col-md-2 d-flex justify-content-center">
               <mat-form-field color="primary" style="width: 100%;">
@@ -47,14 +55,6 @@
                 <input matInput [matDatepicker]="fecha_pedido">
                 <mat-datepicker-toggle matIconSuffix [for]="fecha_pedido"></mat-datepicker-toggle>
                 <mat-datepicker #fecha_pedido color="primary"></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div class="col-md-2 d-flex justify-content-center">
-            <mat-form-field color="primary" style="width: 100%;">
-                <mat-label>Fecha de Venc. Real</mat-label>
-                <input matInput [matDatepicker]="fecha_vencimiento_real">
-                <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
-                <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
               </mat-form-field>
             </div>
             <div class="col-md-2 d-flex justify-content-center">
@@ -66,11 +66,11 @@
               </mat-form-field>
             </div>
             <div class="col-md-2 d-flex justify-content-center">
-              <mat-form-field style="width: 100%;">
-                <mat-label>Idioma </mat-label>
-                <mat-select [(value)]="idiomaSeleccionado">
-                  <mat-option [value]="idioma.value" *ngFor="let idioma of idiomas">{{ idioma.viewValue }}</mat-option>
-                </mat-select>
+              <mat-form-field color="primary" style="width: 100%;">
+                <mat-label>Fecha de Venc. Real</mat-label>
+                <input matInput [matDatepicker]="fecha_vencimiento_real">
+                <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
+                <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
               </mat-form-field>
             </div>
           </div>
@@ -80,9 +80,9 @@
             <!-- DATOS DEL ABONADO -->
             <div class="col-md-4 mt-3">
               <div class="counter-box shadow m-1">
-                <h3>Datos Referenciales del Abonado</h3>
-                <div class="d-flex align-items-center">
-                  <mat-form-field class="example-full-width" style="margin-right: 1rem;">
+                <h4>Datos Referenciales del Abonado</h4>
+                <div class="d-flex align-items-center ">
+                  <mat-form-field class="example-full-width input-readonly" style="margin-right: 1rem;">
                     <mat-label>Abonado</mat-label>
                     <input matInput placeholder="" value="" [(ngModel)]="nombreAbonado" readonly>
                   </mat-form-field>
@@ -140,16 +140,25 @@
             <!-- DATOS DE LA EMPRESA -->
             <div class="col-md-8 mt-3">
               <div class="counter-box shadow m-1" >
-                <h3>Datos de la Empresa/Persona a Investigar</h3>
+                <h4>Datos de la Empresa/Persona a Investigar</h4>
                 <div class="row">
-                  <div class="col-md-8 d-flex align-items-center">
+                  <div class="col-md-6 d-flex align-items-center">
+                    <mat-form-field class="w-100">
+                      <mat-label>Nombre de la Empresa/Persona Solicitado</mat-label>
+                      <input matInput placeholder="" value="">
+                      <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarEmpresaPersona()">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6 d-flex align-items-center">
                     <mat-form-field class="w-100">
                       <mat-label>Nombre de la Empresa/Persona</mat-label>
                       <input matInput placeholder="Ej. ALICORP SA" value="">
+                      <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarEmpresaPersona()">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                      </button>
                     </mat-form-field>
-                    <button mat-raised-button color="primary" (click)="buscarEmpresaPersona()" class="button-with-icon" style="margin-bottom: 1.5rem; margin-left: 1rem;">
-                      <i class="fa-solid fa-magnifying-glass icon"></i> Buscar
-                    </button>
                   </div>
                   <div class="col-md-4 d-flex justify-content-center">
                     <!--mat-form-field style="width: 100%;">
@@ -164,13 +173,13 @@
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width">
                       <mat-label>RUC</mat-label>
-                      <input matInput placeholder="" value="123456789" >
+                      <input matInput placeholder="" [(ngModel)]="ruc" >
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width">
                       <mat-label>Continente </mat-label>
-                      <mat-select [(value)]="continenteSeleccionado">
+                      <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado">
                         <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -178,16 +187,23 @@
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width">
                       <mat-label>País</mat-label>
-                      <div class="input-container">
-                        <input matInput placeholder="" value="PERU" >
-                        <div><span class="fi fi-pe" style="font-size: 24px;"></span></div>
-                      </div>
+                      <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
+                        <mat-option *ngFor="let pais of paises" [value]="pais.id">
+                          <span class="fi fi-{{pais.icono}}"></span>
+                          {{pais.nombre}}
+                        </mat-option>
+                      </mat-select>
+                      <button class="btn-traduccion" matSuffix mat-icon-button>
+                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+                      </button>
+
+
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width">
                       <mat-label>Ciudad</mat-label>
-                      <input matInput placeholder="" value="LIMA" >
+                      <input matInput placeholder="" [(ngModel)]="ciudad">
                     </mat-form-field>
                   </div>
                 </div>
@@ -195,26 +211,26 @@
                   <div class="col-md-6">
                     <mat-form-field class="example-full-width">
                       <mat-label>Dirección</mat-label>
-                      <input matInput placeholder="" value="DIRECCION" >
+                      <input matInput placeholder="" [(ngModel)]="direccion">
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width">
                       <mat-label>Correo</mat-label>
-                      <input matInput type="email" placeholder="" value="correo@example.com" >
+                      <input matInput type="email" placeholder="" [(ngModel)]="correo" >
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="example-full-width">
                       <mat-label>Teléfono</mat-label>
-                      <input matInput placeholder="" value="123456789" >
+                      <input matInput placeholder="" [(ngModel)]="telefono" >
                     </mat-form-field>
                   </div>
                 </div>
               </div>
               <!-- DETALLES DEL INFORME -->
               <div class="counter-box shadow m-1 mt-3">
-                <h3>Detalles del Informe</h3>
+                <h4>Detalles del Informe</h4>
                 <div class="row">
                   <div class="col-md-2">
                     <mat-form-field class="example-full-width">
@@ -232,28 +248,30 @@
                       <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
                     </mat-form-field>
                   </div>
-                  <div class="col-md-1"></div>
-                  <div class="col-md-2">
-                    <mat-form-field class="example-full-width">
-                      <mat-label>Tipo de Trámite </mat-label>
-                      <mat-select [(value)]="tipoTramiteSeleccionado">
-                        <mat-option [value]="tipoTramite.value" *ngFor="let tipoTramite of tipoTramites">{{ tipoTramite.viewValue }}</mat-option>
+                  <div class="col-md-3">
+                    <mat-form-field style="width: 100%;">
+                      <mat-label>Idioma</mat-label>
+                      <mat-select >
+                        <mat-option [value]="'CASTELLANO'">
+                          <span class="fi fi-es"></span>
+                          ESPAÑOL
+                        </mat-option>
+                        <mat-option [value]="'INGLES'">
+                          <span class="fi fi-us"></span>
+                          INGLÉS
+                        </mat-option>
+                        <mat-option [value]="'CASTELLANO-INGLES'">
+                          <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
+                          ESPAÑOL - INGLÉS
+                        </mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
-                  <div class="col-md-2">
-                    <mat-form-field class="example-full-width">
-                      <mat-label>Precio del Informe ($)</mat-label>
-                      <input matInput type="number" placeholder="" value="25" readonly>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3 d-flex justify-content-center">
-                    <mat-form-field color="primary" style="width: 100%;">
-                      <mat-label>Para el Abonado </mat-label>
-                      <input matInput [matDatepicker]="fecha_abonado">
-                      <mat-datepicker-toggle matIconSuffix [for]="fecha_abonado"></mat-datepicker-toggle>
-                      <mat-datepicker #fecha_abonado color="primary"></mat-datepicker>
-                    </mat-form-field>
+                  <div class="col-md-5 d-flex justify-content-center">
+                    <div>
+                      <div><h5>Precio de Informe (US$):  <b>25USD</b> </h5></div>
+                      <div><h5>Ultima Modificación: <b>27/09/2023</b></h5></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -264,7 +282,7 @@
           <div class="row">
             <div class="col-md-12 mt-3" >
               <div class="counter-box shadow m-1" style="overflow-x: auto;">
-                <h3>Abonados que Pidieron este Informe</h3>
+                <h4>Abonados que Pidieron este Informe</h4>
                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
 
                   <ng-container matColumnDef="{{columnsToDisplay[0]}}">
@@ -321,7 +339,10 @@
 
                   <ng-container matColumnDef="{{columnsToDisplay[7]}}">
                     <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Balance </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[7]]}} </td>
+                    <td mat-cell *matCellDef="let report" class="text-center" >
+                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'SI'" class="example-margin" [checked]="true" onclick="return false;"></mat-checkbox>
+                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'NO'" class="example-margin" [checked]="false"  onclick="return false;"></mat-checkbox>
+                    </td>
                   </ng-container>
 
                   <ng-container matColumnDef="{{columnsToDisplay[8]}}">

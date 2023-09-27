@@ -1,20 +1,40 @@
+import { Abonado } from "./abonado"
 import { Attachment } from "./attachment"
-import { OrderDetail } from "./order-detail"
+
 export interface Order {
   id: string
-  Cupon: string
-  Informe: string
-  Tipo_informe: string
-  Tipo_tramite : string
-  Calidad: string
-  Fecha_ingreso: string
-  Fecha_vencimiento: string
-  Fecha_descarga: string
-  Estado: string
+  cupon: string
+  informe: string
+  tipoInforme: string
+  tipoTramite : string
+  calidad: string
+  fechaIngreso: string
+  fechaVencimiento: string
+  fechaVencimientoReal: string
+  fechaDescarga: string
+  estado: string
   hasComment : boolean
   comment : string
   hasAttachments : boolean
   attachments : Attachment[]
-  detalle_pedido : OrderDetail
+
+  abonado : Abonado
+  creditoConsultado: number
+  numOrden: number
+  revelarNombre: string
+  numeroReferencia: number
+  indicacionesAbonado: string
+  nombreReal : string
+  nombreSolicitado : string
+  continente : string
+  pais : string
+  ciudad : string
+  regTributario : string
+  direccion : string
+  telefono : string
+  correo : string
+  fax : string
+  precioInforme: number
+  fechaInforme: string
 
 }

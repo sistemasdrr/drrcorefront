@@ -16,26 +16,23 @@
         <div class="right">
           <ul class="tbl-export-btn">
             <li class="tbl-header-btn">
-              <div class="m-l-10" >
-                <button class="btn bg-red btn-sm btn-block waves-effect d-flex" type="button" (click)="volver()">
-                  <i class="fa-solid fa-right-from-bracket" style="font-size: 20px; margin-top: .4rem;"></i>
-                  <div style="font-size: 20px;">&nbsp;Volver</div>
+              <div class="m-l-10" matTooltip="VOLVER">
+                <button mat-mini-fab color="primary" (click)="volver()">
+                  <mat-icon class="col-white">undo</mat-icon>
                 </button>
               </div>
             </li>
             <li class="tbl-header-btn">
-              <div class="m-l-10" >
-                <button class="btn bg-cyan btn-sm btn-block waves-effect d-flex" type="button" >
-                  <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin-top: .4rem;"></i>
-                  <div style="font-size: 20px;">&nbsp;Guardar</div>
+              <div class="m-l-10" matTooltip="GUARDAR">
+                <button mat-mini-fab color="primary">
+                  <mat-icon class="col-white">save</mat-icon>
                 </button>
               </div>
             </li>
-            <li class="tbl-header-btn">
-              <div class="m-l-10">
-                <button class="btn bg-green btn-sm btn-block waves-effect d-flex" type="button" >
-                  <i class="fa-solid fa-envelope" style="font-size: 20px; margin-top: .4rem;"></i>
-                  <div style="font-size: 20px;">&nbsp;Guardar y Enviar</div>
+            <li>
+              <div class="m-l-10" matTooltip="GUARDAR Y ENVIAR">
+                <button mat-mini-fab color="primary">
+                  <mat-icon class="col-white">mail</mat-icon>
                 </button>
               </div>
             </li>

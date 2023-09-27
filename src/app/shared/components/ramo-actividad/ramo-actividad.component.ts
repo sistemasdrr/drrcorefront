@@ -13,7 +13,7 @@ export class RamoActividadDialogComponent {
   buscar : string =''
   buscarRamo : string = ''
   ramos : RamoNegocio[] = []
-  idRamoSeleccionado : string = ''
+  idRamoSeleccionado : number = 0
   nombreRamoSeleccionado : string = ''
   actividades: string[] = []
   actividadesSeleccionadas : string[] = []
@@ -51,13 +51,13 @@ export class RamoActividadDialogComponent {
       act.nombre.toLowerCase().includes(this.buscarRamo.toLowerCase())
     );
   }
-  selectRamo(id: string, nombre : string){
+  selectRamo(id: number, nombre : string){
     const sel1 = document.getElementById(id+'-'+nombre);
     if(sel1) {
       sel1.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
       sel1.style.color = 'white'
     }
-    if (this.idRamoSeleccionado !== '') {
+    if (this.idRamoSeleccionado != 0) {
       const sel2 = document.getElementById(this.idRamoSeleccionado+'-'+this.nombreRamoSeleccionado);
       if (sel2) {
         sel2.style.backgroundColor = 'rgba(0, 0, 0, 0)';
@@ -66,7 +66,7 @@ export class RamoActividadDialogComponent {
     }
 
     this.actividadesSeleccionadas = []
-    const ramo = this.ramos.find(ramo => ramo.codigo === id);
+    const ramo = this.ramos.find(ramo => ramo.id === id);
     if (ramo) {
       const actividad = ramo.actividades
       this.actividades = []

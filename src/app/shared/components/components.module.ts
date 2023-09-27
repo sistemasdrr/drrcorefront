@@ -48,7 +48,11 @@ import { AgregarEditarRamoNegocioComponent } from './ramo-actividad/agregar-edit
     ComentarioComponent,
     AdjuntarArchivosComponent,
     RamoActividadDialogComponent,
-    CuadroImpoExpoComponent
+    CuadroImpoExpoComponent,
+    TraduccionDialogComponent,
+    AgregarEditarRamoNegocioComponent,
+    AgregarEditarComponent,
+
   ],
 })
 export class ComponentsModule {}

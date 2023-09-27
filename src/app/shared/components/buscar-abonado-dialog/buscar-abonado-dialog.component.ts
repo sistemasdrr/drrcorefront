@@ -61,6 +61,7 @@ export class BuscarAbonadoDialogComponent implements AfterViewInit {
 
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  
   realizarEnvioCodigo(codigo : string) {
     this.codigoAbonado = codigo
     this.dialogRef.close({ codigoAbonado: this.codigoAbonado });

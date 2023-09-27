@@ -56,8 +56,8 @@
             </div>
             <div class="col-md-12">
               <mat-chip-listbox  aria-label="Ramo selection">
-                <mat-chip-option *ngFor="let ramo of filtrarRamo"  [color]="'primary'" (click)="selectRamo(ramo.codigo, ramo.nombre)">
-                  {{ ramo.codigo }} - {{ ramo.nombre}}
+                <mat-chip-option *ngFor="let ramo of filtrarRamo"  [color]="'primary'" (click)="selectRamo(ramo.id, ramo.nombre)">
+                  {{ ramo.id }} - {{ ramo.nombre}}
                 </mat-chip-option>
               </mat-chip-listbox>
             </div>
