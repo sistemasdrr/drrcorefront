@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RamoNegocio } from 'app/models/ramo-negocio';
 
-const ramoNegocios : RamoNegocio[] = [
+let ramoNegocios : RamoNegocio[] = [
   {
     id: 1,
     nombre : 'Alimentos en General',

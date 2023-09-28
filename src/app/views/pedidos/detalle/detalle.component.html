@@ -340,8 +340,8 @@
                   <ng-container matColumnDef="{{columnsToDisplay[7]}}">
                     <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Balance </th>
                     <td mat-cell *matCellDef="let report" class="text-center" >
-                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'SI'" class="example-margin" [checked]="true" onclick="return false;"></mat-checkbox>
-                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'NO'" class="example-margin" [checked]="false"  onclick="return false;"></mat-checkbox>
+                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'SI'" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
+                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'NO'" class="example-margin" [checked]="false"  [disabled]="true"></mat-checkbox>
                     </td>
                   </ng-container>
 

@@ -48,11 +48,11 @@
         <ng-container matColumnDef="accion">
           <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> </mat-header-cell>
           <mat-cell *matCellDef="let cuadro" class="text-center w-100 justify-content-center">
-            <button  mat-icon-button  type="button" (click)="editar(cuadro.id, cuadro.anio, cuadro.monto)">
-              <i class="fa-solid fa-pen-to-square" style="color: green; font-size: 24px;"></i>
+            <button mat-icon-button  class="tbl-action-btn " (click)="editar(cuadro.id, cuadro.anio, cuadro.monto)">
+              <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
             </button>
-            <button  mat-icon-button (click)="eliminar(cuadro.anio,cuadro.monto)">
-              <i class="fa-solid fa-xmark" style="color: red; font-size: 24px;"></i>
+            <button mat-icon-button class="tbl-action-btn" (click)="eliminar(cuadro.anio,cuadro.monto)">
+              <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
             </button>
           </mat-cell>
         </ng-container>

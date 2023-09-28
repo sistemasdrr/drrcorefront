@@ -190,19 +190,22 @@
     <div class="row counter-box shadow mb-2">
       <h4>Detalles y Comentarios</h4>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-green d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Detalle de Actividad Principal u Objetivo Social">
+        <button class="btn bg-green d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Detalle de Actividad Principal u Objetivo Social"
+        (click)="agregarComentario(titulo, 'Detalle de Actividad Principal u Objetivo Social','', 'ALICORP S.A.')">
           <i class="fa-solid fa-building-wheat" style="font-size: 16px; margin-top: .2rem;"></i>
           <div>&nbsp;Act. Principal</div>
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Comentario Adicional de Negocio (Representaciones, Marcas, Capacidad de Producción y/o Contratación, etc.)">
+        <button class="btn bg-blue d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Comentario Adicional de Negocio (Representaciones, Marcas, Capacidad de Producción y/o Contratación, etc.)"
+        (click)="agregarComentario(titulo, 'Comentario Adicional de Negocio','', 'ALICORP S.A.')">
           <i class="fa-regular fa-comment-dots" style="font-size: 16px; margin-top: .2rem;"></i>
           <div>&nbsp;Negocio</div>
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Comentario de Negocios (Cuadro Tabulado)">
+        <button class="btn bg-blue d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Comentario de Negocios (Cuadro Tabulado)"
+        (click)="agregarComentario(titulo, 'Comentario de Negocio (Cuadro Tabulado)','', 'ALICORP S.A.')">
           <i class="fa-regular fa-comment-dots" style="font-size: 16px; margin-top: .2rem;"></i>
           <div>&nbsp;Negocio</div>
         </button>

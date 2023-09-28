@@ -25,6 +25,8 @@ import { RamoComponent } from './info-empresa/ie-detalle/ramo/ramo.component';
 import { MatListModule } from '@angular/material/list';
 import { FinanzasComponent } from './info-empresa/ie-detalle/finanzas/finanzas.component';
 import { OpinionCreditoComponent } from './info-empresa/ie-detalle/opinion-credito/opinion-credito.component';
+import { SharedModule } from '@shared';
+import { SbsRiesgoComponent } from './info-empresa/ie-detalle/sbs-riesgo/sbs-riesgo.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { OpinionCreditoComponent } from './info-empresa/ie-detalle/opinion-credi
     RamoComponent,
     FinanzasComponent,
     OpinionCreditoComponent,
+    SbsRiesgoComponent,
   ],
   imports: [
     CommonModule,
@@ -55,7 +58,9 @@ import { OpinionCreditoComponent } from './info-empresa/ie-detalle/opinion-credi
     MatAutocompleteModule,
     MatTooltipModule,
     MatTableModule,
-    MatListModule
+    MatListModule,
+    MatIconModule,
+    SharedModule
   ]
 })
 export class InformeModule { }

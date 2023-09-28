@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ImpoExpoDialogData } from 'app/models/dialog-data';
 import { ImpoExpoService } from 'app/services/impo-expo.service';
 import { AgregarEditarComponent } from './agregar-editar/agregar-editar.component';
+import Swal from 'sweetalert2';
 
 export interface ImpoExpoData{
   id : string
@@ -89,14 +90,36 @@ export class CuadroImpoExpoComponent{
     });
   }
   eliminar(año : string, monto : string){
-    for (let i = 0; i < this.dataSource.data.length; i++) {
-      const elemento = this.dataSource.data[i];
-      if (elemento.anio === año && elemento.monto === monto) {
-        this.dataSource.data.splice(i, 1);
-        this.dataSource._updateChangeSubscription();
-        break;
-      }
-    }
+      Swal.fire({
+        title: '¿Está seguro de eliminar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire({
+            title :'¡Eliminado!',
+            text : 'El registro se elimino correctamente.',
+            icon : 'success',
+            width: '20rem',
+            heightAuto : true
+          });
+          for (let i = 0; i < this.dataSource.data.length; i++) {
+            const elemento = this.dataSource.data[i];
+            if (elemento.anio === año && elemento.monto === monto) {
+              this.dataSource.data.splice(i, 1);
+              this.dataSource._updateChangeSubscription();
+              break;
+            }
+          }
+        }
+      });
   }
 
   cerrarDialog(){

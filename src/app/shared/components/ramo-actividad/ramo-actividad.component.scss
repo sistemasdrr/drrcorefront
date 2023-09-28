@@ -10,7 +10,11 @@
   transform: scale(1.01);
 
 }
-.body.mat-elevation-z8 {
+.table-container {
+  height: 150px;
+  overflow-y: scroll;
+}
+
+.container-scrollable{
   overflow-y: auto;
-  max-height: 300px;
 }

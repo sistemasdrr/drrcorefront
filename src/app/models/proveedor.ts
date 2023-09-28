@@ -1,0 +1,19 @@
+export interface Proveedor{
+  id : number
+  proveedor : string
+  telefono : string
+  pais : number
+  credMaximo : string
+  credMaximoIng : string
+  plazos : string
+  plazosIng : string
+  cumplimiento : string
+  clientesDesde : string
+  clientesDesdeIng : string
+  articulos : string
+  articulosIng : string
+  referencista : string
+  comentario : string
+  comentarioIng : string
+  comentarioAdicional : string
+}
