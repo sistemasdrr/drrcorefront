@@ -1,0 +1,144 @@
+<div class="container"  >
+  <div class="row "  >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <div class="materialTableHeader mt-3">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h5 style="font-size: 30px;">{{titulo}}</h5>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10">
+                    <button mat-icon-button  class="btn bg-red " #tooltip="matTooltip" matTooltip="Volver">
+                      <mat-icon>logout</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="accion === 'AGREGAR'">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button  class="btn btn-primary" (click)="editar()"  #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="accion === 'EDITAR'"  >
+                      <mat-icon>save</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <mat-dialog-content class="mat-typography">
+
+        <div class="body">
+          <div class="row">
+            <h5 style="font-size: 20px;">Datos del Proveedor</h5>
+            <div class="col-md-2" *ngIf="accion !== 'AGREGAR'">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>ID</mat-label>
+                <input matInput [(ngModel)]="id" readonly="true">
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Proveedor</mat-label>
+                <input matInput placeholder="" [(ngModel)]="proveedor">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Pais</mat-label>
+                <input matInput placeholder="" [(ngModel)]="pais">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Calificación</mat-label>
+                <input matInput placeholder="" [(ngModel)]="calificacion">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2" *ngIf="accion === 'AGREGAR'"></div>
+            <h5 style="font-size: 20px;">Referencia</h5>
+            <div class="col-md-3">
+              <mat-form-field color="primary" style="width: 100%; margin: 0 .5rem 0 .5rem;">
+                <mat-label>Fecha</mat-label>
+                <input matInput [matDatepicker]="fecha_informe" [(ngModel)]="fecha">
+                <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+                <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+              </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+              <mat-label>Teléfono(s)</mat-label>
+              <input matInput placeholder="" [(ngModel)]="telefono">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+              <mat-label>Atendió</mat-label>
+              <input matInput placeholder="" [(ngModel)]="atendio">
+            </mat-form-field>
+          </div>
+          <h5 style="font-size: 20px;">Crédito Máximo Otorgado</h5>
+            <div class="col-md-3">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Moneda</mat-label>
+                <input matInput placeholder="" [(ngModel)]="moneda">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Monto Máximo</mat-label>
+                <input matInput placeholder="" [(ngModel)]="montoMaximo">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Plazos</mat-label>
+                <input matInput placeholder="" [(ngModel)]="plazos">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Cumplimiento</mat-label>
+                <input matInput placeholder="" [(ngModel)]="cumplimiento">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Cliente desde</mat-label>
+                <input matInput placeholder="" [(ngModel)]="calificacion"clienteDesde>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Artículos (¿Que le venden?)</mat-label>
+                <input matInput placeholder="" [(ngModel)]="articulos">
+              </mat-form-field>
+            </div>
+            <h5 style="font-size: 20px;">Comentarios</h5>
+            <div class="col-md-12">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Comentario Adicional del Proveedor o del Referencista</mat-label>
+                <textarea matInput placeholder="" [(ngModel)]="comentario" style="min-height: 5rem;"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Comentario del Referencista (No se imprime)</mat-label>
+                <textarea matInput placeholder="" [(ngModel)]="comentarioAdicional" style="min-height: 5rem;"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-dialog-content>
+      </div>
+    </div>
+  </div>
+</div>

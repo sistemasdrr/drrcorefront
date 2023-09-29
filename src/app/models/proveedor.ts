@@ -3,6 +3,9 @@ export interface Proveedor{
   proveedor : string
   telefono : string
   pais : number
+  calificacion : string
+  fecha : string
+  moneda : number
   credMaximo : string
   credMaximoIng : string
   plazos : string
@@ -12,7 +15,7 @@ export interface Proveedor{
   clientesDesdeIng : string
   articulos : string
   articulosIng : string
-  referencista : string
+  atendio : string
   comentario : string
   comentarioIng : string
   comentarioAdicional : string
