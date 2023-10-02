@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Proveedor } from 'app/models/proveedor';
 import { ProveedorService } from 'app/services/proveedor.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detalle-proveedor',
@@ -42,8 +43,7 @@ export class DetalleProveedorComponent {
         this.accion = data.accion
         this.titulo = "Editar Proveedor"
         this.id = data.id
-        let prov : Proveedor = this.proveedorService.getProveedorById(data.id)
-        console.log(prov)
+        const prov : Proveedor = this.proveedorService.getProveedorById(data.id)
 
         this.proveedor = prov.proveedor
         this.pais = prov.pais
@@ -86,33 +86,87 @@ export class DetalleProveedorComponent {
         comentarioAdicional : this.comentarioAdicional
       }
       this.proveedorService.AddProveedor(obj)
-      console.log("guardado")
+      Swal.fire({
+        title :'¡Registrado!',
+        text : 'El registro se guardo correctamente.',
+        icon : 'success',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.dialogRef.close()
+        }
+      })
     }
     editar(){
-      const obj : Proveedor = {
-        id : 0,
-        proveedor : this.proveedor,
-        telefono : this.telefono,
-        pais : this.pais,
-        calificacion : this.calificacion,
-        fecha : this.fecha,
-        moneda : this.moneda,
-        credMaximo : this.montoMaximo,
-        credMaximoIng : this.montoMaximo,
-        plazos : this.plazos,
-        plazosIng : this.plazos,
-        cumplimiento : this.cumplimiento,
-        clientesDesde : this.clienteDesde,
-        clientesDesdeIng : this.clienteDesde,
-        articulos : this.articulos,
-        articulosIng : this.articulos,
-        atendio : this.atendio,
-        comentario : this.comentario,
-        comentarioIng : this.comentario,
-        comentarioAdicional : this.comentarioAdicional
-      }
-      this.proveedorService.UpdateProveedor(this.id, obj)
-      console.log(obj)
+      Swal.fire({
+        title: '¿Está seguro de editar este registro?',
+        text: "",
+        icon: 'info',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          const obj : Proveedor = {
+            id : this.id,
+            proveedor : this.proveedor,
+            telefono : this.telefono,
+            pais : this.pais,
+            calificacion : this.calificacion,
+            fecha : this.fecha,
+            moneda : this.moneda,
+            credMaximo : this.montoMaximo,
+            credMaximoIng : this.montoMaximo,
+            plazos : this.plazos,
+            plazosIng : this.plazos,
+            cumplimiento : this.cumplimiento,
+            clientesDesde : this.clienteDesde,
+            clientesDesdeIng : this.clienteDesde,
+            articulos : this.articulos,
+            articulosIng : this.articulos,
+            atendio : this.atendio,
+            comentario : this.comentario,
+            comentarioIng : this.comentario,
+            comentarioAdicional : this.comentarioAdicional
+          }
+          this.proveedorService.UpdateProveedor(obj)
+          Swal.fire({
+            title :'¡Actualizado!',
+            text : 'El registro se edito correctamente.',
+            icon : 'success',
+            width: '20rem',
+            heightAuto : true
+          }).then((result) => {
+            if (result.value) {
+              this.dialogRef.close()
+            }
+          })
+        }
+      })
+    }
+
+    volver(){
+      Swal.fire({
+        title: '¿Está seguro de salir?',
+        text: "Los datos ingresados no se guardaran",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.dialogRef.close()
+        }
+      })
     }
 
 

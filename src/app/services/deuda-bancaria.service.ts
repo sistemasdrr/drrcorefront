@@ -48,9 +48,8 @@ export class DeudaBancariaService {
     obj.id = idMax
     this.deudaBancaria.push(obj)
   }
-  UpdateDeudaBancaria(id: number, obj: DeudaBancaria) {
-    obj.id = id
-    this.deudaBancaria.filter(x => x.id == id)[0] = obj
+  UpdateDeudaBancaria( obj: DeudaBancaria) {
+    this.deudaBancaria.filter(x => x.id == obj.id)[0] = obj
   }
   DeleteDeudaBancaria(id: number) {
     this.deudaBancaria = this.deudaBancaria.filter(x => x.id !== id)

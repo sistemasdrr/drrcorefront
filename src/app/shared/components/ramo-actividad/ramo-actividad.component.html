@@ -1,5 +1,5 @@
 <div class="container"  >
-  <div class="row "  style="max-width: 60rem;">
+  <div class="row " >
     <div class="col-md-12" >
       <div class="card">
         <div class="header">
@@ -33,86 +33,78 @@
             </div>
           </div>
         </div>
-        <div class="body mat-elevation-z8">
-          <div class="row">
-            <div class="cold-md-12 d-flex w-100">
-              <div class="d-flex align-items-center">
-                <h6>Ramo de Negocio</h6>
-              </div>
-              <div style="width: 70%;"></div>
-              <div>
-                <mat-form-field class="example-full-width" style="min-width: 25rem;">
-                  <mat-label>Buscar</mat-label>
-                  <input matInput type="text" [(ngModel)]="buscarRamo" >
-                </mat-form-field>
-              </div>
-              <div class="">
-                <button class="btn bg-primary d-flex" type="button" style="margin-top: .6rem;  margin-left: .5rem;" (click)="ramo()">
-                  <i class="fa-regular fa-circle-question" style="font-size: 16px; color: white; margin: .2rem 0 .2rem 0;"></i>
-                  <div style="font-size: 16px;"></div>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-            </div>
-            <div class="col-md-12">
-              <div class="table-container">
-                <mat-chip-listbox  aria-label="Ramo selection">
-                  <mat-chip-option *ngFor="let ramo of filtrarRamo"  [color]="'primary'" (click)="selectRamo(ramo.id, ramo.nombre)">
-                    {{ ramo.id }} - {{ ramo.nombre}}
-                  </mat-chip-option>
-                </mat-chip-listbox>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="body mat-elevation-z8 ">
-          <div class="header d-flex">
-            <h2 style="margin-top: .5rem;">Actividades Específicas</h2>
-            <div class="w-100 d-flex justify-content-end">
-              <mat-form-field class="example-full-width">
-                <mat-label>Buscar</mat-label>
-                <input matInput type="text" [(ngModel)]="buscar" >
-              </mat-form-field>
-              <div class="">
-                <button class="btn bg-primary d-flex" type="button" style="margin-top: .6rem; margin-left: .5rem;" (click)="actividad()">
-                  <i class="fa-regular fa-circle-question" style="font-size: 16px; color: white; margin: .2rem 0 .2rem 0;"></i>
-                </button>
-              </div>
-            </div>
-          </div>
+
+        <mat-dialog-content class="mat-typography p-3">
           <div class="body">
-            <div class="table-container">
-              <mat-chip-listbox  aria-label="Ramo selection">
-                <mat-chip-option *ngFor="let act of filtrar" (click)="select(act)">
-                  {{ act }}
-                </mat-chip-option>
-              </mat-chip-listbox>
+            <div class="row mat-elevation-z8" >
+              <div class="col-md-12 d-flex w-100">
+                <div class="d-flex align-items-center">
+                  <h4><b>Ramo de Negocio</b></h4>
+                </div>
+                <div style="width: 70%;"></div>
+                <div>
+                  <mat-form-field class="example-full-width" style="min-width: 20rem;">
+                    <mat-label>Buscar</mat-label>
+                    <input matInput type="text" [(ngModel)]="buscarRamo" >
+                  </mat-form-field>
+                </div>
+                <div class="">
+                  <button class="btn bg-primary d-flex" type="button" style="margin-top: .6rem;  margin-left: .5rem;" (click)="dialogRamo()">
+                    <i class="fa-regular fa-circle-question" style="font-size: 16px; color: white; margin: .2rem 0 .2rem 0;"></i>
+                    <div style="font-size: 16px;"></div>
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="table-container">
+                  <mat-chip-listbox  aria-label="Ramo selection">
+                    <mat-chip-option *ngFor="let ramo of filtrarRamo"  [color]="'primary'" (click)="selectRamo(ramo.id)">
+                      {{ ramo.id }} - {{ ramo.nombre}}
+                    </mat-chip-option>
+                  </mat-chip-listbox>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row  mat-elevation-z8" >
+              <div class="col-md-6">
+                <h4><b>Actividades Específicas</b></h4>
+                <div class="w-100 d-flex justify-content-end">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Buscar</mat-label>
+                    <input matInput type="text" [(ngModel)]="buscar" >
+                  </mat-form-field>
+                  <div class="">
+                    <button class="btn bg-primary d-flex" type="button" style="margin-top: .6rem; margin-left: .5rem;" (click)="dialogActividad()">
+                      <i class="fa-regular fa-circle-question" style="font-size: 16px; color: white; margin: .2rem 0 .2rem 0;"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="table-container">
+                  <mat-chip-listbox  aria-label="Ramo selection">
+                    <mat-chip-option *ngFor="let actividad of filtrarActividad" (click)="selectActividad(actividad.id)">
+                      {{ actividad.nombre }}
+                    </mat-chip-option>
+                  </mat-chip-listbox>
+                </div>
+              </div>
+
+              <div class="col-md-6 ">
+                <h4><b>Actividades Específicas Seleccionadas</b></h4>
+                <div class="w-100 d-flex justify-content-end">
+                  <mat-chip-listbox  aria-label="Ramo selection">
+                    <mat-chip-option *ngFor="let actividad of actividadesSeleccionadas" (click)="deselectActividad(actividad.id)">
+                      {{ actividad.nombre }}
+                    </mat-chip-option>
+                  </mat-chip-listbox>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class=" body mat-elevation-z8">
-          <div class="header">
-             <h2>Actividades Específicas Seleccionadas</h2>
-          </div>
-          <div class="body">
-            <mat-chip-listbox  aria-label="Ramo selection">
-              <mat-chip-option *ngFor="let act of actividadesSeleccionadas" (click)="deselect(act)">
-                {{ act }}
-              </mat-chip-option>
-            </mat-chip-listbox>
-          </div>
-        </div>
+        </mat-dialog-content>
+
       </div>
     </div>
   </div>

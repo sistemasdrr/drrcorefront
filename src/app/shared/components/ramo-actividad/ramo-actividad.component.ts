@@ -1,4 +1,4 @@
-import { RamoNegocio } from 'app/models/ramo-negocio';
+import { Actividad, RamoNegocio } from 'app/models/ramo-negocio';
 import { RamoNegocioService } from 'app/services/ramo-negocio.service';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -12,88 +12,93 @@ import { AgregarEditarRamoNegocioComponent } from './agregar-editar/agregar-edit
 export class RamoActividadDialogComponent {
   buscar : string =''
   buscarRamo : string = ''
-  ramos : RamoNegocio[] = []
+
+  ramoNegocios : RamoNegocio[] = []
+
   idRamoSeleccionado : number = 0
-  nombreRamoSeleccionado : string = ''
-  actividades: string[] = []
-  actividadesSeleccionadas : string[] = []
+
+  listaActividades: Actividad[] = []
+  actividadesSeleccionadas : Actividad[] = []
 
    //ENVIO DE COMENTARIO
    @Output()
-   eventSelectAbonado = new EventEmitter<string[]>();
+   eventSelectAbonado = new EventEmitter<{
+    sectorPrincipal : string,
+    ramoNegocio : string,
+    actividades : string[]
+   }>();
 
-  constructor(public dialogRef: MatDialogRef<RamoActividadDialogComponent>,private ramoNegocioService :RamoNegocioService, private dialog : MatDialog){
-    this.ramos = this.ramoNegocioService.getRamoNegocio()
+  constructor(
+    public dialogRef: MatDialogRef<AgregarEditarRamoNegocioComponent>,
+    private ramoNegocioService : RamoNegocioService,
+    private dialog : MatDialog
+    ){
+    this.ramoNegocios = this.ramoNegocioService.getAllRamoNegocio()
   }
-  select(act : string){
-    const index = this.actividades.indexOf(act);
-    if (index !== -1) {
-      this.actividades.splice(index, 1);
-      this.actividadesSeleccionadas.push(act);
-      console.log(this.actividadesSeleccionadas)
+  selectRamo(idRamo : number){
+    if(this.idRamoSeleccionado == idRamo){
+      this.listaActividades = []
+      this.actividadesSeleccionadas = []
+      this.idRamoSeleccionado = 0
+    }else{
+      this.idRamoSeleccionado = idRamo
+      this.listaActividades = this.ramoNegocioService.getActividadByRamoId(idRamo)
     }
   }
-  deselect(act : string){
-    const index = this.actividadesSeleccionadas.indexOf(act);
-    if (index !== -1) {
-      this.actividadesSeleccionadas.splice(index, 1);
-      this.actividades.push(act);
-      console.log(this.actividades)
-    }
-  }
-  get filtrar(): string[] {
-    return this.actividades.filter(act =>
-      act.toLowerCase().includes(this.buscar.toLowerCase())
+
+
+  get filtrarActividad(): Actividad[] {
+    return this.listaActividades.filter(act =>
+      act.nombre.toLowerCase().includes(this.buscar.toLowerCase())
     );
   }
   get filtrarRamo(): RamoNegocio[] {
-    return this.ramos.filter(act =>
+    return this.ramoNegocios.filter(act =>
       act.nombre.toLowerCase().includes(this.buscarRamo.toLowerCase())
     );
   }
-  selectRamo(id: number, nombre : string){
-    const sel1 = document.getElementById(id+'-'+nombre);
-    if(sel1) {
-      sel1.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      sel1.style.color = 'white'
-    }
-    if (this.idRamoSeleccionado != 0) {
-      const sel2 = document.getElementById(this.idRamoSeleccionado+'-'+this.nombreRamoSeleccionado);
-      if (sel2) {
-        sel2.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-        sel2.style.color = 'black'
-      }
-    }
 
-    this.actividadesSeleccionadas = []
-    const ramo = this.ramos.find(ramo => ramo.id === id);
-    if (ramo) {
-      const actividad = ramo.actividades
-      this.actividades = []
-      actividad.forEach(act => {
-
-        this.actividades.push(act.nombre)
-      });
-
-    } else {
-      this.actividades = [];
-    }
-    this.idRamoSeleccionado = id
-    this.nombreRamoSeleccionado = nombre
+  selectActividad(idActividad : number){
+    const selActividad = this.listaActividades.filter(x => x.id == idActividad)[0]
+    this.listaActividades = this.listaActividades.filter(x => x.id !== idActividad)
+    this.actividadesSeleccionadas.push(selActividad)
+  }
+  deselectActividad(idActividad : number){
+    const deselActividad = this.actividadesSeleccionadas.filter(x => x.id == idActividad)[0]
+    this.actividadesSeleccionadas = this.actividadesSeleccionadas.filter(x => x.id !== idActividad)
+    this.listaActividades.push(deselActividad)
   }
 
-  ramo(){
+
+
+
+
+
+
+
+  dialogRamo(){
     const dialogRef1 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
       data: {
         accion : "RAMO",
       },
     });
+    dialogRef1.afterClosed().subscribe(() => {
+      this.ramoNegocios = this.ramoNegocioService.getAllRamoNegocio()
+      this.listaActividades = []
+      this.actividadesSeleccionadas = []
+    });
   }
-  actividad(){
+
+  dialogActividad(){
     const dialogRef2 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
       data: {
         accion : "ACTIVIDAD",
       },
+    });
+    dialogRef2.afterClosed().subscribe(() => {
+      this.ramoNegocios = this.ramoNegocioService.getAllRamoNegocio()
+      this.listaActividades = []
+      this.actividadesSeleccionadas = []
     });
   }
 

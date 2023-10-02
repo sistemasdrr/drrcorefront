@@ -19,7 +19,7 @@ export const ROUTES: RouteInfo[] = [
       {
         path: 'dashboard/main',
         title: 'MENUITEMS.HOME.LIST.DASHBOARD1',
-        icon: '',
+        icon: 'monitor',
         class: 'ml-menu',
         groupTitle: false,
         submenu: [],
@@ -46,14 +46,14 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: 'Pedidos',
-    icon: 'keyboard_double_arrow_down',
+    icon: '',
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [
       {
         path: '/pedidos/lista',
         title: 'Lista',
-        icon: 'keyboard_double_arrow_down',
+        icon: '',
         class: 'ml-menu',
         groupTitle: false,
         submenu: []
@@ -61,7 +61,7 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/pedidos/asignacion',
         title: 'Asignación',
-        icon: 'keyboard_double_arrow_down',
+        icon: '',
         class: 'ml-menu',
         groupTitle: false,
         submenu: []
@@ -79,7 +79,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: 'Empresas',
-    icon: 'keyboard_double_arrow_down',
+    icon: '',
     class: 'ml-sub-menu',
     groupTitle: false,
     submenu: [
@@ -104,7 +104,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: 'Personas',
-    icon: 'keyboard_double_arrow_down',
+    icon: 'users',
     class: 'ml-sub-menu',
     groupTitle: false,
     submenu: [
@@ -119,7 +119,7 @@ export const ROUTES: RouteInfo[] = [
       {
         path: '/informes/persona/detalle',
         title: 'Detalle',
-        icon: 'keyboard_double_arrow_down',
+        icon: 'tv',
         class: 'ml-menu2',
         groupTitle: false,
         submenu: []

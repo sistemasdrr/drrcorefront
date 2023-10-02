@@ -1,3 +1,5 @@
+import { DeudaBancariaService } from './../../../../../services/deuda-bancaria.service';
+import { MorosidadComercialService } from './../../../../../services/morosidad-comercial.service';
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Proveedor } from 'app/models/proveedor';
@@ -5,6 +7,10 @@ import { ProveedorService } from 'app/services/proveedor.service';
 import { DetalleProveedorComponent } from './detalle-proveedor/detalle-proveedor.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { MorosidadComercial } from 'app/models/morosidad-comercial';
+import { MorosidadComercialComponent } from './morosidad-comercial/morosidad-comercial.component';
+import { DeudaBancaria } from 'app/models/deuda-bancaria';
+import { DeudaBancariaComponent } from './deuda-bancaria/deuda-bancaria.component';
 
 @Component({
   selector: 'app-sbs-riesgo',
@@ -12,14 +18,22 @@ import Swal from 'sweetalert2';
   styleUrls: ['./sbs-riesgo.component.scss']
 })
 export class SbsRiesgoComponent {
-  dataSource: MatTableDataSource<Proveedor>;
-  columnsToDisplay = ['id', 'proveedor', 'telefono', 'pais', 'credMaximo', 'plazos', 'cumplimiento', 'clienteDesde','articulos', 'referencista','accion'];
+  dataSourceProveedor: MatTableDataSource<Proveedor>
+  dataSourceMorosidadComercial: MatTableDataSource<MorosidadComercial>
+  dataSourceDeudaBancaria: MatTableDataSource<DeudaBancaria>
+  columnsToDisplayProveedor = ['id', 'proveedor', 'telefono', 'pais', 'credMaximo', 'plazos', 'cumplimiento', 'clientesDesde','articulos', 'atendio','accion'];
+  columnsToDisplayMorosidadComercial = ['id', 'acreProv', 'tipoDocumento', 'fecha', 'montoMN', 'montoME', 'fechaPago', 'diasAtraso', 'accion'];
+  columnsToDisplayDeudaBancaria = ['id', 'banco', 'calificacion', 'deudaMN', 'deudaME', 'memo', 'accion'];
 
   constructor(
     private proveedorService : ProveedorService,
+    private morosidadComercialService : MorosidadComercialService,
+    private deudaBancariaService : DeudaBancariaService,
     private dialog : MatDialog
     ){
-    this.dataSource = new MatTableDataSource(this.proveedorService.getAllProveedores())
+    this.dataSourceProveedor = new MatTableDataSource(this.proveedorService.getAllProveedores())
+    this.dataSourceMorosidadComercial = new MatTableDataSource(this.morosidadComercialService.GetAllMorosidadComercial())
+    this.dataSourceDeudaBancaria = new MatTableDataSource(this.deudaBancariaService.getAllDeudaBancaria())
   }
 
   //TABLA PROVEEDOR
@@ -30,7 +44,7 @@ export class SbsRiesgoComponent {
       id : 0
       },
     });
-    dialogR1.afterClosed().subscribe((codAbonado) => {
+    dialogR1.afterClosed().subscribe(() => {
       this.refresh()
     });
   }
@@ -41,9 +55,9 @@ export class SbsRiesgoComponent {
       id : id
     },
   });
-  dialogR2.afterClosed().subscribe((codAbonado) => {
+  dialogR2.afterClosed().subscribe(() => {
     this.refresh()
-  });
+    });
   }
   eliminarProveedor(id : number){
     Swal.fire({
@@ -72,14 +86,57 @@ export class SbsRiesgoComponent {
       }
     })
   }
-
-
-
-
-
-
   refresh(){
-    this.dataSource = new MatTableDataSource(this.proveedorService.getAllProveedores())
-    console.log(this.dataSource.data)
+    this.dataSourceProveedor = new MatTableDataSource(this.proveedorService.getAllProveedores())
+    this.dataSourceMorosidadComercial = new MatTableDataSource(this.morosidadComercialService.GetAllMorosidadComercial())
+    console.log(this.dataSourceProveedor.data)
+  }
+
+  //TABLA MOROSIDAD COMERCIAL
+  agregarMorosidadComercial() {
+    const dialogR1 = this.dialog.open(MorosidadComercialComponent, {
+    data: {
+      accion : 'AGREGAR',
+      id : 0
+      },
+    });
+    dialogR1.afterClosed().subscribe(() => {
+      this.refresh()
+    });
+  }
+  editarMorosidadComercial(id : number) {
+    const dialogR2 = this.dialog.open(MorosidadComercialComponent, {
+    data: {
+      accion : 'EDITAR',
+      id : id
+    },
+  });
+  dialogR2.afterClosed().subscribe(() => {
+    this.refresh()
+    });
+  }
+
+  //TABLA SBS
+  agregarDeudaBancaria() {
+    const dialogR1 = this.dialog.open(DeudaBancariaComponent, {
+    data: {
+      accion : 'AGREGAR',
+      id : 0
+      },
+    });
+    dialogR1.afterClosed().subscribe(() => {
+      this.refresh()
+    });
+  }
+  editarDeudaBancaria(id : number) {
+    const dialogR2 = this.dialog.open(DeudaBancariaComponent, {
+    data: {
+      accion : 'EDITAR',
+      id : id
+    },
+  });
+  dialogR2.afterClosed().subscribe(() => {
+    this.refresh()
+    });
   }
 }

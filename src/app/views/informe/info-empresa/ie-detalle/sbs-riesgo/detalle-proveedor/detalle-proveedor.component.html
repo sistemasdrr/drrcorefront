@@ -15,7 +15,7 @@
               <ul class="tbl-export-btn">
                 <li class="tbl-header-btn">
                   <div class="m-l-10">
-                    <button mat-icon-button  class="btn bg-red " #tooltip="matTooltip" matTooltip="Volver">
+                    <button mat-icon-button  class="btn bg-red " (click)="volver()" #tooltip="matTooltip" matTooltip="Volver">
                       <mat-icon>logout</mat-icon>
                     </button>
                   </div>
@@ -113,7 +113,7 @@
             <div class="col-md-2">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Cliente desde</mat-label>
-                <input matInput placeholder="" [(ngModel)]="calificacion"clienteDesde>
+                <input matInput placeholder="" [(ngModel)]="clienteDesde">
               </mat-form-field>
             </div>
             <div class="col-md-3">

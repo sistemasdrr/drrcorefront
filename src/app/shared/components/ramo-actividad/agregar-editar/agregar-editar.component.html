@@ -33,143 +33,150 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-12" *ngIf="accion === 'ACTIVIDAD'">
-      <mat-form-field class="example-full-width">
-        <mat-label>Ramo de Negocio</mat-label>
-        <input type="text" matInput [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  (optionSelected)="seleccionarRamo($event);" >
-          <mat-option *ngFor="let ramo of filtrarRamo" [value]="ramo.nombre">
-            {{ ramo.nombre }}
-          </mat-option>
-        </mat-autocomplete>
-
-      </mat-form-field>
-    </div>
-    <div class="col-md-7 mb-2" *ngIf="accion === 'RAMO'">
-      <div class="table-container">
-        <mat-table [dataSource]="dataSourceR" multiTemplateDataRows class="mat-elevation-z8" >
-          <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 3rem; justify-content: center;"> N° </mat-header-cell>
-            <mat-cell *matCellDef="let ramo" class="text-center justify-content-center" style="max-width: 3rem;">{{ ramo.id }}</mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="nombre">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="width: 3rem; justify-content: center;"> Nombre Esp. </mat-header-cell>
-            <mat-cell *matCellDef="let ramo" class=" w-100 justify-content-center">{{ ramo.nombre }}</mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="nombreIng">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre Ing.</mat-header-cell>
-            <mat-cell *matCellDef="let ramo" class=" w-100 justify-content-center">{{ ramo.nombreIng }}</mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="enable">
-            <mat-header-cell *matHeaderCellDef class="text-center d-flex justify-content-center" style="max-width: 6rem; justify-content: center;"> Activo</mat-header-cell>
-            <mat-cell *matCellDef="let ramo" class="text-center w-100 d-flex justify-content-center" style="max-width: 6rem;">
-              <mat-checkbox *ngIf="ramo.enable === true" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
-              <mat-checkbox *ngIf="ramo.enable === false" class="example-margin" [checked]="false" [disabled]="true"></mat-checkbox>
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="accion">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;"> Acciones</mat-header-cell>
-            <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center" style="max-width: 7rem;">
-              <button mat-icon-button  class="tbl-action-btn " (click)="SelectEditar(ramo.id,ramo.nombre,ramo.nombreIng,ramo.enable)">
-                <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
-              </button>
-              <button mat-icon-button class="tbl-action-btn"  (click)="eliminar(ramo.id)">
-                <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-              </button>
-            </mat-cell>
-          </ng-container>
-
-          <mat-header-row *matHeaderRowDef="columnasR"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: columnasR;"></mat-row>
-        </mat-table>
-      </div>
-    </div>
-    <div class="col-md-7 mb-2"  *ngIf="accion === 'ACTIVIDAD'">
-      <div class="table-container">
-        <mat-table [dataSource]="dataSourceA" multiTemplateDataRows class="mat-elevation-z8">
-          <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 3rem; justify-content: center;">N° </mat-header-cell>
-            <mat-cell *matCellDef="let actividad" class="text-center justify-content-center" style="max-width: 3rem;">{{ actividad.id }}</mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="nombre">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="justify-content: center;"> Nombre Esp. </mat-header-cell>
-            <mat-cell *matCellDef="let actividad" class=" w-100 justify-content-center">{{ actividad.nombre }}</mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="nombreIng">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre Ing.</mat-header-cell>
-            <mat-cell *matCellDef="let actividad" class=" w-100 justify-content-center">{{ actividad.nombreIng }}</mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="enable">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;">Activo</mat-header-cell>
-            <mat-cell *matCellDef="let actividad" class="text-center w-100 justify-content-center" style="max-width: 7rem;">
-              <mat-checkbox *ngIf="actividad.enable === true" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
-              <mat-checkbox *ngIf="actividad.enable === false" class="example-margin" [checked]="false" [disabled]="true"></mat-checkbox>
-            </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="accion">
-            <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;"> Acciones</mat-header-cell>
-            <mat-cell *matCellDef="let actividad" class="text-center w-100 justify-content-center" style="max-width: 7rem;">
-              <button mat-icon-button  class="tbl-action-btn " (click)="SelectEditar(actividad.id,actividad.nombre,actividad.nombreIng,actividad.enable)">
-                <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
-              </button>
-              <button mat-icon-button class="tbl-action-btn" (click)="eliminar(actividad.id)">
-                <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-              </button>
-            </mat-cell>
-          </ng-container>
-
-          <mat-header-row *matHeaderRowDef="columnasR"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: columnasR;"></mat-row>
-        </mat-table>
-      </div>
-    </div>
-    <div class="col-md-5 mb-2">
-      <div class="card ">
-        <div class="mat-elevation-z8" style="max-height: 20rem;">
-          <div class="header">
-            <h5>
-              <div *ngIf="id !== 0">Editar => {{id}}</div>
-              <div *ngIf="id === 0">Agregar</div>
-            </h5>
-          </div>
+        <mat-dialog-content class="mat-typography">
           <div class="body">
             <div class="row">
-              <div class="col-md-6">
-                <mat-form-field class="w-100">
-                  <mat-label>Nombre Español</mat-label>
-                  <input matInput placeholder="" [(ngModel)]="nombre">
+              <div class="col-md-12" *ngIf="accion === 'ACTIVIDAD'">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Ramo de Negocio</mat-label>
+                  <input type="text" matInput [matAutocomplete]="auto">
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  (optionSelected)="seleccionarRamo($event);" >
+                    <mat-option *ngFor="let ramo of filtrarRamo" [value]="ramo.nombre">
+                      {{ ramo.nombre }}
+                    </mat-option>
+                  </mat-autocomplete>
+
                 </mat-form-field>
               </div>
-              <div class="col-md-6">
-                <mat-form-field class="w-100" >
-                  <mat-label>Nombre Inglés</mat-label>
-                  <input matInput placeholder="" [(ngModel)]="nombreIng">
-                </mat-form-field>
+              <div class="col-md-7 mb-2" *ngIf="accion === 'RAMO'">
+                <div class="table-container">
+                  <mat-table [dataSource]="dataSourceR" multiTemplateDataRows class="mat-elevation-z8" >
+                    <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 3rem; justify-content: center;"> N° </mat-header-cell>
+                      <mat-cell *matCellDef="let ramo" class="text-center justify-content-center" style="max-width: 3rem;">{{ ramo.id }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="nombre">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="width: 3rem; justify-content: center;"> Nombre Esp. </mat-header-cell>
+                      <mat-cell *matCellDef="let ramo" class=" w-100 justify-content-center">{{ ramo.nombre }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="nombreIng">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre Ing.</mat-header-cell>
+                      <mat-cell *matCellDef="let ramo" class=" w-100 justify-content-center">{{ ramo.nombreIng }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="enable">
+                      <mat-header-cell *matHeaderCellDef class="text-center d-flex justify-content-center" style="max-width: 6rem; justify-content: center;"> Activo</mat-header-cell>
+                      <mat-cell *matCellDef="let ramo" class="text-center w-100 d-flex justify-content-center" style="max-width: 6rem;">
+                        <mat-checkbox *ngIf="ramo.enable === true" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
+                        <mat-checkbox *ngIf="ramo.enable === false" class="example-margin" [checked]="false" [disabled]="true"></mat-checkbox>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="accion">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;"> Acciones</mat-header-cell>
+                      <mat-cell *matCellDef="let ramo" class="text-center w-100 justify-content-center" style="max-width: 7rem;">
+                        <button mat-icon-button  class="tbl-action-btn " (click)="SelectEditar(ramo.id,ramo.nombre,ramo.nombreIng,ramo.enable)">
+                          <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        </button>
+                        <button mat-icon-button class="tbl-action-btn"  (click)="eliminar(ramo.id)">
+                          <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="columnasR"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: columnasR;"></mat-row>
+                  </mat-table>
+                </div>
               </div>
-              <div class="col-md-4">
-                <mat-slide-toggle [(ngModel)]="enable" style="margin: 0 1rem 1rem 1rem;">Estado</mat-slide-toggle>
+              <div class="col-md-7 mb-2"  *ngIf="accion === 'ACTIVIDAD'">
+                <div class="table-container">
+                  <mat-table [dataSource]="dataSourceA" multiTemplateDataRows class="mat-elevation-z8">
+                    <ng-container matColumnDef="id">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 3rem; justify-content: center;">N° </mat-header-cell>
+                      <mat-cell *matCellDef="let actividad" class="text-center justify-content-center" style="max-width: 3rem;">{{ actividad.id }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="nombre">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="justify-content: center;"> Nombre Esp. </mat-header-cell>
+                      <mat-cell *matCellDef="let actividad" class=" w-100 justify-content-center">{{ actividad.nombre }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="nombreIng">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Nombre Ing.</mat-header-cell>
+                      <mat-cell *matCellDef="let actividad" class=" w-100 justify-content-center">{{ actividad.nombreIng }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="enable">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;">Activo</mat-header-cell>
+                      <mat-cell *matCellDef="let actividad" class="text-center w-100 justify-content-center" style="max-width: 7rem;">
+                        <mat-checkbox *ngIf="actividad.enable === true" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
+                        <mat-checkbox *ngIf="actividad.enable === false" class="example-margin" [checked]="false" [disabled]="true"></mat-checkbox>
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="accion">
+                      <mat-header-cell *matHeaderCellDef class="text-center" style="max-width: 6rem; justify-content: center;"> Acciones</mat-header-cell>
+                      <mat-cell *matCellDef="let actividad" class="text-center w-100 justify-content-center" style="max-width: 7rem;">
+                        <button mat-icon-button  class="tbl-action-btn " (click)="SelectEditar(actividad.id,actividad.nombre,actividad.nombreIng,actividad.enable)">
+                          <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                        </button>
+                        <button mat-icon-button class="tbl-action-btn" (click)="eliminar(actividad.id)">
+                          <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                        </button>
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="columnasR"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: columnasR;"></mat-row>
+                  </mat-table>
+                </div>
               </div>
-              <hr>
-              <div class="col-md-12 d-flex">
-                <div class="col-md-6 d-flex justify-content-center" *ngIf="btnEditar">
-                  <button mat-icon-button  class="btn btn-primary " (click)="editar()" #tooltip="matTooltip" matTooltip="Editar">
-                    <mat-icon>border_color</mat-icon>
-                  </button></div>
-                <div class="col-md-6 d-flex justify-content-center" *ngIf="btnAgregar" #tooltip="matTooltip" matTooltip="Agregar">
-                  <button mat-icon-button  class="btn bg-green " (click)="agregar()" >
-                    <mat-icon>add_box</mat-icon>
-                  </button></div>
-                <div class="col-md-6 d-flex justify-content-center">
-                  <button mat-icon-button  class="btn bg-blue " (click)="limpiar()" #tooltip="matTooltip" matTooltip="Limpiar">
-                    <mat-icon>cleaning_services</mat-icon>
-                  </button></div>
+              <div class="col-md-5 mb-2">
+                <div class="card ">
+                  <div class="mat-elevation-z8" style="max-height: 20rem;">
+                    <div class="header">
+                      <h5>
+                        <div *ngIf="id !== 0">Editar => {{id}}</div>
+                        <div *ngIf="id === 0">Agregar</div>
+                      </h5>
+                    </div>
+                    <div class="body">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field class="w-100">
+                            <mat-label>Nombre Español</mat-label>
+                            <input matInput placeholder="" [(ngModel)]="nombre">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field class="w-100" >
+                            <mat-label>Nombre Inglés</mat-label>
+                            <input matInput placeholder="" [(ngModel)]="nombreIng">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <mat-slide-toggle [(ngModel)]="enable" style="margin: 0 1rem 1rem 1rem;">Estado</mat-slide-toggle>
+                        </div>
+                        <hr>
+                        <div class="col-md-12 d-flex">
+                          <div class="col-md-6 d-flex justify-content-center" *ngIf="btnEditar">
+                            <button mat-icon-button  class="btn btn-primary " (click)="editar()" #tooltip="matTooltip" matTooltip="Editar">
+                              <mat-icon>border_color</mat-icon>
+                            </button></div>
+                          <div class="col-md-6 d-flex justify-content-center" *ngIf="btnAgregar" #tooltip="matTooltip" matTooltip="Agregar">
+                            <button mat-icon-button  class="btn bg-green " (click)="agregar()" >
+                              <mat-icon>add_box</mat-icon>
+                            </button></div>
+                          <div class="col-md-6 d-flex justify-content-center">
+                            <button mat-icon-button  class="btn bg-blue " (click)="limpiar()" #tooltip="matTooltip" matTooltip="Limpiar">
+                              <mat-icon>cleaning_services</mat-icon>
+                            </button></div>
+                        </div>
+                      </div>
+                    </div>
+                 </div>
+                </div>
               </div>
             </div>
           </div>
-       </div>
+        </mat-dialog-content>
       </div>
     </div>
+
   </div>
 </div>

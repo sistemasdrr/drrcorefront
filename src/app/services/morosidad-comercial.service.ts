@@ -40,10 +40,11 @@ export class MorosidadComercialService {
     obj.id = idMax
     this.morosidadComercial.push(obj)
   }
-  UpdateMorosidadComercial(id : number, obj : MorosidadComercial){
-    obj.id = id
-    this.morosidadComercial.filter(x => x.id == id)[0] = obj
-  }
+  UpdateMorosidadComercial(obj : MorosidadComercial){
+    const index = this.morosidadComercial.findIndex(x => x.id === obj.id);
+    if (index !== -1) {
+      this.morosidadComercial[index] = obj;
+    }  }
   DeleteMorosidadComercial(id : number){
     this.morosidadComercial = this.morosidadComercial.filter(x => x.id !== id)
   }

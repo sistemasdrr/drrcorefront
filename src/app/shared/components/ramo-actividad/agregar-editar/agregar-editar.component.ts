@@ -25,7 +25,7 @@ export class AgregarEditarRamoNegocioComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private ramoNegocioService : RamoNegocioService
   ) {
-    this.datosR = this.ramoNegocioService.getRamoNegocio()
+    this.datosR = this.ramoNegocioService.getAllRamoNegocio()
 
     if(this.datosR[0]){
       this.datosA = this.datosR[0].actividades

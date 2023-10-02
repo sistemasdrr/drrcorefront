@@ -73,10 +73,13 @@ export class ProveedorService {
     obj.id = idMax+1
     this.proveedor.push(obj)
   }
-  UpdateProveedor(id : number, obj : Proveedor){
-    obj.id = id
-    this.proveedor.filter(x => x.id == id)[0] = obj
+  UpdateProveedor(obj: Proveedor) {
+    const index = this.proveedor.findIndex(x => x.id === obj.id);
+    if (index !== -1) {
+      this.proveedor[index] = obj;
+    }
   }
+
   DeleteProveedor(id : number){
     this.proveedor = this.proveedor.filter(x => x.id !== id)
   }

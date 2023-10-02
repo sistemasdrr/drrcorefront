@@ -28,6 +28,8 @@ import { OpinionCreditoComponent } from './info-empresa/ie-detalle/opinion-credi
 import { SharedModule } from '@shared';
 import { SbsRiesgoComponent } from './info-empresa/ie-detalle/sbs-riesgo/sbs-riesgo.component';
 import { DetalleProveedorComponent } from './info-empresa/ie-detalle/sbs-riesgo/detalle-proveedor/detalle-proveedor.component';
+import { MorosidadComercialComponent } from './info-empresa/ie-detalle/sbs-riesgo/morosidad-comercial/morosidad-comercial.component';
+import { DeudaBancariaComponent } from './info-empresa/ie-detalle/sbs-riesgo/deuda-bancaria/deuda-bancaria.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { DetalleProveedorComponent } from './info-empresa/ie-detalle/sbs-riesgo/
     OpinionCreditoComponent,
     SbsRiesgoComponent,
     DetalleProveedorComponent,
+    MorosidadComercialComponent,
+    DeudaBancariaComponent,
   ],
   imports: [
     CommonModule,
