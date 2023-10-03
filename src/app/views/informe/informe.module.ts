@@ -30,6 +30,7 @@ import { SbsRiesgoComponent } from './info-empresa/ie-detalle/sbs-riesgo/sbs-rie
 import { DetalleProveedorComponent } from './info-empresa/ie-detalle/sbs-riesgo/detalle-proveedor/detalle-proveedor.component';
 import { MorosidadComercialComponent } from './info-empresa/ie-detalle/sbs-riesgo/morosidad-comercial/morosidad-comercial.component';
 import { DeudaBancariaComponent } from './info-empresa/ie-detalle/sbs-riesgo/deuda-bancaria/deuda-bancaria.component';
+import { HistoricoVentasComponent } from './info-empresa/ie-detalle/finanzas/historico-ventas/historico-ventas.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { DeudaBancariaComponent } from './info-empresa/ie-detalle/sbs-riesgo/deu
     DetalleProveedorComponent,
     MorosidadComercialComponent,
     DeudaBancariaComponent,
+    HistoricoVentasComponent,
   ],
   imports: [
     CommonModule,

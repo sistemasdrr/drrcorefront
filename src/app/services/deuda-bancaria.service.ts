@@ -45,7 +45,7 @@ export class DeudaBancariaService {
         idMax = elemento.id
       }
     }
-    obj.id = idMax
+    obj.id = idMax+1
     this.deudaBancaria.push(obj)
   }
   UpdateDeudaBancaria( obj: DeudaBancaria) {

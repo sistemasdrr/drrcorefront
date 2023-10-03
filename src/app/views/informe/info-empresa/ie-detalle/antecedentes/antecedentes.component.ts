@@ -89,4 +89,14 @@ constructor(
   subtituloComentarioAntecedentes: string = 'Anote aquí unicamente Datos de Contitución, Gestores del Negocio, Aumentos del Capital, Cambios de Razón Social, Objeto Social, Fusiones, Cotización de la Acciones, entre otros.'
   tituloHistoria : string = 'Historia (Antecedentes) => '
   subtituloHistoria: string = 'Anote aquí unicamente el Historial de la Empresa a travéz del tiempo, a que grupo económico pertenecen, destacar al principal accionista, posición en el mercado, etc.'
+
+  checkEmpresaCotizada : boolean = false;
+
+  empresaCotizada(){
+    if(this.checkEmpresaCotizada){
+      this.checkEmpresaCotizada = false
+    }else{
+      this.checkEmpresaCotizada = true
+    }
+  }
 }

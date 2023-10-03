@@ -1,6 +1,11 @@
+import { HistoricoVentasComponent } from './historico-ventas/historico-ventas.component';
+import { HistoricoVentasService } from './../../../../../services/historico-ventas.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { HistoricoVentas } from 'app/models/historico-ventas';
 import { Observable, map, startWith } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface data {
   name: string;
@@ -13,8 +18,12 @@ export interface data {
 })
 export class FinanzasComponent implements OnInit {
 
-  constructor(){
+  constructor(
+    private historicoVentasService : HistoricoVentasService,
+    private dialog : MatDialog
+  ){
     this.filteredOptions = new Observable<data[]>();
+    this.dataSourceHistoricoVentas = new MatTableDataSource(this.historicoVentasService.GetAllHistoricoVentas())
   }
 
   //titularidad
@@ -39,5 +48,60 @@ export class FinanzasComponent implements OnInit {
   }
   displayFn(user: data): string {
     return user && user.name ? user.name : '';
+  }
+
+
+
+
+  comentarioConBalance : string = "comentario con balance"
+  comentarioSinBalance : string = "comentario sin balance"
+  comentarioElegido : string = ""
+  checkComentarioConBalance : boolean = false
+  checkComentarioSinBalance : boolean = false
+
+  elegirComentarioConBalance(){
+    if(this.checkComentarioConBalance == true){
+      this.comentarioElegido = this.comentarioConBalance
+      this.checkComentarioSinBalance = false
+    }else if(this.checkComentarioConBalance == false){
+      this.comentarioElegido = ""
+    }
+  }
+  elegirComentarioSinBalance(){
+    if(this.checkComentarioSinBalance == true){
+      this.comentarioElegido = this.comentarioSinBalance
+      this.checkComentarioConBalance = false
+    }else if(this.checkComentarioSinBalance == false){
+      this.comentarioElegido = ""
+    }
+  }
+
+  //TABLA HISTORICO VENTAS
+  dataSourceHistoricoVentas = new MatTableDataSource<HistoricoVentas>
+  columnToDisplayHistoricoVentas : string[] = [
+    "id","fecha","moneda","ventasMN","TC","equivaleDolar","accion"
+  ]
+
+  agregarHistoricoVentas(){
+    const dialogR1 = this.dialog.open(HistoricoVentasComponent, {
+      data: {
+        accion : 'AGREGAR',
+        id : 0
+        },
+      });
+      dialogR1.afterClosed().subscribe(() => {
+        this.dataSourceHistoricoVentas = new MatTableDataSource(this.historicoVentasService.GetAllHistoricoVentas())
+      });
+  }
+  editarHistoricoVentas(id : number){
+    const dialogR2 = this.dialog.open(HistoricoVentasComponent, {
+      data: {
+        accion : 'EDITAR',
+        id : id
+        },
+      });
+      dialogR2.afterClosed().subscribe(() => {
+        this.dataSourceHistoricoVentas = new MatTableDataSource(this.historicoVentasService.GetAllHistoricoVentas())
+      });
   }
 }

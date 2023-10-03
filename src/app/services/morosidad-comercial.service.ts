@@ -37,7 +37,7 @@ export class MorosidadComercialService {
         idMax = elemento.id
       }
     }
-    obj.id = idMax
+    obj.id = idMax+1
     this.morosidadComercial.push(obj)
   }
   UpdateMorosidadComercial(obj : MorosidadComercial){

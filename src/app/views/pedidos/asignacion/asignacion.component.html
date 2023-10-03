@@ -17,7 +17,7 @@
           <ul class="tbl-export-btn">
             <li class="tbl-header-btn">
               <div class="m-l-10" matTooltip="VOLVER">
-                <button mat-mini-fab color="primary" (click)="volver()">
+                <button mat-mini-fab color="warn" (click)="volver()">
                   <mat-icon class="col-white">undo</mat-icon>
                 </button>
               </div>
@@ -68,16 +68,35 @@
         </ng-container>
         <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
-        <td mat-cell *matCellDef="let order" class="text-left"> {{order[columnsToDisplay[2]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-left">
+          {{order[columnsToDisplay[2]]}}
+         </td>
         </ng-container>
 
         <ng-container matColumnDef="{{columnsToDisplay[3]}}" >
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
-          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[3]]}} </td>
+          <td mat-cell *matCellDef="let order" class="text-center">
+             <div *ngIf="order[columnsToDisplay[3]] === 'OR'">
+              <div class="badge badge-solid-orange" style="font-size: 16px;">{{order[columnsToDisplay[3]]}}</div>
+            </div>
+            <div *ngIf="order[columnsToDisplay[3]] === 'RV'">
+              <div class="badge badge-solid-green" style="font-size: 16px;">{{order[columnsToDisplay[3]]}}</div>
+            </div>
+            </td>
         </ng-container>
         <ng-container matColumnDef="{{columnsToDisplay[4]}}" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Tramite</th>
-          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[4]]}} </td>
+          <td mat-cell *matCellDef="let order" class="text-center">
+             <div *ngIf="order[columnsToDisplay[4]] === 'T1'">
+              <div class="badge badge-solid-blue">{{order[columnsToDisplay[4]]}}</div>
+            </div>
+            <div *ngIf="order[columnsToDisplay[4]] === 'T2'">
+              <div class="badge badge-solid-purple">{{order[columnsToDisplay[4]]}}</div>
+            </div>
+            <div *ngIf="order[columnsToDisplay[4]] === 'T3'">
+              <div class="badge badge-solid-cyan">{{order[columnsToDisplay[4]]}}</div>
+            </div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="{{columnsToDisplay[5]}}" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
@@ -98,7 +117,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button *ngIf="order.hasAttachments === true" (click)="agregarAdjuntos(order[columnsToDisplay[1]])"  #tooltip="matTooltip" matTooltip="Adjuntos">
+            <button mat-icon-button *ngIf="order.hasAttachments === true" (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
               <mat-icon style="color: red;">attach_file</mat-icon>
             </button>
             <button mat-icon-button *ngIf="order.hasAttachments === false" (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">

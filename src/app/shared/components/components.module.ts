@@ -16,6 +16,7 @@ import { RamoActividadDialogComponent } from "./ramo-actividad/ramo-actividad.co
 import { CuadroImpoExpoComponent } from './cuadro-impo-expo/cuadro-impo-expo.component';
 import { AgregarEditarComponent } from './cuadro-impo-expo/agregar-editar/agregar-editar.component';
 import { AgregarEditarRamoNegocioComponent } from './ramo-actividad/agregar-editar/agregar-editar.component';
+import { NgScrollbarModule } from "ngx-scrollbar";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AgregarEditarRamoNegocioComponent } from './ramo-actividad/agregar-edit
     CKEditorModule,
     MatSelectModule,
     MatListModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgScrollbarModule
   ],
   exports: [
     FileUploadComponent,

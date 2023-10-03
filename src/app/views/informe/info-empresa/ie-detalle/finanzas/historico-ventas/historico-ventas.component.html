@@ -1,0 +1,84 @@
+<div class="container" style="max-width: 30rem;" >
+  <div class="row "  >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <div class="materialTableHeader mt-3">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h5 style="font-size: 30px;">{{titulo}}</h5>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10">
+                    <button mat-icon-button  class="btn bg-red "  #tooltip="matTooltip" matTooltip="Volver">
+                      <mat-icon>logout</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="accion === 'AGREGAR'">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button  class="btn btn-primary" (click)="editar()" #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="accion === 'EDITAR'"  >
+                      <mat-icon>save</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <mat-dialog-content class="mat-typography">
+
+          <div class="body">
+            <div class="row">
+              <h5 style="font-size: 20px;">Historico de Ventas</h5>
+              <div class="col-md-12" *ngIf="accion === 'EDITAR'">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>ID</mat-label>
+                  <input matInput [(ngModel)]="id" readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Moneda Ventas</mat-label>
+                  <input matInput [(ngModel)]="moneda" >
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Fecha</mat-label>
+                  <input matInput [(ngModel)]="fecha" >
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Ventas</mat-label>
+                  <input matInput [(ngModel)]="ventas" >
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>T.C. x US$</mat-label>
+                  <input matInput [(ngModel)]="tc" >
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Equivalente en Dolares</mat-label>
+                  <input matInput [(ngModel)]="equivaleDolar" >
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-dialog-content>
+      </div>
+    </div>
+  </div>
+</div>

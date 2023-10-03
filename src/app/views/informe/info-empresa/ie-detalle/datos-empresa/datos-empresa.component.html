@@ -14,8 +14,8 @@
       <div class="col-md-2 d-flex justify-content-center">
         <mat-form-field style="width: 100%;">
           <mat-label>Idioma</mat-label>
-          <mat-select >
-            <mat-option [value]="'CASTELLANO'">
+          <mat-select  (selectionChange)="actualizarSeleccionIdioma($event.value)">
+            <mat-option [value]="'ESPAÑOL'">
               <span class="fi fi-es"></span>
               ESPAÑOL
             </mat-option>
@@ -23,11 +23,17 @@
               <span class="fi fi-us"></span>
               INGLÉS
             </mat-option>
-            <mat-option [value]="'CASTELLANO-INGLES'">
+            <mat-option [value]="'ESPAÑOL-INGLES'">
               <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
               ESPAÑOL - INGLÉS
             </mat-option>
+
           </mat-select>
+          <button class="btn-traduccion" matSuffix mat-icon-button>
+            <span class="fi fi-es" *ngIf="idiomaSeleccionado === 'ESPAÑOL'"></span>
+            <span class="fi fi-us" *ngIf="idiomaSeleccionado === 'INGLES'"></span>
+            <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="idiomaSeleccionado === 'ESPAÑOL-INGLES'"></span>
+          </button>
         </mat-form-field>
       </div>
       <div class="col-md-2 d-flex justify-content-center">
@@ -78,14 +84,13 @@
         </mat-form-field>
       </div>
       <div class="col-md-4">
-        <mat-form-field class="example-full-width">
+        <mat-form-field style="width: 100%;">
           <mat-label>Personería Jurídica</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
+          <mat-select >
+            <mat-option *ngFor="let pJuridica of personeriaJuridica" [value]="pJuridica">
+              {{pJuridica}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-12">
@@ -105,14 +110,13 @@
         </mat-form-field>
       </div>
       <div class="col-md-3">
-        <mat-form-field class="example-full-width">
+        <mat-form-field style="width: 100%;">
           <mat-label>Situación RUC</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
+          <mat-select >
+            <mat-option *ngFor="let situacion of situacionRUC" [value]="situacion">
+              {{situacion}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-4 d-flex justify-content-center">
@@ -152,12 +156,15 @@
       <div class="col-md-3">
         <mat-form-field class="example-full-width">
           <mat-label>País</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
+          <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccionPais($event.value)">
+            <mat-option *ngFor="let pais of paises" [value]="pais.id">
+              <span class="fi fi-{{pais.icono}}"></span>
+              {{pais.nombre}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-select>
+          <button class="btn-traduccion" matSuffix mat-icon-button>
+            <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+          </button>
         </mat-form-field>
       </div>
       <div class="col-md-5 d-flex">
@@ -207,25 +214,23 @@
     <div class="row counter-box shadow">
       <h3>Comentarios</h3>
       <div class="col-md-12 d-flex">
-        <mat-form-field class="example-full-width">
+        <mat-form-field style="width: 100%;">
           <mat-label>Riesgo Crediticio</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
+          <mat-select >
+            <mat-option *ngFor="let cCrediticia of calificacionCrediticia" [value]="cCrediticia">
+              {{cCrediticia}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-12 d-flex" style="margin-bottom: 0rem;">
-        <mat-form-field class="example-full-width">
+        <mat-form-field style="width: 100%;">
           <mat-label>Política de Pagos</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
+          <mat-select >
+            <mat-option *ngFor="let pPagos of politicaPagos" [value]="pPagos">
+              {{pPagos}}
             </mat-option>
-          </mat-autocomplete>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-6 d-flex justify-content-center">
