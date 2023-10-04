@@ -26,6 +26,8 @@ import { WINDOW_PROVIDERS } from './core/service/window.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { DashGerenciaComponent } from './views/dashboard/dash-gerencia/dash-gerencia.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -58,6 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     CoreModule,
     SharedModule,
+    NgxDropzoneModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

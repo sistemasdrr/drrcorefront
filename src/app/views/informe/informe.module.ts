@@ -34,6 +34,8 @@ import { HistoricoVentasComponent } from './info-empresa/ie-detalle/finanzas/his
 import { HistoricoPedidosComponent } from './info-empresa/ie-detalle/datos-empresa/historico-pedidos/historico-pedidos.component';
 import { EmpresasRelacionadasComponent } from './info-empresa/ie-detalle/antecedentes/empresas-relacionadas/empresas-relacionadas.component';
 import { InformacionGeneralComponent } from './info-empresa/ie-detalle/informacion-general/informacion-general.component';
+import { ImagenesComponent } from './info-empresa/ie-detalle/imagenes/imagenes.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { InformacionGeneralComponent } from './info-empresa/ie-detalle/informaci
     HistoricoPedidosComponent,
     EmpresasRelacionadasComponent,
     InformacionGeneralComponent,
+    ImagenesComponent,
   ],
   imports: [
     CommonModule,
@@ -74,7 +77,8 @@ import { InformacionGeneralComponent } from './info-empresa/ie-detalle/informaci
     MatTableModule,
     MatListModule,
     MatIconModule,
-    SharedModule
+    SharedModule,
+    NgxDropzoneModule
   ]
 })
 export class InformeModule { }
