@@ -121,13 +121,13 @@
       </div>
       <div class="col-md-4 d-flex justify-content-center">
         <div class="m-1">
-          <button class="btn btn-secondary d-flex justify-content-center" style="color: white; width: 9rem;">
+          <button class="btn btn-secondary d-flex justify-content-center" (click)="historicoPedidos()" style="color: white; width: 9rem;">
             <i class="fa-solid fa-clock-rotate-left"  style="font-size: 18px; margin-top: .7rem;"></i>
             &nbsp;Histórico de Pedidos
           </button>
         </div>
         <div class="m-1">
-          <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;">
+          <button class="btn bg-blue d-flex justify-content-center"  (click)="agregarComentario(titulo, tituloComentarioIdentificacion,'', 'ALICORP S.A.')" style="color: white; width: 9rem;">
             <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
             &nbsp;Comentario de Identificación
           </button>
@@ -233,22 +233,26 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="col-md-12 d-flex" style="margin-bottom: 0rem;">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Reputación</mat-label>
+          <mat-select >
+            <mat-option *ngFor="let reputacion of reputaciones" [value]="reputacion">
+              {{reputacion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <div class="col-md-6 d-flex justify-content-center">
-        <button class="btn bg-blue d-flex justify-content-center" style="color: white; margin: .5rem .5rem 0 .5rem; width: 8rem;">
+        <button class="btn bg-blue d-flex justify-content-center" (click)="agregarComentario(titulo, tituloComentarioReputacion,'', 'ALICORP S.A.')" style="color: white; margin: .5rem .5rem 0 .5rem; width: 8rem;">
+          <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
+          &nbsp;Reputación
+        </button>
+      </div>
+      <div class="col-md-6 d-flex justify-content-center">
+        <button class="btn bg-blue d-flex justify-content-center" (click)="agregarComentario(titulo, tituloComentarioPrensa,'', 'ALICORP S.A.')" style="color: white; margin: .5rem .5rem 0 .5rem; width: 8rem;">
           <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Prensa
-        </button>
-      </div>
-      <div class="col-md-6 d-flex justify-content-center">
-        <button class="btn bg-blue d-flex justify-content-center" style="color: white; margin: .5rem .5rem 0 .5rem; width: 8rem;">
-          <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
-          &nbsp;Reputación
-        </button>
-      </div>
-      <div class="col-md-12 d-flex justify-content-center">
-        <button class="btn bg-green d-flex justify-content-center" style="color: white; margin: .5rem .5rem 0 .5rem; width: 8rem;">
-          <i class="fa-solid fa-circle-info" style="font-size: 18px; margin-top: .1rem;"></i>
-          &nbsp;Reputación
         </button>
       </div>
     </div>

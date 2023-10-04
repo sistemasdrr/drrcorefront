@@ -5,6 +5,7 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
 import { Pais } from 'app/models/pais';
 import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
+import { HistoricoPedidosComponent } from './historico-pedidos/historico-pedidos.component';
 
 export interface data {
   name: string;
@@ -50,6 +51,12 @@ export class DatosEmpresaComponent implements OnInit{
     "6. NC (No se le reporta Notas en Contra. Se presume buen cumplimiento)",
     "7. NN (Carece de información crediticia. No son conocidos por consultados)"
   ]
+  reputaciones : string[] = [
+    "Buena Solvencia Económica y Moral.","Referidos como Buenos Contribuyentes (SUNAT).",
+    "Empresa de buen prestigio.","Aparecen en Lista Clinton.","Faltaron el Respeto a nuesto Analista. Mala conducta.",
+    "No reportan a los verdaderos accionistas (OFFSHORE)","Registra Cta. Cte. Cerrada x girar cheques sin fondo.",
+    "Empresa poco transparente. Cuidado.","Reputación discutible (Publicaciones)"
+  ]
 
 
   myControl = new FormControl<string | data>('');
@@ -84,20 +91,29 @@ constructor(
   }
 
 
-  agregarComentario(titulo : string, subtitulo : string, empresa : string) {
+  agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
     data: {
-      titulo : titulo,
+      titulo1 : titulo1,
+      titulo2 : titulo2,
       subtitulo : subtitulo,
       empresa: empresa,
-
-    },
-  });
+      },
+    });
+  }
+  historicoPedidos(){
+    const dialog = this.dialog.open(HistoricoPedidosComponent,{
+      data : {
+        titulo : "Histórico de Pedidos"
+      }
+    })
   }
 
   //TITULOS
+  titulo : string = 'Comentario - Traduccion'
+
   tituloComentarioIdentificacion : string = 'Comentario - Traduccion || Comentario de Identificación En => '
-  tituloComentarioReputación : string = 'Comentario - Traduccion || Comentario de Reputación En => '
+  tituloComentarioReputacion : string = 'Comentario - Traduccion || Comentario de Reputación En => '
   tituloComentarioPrensa : string = 'Comentario - Traduccion || Comentario de Prensa En => '
 
   idiomaSeleccionado : string = ""

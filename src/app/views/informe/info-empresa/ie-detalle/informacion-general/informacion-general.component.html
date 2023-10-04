@@ -1,0 +1,18 @@
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow mb-2">
+      <h4>Información General</h4>
+      <hr>
+      <h6>Utilizar sólo en caso de AUSENCIA TOTAL de información y para casos especiales.</h6>
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width mt-2" >
+          <mat-label>Información General</mat-label>
+          <textarea matInput type="text" placeholder="" style="min-height: 20rem;" [(ngModel)]="informacionGeneral"></textarea>
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Comentario - Traducción','Información General','','')" >
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

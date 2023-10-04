@@ -13,7 +13,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Cargo(s)</mat-label>
           <input matInput placeholder="" value="">
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo,tituloCargo,'','')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -36,30 +36,6 @@
               <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem .5rem;"></i>
               <div style="font-size: 20px;">&nbsp;Guardar</div>
             </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-5">
-        <mat-form-field class="example-full-width mb-2">
-          <mat-label>Comentario de la Entrevista.</mat-label>
-          <textarea matInput placeholder="" style="min-height: 5rem;"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button >
-            <span class="fi fi-us" style="font-size: 24px;"></span>
-          </button>
-          <mat-hint>Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes</mat-hint>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label>Auditor(es)</mat-label>
-          <input matInput placeholder="" value="">
-        </mat-form-field>
-        <div class="col-md-12">
-          <div class="row justify-content-center">
-            <div class="col-md-4 d-flex justify-content-center">
-              <button class="btn bg-blue d-flex mb-2" style="" type="button" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
-                <i class="fa-solid fa-building-circle-check" style="font-size: 20px; margin: .3rem 0 .5rem .5rem;"></i>
-                <div style="font-size: 20px;">&nbsp;Activos</div>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -120,6 +96,30 @@
             </div>
           </div>
       </div>
+      <div class="col-md-5">
+        <mat-form-field class="example-full-width mb-2">
+          <mat-label>Comentario de la Entrevista.</mat-label>
+          <textarea matInput placeholder="" style="min-height: 5rem;"></textarea>
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo,tituloComentarioEntrevista,'Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes','')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+          <mat-hint>Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <mat-label>Auditor(es)</mat-label>
+          <input matInput placeholder="" value="">
+        </mat-form-field>
+        <div class="col-md-12">
+          <div class="row justify-content-center">
+            <div class="col-md-4 d-flex justify-content-center">
+              <button class="btn bg-blue d-flex mb-2" style="" type="button" (click)="agregarComentario(titulo,tituloActivos,subtituloActivos,'')" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
+                <i class="fa-solid fa-building-circle-check" style="font-size: 20px; margin: .3rem 0 .5rem .5rem;"></i>
+                <div style="font-size: 20px;">&nbsp;Activos</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -160,7 +160,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Comentario Financiero Elegido</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioElegido"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo,tituloComentarioFinanciero,'','')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
           <mat-hint>Según opciones de arriba y Ud. puede adicionar o editarlo manualmente</mat-hint>
@@ -175,7 +175,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Comentario del Analista</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button >
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo,tituloComentarioAnalista,subtituloActivos,'')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>

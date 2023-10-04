@@ -5,8 +5,8 @@
         <h4>Referencias Comerciales</h4>
         <hr>
         <div class="col-md-12 ">
-          <h5>Proveedores Nacionales y/o Extranjeros</h5>
-          <div class="shadow m-1" style="overflow-x: auto;">
+          <h6>Proveedores Nacionales y/o Extranjeros<br><br></h6>
+          <div class="shadow m-1" style="overflow-x: auto; max-height: 20rem;">
             <div class="table-container">
               <table mat-table [dataSource]="dataSourceProveedor" class="mat-elevation-z8 w-100">
                 <ng-container matColumnDef="{{columnsToDisplayProveedor[0]}}">
@@ -97,7 +97,7 @@
         <h4>Morosidad Comercial</h4>
         <hr>
         <h6>Información Reportada desde la Central de Riesgos respecto a Morosidad Comercial</h6>
-          <div class="shadow m-1" style="overflow-x: auto;">
+          <div class="shadow m-1" style="overflow-x: auto; max-height: 20rem;">
             <div class="table-container">
               <table mat-table [dataSource]="dataSourceMorosidadComercial" class="mat-elevation-z8 w-100">
                 <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[0]}}">

@@ -45,7 +45,7 @@ export class SigninComponent
     this.submitted = true;
     this.error = '';
     if (this.loginForm.invalid) {
-      this.error = 'Username and Password not valid !';
+      this.error = 'Nombre de Usuario y Contraseña no validos!';
       return;
     } else {
       this.subs.sink = this.authService

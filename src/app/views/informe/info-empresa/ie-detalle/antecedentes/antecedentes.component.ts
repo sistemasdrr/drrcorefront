@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { EmpresaRelacionada } from 'app/models/empresa-relacionada';
 import { EmpresaRelacionadaService } from 'app/services/empresa-relacionada.service';
@@ -34,11 +33,10 @@ export class AntecedentesComponent implements OnInit{
   options: data[] = [{name: '112'}, {name: '113'}, {name: '114'}, {name: '115'}, {name: '116'}, {name: '117'}, {name: '118'}, {name: '119'}];
   filteredOptions: Observable<data[]>;
 constructor(
-  private router : Router,
   public dialog: MatDialog,
   private empresaRelacionadaService : EmpresaRelacionadaService) {
   this.filteredOptions = new Observable<data[]>();
-  this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.getListEmpresasRelacionadas())
+  this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.GetAllEmpresaRelacionada())
 }
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(

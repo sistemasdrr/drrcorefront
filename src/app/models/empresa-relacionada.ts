@@ -1,4 +1,5 @@
 export interface EmpresaRelacionada{
+  id : number
   razonSocial : string
   pais : string
   situacion : string

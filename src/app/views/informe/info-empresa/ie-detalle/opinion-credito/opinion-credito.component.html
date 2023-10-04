@@ -2,6 +2,49 @@
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
       <h4>Opinión de Crédito</h4>
+      <hr>
+      <div class="col-md-4">
+        <mat-slide-toggle [(ngModel)]="checkSolicitudCredito" class="mb-3"  style="width:15rem; margin-left: 1rem; margin-top: 1rem;">
+          ¿Presenta Solicitud de Crédito?
+          <div *ngIf="checkSolicitudCredito === true">Sí</div>
+          <div *ngIf="checkSolicitudCredito === false">No</div>
+        </mat-slide-toggle>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width mt-2" >
+          <mat-label>Crédito Consultado</mat-label>
+          <input matInput type="text" placeholder="" [(ngModel)]="creditoConsultado" [readonly]="!checkSolicitudCredito">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo,tituloCreditoConsultado,'','')" [disabled]="!checkSolicitudCredito">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width mt-2">
+          <mat-label>Crédito Sugerido</mat-label>
+          <input matInput type="text" placeholder=""  [(ngModel)]="creditoSugerido" [readonly]="!checkSolicitudCredito">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo,tituloCreditoSugerido,'','')" [disabled]="!checkSolicitudCredito">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <h5>Comentario Acorde a lo Anotado</h5>
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width mt-2">
+          <mat-label>Comentario</mat-label>
+          <textarea matInput type="text" placeholder="" style="min-height: 8rem;" [(ngModel)]="comentario"></textarea>
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo,tituloComentario,'','')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <h5>Comentarios Anteriores (No se imprime)</h5>
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width mt-2">
+          <mat-label>Comentario</mat-label>
+          <textarea matInput type="text" placeholder="" style="min-height: 8rem;" [(ngModel)]="comentarioAnterior"></textarea>
+        </mat-form-field>
+      </div>
     </div>
   </div>
 </div>

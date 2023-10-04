@@ -128,6 +128,5 @@ export class MorosidadComercialComponent {
         })
       }
     })
-
   }
 }

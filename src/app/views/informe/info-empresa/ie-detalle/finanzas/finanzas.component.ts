@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HistoricoVentas } from 'app/models/historico-ventas';
 import { Observable, map, startWith } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 
 export interface data {
   name: string;
@@ -104,4 +105,22 @@ export class FinanzasComponent implements OnInit {
         this.dataSourceHistoricoVentas = new MatTableDataSource(this.historicoVentasService.GetAllHistoricoVentas())
       });
   }
+  agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+    data: {
+      titulo1 : titulo1,
+      titulo2 : titulo2,
+      subtitulo : subtitulo,
+      empresa: empresa,
+      },
+    });
+  }
+  titulo = 'Comentario - Traduccion'
+  tituloActivos = 'Principales Activos Fijos de la Empresa => '
+  tituloCargo = 'Cargos de la Empresa => '
+  tituloComentarioEntrevista = 'Comentarios de la Entrevista'
+  tituloComentarioFinanciero = 'Comentario Financiero'
+  tituloComentarioAnalista = 'Comentarios del Analista'
+
+  subtituloActivos = '(Inmuebles, Vehículos, etc. Detalle - Valor)'
 }
