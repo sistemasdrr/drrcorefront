@@ -36,6 +36,7 @@ import { EmpresasRelacionadasComponent } from './info-empresa/ie-detalle/anteced
 import { InformacionGeneralComponent } from './info-empresa/ie-detalle/informacion-general/informacion-general.component';
 import { ImagenesComponent } from './info-empresa/ie-detalle/imagenes/imagenes.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { BalanceComponent } from './info-empresa/ie-detalle/balance/balance.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     EmpresasRelacionadasComponent,
     InformacionGeneralComponent,
     ImagenesComponent,
+    BalanceComponent,
   ],
   imports: [
     CommonModule,

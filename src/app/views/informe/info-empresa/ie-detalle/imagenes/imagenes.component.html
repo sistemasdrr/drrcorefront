@@ -3,37 +3,26 @@
     <div class="row counter-box shadow mb-2">
       <h4>Imágenes de la Empresa</h4>
       <hr>
+      <div class="d-flex justify-content-center w-100">
+        <h2>Arrastre o Seleccione una Imagen</h2>
+      </div>
       <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
-        <div class="d-flex justify-content-center w-100">
-          <h2>Arrastre o Seleccione una Imagen</h2>
-        </div>
-        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
-          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" >
+          <ngx-dropzone-label>
+            {{ f.name }} ({{ f.type }})
+            <br>
+            <button class="btn bg-red" (click)="onRemove(f)"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn btn-primary" (click)="onRemove(f)"><i class="fa-solid fa-pen-to-square"></i></button>
+
+          </ngx-dropzone-label>
+
         </ngx-dropzone-image-preview>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-4" *ngFor="let f of files">
         <mat-form-field class="example-full-width mt-2" >
-          <mat-label>Descripción de Imagen 1</mat-label>
+          <mat-label>Descripción de Imagen</mat-label>
           <input matInput type="text" placeholder="" [(ngModel)]="img1">
           <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Descripción - Traducción','Descripción de Imagen 1','','')" >
-            <span class="fi fi-us" style="font-size: 24px;"></span>
-          </button>
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field class="example-full-width mt-2" >
-          <mat-label>Descripción de Imagen 2</mat-label>
-          <input matInput type="text" placeholder="" [(ngModel)]="img2">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Descripción - Traducción','Descripción de Imagen 2','','')" >
-            <span class="fi fi-us" style="font-size: 24px;"></span>
-          </button>
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field class="example-full-width mt-2" >
-          <mat-label>Descripción de Imagen 3</mat-label>
-          <input matInput type="text" placeholder="" [(ngModel)]="img3">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Descripción - Traducción','Descripción de Imagen 3','','')" >
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
