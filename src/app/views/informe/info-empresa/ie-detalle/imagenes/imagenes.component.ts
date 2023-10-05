@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 
@@ -9,15 +9,18 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
 })
 export class ImagenesComponent {
 
+  byt : string | ArrayBuffer | null = ""
   constructor(
     private dialog : MatDialog
   ){
-
   }
   files: File[] = [];
   img1 = ""
   img2 = ""
   img3 = ""
+  descripcion1 = ""
+  descripcion2 = ""
+  descripcion3 = ""
   onSelect(event : any) {
     console.log(event);
     this.files.push(...event.addedFiles);
@@ -37,5 +40,15 @@ export class ImagenesComponent {
       empresa: empresa,
       },
     });
+  }
+
+  async pasteFromClipboard() {
+    if (!navigator.clipboard) {
+      console.log('El navegador no soporta la API del portapapeles');
+      return;
+    }
+    const text = await navigator.clipboard.readText();
+    this.img1 = text;
+    console.log(text)
   }
 }

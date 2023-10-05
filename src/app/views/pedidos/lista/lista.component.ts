@@ -26,6 +26,8 @@ import { Router } from '@angular/router';
   ],
 })
 export class ListaComponent implements AfterViewInit {
+  tipoInforme : string = ""
+  tipoTramite : string = ""
   breadscrums = [
     {
       title: 'Pedidos',
@@ -77,6 +79,18 @@ export class ListaComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+
+
+  applyFilterTipoInforme() {
+    this.dataSource.data = this.orderService.getOrders()
+      .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
+  }
+
+  applyFilterTipoTramite() {
+    this.dataSource.data = this.orderService.getOrders()
+      .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
+  }
+
 
   addOrder(){
     this.router.navigate(['pedidos/detalle/agregar/nuevo']);

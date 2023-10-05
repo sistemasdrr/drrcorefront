@@ -1,0 +1,21 @@
+export interface Employees{
+  id : number
+  idJob : number
+  codigo : string
+  nombres : string
+  apellidos : string
+  pais : string
+  direccion : string
+  celular : string
+  correo : string
+  fecIngreso : string
+  fecCese : string
+  fecNacimiento : string
+  tipoDocumento : string
+  documento : string
+  pathPhoto : string
+  fecCreate : string
+  fecUpdate : string
+  fecDelete : string
+  enable : boolean
+}

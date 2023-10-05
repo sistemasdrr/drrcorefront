@@ -16,12 +16,12 @@
                 <li class="tbl-search-box d-flex">
                   <label for="search-input"><i class="material-icons search-icon">search</i></label>
                   <input placeholder="Buscar" type="text" #filter class="browser-default search-field" aria-label="Search box">
-                  <select class="form-select " style="margin:  0 1rem 0 1rem;" aria-label="Tipo de Informe">
+                  <select class="form-select" [(ngModel)]="tipoInforme" (change)="applyFilterTipoInforme()" style="margin:  0 1rem 0 1rem;" aria-label="Tipo de Informe">
                     <option selected></option>
                     <option value="RV">RV</option>
                     <option value="OR">OR</option>
                   </select>
-                  <select class="form-select " style="margin:  0 1rem 0 0;" aria-label="Tipo de Tramite">
+                  <select class="form-select " [(ngModel)]="tipoTramite" (change)="applyFilterTipoTramite()" style="margin:  0 1rem 0 0;" aria-label="Tipo de Tramite">
                     <option selected></option>
                     <option value="T1">T1</option>
                     <option value="T2">T2</option>
@@ -63,8 +63,6 @@
               </ul>
             </div>
           </div>
-
-
 
         </div>
       </div>

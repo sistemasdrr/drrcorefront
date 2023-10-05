@@ -37,6 +37,7 @@ import { InformacionGeneralComponent } from './info-empresa/ie-detalle/informaci
 import { ImagenesComponent } from './info-empresa/ie-detalle/imagenes/imagenes.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { BalanceComponent } from './info-empresa/ie-detalle/balance/balance.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { BalanceComponent } from './info-empresa/ie-detalle/balance/balance.comp
     MatListModule,
     MatIconModule,
     SharedModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    ClipboardModule
   ]
 })
 export class InformeModule { }
