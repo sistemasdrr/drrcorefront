@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -76,6 +77,27 @@ constructor(
     // });
   }
 
+  onDateChange1(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaConstitucionInforme = this.formatDate(selectedDate);
+    }
+  }
+  onDateChange2(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaUltimaConsultaInforme = this.formatDate(selectedDate);
+    }
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+
+    return `${day}/${month}/${year}`;
+  }
+
   //TITULOS DE COMENTARIOS
   titulo : string = 'Comentario - Traduccion'
   tituloRegistradaEn : string = 'Registrada En => '
@@ -88,7 +110,6 @@ constructor(
   tituloHistoria : string = 'Historia (Antecedentes) => '
   subtituloHistoria: string = 'Anote aquí unicamente el Historial de la Empresa a travéz del tiempo, a que grupo económico pertenecen, destacar al principal accionista, posición en el mercado, etc.'
 
-  checkEmpresaCotizada : boolean = false;
 
   empresaCotizada(){
     if(this.checkEmpresaCotizada){
@@ -96,5 +117,51 @@ constructor(
     }else{
       this.checkEmpresaCotizada = true
     }
+  }
+
+  selectOrigen(origen : string){
+    this.origenInforme = origen
+  }
+  selectCotizadoEnBolsaPor(cotizadaEnBolsaPor : string){
+    this.cotizadaEnBolsaPorInforme = cotizadaEnBolsaPor
+  }
+
+  //ANTECEDENTES
+  fechaConstitucionInforme : string = ""
+  inicioActividadesInforme : string = ""
+  duracionInforme : string = ""
+  registradaEnInforme : string = ""
+  registradaEnIngInforme : string = ""
+  notariaInforme : string = ""
+  registrosPublicosInforme : string = ""
+  registrosPublicosIngInforme : string = ""
+  capitalPagadoActualInforme : string = ""
+  capitalPagadoActualIngInforme : string = ""
+  origenInforme : string = ""
+  fechaAumentoInforme : string = ""
+  fechaAumentoIngInforme : string = ""
+  monedaPaisInforme : string = ""
+  checkEmpresaCotizada : boolean = false
+  cotizadaEnBolsaPorInforme : string = ""
+  actualTCInforme : string = ""
+  fechaUltimaConsultaInforme : string = ""
+  ultimaConsultaPorInforme : string = ""
+
+  guardar(){
+    console.log(this.fechaConstitucionInforme)
+    console.log(this.inicioActividadesInforme)
+    console.log(this.duracionInforme)
+    console.log(this.registradaEnInforme)
+    console.log(this.notariaInforme)
+    console.log(this.registrosPublicosInforme)
+    console.log(this.capitalPagadoActualInforme)
+    console.log(this.origenInforme)
+    console.log(this.fechaAumentoInforme)
+    console.log(this.monedaPaisInforme)
+    console.log(this.checkEmpresaCotizada)
+    console.log(this.cotizadaEnBolsaPorInforme)
+    console.log(this.actualTCInforme)
+    console.log(this.fechaUltimaConsultaInforme)
+    console.log(this.ultimaConsultaPorInforme)
   }
 }

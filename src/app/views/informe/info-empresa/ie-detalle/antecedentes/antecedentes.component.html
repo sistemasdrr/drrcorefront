@@ -7,9 +7,9 @@
       <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
-          <input matInput [matDatepicker]="fecha_informe">
-          <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
-          <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+          <input matInput [matDatepicker]="fecha_contitucion_informe" (dateChange)="onDateChange1($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_contitucion_informe"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_contitucion_informe color="primary"></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="col-md-2">
@@ -18,7 +18,7 @@
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-flag-checkered"></i>
           </span>
-          <input matInput placeholder="" value="" type="number">
+          <input matInput placeholder="" [(ngModel)]="inicioActividadesInforme" type="number">
         </mat-form-field>
       </div>
       <div class="col-md-2">
@@ -27,7 +27,7 @@
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-hourglass-start"></i>
           </span>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="duracionInforme">
         </mat-form-field>
       </div>
       <div class="col-md-2"></div>
@@ -40,7 +40,7 @@
             </button>
           </div>
           <div class="col-md-6 d-flex justify-content-center mb-2">
-            <button class="btn bg-cyan d-flex" type="button">
+            <button class="btn bg-cyan d-flex" type="button" (click)="guardar()">
               <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
               <div style="font-size: 20px;">&nbsp;Guardar</div>
             </button>
@@ -50,7 +50,7 @@
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Registrada en</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="registradaEnInforme">
           <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloRegistradaEn,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
@@ -59,13 +59,13 @@
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Notaria</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="notariaInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Registros Públicos</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="registrosPublicosInforme">
           <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloRegistrosPublicos,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
@@ -74,7 +74,7 @@
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Capital Pagado Actual</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="capitalPagadoActualInforme">
           <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloCapitalActual,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
@@ -83,17 +83,17 @@
       <div class="col-md-4 d-flex">
         <mat-form-field style="width: 60%;">
           <mat-label>Origen</mat-label>
-          <mat-select >
+          <mat-select [(ngModel)]="origenInforme" (selectionChange)="selectOrigen($event.value)">
             <mat-option [value]="''">
             </mat-option>
-            <mat-option [value]="'CAPITALIZACION'">
+            <mat-option [value]="'NACIONAL'">
               Nacional
             </mat-option>
             <mat-option [value]="'EXTRANJERO'">
               Extranjero
             </mat-option>
             <mat-option [value]="'MIXTO'">
-              Misto
+              Mixto
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -109,7 +109,7 @@
       <div class="col-md-4 d-flex">
         <mat-form-field class="example-full-width">
           <mat-label>Fecha Aumento</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="fechaAumentoInforme">
           <button class="btn-traduccion" matSuffix mat-icon-button  (click)="agregarComentario(titulo, tituloFechaAumento,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
@@ -118,7 +118,7 @@
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Moneda del País</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="monedaPaisInforme">
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-coins"></i>
           </span>
@@ -139,7 +139,7 @@
 
           <mat-form-field style="width: 60%;">
             <mat-label>Por</mat-label>
-            <mat-select >
+            <mat-select [(ngModel)]="cotizadaEnBolsaPorInforme" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
               <mat-option [value]="''">
               </mat-option>
               <mat-option [value]="'CAPITALIZACION'">
@@ -155,7 +155,7 @@
       <div class="col-md-4 d-flex">
         <mat-form-field class="example-full-width">
           <mat-label>Actual T.C. X 1 US$</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="actualTCInforme">
           <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloActualTC,'', 'ALICORP S.A.')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
@@ -165,15 +165,15 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Ultima Consulta a RR.PP.</mat-label>
-          <input matInput [matDatepicker]="fecha_informe2">
-          <mat-datepicker-toggle matIconSuffix [for]="fecha_informe2"></mat-datepicker-toggle>
-          <mat-datepicker #fecha_informe2 color="primary"></mat-datepicker>
+          <input matInput [matDatepicker]="fecha_ultima_consulta" (dateChange)="onDateChange2($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_ultima_consulta"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_ultima_consulta color="primary"></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Por</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="ultimaConsultaPorInforme">
         </mat-form-field>
       </div>
     </div>

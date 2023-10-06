@@ -11,11 +11,11 @@ export class MorosidadComercialService {
     {
       id : 1,
       acreProv : "Acreedor o proveedor",
-      tipoDocumento : "tipo doc",
-      fecha : "29/06/2023",
+      tipoDocumento : "Letra Protestada",
+      fecha : "29/6/2023",
       montoMN : "monto mn",
       montoME : "monto me",
-      fechaPago : "29/09/2023",
+      fechaPago : "29/9/2023",
       diasAtraso : "90 dias"
     }
   ]

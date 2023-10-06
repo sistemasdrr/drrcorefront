@@ -6,15 +6,16 @@
       <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Informe Investigado el</mat-label>
-          <input matInput [matDatepicker]="fecha_informe">
+          <input matInput [matDatepicker]="fecha_informe" #fechaInput [ngModel]="" (dateChange)="onDateChange($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
           <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
         </mat-form-field>
+
       </div>
       <div class="col-md-2 d-flex justify-content-center">
         <mat-form-field style="width: 100%;">
           <mat-label>Idioma</mat-label>
-          <mat-select  (selectionChange)="actualizarSeleccionIdioma($event.value)">
+          <mat-select [(ngModel)]="idiomaInforme" (selectionChange)="selectIdioma($event.value)">
             <mat-option [value]="'ESPAÑOL'">
               <span class="fi fi-es"></span>
               ESPAÑOL
@@ -30,16 +31,16 @@
 
           </mat-select>
           <button class="btn-traduccion" matSuffix mat-icon-button>
-            <span class="fi fi-es" *ngIf="idiomaSeleccionado === 'ESPAÑOL'"></span>
-            <span class="fi fi-us" *ngIf="idiomaSeleccionado === 'INGLES'"></span>
-            <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="idiomaSeleccionado === 'ESPAÑOL-INGLES'"></span>
+            <span class="fi fi-es" *ngIf="idiomaInforme === 'ESPAÑOL'"></span>
+            <span class="fi fi-us" *ngIf="idiomaInforme === 'INGLES'"></span>
+            <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="idiomaInforme === 'ESPAÑOL-INGLES'"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-2 d-flex justify-content-center">
         <mat-form-field style="width: 100%;">
           <mat-label>Tipo de Institución</mat-label>
-          <mat-select >
+          <mat-select [(ngModel)]="tipoIntitucionInforme" (selectionChange)="selectInstitucionInforme($event.value)" >
             <mat-option [value]="'PERSONA JURIDICA'">
               PERSONA JURÍDICA
             </mat-option>
@@ -52,7 +53,7 @@
       <div class="col-md-2">
         <mat-form-field class="example-full-width">
           <mat-label>Año de Fundación</mat-label>
-          <input matInput placeholder="" type="number" value="">
+          <input matInput placeholder="" type="number" [(ngModel)]="anioFundacionInforme">
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -64,7 +65,7 @@
             </button>
           </div>
           <div class="col-md-6 d-flex justify-content-center mb-2">
-            <button class="btn bg-cyan d-flex" type="button">
+            <button class="btn bg-cyan d-flex" type="button" (click)="guardar()">
               <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
               <div style="font-size: 20px;">&nbsp;Guardar</div>
             </button>
@@ -74,19 +75,19 @@
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Razón Social</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="razonSocialInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Nombre Comercial / Sigla</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="nombreComercialInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field style="width: 100%;">
           <mat-label>Personería Jurídica</mat-label>
-          <mat-select >
+          <mat-select [(ngModel)]="personeriaJuridicaInforme" (selectionChange)="selectPersoneriaJuridica($event.value)" >
             <mat-option *ngFor="let pJuridica of personeriaJuridica" [value]="pJuridica">
               {{pJuridica}}
             </mat-option>
@@ -102,17 +103,17 @@
       <div class="col-md-5 d-flex">
         <mat-form-field class="">
           <mat-label>Tipo</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="tipoRegistroTributarioInforme">
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Código</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="codigoRegistroTributarioInforme">
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field style="width: 100%;">
           <mat-label>Situación RUC</mat-label>
-          <mat-select >
+          <mat-select [(ngModel)]="situacionRucInforme" (selectionChange)="selectSituacionRuc($event.value)">
             <mat-option *ngFor="let situacion of situacionRUC" [value]="situacion">
               {{situacion}}
             </mat-option>
@@ -143,20 +144,20 @@
       <div class="col-md-6">
         <mat-form-field class="example-full-width">
           <mat-label>Dirección Completa</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="direccionCompletaInforme" >
           <mat-hint>Av., N° de Barrio, Urb., Fracc., Colonia, Dist., Prov.</mat-hint>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="example-full-width">
           <mat-label>Dpto. o Estado</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder  [(ngModel)]="dptoEstadoInforme">
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="example-full-width">
           <mat-label>País</mat-label>
-          <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccionPais($event.value)">
+          <mat-select [(ngModel)]="paisInforme" (selectionChange)="actualizarSeleccionPais($event.value)">
             <mat-option *ngFor="let pais of paises" [value]="pais.id">
               <span class="fi fi-{{pais.icono}}"></span>
               {{pais.nombre}}
@@ -170,41 +171,41 @@
       <div class="col-md-5 d-flex">
         <mat-form-field style="width: 50%;">
           <mat-label>Código</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="codigoTelefonoFijoInforme">
         </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Teléfonos Fijos</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="telefonoFijoInforme">
         </mat-form-field>
       </div>
       <div class="col-md-5">
         <mat-form-field class="example-full-width">
           <mat-label>Teléfonos Celulares</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="celularInforme">
         </mat-form-field>
       </div>
       <div class="col-md-2">
         <mat-form-field class="example-full-width">
           <mat-label>Cód. Postal</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="codPostalInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Whatsapp Empresarial</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="whatsappInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Email Corporativo</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="emailInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Página Web</mat-label>
-          <input matInput placeholder="" value="">
+          <input matInput placeholder="" [(ngModel)]="paginaWebInforme">
         </mat-form-field>
       </div>
 
@@ -216,7 +217,7 @@
       <div class="col-md-12 d-flex">
         <mat-form-field style="width: 100%;">
           <mat-label>Riesgo Crediticio</mat-label>
-          <mat-select >
+          <mat-select [(ngModel)]="riesgoCrediticioInforme" (selectionChange)="selectRiesgoCrediticio($event.value)" >
             <mat-option *ngFor="let cCrediticia of calificacionCrediticia" [value]="cCrediticia">
               {{cCrediticia}}
             </mat-option>
@@ -226,7 +227,7 @@
       <div class="col-md-12 d-flex" style="margin-bottom: 0rem;">
         <mat-form-field style="width: 100%;">
           <mat-label>Política de Pagos</mat-label>
-          <mat-select >
+          <mat-select [(ngModel)]="politicaPagosInforme" (selectionChange)="selectPoliticaPagos($event.value)">
             <mat-option *ngFor="let pPagos of politicaPagos" [value]="pPagos">
               {{pPagos}}
             </mat-option>
@@ -236,7 +237,7 @@
       <div class="col-md-12 d-flex" style="margin-bottom: 0rem;">
         <mat-form-field style="width: 100%;">
           <mat-label>Reputación</mat-label>
-          <mat-select >
+          <mat-select [(ngModel)]="reputacionInforme" (selectionChange)="selectReputacion($event.value)">
             <mat-option *ngFor="let reputacion of reputaciones" [value]="reputacion">
               {{reputacion}}
             </mat-option>

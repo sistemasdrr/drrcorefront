@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MorosidadComercial } from 'app/models/morosidad-comercial';
 import { MorosidadComercialService } from 'app/services/morosidad-comercial.service';
@@ -22,6 +23,8 @@ export class MorosidadComercialComponent {
   fechaPago = ""
   diasAtraso = ""
 
+  fechaSeleccionada : Date = new Date()
+  fechaPagoSeleccionada : Date = new Date()
   constructor(
     public dialogRef: MatDialogRef<MorosidadComercialComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,9 +43,15 @@ export class MorosidadComercialComponent {
       this.acreProv = morCom.acreProv
       this.tipoDoc = morCom.tipoDocumento
       this.fecha = morCom.fecha
+      const fecha = this.fecha.split("/");
+      console.log(fecha)
+      this.fechaSeleccionada = new Date(parseInt(fecha[2]), parseInt(fecha[1])-1,parseInt(fecha[0]))
       this.montoMN = morCom.montoMN
       this.montoME = morCom.montoME
       this.fechaPago = morCom.fechaPago
+      const fechaPago = this.fechaPago.split("/");
+      console.log(fechaPago)
+      this.fechaPagoSeleccionada = new Date(parseInt(fechaPago[2]), parseInt(fechaPago[1])-1,parseInt(fechaPago[0]))
       this.diasAtraso = morCom.diasAtraso
     }
   }
@@ -128,5 +137,26 @@ export class MorosidadComercialComponent {
         })
       }
     })
+  }
+
+  onDateChange1(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fecha = this.formatDate(selectedDate)
+    }
+  }
+  onDateChange2(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaPago = this.formatDate(selectedDate)
+    }
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+
+    return `${day}/${month}/${year}`;
   }
 }

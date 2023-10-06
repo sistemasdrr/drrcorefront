@@ -17,9 +17,7 @@ export interface data {
 })
 
 export class RamoComponent implements OnInit{
-  checkImportacion = false;
   importacion = "NO"
-  checkExportacion = false;
   exportacion = "NO"
 
   constructor(private dialog : MatDialog){
@@ -45,7 +43,11 @@ export class RamoComponent implements OnInit{
   ramoActividadDialog() {
     const dialogRef1 = this.dialog.open(RamoActividadDialogComponent, {
     data: {
-    },
+      },
+    });
+  dialogRef1.componentInstance.eventSelectRamo.subscribe((data) => {
+    console.log('Datos recibidos desde el diálogo:', data);
+    // Haz lo que necesites con los datos recibidos.
   });
   }
   ImportacionDialog() {
@@ -124,4 +126,55 @@ export class RamoComponent implements OnInit{
   tituloOtrosLocales : string = 'Otros Locales => '
   subtituloOtrosLocales: string = 'Plantas, Almacenes, Depósitos y Sucursales'
 
+
+  //RAMO NEGOCIO
+  sectorPrincipalInforme : string = ""
+  ramoNegociosInforme : string = ""
+  actividadEspecificaInforme : string = ""
+  checkImportacion : boolean = false
+  checkExportacion : boolean = false
+  paisesExportacionInforme : string = ""
+  paisesExportacionIngInforme : string = ""
+  paisesImportacionInforme : string = ""
+  paisesImportacionIngInforme : string = ""
+  ventaContadoInforme : string = ""
+  ventaContadoIngInforme : string = ""
+  creditoTerminosInforme : string = ""
+  creditoTerminosIngInforme : string = ""
+  territorioVentasInforme : string = ""
+  territorioVentasIngInforme : string = ""
+  ventasExteriorInforme : string = ""
+  ventasExteriorIngInforme : string = ""
+  comprasNacionalesInforme : string = ""
+  comprasNacionalesIngInforme : string = ""
+  comprasDelExteriorInforme : string = ""
+  comprasDelExteriorIngInforme : string = ""
+  numTrabajadoresInforme : string = ""
+  titularidadInforme : string = ""
+  areaTotalInforme : string = ""
+  areaTotalIngInforme : string = ""
+  domicilioAnteriorInforme : string = ""
+  otrosLocalesInforme : string = ""
+  otrosLocalesIngInforme : string = ""
+
+  guardar(){
+    console.log(this.sectorPrincipalInforme)
+    console.log(this.ramoNegociosInforme)
+    console.log(this.actividadEspecificaInforme)
+    console.log(this.checkImportacion)
+    console.log(this.checkExportacion)
+    console.log(this.paisesExportacionInforme)
+    console.log(this.paisesImportacionInforme)
+    console.log(this.ventaContadoInforme)
+    console.log(this.creditoTerminosInforme)
+    console.log(this.territorioVentasInforme)
+    console.log(this.ventasExteriorInforme)
+    console.log(this.comprasNacionalesInforme)
+    console.log(this.comprasDelExteriorInforme)
+    console.log(this.numTrabajadoresInforme)
+    console.log(this.titularidadInforme)
+    console.log(this.areaTotalInforme)
+    console.log(this.domicilioAnteriorInforme)
+    console.log(this.otrosLocalesInforme)
+  }
 }

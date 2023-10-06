@@ -4,15 +4,15 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: 'MENUITEMS.MAIN.TEXT',
-    icon: '',
+    icon: 'fa-solid fa-house',
     class: '',
     groupTitle: true,
     submenu: [],
   },
   {
     path: '',
-    title: 'MENUITEMS.HOME.TEXT',
-    icon: 'monitor',
+    title: 'Inicio',
+    icon: 'fa-solid fa-house',
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [
@@ -46,7 +46,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: 'Pedidos',
-    icon: '',
+    icon: 'fa-solid fa-receipt',
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [
@@ -79,7 +79,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: 'Empresas',
-    icon: '',
+    icon: 'fa-solid fa-building',
     class: 'ml-sub-menu',
     groupTitle: false,
     submenu: [
@@ -104,7 +104,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: 'Personas',
-    icon: 'users',
+    icon: 'fa-solid fa-users',
     class: 'ml-sub-menu',
     groupTitle: false,
     submenu: [

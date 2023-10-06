@@ -16,6 +16,8 @@
                 <li class="tbl-search-box d-flex">
                   <label for="search-input"><i class="material-icons search-icon">search</i></label>
                   <input placeholder="Buscar" type="text" #filter class="browser-default search-field" aria-label="Search box">
+
+
                   <select class="form-select" [(ngModel)]="tipoInforme" (change)="applyFilterTipoInforme()" style="margin:  0 1rem 0 1rem;" aria-label="Tipo de Informe">
                     <option selected></option>
                     <option value="RV">RV</option>

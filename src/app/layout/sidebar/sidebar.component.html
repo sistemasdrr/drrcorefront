@@ -23,7 +23,8 @@
             <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null" *ngIf="!sidebarItem.groupTitle;"
               [ngClass]="[sidebarItem.class]" (click)="callToggleMenu($event, sidebarItem.submenu.length)"
               class="menu-top">
-              <i-feather [name]="sidebarItem.icon" class="sidebarIcon"></i-feather>
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="{{sidebarItem.icon}}"></i>&nbsp;
               <span class="hide-menu">{{sidebarItem.title | translate}}
               </span>
             </a>

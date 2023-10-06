@@ -53,7 +53,7 @@
               <div class="col-md-3">
                 <mat-form-field class="w-100" >
                   <mat-label>Tipo de Documento</mat-label>
-                  <mat-select [(ngModel)]="tipoDoc" >
+                  <mat-select [(ngModel)]="tipoDoc">
                     <mat-option  [value]="''">
 
                     </mat-option>
@@ -84,9 +84,9 @@
               <div class="col-md-3">
                 <mat-form-field color="primary" class="w-100" >
                   <mat-label>Fecha</mat-label>
-                  <input matInput [matDatepicker]="fecha_informe">
-                  <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
-                  <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+                  <input matInput [matDatepicker]="fecha" [ngModel]="fechaSeleccionada" (dateChange)="onDateChange1($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha color="primary"></mat-datepicker>
                 </mat-form-field>
               </div>
               <div class="col-md-3" *ngIf="accion === 'AGREGAR'"></div>
@@ -106,9 +106,9 @@
               <div class="col-md-3">
                 <mat-form-field color="primary" class="w-100" >
                   <mat-label>Fecha de Pago o Pendiente</mat-label>
-                  <input matInput [matDatepicker]="fecha_informe">
-                  <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
-                  <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+                  <input matInput [matDatepicker]="fecha_pago" [ngModel]="fechaPagoSeleccionada" (dateChange)="onDateChange2($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha_pago"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha_pago color="primary"></mat-datepicker>
                 </mat-form-field>
               </div>
               <div class="col-md-2">

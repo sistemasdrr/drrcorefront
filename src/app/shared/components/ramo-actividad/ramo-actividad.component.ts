@@ -16,16 +16,16 @@ export class RamoActividadDialogComponent {
   ramoNegocios : RamoNegocio[] = []
 
   idRamoSeleccionado : number = 0
+  nombreRamoSeleccionado : string = ""
 
   listaActividades: Actividad[] = []
   actividadesSeleccionadas : Actividad[] = []
 
    //ENVIO DE COMENTARIO
    @Output()
-   eventSelectAbonado = new EventEmitter<{
-    sectorPrincipal : string,
+   eventSelectRamo = new EventEmitter<{
     ramoNegocio : string,
-    actividades : string[]
+    actividades : Actividad[]
    }>();
 
   constructor(
@@ -35,13 +35,15 @@ export class RamoActividadDialogComponent {
     ){
     this.ramoNegocios = this.ramoNegocioService.getAllRamoNegocio()
   }
-  selectRamo(idRamo : number){
+  selectRamo(idRamo : number, nombreRamo : string){
     if(this.idRamoSeleccionado == idRamo){
       this.listaActividades = []
       this.actividadesSeleccionadas = []
       this.idRamoSeleccionado = 0
+      this.nombreRamoSeleccionado = ""
     }else{
       this.idRamoSeleccionado = idRamo
+      this.nombreRamoSeleccionado = nombreRamo
       this.listaActividades = this.ramoNegocioService.getActividadByRamoId(idRamo)
     }
   }
@@ -102,4 +104,13 @@ export class RamoActividadDialogComponent {
     });
   }
 
+
+  guardar(){
+    const data = {
+      ramoNegocio : this.nombreRamoSeleccionado,
+      actividades : this.actividadesSeleccionadas
+    };
+    this.eventSelectRamo.emit(data);
+    this.dialogRef.close()
+  }
 }
