@@ -3,7 +3,7 @@
     <div class="row counter-box shadow mb-2">
       <h4>Imágenes de la Empresa</h4>
       <hr>
-      <div class="col-md-4">
+      <!--div class="col-md-4">
         <mat-form-field class="example-full-width" *ngIf="img1 === ''">
           <mat-label>Imagen 1</mat-label>
           <input matInput placeholder="" [(ngModel)]="img1">
@@ -28,7 +28,7 @@
             </button>
           </mat-form-field>
         </div>
-      </div>
+      </!--div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width" *ngIf="img2 === ''">
           <mat-label>Imagen 2</mat-label>
@@ -48,14 +48,14 @@
         <div class="col-md-12">
           <mat-form-field class="example-full-width" *ngIf="img2 !== ''">
             <mat-label>Descripción</mat-label>
-            <input matInput placeholder="" [(ngModel)]="descripcion2">
+            <input matInput placeholder="" [(ngModel)]="descripcion2" >
             <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Descripción - Traduccion','Descripción de Imagen 2','','')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
           </mat-form-field>
         </div>
       </div>
-      <div class="col-md-4">
+      <div-- class="col-md-4">
         <mat-form-field class="example-full-width" *ngIf="img3 === ''">
           <mat-label>Imagen 3</mat-label>
           <input matInput placeholder="" [(ngModel)]="img3" >
@@ -80,22 +80,141 @@
             </button>
           </mat-form-field>
         </div>
+      </div-->
+
+      <div class="col-md-8">
+        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" style="height: 20rem;" [accept]="'image/*'" (change)="onSelect($event)" (paste)="onPaste($event)"  [disabled]="cardSeleccionada === 0">
+          <div class="" style="background-size: cover; width: 100%; height: 100%" *ngIf="imgSeleccionadaCheck === true">
+            <img mat-card-image src="{{imgSeleccionada}}" >
+          </div>
+          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100" *ngFor="let file of files" [file]="file" >
+            <ngx-dropzone-label>
+              <!--br>
+              <button class="btn bg-red" (click)="onRemove(file)"><i class="fa-solid fa-trash"></i></button>
+              <button-- class="btn btn-primary" (click)="onRemove(file)"><i class="fa-solid fa-pen-to-square"></i></button-->
+            </ngx-dropzone-label>
+          </ngx-dropzone-image-preview>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="d-flex ">
+          <div class="w-100 d-flex align-items-center" style="font-size: 20px;">
+            {{tituloSeleccion}}
+          </div>
+          <div class="w-100 d-flex justify-content-end">
+            <button mat-mini-fab color="primary" (click)="agregarImagen(cardSeleccionada)" [disabled]="cardSeleccionada === 0">
+              <mat-icon class="col-white">add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <hr>
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width">
+              <mat-label>Descripción</mat-label>
+              <input matInput placeholder [(ngModel)]="desc"  [disabled]="cardSeleccionada === 0">
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width">
+              <mat-label>Descripción Inglés</mat-label>
+              <input matInput placeholder [(ngModel)]="descIng"  [disabled]="cardSeleccionada === 0">
+            </mat-form-field>
+        </div>
       </div>
 
+      <div class="col-md-12">
 
-      <!--div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
-        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" >
-          <ngx-dropzone-label>
-            {{ f.name }} ({{ f.type }})
-            <br>
-            <button class="btn bg-red" (click)="onRemove(f)"><i class="fa-solid fa-trash"></i></button>
-            <button class="btn btn-primary" (click)="onRemove(f)"><i class="fa-solid fa-pen-to-square"></i></button>
+      </div>
 
-          </ngx-dropzone-label>
-
-        </ngx-dropzone-image-preview>
-      </!--div-->
     </div>
   </div>
+  <div class="col-md-4">
+    <mat-card>
+      <img mat-card-image style="background-size: cover; width: 100%; height: 100%" src="{{img1}}" >
+      <mat-card-content>
+        <p><b>Descripción : </b>{{imgDesc1}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescIng1}}</p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions class="w-100" style="display: unset;">
+        <div fxLayout="row">
+          <div class="w-100 d-flex justify-content-end">
+            <button mat-button class="btn bg-green" (click)="seleccionarCard(1)" style="margin-right: .5em;">
+              Seleccionar
+            </button>
+            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="col-md-4">
+    <mat-card>
+      <img mat-card-image src="{{img2}}">
+      <mat-card-content>
+       <p><b>Descripción : </b>{{imgDesc2}}</p>
+       <p><b>Descripción Inglés: </b>{{imgDescIng2}}</p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions class="w-100" style="display: unset;">
+        <div fxLayout="row">
+          <div class="w-100 d-flex justify-content-end">
+            <button mat-button class="btn bg-green" (click)="seleccionarCard(2)" style="margin-right: .5em;">
+              Seleccionar
+            </button>
+            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="col-md-4">
+    <mat-card>
+      <img mat-card-image src="{{img3}}">
+      <mat-card-content>
+        <p><b>Descripción : </b>{{imgDesc3}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescIng3}}</p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions class="w-100" style="display: unset;">
+        <div fxLayout="row">
+          <div class="w-100 d-flex justify-content-end">
+            <button mat-button class="btn bg-green" (click)="seleccionarCard(3)" style="margin-right: .5em;">
+              Seleccionar
+            </button>
+            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <div class="col-md-12 mt-2">
+    <mat-card>
+      <img mat-card-image src="{{img4}}">
+      <mat-card-content>
+        <p><b>Descripción : </b>{{imgDesc4}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescIng4}}</p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions class="w-100" style="display: unset;">
+        <div fxLayout="row">
+          <div class="w-100 d-flex justify-content-end">
+            <button mat-button class="btn bg-green" (click)="seleccionarCard(4)" style="margin-right: .5em;">
+              Seleccionar
+            </button>
+            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
+              Guardar
+            </button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
-

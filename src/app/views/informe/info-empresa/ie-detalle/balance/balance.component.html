@@ -3,9 +3,246 @@
     <div class="row counter-box shadow mb-2">
       <h4>Balance General</h4>
       <hr>
-      <div class="col-md-12">
+      <div class="col-md-3">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Fecha del Balance</mat-label>
+          <mat-select>
+            <mat-option [value]="'1'">
+              Balance 1 - Al 31/12/2020
+            </mat-option>
+            <mat-option [value]="'2'">
+              Balance 2 - Al 31/12/2022
+            </mat-option>
+            <mat-option [value]="'3'">
+              Balance 3 - Al 31/12/2022
+            </mat-option>
+            <mat-option [value]="'4'">
+              Balance 4 - Al 31/12/2023
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
 
       </div>
+      <div class="col-md-6">
+        <div class="row justify-content-center">
+          <div class="col-md-6 d-flex justify-content-center mb-2">
+            <button class="btn bg-red d-flex" type="button">
+              <i class="fa-solid fa-right-from-bracket" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;">&nbsp;Volver</div>
+            </button>
+          </div>
+          <div class="col-md-6 d-flex justify-content-center mb-2">
+            <button class="btn bg-cyan d-flex" type="button" >
+              <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
+              <div style="font-size: 20px;">&nbsp;Guardar</div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <h5>Cabecera de Balance</h5>
+      <hr>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Tipo de Moneda</mat-label>
+          <span matSuffix style="margin-right: .5rem; color:gray;">
+            <i class="fa-solid fa-hourglass-start"></i>
+          </span>
+          <input matInput placeholder="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Tipo de C. x US$ Dólar</mat-label>
+          <span matSuffix style="margin-right: .5rem; color:gray;">
+          </span>
+          <input matInput placeholder="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Ventas</mat-label>
+          <span matSuffix style="margin-right: .5rem; color:gray;">
+          </span>
+          <input matInput placeholder="">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <mat-label>Utilidades (Pérdidas) Netas</mat-label>
+          <span matSuffix style="margin-right: .5rem; color:gray;">
+          </span>
+          <input matInput placeholder="">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow mb-2">
+      <div class="mat-elevation-z8 m-0 p-0 row">
+        <div class="col-md-6 m-0 p-0" style="border-right: 5px solid rgb(105, 119, 133);">
+          <!--TAB HEADER-->
+          <div class="col-md-12 d-flex justify-content-center align-items-center"
+          style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-top: 3px solid rgb(140, 207, 255);">
+            <h4>Activos</h4>
+          </div>
+          <div class="col-md-12 ">
+            <mat-accordion class="w-100">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <b>Activos</b>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <input class="form-control" [(ngModel)]="activos" [readOnly]="true">
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-accordion class="w-100">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <b>Activos Corrientes</b>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <input type="number" class="form-control" [(ngModel)]="activosCorrientes" [readOnly]="true" >
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Caja / Banco
+                        </div>
+                        <input type="number" class="form-control" [(ngModel)]="activoCorriente1" (ngModelChange)="getActivoCorriente()">
+                      </div>
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Por Cobrar
+                        </div>
+                        <input type="number" class="form-control" [(ngModel)]="activoCorriente2" (ngModelChange)="getActivoCorriente()">
+                      </div>
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Inventario
+                        </div>
+                        <input type="number" class="form-control" [(ngModel)]="activoCorriente3" (ngModelChange)="getActivoCorriente()">
+                      </div>
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Activos Corrientes
+                        </div>
+                        <input type="number" class="form-control" [(ngModel)]="activoCorriente4" (ngModelChange)="getActivoCorriente()" >
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="w-100">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <b>Activos No Corrientes</b>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <input class="form-control" [(ngModel)]="activosNoCorrientes" [readOnly]="true">
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Fijo
+                        </div>
+                        <input type="number" class="form-control" [(ngModel)]="activoNoCorriente1" (ngModelChange)="getActivoNoCorriente()">
+                      </div>
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Activos No Corrientes
+                        </div>
+                        <input type="number" class="form-control" [(ngModel)]="activoNoCorriente2" (ngModelChange)="getActivoNoCorriente()">
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+          </div>
+
+        </div>
+        <div class="col-md-6 m-0 p-0">
+          <!--TAB HEADER-->
+          <div class="col-md-12 d-flex justify-content-center align-items-center" style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-top: 3px solid rgb(140, 207, 255); border-right: 3px solid rgb(140, 207, 255);">
+            <h4>Pasivos</h4>
+          </div>
+          <div class="col-md-12 ">
+            <mat-accordion class="w-100">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Pasivos
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <input class="form-control" >
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-accordion class="w-100">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Pasivos Corrientes
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <input class="form-control" >
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Bancos / Prov
+                        </div>
+                        <input type="number" class="form-control" >
+                      </div>
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Pasivos Corrientes
+                        </div>
+                        <input type="number" class="form-control" >
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="w-100">
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Pasivos No Corrientes
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        <input class="form-control" >
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="row">
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Largo Plazo
+                        </div>
+                        <input type="number" class="form-control" >
+                      </div>
+                      <div class="col-md-12 d-flex mb-1">
+                        <div class="w-100 d-flex align-items-center ">
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Pasivos No Corrientes
+                        </div>
+                        <input type="text" class="form-control" mask="separator" thousandSeparator="," >
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

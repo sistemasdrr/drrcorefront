@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+
 import { InformeRoutingModule } from './informe-routing.module';
 import { IEListaComponent } from './info-empresa/ie-lista/ie-lista.component';
 import { IEDetalleComponent } from './info-empresa/ie-detalle/ie-detalle.component';
@@ -82,7 +84,10 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     MatIconModule,
     SharedModule,
     NgxDropzoneModule,
-    ClipboardModule
-  ]
+    ClipboardModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+  ],
+  providers: [provideNgxMask()],
 })
 export class InformeModule { }
