@@ -31,7 +31,31 @@ export class AntecedentesComponent implements OnInit{
   @ViewChild('filter') filter!: ElementRef;
 
   myControl = new FormControl<string | data>('');
-  options: data[] = [{name: '112'}, {name: '113'}, {name: '114'}, {name: '115'}, {name: '116'}, {name: '117'}, {name: '118'}, {name: '119'}];
+  options: data[] = [
+    {
+      name: 'PEN - Nuevos Soles (S/.)'
+    },
+    {
+      name: 'USD - Dolár EstadoUnidense ($)'
+    },
+    {
+      name: 'EUR - Euro (€)'
+    },
+    {
+      name: 'JPY - Yen Japonés (¥)'
+    },
+    {
+      name: 'MXN - Peso Mexicano ($)'
+    },
+    {
+      name: 'CLP - Peso Chileno ($)'
+    },
+    {
+      name: 'INR -Rupia India (₹)'
+    },
+    {
+      name: 'RUB - Rublo Ruso (₽)'
+    }];
   filteredOptions: Observable<data[]>;
 constructor(
   public dialog: MatDialog,

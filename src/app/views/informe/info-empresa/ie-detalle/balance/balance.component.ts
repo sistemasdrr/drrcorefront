@@ -8,6 +8,33 @@ import { BalanceService } from 'app/services/balance.service';
   styleUrls: ['./balance.component.scss']
 })
 export class BalanceComponent {
+
+  // options: data[] = [
+  //   {
+  //     name: 'PEN - Nuevos Soles (S/.)'
+  //   },
+  //   {
+  //     name: 'USD - Dolár EstadoUnidense ($)'
+  //   },
+  //   {
+  //     name: 'EUR - Euro (€)'
+  //   },
+  //   {
+  //     name: 'JPY - Yen Japonés (¥)'
+  //   },
+  //   {
+  //     name: 'MXN - Peso Mexicano ($)'
+  //   },
+  //   {
+  //     name: 'CLP - Peso Chileno ($)'
+  //   },
+  //   {
+  //     name: 'INR -Rupia India (₹)'
+  //   },
+  //   {
+  //     name: 'RUB - Rublo Ruso (₽)'
+  //   }];
+
   balanceSeleccionado : number = 0
 
   agregar : boolean = false
@@ -208,7 +235,7 @@ export class BalanceComponent {
       this.updRatios()
 
     }else{
-      let nuevoBalance : Balance = {
+      const nuevoBalance : Balance = {
         id : this.ultimoIdBalance(),
         num : this.ultimoNumBalance(),
         nombreBalance : "Balance " + (this.ultimoNumBalance()+1),
@@ -247,6 +274,7 @@ export class BalanceComponent {
         totalPasivoPatrimonio : this.totalPasivoPatrimonio,
       }
       this.balanceGeneral.balance.push(nuevoBalance)
+      console.log(nuevoBalance)
       this.agregar = false
       this.updRatios()
 
