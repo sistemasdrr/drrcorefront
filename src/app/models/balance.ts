@@ -1,7 +1,13 @@
+export interface BalanceGeneral {
+  id : number
+  idInforme : number
+  balance : Balance[]
+}
 export interface Balance
 {
   id : number
-  idInforme : number
+  num : number
+  nombreBalance : string
   fechaBalance : string
   tipoBalance : string
   tipoBalanceIng : string
