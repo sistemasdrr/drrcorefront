@@ -8,6 +8,9 @@ export class IEDetalleComponent {
   breadscrums = [
     {
       title: 'Detalles de Empresa',
+      subtitle: 'Nombre de Empresa',
+      codigoInforme : 'Z0000729604',
+      usuario : 'Julio del Risco Lizarzaburu',
       items: ['Home', 'Informes'],
       active: 'Empresa',
     },

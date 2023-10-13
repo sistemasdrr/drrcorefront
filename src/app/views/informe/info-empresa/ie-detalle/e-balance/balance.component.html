@@ -1,20 +1,33 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
-      <h4>Balance General</h4>
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Balance General</h4>
+        <div>
+          <button mat-mini-fab class="bg-green" style="margin: 0 .5rem .5rem .5rem;" (click)="agregarBalance()" #tooltip="matTooltip" matTooltip="Nuevo Balance">
+            <mat-icon class="col-white">add</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+            <mat-icon class="col-white">save</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-purple" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Adjuntos">
+            <mat-icon class="col-white">attach_file</mat-icon>
+          </button>
+        </div>
+      </div>
       <hr>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <mat-form-field style="width: 100%;">
           <mat-label>Balance</mat-label>
           <mat-select (selectionChange)="actualizarBalance($event.value)" [(ngModel)]="balanceSeleccionado">
-            <mat-option *ngFor="let balance of balanceGeneral.balance" [value]="balance.num">
+            <mat-option *ngFor="let balance of balanceInforme.balanceGeneral" [value]="balance.num">
               {{balance.nombreBalance}} al {{balance.fechaBalance}}
             </mat-option>
 
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Balance</mat-label>
           <input matInput [matDatepicker]="fecha_balance" [(ngModel)]="fechaBalance" [readonly]="!agregar">
@@ -22,39 +35,17 @@
           <mat-datepicker #fecha_balance color="primary"></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Tipo de Balance</mat-label>
           <input matInput [(ngModel)]="tipoBalance" [readonly]="!agregar">
         </mat-form-field>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Duración de Balance</mat-label>
           <input matInput [(ngModel)]="tiempoBalance" [readonly]="!agregar">
         </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <div class="row ">
-          <div class="col-md-4 d-flex justify-content-center mb-2">
-            <button class="btn bg-green d-flex" type="button" (click)="agregarBalance()">
-              <i class="fa-solid fa-plus" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
-              <div style="font-size: 20px;">&nbsp;Agregar</div>
-            </button>
-          </div>
-          <div class="col-md-4 d-flex justify-content-center mb-2">
-            <button class="btn bg-cyan d-flex" type="button" >
-              <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
-              <div style="font-size: 20px;">&nbsp;Guardar</div>
-            </button>
-          </div>
-          <div class="col-md-4 d-flex justify-content-center mb-2">
-            <button class="btn bg-blue d-flex" type="button" >
-              <i class="fa-solid fa-paperclip" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
-              <div style="font-size: 20px;">&nbsp;Adjuntos</div>
-            </button>
-          </div>
-        </div>
       </div>
       <h5>Cabecera de Balance</h5>
       <hr>
@@ -99,7 +90,7 @@
         <div class="col-md-6 m-0 p-0" style="border-right: 5px solid rgb(105, 119, 133);">
           <!--ACTIVOS-->
           <div class="col-md-12 d-flex justify-content-center align-items-center"
-          style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-top: 3px solid rgb(140, 207, 255);">
+          style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-bottom: 3px solid rgb(140, 207, 255);">
             <h4>Activos</h4>
           </div>
           <div class="col-md-12 ">
@@ -110,7 +101,7 @@
                     <b>Activos</b>
                   </mat-panel-title>
                   <mat-panel-description>
-                    <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activos" [readOnly]="true">
+                    <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activos" (keyup.enter)="enter($event)" (ngModelChange)="updRatios()">
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-accordion class="w-100">
@@ -120,7 +111,7 @@
                         <b>Activos Corrientes</b>
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true"[(ngModel)]="activosCorrientes" [readOnly]="true">
+                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true"[(ngModel)]="activosCorrientes" (ngModelChange)="updRatios()" >
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -159,7 +150,7 @@
                         <b>Activos No Corrientes</b>
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activosNoCorrientes" [readOnly]="true">
+                        <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activosNoCorrientes" (ngModelChange)="updRatios()" >
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -184,10 +175,10 @@
         </div>
         <div class="col-md-6 m-0 p-0">
           <!--PASIVOS-->
-          <div class="col-md-12 d-flex justify-content-center align-items-center" style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-top: 3px solid rgb(140, 207, 255); border-right: 3px solid rgb(140, 207, 255);">
+          <div class="col-md-12 d-flex justify-content-center align-items-center" style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem;  border-bottom: 3px solid rgb(140, 207, 255);">
             <h4>Pasivos</h4>
           </div>
-          <div class="col-md-12 ">
+          <div class="col-md-12 mb-1">
             <mat-accordion class="w-100">
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -195,7 +186,7 @@
                     Pasivos
                   </mat-panel-title>
                   <mat-panel-description>
-                    <input  type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivos" [readOnly]="true" >
+                    <input  type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivos" (ngModelChange)="updRatios()" >
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-accordion class="w-100">
@@ -205,7 +196,7 @@
                         Pasivos Corrientes
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosCorrientes" [readOnly]="true" >
+                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosCorrientes" (ngModelChange)="updRatios()">
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -231,7 +222,7 @@
                         Pasivos No Corrientes
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosNoCorrientes" [readOnly]="true" >
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosNoCorrientes"  >
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -253,7 +244,7 @@
               </mat-expansion-panel>
             </mat-accordion>
           </div>
-          <div class="col-md-12 d-flex justify-content-center align-items-center" style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-top: 3px solid rgb(140, 207, 255); border-right: 3px solid rgb(140, 207, 255);">
+          <div class="col-md-12 d-flex justify-content-center align-items-center" style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-bottom: 3px solid rgb(140, 207, 255);">
             <h4>Patrimonio</h4>
           </div>
           <div class="col-md-12 ">
@@ -264,7 +255,7 @@
                     Patrimonio
                   </mat-panel-title>
                   <mat-panel-description>
-                    <input  type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="patrimonios" [readOnly]="true">
+                    <input  type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="patrimonios" (ngModelChange)="updRatios()">
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="row">
@@ -300,7 +291,7 @@
                         Total Pasivo / Patrimonio
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control"   mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalPasivoPatrimonio" [readOnly]="true">
+                        <input type="text" class="form-control"   mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalPasivoPatrimonio" (ngModelChange)="updRatios()">
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                   </mat-expansion-panel>
@@ -311,17 +302,18 @@
         </div>
         <div class="col-md-6 m-0 p-0 mt-2">
           <div class="alert alert-dark m-2 rounded-2">
-            <div class="w-100 d-flex justify-content-between font-20">
+            <div class="w-100 d-flex justify-content-between font-15">
               <strong>Total Activos: </strong>
-              ${{activos}}
+              $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="activos" >
+
             </div>
           </div>
         </div>
         <div class="col-md-6 m-0 p-0 mt-2">
           <div class="alert alert-dark m-2 rounded-2">
-            <div class="w-100 d-flex justify-content-between font-20">
+            <div class="w-100 d-flex justify-content-between font-15">
               <strong>Total Pasivos + Patrimonio: </strong>
-              ${{totalPasivoPatrimonio}}
+              $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="totalPasivoPatrimonio" >
             </div>
           </div>
         </div>

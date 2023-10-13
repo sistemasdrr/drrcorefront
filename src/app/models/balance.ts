@@ -1,7 +1,8 @@
-export interface BalanceGeneral {
+export interface balanceInforme {
   id : number
   idInforme : number
-  balance : Balance[]
+  balanceGeneral : Balance[],
+  balanceSituacional : Balance[]
 }
 export interface Balance
 {
@@ -26,6 +27,7 @@ export interface Balance
   activoCorriente : number
   fijo : number
   otrosActivosNoCorrientes : number
+  activoNoCorriente : number
   totalActivo : number
   //PASIVO
   bancoProv : number
@@ -41,4 +43,9 @@ export interface Balance
   otros : number
   totalPatrimonio : number
   totalPasivoPatrimonio : number
+  //RATIOS
+  indiceLiquidez : number
+  ratioEndeudamiento : number
+  ratioRentabilidad : number
+  capitalTrabajo : number
 }

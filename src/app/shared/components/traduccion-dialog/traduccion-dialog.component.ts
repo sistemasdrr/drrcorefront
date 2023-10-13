@@ -2,7 +2,7 @@
 import { Component, Inject, Output, EventEmitter,  } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { DialogData, TraduccionData } from 'app/models/dialog-data';
+import { TraduccionData } from 'app/models/dialog-data';
 
 @Component({
   selector: 'app-traduccion-dialog',
@@ -18,17 +18,16 @@ export class TraduccionDialogComponent{
   comentario_es : string = ""
   comentario_en : string = ""
 
-  titulo1 : string
-  titulo2 : string
+  titulo : string
   subtitulo : string
   constructor(
     public dialogRef: MatDialogRef<TraduccionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: TraduccionData) {
       console.log(data)
-    this.titulo1 = this.data.titulo1
-    this.titulo2 = this.data.titulo2
+    this.titulo = this.data.titulo
     this.subtitulo = this.data.subtitulo
-    this.empresa = this.data.empresa
+    this.comentario_es = this.data.comentario_es
+    this.comentario_en = this.data.comentario_en
   }
   realizarEnvioCodigo() {
     this.dialogRef.close({

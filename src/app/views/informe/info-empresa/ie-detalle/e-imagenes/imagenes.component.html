@@ -1,7 +1,12 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
-      <h4>Imágenes de la Empresa</h4>
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Imágenes de la Empresa</h4>
+        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+          <mat-icon class="col-white">save</mat-icon>
+        </button>
+      </div>
       <hr>
       <!--div class="col-md-4">
         <mat-form-field class="example-full-width" *ngIf="img1 === ''">
@@ -140,11 +145,11 @@
       <mat-card-actions class="w-100" style="display: unset;">
         <div fxLayout="row">
           <div class="w-100 d-flex justify-content-end">
-            <button mat-button class="btn bg-green" (click)="seleccionarCard(1)" style="margin-right: .5em;">
-              Seleccionar
+            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(1)" #tooltip="matTooltip" matTooltip="Seleccionar">
+              <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
-              Guardar
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 1)">
+              <mat-icon class="col-white">delete</mat-icon>
             </button>
           </div>
         </div>
@@ -162,11 +167,11 @@
       <mat-card-actions class="w-100" style="display: unset;">
         <div fxLayout="row">
           <div class="w-100 d-flex justify-content-end">
-            <button mat-button class="btn bg-green" (click)="seleccionarCard(2)" style="margin-right: .5em;">
-              Seleccionar
+            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(2)" #tooltip="matTooltip" matTooltip="Seleccionar">
+              <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
-              Guardar
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 2)">
+              <mat-icon class="col-white">delete</mat-icon>
             </button>
           </div>
         </div>
@@ -184,11 +189,11 @@
       <mat-card-actions class="w-100" style="display: unset;">
         <div fxLayout="row">
           <div class="w-100 d-flex justify-content-end">
-            <button mat-button class="btn bg-green" (click)="seleccionarCard(3)" style="margin-right: .5em;">
-              Seleccionar
+            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(3)" #tooltip="matTooltip" matTooltip="Seleccionar">
+              <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
-              Guardar
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 3)">
+              <mat-icon class="col-white">delete</mat-icon>
             </button>
           </div>
         </div>
@@ -206,11 +211,11 @@
       <mat-card-actions class="w-100" style="display: unset;">
         <div fxLayout="row">
           <div class="w-100 d-flex justify-content-end">
-            <button mat-button class="btn bg-green" (click)="seleccionarCard(4)" style="margin-right: .5em;">
-              Seleccionar
+            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(4)" #tooltip="matTooltip" matTooltip="Seleccionar">
+              <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-button class="btn bg-blue" style="margin-left: .5rem;">
-              Guardar
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 4)">
+              <mat-icon class="col-white">delete</mat-icon>
             </button>
           </div>
         </div>

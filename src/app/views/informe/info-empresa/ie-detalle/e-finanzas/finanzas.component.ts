@@ -7,6 +7,7 @@ import { HistoricoVentas } from 'app/models/historico-ventas';
 import { Observable, map, startWith } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
+import { BalanceSituacionalComponent } from './balance-situacional/balance-situacional.component';
 
 export interface data {
   name: string;
@@ -113,6 +114,11 @@ export class FinanzasComponent implements OnInit {
       subtitulo : subtitulo,
       empresa: empresa,
       },
+    });
+  }
+  balanceSituacional(idInforme : number) {
+    const dialogRef = this.dialog.open(BalanceSituacionalComponent, {
+    data : idInforme,
     });
   }
   titulo = 'Comentario - Traduccion'

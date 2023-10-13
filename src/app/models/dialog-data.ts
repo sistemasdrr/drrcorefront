@@ -3,10 +3,10 @@ export interface DialogData {
 
 }
 export interface TraduccionData{
-  empresa: string
-  titulo1 : string
-  titulo2 : string
+  titulo : string
   subtitulo : string
+  comentario_es : string
+  comentario_en : string
 }
 
 export interface ImpoExpoDialogData{

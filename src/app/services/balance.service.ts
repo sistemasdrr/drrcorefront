@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BalanceGeneral } from 'app/models/balance';
+import { balanceInforme } from 'app/models/balance';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BalanceService {
-  balances : BalanceGeneral[] = [
+  balances : balanceInforme[] = [
     {
       id : 1,
       idInforme : 1,
-      balance : [
+      balanceGeneral : [
         {
           id : 1,
           num : 0,
@@ -33,6 +33,7 @@ export class BalanceService {
           fijo : 1453466000.00,
           otrosActivosNoCorrientes : 6082188000.00,
           totalActivo : 9754172000.00,
+          activoNoCorriente : 0,
 
           bancoProv : 4320087000.00,
           otrosPasivosCorrientes : 191616000.00,
@@ -46,7 +47,11 @@ export class BalanceService {
           utilidades : 524143000.00,
           otros : 1328845000.00,
           totalPatrimonio : 2872479000.00,
-          totalPasivoPatrimonio : 9754172000.00
+          totalPasivoPatrimonio : 9754172000.00,
+          indiceLiquidez : 0.49,
+          ratioEndeudamiento : 63.67,
+          ratioRentabilidad : 7.15,
+          capitalTrabajo : -2293185000,
         },
         {
           id : 2,
@@ -70,6 +75,7 @@ export class BalanceService {
           activoCorriente : 12218518000.00,
           fijo : 11453466000.00,
           otrosActivosNoCorrientes : 16082188000.00,
+          activoNoCorriente : 0,
           totalActivo : 19754172000.00,
 
           bancoProv : 14320087000.00,
@@ -84,7 +90,12 @@ export class BalanceService {
           utilidades : 524143000.00,
           otros : 1328845000.00,
           totalPatrimonio : 2872479000.00,
-          totalPasivoPatrimonio : 9754172000.00
+          totalPasivoPatrimonio : 9754172000.00,
+
+          indiceLiquidez : 0.49,
+          ratioEndeudamiento : 63.67,
+          ratioRentabilidad : 7.15,
+          capitalTrabajo : -2293185000,
         },
         {
           id : 3,
@@ -115,6 +126,7 @@ export class BalanceService {
           pasivoCorriente : 4511703000.00,
           largoPlazo : 2369990000.00,
           otrosPasivosNoCorrientes : 0,
+          activoNoCorriente : 0,
           totalPasivo : 6881693000.00,
 
           capital : 847192000.00,
@@ -122,22 +134,28 @@ export class BalanceService {
           utilidades : 524143000.00,
           otros : 1328845000.00,
           totalPatrimonio : 2872479000.00,
-          totalPasivoPatrimonio : 9754172000.00
+          totalPasivoPatrimonio : 9754172000.00,
+
+          indiceLiquidez : 0.49,
+          ratioEndeudamiento : 63.67,
+          ratioRentabilidad : 7.15,
+          capitalTrabajo : -2293185000,
         },
-      ]
+      ],
+      balanceSituacional : []
     }
   ]
   constructor() { }
-  GetAllBalanceGeneral(){
+  GetAllbalanceInforme(){
     return this.balances
   }
-  GeTBalanceGeneralById(id : number){
+  GeTbalanceInformeById(id : number){
     return this.balances.filter(x => x.id == id)[0]
   }
-  GeTBalanceGeneralByIdInforme(id : number){
+  GeTbalanceInformeByIdInforme(id : number){
     return this.balances.filter(x => x.idInforme == id)[0]
   }
-  AddBalanceGeneral(obj : BalanceGeneral){
+  AddbalanceInforme(obj : balanceInforme){
     let idMax : number = 0
     for (let i = 0; i < this.balances.length; i++) {
       const elemento = this.balances[i]
@@ -148,7 +166,7 @@ export class BalanceService {
     obj.id = idMax+1
     this.balances.push(obj)
   }
-  UpdateBalanceGeneral(obj : BalanceGeneral){
+  UpdatebalanceInforme(obj : balanceInforme){
     const index = this.balances.findIndex(x => x.id === obj.id);
     if (index !== -1) {
       this.balances[index] = obj;

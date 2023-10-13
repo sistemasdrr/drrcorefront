@@ -23,7 +23,7 @@ export interface data {
 export class AntecedentesComponent implements OnInit{
   //TABLA
   dataSource: MatTableDataSource<EmpresaRelacionada>;
-  columnsToDisplay = ['razonSocial', 'pais', 'fechaEstablecimiento', 'registroTributario', 'estado', 'accion'];
+  columnsToDisplay = ['razonSocial', 'registroTributario', 'pais', 'fechaEstablecimiento', 'estado', 'accion'];
   selection = new SelectionModel<EmpresaRelacionada>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -78,17 +78,16 @@ constructor(
   }
 
   private _filter(name: string): data[] {
-    const filterValue = name.toLowerCase();
-    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+    return this.options.filter(option => option.name.toLowerCase().includes(name.toLowerCase()));
   }
 
-  agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
+  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
     data: {
-      titulo1 : titulo1,
-      titulo2 : titulo2,
+      titulo : titulo,
       subtitulo : subtitulo,
-      empresa: empresa,
+      comentario_es : comentario_es,
+      comentario_en : comentario_en
 
     },
   });
@@ -123,15 +122,15 @@ constructor(
   }
 
   //TITULOS DE COMENTARIOS
-  titulo : string = 'Comentario - Traduccion'
-  tituloRegistradaEn : string = 'Registrada En => '
-  tituloRegistrosPublicos : string = 'Registros Públicos => '
-  tituloCapitalActual : string = 'Capital Actual => '
-  tituloFechaAumento : string = 'Fecha de Aumento => '
-  tituloActualTC : string = 'Actual T.C. Por 1US$ => '
-  tituloComentarioAntecedentes : string = 'Antecedentes Legales => '
+  tituloDuracion : string = "Traducción => Duración"
+  tituloRegistradaEn : string = 'Traducción => Registrada En'
+  tituloRegistrosPublicos : string = 'Traducción => Registros Públicos'
+  tituloCapitalActual : string = 'Traducción => Capital Actual'
+  tituloFechaAumento : string = 'Traducción => Fecha de Aumento'
+  tituloActualTC : string = 'Traducción => Actual T.C. Por 1US$ '
+  tituloComentarioAntecedentes : string = 'Antecedentes Legales '
   subtituloComentarioAntecedentes: string = 'Anote aquí unicamente Datos de Contitución, Gestores del Negocio, Aumentos del Capital, Cambios de Razón Social, Objeto Social, Fusiones, Cotización de la Acciones, entre otros.'
-  tituloHistoria : string = 'Historia (Antecedentes) => '
+  tituloHistoria : string = 'Historia (Antecedentes)'
   subtituloHistoria: string = 'Anote aquí unicamente el Historial de la Empresa a travéz del tiempo, a que grupo económico pertenecen, destacar al principal accionista, posición en el mercado, etc.'
 
 

@@ -1,0 +1,360 @@
+<mat-dialog-content class="mat-typography p-3" style="min-height: 40rem;">
+  <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0; overflow-y: auto;">
+    <div class="col-md-12 mb-2">
+      <div class="row counter-box shadow mb-2">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <h4>Balance Situacional</h4>
+          <div>
+            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem .5rem .5rem;" (click)="agregarBalance()" #tooltip="matTooltip" matTooltip="Nuevo Balance">
+              <mat-icon class="col-white">add</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+              <mat-icon class="col-white">save</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-purple" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Adjuntos">
+              <mat-icon class="col-white">attach_file</mat-icon>
+            </button>
+          </div>
+        </div>
+        <hr>
+        <div class="col-md-3">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Balance</mat-label>
+            <mat-select (selectionChange)="actualizarBalance($event.value)" [(ngModel)]="balanceSeleccionado">
+              <mat-option *ngFor="let balance of balanceInforme.balanceGeneral" [value]="balance.num">
+                {{balance.nombreBalance}} al {{balance.fechaBalance}}
+              </mat-option>
+
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field color="primary" style="width: 100%;">
+            <mat-label>Fecha de Balance</mat-label>
+            <input matInput [matDatepicker]="fecha_balance" [(ngModel)]="fechaBalance" [readonly]="!agregar">
+            <mat-datepicker-toggle matIconSuffix [for]="fecha_balance" [disabled]="!agregar"></mat-datepicker-toggle>
+            <mat-datepicker #fecha_balance color="primary"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field color="primary" style="width: 100%;">
+            <mat-label>Tipo de Balance</mat-label>
+            <input matInput [(ngModel)]="tipoBalance" [readonly]="!agregar">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field color="primary" style="width: 100%;">
+            <mat-label>Duración de Balance</mat-label>
+            <input matInput [(ngModel)]="tiempoBalance" [readonly]="!agregar">
+          </mat-form-field>
+        </div>
+        <h5>Cabecera de Balance</h5>
+        <hr>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Tipo de Moneda</mat-label>
+            <span matSuffix style="margin-right: .5rem; color:gray;">
+              <i class="fa-solid fa-hourglass-start"></i>
+            </span>
+            <input matInput placeholder="" [(ngModel)]="tipoMoneda">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Tipo de C. x US$ Dólar</mat-label>
+            <span matSuffix style="margin-right: .5rem; color:gray;">
+            </span>
+            <input matInput placeholder="" [(ngModel)]="tipoCambio">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Ventas</mat-label>
+            <span matSuffix style="margin-right: .5rem; color:gray;">
+            </span>
+            <input matInput mask="separator" thousandSeparator="{{separator}}"  [(ngModel)]="ventas" (ngModelChange)="updRatios()">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Utilidades (Pérdidas) Netas</mat-label>
+            <span matSuffix style="margin-right: .5rem; color:gray;">
+            </span>
+            <input matInput mask="separator" thousandSeparator="{{separator}}" [(ngModel)]="utilidades" (ngModelChange)="updRatios()">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 mb-2">
+      <div class="row counter-box shadow mb-2">
+        <div class="mat-elevation-z8 m-0 p-0 row">
+          <div class="col-md-6 m-0 p-0" style="border-right: 5px solid rgb(105, 119, 133);">
+            <!--ACTIVOS-->
+            <div class="col-md-12 d-flex justify-content-center align-items-center"
+            style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-bottom: 3px solid rgb(140, 207, 255);">
+              <h4>Activos</h4>
+            </div>
+            <div class="col-md-12 ">
+              <mat-accordion class="w-100">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <b>Activos</b>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activos" (keyup.enter)="enter($event)" (ngModelChange)="updRatios()">
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <mat-accordion class="w-100">
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <b>Activos Corrientes</b>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true"[(ngModel)]="activosCorrientes" (ngModelChange)="updRatios()" >
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="row">
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Caja / Banco
+                          </div>
+                          <!--input type="text" class="form-control" mask="separator" thousandSeparator=","  [(ngModel)]="activoCorriente1" (ngModelChange)="updActivoCorriente()" style="direction: rtl;"-->
+                          <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente1" (ngModelChange)="updActivoCorriente()">
+                        </div>
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Por Cobrar
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente2" (ngModelChange)="updActivoCorriente()">
+                        </div>
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Inventario
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente3" (ngModelChange)="updActivoCorriente()">
+                        </div>
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Activos Corrientes
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente4" (ngModelChange)="updActivoCorriente()">
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                  <mat-accordion class="w-100">
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <b>Activos No Corrientes</b>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activosNoCorrientes" (ngModelChange)="updRatios()" >
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="row">
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Fijo
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true"  [(ngModel)]="activoNoCorriente1" (ngModelChange)="updActivoNoCorriente()">
+                        </div>
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Activos No Corrientes
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="activoNoCorriente2" (ngModelChange)="updActivoNoCorriente()">
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+          <div class="col-md-6 m-0 p-0">
+            <!--PASIVOS-->
+            <div class="col-md-12 d-flex justify-content-center align-items-center" style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem;  border-bottom: 3px solid rgb(140, 207, 255);">
+              <h4>Pasivos</h4>
+            </div>
+            <div class="col-md-12 mb-1">
+              <mat-accordion class="w-100">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Pasivos
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <input  type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivos" (ngModelChange)="updRatios()" >
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <mat-accordion class="w-100">
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Pasivos Corrientes
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosCorrientes" (ngModelChange)="updRatios()">
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="row">
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Bancos / Prov
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivoCorriente1" (ngModelChange)="updPasivoCorriente()" >
+                        </div>
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Pasivos Corrientes
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="pasivoCorriente2" (ngModelChange)="updPasivoCorriente()">
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                  <mat-accordion class="w-100">
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Pasivos No Corrientes
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosNoCorrientes"  >
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div class="row">
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Largo Plazo
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivoNoCorriente1" (ngModelChange)="updPasivoNoCorriente()">
+                        </div>
+                        <div class="col-md-12 d-flex mb-1">
+                          <div class="w-100 d-flex align-items-center ">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Pasivos No Corrientes
+                          </div>
+                          <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="pasivoNoCorriente2" (ngModelChange)="updPasivoNoCorriente()">
+                        </div>
+                      </div>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <div class="col-md-12 d-flex justify-content-center align-items-center" style="background-color: rgba(140, 207, 255,0.5); min-height: 3rem; border-bottom: 3px solid rgb(140, 207, 255);">
+              <h4>Patrimonio</h4>
+            </div>
+            <div class="col-md-12 ">
+              <mat-accordion class="w-100">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Patrimonio
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <input  type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="patrimonios" (ngModelChange)="updRatios()">
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="row">
+                    <div class="col-md-12 d-flex mb-1">
+                      <div class="w-100 d-flex align-items-center ">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Capital
+                      </div>
+                      <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="patrimonio1" (ngModelChange)="updPatrimonio()" >
+                    </div>
+                    <div class="col-md-12 d-flex mb-1">
+                      <div class="w-100 d-flex align-items-center ">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Reservas
+                      </div>
+                      <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="patrimonio2" (ngModelChange)="updPatrimonio()" >
+                    </div>
+                    <div class="col-md-12 d-flex mb-1">
+                      <div class="w-100 d-flex align-items-center ">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Utilidades
+                      </div>
+                      <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="patrimonio3" (ngModelChange)="updPatrimonio()" >
+                    </div>
+                    <div class="col-md-12 d-flex mb-1">
+                      <div class="w-100 d-flex align-items-center ">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros
+                      </div>
+                      <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true"[(ngModel)]="patrimonio4" (ngModelChange)="updPatrimonio()" >
+                    </div>
+                  </div>
+                  <mat-accordion class="w-100">
+                    <mat-expansion-panel>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Total Pasivo / Patrimonio
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <input type="text" class="form-control"   mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalPasivoPatrimonio" (ngModelChange)="updRatios()">
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </div>
+          <div class="col-md-6 m-0 p-0 mt-2">
+            <div class="alert alert-dark m-2 rounded-2">
+              <div class="w-100 d-flex justify-content-between font-15">
+                <strong>Total Activos: </strong>
+                $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="activos" >
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 m-0 p-0 mt-2">
+            <div class="alert alert-dark m-2 rounded-2">
+              <div class="w-100 d-flex justify-content-between font-15">
+                <strong>Total Pasivos + Patrimonio: </strong>
+                $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="totalPasivoPatrimonio" >
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-md-12 mb-2">
+      <div class="row counter-box shadow mb-2">
+        <h4>Ratios</h4>
+        <hr>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Indice de Liquidez</mat-label>
+            <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="indiceLiquidez" [readOnly]="true">
+            <mat-hint><em>(Activo Corriente / Pasivo Corriente)</em></mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Ratio de Endeudamiento (<i class="fa-solid fa-percent"></i>)</mat-label>
+            <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="ratioEndeudamiento"  [readOnly]="true">
+            <mat-hint><em>(Patrimonio / Pasivo Corriente %)</em></mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Ratio de Rentabilidad (<i class="fa-solid fa-percent"></i>)</mat-label>
+            <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="ratioRentabilidad" [readOnly]="true">
+            <mat-hint><em>(Utilidad / Ventas %)</em></mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Capital de Trabajo</mat-label>
+            <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="capitalTrabajo"  [readOnly]="true">
+            <mat-hint><em>(Activo Corriente - Pasivo Corriente)</em></mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

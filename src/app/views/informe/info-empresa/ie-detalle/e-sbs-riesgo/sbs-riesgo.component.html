@@ -2,7 +2,7 @@
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
       <div class="col-md-6">
-        <h4>Referencias Comerciales</h4>
+        <h4 style="margin-bottom: 1.7rem;">Referencias Comerciales</h4>
         <hr>
         <div class="col-md-12 ">
           <h6>Proveedores Nacionales y/o Extranjeros<br><br></h6>
@@ -50,10 +50,7 @@
                   <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[9]]}} </td>
                 </ng-container>
                 <ng-container matColumnDef="{{columnsToDisplayProveedor[10]}}">
-                  <th mat-header-cell *matHeaderCellDef class="text-center d-flex " style="font-size: 18px;">
-                    <div class="d-flex justify-content-center" style="margin-top: 1.3rem; margin-bottom: 1rem;">
-                      Acciones &nbsp;
-                    </div>
+                  <th mat-header-cell *matHeaderCellDef class="text-center">
                     <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarProveedor()">
                       <mat-icon class="col-white">add</mat-icon>
                     </button>
@@ -94,7 +91,12 @@
         </div>
       </div>
       <div class="col-md-6">
-        <h4>Morosidad Comercial</h4>
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <h4>Morosidad Comercial</h4>
+          <button mat-mini-fab class="bg-cyan" #tooltip="matTooltip" matTooltip="Guardar">
+            <mat-icon class="col-white">save</mat-icon>
+          </button>
+        </div>
         <hr>
         <h6>Información Reportada desde la Central de Riesgos respecto a Morosidad Comercial</h6>
           <div class="shadow m-1" style="overflow-x: auto; max-height: 20rem;">
@@ -133,10 +135,7 @@
                   <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[7]]}} </td>
                 </ng-container>
                 <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[8]}}">
-                  <th mat-header-cell *matHeaderCellDef class="text-center d-flex " style="font-size: 18px;">
-                    <div class="d-flex justify-content-center" style="margin-top: 1.3rem; margin-bottom: 1rem;">
-                      Acciones &nbsp;
-                    </div>
+                  <th mat-header-cell *matHeaderCellDef class="text-center">
                     <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarMorosidadComercial()">
                       <mat-icon class="col-white">add</mat-icon>
                     </button>
@@ -199,10 +198,7 @@
             </ng-container>
 
             <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[6]}}">
-              <th mat-header-cell *matHeaderCellDef class="text-center d-flex " style="font-size: 18px;">
-                <div class="d-flex justify-content-center" style="margin-top: 1.3rem; margin-bottom: 1rem;">
-                  Acciones &nbsp;
-                </div>
+              <th mat-header-cell *matHeaderCellDef class="text-center">
                 <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarDeudaBancaria()">
                   <mat-icon class="col-white">add</mat-icon>
                 </button>

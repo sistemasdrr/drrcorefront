@@ -2,56 +2,44 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
-      <h4>Antecedentes Legales - Nombre de empresa</h4>
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Antecedentes Legales</h4>
+        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
+          <mat-icon class="col-white">save</mat-icon>
+        </button>
+      </div>
       <hr>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
-          <input matInput [matDatepicker]="fecha_contitucion_informe" (dateChange)="onDateChange1($event)">
+          <input matInput [matDatepicker]="fecha_contitucion_informe" [readonly]="true" (dateChange)="onDateChange1($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_contitucion_informe"></mat-datepicker-toggle>
           <mat-datepicker #fecha_contitucion_informe color="primary"></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Inicio de Actividades</mat-label>
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-flag-checkered"></i>
           </span>
-          <input matInput placeholder="" [(ngModel)]="inicioActividadesInforme" type="number">
+          <input matInput placeholder="" [(ngModel)]="inicioActividadesInforme"  mask="9999" type="number">
         </mat-form-field>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Duración</mat-label>
-          <span matSuffix style="margin-right: .5rem; color:gray;">
-            <i class="fa-solid fa-hourglass-start"></i>
-          </span>
           <input matInput placeholder="" [(ngModel)]="duracionInforme">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloDuracion,'', 'comentario español', 'comentario ingles')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
         </mat-form-field>
-      </div>
-      <div class="col-md-2"></div>
-      <div class="col-md-3">
-        <div class="row justify-content-center">
-          <div class="col-md-6 d-flex justify-content-center mb-2">
-            <button class="btn bg-red d-flex" type="button">
-              <i class="fa-solid fa-right-from-bracket" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
-              <div style="font-size: 20px;">&nbsp;Volver</div>
-            </button>
-          </div>
-          <div class="col-md-6 d-flex justify-content-center mb-2">
-            <button class="btn bg-cyan d-flex" type="button" (click)="guardar()">
-              <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
-              <div style="font-size: 20px;">&nbsp;Guardar</div>
-            </button>
-          </div>
-        </div>
       </div>
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Registrada en</mat-label>
           <input matInput placeholder="" [(ngModel)]="registradaEnInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloRegistradaEn,'', 'ALICORP S.A.')">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloRegistradaEn,'', 'comentario español', 'comentario ingles')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -66,7 +54,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Registros Públicos</mat-label>
           <input matInput placeholder="" [(ngModel)]="registrosPublicosInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloRegistrosPublicos,'', 'ALICORP S.A.')">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloRegistrosPublicos,'', 'comentario español', 'comentario ingles')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -75,13 +63,13 @@
         <mat-form-field class="example-full-width">
           <mat-label>Capital Pagado Actual</mat-label>
           <input matInput placeholder="" [(ngModel)]="capitalPagadoActualInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloCapitalActual,'', 'ALICORP S.A.')">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloCapitalActual,'', 'comentario español', 'comentario ingles')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-4 d-flex">
-        <mat-form-field style="width: 60%;">
+        <mat-form-field style="width: 75%;">
           <mat-label>Origen</mat-label>
           <mat-select [(ngModel)]="origenInforme" (selectionChange)="selectOrigen($event.value)">
             <mat-option [value]="''">
@@ -97,12 +85,10 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <div class="">
-          <button class="btn bg-blue d-flex justify-content-center" style="color: white; margin: 1rem 0 1rem 1rem;" #tooltip="matTooltip" matTooltip="Comentario del Capital (No se Imprime)"
-          (click)="agregarComentario(titulo, 'Historial de Antecedentes','', 'ALICORP S.A.')">
-          <i class="fa-solid fa-clock" style="font-size: 18px; margin-top: .1rem;"></i>
-           &nbsp;Capital
-        </button>
+        <div class="d-flex justify-content-center" style="width: 25%;">
+          <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarComentario('Historial de Antecedentes','', 'comentario español', 'comentario ingles')"  #tooltip="matTooltip" matTooltip="Comentario del Capital (No se Imprime)">
+            <mat-icon class="col-white">comment</mat-icon>
+          </button>
         </div>
 
       </div>
@@ -110,7 +96,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Fecha Aumento</mat-label>
           <input matInput placeholder="" [(ngModel)]="fechaAumentoInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button  (click)="agregarComentario(titulo, tituloFechaAumento,'', 'ALICORP S.A.')">
+          <button class="btn-traduccion" matSuffix mat-icon-button  (click)="agregarComentario(tituloFechaAumento,'', 'comentario español', 'comentario ingles')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -129,15 +115,23 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      <div class="col-md-4 ">
+      <div class="col-md-5">
         <div class="d-flex">
-          <mat-slide-toggle [(ngModel)]="checkEmpresaCotizada" class="mb-3"  style="width:15rem; margin-left: 1rem; margin-top: 1rem;">
-            ¿Cotizada en Bolsa?
-            <div *ngIf="checkEmpresaCotizada === true">Sí</div>
-            <div *ngIf="checkEmpresaCotizada === false">No</div>
-          </mat-slide-toggle>
+          <mat-form-field style="width: 45%;">
+            <mat-label>¿Cotizada en Bolsa?</mat-label>
+            <mat-select [(ngModel)]="cotizadaEnBolsaPorInforme" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
+              <mat-option [value]="''">
+              </mat-option>
+              <mat-option [value]="'SI'">
+                SÍ
+              </mat-option>
+              <mat-option [value]="'NO'">
+                NO
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <mat-form-field style="width: 60%;">
+          <mat-form-field style="width: 55%;">
             <mat-label>Por</mat-label>
             <mat-select [(ngModel)]="cotizadaEnBolsaPorInforme" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
               <mat-option [value]="''">
@@ -152,11 +146,11 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="col-md-4 d-flex">
+      <div class="col-md-3 d-flex">
         <mat-form-field class="example-full-width">
           <mat-label>Actual T.C. X 1 US$</mat-label>
           <input matInput placeholder="" [(ngModel)]="actualTCInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloActualTC,'', 'ALICORP S.A.')">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloActualTC,'', 'comentario español', 'comentario ingles')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -189,15 +183,15 @@
               <td mat-cell *matCellDef="let report" class="text-center" >{{report[columnsToDisplay[0]]}}</td>
             </ng-container>
             <ng-container matColumnDef="{{columnsToDisplay[1]}}">
-              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> País </th>
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Registro Tributario </th>
               <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[1]]}} </td>
             </ng-container>
             <ng-container matColumnDef="{{columnsToDisplay[2]}}">
-              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fec. de Estab. </th>
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> País </th>
               <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[2]]}} </td>
             </ng-container>
             <ng-container matColumnDef="{{columnsToDisplay[3]}}">
-              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Registro Tributario </th>
+              <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fec. de Estab. </th>
               <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[3]]}} </td>
             </ng-container>
             <ng-container matColumnDef="{{columnsToDisplay[4]}}">
@@ -205,10 +199,7 @@
               <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[4]]}} </td>
             </ng-container>
             <ng-container matColumnDef="{{columnsToDisplay[5]}}">
-              <th mat-header-cell *matHeaderCellDef class="text-center d-flex " style="font-size: 18px;">
-                  <div class="d-flex justify-content-center" style="margin-top: 1.3rem; margin-bottom: 1rem;">
-                    Acciones &nbsp;
-                  </div>
+              <th mat-header-cell *matHeaderCellDef class="text-center">
                   <button mat-mini-fab color="primary" style="margin-top: .7rem;">
                     <mat-icon class="col-white">add</mat-icon>
                   </button>
@@ -237,14 +228,14 @@
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
         <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"  #tooltip="matTooltip" matTooltip="Antecedentes Legales"
-        (click)="agregarComentario(titulo, tituloComentarioAntecedentes,subtituloComentarioAntecedentes, 'ALICORP S.A.')">
+        (click)="agregarComentario(tituloComentarioAntecedentes,subtituloComentarioAntecedentes, 'comentario español', 'comentario ingles')">
           <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Antecedentes
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
         <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" #tooltip="matTooltip" matTooltip="Historia (Antecedentes)"
-        (click)="agregarComentario(titulo, tituloHistoria,subtituloHistoria, 'ALICORP S.A.')">
+        (click)="agregarComentario(tituloHistoria,subtituloHistoria, 'comentario español', 'comentario ingles')">
           <i class="fa-solid fa-magnifying-glass"  style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Historia
         </button>

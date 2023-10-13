@@ -1,44 +1,34 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
-      <h4>Ramo de Negocio - Nombre de empresa</h4>
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Ramo de Negocio - Nombre de empresa</h4>
+        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
+          <mat-icon class="col-white">save</mat-icon>
+        </button>
+      </div>
       <hr>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Sector (Principal)</mat-label>
           <input matInput placeholder="" [(ngModel)]="sectorPrincipalInforme">
         </mat-form-field>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Ramo de Negocios (Principal)</mat-label>
           <input matInput placeholder="" [(ngModel)]="ramoNegociosInforme">
         </mat-form-field>
       </div>
-      <div class="col-md-3">
-        <mat-form-field class="example-full-width">
+      <div class="col-md-4 d-flex">
+        <mat-form-field class="" style="width: 75%;">
           <mat-label>Actividad Específica</mat-label>
           <input matInput placeholder="" [(ngModel)]="actividadEspecificaInforme">
         </mat-form-field>
-      </div>
-      <div class="col-md-1">
-        <div class="row justify-content-center">
-          <div class="col-md-6 d-flex justify-content-center mb-2">
-            <button class="btn bg-primary d-flex" type="button" (click)="ramoActividadDialog()" style="margin-top: .3rem;">
-              <i class="fa-regular fa-circle-question" style="font-size: 20px; color: white; margin: .2rem 0 .2rem 0;"></i>
-              <div style="font-size: 20px;"></div>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="row justify-content-center">
-          <div class="col-md-12 d-flex justify-content-center mb-2">
-            <button class="btn bg-cyan d-flex" type="button" (click)="guardar()">
-              <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
-              <div style="font-size: 20px;">&nbsp;Guardar</div>
-            </button>
-          </div>
+        <div class="d-flex justify-content-center" style="width: 25%;">
+          <button mat-mini-fab class="bg-blue" style="margin-top: .7rem;" (click)="ramoActividadDialog()" #tooltip="matTooltip" matTooltip="Seleccionar Ramo y Actividad">
+            <mat-icon class="col-white">question_mark</mat-icon>
+          </button>
         </div>
       </div>
       <!--COMERCIO EXTERIOR-->

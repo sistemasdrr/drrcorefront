@@ -16,6 +16,7 @@ export class AuthGuard {
       return true;
     } else {
       this.router.navigate(['/authentication/signin']);
+      console.log("No se encuentra logeado")
       return false;
     }
   }

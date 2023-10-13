@@ -1,13 +1,14 @@
-import { Component  } from '@angular/core';
-import { Balance, BalanceGeneral } from 'app/models/balance';
+import { Component, Inject  } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Balance, balanceInforme } from 'app/models/balance';
 import { BalanceService } from 'app/services/balance.service';
 
 @Component({
-  selector: 'app-balance',
-  templateUrl: './balance.component.html',
-  styleUrls: ['./balance.component.scss']
+  selector: 'app-balance-situacional',
+  templateUrl: './balance-situacional.component.html',
+  styleUrls: ['./balance-situacional.component.scss']
 })
-export class BalanceComponent {
+export class BalanceSituacionalComponent {
 
   // options: data[] = [
   //   {
@@ -43,10 +44,11 @@ export class BalanceComponent {
   tipoBalance : string = ""
   tiempoBalance : string = ""
 
-  balanceGeneral : BalanceGeneral = {
+  balanceInforme : balanceInforme = {
     id : 0,
     idInforme : 0,
-    balance : []
+    balanceGeneral : [],
+    balanceSituacional : []
   }
 
   separator = ","
@@ -60,21 +62,21 @@ export class BalanceComponent {
   activoCorriente2 : number = 0
   activoCorriente3 : number = 0
   activoCorriente4 : number = 0
-  activosCorrientes : number = this.activoCorriente1 + this.activoCorriente2 + this.activoCorriente3 + this.activoCorriente4
+  activosCorrientes : number = 0
 
   activoNoCorriente1 : number = 0
   activoNoCorriente2 : number = 0
-  activosNoCorrientes : number = this.activoNoCorriente1 + this.activoNoCorriente2
+  activosNoCorrientes : number = 0
 
-  activos : number = this.activosCorrientes + this.activosNoCorrientes
+  activos : number = 0
 
   pasivoCorriente1 : number = 0
   pasivoCorriente2 : number = 0
-  pasivosCorrientes : number = this.pasivoCorriente1 + this.pasivoCorriente2
+  pasivosCorrientes : number = 0
 
   pasivoNoCorriente1 : number = 0
   pasivoNoCorriente2 : number = 0
-  pasivosNoCorrientes : number = this.pasivoNoCorriente1 + this.pasivoNoCorriente2
+  pasivosNoCorrientes : number = 0
 
   pasivos : number = 0
 
@@ -138,56 +140,63 @@ export class BalanceComponent {
     console.log(val);
   }
 
-  constructor(private balanceService : BalanceService){
-    this.balanceGeneral = this.balanceService.GeTBalanceGeneralByIdInforme(1)
-    this.actualizarBalance(this.balanceSeleccionado)
+  constructor(private balanceService : BalanceService,
+    public dialogRef: MatDialogRef<BalanceSituacionalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: number
+   ){
+    if(data > 0){
+      console.log("balance situacional")
+      this.balanceInforme = this.balanceService.GeTbalanceInformeByIdInforme(data)
+      this.actualizarBalance(this.balanceSeleccionado)
+    }
+
   }
 
   actualizarBalance(numBalance : number){
     this.agregar = false
     this.balanceSeleccionado = numBalance
 
-    const fecha = this.balanceGeneral.balance[this.balanceSeleccionado].fechaBalance.split("/");
+    const fecha = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].fechaBalance.split("/");
     console.log(fecha)
     this.fechaBalance = new Date(parseInt(fecha[2]), parseInt(fecha[1])-1,parseInt(fecha[0]))
 
-    this.tipoBalance = this.balanceGeneral.balance[this.balanceSeleccionado].tipoBalance
-    this.tiempoBalance = this.balanceGeneral.balance[this.balanceSeleccionado].tiempoBalance
+    this.tipoBalance = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tipoBalance
+    this.tiempoBalance = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tiempoBalance
 
-    this.tipoMoneda = this.balanceGeneral.balance[this.balanceSeleccionado].tipoMoneda
-    this.tipoCambio = this.balanceGeneral.balance[this.balanceSeleccionado].tipoCambioDolar
-    this.utilidades = this.balanceGeneral.balance[this.balanceSeleccionado].utilidades
-    this.ventas = this.balanceGeneral.balance[this.balanceSeleccionado].ventas
+    this.tipoMoneda = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tipoMoneda
+    this.tipoCambio = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tipoCambioDolar
+    this.utilidades = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].utilidades
+    this.ventas = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].ventas
 
-    this.activoCorriente1 = this.balanceGeneral.balance[this.balanceSeleccionado].cajaBanco
-    this.activoCorriente2 = this.balanceGeneral.balance[this.balanceSeleccionado].porCobrar
-    this.activoCorriente3 = this.balanceGeneral.balance[this.balanceSeleccionado].inventario
-    this.activoCorriente4 = this.balanceGeneral.balance[this.balanceSeleccionado].otrosActivosCorrientes
-    this.activosCorrientes = this.balanceGeneral.balance[this.balanceSeleccionado].activoCorriente
+    this.activoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].cajaBanco
+    this.activoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].porCobrar
+    this.activoCorriente3 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].inventario
+    this.activoCorriente4 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosActivosCorrientes
+    this.activosCorrientes = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].activoCorriente
 
-    this.activoNoCorriente1 = this.balanceGeneral.balance[this.balanceSeleccionado].fijo
-    this.activoNoCorriente2 = this.balanceGeneral.balance[this.balanceSeleccionado].otrosActivosNoCorrientes
+    this.activoNoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].fijo
+    this.activoNoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosActivosNoCorrientes
     this.activosNoCorrientes = this.activoNoCorriente1 + this.activoNoCorriente2
 
-    this.activos = this.balanceGeneral.balance[this.balanceSeleccionado].totalActivo
+    this.activos = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalActivo
 
-    this.pasivoCorriente1 = this.balanceGeneral.balance[this.balanceSeleccionado].bancoProv
-    this.pasivoCorriente2 = this.balanceGeneral.balance[this.balanceSeleccionado].otrosPasivosCorrientes
-    this.pasivosCorrientes = this.balanceGeneral.balance[this.balanceSeleccionado].pasivoCorriente
+    this.pasivoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].bancoProv
+    this.pasivoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosPasivosCorrientes
+    this.pasivosCorrientes = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].pasivoCorriente
 
-    this.pasivoNoCorriente1 = this.balanceGeneral.balance[this.balanceSeleccionado].largoPlazo
-    this.pasivoNoCorriente2 = this.balanceGeneral.balance[this.balanceSeleccionado].otrosActivosNoCorrientes
+    this.pasivoNoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].largoPlazo
+    this.pasivoNoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosActivosNoCorrientes
     this.pasivosNoCorrientes = this.pasivoNoCorriente1 + this.pasivoNoCorriente2
 
-    this.pasivos = this.balanceGeneral.balance[this.balanceSeleccionado].totalPasivo
+    this.pasivos = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalPasivo
 
-    this.patrimonio1 = this.balanceGeneral.balance[this.balanceSeleccionado].capital
-    this.patrimonio2 = this.balanceGeneral.balance[this.balanceSeleccionado].reservas
-    this.patrimonio3 = this.balanceGeneral.balance[this.balanceSeleccionado].utilidades
-    this.patrimonio4 = this.balanceGeneral.balance[this.balanceSeleccionado].otros
-    this.patrimonios = this.balanceGeneral.balance[this.balanceSeleccionado].totalPatrimonio
+    this.patrimonio1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].capital
+    this.patrimonio2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].reservas
+    this.patrimonio3 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].utilidades
+    this.patrimonio4 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otros
+    this.patrimonios = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalPatrimonio
 
-    this.totalPasivoPatrimonio = this.balanceGeneral.balance[this.balanceSeleccionado].totalPasivoPatrimonio
+    this.totalPasivoPatrimonio = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalPasivoPatrimonio
     this.updRatios()
 
   }
@@ -232,6 +241,10 @@ export class BalanceComponent {
       this.patrimonio4 = 0
       this.patrimonios = 0
       this.totalPasivoPatrimonio = 0
+      this.indiceLiquidez = 0
+      this.ratioEndeudamiento = 0
+      this.ratioRentabilidad = 0
+      this.capitalTrabajo = 0
       this.updRatios()
 
     }else{
@@ -257,6 +270,7 @@ export class BalanceComponent {
         activoCorriente : this.activosCorrientes,
         fijo : this.activoNoCorriente1,
         otrosActivosNoCorrientes : this.activoNoCorriente2,
+        activoNoCorriente : this.activosNoCorrientes,
         totalActivo : this.activos,
         //PASIVO
         bancoProv : this.pasivoCorriente1,
@@ -272,8 +286,13 @@ export class BalanceComponent {
         otros : this.patrimonio4,
         totalPatrimonio : this.patrimonios,
         totalPasivoPatrimonio : this.totalPasivoPatrimonio,
+        //RATIOS
+        indiceLiquidez : this.indiceLiquidez,
+        ratioEndeudamiento : this.ratioEndeudamiento,
+        ratioRentabilidad : this.ratioRentabilidad,
+        capitalTrabajo : this.capitalTrabajo
       }
-      this.balanceGeneral.balance.push(nuevoBalance)
+      this.balanceInforme.balanceGeneral.push(nuevoBalance)
       console.log(nuevoBalance)
       this.agregar = false
       this.updRatios()
@@ -283,7 +302,7 @@ export class BalanceComponent {
 
   ultimoNumBalance() : number{
     let num = 0
-    this.balanceGeneral.balance.forEach(balance => {
+    this.balanceInforme.balanceGeneral.forEach(balance => {
       if(num < balance.num){
         num = balance.num
       }
@@ -293,12 +312,16 @@ export class BalanceComponent {
   }
   ultimoIdBalance(){
     let id = 0
-    this.balanceGeneral.balance.forEach(balance => {
+    this.balanceInforme.balanceGeneral.forEach(balance => {
       if(id < balance.id){
         id = balance.id
       }
     });
     id += 1
     return id
+  }
+
+  enter(event : any){
+    console.log(event)
   }
 }

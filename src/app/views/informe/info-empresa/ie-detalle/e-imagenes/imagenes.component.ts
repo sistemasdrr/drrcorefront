@@ -114,6 +114,11 @@ export class ImagenesComponent {
         this.imgDesc4 = this.desc
         this.imgDescIng4 = this.descIng
       }
+      this.cardSeleccionada = 0
+      this.files = []
+      this.tituloSeleccion = ""
+      this.desc = ""
+      this.descIng = ""
     };
     reader.readAsDataURL(this.files[0]);
   }

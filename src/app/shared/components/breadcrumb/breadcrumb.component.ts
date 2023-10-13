@@ -9,6 +9,13 @@ export class BreadcrumbComponent {
   @Input()
   title!: string;
   @Input()
+  subtitle!: string;
+  @Input()
+  codigoInforme!: string;
+  @Input()
+  usuario!: string;
+  fecha : Date = new Date()
+  @Input()
   items!: string[];
   @Input()
   active_item!: string;

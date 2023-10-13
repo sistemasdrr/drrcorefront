@@ -1,7 +1,12 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
-      <h4>Opinión de Crédito</h4>
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Opinión de Crédito</h4>
+        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+          <mat-icon class="col-white">save</mat-icon>
+        </button>
+      </div>
       <hr>
       <div class="col-md-4">
         <mat-slide-toggle [(ngModel)]="checkSolicitudCredito" class="mb-3"  style="width:15rem; margin-left: 1rem; margin-top: 1rem;">
