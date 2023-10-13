@@ -165,6 +165,7 @@ constructor(
   fechaAumentoIngInforme : string = ""
   monedaPaisInforme : string = ""
   checkEmpresaCotizada : boolean = false
+  cotizadaEnBolsaInforme : string = ""
   cotizadaEnBolsaPorInforme : string = ""
   actualTCInforme : string = ""
   fechaUltimaConsultaInforme : string = ""
