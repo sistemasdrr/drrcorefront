@@ -43,6 +43,17 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { BalanceSituacionalComponent } from './info-empresa/ie-detalle/e-finanzas/balance-situacional/balance-situacional.component';
 import { PDatosPersonaComponent } from './info-persona/ip-detalle/p-datos-persona/p-datos-persona.component';
+import { PDomicilioComponent } from './info-persona/ip-detalle/p-domicilio/p-domicilio.component';
+import { POtrasActividadesComponent } from './info-persona/ip-detalle/p-otras-actividades/p-otras-actividades.component';
+import { PPropiedadesComponent } from './info-persona/ip-detalle/p-propiedades/p-propiedades.component';
+import { PSbsRiesgoComponent } from './info-persona/ip-detalle/p-sbs-riesgo/p-sbs-riesgo.component';
+import { PImagenesComponent } from './info-persona/ip-detalle/p-imagenes/p-imagenes.component';
+import { PInfoGeneralComponent } from './info-persona/ip-detalle/p-info-general/p-info-general.component';
+import { PHistoriaComponent } from './info-persona/ip-detalle/p-historia/p-historia.component';
+import { PDetalleProveedorComponent } from './info-persona/ip-detalle/p-sbs-riesgo/p-detalle-proveedor/p-detalle-proveedor.component';
+import { PMorosidadComercialComponent } from './info-persona/ip-detalle/p-sbs-riesgo/p-morosidad-comercial/p-morosidad-comercial.component';
+import { PDeudaBancariaComponent } from './info-persona/ip-detalle/p-sbs-riesgo/p-deuda-bancaria/p-deuda-bancaria.component';
+import { PTrabajoComponent } from './info-persona/ip-detalle/p-trabajo/p-trabajo.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +70,9 @@ import { PDatosPersonaComponent } from './info-persona/ip-detalle/p-datos-person
     DetalleProveedorComponent,
     MorosidadComercialComponent,
     DeudaBancariaComponent,
+    PDetalleProveedorComponent,
+    PMorosidadComercialComponent,
+    PDeudaBancariaComponent,
     HistoricoVentasComponent,
     HistoricoPedidosComponent,
     EmpresasRelacionadasComponent,
@@ -67,6 +81,14 @@ import { PDatosPersonaComponent } from './info-persona/ip-detalle/p-datos-person
     BalanceComponent,
     BalanceSituacionalComponent,
     PDatosPersonaComponent,
+    PDomicilioComponent,
+    POtrasActividadesComponent,
+    PPropiedadesComponent,
+    PSbsRiesgoComponent,
+    PImagenesComponent,
+    PInfoGeneralComponent,
+    PHistoriaComponent,
+    PTrabajoComponent,
 
   ],
   imports: [

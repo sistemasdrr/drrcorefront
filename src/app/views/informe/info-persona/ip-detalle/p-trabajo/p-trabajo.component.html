@@ -1,0 +1,94 @@
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow ">
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Centro de Trabajo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+        <div>
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+            <mat-icon class="col-white">save</mat-icon>
+          </button>
+        </div>
+      </div>
+      <hr>
+      <h5>Datos de Empresa</h5>
+      <div class="col-md-5">
+        <mat-form-field class="w-100">
+          <mat-label>Razón Social</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-7">
+        <mat-form-field class="w-100">
+          <mat-label>Dirección</mat-label>
+          <input matInput>
+          <mat-hint>(Dirección Completa, Distrito, Colonia y Ciudad)</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w-100">
+          <mat-label>RUC</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-9 d-flex">
+        <mat-form-field style="width: 30%;">
+          <mat-label>Código</mat-label>
+          <input matInput>
+        </mat-form-field>
+        <mat-form-field style="width: 70%;">
+          <mat-label>Teléfono</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow ">
+      <h4>Datos para Completar <b>(IMPORTANTE: No se Graba en la EMPRESA)</b></h4>
+      <hr>
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Cargo Ocupado Actual</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w-100">
+          <mat-label>Fecha de Ingreso</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w-100">
+          <mat-label>Fecha de Cese</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Ingreso Bruto Mensual en US$</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Ingreso Bruto Anual en US$</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Detalle del Centro de Trabajo, Fecha Establecida, SF, RC, etc.</mat-label>
+          <textarea matInput  style="min-height: 10rem;"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Line of Bussiness, Date of Incorporation, FS, CR, etc.</mat-label>
+          <textarea matInput  style="min-height: 10rem;"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

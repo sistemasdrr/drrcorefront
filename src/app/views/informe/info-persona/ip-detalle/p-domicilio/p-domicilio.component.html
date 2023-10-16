@@ -1,0 +1,56 @@
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow ">
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Datos del Domicilio</h4>
+        <div>
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+            <mat-icon class="col-white">save</mat-icon>
+          </button>
+        </div>
+      </div>
+      <hr>
+      <div class="col-md-3">
+        <mat-form-field class="w-100">
+          <mat-label>¿Vivienda Propia?</mat-label>
+          <mat-select [(ngModel)]="viviendaPropiaInforme" (selectionChange)="selectViviendaPropia($event.value)">
+            <mat-option [value]="''">
+            </mat-option>
+            <mat-option [value]="'SI'">
+              SÍ
+            </mat-option>
+            <mat-option [value]="'NO'">
+              NO
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-5">
+        <mat-form-field class="example-full-width" >
+          <mat-label>Valor del Domicilio (Español)</mat-label>
+          <input matInput type="text" [(ngModel)]="valorInforme">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="example-full-width" >
+          <mat-label>Valor del Domicilio (Inglés)</mat-label>
+          <input matInput type="text" [(ngModel)]="valorIngInforme">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width" >
+          <mat-label>Domicilio (Español)</mat-label>
+          <textarea matInput type="text" [(ngModel)]="domicilioInforme" style="min-height: 8rem;"></textarea>
+          <mat-hint>(Con quien vive, tiempo, zona, descripción del inmueble)</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width" >
+          <mat-label>Residence (Inglés)</mat-label>
+          <textarea matInput type="text" [(ngModel)]="domicilioIngInforme" style="min-height: 8rem;"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+

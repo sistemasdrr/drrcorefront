@@ -1,0 +1,119 @@
+<div class="container"  >
+  <div class="row "  >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <div class="materialTableHeader mt-3">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h5 style="font-size: 30px;">{{titulo}}</h5>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10">
+                    <button mat-icon-button  class="btn bg-red " (click)="volver()" #tooltip="matTooltip" matTooltip="Volver">
+                      <mat-icon>logout</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="accion === 'AGREGAR'">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button  class="btn btn-primary" (click)="editar()"  #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="accion === 'EDITAR'"  >
+                      <mat-icon>save</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <mat-dialog-content class="mat-typography">
+          <div class="body">
+            <div class="row">
+              <h5 style="font-size: 20px;">Datos de la Morosidad Comercial</h5>
+              <div class="col-md-2" *ngIf="accion !== 'AGREGAR'">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>ID</mat-label>
+                  <input matInput [(ngModel)]="id" readonly="true">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Banco</mat-label>
+                  <input matInput [(ngModel)]="banco">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" >
+                  <mat-label>Calif. de la Deuda</mat-label>
+                  <mat-select [(ngModel)]="calificacion" [value]="calificacion">
+                    <mat-option  [value]="''">
+
+                    </mat-option>
+                    <mat-option  [value]="'NORMAL / 1C'">
+                      NORMAL / 1C
+                    </mat-option>
+                    <mat-option  [value]="'PROBLEMA POTENCIAL / 2A'">
+                      PROBLEMA POTENCIAL / 2A
+                    </mat-option>
+                    <mat-option  [value]="'DEFICIENTE / 2B'">
+                      DEFICIENTE / 2B
+                    </mat-option>
+                    <mat-option  [value]="'DUDOSO / 3-4'">
+                      DUDOSO / 3-4
+                    </mat-option>
+                    <mat-option  [value]="'PERDIDA / 5'">
+                      PERDIDA / 5
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field color="primary" class="w-100" >
+                  <mat-label>Endeudamiento Registrado al</mat-label>
+                  <input matInput [matDatepicker]="fecha_informe">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3" *ngIf="accion === 'AGREGAR'"></div>
+              <div class="col-md-1" *ngIf="accion === 'EDITAR'"></div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Deuda MN</mat-label>
+                  <input matInput [(ngModel)]="deudaMN">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Deuda ME</mat-label>
+                  <input matInput [(ngModel)]="deudaME">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6"></div>
+              <div class="col-md-6">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Memo</mat-label>
+                  <textarea matInput [(ngModel)]="memo"></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Memo Inglés</mat-label>
+                  <textarea matInput [(ngModel)]="memoIng"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-dialog-content>
+      </div>
+    </div>
+  </div>
+</div>

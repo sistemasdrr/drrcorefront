@@ -1,7 +1,7 @@
 <section class="content">
   <div class="container-fluid" style="width: 100%; margin: 0; padding: 0;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
-      <app-breadcrumb [title]="breadscrum.title" [subtitle]="breadscrum.subtitle" [codigoInforme]="breadscrum.codigoInforme" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      <app-breadcrumb [title]="breadscrum.title" [subtitle]="breadscrum.subtitle" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
 
@@ -9,57 +9,74 @@
       <mat-tab-group >
         <mat-tab>
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-building-wheat" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Empresa"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Empresa</b></div>
+            <i class="fa-solid fa-user-tie" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Persona"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Persona</b></div>
           </ng-template>
           <app-p-datos-persona></app-p-datos-persona>
         </mat-tab>
         <mat-tab [ngClass]="{'tab-completo': false}">
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-clock-rotate-left " style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Antecedentes</b></div>
+            <i class="fa-solid fa-house" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Domicilio"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Domicilio</b></div>
           </ng-template>
+          <app-p-domicilio></app-p-domicilio>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Ramo de Negocio"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Ramo</b></div>
+            <i class="fa-solid fa-briefcase" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Centro de Trabajo"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Trabajo</b></div>
           </ng-template>
+          <app-p-trabajo></app-p-trabajo>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-coins" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Finanzas"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Finanzas</b></div>
+            <i class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Otras Actividades y Recursos"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Actividades</b></div>
           </ng-template>
+          <app-p-otras-actividades></app-p-otras-actividades>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-scale-balanced" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Balance General"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Balance</b></div>
+            <i class="fa-solid fa-coins" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Propiedades"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Propiedades</b></div>
           </ng-template>
+          <app-p-propiedades></app-p-propiedades>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <i class="fa-solid fa-gauge-high" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="SBS / C. Riesgo"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>SBS / C. Riesgo</b></div>
           </ng-template>
+          <app-p-sbs-riesgo></app-p-sbs-riesgo>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <i class="fa-solid fa-comment-dollar" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Opinión de Crédito"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Opinión de Crédito</b></div>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Historia</b></div>
           </ng-template>
+          <app-p-historia></app-p-historia>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <i class="fa-solid fa-circle-info" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Información General"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Info. General</b></div>
           </ng-template>
+          <app-p-info-general></app-p-info-general>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label >
             <i class="fa-regular fa-image" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Imágenes"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Imágenes</b></div>
+          </ng-template>
+          <app-p-imagenes></app-p-imagenes>
+       </mat-tab>
+        <mat-tab [disabled]="true">
+          <ng-template mat-tab-label class="w-100" >
+            <div class="info-box7 bg-c-blue m-0 p-0 w-100 d-md-block d-none">
+              <div class="info-box7-block ">
+                <h6 class="m-b-10">Cód.: Z00721616445</h6>
+              </div>
+            </div>
           </ng-template>
        </mat-tab>
       </mat-tab-group>

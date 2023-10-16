@@ -1,7 +1,7 @@
 <section class="content">
   <div class="container-fluid" style="width: 100%; margin: 0; padding: 0;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
-      <app-breadcrumb [title]="breadscrum.title" [subtitle]="breadscrum.subtitle" [codigoInforme]="breadscrum.codigoInforme" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      <app-breadcrumb [title]="breadscrum.title" [subtitle]="breadscrum.subtitle" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
 
@@ -70,6 +70,15 @@
           </ng-template>
           <app-imagenes></app-imagenes>
        </mat-tab>
+       <mat-tab [disabled]="true">
+        <ng-template mat-tab-label class="w-100" >
+          <div class="info-box7 bg-c-blue m-0 p-0 w-100 d-md-block d-none">
+            <div class="info-box7-block ">
+              <h6 class="m-b-10">Cód.: Z00721616445</h6>
+            </div>
+          </div>
+        </ng-template>
+     </mat-tab>
       </mat-tab-group>
     </div>
   </div>

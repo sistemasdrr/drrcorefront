@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 
 @Component({
-  selector: 'app-informacion-general',
-  templateUrl: './informacion-general.component.html',
-  styleUrls: ['./informacion-general.component.scss']
+  selector: 'app-p-info-general',
+  templateUrl: './p-info-general.component.html',
+  styleUrls: ['./p-info-general.component.scss']
 })
-export class InformacionGeneralComponent {
+export class PInfoGeneralComponent {
   informacionGeneral = ""
   informacionIngGeneral = ""
 

@@ -11,8 +11,6 @@ export class BreadcrumbComponent {
   @Input()
   subtitle!: string;
   @Input()
-  codigoInforme!: string;
-  @Input()
   usuario!: string;
   fecha : Date = new Date()
   @Input()

@@ -1,0 +1,27 @@
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+  <div class="col-md-12 mb-2">
+    <div class="row counter-box shadow mb-2">
+      <div class="w-100 d-flex justify-content-between align-items-center">
+        <h4>Propiedades&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+          <mat-icon class="col-white">save</mat-icon>
+        </button>
+      </div>
+      <hr>
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width mt-2" >
+          <mat-label>Detalle de Bienes en General (Español)</mat-label>
+          <textarea matInput type="text" placeholder="" style="min-height: 10rem;" [(ngModel)]="detalleBienesInforme"></textarea>
+          <mat-hint>(Casas, terrenos, vehículos, yates, aviones, etc.)</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width mt-2" >
+          <mat-label>Detalle de Bienes en General (Inglés)</mat-label>
+          <textarea matInput type="text" placeholder="" style="min-height: 10rem;" [(ngModel)]="detalleBienesIngInforme"></textarea>
+          <mat-hint>(Casas, terrenos, vehículos, yates, aviones, etc.)</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

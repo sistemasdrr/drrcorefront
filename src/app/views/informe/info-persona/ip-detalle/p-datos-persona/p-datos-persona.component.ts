@@ -288,10 +288,7 @@ constructor(
     }
   }
   selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.fechaConstitucionInforme = this.formatDate(selectedDate);
-    }
+
   }
 
   formatDate(date: Date): string {
@@ -324,10 +321,8 @@ constructor(
     this.tipoIntitucionInforme = intitucionInforme
   }
   selectPersoneriaJuridica(personeriaJuridica : string){
-    this.personeriaJuridicaInforme = personeriaJuridica
   }
   selectSituacionRuc(situacionRuc : string){
-    this.situacionRucInforme = situacionRuc
   }
   selectRiesgoCrediticio(riesgoCrediticio : string){
     this.riesgoCrediticioInforme = riesgoCrediticio
@@ -401,12 +396,16 @@ constructor(
     this.reputacionInforme = selectedReputacion
     if(selectedReputacion.id == 0){
       this.colorReputacion = "white"
+      this.booleanExplicarDatosMalaReputacion = false
     }else if(selectedReputacion.id > 0 && selectedReputacion.id <= 4){
       this.colorReputacion = "green"
+      this.booleanExplicarDatosMalaReputacion = false
     }else if(selectedReputacion.id > 4){
       this.colorReputacion = "red"
+      this.booleanExplicarDatosMalaReputacion = true
     }
   }
+
 
   paises : Pais[] = []
 
@@ -422,29 +421,47 @@ constructor(
   fechaInformeInvestigado : string = ""
   idiomaInforme : string = ""
   tipoIntitucionInforme : string = ""
-  anioFundacionInforme : string = ""
-  razonSocialInforme : string = ""
-  nombreComercialInforme : string = ""
-  fechaConstitucionInforme : string = ""
-  personeriaJuridicaInforme : string = ""
-  tipoRegistroTributarioInforme : string = ""
-  codigoRegistroTributarioInforme : string = ""
-  situacionRucInforme : string = ""
+  fechaInforme : string = ""
+  apellidosNombresInforme : string = ""
+  nacionalidadInforme : string = ""
+  nacionalidadIngInforme : string = ""
+  nacidoElInforme : string = ""
+  nacidoElIngInforme : string = ""
+  nacidoEnInforme : string = ""
+  tipoDocumentoInforme : string = ""
+  codigoDocumentoInforme : string = ""
+  registroTributarioInforme : string = ""
+  situacionInforme : string = ""
+
   direccionCompletaInforme : string = ""
-  duracion : string = ""
-  dptoEstadoInforme : string = ""
+  CPInforme : string = ""
+  DptoEstadoInforme : string = ""
+  otrasDireccionesInforme : string = ""
+  nombreComercialInforme : string = ""
   paisInforme : number = 0
-  codigoTelefonoFijoInforme : string = ""
-  telefonoFijoInforme : string = ""
-  celularInforme : string = ""
-  codPostalInforme : string = ""
-  whatsappInforme : string = ""
+  codigoTelefonoInforme : string = ""
+  telefonoInforme : string = ""
+
+  estadoCivilInforme : string = ""
+  relacionCivilConInforme : string = ""
+  relacionCivilConIngInforme : string = ""
+  dniInforme : string = ""
+  nombrePadreInforme : string = ""
+  nombreMadreInforme : string = ""
   emailInforme : string = ""
-  paginaWebInforme : string = ""
+  celularInforme : string = ""
+  profesionInforme : string = ""
+  profesionIngInforme : string = ""
+  socioClubInforme : string = ""
+  segurosInforme : string = ""
+
   riesgoCrediticioInforme : string = ""
   politicaPagosInforme : string = ""
   reputacionInforme : string = ""
+  explicarDatosMalaReputacion : string = ""
+  booleanExplicarDatosMalaReputacion : boolean = false
   comentarioReputacionInforme : string = ""
+
   comentarioReputacionIngInforme : string = ""
   comentarioPrensaInforme : string = ""
   comentarioPrensaIngInforme : string = ""
@@ -453,28 +470,7 @@ constructor(
     console.log(this.fechaInformeInvestigado)
     console.log(this.idiomaInforme)
     console.log(this.tipoIntitucionInforme)
-    console.log(this.anioFundacionInforme)
-    console.log(this.razonSocialInforme)
-    console.log(this.nombreComercialInforme)
-    console.log(this.fechaConstitucionInforme)
-    console.log(this.personeriaJuridicaInforme)
-    console.log(this.tipoRegistroTributarioInforme)
-    console.log(this.codigoRegistroTributarioInforme)
-    console.log(this.situacionRucInforme)
     console.log(this.direccionCompletaInforme)
-    console.log(this.duracion)
-    console.log(this.dptoEstadoInforme)
-    console.log(this.paisInforme)
-    console.log(this.codigoTelefonoFijoInforme)
-    console.log(this.telefonoFijoInforme)
-    console.log(this.celularInforme)
-    console.log(this.codPostalInforme)
-    console.log(this.whatsappInforme)
-    console.log(this.emailInforme)
-    console.log(this.paginaWebInforme)
-    console.log(this.riesgoCrediticioInforme)
-    console.log(this.politicaPagosInforme)
-    console.log(this.reputacionInforme)
   }
 
   //GAUGE

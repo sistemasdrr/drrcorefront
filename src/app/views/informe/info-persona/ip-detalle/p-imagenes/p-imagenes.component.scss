@@ -1,0 +1,28 @@
+[_nghost-ng-c3821590306] img[_ngcontent-ng-c3821590306] {
+  min-height: 30rem;
+  border-radius: 5px;
+  opacity: .8;
+}
+mat-form-field{
+  .mdc-text-field {
+    background-color: red!important;
+  }
+  mat-label{
+
+  }
+  input{
+    border-bottom: 3px solid rgb(200, 233, 200);
+
+  }
+  input:read-only{
+    border-bottom: 3px solid rgb(163, 163, 247);
+
+  }
+  mat-select{
+    border-bottom: 3px solid rgb(200, 233, 200);
+  }
+  textarea{
+    border-bottom: 3px solid rgb(200, 233, 200);
+  }
+
+}
