@@ -17,6 +17,98 @@
             </div>
           </li>
           <!-- Top Most level menu -->
+
+          <!--GERENCIA-->
+          <li [routerLinkActive]="'active'">
+            <div class="header">-- GERENCIA</div>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-chart-column"></i>&nbsp;
+              <span class="hide-menu">Reportes Gerenciales
+              </span>
+            </a>
+          </li>
+
+          <!--PRODUCCION-->
+          <li [routerLinkActive]="'active'">
+            <div class="header">-- PRODUCCIÓN</div>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <span class="hide-menu">Situación
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <span class="hide-menu">Despacho
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-receipt"></i>&nbsp;
+              <span class="hide-menu">Pedidos
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-building"></i>&nbsp;
+              <span class="hide-menu">Empresas
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-user-tie"></i>&nbsp;
+              <span class="hide-menu">Personas
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <span class="hide-menu">Plantillas
+              </span>
+            </a>
+          </li>
+
+          <!--ADMINISTRACION-->
+          <li [routerLinkActive]="'active'">
+            <div class="header">-- ADMINISTRACIÓN</div>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;
+              <span class="hide-menu">Facturación
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-chart-column"></i>&nbsp;
+              <span class="hide-menu">Reportes
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-sliders"></i>&nbsp;
+              <span class="hide-menu">Mantenimiento
+              </span>
+            </a>
+            <a [routerLink]="" [ngClass]="''"
+              class="menu-top">
+              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
+              <i class="fa-solid fa-ticket"></i>&nbsp;
+              <span class="hide-menu">Cupones
+              </span>
+            </a>
+          </li>
+
+
+
           <li *ngFor="let sidebarItem of sidebarItems"
             [routerLinkActive]="sidebarItem.submenu.length !== 0 ? 'active' : 'active-top'">
             <div class="header" *ngIf="sidebarItem.groupTitle === true">{{sidebarItem.title | translate}}</div>
