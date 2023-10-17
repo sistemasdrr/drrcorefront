@@ -10,6 +10,7 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
 import { EmpresaRelacionada } from 'app/models/empresa-relacionada';
 import { EmpresaRelacionadaService } from 'app/services/empresa-relacionada.service';
 import { Observable, map, startWith } from 'rxjs';
+import { CapitalPagadoComponent, CapitalPagadoData } from './capital-pagado/capital-pagado.component';
 
 export interface data {
   name: string;
@@ -99,6 +100,21 @@ constructor(
     //   }
     // });
   }
+  abrirCapitalPagado(){
+    const dialogRef = this.dialog.open(CapitalPagadoComponent, {
+      data : {
+        moneda : this.capitalPagadoMoneda,
+        monto : this.capitalPagadoMoneda,
+        observacion : this.capitalPagadoObservacion,
+        observacionIng : this.capitalPagadoObservacionIng
+      }
+    })
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.capitalPagadoActualInforme = data.capitalPagado.moneda + ' | ' + data.capitalPagado.monto + ' | ' + data.capitalPagado.observacion
+      }
+    });
+  }
 
   onDateChange1(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
@@ -158,8 +174,14 @@ constructor(
   notariaInforme : string = ""
   registrosPublicosInforme : string = ""
   registrosPublicosIngInforme : string = ""
+
+  capitalPagadoMoneda : string = ""
+  capitalPagadoMonto : string = ""
+  capitalPagadoObservacion : string = ""
+  capitalPagadoObservacionIng : string = ""
+
   capitalPagadoActualInforme : string = ""
-  capitalPagadoActualIngInforme : string = ""
+
   origenInforme : string = ""
   fechaAumentoInforme : string = ""
   fechaAumentoIngInforme : string = ""

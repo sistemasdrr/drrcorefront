@@ -2,7 +2,7 @@
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
-        <h4>Ramo de Negocio - Nombre de empresa</h4>
+        <h4>Ramo de Negocio</h4>
         <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
           <mat-icon class="col-white">save</mat-icon>
         </button>
@@ -34,25 +34,49 @@
       <!--COMERCIO EXTERIOR-->
       <h5>Comercio Exterior</h5>
       <div class="col-md-2">
-        <mat-slide-toggle [(ngModel)]="checkImportacion" class="mb-3" (click)="importan()" style="width:15rem; margin-left: 1rem; margin-top: 1rem;">¿Importan? {{importacion}}</mat-slide-toggle>
+        <mat-form-field style="width: 100%;">
+          <mat-label>¿Importan?</mat-label>
+          <mat-select [(ngModel)]="checkImportacion" (selectionChange)="selectImportan($event.value)">
+            <mat-option [value]="''">
+            </mat-option>
+            <mat-option [value]="'SI'">
+              SÍ
+            </mat-option>
+            <mat-option [value]="'NO'">
+              NO
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
-          <input  matInput placeholder="" [(ngModel)]="paisesImportacionInforme"  [disabled]="!checkImportacion">
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="!checkImportacion" (click)="agregarComentario(titulo, tituloExportacion,'', codEmpresa)">
+          <input  matInput placeholder="" [(ngModel)]="paisesImportacionInforme" [disabled]="checkImportacion !== 'SI'" >
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkImportacion !== 'SI'" (click)="agregarComentario(titulo, tituloExportacion,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-2">
-        <mat-slide-toggle [(ngModel)]="checkExportacion" class="mb-3" (click)="exportan()" style="width:15rem; margin-left: 1rem; margin-top: 1rem;">¿Exportan? {{exportacion}}</mat-slide-toggle>
+        <mat-form-field style="width: 100%;">
+          <mat-label>¿Exportan?</mat-label>
+          <mat-select [(ngModel)]="checkExportacion" (selectionChange)="selectExportan($event.value)">
+            <mat-option [value]="''">
+            </mat-option>
+            <mat-option [value]="'SI'">
+              SÍ
+            </mat-option>
+            <mat-option [value]="'NO'">
+              NO
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
-          <input matInput placeholder="" [(ngModel)]="paisesExportacionInforme" [disabled]="!checkExportacion">
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="!checkExportacion" (click)="agregarComentario(titulo, tituloImportacion,'', codEmpresa)">
+          <input matInput placeholder="" [(ngModel)]="paisesExportacionInforme" [disabled]="checkExportacion !== 'SI'">
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkExportacion !== 'SI'" (click)="agregarComentario(titulo, tituloImportacion,'', codEmpresa)">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>

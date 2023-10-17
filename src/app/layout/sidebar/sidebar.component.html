@@ -18,94 +18,128 @@
           </li>
           <!-- Top Most level menu -->
 
-          <!--GERENCIA-->
-          <li [routerLinkActive]="'active'">
-            <div class="header">-- GERENCIA</div>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-chart-column"></i>&nbsp;
-              <span class="hide-menu">Reportes Gerenciales
-              </span>
-            </a>
-          </li>
+          <!-- GERENCIA -->
+          <ul class="menu-toggle">
+            <li [routerLinkActive]="'active'">
+              <a (click)="callToggleMenu($event,1)" [ngClass]="'menu-toggle'">
+                -- GERENCIA
+              </a>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" [ngClass]="''" class="">
+                    <i class="fa-solid fa-chart-column"></i>&nbsp;
+                    <span class="hide-menu">Reportes Gerenciales
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
 
-          <!--PRODUCCION-->
-          <li [routerLinkActive]="'active'">
-            <div class="header">-- PRODUCCIÓN</div>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <span class="hide-menu">Situación
-              </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <span class="hide-menu">Despacho
-              </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-receipt"></i>&nbsp;
-              <span class="hide-menu">Pedidos
-              </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-building"></i>&nbsp;
-              <span class="hide-menu">Empresas
-              </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-user-tie"></i>&nbsp;
-              <span class="hide-menu">Personas
-              </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <span class="hide-menu">Plantillas
-              </span>
-            </a>
-          </li>
+          <!-- PRODUCCION -->
+          <ul class="menu-toggle">
+            <li [routerLinkActive]="'active'">
+              <a (click)="callToggleMenu($event,1)" [ngClass]="'menu-toggle'">
+                -- PRODUCCIÓN
+              </a>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" class="">
+                    <span class="hide-menu">Situación
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" [ngClass]="''" class="">
+                  <span class="hide-menu">Despacho
+                  </span>
+                </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" class="">
+                    <i class="fa-solid fa-receipt"></i>&nbsp;
+                    <span class="hide-menu">Pedidos
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" class="">
+                    <i class="fa-solid fa-building"></i>&nbsp;
+                    <span class="hide-menu">Empresas
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" class="">
+                    <i class="fa-solid fa-user-tie"></i>&nbsp;
+                    <span class="hide-menu">Personas
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" class="">
+                    <span class="hide-menu">Plantillas
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
 
           <!--ADMINISTRACION-->
-          <li [routerLinkActive]="'active'">
-            <div class="header">-- ADMINISTRACIÓN</div>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;
+          <ul class="menu-toggle">
+            <li [routerLinkActive]="'active'">
+              <a (click)="callToggleMenu($event,1)" [ngClass]="'menu-toggle'">
+                -- ADMINISTRACIÓN
+              </a>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" [ngClass]="''" class="">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;
               <span class="hide-menu">Facturación
               </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-chart-column"></i>&nbsp;
-              <span class="hide-menu">Reportes
-              </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-sliders"></i>&nbsp;
-              <span class="hide-menu">Mantenimiento
-              </span>
-            </a>
-            <a [routerLink]="" [ngClass]="''"
-              class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
-              <i class="fa-solid fa-ticket"></i>&nbsp;
-              <span class="hide-menu">Cupones
-              </span>
-            </a>
-          </li>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" [ngClass]="''" class="">
+                    <i class="fa-solid fa-chart-column"></i>&nbsp;
+                    <span class="hide-menu">Reportes
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" [ngClass]="''" class="">
+                    <i class="fa-solid fa-sliders"></i>&nbsp;
+                    <span class="hide-menu">Mantenimiento
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''">
+                  <a [routerLink]="" [ngClass]="''" class="">
+                    <i class="fa-solid fa-ticket"></i>&nbsp;
+                    <span class="hide-menu">Cupones
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
 
 
 

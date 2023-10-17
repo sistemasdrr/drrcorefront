@@ -20,7 +20,7 @@
             </li>
             <li class="tbl-header-btn">
               <div class="m-l-10" >
-                <button mat-icon-button #tooltip="matTooltip" class="btn bg-blue shadow" matTooltip="Descargar Todos">
+                <button mat-icon-button #tooltip="matTooltip" class="btn shadow" [ngClass]="attachments.length > 0 ? 'bg-blue' : 'bg-grey'" matTooltip="Descargar Todos" [disabled]="attachments.length === 0">
                   <i class="fa-solid fa-file-zipper" style="font-size: 16px; color: white;"></i>
                 </button>
               </div>
@@ -39,7 +39,7 @@
     <div class="col-md-12 mb-3">
       <ng-scrollbar style="height: 285px" class="mat-elevation-z8 " visibility="hover">
         <ul class="list-unstyled m-3">
-          <li class="d-flex mb-3" *ngFor="let attachment of dataSource.data">
+          <li class="d-flex mb-3" *ngFor="let attachment of attachments">
             <span class="msr-3 align-self-center img-icon primary-rgba text-primary" *ngIf="attachment.type === 'WORD'">
               <i class="far fa-file-word" style="font-size: 30px;"></i>
             </span>
@@ -61,7 +61,7 @@
                 <button mat-icon-button #tooltip="matTooltip" class="btn bg-teal shadow" matTooltip="Descargar">
                   <i class="fa-solid fa-download" style="font-size: 16px; color: white;"></i>
                 </button>
-                <button mat-icon-button #tooltip="matTooltip" class="btn bg-red shadow" matTooltip="Quitar">
+                <button mat-icon-button #tooltip="matTooltip" class="btn bg-red shadow" matTooltip="Quitar" (click)="borrarAttachment(attachment.id)">
                   <i class="fa-solid fa-trash" style="font-size: 16px; color: white;"></i>
                 </button>
               </td>

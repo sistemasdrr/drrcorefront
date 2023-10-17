@@ -14,7 +14,7 @@ export class TraduccionDialogComponent{
   empresa : string = ''
   //ENVIO DE COMENTARIO
   @Output()
-  eventSelectAbonado = new EventEmitter<string>();
+  eventEnviarComentario = new EventEmitter<string>();
   comentario_es : string = ""
   comentario_en : string = ""
 

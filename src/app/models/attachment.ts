@@ -1,6 +1,5 @@
 export interface Attachment{
-  position : number
-  cupon : string
+  id : number
   name : string
   type : string
   path : string

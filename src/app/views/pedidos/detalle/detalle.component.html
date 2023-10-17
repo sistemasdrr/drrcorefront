@@ -350,7 +350,28 @@
 
                   <ng-container matColumnDef="{{columnsToDisplay[9]}}">
                     <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Estado </th>
-                    <td mat-cell *matCellDef="let report" class="text-center"> {{report[columnsToDisplay[9]]}} </td>
+                    <td mat-cell *matCellDef="let report" class="text-center">
+                      <div *ngIf="report[columnsToDisplay[9]]==='PEND. VENCIDO'" >
+                        <span class="float-end progress-percent label label-danger shadow" style="width: 170px;">
+                          {{report[columnsToDisplay[9]]}}
+                        </span>
+                      </div>
+                      <div *ngIf="report[columnsToDisplay[9]]==='PENDIENTE'" >
+                        <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
+                          {{report[columnsToDisplay[9]]}}
+                        </span>
+                      </div>
+                      <div *ngIf="report[columnsToDisplay[9]]==='ENVIADO'" >
+                        <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
+                          {{report[columnsToDisplay[9]]}}
+                        </span>
+                      </div>
+                      <div *ngIf="report.estado==='ENV. VENCIDO'" >
+                        <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
+                          {{report[columnsToDisplay[9]]}}
+                        </span>
+                      </div>
+                    </td>
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

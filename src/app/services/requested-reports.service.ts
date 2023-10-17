@@ -13,7 +13,7 @@ const requestedReports : RequestedReports[] = [
     icono: "fi-cl",
     balance : "NO",
     calidad : "B",
-    estado : "estado 1"
+    estado : "PEND. VENCIDO"
   },
   {
     tipo : "RV",
@@ -26,7 +26,7 @@ const requestedReports : RequestedReports[] = [
     icono: "fi-cl",
     balance : "SI",
     calidad : "A",
-    estado : "estado 2"
+    estado : "ENV. VENCIDO"
   },
   {
     tipo : "OR",
@@ -39,7 +39,7 @@ const requestedReports : RequestedReports[] = [
     icono: "fi-br",
     balance : "SI",
     calidad : "A",
-    estado : "estado 3"
+    estado : "ENVIADO"
   },
   {
     tipo : "RV",
@@ -52,7 +52,7 @@ const requestedReports : RequestedReports[] = [
     icono: "fi-cl",
     balance : "SI",
     calidad : "A",
-    estado : "estado 4"
+    estado : "PENDIENTE"
   }
 ]
 

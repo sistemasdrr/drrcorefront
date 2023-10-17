@@ -17,7 +17,29 @@ const orders: Order[] = [
     hasComment: true,
     comment: 'comentario 1',
     hasAttachments: false,
-    attachments: [],
+    attachments: [
+      {
+        id : 1,
+        name : "karinto.pdf",
+        type : "PDF",
+        path : "/Downloads/archivo1.pdf",
+        data : "b64"
+      },
+      {
+        id : 2,
+        name : "karinto.docx",
+        type : "WORD",
+        path : "/Downloads/archivo1.docx",
+        data : "b64"
+      },
+      {
+        id : 3,
+        name : "karinto.xlsx",
+        type : "EXCEL",
+        path : "/Downloads/archivo1.xlsx",
+        data : "b64"
+      },
+    ],
     abonado :{
       id : "1",
       nombre : "Abonado 1 ",
@@ -66,7 +88,15 @@ const orders: Order[] = [
     hasComment: true,
     comment: 'comentario 2',
     hasAttachments: true,
-    attachments: [],
+    attachments: [
+      {
+        id : 4,
+        name : "nestle.docx",
+        type : "WORD",
+        path : "432413/docs/nestle.docx",
+        data : "data1"
+      },
+    ],
     abonado :{
       id : "1",
       nombre : "Abonado 1 Abonado Abonado",
@@ -115,7 +145,15 @@ const orders: Order[] = [
     hasComment: false,
     comment: '',
     hasAttachments: false,
-    attachments: [],
+    attachments: [
+      {
+        id : 5,
+        name : "laive.pdf",
+        type : "PDF",
+        path : "432414/docs/laive.pdf",
+        data : "data1"
+      },
+    ],
     abonado :{
       id : "3",
       nombre : "Abonado 3",
@@ -357,5 +395,9 @@ export class OrderService {
   }
   getCommentByCupon(cupon: string) {
     return orders.filter((x) => x.cupon === cupon);
+  }
+  getAttachmentsByCupon(cupon : string){
+    const order = orders.filter((x) => x.cupon === cupon)
+    return order[0].attachments
   }
 }

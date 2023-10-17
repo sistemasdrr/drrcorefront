@@ -54,6 +54,7 @@ import { PDetalleProveedorComponent } from './info-persona/ip-detalle/p-sbs-ries
 import { PMorosidadComercialComponent } from './info-persona/ip-detalle/p-sbs-riesgo/p-morosidad-comercial/p-morosidad-comercial.component';
 import { PDeudaBancariaComponent } from './info-persona/ip-detalle/p-sbs-riesgo/p-deuda-bancaria/p-deuda-bancaria.component';
 import { PTrabajoComponent } from './info-persona/ip-detalle/p-trabajo/p-trabajo.component';
+import { CapitalPagadoComponent } from './info-empresa/ie-detalle/e-antecedentes/capital-pagado/capital-pagado.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { PTrabajoComponent } from './info-persona/ip-detalle/p-trabajo/p-trabajo
     PInfoGeneralComponent,
     PHistoriaComponent,
     PTrabajoComponent,
+    CapitalPagadoComponent,
 
   ],
   imports: [

@@ -6,7 +6,7 @@
           <div class="left">
             <ul class="header-buttons-left ms-0">
               <li class="tbl-title">
-                <h3>{{titulo}} </h3>
+                <h4>{{titulo}}</h4>
               </li>
             </ul>
           </div>
@@ -14,17 +14,15 @@
             <ul class="tbl-export-btn">
               <li class="tbl-header-btn">
                 <div class="m-l-10">
-                  <button class="btn bg-cyan d-flex" type="button">
-                    <i class="fa-solid fa-floppy-disk" style="font-size: 20px; margin: .3rem 0 .5rem 0;"></i>
-                    <div style="font-size: 20px;">&nbsp;Guardar</div>
+                  <button mat-mini-fab class="bg-red" style="margin: 0 .5rem .5rem .5rem;"  matTooltip="Salir" (click)="cerrarDialog()">
+                    <mat-icon class="col-white">logout</mat-icon>
                   </button>
                 </div>
               </li>
               <li class="tbl-header-btn">
                 <div class="m-l-10" >
-                  <button class="btn bg-red d-flex" type="button" (click)="cerrarDialog()">
-                    <i class="fa-solid fa-right-from-bracket" style="font-size: 20px; margin: .3rem 0 .5rem 0;" ></i>
-                    <div style="font-size: 20px;">&nbsp;Salir</div>
+                  <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+                    <mat-icon class="col-white">save</mat-icon>
                   </button>
                 </div>
               </li>
@@ -44,7 +42,7 @@
         <div class="row">
           <div class="col-md-6"><div class="body mat-elevation-z8">
             <h4>Español</h4>
-            <ckeditor [editor]="Editor" style="min-height: 8rem;" data="" [(ngModel)]="comentario_es"></ckeditor>
+            <ckeditor [editor]="Editor" style="min-height: 8rem; " data="" [(ngModel)]="comentario_es"></ckeditor>
            </div></div>
           <div class="col-md-6"><div class="body mat-elevation-z8">
             <h4>Inglés</h4>

@@ -48,7 +48,6 @@ import { NgScrollbarModule } from "ngx-scrollbar";
     BuscarAbonadoDialogComponent,
     BuscarEmpresaDialogComponent,
     ComentarioComponent,
-    AdjuntarArchivosComponent,
     RamoActividadDialogComponent,
     CuadroImpoExpoComponent,
     TraduccionDialogComponent,

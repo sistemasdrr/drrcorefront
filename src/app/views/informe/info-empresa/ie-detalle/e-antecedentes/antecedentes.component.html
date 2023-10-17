@@ -62,9 +62,9 @@
       <div class="col-md-4">
         <mat-form-field class="example-full-width">
           <mat-label>Capital Pagado Actual</mat-label>
-          <input matInput placeholder="" [(ngModel)]="capitalPagadoActualInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloCapitalActual,'', 'comentario español', 'comentario ingles')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
+          <input matInput placeholder="" [(ngModel)]="capitalPagadoActualInforme" [readonly]="true">
+          <button matSuffix mat-mini-fab color="primary" (click)="abrirCapitalPagado()"  #tooltip="matTooltip" matTooltip="Editar">
+            <i class="fa-solid fa-pen-to-square" style="font-size: 20px; color: white;"></i>
           </button>
         </mat-form-field>
       </div>

@@ -39,6 +39,14 @@ export class RamoComponent implements OnInit{
       this.exportacion = "NO"
     }
   }
+  selectImportan(importan : string){
+    this.checkImportacion = importan
+    console.log(importan)
+  }
+  selectExportan(exportan : string){
+    this.checkExportacion = exportan
+    console.log(exportan)
+  }
 
   ramoActividadDialog() {
     const dialogRef1 = this.dialog.open(RamoActividadDialogComponent, {
@@ -131,8 +139,8 @@ export class RamoComponent implements OnInit{
   sectorPrincipalInforme : string = ""
   ramoNegociosInforme : string = ""
   actividadEspecificaInforme : string = ""
-  checkImportacion : boolean = false
-  checkExportacion : boolean = false
+  checkImportacion : string = ""
+  checkExportacion : string = ""
   paisesExportacionInforme : string = ""
   paisesExportacionIngInforme : string = ""
   paisesImportacionInforme : string = ""
