@@ -52,7 +52,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
           <input  matInput placeholder="" [(ngModel)]="paisesImportacionInforme" [disabled]="checkImportacion !== 'SI'" >
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkImportacion !== 'SI'" (click)="agregarComentario(titulo, tituloExportacion,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkImportacion !== 'SI'" (click)="agregarTraduccion(tituloImportacion,'', paisesImportacionInforme, paisesImportacionIngInforme,'paisesImportan')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -76,7 +76,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
           <input matInput placeholder="" [(ngModel)]="paisesExportacionInforme" [disabled]="checkExportacion !== 'SI'">
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkExportacion !== 'SI'" (click)="agregarComentario(titulo, tituloImportacion,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkExportacion !== 'SI'" (click)="agregarTraduccion(tituloExportacion,'', paisesExportacionInforme, paisesExportacionIngInforme,'paisesExportan')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -99,7 +99,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Venta Contado/Forma</mat-label>
           <input matInput placeholder="" [(ngModel)]="ventaContadoInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloVentaContado,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloVentaContado,'', ventaContadoInforme, ventaContadoIngInforme,'ventaContado')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -108,7 +108,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Crédito/Términos</mat-label>
           <input matInput placeholder="" [(ngModel)]="creditoTerminosInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloCreditoTerminos,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloCreditoTerminos, '', creditoTerminosInforme, creditoTerminosIngInforme,'creditoTermino')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -117,7 +117,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Territorio de Ventas</mat-label>
           <input matInput placeholder="" [(ngModel)]="territorioVentasInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloTerritorioVentas,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloTerritorioVentas, '', territorioVentasInforme, territorioVentasIngInforme,'territorioVentas')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -126,7 +126,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Ventas al Exterior</mat-label>
           <input matInput placeholder="" [(ngModel)]="ventasExteriorInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloVentaExterior,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloVentaExterior, '', ventasExteriorInforme, ventasExteriorIngInforme,'ventaExterior')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -135,7 +135,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Compras Nacionales</mat-label>
           <input matInput placeholder="" [(ngModel)]="comprasNacionalesInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloComprasNacionales,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloComprasNacionales, '', comprasNacionalesInforme, comprasNacionalesIngInforme,'comprasNacionales')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -144,7 +144,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Del Exterior</mat-label>
           <input matInput placeholder="" [(ngModel)]="comprasDelExteriorInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloExterior,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloExterior, '', comprasDelExteriorInforme, comprasDelExteriorIngInforme,'comprasExterior')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -159,10 +159,10 @@
     </div>
   </div>
   <!--LOCAL PRINCIPAL-->
-  <div class="col-md-9">
+  <div class="col-md-6">
     <div class="row counter-box shadow mb-2">
       <h4>Local Principal</h4>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <mat-form-field class="example-full-width">
           <mat-label>Titularidad</mat-label>
           <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="titularidadInforme">
@@ -173,16 +173,16 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-6">
         <mat-form-field class="example-full-width">
           <mat-label>Area Total</mat-label>
           <input matInput placeholder="" [(ngModel)]="areaTotalInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloAreaTotal,'', codEmpresa)">
+          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloAreaTotal, '', areaTotalInforme, areaTotalIngInforme,'areaTotal')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-12">
         <mat-form-field class="example-full-width">
           <mat-label>Domicilio Anterior</mat-label>
           <input matInput placeholder=""[(ngModel)]="domicilioAnteriorInforme">
@@ -192,7 +192,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Otros Locales (Plantas, Almacenes, Depósitos, Sucursales)</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="otrosLocalesInforme"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(titulo, tituloOtrosLocales,subtituloOtrosLocales, codEmpresa)">
+            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloOtrosLocales,subtituloOtrosLocales, otrosLocalesInforme, otrosLocalesIngInforme,'otrosLocales')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>
@@ -201,29 +201,35 @@
   </div>
 
   <!--DETALLES Y COMENTARIOS-->
-  <div class="col-md-3">
+  <div class="col-md-6">
     <div class="row counter-box shadow mb-2">
       <h4>Detalles y Comentarios</h4>
-      <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-green d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Detalle de Actividad Principal u Objetivo Social"
-        (click)="agregarComentario(titulo, 'Detalle de Actividad Principal u Objetivo Social','', 'ALICORP S.A.')">
-          <i class="fa-solid fa-building-wheat" style="font-size: 16px; margin-top: .2rem;"></i>
-          <div>&nbsp;Act. Principal</div>
-        </button>
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width">
+          <mat-label>Detalle de Actividad Principal u Objetivo Social</mat-label>
+          <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="comentarioActividadPrincipal"></textarea>
+            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Detalle de Actividad Principal u Objetivo Social','', comentarioActividadPrincipal, comentarioActividadPrincipalIng,'comentarioActividadPrincipal')">
+              <span class="fi fi-us" style="font-size: 24px;"></span>
+            </button>
+        </mat-form-field>
       </div>
-      <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Comentario Adicional de Negocio (Representaciones, Marcas, Capacidad de Producción y/o Contratación, etc.)"
-        (click)="agregarComentario(titulo, 'Comentario Adicional de Negocio','', 'ALICORP S.A.')">
-          <i class="fa-regular fa-comment-dots" style="font-size: 16px; margin-top: .2rem;"></i>
-          <div>&nbsp;Negocio</div>
-        </button>
+      <div class="col-md-12">
+        <mat-form-field class="example-full-width">
+          <mat-label>Comentario Adicional de Negocio</mat-label>
+          <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="comentarioNegocio"></textarea>
+            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Comentario Adicional de Negocio','', comentarioNegocio, comentarioNegocioIng,'comentarioNegocio')">
+              <span class="fi fi-us" style="font-size: 24px;"></span>
+            </button>
+        </mat-form-field>
       </div>
-      <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex" style="width: 9rem;" type="button" #tooltip="matTooltip" matTooltip="Comentario de Negocios (Cuadro Tabulado)"
-        (click)="agregarComentario(titulo, 'Comentario de Negocio (Cuadro Tabulado)','', 'ALICORP S.A.')">
-          <i class="fa-regular fa-comment-dots" style="font-size: 16px; margin-top: .2rem;"></i>
-          <div>&nbsp;Negocio</div>
-        </button>
+    </div>
+  </div>
+  <!--CUADRO TABULADO-->
+  <div class="col-md-12">
+    <div class="row counter-box shadow mb-2" style="min-height: 10rem;">
+      <h4>Comentario de Negocios (Cuadro Tabulado)</h4>
+      <div class="col-md-12">
+        <ckeditor [editor]="Editor" style="min-height: 12rem; " data="" [(ngModel)]="comentarioNegocioTabulado" ></ckeditor>
       </div>
     </div>
   </div>

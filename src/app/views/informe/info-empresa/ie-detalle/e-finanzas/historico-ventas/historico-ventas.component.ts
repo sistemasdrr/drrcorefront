@@ -1,5 +1,5 @@
 import { HistoricoVentasService } from './../../../../../../services/historico-ventas.service';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HistoricoVentas } from 'app/models/historico-ventas';
 
@@ -8,7 +8,7 @@ import { HistoricoVentas } from 'app/models/historico-ventas';
   templateUrl: './historico-ventas.component.html',
   styleUrls: ['./historico-ventas.component.scss']
 })
-export class HistoricoVentasComponent {
+export class HistoricoVentasComponent implements OnInit {
 
   accion = ""
   titulo = ""
@@ -25,12 +25,17 @@ export class HistoricoVentasComponent {
     public dialogRef: MatDialogRef<HistoricoVentasComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ){
-    this.accion = data.accion
+
+  }
+
+  ngOnInit(): void {
+
+    this.accion = this.data.accion
     if(this.accion == "AGREGAR"){
       this.titulo = "Agregar Historico de Venta"
     }else{
       this.titulo = "Editar Historico de Venta"
-      this.id = data.id
+      this.id = this.data.id
       const datos = this.historicoVentasService.GetHistoricoVentasById(this.id)
       this.moneda = datos.moneda
       this.fecha = datos.fecha

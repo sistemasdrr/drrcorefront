@@ -1,4 +1,4 @@
-export interface balanceInforme {
+export interface BalanceInforme {
   id : number
   idInforme : number
   balanceGeneral : Balance[],

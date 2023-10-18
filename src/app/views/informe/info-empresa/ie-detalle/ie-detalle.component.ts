@@ -15,5 +15,5 @@ export class IEDetalleComponent {
       active: 'Empresa',
     },
   ];
-
+  
 }

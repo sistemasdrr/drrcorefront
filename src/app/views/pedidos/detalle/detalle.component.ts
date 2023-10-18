@@ -47,7 +47,10 @@ export class DetalleComponent implements OnInit {
       this.iconoSeleccionado = paisSeleccionadoObj.icono;
     }
   }
-
+  buscarPorNombreInforme = ""
+  buscarPorNombre(nombreInforme : string){
+    
+  }
   //FORM ABONADO
   nombreAbonado : string = ''
   isChecked = true;

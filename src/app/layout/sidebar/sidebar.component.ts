@@ -20,6 +20,7 @@ import { RouteInfo } from './sidebar.metadata';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  activeLI = 0
   public sidebarItems!: RouteInfo[];
   public innerHeight?: number;
   public bodyTag!: HTMLElement;
@@ -53,6 +54,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   callToggleMenu(event: Event, length: number) {
+
     if (length > 0) {
       const parentElement = (event.target as HTMLInputElement).closest('li');
       const activeClass = parentElement?.classList.contains('active');

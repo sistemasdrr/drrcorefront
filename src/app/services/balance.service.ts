@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { balanceInforme } from 'app/models/balance';
+import { BalanceInforme } from 'app/models/balance';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BalanceService {
-  balances : balanceInforme[] = [
+  balances : BalanceInforme[] = [
     {
       id : 1,
       idInforme : 1,
@@ -155,7 +155,7 @@ export class BalanceService {
   GeTbalanceInformeByIdInforme(id : number){
     return this.balances.filter(x => x.idInforme == id)[0]
   }
-  AddbalanceInforme(obj : balanceInforme){
+  AddbalanceInforme(obj : BalanceInforme){
     let idMax : number = 0
     for (let i = 0; i < this.balances.length; i++) {
       const elemento = this.balances[i]
@@ -166,7 +166,7 @@ export class BalanceService {
     obj.id = idMax+1
     this.balances.push(obj)
   }
-  UpdatebalanceInforme(obj : balanceInforme){
+  UpdatebalanceInforme(obj : BalanceInforme){
     const index = this.balances.findIndex(x => x.id === obj.id);
     if (index !== -1) {
       this.balances[index] = obj;

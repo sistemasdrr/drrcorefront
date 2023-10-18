@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 
@@ -7,12 +7,16 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
   templateUrl: './imagenes.component.html',
   styleUrls: ['./imagenes.component.scss']
 })
-export class ImagenesComponent {
+export class ImagenesComponent implements OnInit{
 
   constructor(
     private dialog : MatDialog
   ){
   }
+
+  ngOnInit(): void {
+  }
+
   files: File[] = []
   img1 = "assets/images/image-gallery/5.jpg"
   img2 = "assets/images/image-gallery/5.jpg"

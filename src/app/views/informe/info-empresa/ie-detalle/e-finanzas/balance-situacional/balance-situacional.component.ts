@@ -1,6 +1,6 @@
-import { Component, Inject  } from '@angular/core';
+import { Component, Inject, OnInit   } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Balance, balanceInforme } from 'app/models/balance';
+import { Balance, BalanceInforme } from 'app/models/balance';
 import { BalanceService } from 'app/services/balance.service';
 
 @Component({
@@ -8,7 +8,8 @@ import { BalanceService } from 'app/services/balance.service';
   templateUrl: './balance-situacional.component.html',
   styleUrls: ['./balance-situacional.component.scss']
 })
-export class BalanceSituacionalComponent {
+export class BalanceSituacionalComponent implements OnInit {
+
 
   // options: data[] = [
   //   {
@@ -44,7 +45,7 @@ export class BalanceSituacionalComponent {
   tipoBalance : string = ""
   tiempoBalance : string = ""
 
-  balanceInforme : balanceInforme = {
+  balanceInforme : BalanceInforme = {
     id : 0,
     idInforme : 0,
     balanceGeneral : [],
@@ -144,12 +145,15 @@ export class BalanceSituacionalComponent {
     public dialogRef: MatDialogRef<BalanceSituacionalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number
    ){
-    if(data > 0){
+
+  }
+
+  ngOnInit(): void {
+    if(this.data > 0){
       console.log("balance situacional")
-      this.balanceInforme = this.balanceService.GeTbalanceInformeByIdInforme(data)
+      this.balanceInforme = this.balanceService.GeTbalanceInformeByIdInforme(this.data)
       this.actualizarBalance(this.balanceSeleccionado)
     }
-
   }
 
   actualizarBalance(numBalance : number){

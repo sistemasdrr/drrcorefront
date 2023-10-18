@@ -20,22 +20,24 @@ export class TraduccionDialogComponent{
 
   titulo : string
   subtitulo : string
+
+  tipo : string = ""
   constructor(
     public dialogRef: MatDialogRef<TraduccionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: TraduccionData) {
       console.log(data)
     this.titulo = this.data.titulo
     this.subtitulo = this.data.subtitulo
+    this.tipo = this.data.tipo
     this.comentario_es = this.data.comentario_es
     this.comentario_en = this.data.comentario_en
   }
-  realizarEnvioCodigo() {
+  realizarEnvio() {
     this.dialogRef.close({
       comentario_es: this.comentario_es,
       comentario_en: this.comentario_en,
      });
   }
-
   //CKEDITOR
   public Editor: any = ClassicEditor;
 

@@ -5,6 +5,7 @@ import { CuadroImpoExpoComponent } from '@shared/components/cuadro-impo-expo/cua
 import { RamoActividadDialogComponent } from '@shared/components/ramo-actividad/ramo-actividad.component';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { Observable, map, startWith } from 'rxjs';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export interface data {
   name: string;
@@ -19,6 +20,9 @@ export interface data {
 export class RamoComponent implements OnInit{
   importacion = "NO"
   exportacion = "NO"
+
+  public Editor: any = ClassicEditor;
+
 
   constructor(private dialog : MatDialog){
     this.filteredOptions = new Observable<data[]>();
@@ -100,38 +104,107 @@ export class RamoComponent implements OnInit{
   }
 
 
-  agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
+  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
     data: {
-      titulo1 : titulo1,
-      titulo2 : titulo2,
+      titulo : titulo,
       subtitulo : subtitulo,
-      empresa: empresa,
+      tipo : 'textarea',
+      comentario_es : comentario_es,
+      comentario_en : comentario_en
 
     },
   });
-  console.log(dialogRef)
-    // dialogRef.afterClosed().subscribe((codAbonado) => {
-    //   if (codAbonado) {
-    //     this.codAbonado = codAbonado.codigoAbonado
-    //     this.asignarDatosAbonado()
-    //   }
-    // });
+  dialogRef.afterClosed().subscribe((data) => {
+    if (data) {
+      console.log(data)
+      switch(input){
+        case 'otrosLocales':
+        this.otrosLocalesInforme = data.comentario_es;
+        this.otrosLocalesIngInforme = data.comentario_en;
+        break
+        case 'comentarioActividadPrincipal':
+        this.comentarioActividadPrincipal = data.comentario_es;
+        this.comentarioActividadPrincipalIng = data.comentario_en;
+        break
+        case 'comentarioNegocio':
+        this.comentarioNegocio = data.comentario_es;
+        this.comentarioNegocioIng = data.comentario_en;
+        break
+
+      }
+    }
+  });
+  }
+  agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+    data: {
+      titulo : titulo,
+      subtitulo : subtitulo,
+      tipo : 'input',
+      comentario_es : comentario_es,
+      comentario_en : comentario_en
+    },
+  });
+  dialogRef.afterClosed().subscribe((data) => {
+    if (data) {
+      console.log(data)
+      switch(input){
+        case 'paisesImportan':
+        this.paisesImportacionInforme = data.comentario_es;
+        this.paisesImportacionIngInforme = data.comentario_en;
+        break
+        case 'paisesExportan':
+        this.paisesExportacionInforme = data.comentario_es;
+        this.paisesExportacionIngInforme = data.comentario_en;
+        break
+        case 'ventaContado':
+        this.ventaContadoInforme = data.comentario_es;
+        this.ventaContadoIngInforme = data.comentario_en;
+        break
+        case 'creditoTermino':
+        this.creditoTerminosInforme = data.comentario_es;
+        this.creditoTerminosIngInforme = data.comentario_en;
+        break
+        case 'territorioVentas':
+        this.territorioVentasInforme = data.comentario_es;
+        this.territorioVentasIngInforme = data.comentario_en;
+        break
+        case 'ventaExterior':
+        this.ventasExteriorInforme = data.comentario_es;
+        this.ventasExteriorIngInforme = data.comentario_en;
+        break
+        case 'comprasNacionales':
+        this.comprasNacionalesInforme = data.comentario_es;
+        this.comprasNacionalesIngInforme = data.comentario_en;
+        break
+        case 'comprasExterior':
+        this.comprasDelExteriorInforme = data.comentario_es;
+        this.comprasDelExteriorIngInforme = data.comentario_en;
+        break
+        case 'areaTotal':
+        this.areaTotalInforme = data.comentario_es;
+        this.areaTotalIngInforme = data.comentario_en;
+        break
+
+      }
+    }
+  });
   }
 
   //TITULOS DE COMENTARIOS
   codEmpresa = "cod de empresa o nombre"
   titulo : string = 'Comentario - Traduccion'
-  tituloImportacion : string = 'Importación en Países => '
-  tituloExportacion : string = 'Exportación en Países => '
-  tituloVentaContado : string = '% de Venta al Contado / Forma => '
-  tituloCreditoTerminos : string = '% de Créditos / Términos => '
-  tituloTerritorioVentas : string = 'Territorio de Ventas => '
-  tituloVentaExterior : string = '% de Ventas al Exterior => '
-  tituloComprasNacionales : string = '% de Compras Nacionales => '
-  tituloExterior : string = '% del Exterior => '
-  tituloAreaTotal : string = 'Área Total => '
-  tituloOtrosLocales : string = 'Otros Locales => '
+  tituloImportacion : string = 'Importación en Países '
+  tituloExportacion : string = 'Exportación en Países '
+  tituloVentaContado : string = '% de Venta al Contado / Forma '
+  tituloCreditoTerminos : string = '% de Créditos / Términos'
+  tituloTerritorioVentas : string = 'Territorio de Ventas '
+  tituloVentaExterior : string = '% de Ventas al Exterior '
+  tituloComprasNacionales : string = '% de Compras Nacionales '
+  tituloExterior : string = '% del Exterior'
+  tituloAreaTotal : string = 'Área Total '
+  tituloOtrosLocales : string = 'Otros Locales '
   subtituloOtrosLocales: string = 'Plantas, Almacenes, Depósitos y Sucursales'
 
 
@@ -165,6 +238,12 @@ export class RamoComponent implements OnInit{
   otrosLocalesInforme : string = ""
   otrosLocalesIngInforme : string = ""
 
+  comentarioActividadPrincipal : string = ""
+  comentarioActividadPrincipalIng : string = ""
+  comentarioNegocio : string = ""
+  comentarioNegocioIng : string = ""
+  comentarioNegocioTabulado : string = ""
+
   guardar(){
     console.log(this.sectorPrincipalInforme)
     console.log(this.ramoNegociosInforme)
@@ -184,5 +263,6 @@ export class RamoComponent implements OnInit{
     console.log(this.areaTotalInforme)
     console.log(this.domicilioAnteriorInforme)
     console.log(this.otrosLocalesInforme)
+    console.log(this.comentarioNegocioTabulado)
   }
 }

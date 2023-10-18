@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 
@@ -7,7 +7,7 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
   templateUrl: './informacion-general.component.html',
   styleUrls: ['./informacion-general.component.scss']
 })
-export class InformacionGeneralComponent {
+export class InformacionGeneralComponent implements OnInit {
   informacionGeneral = ""
   informacionIngGeneral = ""
 
@@ -15,6 +15,10 @@ export class InformacionGeneralComponent {
     private dialog : MatDialog
   ){
 
+  }
+
+  ngOnInit(): void {
+    
   }
 
   agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {

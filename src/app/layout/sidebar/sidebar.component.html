@@ -25,10 +25,24 @@
                 -- GERENCIA
               </a>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" [ngClass]="''" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 1 ? 'active' : ''">
+                  <a [routerLink]="'dashboard/main'" [ngClass]="''" class="ml-menu" (click)="activeLI = 1">
                     <i class="fa-solid fa-chart-column"></i>&nbsp;
-                    <span class="hide-menu">Reportes Gerenciales
+                    <span class="hide-menu">Reportes Gerenciales 1
+                    </span>
+                  </a>
+                </li>
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 2 ? 'active' : ''">
+                  <a [routerLink]="'dashboard/dashboard2'" [ngClass]="''" class="ml-menu" (click)="activeLI = 2">
+                    <i class="fa-solid fa-chart-column"></i>&nbsp;
+                    <span class="hide-menu">Reportes Gerenciales 2
+                    </span>
+                  </a>
+                </li>
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 3 ? 'active' : ''">
+                  <a [routerLink]="'dashboard/dashboard3'" [ngClass]="''" class="ml-menu" (click)="activeLI = 3">
+                    <i class="fa-solid fa-chart-column"></i>&nbsp;
+                    <span class="hide-menu">Reportes Gerenciales 3
                     </span>
                   </a>
                 </li>
@@ -43,24 +57,24 @@
                 -- PRODUCCIÓN
               </a>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 4 ? 'active' : ''">
+                  <a [routerLink]="" class="" (click)="activeLI = 4">
                     <span class="hide-menu">Situación
                     </span>
                   </a>
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" [ngClass]="''" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 5 ? 'active' : ''">
+                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 5">
                   <span class="hide-menu">Despacho
                   </span>
                 </a>
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 6 ? 'active' : ''">
+                  <a [routerLink]="'/pedidos/lista'" class="" (click)="activeLI = 6">
                     <i class="fa-solid fa-receipt"></i>&nbsp;
                     <span class="hide-menu">Pedidos
                     </span>
@@ -68,8 +82,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 7 ? 'active' : ''">
+                  <a [routerLink]="'/informes/empresa/detalle'" class="" (click)="activeLI = 7">
                     <i class="fa-solid fa-building"></i>&nbsp;
                     <span class="hide-menu">Empresas
                     </span>
@@ -77,8 +91,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 8 ? 'active' : ''">
+                  <a [routerLink]="'/informes/persona/detalle'" class="" (click)="activeLI = 8">
                     <i class="fa-solid fa-user-tie"></i>&nbsp;
                     <span class="hide-menu">Personas
                     </span>
@@ -86,8 +100,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 9 ? 'active' : ''">
+                  <a [routerLink]="" class="" (click)="activeLI = 9">
                     <span class="hide-menu">Plantillas
                     </span>
                   </a>
@@ -98,13 +112,13 @@
 
           <!--ADMINISTRACION-->
           <ul class="menu-toggle">
-            <li [routerLinkActive]="'active'">
+            <li [routerLinkActive]="'active'" >
               <a (click)="callToggleMenu($event,1)" [ngClass]="'menu-toggle'">
                 -- ADMINISTRACIÓN
               </a>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" [ngClass]="''" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 10 ? 'active' : ''">
+                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 10">
                     <i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;
               <span class="hide-menu">Facturación
               </span>
@@ -112,8 +126,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" [ngClass]="''" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 11 ? 'active' : ''">
+                  <a [routerLink]=""  class="" (click)="activeLI = 11" >
                     <i class="fa-solid fa-chart-column"></i>&nbsp;
                     <span class="hide-menu">Reportes
                     </span>
@@ -121,8 +135,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" [ngClass]="''" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 12 ? 'active' : ''">
+                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 12">
                     <i class="fa-solid fa-sliders"></i>&nbsp;
                     <span class="hide-menu">Mantenimiento
                     </span>
@@ -130,8 +144,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''">
-                  <a [routerLink]="" [ngClass]="''" class="">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 13 ? 'active' : ''">
+                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 13">
                     <i class="fa-solid fa-ticket"></i>&nbsp;
                     <span class="hide-menu">Cupones
                     </span>
@@ -143,18 +157,16 @@
 
 
 
-          <li *ngFor="let sidebarItem of sidebarItems"
+          <!--li-- *ngFor="let sidebarItem of sidebarItems"
             [routerLinkActive]="sidebarItem.submenu.length !== 0 ? 'active' : 'active-top'">
             <div class="header" *ngIf="sidebarItem.groupTitle === true">{{sidebarItem.title | translate}}</div>
             <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null" *ngIf="!sidebarItem.groupTitle;"
               [ngClass]="[sidebarItem.class]" (click)="callToggleMenu($event, sidebarItem.submenu.length)"
               class="menu-top">
-              <!--i-feather [name]="sidebarItem.icon" class="sidebarIcon"></!--i-feather-->
               <i class="{{sidebarItem.icon}}"></i>&nbsp;
               <span class="hide-menu">{{sidebarItem.title | translate}}
               </span>
             </a>
-            <!-- First level menu -->
             <ul class="ml-menu" *ngIf="sidebarItem.submenu.length > 0">
               <li *ngFor="let sidebarSubItem1 of sidebarItem.submenu"
                 [routerLinkActive]="sidebarSubItem1.submenu.length > 0 ? '' : 'active'">
@@ -162,7 +174,6 @@
                   (click)="callToggleMenu($event,sidebarSubItem1.submenu.length)" [ngClass]="[sidebarSubItem1.class]">
                   {{sidebarSubItem1.title | translate}}
                 </a>
-                <!-- Second level menu -->
                 <ul class="ml-menu-2" *ngIf="sidebarSubItem1.submenu.length > 0">
                   <li *ngFor="let sidebarSubItem2 of sidebarSubItem1.submenu"
                     [routerLinkActive]="sidebarSubItem2.submenu.length > 0 ? '' : 'active'">
@@ -171,7 +182,6 @@
                       [ngClass]="[sidebarSubItem2.class]">
                       {{sidebarSubItem2.title | translate}}
                     </a>
-                    <!-- Third level menu -->
                     <ul class="ml-menu-3" *ngIf="sidebarSubItem2.submenu.length > 0">
                       <li *ngFor="let sidebarSubItem3 of sidebarSubItem2.submenu"
                         [routerLinkActive]="sidebarSubItem3.submenu.length > 0 ? '' : 'active'">
@@ -186,7 +196,7 @@
                 </ul>
               </li>
             </ul>
-          </li>
+          </!--li-->
         </ul>
       </ng-scrollbar>
     </div>

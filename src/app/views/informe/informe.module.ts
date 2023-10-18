@@ -55,6 +55,7 @@ import { PMorosidadComercialComponent } from './info-persona/ip-detalle/p-sbs-ri
 import { PDeudaBancariaComponent } from './info-persona/ip-detalle/p-sbs-riesgo/p-deuda-bancaria/p-deuda-bancaria.component';
 import { PTrabajoComponent } from './info-persona/ip-detalle/p-trabajo/p-trabajo.component';
 import { CapitalPagadoComponent } from './info-empresa/ie-detalle/e-antecedentes/capital-pagado/capital-pagado.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { CapitalPagadoComponent } from './info-empresa/ie-detalle/e-antecedentes
     ClipboardModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    NgxGaugeModule
+    NgxGaugeModule,
+    CKEditorModule
   ],
   providers: [provideNgxMask()],
 })

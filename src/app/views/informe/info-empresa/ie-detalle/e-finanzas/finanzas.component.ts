@@ -25,8 +25,29 @@ export class FinanzasComponent implements OnInit {
     private dialog : MatDialog
   ){
     this.filteredOptions = new Observable<data[]>();
-    this.dataSourceHistoricoVentas = new MatTableDataSource(this.historicoVentasService.GetAllHistoricoVentas())
   }
+
+  entrevistado : string = ""
+  cargos : string = "cargos esp"
+  cargosIng : string = "cargos es"
+  gradoColaboracion : string = ""
+  comentarioEntrevista : string = ""
+  comentarioEntrevistaIng : string = ""
+  auditores : string = ""
+  situacionFinanciera: string = ""
+  principalesActivos : string = ""
+  principalesActivosIng : string = ""
+  comentarioFinancieroElegido : string = ""
+  comentarioFinancieroElegidoIng : string = ""
+  comentarioAnalista : string = ""
+  comentarioAnalistaIng : string = ""
+  riesgoCrediticio : string = ""
+  comentarioConBalance : string = "comentario con balance"
+  comentarioSinBalance : string = "comentario sin balance"
+  comentarioElegido : string = ""
+  comentarioElegidoIng : string = ""
+  checkComentarioConBalance : boolean = false
+  checkComentarioSinBalance : boolean = false
 
   //titularidad
   myControl = new FormControl<string | data>('');
@@ -38,8 +59,9 @@ export class FinanzasComponent implements OnInit {
     return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
-
   ngOnInit() {
+    this.dataSourceHistoricoVentas = new MatTableDataSource(this.historicoVentasService.GetAllHistoricoVentas())
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -51,15 +73,6 @@ export class FinanzasComponent implements OnInit {
   displayFn(user: data): string {
     return user && user.name ? user.name : '';
   }
-
-
-
-
-  comentarioConBalance : string = "comentario con balance"
-  comentarioSinBalance : string = "comentario sin balance"
-  comentarioElegido : string = ""
-  checkComentarioConBalance : boolean = false
-  checkComentarioSinBalance : boolean = false
 
   elegirComentarioConBalance(){
     if(this.checkComentarioConBalance == true){
@@ -106,14 +119,62 @@ export class FinanzasComponent implements OnInit {
         this.dataSourceHistoricoVentas = new MatTableDataSource(this.historicoVentasService.GetAllHistoricoVentas())
       });
   }
-  agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
+  agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
     data: {
-      titulo1 : titulo1,
-      titulo2 : titulo2,
+      titulo : titulo,
       subtitulo : subtitulo,
-      empresa: empresa,
+      tipo : 'input',
+      comentario_es : comentario_es,
+      comentario_en : comentario_en
       },
+    });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        switch(input){
+          case 'cargos':
+          this.cargos = data.comentario_es;
+          this.cargosIng = data.comentario_en;
+          break
+        }
+      }
+    });
+  }
+  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+    data: {
+      titulo : titulo,
+      subtitulo : subtitulo,
+      tipo : 'textarea',
+      comentario_es : comentario_es,
+      comentario_en : comentario_en
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        switch(input){
+          case 'comentarioEntrevista':
+          this.comentarioEntrevista = data.comentario_es;
+          this.comentarioEntrevistaIng = data.comentario_en;
+          break
+          case 'principalesActivos':
+          this.principalesActivos = data.comentario_es;
+          this.principalesActivosIng = data.comentario_en;
+          break
+          case 'comentarioElegido':
+          this.comentarioElegido = data.comentario_es;
+          this.comentarioElegidoIng = data.comentario_en;
+          break
+          case 'comentarioAnalista':
+          this.comentarioAnalista = data.comentario_es;
+          this.comentarioAnalistaIng = data.comentario_en;
+          break
+
+        }
+      }
     });
   }
   balanceSituacional(idInforme : number) {
@@ -122,8 +183,8 @@ export class FinanzasComponent implements OnInit {
     });
   }
   titulo = 'Comentario - Traduccion'
-  tituloActivos = 'Principales Activos Fijos de la Empresa => '
-  tituloCargo = 'Cargos de la Empresa => '
+  tituloActivos = 'Principales Activos Fijos de la Empresa '
+  tituloCargo = 'Cargos de la Empresa '
   tituloComentarioEntrevista = 'Comentarios de la Entrevista'
   tituloComentarioFinanciero = 'Comentario Financiero'
   tituloComentarioAnalista = 'Comentarios del Analista'

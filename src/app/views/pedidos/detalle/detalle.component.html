@@ -145,10 +145,7 @@
                   <div class="col-md-6 d-flex align-items-center">
                     <mat-form-field class="w-100">
                       <mat-label>Nombre de la Empresa/Persona Solicitado</mat-label>
-                      <input matInput placeholder="" value="">
-                      <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarEmpresaPersona()">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                      </button>
+                      <input matInput placeholder="" value="" [(ngModel)]="buscarPorNombreInforme" (ngModelChange)="buscarPorNombre(buscarPorNombreInforme)">
                     </mat-form-field>
                   </div>
                   <div class="col-md-6 d-flex align-items-center">

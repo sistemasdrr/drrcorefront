@@ -7,7 +7,6 @@ import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
 import { HistoricoPedidosComponent } from './historico-pedidos/historico-pedidos.component';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSelectChange } from '@angular/material/select';
 
 export interface data {
@@ -221,10 +220,10 @@ constructor(
   this.filterReputacion = new Observable<Reputacion[]>()
   this.filterSituacionRuc = new Observable<SituacionRuc[]>()
   this.filterPersoneriaJuridica = new Observable<PersoneriaJuridica[]>()
-  this.paises = this.PaisService.getPaises()
-
 }
   ngOnInit() {
+    this.paises = this.PaisService.getPaises()
+
     this.filterReputacion = this.controlReputacion.valueChanges.pipe(
       startWith(''),
       map(value => {

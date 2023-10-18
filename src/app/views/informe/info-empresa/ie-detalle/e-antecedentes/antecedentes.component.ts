@@ -10,7 +10,7 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
 import { EmpresaRelacionada } from 'app/models/empresa-relacionada';
 import { EmpresaRelacionadaService } from 'app/services/empresa-relacionada.service';
 import { Observable, map, startWith } from 'rxjs';
-import { CapitalPagadoComponent, CapitalPagadoData } from './capital-pagado/capital-pagado.component';
+import { CapitalPagadoComponent } from './capital-pagado/capital-pagado.component';
 
 export interface data {
   name: string;
@@ -24,6 +24,7 @@ export interface data {
 export class AntecedentesComponent implements OnInit{
   //TABLA
   dataSource: MatTableDataSource<EmpresaRelacionada>;
+
   columnsToDisplay = ['razonSocial', 'registroTributario', 'pais', 'fechaEstablecimiento', 'estado', 'accion'];
   selection = new SelectionModel<EmpresaRelacionada>(true, []);
 
@@ -61,10 +62,12 @@ export class AntecedentesComponent implements OnInit{
 constructor(
   public dialog: MatDialog,
   private empresaRelacionadaService : EmpresaRelacionadaService) {
-  this.filteredOptions = new Observable<data[]>();
-  this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.GetAllEmpresaRelacionada())
+    this.filteredOptions = new Observable<data[]>();
+    this.dataSource = new MatTableDataSource<EmpresaRelacionada>
 }
   ngOnInit() {
+    this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.GetAllEmpresaRelacionada())
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -81,24 +84,118 @@ constructor(
   private _filter(name: string): data[] {
     return this.options.filter(option => option.name.toLowerCase().includes(name.toLowerCase()));
   }
-
-  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string) {
+  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
     data: {
       titulo : titulo,
       subtitulo : subtitulo,
+      tipo : 'textarea',
       comentario_es : comentario_es,
       comentario_en : comentario_en
 
     },
   });
-  console.log(dialogRef)
-    // dialogRef.afterClosed().subscribe((codAbonado) => {
-    //   if (codAbonado) {
-    //     this.codAbonado = codAbonado.codigoAbonado
-    //     this.asignarDatosAbonado()
-    //   }
-    // });
+  dialogRef.afterClosed().subscribe((data) => {
+    if (data) {
+      console.log(data)
+      switch(input){
+       
+        case 'registrosPublicos':
+        this.registrosPublicosInforme = data.comentario_es;
+        this.registrosPublicosIngInforme = data.comentario_en;
+        console.log(this.registrosPublicosInforme)
+        break
+        case 'historialAntecedentes':
+         this.historialAntecedentes = data.comentario_es;
+         this.historialAntecedentesIng = data.comentario_en;
+         console.log(this.historialAntecedentes)
+         break
+        case 'fechaAumento':
+        this.fechaAumentoInforme = data.comentario_es;
+        this.fechaAumentoIngInforme = data.comentario_en;
+        console.log(this.fechaAumentoInforme)
+        break
+        case 'actualTC':
+        this.actualTCInforme = data.comentario_es;
+        this.actualTCIngInforme = data.comentario_en;
+        console.log(this.actualTCInforme)
+        break
+        case 'comentarioAntecedentes':
+        this.comentarioAntecedentes = data.comentario_es;
+        this.comentarioAntecedentesIng = data.comentario_en;
+        console.log(this.comentarioAntecedentes)
+        break
+        case 'historiaAntecedentes':
+        this.historialAntecedentes = data.comentario_es;
+        this.historialAntecedentesIng = data.comentario_en;
+        console.log(this.historialAntecedentes)
+        break
+      }
+    }
+  });
+  }
+
+  agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+    data: {
+      titulo : titulo,
+      subtitulo : subtitulo,
+      tipo : 'input',
+      comentario_es : comentario_es,
+      comentario_en : comentario_en
+
+    },
+  });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        switch(input){
+          case 'duracion':
+          this.duracionInforme = data.comentario_es;
+          this.duracionIngInforme = data.comentario_en;
+          console.log(this.duracionInforme)
+          break
+          case 'registradaEn':
+          this.registradaEnInforme = data.comentario_es;
+          this.registradaEnIngInforme = data.comentario_en;
+          console.log(this.registradaEnInforme)
+          break
+          case 'registrosPublicos':
+          this.registrosPublicosInforme = data.comentario_es;
+          this.registrosPublicosIngInforme = data.comentario_en;
+          console.log(this.registrosPublicosInforme)
+          break
+          case 'historialAntecedentes':
+           this.historialAntecedentes = data.comentario_es;
+           this.historialAntecedentesIng = data.comentario_en;
+           console.log(this.historialAntecedentes)
+           break
+          case 'fechaAumento':
+          this.fechaAumentoInforme = data.comentario_es;
+          this.fechaAumentoIngInforme = data.comentario_en;
+          console.log(this.fechaAumentoInforme)
+          break
+          case 'actualTC':
+          this.actualTCInforme = data.comentario_es;
+          this.actualTCIngInforme = data.comentario_en;
+          console.log(this.actualTCInforme)
+          break
+          case 'comentarioAntecedentes':
+          this.comentarioAntecedentes = data.comentario_es;
+          this.comentarioAntecedentesIng = data.comentario_en;
+          console.log(this.comentarioAntecedentes)
+          break
+          case 'historiaAntecedentes':
+          this.historialAntecedentes = data.comentario_es;
+          this.historialAntecedentesIng = data.comentario_en;
+          console.log(this.historialAntecedentes)
+          break
+        }
+      }
+    });
+  }
+  func(string : string, valor : string){
+    string = valor
   }
   abrirCapitalPagado(){
     const dialogRef = this.dialog.open(CapitalPagadoComponent, {
@@ -138,12 +235,12 @@ constructor(
   }
 
   //TITULOS DE COMENTARIOS
-  tituloDuracion : string = "Traducción => Duración"
-  tituloRegistradaEn : string = 'Traducción => Registrada En'
-  tituloRegistrosPublicos : string = 'Traducción => Registros Públicos'
-  tituloCapitalActual : string = 'Traducción => Capital Actual'
-  tituloFechaAumento : string = 'Traducción => Fecha de Aumento'
-  tituloActualTC : string = 'Traducción => Actual T.C. Por 1US$ '
+  tituloDuracion : string = "Duración"
+  tituloRegistradaEn : string = 'Registrada En'
+  tituloRegistrosPublicos : string = 'Registros Públicos'
+  tituloCapitalActual : string = 'Capital Actual'
+  tituloFechaAumento : string = 'Fecha de Aumento'
+  tituloActualTC : string = 'Actual T.C. Por 1US$ '
   tituloComentarioAntecedentes : string = 'Antecedentes Legales '
   subtituloComentarioAntecedentes: string = 'Anote aquí unicamente Datos de Contitución, Gestores del Negocio, Aumentos del Capital, Cambios de Razón Social, Objeto Social, Fusiones, Cotización de la Acciones, entre otros.'
   tituloHistoria : string = 'Historia (Antecedentes)'
@@ -169,11 +266,18 @@ constructor(
   fechaConstitucionInforme : string = ""
   inicioActividadesInforme : string = ""
   duracionInforme : string = ""
-  registradaEnInforme : string = ""
-  registradaEnIngInforme : string = ""
+  duracionIngInforme : string = ""
+  registradaEnInforme : string = "1"
+  registradaEnIngInforme : string = "2"
   notariaInforme : string = ""
   registrosPublicosInforme : string = ""
   registrosPublicosIngInforme : string = ""
+
+  comentarioAntecedentes : string = ""
+  comentarioAntecedentesIng : string = ""
+
+  historialAntecedentes : string = ""
+  historialAntecedentesIng : string = ""
 
   capitalPagadoMoneda : string = ""
   capitalPagadoMonto : string = ""
@@ -190,6 +294,7 @@ constructor(
   cotizadaEnBolsaInforme : string = ""
   cotizadaEnBolsaPorInforme : string = ""
   actualTCInforme : string = ""
+  actualTCIngInforme : string = ""
   fechaUltimaConsultaInforme : string = ""
   ultimaConsultaPorInforme : string = ""
 
