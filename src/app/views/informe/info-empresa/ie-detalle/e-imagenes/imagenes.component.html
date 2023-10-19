@@ -1,5 +1,5 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
-  <div class="col-md-12 mb-2">
+  <div class="col-md-12 mb-2" (paste)="onPaste($event)">
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Imágenes de la Empresa</h4>
@@ -87,17 +87,14 @@
         </div>
       </div-->
 
-      <div class="col-md-8">
-        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" style="height: 20rem;" [accept]="'image/*'" (change)="onSelect($event)" (paste)="onPaste($event)"  [disabled]="cardSeleccionada === 0">
-          <div class="" style="background-size: cover; width: 100%; height: 100%" *ngIf="imgSeleccionadaCheck === true">
-            <img mat-card-image src="{{imgSeleccionada}}" >
+      <div class="col-md-8" >
+        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" style="height: 20rem;" [accept]="'image/*'" (change)="onSelect($event)"   [disabled]="cardSeleccionada === 0">
+          <div class="d-flex justify-content-center" style="background-size: cover; width: 100%; height: 100%" *ngIf="imgSeleccionadaCheck === true">
+            <img mat-card-image src="{{imgSeleccionada}}" style="width: auto; height: 100%;">
           </div>
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100" *ngFor="let file of files" [file]="file" >
-            <ngx-dropzone-label>
-              <!--br>
-              <button class="btn bg-red" (click)="onRemove(file)"><i class="fa-solid fa-trash"></i></button>
-              <button-- class="btn btn-primary" (click)="onRemove(file)"><i class="fa-solid fa-pen-to-square"></i></button-->
-            </ngx-dropzone-label>
+
+            
           </ngx-dropzone-image-preview>
         </div>
       </div>
@@ -108,7 +105,7 @@
           </div>
           <div class="w-100 d-flex justify-content-end">
             <button mat-mini-fab color="primary" (click)="agregarImagen(cardSeleccionada)" [disabled]="cardSeleccionada === 0">
-              <mat-icon class="col-white">add</mat-icon>
+              <mat-icon class="col-white">task_alt</mat-icon>
             </button>
           </div>
         </div>

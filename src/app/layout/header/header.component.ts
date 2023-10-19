@@ -154,6 +154,7 @@ export class HeaderComponent
     const hasClass = (event.target as HTMLInputElement).classList.contains(
       className
     );
+
     if (hasClass) {
       this.renderer.removeClass(this.document.body, className);
     } else {
@@ -162,13 +163,22 @@ export class HeaderComponent
   }
   callSidemenuCollapse() {
     const hasClass = this.document.body.classList.contains('side-closed');
+    const gerencia = this.document.getElementById('gerencia')
+    const produccion = this.document.getElementById('produccion')
+    const administracion = this.document.getElementById('administracion')
     if (hasClass) {
       this.renderer.removeClass(this.document.body, 'side-closed');
       this.renderer.removeClass(this.document.body, 'submenu-closed');
+      this.renderer.removeClass(gerencia, 'd-none')
+      this.renderer.removeClass(produccion, 'd-none')
+      this.renderer.removeClass(administracion, 'd-none')
       localStorage.setItem('collapsed_menu', 'false');
     } else {
       this.renderer.addClass(this.document.body, 'side-closed');
       this.renderer.addClass(this.document.body, 'submenu-closed');
+      this.renderer.addClass(gerencia, 'd-none')
+      this.renderer.addClass(produccion, 'd-none')
+      this.renderer.addClass(administracion, 'd-none')
       localStorage.setItem('collapsed_menu', 'true');
     }
   }

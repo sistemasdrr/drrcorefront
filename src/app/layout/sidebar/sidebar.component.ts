@@ -28,6 +28,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   listMaxWidth?: string;
   headerHeight = 60;
   routerObj;
+
+  tooltip1 = ""
+  tooltip2 = ""
+  tooltip3 = ""
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -41,6 +46,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.renderer.removeClass(this.document.body, 'overlay-open');
       }
     });
+
   }
   @HostListener('window:resize', ['$event'])
   windowResizecall() {
@@ -61,10 +67,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
       if (activeClass) {
         this.renderer.removeClass(parentElement, 'active');
+
       } else {
         this.renderer.addClass(parentElement, 'active');
       }
     }
+
   }
   ngOnInit() {
     if (this.authService.currentUserValue) {
@@ -83,6 +91,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     // Set menu height
     _this.setMenuHeight();
     _this.checkStatuForResize(true);
+
   }
   setMenuHeight() {
     this.innerHeight = window.innerHeight;
@@ -102,16 +111,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   mouseHover() {
     const body = this.elementRef.nativeElement.closest('body');
+    const gerencia = this.document.getElementById('gerencia')
+    const produccion = this.document.getElementById('produccion')
+    const administracion = this.document.getElementById('administracion')
     if (body.classList.contains('submenu-closed')) {
       this.renderer.addClass(this.document.body, 'side-closed-hover');
       this.renderer.removeClass(this.document.body, 'submenu-closed');
+      this.renderer.removeClass(gerencia, 'd-none')
+      this.renderer.removeClass(produccion, 'd-none')
+      this.renderer.removeClass(administracion, 'd-none')
     }
   }
   mouseOut() {
     const body = this.elementRef.nativeElement.closest('body');
+    const gerencia = this.document.getElementById('gerencia')
+    const produccion = this.document.getElementById('produccion')
+    const administracion = this.document.getElementById('administracion')
     if (body.classList.contains('side-closed-hover')) {
       this.renderer.removeClass(this.document.body, 'side-closed-hover');
       this.renderer.addClass(this.document.body, 'submenu-closed');
+      this.renderer.addClass(gerencia, 'd-none')
+      this.renderer.addClass(produccion, 'd-none')
+      this.renderer.addClass(administracion, 'd-none')
     }
   }
 }

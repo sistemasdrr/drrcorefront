@@ -8,6 +8,8 @@ import { Observable, map, startWith } from 'rxjs';
 import { HistoricoPedidosComponent } from './historico-pedidos/historico-pedidos.component';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 export interface data {
   name: string;
@@ -216,6 +218,7 @@ export class DatosEmpresaComponent implements OnInit{
 constructor(
   private dialog : MatDialog,
   private PaisService : PaisService,
+  private router : Router
 ) {
   this.filterReputacion = new Observable<Reputacion[]>()
   this.filterSituacionRuc = new Observable<SituacionRuc[]>()
@@ -270,14 +273,35 @@ constructor(
 
 
 
-  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string) {
+  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
     data: {
       titulo : titulo,
       subtitulo : subtitulo,
+      tipo : 'textarea',
       comentario_es : comentario_es,
       comentario_en : comentario_en,
       },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        switch(input){
+          case 'comentarioIdentificacion':
+          this.comentarioIdentificacion = data.comentario_es;
+          this.comentarioIdentificacionIng = data.comentario_en;
+          break
+          case 'comentarioReputacion':
+          this.comentarioReputacionInforme = data.comentario_es;
+          this.comentarioReputacionIngInforme = data.comentario_en;
+          break
+          case 'comentarioPrensa':
+          this.comentarioPrensaInforme = data.comentario_es;
+          this.comentarioPrensaIngInforme = data.comentario_en;
+          break
+
+        }
+      }
     });
   }
 
@@ -444,6 +468,8 @@ constructor(
   riesgoCrediticioInforme : string = ""
   politicaPagosInforme : string = ""
   reputacionInforme : string = ""
+  comentarioIdentificacion : string = ""
+  comentarioIdentificacionIng : string = ""
   comentarioReputacionInforme : string = ""
   comentarioReputacionIngInforme : string = ""
   comentarioPrensaInforme : string = ""
@@ -476,6 +502,26 @@ constructor(
     console.log(this.politicaPagosInforme)
     console.log(this.reputacionInforme)
   }
+  salir(){
+    Swal.fire({
+      title: '¿Está seguro de salir sin guardar los cambios?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'Cancelar',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigate(['informes/empresa/lista']);
+
+      }
+    });
+  }
+
 
   //GAUGE
   gaugeRiesgoCrediticio = 0

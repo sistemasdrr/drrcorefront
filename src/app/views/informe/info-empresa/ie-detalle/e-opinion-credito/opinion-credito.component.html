@@ -19,7 +19,7 @@
         <mat-form-field class="example-full-width mt-2" >
           <mat-label>Crédito Consultado</mat-label>
           <input matInput type="text" placeholder="" [(ngModel)]="creditoConsultado" [readonly]="!checkSolicitudCredito">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloCreditoConsultado,'',creditoConsultado,creditoConsultadoIng,'creditoConsultado')" [disabled]="!checkSolicitudCredito">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="creditoConsultadoIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCreditoConsultado,'',creditoConsultado,creditoConsultadoIng,'creditoConsultado')" [disabled]="!checkSolicitudCredito">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -28,7 +28,7 @@
         <mat-form-field class="example-full-width mt-2">
           <mat-label>Crédito Sugerido</mat-label>
           <input matInput type="text" placeholder=""  [(ngModel)]="creditoSugerido" [readonly]="!checkSolicitudCredito">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloCreditoSugerido,'',creditoSugerido,creditoSugeridoIng,'creditoSugerido')" [disabled]="!checkSolicitudCredito">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="creditoSugeridoIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCreditoSugerido,'',creditoSugerido,creditoSugeridoIng,'creditoSugerido')" [disabled]="!checkSolicitudCredito">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -38,7 +38,7 @@
         <mat-form-field class="example-full-width mt-2">
           <mat-label>Comentario</mat-label>
           <textarea matInput type="text" placeholder="" style="min-height: 8rem;" [(ngModel)]="comentarioAnotado"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentario,'',comentarioAnotado,comentarioAnotadoIng,'comentarioAnotado')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioAnotadoIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentario,'',comentarioAnotado,comentarioAnotadoIng,'comentarioAnotado')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>

@@ -30,7 +30,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Duración</mat-label>
           <input matInput placeholder="" [(ngModel)]="duracionInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloDuracion,'', duracionInforme, duracionIngInforme, 'duracion')">
+          <button class="btn-traduccion" [class]="duracionIngInforme === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloDuracion,'', duracionInforme, duracionIngInforme, 'duracion')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -39,7 +39,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Registrada en</mat-label>
           <input matInput placeholder="" [(ngModel)]="registradaEnInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistradaEn,'', registradaEnInforme, registradaEnIngInforme,'registradaEn')">
+          <button class="btn-traduccion" [class]="registradaEnIngInforme === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistradaEn,'', registradaEnInforme, registradaEnIngInforme,'registradaEn')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -54,7 +54,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Registros Públicos</mat-label>
           <input matInput placeholder="" [(ngModel)]="registrosPublicosInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistrosPublicos,'', registrosPublicosInforme, registrosPublicosIngInforme, 'registrosPublicos')">
+          <button class="btn-traduccion" [class]="registrosPublicosIngInforme === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistrosPublicos,'', registrosPublicosInforme, registrosPublicosIngInforme, 'registrosPublicos')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -65,7 +65,7 @@
           <input matInput placeholder="" [(ngModel)]="capitalPagadoActualInforme" [readonly]="true">
           <button matSuffix mat-mini-fab color="primary" (click)="abrirCapitalPagado()"  #tooltip="matTooltip" matTooltip="Editar">
             <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
-            <span class="fi fi-us" ></span>
+            <span class="fi fi-us" [class]="capitalPagadoObservacionIng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
@@ -92,7 +92,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Fecha Aumento</mat-label>
           <input matInput placeholder="" [(ngModel)]="fechaAumentoInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button  (click)="agregarTraduccion(tituloFechaAumento,'', fechaAumentoInforme, fechaAumentoIngInforme, 'fechaAumento')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="fechaAumentoIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloFechaAumento,'', fechaAumentoInforme, fechaAumentoIngInforme, 'fechaAumento')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -146,7 +146,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Actual T.C. X 1 US$</mat-label>
           <input matInput placeholder="" [(ngModel)]="actualTCInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloActualTC,'', actualTCInforme, actualTCIngInforme, 'actualTC')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="actualTCIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloActualTC,'', actualTCInforme, actualTCIngInforme, 'actualTC')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -223,14 +223,14 @@
 
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"  #tooltip="matTooltip" matTooltip="Antecedentes Legales"
+        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"  #tooltip="matTooltip" matTooltip="Antecedentes Legales" [class]="comentarioAntecedentesIng === '' ? 'sin-traduccion' : ''"
         (click)="agregarComentario(tituloComentarioAntecedentes,subtituloComentarioAntecedentes, comentarioAntecedentes, comentarioAntecedentesIng, 'comentarioAntecedentes')">
           <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Antecedentes
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" #tooltip="matTooltip" matTooltip="Historia (Antecedentes)"
+        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" #tooltip="matTooltip" matTooltip="Historia (Antecedentes)" [class]="historialAntecedentesIng === '' ? 'sin-traduccion' : ''"
         (click)="agregarComentario(tituloHistoria,subtituloHistoria, historialAntecedentes, historialAntecedentesIng , 'historiaAntecedentes')">
           <i class="fa-solid fa-magnifying-glass"  style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Historia

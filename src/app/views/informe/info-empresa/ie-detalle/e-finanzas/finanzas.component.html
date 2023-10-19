@@ -18,7 +18,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Cargo(s)</mat-label>
           <input matInput placeholder="" [(ngModel)]="cargos">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloCargo,'',cargos,cargosIng,'cargos')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="cargosIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCargo,'',cargos,cargosIng,'cargos')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -94,7 +94,7 @@
               <mat-form-field class="example-full-width mb-4">
                 <mat-label>Comentario de la Entrevista.</mat-label>
                 <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioEntrevista"></textarea>
-                <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioEntrevista,'',comentarioEntrevista,comentarioEntrevistaIng, 'comentarioEntrevista')">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioEntrevistaIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioEntrevista,'',comentarioEntrevista,comentarioEntrevistaIng, 'comentarioEntrevista')">
                   <span class="fi fi-us" style="font-size: 24px;"></span>
                 </button>
                 <mat-hint>Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes</mat-hint>
@@ -120,7 +120,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-7 d-flex justify-content-end">
-        <button mat-mini-fab class="bg-blue" style="margin: .7rem;" (click)="agregarComentario(tituloActivos,subtituloActivos,principalesActivos,principalesActivosIng,'principalesActivos')" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
+        <button mat-mini-fab class="bg-blue" style="margin: .7rem;" [class]="principalesActivosIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloActivos,subtituloActivos,principalesActivos,principalesActivosIng,'principalesActivos')" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
           <mat-icon class="col-white">real_estate_agent</mat-icon>
         </button>
         <button mat-mini-fab class="bg-blue" style="margin: .7rem;" (click)="balanceSituacional(1)" #tooltip="matTooltip" matTooltip="Balance Situacional">
@@ -153,7 +153,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Comentario Financiero Elegido</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioElegido"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioFinanciero,'',comentarioElegido,comentarioElegidoIng, 'comentarioElegido')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioElegidoIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioFinanciero,'',comentarioElegido,comentarioElegidoIng, 'comentarioElegido')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
           <mat-hint>Según opciones de arriba y Ud. puede adicionar o editarlo manualmente</mat-hint>
@@ -168,7 +168,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Comentario del Analista</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioAnalista"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioAnalista,'',comentarioAnalista,comentarioAnalistaIng,'comentarioAnalista')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioAnalistaIng === '' ? 'sin-traduccion' : ''"  (click)="agregarComentario(tituloComentarioAnalista,'',comentarioAnalista,comentarioAnalistaIng,'comentarioAnalista')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>

@@ -52,7 +52,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
           <input  matInput placeholder="" [(ngModel)]="paisesImportacionInforme" [disabled]="checkImportacion !== 'SI'" >
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkImportacion !== 'SI'" (click)="agregarTraduccion(tituloImportacion,'', paisesImportacionInforme, paisesImportacionIngInforme,'paisesImportan')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkImportacion !== 'SI'" [class]="paisesImportacionIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloImportacion,'', paisesImportacionInforme, paisesImportacionIngInforme,'paisesImportan')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -76,7 +76,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Países</mat-label>
           <input matInput placeholder="" [(ngModel)]="paisesExportacionInforme" [disabled]="checkExportacion !== 'SI'">
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkExportacion !== 'SI'" (click)="agregarTraduccion(tituloExportacion,'', paisesExportacionInforme, paisesExportacionIngInforme,'paisesExportan')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkExportacion !== 'SI'" [class]="paisesExportacionIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloExportacion,'', paisesExportacionInforme, paisesExportacionIngInforme,'paisesExportan')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -99,7 +99,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Venta Contado/Forma</mat-label>
           <input matInput placeholder="" [(ngModel)]="ventaContadoInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloVentaContado,'', ventaContadoInforme, ventaContadoIngInforme,'ventaContado')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="ventaContadoIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloVentaContado,'', ventaContadoInforme, ventaContadoIngInforme,'ventaContado')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -108,7 +108,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Crédito/Términos</mat-label>
           <input matInput placeholder="" [(ngModel)]="creditoTerminosInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloCreditoTerminos, '', creditoTerminosInforme, creditoTerminosIngInforme,'creditoTermino')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="creditoTerminosIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCreditoTerminos, '', creditoTerminosInforme, creditoTerminosIngInforme,'creditoTermino')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -117,7 +117,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Territorio de Ventas</mat-label>
           <input matInput placeholder="" [(ngModel)]="territorioVentasInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloTerritorioVentas, '', territorioVentasInforme, territorioVentasIngInforme,'territorioVentas')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="territorioVentasIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloTerritorioVentas, '', territorioVentasInforme, territorioVentasIngInforme,'territorioVentas')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -126,7 +126,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Ventas al Exterior</mat-label>
           <input matInput placeholder="" [(ngModel)]="ventasExteriorInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloVentaExterior, '', ventasExteriorInforme, ventasExteriorIngInforme,'ventaExterior')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="ventasExteriorIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloVentaExterior, '', ventasExteriorInforme, ventasExteriorIngInforme,'ventaExterior')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -135,7 +135,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Compras Nacionales</mat-label>
           <input matInput placeholder="" [(ngModel)]="comprasNacionalesInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloComprasNacionales, '', comprasNacionalesInforme, comprasNacionalesIngInforme,'comprasNacionales')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comprasNacionalesIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloComprasNacionales, '', comprasNacionalesInforme, comprasNacionalesIngInforme,'comprasNacionales')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -144,7 +144,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>% Del Exterior</mat-label>
           <input matInput placeholder="" [(ngModel)]="comprasDelExteriorInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloExterior, '', comprasDelExteriorInforme, comprasDelExteriorIngInforme,'comprasExterior')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comprasDelExteriorIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloExterior, '', comprasDelExteriorInforme, comprasDelExteriorIngInforme,'comprasExterior')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -177,7 +177,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Area Total</mat-label>
           <input matInput placeholder="" [(ngModel)]="areaTotalInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarTraduccion(tituloAreaTotal, '', areaTotalInforme, areaTotalIngInforme,'areaTotal')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="areaTotalIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloAreaTotal, '', areaTotalInforme, areaTotalIngInforme,'areaTotal')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -192,7 +192,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Otros Locales (Plantas, Almacenes, Depósitos, Sucursales)</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="otrosLocalesInforme"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloOtrosLocales,subtituloOtrosLocales, otrosLocalesInforme, otrosLocalesIngInforme,'otrosLocales')">
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="otrosLocalesIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloOtrosLocales,subtituloOtrosLocales, otrosLocalesInforme, otrosLocalesIngInforme,'otrosLocales')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>
@@ -208,7 +208,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Detalle de Actividad Principal u Objetivo Social</mat-label>
           <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="comentarioActividadPrincipal"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Detalle de Actividad Principal u Objetivo Social','', comentarioActividadPrincipal, comentarioActividadPrincipalIng,'comentarioActividadPrincipal')">
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioActividadPrincipalIng === '' ? 'sin-traduccion' : ''"  (click)="agregarComentario('Detalle de Actividad Principal u Objetivo Social','', comentarioActividadPrincipal, comentarioActividadPrincipalIng,'comentarioActividadPrincipal')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>
@@ -217,7 +217,7 @@
         <mat-form-field class="example-full-width">
           <mat-label>Comentario Adicional de Negocio</mat-label>
           <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="comentarioNegocio"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Comentario Adicional de Negocio','', comentarioNegocio, comentarioNegocioIng,'comentarioNegocio')">
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioNegocioIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario('Comentario Adicional de Negocio','', comentarioNegocio, comentarioNegocioIng,'comentarioNegocio')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>

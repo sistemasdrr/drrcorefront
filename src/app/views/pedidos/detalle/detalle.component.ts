@@ -49,7 +49,7 @@ export class DetalleComponent implements OnInit {
   }
   buscarPorNombreInforme = ""
   buscarPorNombre(nombreInforme : string){
-    
+
   }
   //FORM ABONADO
   nombreAbonado : string = ''

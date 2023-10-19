@@ -4,7 +4,7 @@
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Datos Comerciales</h4>
         <div>
-          <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Volver">
+          <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
             <mat-icon class="col-white">arrow_back</mat-icon>
           </button>
           <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
@@ -141,7 +141,7 @@
         <button mat-mini-fab class="bg-secondary" style="margin: 0 .5rem .5rem .5rem;" (click)="historicoPedidos()" #tooltip="matTooltip" matTooltip="Histórico de Pedidos">
           <mat-icon class="col-white">history</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" style="margin: 0 .5rem .5rem .5rem;" (click)="agregarComentario(tituloComentarioIdentificacion,'', 'español','ingles')" #tooltip="matTooltip" matTooltip="Comentario de Identificación">
+        <button mat-mini-fab color="primary" style="margin: 0 .5rem .5rem .5rem;" [class]="comentarioIdentificacionIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioIdentificacion,'', comentarioIdentificacion,comentarioIdentificacionIng,'comentarioIdentificacion')" #tooltip="matTooltip" matTooltip="Comentario de Identificación">
           <mat-icon class="col-white">comment</mat-icon>
         </button>
       </div>
@@ -251,7 +251,7 @@
               </mat-option>
             </mat-select>
             <button class="btn-traduccion" matSuffix mat-icon-button>
-              <div class="circle" style="background-color: {{colorPoliticaPagos}};"></div>
+              <div class="circle" style="background-color: {{colorPoliticaPagos}}"></div>
             </button>
           </mat-form-field>
         </div>
@@ -264,7 +264,7 @@
               </mat-option>
             </mat-select>
             <button class="btn-traduccion" matSuffix mat-icon-button>
-              <div class="circle" style="background-color: {{colorReputacion}};"></div>
+              <div class="circle" style="background-color: {{colorReputacion}}"></div>
             </button>
           </mat-form-field>
 
@@ -272,7 +272,8 @@
       </div>
       <div class="col-md-6">
         <div class="col-md-12 d-flex justify-content-center">
-          <ngx-gauge [size]="300"
+          <div class=" shadow" style="background-color: rgba(0,0,0,0.2); border-radius: 10px;">
+            <ngx-gauge [size]="300"
             type="arch"
             [thick]="15"
             [duration]="1000"
@@ -289,13 +290,15 @@
               {{ calificacionRiesgoCrediticio }}
             </ngx-gauge-value>
           </ngx-gauge>
+          </div>
+
         </div>
       </div>
       <div class="col-md-6">
         <mat-form-field class="example-full-width mt-2" >
           <mat-label>Comentario de Reputación</mat-label>
           <textarea matInput type="text" [(ngModel)]="comentarioReputacionInforme" style="min-height: 8rem;"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioReputacion,'', 'español','ingles')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioReputacionIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioReputacion,'', comentarioReputacionInforme,comentarioReputacionIngInforme,'comentarioReputacion')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -304,7 +307,7 @@
         <mat-form-field class="example-full-width mt-2" >
           <mat-label>Comentario de Prensa</mat-label>
           <textarea matInput type="text" [(ngModel)]="comentarioPrensaInforme" style="min-height: 8rem;"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioPrensa,'', 'español','ingles')">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioPrensaIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioPrensa,'', comentarioPrensaInforme,comentarioPrensaIngInforme,'comentarioPrensa')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>

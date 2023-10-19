@@ -99,7 +99,7 @@ constructor(
     if (data) {
       console.log(data)
       switch(input){
-       
+
         case 'registrosPublicos':
         this.registrosPublicosInforme = data.comentario_es;
         this.registrosPublicosIngInforme = data.comentario_en;
@@ -201,7 +201,7 @@ constructor(
     const dialogRef = this.dialog.open(CapitalPagadoComponent, {
       data : {
         moneda : this.capitalPagadoMoneda,
-        monto : this.capitalPagadoMoneda,
+        monto : this.capitalPagadoMonto,
         observacion : this.capitalPagadoObservacion,
         observacionIng : this.capitalPagadoObservacionIng
       }
@@ -209,6 +209,10 @@ constructor(
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.capitalPagadoActualInforme = data.capitalPagado.moneda + ' | ' + data.capitalPagado.monto + ' | ' + data.capitalPagado.observacion
+        this.capitalPagadoMoneda = data.capitalPagado.moneda
+        this.capitalPagadoMonto = data.capitalPagado.monto
+        this.capitalPagadoObservacion = data.capitalPagado.observacion
+        this.capitalPagadoObservacionIng = data.capitalPagado.observacionIng
       }
     });
   }

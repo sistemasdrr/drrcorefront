@@ -1,1 +1,155 @@
-<p>ie-lista works!</p>
+<section class="content">
+  <div class="container-fluid" style="width: 100%; margin: 0; padding: 0;">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <app-breadcrumb [title]="breadscrum.title" [subtitle]="breadscrum.subtitle" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="materialTableHeader" >
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                </li>
+                <li class="tbl-search-box d-flex">
+                  <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                  <input placeholder="Buscar" type="text" #filter class="browser-default search-field" aria-label="Search box">
+
+                  <div style="margin: 0 0 0 2rem;">País</div>
+                  <select class="form-select"  [(ngModel)]="filtrarPais" style="margin: 0 1rem 0 .5rem;" aria-label="País">
+                    <option selected></option>
+                    <option value="RV">Peru</option>
+                    <option value="OR">Brasil</option>
+                  </select>
+
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" matTooltip="NUEVO INFORME (OR)">
+                    <button mat-mini-fab color="primary">
+                      <mat-icon class="col-white">add</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" matTooltip="IMPRIMIR">
+                    <button mat-mini-fab style="background-color: red;">
+                      <mat-icon class="col-white">picture_as_pdf</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li>
+                  <div class="m-l-10" matTooltip="ENVIAR INFORME FINAL">
+                    <button mat-mini-fab class="bg-cyan" >
+                      <mat-icon class="col-white">send</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-12" style="overflow-x: auto;">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+
+          <ng-container matColumnDef="{{columnsToDisplay[0]}}" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RC </th>
+          <td mat-cell *matCellDef="let empresa" class="text-center" [class]="empresa.rc ==='A+' ? 'bg-green' : empresa.rc === 'A-' ? 'l-bg-green' : empresa.rc === 'B' ? 'bg-yellow' : empresa.rc === 'C' ? 'bg-orange' : empresa.rc === 'D' ? 'bg-red' : empresa.rc === 'NN' ? 'bg-grey' : '' ">
+
+            {{empresa.rc}}
+          </td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Idioma</th>
+          <td mat-cell *matCellDef="let empresa" class="text-left">
+            <span class="fi fi-es" style="font-size: 28px;" *ngIf="empresa.idioma === 'ESPAÑOL'"></span>
+            <span class="fi fi-us" style="font-size: 28px;" *ngIf="empresa.idioma === 'INGLES'"></span>
+            <span class="fi fi-us" style="font-size: 28px; background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="empresa.idioma === 'ESPAÑOL-INGLES'"></span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Razón Social</th>
+          <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.razonSocial}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[3]}}" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Datos Al</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.datosAl}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[4]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> País</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">
+              {{empresa.pais}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[5]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RUC</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.rucInit}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[6]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fec. Est.</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.fecEst}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[7]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ram</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ram}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[8]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ex</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ex}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[9]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cal</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ex}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[10]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Dirección</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.direccion}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[11]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Dpto/Estado</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.dptoEstado}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[12]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Teléfono</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.telefono}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[13]}}" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ejec. Principal</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ejecPrincipal}}</td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[14]}}" >
+            <th mat-header-cell *matHeaderCellDef  class="text-center" style="width: 10rem;"> Acciones </th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">
+              <button  mat-mini-fab class="bg-white" matTooltip="Socios">
+                <app-feather-icons [icon]="'users'" [class]="'col-black'"></app-feather-icons>
+              </button>
+              <button  mat-mini-fab class="bg-white" (click)="editOrder(empresa.cupon)" matTooltip="Editar">
+                <app-feather-icons [icon]="'edit'" [class]="'col-blue'"></app-feather-icons>
+              </button>
+              <button  mat-mini-fab class="bg-white" matTooltip="Eliminar">
+                <app-feather-icons [icon]="'trash-2'" [class]="'col-red'"></app-feather-icons>
+              </button>
+            </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let empresa; columns: columnsToDisplay;"
+            class="" [ngClass]="empresa.rc === 'NN' ? 'bg-cyan' : ''" >
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 25]" aria-label="Seleccionar página de Pedidos" class="w-100"></mat-paginator>
+
+      </div>
+    </div>
+
+
+
+  </div>
+</section>

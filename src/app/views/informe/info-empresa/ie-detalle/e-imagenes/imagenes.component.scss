@@ -3,3 +3,10 @@
   border-radius: 5px;
   opacity: .8;
 }
+ngx-dropzone-image-preview{
+  img{
+    width: auto;
+    height: 100%;
+  }
+}
+
