@@ -56,6 +56,14 @@ export class DatosEmpresaComponent implements OnInit{
   ]
 
   controlReputacion = new FormControl<string | Reputacion>('');
+
+  controlSituacionRUC = new FormControl<string | SituacionRuc>('');
+  controlPersoneriaJuridica = new FormControl<string | PersoneriaJuridica>('');
+  controlPaises = new FormControl<string | Pais>('')
+
+  paises : Pais[] = []
+  filterPais : Observable<Pais[]>
+
   reputaciones : Reputacion[] = [
     {
       id : 0,
@@ -103,9 +111,6 @@ export class DatosEmpresaComponent implements OnInit{
     },
   ]
   filterReputacion: Observable<Reputacion[]>
-
-  controlSituacionRUC = new FormControl<string | SituacionRuc>('');
-  controlPersoneriaJuridica = new FormControl<string | PersoneriaJuridica>('');
 
   situacionRuc : SituacionRuc[] = [
     {
@@ -215,6 +220,7 @@ export class DatosEmpresaComponent implements OnInit{
   ]
   filterPersoneriaJuridica : Observable<PersoneriaJuridica[]>
 
+
 constructor(
   private dialog : MatDialog,
   private PaisService : PaisService,
@@ -223,10 +229,18 @@ constructor(
   this.filterReputacion = new Observable<Reputacion[]>()
   this.filterSituacionRuc = new Observable<SituacionRuc[]>()
   this.filterPersoneriaJuridica = new Observable<PersoneriaJuridica[]>()
+  this.filterPais = new Observable<Pais[]>()
 }
   ngOnInit() {
     this.paises = this.PaisService.getPaises()
 
+    this.filterPais = this.controlPaises.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.nombre
+        return name ? this._filterPais(name as string) : this.paises.slice()
+      }),
+    )
     this.filterReputacion = this.controlReputacion.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -249,6 +263,10 @@ constructor(
       }),
     )
   }
+  private _filterPais(description: string): Pais[] {
+    const filterValue = description.toLowerCase();
+    return this.paises.filter(pais => pais.nombre.toLowerCase().includes(filterValue));
+  }
   private _filterReputacion(description: string): Reputacion[] {
     const filterValue = description.toLowerCase();
     return this.reputaciones.filter(reputacion => reputacion.description.toLowerCase().includes(filterValue));
@@ -260,6 +278,9 @@ constructor(
   private _filterPersoneriaJuridica(description: string): PersoneriaJuridica[] {
     const filterValue = description.toLowerCase();
     return this.personeriaJuridica.filter(personeriaJuridica => personeriaJuridica.description.toLowerCase().includes(filterValue));
+  }
+  displayPais(pais : Pais): string {
+    return pais && pais.nombre ? pais.nombre : '';
   }
   displayReputacion(reputacion : Reputacion): string {
     return reputacion && reputacion.description ? reputacion.description : '';
@@ -432,15 +453,16 @@ constructor(
     }
   }
 
-  paises : Pais[] = []
-
   iconoSeleccionado: string = ""
   actualizarSeleccionPais(id: number) {
     const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
     if (paisSeleccionadoObj) {
-      this.paisInforme = paisSeleccionadoObj.id;
+      this.paisInforme = paisSeleccionadoObj.id+'';
       this.iconoSeleccionado = paisSeleccionadoObj.icono;
     }
+  }
+  cambiarIcono(objPais : any){
+    this.iconoSeleccionado = objPais.icono
   }
   //DATOS DE EMPRESA
   fechaInformeInvestigado : string = ""
@@ -457,7 +479,7 @@ constructor(
   direccionCompletaInforme : string = ""
   duracion : string = ""
   dptoEstadoInforme : string = ""
-  paisInforme : number = 0
+  paisInforme : string = ""
   codigoTelefonoFijoInforme : string = ""
   telefonoFijoInforme : string = ""
   celularInforme : string = ""

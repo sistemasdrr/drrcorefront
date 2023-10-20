@@ -60,22 +60,21 @@
 
           <ng-container matColumnDef="{{columnsToDisplay[0]}}" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RC </th>
-          <td mat-cell *matCellDef="let empresa" class="text-center" [class]="empresa.rc ==='A+' ? 'bg-green' : empresa.rc === 'A-' ? 'l-bg-green' : empresa.rc === 'B' ? 'bg-yellow' : empresa.rc === 'C' ? 'bg-orange' : empresa.rc === 'D' ? 'bg-red' : empresa.rc === 'NN' ? 'bg-grey' : '' ">
-
-            {{empresa.rc}}
+          <td mat-cell *matCellDef="let empresa" class="text-center" style="border-radius: 10px;" [class]="empresa.rc ==='A+' ? 'bg-green' : empresa.rc === 'A-' ? 'l-bg-green' : empresa.rc === 'B' ? 'bg-yellow' : empresa.rc === 'C' ? 'bg-orange' : empresa.rc === 'D' ? 'bg-red' : empresa.rc === 'NN' ? 'bg-grey' : '' ">
+            <b style="font-size: 20px;">{{empresa.rc}}</b>
           </td>
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Idioma</th>
           <td mat-cell *matCellDef="let empresa" class="text-left">
-            <span class="fi fi-es" style="font-size: 28px;" *ngIf="empresa.idioma === 'ESPAÑOL'"></span>
-            <span class="fi fi-us" style="font-size: 28px;" *ngIf="empresa.idioma === 'INGLES'"></span>
-            <span class="fi fi-us" style="font-size: 28px; background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="empresa.idioma === 'ESPAÑOL-INGLES'"></span>
+            <span class="fi fi-es" style="font-size: 24px;" *ngIf="empresa.idioma === 'ESPAÑOL'"></span>
+            <span class="fi fi-us" style="font-size: 24px;" *ngIf="empresa.idioma === 'INGLES'"></span>
+            <span class="fi fi-us" style="font-size: 24px; background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="empresa.idioma === 'ESPAÑOL-INGLES'"></span>
             </td>
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
           <th mat-header-cell *matHeaderCellDef class="text-center"> Razón Social</th>
-          <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.razonSocial}}</td>
+          <td mat-cell *matCellDef="let empresa" class="" style="min-width: 15rem;">{{empresa.razonSocial}}</td>
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[3]}}" >
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Datos Al</th>
@@ -88,7 +87,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[5]}}" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RUC</th>
+            <th mat-header-cell *matHeaderCellDef  class="text-center"> RUC</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.rucInit}}</td>
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[6]}}" >
@@ -96,41 +95,40 @@
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.fecEst}}</td>
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[7]}}" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ram</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ram}}</td>
-          </ng-container>
-          <ng-container matColumnDef="{{columnsToDisplay[8]}}" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ex</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ex}}</td>
           </ng-container>
-          <ng-container matColumnDef="{{columnsToDisplay[9]}}" >
+          <ng-container matColumnDef="{{columnsToDisplay[8]}}" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cal</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ex}}</td>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.calificacion}}</td>
           </ng-container>
-          <ng-container matColumnDef="{{columnsToDisplay[10]}}" >
+          <!--ng-container matColumnDef="{{columnsToDisplay[10]}}" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Dirección</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.direccion}}</td>
-          </ng-container>
+          </!--ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[11]}}" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Dpto/Estado</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.dptoEstado}}</td>
           </ng-container>
-          <ng-container matColumnDef="{{columnsToDisplay[12]}}" >
+          <ng-container-- matColumnDef="{{columnsToDisplay[12]}}" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Teléfono</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.telefono}}</td>
-          </ng-container>
-          <ng-container matColumnDef="{{columnsToDisplay[13]}}" >
+          </ng-container-->
+          <ng-container matColumnDef="{{columnsToDisplay[9]}}" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ejec. Principal</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.ejecPrincipal}}</td>
           </ng-container>
-          <ng-container matColumnDef="{{columnsToDisplay[14]}}" >
-            <th mat-header-cell *matHeaderCellDef  class="text-center" style="width: 10rem;"> Acciones </th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">
+          <ng-container matColumnDef="{{columnsToDisplay[10]}}" >
+            <th mat-header-cell *matHeaderCellDef  class="text-center" style="min-width: 14rem;"> Acciones </th>
+            <td mat-cell *matCellDef="let empresa" class="text-center ">
+              <button  mat-mini-fab class="bg-white" (click)="editOrder(empresa.cupon)" matTooltip="Editar">
+                <app-feather-icons [icon]="'eye'" [class]="'col-blue'"></app-feather-icons>
+              </button>
               <button  mat-mini-fab class="bg-white" matTooltip="Socios">
                 <app-feather-icons [icon]="'users'" [class]="'col-black'"></app-feather-icons>
               </button>
-              <button  mat-mini-fab class="bg-white" (click)="editOrder(empresa.cupon)" matTooltip="Editar">
-                <app-feather-icons [icon]="'edit'" [class]="'col-blue'"></app-feather-icons>
+              <button  mat-mini-fab class="bg-white" matTooltip="Generar PDF">
+                <app-feather-icons [icon]="'file-text'" [class]="'col-red'"></app-feather-icons>
               </button>
               <button  mat-mini-fab class="bg-white" matTooltip="Eliminar">
                 <app-feather-icons [icon]="'trash-2'" [class]="'col-red'"></app-feather-icons>

@@ -81,6 +81,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
+
+    
   }
   ngOnDestroy() {
     this.routerObj.unsubscribe();

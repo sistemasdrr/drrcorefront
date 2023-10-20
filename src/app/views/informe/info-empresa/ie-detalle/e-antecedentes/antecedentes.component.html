@@ -101,9 +101,9 @@
         <mat-form-field class="example-full-width">
           <mat-label>Moneda del País</mat-label>
           <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="monedaPaisInforme">
-          <span matSuffix style="margin-right: .5rem; color:gray;">
-            <i class="fa-solid fa-coins"></i>
-          </span>
+          <button matSuffix mat-mini-fab color="primary" *ngIf="monedaPaisInforme !== ''" style="background-color: rgba(0,0,0,0);" (click)="monedaPaisInforme = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
+            <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+          </button>
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{option.name}}
@@ -223,14 +223,14 @@
 
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"  #tooltip="matTooltip" matTooltip="Antecedentes Legales" [class]="comentarioAntecedentesIng === '' ? 'sin-traduccion' : ''"
+        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"  #tooltip="matTooltip" matTooltip="Antecedentes Legales" [class]="comentarioAntecedentes === '' ? 'sin-traduccion' : ''"
         (click)="agregarComentario(tituloComentarioAntecedentes,subtituloComentarioAntecedentes, comentarioAntecedentes, comentarioAntecedentesIng, 'comentarioAntecedentes')">
           <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Antecedentes
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" #tooltip="matTooltip" matTooltip="Historia (Antecedentes)" [class]="historialAntecedentesIng === '' ? 'sin-traduccion' : ''"
+        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" #tooltip="matTooltip" matTooltip="Historia (Antecedentes)" [class]="historialAntecedentes === '' ? 'sin-traduccion' : ''"
         (click)="agregarComentario(tituloHistoria,subtituloHistoria, historialAntecedentes, historialAntecedentesIng , 'historiaAntecedentes')">
           <i class="fa-solid fa-magnifying-glass"  style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Historia

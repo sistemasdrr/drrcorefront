@@ -17,7 +17,8 @@ const routes: Routes = [
         loadChildren: () =>
           import('./dashboard/dashboard.module')
           .then((m) => m.DashboardModule)
-          ,canActivate: [AuthGuard]
+          ,canActivate: [AuthGuard],
+        title: 'Dashboard DRR Core'
       },
       {
         path: 'advance-table',

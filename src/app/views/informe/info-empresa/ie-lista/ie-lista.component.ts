@@ -31,7 +31,7 @@ export class IEListaComponent implements OnInit, AfterViewInit{
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef
   ;
-  columnsToDisplay = ['rc', 'idioma', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'fecEst', 'ram', 'ex', 'calificacion','direccion','dptoEstado','telefono','ejecPrincipal','acciones' ];
+  columnsToDisplay = ['rc', 'idioma', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'fecEst', 'ex', 'calificacion','ejecPrincipal','acciones' ];
 
   constructor(private empresaService : EmpresaService,private router : Router){
     this.dataSource = new MatTableDataSource()

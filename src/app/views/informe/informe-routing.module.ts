@@ -7,16 +7,20 @@ import { IPDetalleComponent } from './info-persona/ip-detalle/ip-detalle.compone
 
 const routes: Routes = [
   {
-    path : 'empresa/lista', component : IEListaComponent
+    path : 'empresa/lista', component : IEListaComponent,
+    title : 'Lista de Empresas - DRR Core V1'
   },
   {
-    path : 'empresa/detalle', component : IEDetalleComponent
+    path : 'empresa/detalle', component : IEDetalleComponent,
+    title : 'Detalles de Empresa - DRR Core V1'
   },
   {
-    path : 'persona/lista', component : IPListaComponent
+    path : 'persona/lista', component : IPListaComponent,
+    title : 'Lista de Personas - DRR Core V1'
   },
   {
-    path : 'persona/detalle', component : IPDetalleComponent
+    path : 'persona/detalle', component : IPDetalleComponent,
+    title : 'Detalles de Persona - DRR Core V1'
   },
 ];
 

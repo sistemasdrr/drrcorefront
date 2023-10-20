@@ -70,190 +70,193 @@
 
         </div>
       </div>
-    </div>
-    <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+      <div class="col-md-12" style="overflow-x: auto;">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
 
-      <ng-container matColumnDef="{{columnsToDisplay[0]}}" >
-      <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
-      <td mat-cell *matCellDef="let order" class="text-center"> {{order.cupon}} </td>
-      </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
-      <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
-      <td mat-cell *matCellDef="let order" class="text-left"> {{order.informe}} </td>
-      </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
-      <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
-      <td mat-cell *matCellDef="let order" class="text-center">
-        <div *ngIf="order.estado==='PEND. VENCIDO'" >
-          <span class="float-end progress-percent label label-danger shadow" style="width: 170px;">
-            {{order.estado}}
-          </span>
-        </div>
-        <div *ngIf="order.estado==='PENDIENTE'" >
-          <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
-            {{order.estado}}
-          </span>
-        </div>
-        <div *ngIf="order.estado==='ENVIADO'" >
-          <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
-            {{order.estado}}
-          </span>
-        </div>
-        <div *ngIf="order.estado==='ENV. VENCIDO'" >
-          <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
-            {{order.estado}}
-          </span>
-        </div>
-      </td>
-      </ng-container>
-      <ng-container matColumnDef="tipoInforme" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
-        <td mat-cell *matCellDef="let order" class="text-center">
-          <div *ngIf="order.tipoInforme === 'OR'">
-            <div class="badge badge-solid-orange" style="font-size: 16px;">{{order.tipoInforme}}</div>
-          </div>
-          <div *ngIf="order.tipoInforme === 'RV'">
-            <div class="badge badge-solid-green" style="font-size: 16px;">{{order.tipoInforme}}</div>
-          </div>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="tipoTramite" >
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Tramite</th>
-        <td mat-cell *matCellDef="let order" class="text-center">
-          <div *ngIf="order.tipoTramite === 'T1'">
-            <div class="badge badge-solid-blue">{{order.tipoTramite}}</div>
-          </div>
-          <div *ngIf="order.tipoTramite === 'T2'">
-            <div class="badge badge-solid-purple">{{order.tipoTramite}}</div>
-          </div>
-          <div *ngIf="order.tipoTramite === 'T3'">
-            <div class="badge badge-solid-cyan">{{order.tipoTramite}}</div>
-          </div>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="calidad" >
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order.calidad}} </td>
-      </ng-container>
-      <ng-container matColumnDef="fechaIngreso" >
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaIngreso}} </td>
-      </ng-container>
-      <ng-container matColumnDef="fechaVencimiento" >
-        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaVencimiento}} </td>
-      </ng-container>
-      <ng-container matColumnDef="fechaDescarga" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Descarga </th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaDescarga}} </td>
-      </ng-container>
-      <ng-container matColumnDef="{{columnsToDisplay[9]}}" >
-        <th mat-header-cell *matHeaderCellDef  class="text-center" style="width: 10rem;"> Acciones </th>
-        <td mat-cell *matCellDef="let order" class="text-center">
-          <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.cupon)" class="tbl-action-btn ">
-            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
-          </button>
-          <button mat-icon-button class="tbl-action-btn">
-            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-          </button>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="expand">
-        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-        <td mat-cell *matCellDef="let order">
-        <button mat-icon-button aria-label="expand row" (click)="(expandedOrder = expandedOrder === order ? null : order); $event.stopPropagation()">
-          <mat-icon *ngIf="expandedOrder !== order">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="expandedOrder === order">keyboard_arrow_up</mat-icon>
-        </button>
-      </td>
-      </ng-container>
-
-      <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let order" [attr.colspan]="columnsToDisplayWithExpand.length">
-          <div class="example-element-detail"
-              [@detailExpand]="order === expandedOrder ? 'expanded' : 'collapsed'">
-            <div class="card shadow m-4 w-100">
-              <div class="card-header " style="background-color: rgb(180, 204, 252);">
-                <h5>Datos del Abonado</h5>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label><b>Abonado: </b>{{ order.abonado.codigo }} - {{ order.abonado.nombre }}</label><br>
-                    <label><b>Crédito Consultado:</b>  {{order.creditoConsultado}}</label><br>
-                    <label><b>Nro. de Orden: </b> {{order.numOrden}}</label>
-                  </div>
-                  <div class="col-md-4">
-                    <label><b>Revelar Nombre:</b>  {{order.revelarNombre}}</label><br>
-                    <label><b>Nro. de Referencia: </b> {{order.numeroReferencia}}</label>
-                  </div>
-                  <div class="col-md-4">
-                    <label><b>Indicaciones del Abonado: </b> {{order.indicacionesAbonado}}</label>
-                  </div>
-                </div>
-                <br>
-              </div>
-              <div class="card-header " style="background-color: rgb(180, 204, 252);">
-                <h5>Datos de la Empresa</h5>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label><b>Nombre Real de la Empresa: </b>  {{order.nombreReal}}</label><br>
-                    <label><b>Nombre Solicitado de la Empresa: </b>  {{order.nombreSolicitado}}</label><br>
-                    <label><b>Registro Tributario: </b>  {{order.regTributario}}</label>
-                  </div>
-                  <div class="col-md-4">
-                    <label><b>Continente: </b>  {{order.continente}}</label><br>
-                    <label><b>País: </b>  {{order.pais}}</label><br>
-                    <label><b>Ciudad: </b>  {{order.ciudad}}</label><br>
-                  </div>
-                  <div class="col-md-4">
-                    <label><b>Dirección: </b>  {{order.direccion}}</label><br>
-                    <label><b>Correo: </b> {{order.correo}}</label><br>
-                    <label><b>Telefono: </b>  {{order.telefono}}</label><br>
-                  </div>
-                  <br>
-                </div>
-              </div>
-              <div class="card-header " style="background-color: rgb(180, 204, 252);">
-                <h5>Datos del Informe</h5>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label><b>Tipo de Trámite: </b>  {{order.tipoTramite}}</label><br>
-                    <label><b>Fecha de Ingreso: </b>  {{order.fechaIngreso}}</label><br>
-                  </div>
-                  <div class="col-md-4">
-                    <label><b>Tipo de Informe: </b> {{order.tipoInforme}}</label><br>
-                    <label><b>Fecha de Vencimiento: </b> {{order.fechaVencimiento}}</label><br>
-                  </div>
-                  <div class="col-md-4">
-                    <label><b>Precio de Informe: </b>  {{order.precioInforme}}</label><br>
-                    <label><b>Fecha de Vencimiento Real: </b>  {{order.fechaVencimientoReal}}</label><br>
-                  </div>
-                  <br>
-                </div>
-              </div>
-              <br>
+          <ng-container matColumnDef="{{columnsToDisplay[0]}}" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order.cupon}} </td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
+          <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 14rem;"> {{order.informe}} </td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
+          <td mat-cell *matCellDef="let order" class="text-center">
+            <div *ngIf="order.estado==='PEND. VENCIDO'" >
+              <span class="float-end progress-percent label label-danger shadow" style="width: 170px;">
+                {{order.estado}}
+              </span>
             </div>
-          </div>
-        </td>
-      </ng-container>
+            <div *ngIf="order.estado==='PENDIENTE'" >
+              <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
+                {{order.estado}}
+              </span>
+            </div>
+            <div *ngIf="order.estado==='ENVIADO'" >
+              <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
+                {{order.estado}}
+              </span>
+            </div>
+            <div *ngIf="order.estado==='ENV. VENCIDO'" >
+              <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
+                {{order.estado}}
+              </span>
+            </div>
+          </td>
+          </ng-container>
+          <ng-container matColumnDef="tipoInforme" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
+            <td mat-cell *matCellDef="let order" class="text-center">
+              <div *ngIf="order.tipoInforme === 'OR'">
+                <div class="badge badge-solid-orange" style="font-size: 16px;">{{order.tipoInforme}}</div>
+              </div>
+              <div *ngIf="order.tipoInforme === 'RV'">
+                <div class="badge badge-solid-green" style="font-size: 16px;">{{order.tipoInforme}}</div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="tipoTramite" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Tramite</th>
+            <td mat-cell *matCellDef="let order" class="text-center">
+              <div *ngIf="order.tipoTramite === 'T1'">
+                <div class="badge badge-solid-blue">{{order.tipoTramite}}</div>
+              </div>
+              <div *ngIf="order.tipoTramite === 'T2'">
+                <div class="badge badge-solid-purple">{{order.tipoTramite}}</div>
+              </div>
+              <div *ngIf="order.tipoTramite === 'T3'">
+                <div class="badge badge-solid-cyan">{{order.tipoTramite}}</div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="calidad" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.calidad}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fechaIngreso" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaIngreso}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fechaVencimiento" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaVencimiento}} </td>
+          </ng-container>
+          <ng-container matColumnDef="fechaDescarga" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Descarga </th>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaDescarga}} </td>
+          </ng-container>
+          <ng-container matColumnDef="{{columnsToDisplay[9]}}" >
+            <th mat-header-cell *matHeaderCellDef  class="text-center" style="width: 10rem;"> Acciones </th>
+            <td mat-cell *matCellDef="let order" class="text-center" style="min-width: 8rem;">
+              <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.cupon)" class="tbl-action-btn ">
+                <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+              </button>
+              <button mat-icon-button class="tbl-action-btn">
+                <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+            <td mat-cell *matCellDef="let order">
+            <button mat-icon-button aria-label="expand row" (click)="(expandedOrder = expandedOrder === order ? null : order); $event.stopPropagation()">
+              <mat-icon *ngIf="expandedOrder !== order">keyboard_arrow_down</mat-icon>
+              <mat-icon *ngIf="expandedOrder === order">keyboard_arrow_up</mat-icon>
+            </button>
+          </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let order" [attr.colspan]="columnsToDisplayWithExpand.length">
+              <div class="example-element-detail"
+                  [@detailExpand]="order === expandedOrder ? 'expanded' : 'collapsed'">
+                <div class="card shadow m-4 w-100">
+                  <div class="card-header " style="background-color: rgb(180, 204, 252);">
+                    <h5>Datos del Abonado</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label><b>Abonado: </b>{{ order.abonado.codigo }} - {{ order.abonado.nombre }}</label><br>
+                        <label><b>Crédito Consultado:</b>  {{order.creditoConsultado}}</label><br>
+                        <label><b>Nro. de Orden: </b> {{order.numOrden}}</label>
+                      </div>
+                      <div class="col-md-4">
+                        <label><b>Revelar Nombre:</b>  {{order.revelarNombre}}</label><br>
+                        <label><b>Nro. de Referencia: </b> {{order.numeroReferencia}}</label>
+                      </div>
+                      <div class="col-md-4">
+                        <label><b>Indicaciones del Abonado: </b> {{order.indicacionesAbonado}}</label>
+                      </div>
+                    </div>
+                    <br>
+                  </div>
+                  <div class="card-header " style="background-color: rgb(180, 204, 252);">
+                    <h5>Datos de la Empresa</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label><b>Nombre Real de la Empresa: </b>  {{order.nombreReal}}</label><br>
+                        <label><b>Nombre Solicitado de la Empresa: </b>  {{order.nombreSolicitado}}</label><br>
+                        <label><b>Registro Tributario: </b>  {{order.regTributario}}</label>
+                      </div>
+                      <div class="col-md-4">
+                        <label><b>Continente: </b>  {{order.continente}}</label><br>
+                        <label><b>País: </b>  {{order.pais}}</label><br>
+                        <label><b>Ciudad: </b>  {{order.ciudad}}</label><br>
+                      </div>
+                      <div class="col-md-4">
+                        <label><b>Dirección: </b>  {{order.direccion}}</label><br>
+                        <label><b>Correo: </b> {{order.correo}}</label><br>
+                        <label><b>Telefono: </b>  {{order.telefono}}</label><br>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                  <div class="card-header " style="background-color: rgb(180, 204, 252);">
+                    <h5>Datos del Informe</h5>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label><b>Tipo de Trámite: </b>  {{order.tipoTramite}}</label><br>
+                        <label><b>Fecha de Ingreso: </b>  {{order.fechaIngreso}}</label><br>
+                      </div>
+                      <div class="col-md-4">
+                        <label><b>Tipo de Informe: </b> {{order.tipoInforme}}</label><br>
+                        <label><b>Fecha de Vencimiento: </b> {{order.fechaVencimiento}}</label><br>
+                      </div>
+                      <div class="col-md-4">
+                        <label><b>Precio de Informe: </b>  {{order.precioInforme}}</label><br>
+                        <label><b>Fecha de Vencimiento Real: </b>  {{order.fechaVencimientoReal}}</label><br>
+                      </div>
+                      <br>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+              </div>
+            </td>
+          </ng-container>
 
 
-      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-      <tr mat-row *matRowDef="let order; columns: columnsToDisplayWithExpand;"
-        class="example-element-row"
-        [class.example-expanded-row]="expandedOrder === order"
-        (click)="expandedOrder = expandedOrder === order ? null : order">
-      </tr>
-      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-    </table>
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+          <tr mat-row *matRowDef="let order; columns: columnsToDisplayWithExpand;"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedOrder === order"
+            (click)="expandedOrder = expandedOrder === order ? null : order">
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
 
-    <mat-paginator [pageSizeOptions]="[10, 25]" aria-label="Seleccionar página de Pedidos"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[10, 25]" aria-label="Seleccionar página de Pedidos"></mat-paginator>
+      </div>
+    </div>
+
 
 
   </div>

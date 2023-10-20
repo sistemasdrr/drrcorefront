@@ -3,6 +3,14 @@
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Balance General</h4>
+        <mat-form-field style="">
+          <mat-label>Balance</mat-label>
+          <mat-select (selectionChange)="actualizarBalance($event.value)" [(ngModel)]="balanceSeleccionado">
+            <mat-option *ngFor="let balance of balanceInforme.balanceGeneral" [value]="balance.num">
+              {{balance.nombreBalance}} al {{balance.fechaBalance}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <div>
           <button mat-mini-fab class="bg-green" style="margin: 0 .5rem .5rem .5rem;" (click)="agregarBalance()" #tooltip="matTooltip" matTooltip="Nuevo Balance">
             <mat-icon class="col-white">add</mat-icon>
@@ -23,7 +31,6 @@
             <mat-option *ngFor="let balance of balanceInforme.balanceGeneral" [value]="balance.num">
               {{balance.nombreBalance}} al {{balance.fechaBalance}}
             </mat-option>
-
           </mat-select>
         </mat-form-field>
       </div>

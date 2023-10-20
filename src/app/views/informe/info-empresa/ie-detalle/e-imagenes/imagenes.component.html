@@ -1,5 +1,5 @@
-<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
-  <div class="col-md-12 mb-2" (paste)="onPaste($event)">
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;"(paste)="onPaste($event)">
+  <div class="col-md-12 mb-2" >
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Imágenes de la Empresa</h4>
@@ -94,7 +94,7 @@
           </div>
           <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100" *ngFor="let file of files" [file]="file" >
 
-            
+
           </ngx-dropzone-image-preview>
         </div>
       </div>

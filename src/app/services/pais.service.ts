@@ -67,7 +67,7 @@ const paises : Pais[] = [
   },
   {
     id : 10,
-    nombre : "Estados Unido",
+    nombre : "Estados Unidos",
     nombreAcort : "USA",
     nombreMayus : "USA",
     icono : "us"

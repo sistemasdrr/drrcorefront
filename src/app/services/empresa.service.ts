@@ -79,4 +79,7 @@ export class EmpresaService {
   getAllEmpresas(){
     return this.empresas
   }
+  getEmpresaById(id : number){
+    return this.empresas.filter(x => x.id == id)[0]
+  }
 }

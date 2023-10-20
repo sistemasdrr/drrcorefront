@@ -6,13 +6,16 @@ import { AsignacionComponent } from './asignacion/asignacion.component';
 
 const routes: Routes = [
   {
-    path: 'lista', component: ListaComponent
+    path: 'lista', component: ListaComponent,
+    title : 'Lista de Pedidos - DRR Core V1'
   },
   {
-    path: 'detalle/:tipo/:cupon', component: DetalleComponent
+    path: 'detalle/:tipo/:cupon', component: DetalleComponent,
+    title : 'Detalles del Pedido - DRR Core V1'
   },
   {
-    path: 'asignacion', component: AsignacionComponent
+    path: 'asignacion', component: AsignacionComponent,
+    title : 'Asignación del Pedido - DRR Core V1'
   },
 ];
 

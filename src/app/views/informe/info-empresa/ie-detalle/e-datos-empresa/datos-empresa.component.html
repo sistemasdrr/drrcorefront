@@ -90,8 +90,9 @@
         <mat-form-field class="example-full-width">
           <mat-label>Personería Jurídica</mat-label>
           <input type="text" matInput [formControl]="controlPersoneriaJuridica" [matAutocomplete]="auto1" [(ngModel)]="personeriaJuridicaInforme">
-          <span matSuffix style="margin-right: .5rem; color:gray;">
-          </span>
+          <button matSuffix mat-mini-fab color="primary" *ngIf="personeriaJuridicaInforme !== ''" style="background-color: rgba(0,0,0,0);" (click)="personeriaJuridicaInforme = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
+            <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+          </button>
           <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayPersoneriaJuridica">
             <mat-option *ngFor="let personeriaJuridica of filterPersoneriaJuridica | async" [value]="personeriaJuridica">
               {{personeriaJuridica.description}}
@@ -119,8 +120,9 @@
         <mat-form-field class="example-full-width">
           <mat-label>Situación RUC</mat-label>
           <input type="text" matInput [formControl]="controlSituacionRUC" [matAutocomplete]="auto2" [(ngModel)]="situacionRucInforme">
-          <span matSuffix style="margin-right: .5rem; color:gray;">
-          </span>
+          <button matSuffix mat-mini-fab color="primary" *ngIf="situacionRucInforme !== ''" style="background-color: rgba(0,0,0,0);" (click)="situacionRucInforme = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
+            <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+          </button>
           <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displaySituacionRuc">
             <mat-option *ngFor="let situacionRUC of filterSituacionRuc | async" [value]="situacionRUC">
               {{situacionRUC.description}}
@@ -141,7 +143,7 @@
         <button mat-mini-fab class="bg-secondary" style="margin: 0 .5rem .5rem .5rem;" (click)="historicoPedidos()" #tooltip="matTooltip" matTooltip="Histórico de Pedidos">
           <mat-icon class="col-white">history</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" style="margin: 0 .5rem .5rem .5rem;" [class]="comentarioIdentificacionIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioIdentificacion,'', comentarioIdentificacion,comentarioIdentificacionIng,'comentarioIdentificacion')" #tooltip="matTooltip" matTooltip="Comentario de Identificación">
+        <button mat-mini-fab color="primary" style="margin: 0 .5rem .5rem .5rem;" [class]="comentarioIdentificacion === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioIdentificacion,'', comentarioIdentificacion,comentarioIdentificacionIng,'comentarioIdentificacion')" #tooltip="matTooltip" matTooltip="Comentario de Identificación">
           <mat-icon class="col-white">comment</mat-icon>
         </button>
       </div>
@@ -174,16 +176,21 @@
       <div class="col-md-3">
         <mat-form-field class="example-full-width">
           <mat-label>País</mat-label>
-          <mat-select [(ngModel)]="paisInforme" (selectionChange)="actualizarSeleccionPais($event.value)">
-            <mat-option *ngFor="let pais of paises" [value]="pais.id">
-              <span class="fi fi-{{pais.icono}}"></span>
-              {{pais.nombre}}
-            </mat-option>
-          </mat-select>
+          <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto5" [(ngModel)]="paisInforme" (ngModelChange)="cambiarIcono(paisInforme)">
+          <!--button matSuffix mat-mini-fab color="primary" *ngIf="paisInforme !== ''" style="background-color: rgba(0,0,0,0);" (click)="paisInforme = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
+            <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+          </!--button-->
           <button class="btn-traduccion" matSuffix mat-icon-button>
             <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
           </button>
+          <mat-autocomplete #auto5="matAutocomplete" [displayWith]="displayPais" >
+            <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+              <span class="fi fi-{{pais.icono}}"></span>
+              {{pais.nombre}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
+
       </div>
       <div class="col-md-6 d-flex">
         <mat-form-field style="width: 50%;">
@@ -231,7 +238,7 @@
   <div class="col-md-12 mb-2">
     <div class="row counter-box shadow">
       <h3>Comentarios</h3>
-      <div class="col-md-6">
+      <div class="col-md-8">
         <div class="col-md-12">
           <mat-form-field style="width: 100%;">
             <mat-label>Riesgo Crediticio</mat-label>
@@ -270,7 +277,7 @@
 
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <div class="col-md-12 d-flex justify-content-center">
           <div class=" shadow" style="background-color: rgba(0,0,0,0.2); border-radius: 10px;">
             <ngx-gauge [size]="300"

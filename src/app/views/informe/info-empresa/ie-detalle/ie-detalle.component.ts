@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-ie-detalle',
   templateUrl: './ie-detalle.component.html',
   styleUrls: ['./ie-detalle.component.scss']
 })
-export class IEDetalleComponent {
+export class IEDetalleComponent implements OnInit {
+  
   breadscrums = [
     {
       title: 'Detalles de Empresa',
@@ -15,5 +16,11 @@ export class IEDetalleComponent {
       active: 'Empresa',
     },
   ];
-  
+
+  codInforme = 1
+
+  ngOnInit(): void {
+
+  }
+
 }
