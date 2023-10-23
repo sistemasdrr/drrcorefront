@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MorosidadComercial } from 'app/models/morosidad-comercial';
-import { MorosidadComercialService } from 'app/services/morosidad-comercial.service';
+import { MorosidadComercial } from 'app/models/informes/morosidad-comercial';
+import { MorosidadComercialService } from 'app/services/informes/morosidad-comercial.service';
 import Swal from 'sweetalert2';
 
 @Component({

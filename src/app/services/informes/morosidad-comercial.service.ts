@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MorosidadComercial } from 'app/models/morosidad-comercial';
+import { MorosidadComercial } from 'app/models/informes/morosidad-comercial';
 
 
 

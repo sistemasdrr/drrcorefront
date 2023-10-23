@@ -5,7 +5,7 @@ import { MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { Order } from 'app/models/order';
+import { Order } from 'app/models/pedidos/order';
 import { OrderService } from 'app/services/order.service';
 
 import { Router } from '@angular/router';

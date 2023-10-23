@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DeudaBancaria } from 'app/models/deuda-bancaria';
-import { DeudaBancariaService } from 'app/services/deuda-bancaria.service';
+import { DeudaBancaria } from 'app/models/informes/deuda-bancaria';
+import { DeudaBancariaService } from 'app/services/informes/deuda-bancaria.service';
 import Swal from 'sweetalert2';
 
 @Component({

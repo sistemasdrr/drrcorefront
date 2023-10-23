@@ -1,7 +1,7 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { HistoricoPedidosService } from './../../../../../../services/historico-pedidos.service';
+import { HistoricoPedidosService } from '../../../../../../services/informes/historico-pedidos.service';
 import { Component, Inject } from '@angular/core';
-import { HistoricoPedidos } from 'app/models/historico-pedidos';
+import { HistoricoPedidos } from 'app/models/informes/historico-pedidos';
 import Swal from 'sweetalert2';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 

@@ -1,8 +1,8 @@
-import { RamoNegocioService } from 'app/services/ramo-negocio.service';
+import { RamoNegocioService } from 'app/services/informes/ramo-negocio.service';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Actividad, RamoNegocio } from 'app/models/ramo-negocio';
+import { Actividad, RamoNegocio } from 'app/models/informes/ramo-negocio';
 import Swal from 'sweetalert2';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 

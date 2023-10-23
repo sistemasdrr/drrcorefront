@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Order } from 'app/models/order';
+import { Order } from 'app/models/pedidos/order';
 
 const orders: Order[] = [
   {
@@ -14,9 +14,7 @@ const orders: Order[] = [
     fechaVencimientoReal: '20/09/2024',
     fechaDescarga: '19/09/2024',
     estado: 'PENDIENTE',
-    hasComment: true,
     comment: 'comentario 1',
-    hasAttachments: false,
     attachments: [
       {
         id : 1,
@@ -85,9 +83,7 @@ const orders: Order[] = [
     fechaVencimientoReal: '26/07/2023',
     fechaDescarga: '26/07/2023',
     estado: 'ENVIADO',
-    hasComment: true,
     comment: 'comentario 2',
-    hasAttachments: true,
     attachments: [
       {
         id : 4,
@@ -142,9 +138,7 @@ const orders: Order[] = [
     fechaVencimientoReal: '20/09/2023',
     fechaDescarga: '19/09/2023',
     estado: 'ENV. VENCIDO',
-    hasComment: false,
     comment: '',
-    hasAttachments: false,
     attachments: [
       {
         id : 5,
@@ -199,9 +193,7 @@ const orders: Order[] = [
     fechaVencimientoReal: '20/09/2023',
     fechaDescarga: '19/09/2023',
     estado: 'PENDIENTE',
-    hasComment: false,
     comment: '',
-    hasAttachments: false,
     attachments: [],
     abonado :{
       id : "4",
@@ -248,9 +240,7 @@ const orders: Order[] = [
     fechaVencimientoReal: '20/09/2023',
     fechaDescarga: '19/09/2023',
     estado: 'PEND. VENCIDO',
-    hasComment: true,
     comment: 'comentario 5',
-    hasAttachments: false,
     attachments: [],
     abonado :{
       id : "3",
@@ -297,9 +287,7 @@ const orders: Order[] = [
     fechaVencimientoReal: '18/09/2023',
     fechaDescarga: '21/09/2023',
     estado: 'ENVIADO',
-    hasComment: false,
     comment: '',
-    hasAttachments: true,
     attachments: [],
     abonado :{
       id : "4",
@@ -346,9 +334,7 @@ const orders: Order[] = [
     fechaVencimientoReal: '15/09/2023',
     fechaDescarga: '22/09/2023',
     estado: 'ENV. VENCIDO',
-    hasComment: false,
     comment: '',
-    hasAttachments: false,
     attachments: [],
     abonado :{
       id : "5",

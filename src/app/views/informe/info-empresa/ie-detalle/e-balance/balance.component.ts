@@ -1,6 +1,6 @@
 import { Component, OnInit,   } from '@angular/core';
-import { Balance, BalanceInforme,  } from 'app/models/balance';
-import { BalanceService } from 'app/services/balance.service';
+import { Balance, BalanceInforme,  } from 'app/models/informes/balance';
+import { BalanceService } from 'app/services/informes/balance.service';
 
 @Component({
   selector: 'app-balance',
@@ -142,7 +142,7 @@ export class BalanceComponent implements OnInit {
   constructor(private balanceService : BalanceService,
    ){
   }
-  
+
   ngOnInit(): void {
     console.log("balance general")
     this.balanceInforme = this.balanceService.GeTbalanceInformeByIdInforme(1)

@@ -7,10 +7,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
-import { EmpresaRelacionada } from 'app/models/empresa-relacionada';
-import { EmpresaRelacionadaService } from 'app/services/empresa-relacionada.service';
+import { EmpresaRelacionada } from 'app/models/informes/empresa-relacionada';
+import { EmpresaRelacionadaService } from 'app/services/informes/empresa-relacionada.service';
 import { Observable, map, startWith } from 'rxjs';
 import { CapitalPagadoComponent } from './capital-pagado/capital-pagado.component';
+import { ActivatedRoute } from '@angular/router';
+import { AntecedentesLegalesService } from 'app/services/informes/empresa/antecedentes-legales.service';
+import { AntecedentesLegales } from 'app/models/informes/empresa/antecendentes-legales';
 
 export interface data {
   name: string;
@@ -22,6 +25,9 @@ export interface data {
   styleUrls: ['./antecedentes.component.scss']
 })
 export class AntecedentesComponent implements OnInit{
+
+  codigoInforme : string | null = ''
+  antecedentesLegales : AntecedentesLegales[] = []
   //TABLA
   dataSource: MatTableDataSource<EmpresaRelacionada>;
 
@@ -61,9 +67,15 @@ export class AntecedentesComponent implements OnInit{
   filteredOptions: Observable<data[]>;
 constructor(
   public dialog: MatDialog,
-  private empresaRelacionadaService : EmpresaRelacionadaService) {
+  private empresaRelacionadaService : EmpresaRelacionadaService,
+  private activatedRoute: ActivatedRoute,
+    private antecedentesLegalesService : AntecedentesLegalesService
+  ) {
     this.filteredOptions = new Observable<data[]>();
     this.dataSource = new MatTableDataSource<EmpresaRelacionada>
+    this.codigoInforme = this.activatedRoute.snapshot.paramMap.get('codigoInforme');
+    console.log(this.codigoInforme)
+
 }
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.GetAllEmpresaRelacionada())
@@ -75,6 +87,27 @@ constructor(
         return name ? this._filter(name as string) : this.options.slice();
       }),
     );
+
+    if(this.codigoInforme !== 'nuevo'){
+      this.antecedentesLegales = this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+'')
+      console.log(this.antecedentesLegales)
+      this.fechaConstitucionInforme = this.antecedentesLegales[0].fechaConstitucion
+      const fecha1 = this.fechaConstitucionInforme.split("/");
+      if(fecha1){
+        this.fechaConstitucionInformeDate = new Date(parseInt(fecha1[2]), parseInt(fecha1[1])-1,parseInt(fecha1[0]))
+      }
+
+      this.inicioActividadesInforme = this.antecedentesLegales[0].inicioActividades
+      this.duracionInforme = this.antecedentesLegales[0].duracion
+      this.duracionIngInforme = this.antecedentesLegales[0].duracionIng
+      this.registradaEnInforme = this.antecedentesLegales[0].registradaEn
+      this.registradaEnIngInforme = this.antecedentesLegales[0].registradaEnIng
+      this.notariaInforme = this.antecedentesLegales[0].notaria
+      this.registrosPublicosInforme = this.antecedentesLegales[0].registrosPublicos
+      this.registrosPublicosIngInforme = this.antecedentesLegales[0].registrosPublicosIng
+
+
+    }
   }
 
   displayFn(user: data): string {
@@ -268,6 +301,7 @@ constructor(
 
   //ANTECEDENTES
   fechaConstitucionInforme : string = ""
+  fechaConstitucionInformeDate : Date = new Date()
   inicioActividadesInforme : string = ""
   duracionInforme : string = ""
   duracionIngInforme : string = ""

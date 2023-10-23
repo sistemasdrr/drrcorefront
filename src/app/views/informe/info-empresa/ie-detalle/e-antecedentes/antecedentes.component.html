@@ -12,7 +12,7 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
-          <input matInput [matDatepicker]="fecha_contitucion_informe" [readonly]="true" (dateChange)="onDateChange1($event)">
+          <input matInput [matDatepicker]="fecha_contitucion_informe" [(ngModel)]="fechaConstitucionInformeDate" [readonly]="true" (dateChange)="onDateChange1($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_contitucion_informe"></mat-datepicker-toggle>
           <mat-datepicker #fecha_contitucion_informe color="primary"></mat-datepicker>
         </mat-form-field>

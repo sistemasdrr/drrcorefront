@@ -1,5 +1,3 @@
-import { BalanceInforme } from "./balance"
-import { HistoricoVentas } from "./historico-ventas"
 
 export interface Empresa{
   id : number
@@ -115,7 +113,7 @@ export interface Empresa{
   // //riesgoCrediticio : string
 
   // //Balance General*/
-
+  codigoInforme : string
   rc : string
   idioma : string
   razonSocial : string

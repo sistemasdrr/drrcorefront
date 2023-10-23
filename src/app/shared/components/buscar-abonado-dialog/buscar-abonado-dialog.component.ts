@@ -5,8 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DialogData } from 'app/models/dialog-data';
-import { Abonado } from 'app/models/abonado';
-import { AbonadoService } from 'app/services/abonado.service';
+import { Abonado } from 'app/models/pedidos/abonado';
+import { AbonadoService } from 'app/services/pedidos/abonado.service';
 import { debounceTime, distinctUntilChanged, fromEvent, tap } from 'rxjs';
 
 
@@ -61,7 +61,7 @@ export class BuscarAbonadoDialogComponent implements AfterViewInit {
 
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   realizarEnvioCodigo(codigo : string) {
     this.codigoAbonado = codigo
     this.dialogRef.close({ codigoAbonado: this.codigoAbonado });

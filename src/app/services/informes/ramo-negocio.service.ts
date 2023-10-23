@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actividad, RamoNegocio } from 'app/models/ramo-negocio';
+import { Actividad, RamoNegocio } from 'app/models/informes/ramo-negocio';
 
 
 

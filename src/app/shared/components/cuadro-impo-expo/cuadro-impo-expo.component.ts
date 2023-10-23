@@ -2,7 +2,7 @@ import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ImpoExpoDialogData } from 'app/models/dialog-data';
-import { ImpoExpoService } from 'app/services/impo-expo.service';
+import { ImpoExpoService } from 'app/services/informes/impo-expo.service';
 import { AgregarEditarComponent } from './agregar-editar/agregar-editar.component';
 import Swal from 'sweetalert2';
 

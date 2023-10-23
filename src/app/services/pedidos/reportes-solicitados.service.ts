@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { RequestedReports } from 'app/models/requested-reports';
+import { ReportesSolicitados } from 'app/models/informes/reportes-solicitados';
 
-const requestedReports : RequestedReports[] = [
+const requestedReports : ReportesSolicitados[] = [
   {
     tipo : "RV",
     cupon : "81294",
@@ -9,8 +9,13 @@ const requestedReports : RequestedReports[] = [
     despacho : "20/01/2012",
     abonado : "1013",
     tramite : "T1",
-    pais : "CHILE",
-    icono: "fi-cl",
+    pais : {
+      id : 5,
+      nombre : "Chile",
+      nombreAcort : "CHIL",
+      nombreMayus : "CHILE",
+      icono : "cl"
+    },
     balance : "NO",
     calidad : "B",
     estado : "PEND. VENCIDO"
@@ -22,8 +27,13 @@ const requestedReports : RequestedReports[] = [
     despacho : "20/04/2011",
     abonado : "1043",
     tramite : "T3",
-    pais : "CHILE",
-    icono: "fi-cl",
+    pais : {
+      id : 5,
+      nombre : "Chile",
+      nombreAcort : "CHIL",
+      nombreMayus : "CHILE",
+      icono : "cl"
+    },
     balance : "SI",
     calidad : "A",
     estado : "ENV. VENCIDO"
@@ -35,8 +45,13 @@ const requestedReports : RequestedReports[] = [
     despacho : "18/05/2010",
     abonado : "2004",
     tramite : "T1",
-    pais : "BRASIL",
-    icono: "fi-br",
+    pais :  {
+      id : 5,
+      nombre : "Chile",
+      nombreAcort : "CHIL",
+      nombreMayus : "CHILE",
+      icono : "cl"
+    },
     balance : "SI",
     calidad : "A",
     estado : "ENVIADO"
@@ -48,8 +63,13 @@ const requestedReports : RequestedReports[] = [
     despacho : "31/07/2008",
     abonado : "3000",
     tramite : "T2",
-    pais : "CHILE",
-    icono: "fi-cl",
+    pais :  {
+      id : 5,
+      nombre : "Chile",
+      nombreAcort : "CHIL",
+      nombreMayus : "CHILE",
+      icono : "cl"
+    },
     balance : "SI",
     calidad : "A",
     estado : "PENDIENTE"

@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogData } from 'app/models/dialog-data';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { OrderService } from 'app/services/order.service';
-import { Order } from 'app/models/order';
+import { Order } from 'app/models/pedidos/order';
 
 @Component({
   selector: 'app-comentario',

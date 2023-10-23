@@ -1,5 +1,5 @@
-import { Actividad, RamoNegocio } from 'app/models/ramo-negocio';
-import { RamoNegocioService } from 'app/services/ramo-negocio.service';
+import { Actividad, RamoNegocio } from 'app/models/informes/ramo-negocio';
+import { RamoNegocioService } from 'app/services/informes/ramo-negocio.service';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AgregarEditarRamoNegocioComponent } from './agregar-editar/agregar-editar.component';

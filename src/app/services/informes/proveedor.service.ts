@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Proveedor } from 'app/models/proveedor';
+import { Proveedor } from 'app/models/informes/proveedor';
 
 
 

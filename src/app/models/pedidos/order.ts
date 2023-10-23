@@ -1,5 +1,5 @@
 import { Abonado } from "./abonado"
-import { Attachment } from "./attachment"
+import { Attachment } from "../attachment"
 
 export interface Order {
   id: string
@@ -13,9 +13,7 @@ export interface Order {
   fechaVencimientoReal: string
   fechaDescarga: string
   estado: string
-  hasComment : boolean
   comment : string
-  hasAttachments : boolean
   attachments : Attachment[]
 
   abonado : Abonado

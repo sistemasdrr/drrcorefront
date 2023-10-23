@@ -1,15 +1,15 @@
-import { DeudaBancariaService } from './../../../../../services/deuda-bancaria.service';
-import { MorosidadComercialService } from './../../../../../services/morosidad-comercial.service';
+import { DeudaBancariaService } from '../../../../../services/informes/deuda-bancaria.service';
+import { MorosidadComercialService } from '../../../../../services/informes/morosidad-comercial.service';
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Proveedor } from 'app/models/proveedor';
-import { ProveedorService } from 'app/services/proveedor.service';
+import { Proveedor } from 'app/models/informes/proveedor';
+import { ProveedorService } from 'app/services/informes/proveedor.service';
 import { DetalleProveedorComponent } from './detalle-proveedor/detalle-proveedor.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { MorosidadComercial } from 'app/models/morosidad-comercial';
+import { MorosidadComercial } from 'app/models/informes/morosidad-comercial';
 import { MorosidadComercialComponent } from './morosidad-comercial/morosidad-comercial.component';
-import { DeudaBancaria } from 'app/models/deuda-bancaria';
+import { DeudaBancaria } from 'app/models/informes/deuda-bancaria';
 import { DeudaBancariaComponent } from './deuda-bancaria/deuda-bancaria.component';
 
 @Component({

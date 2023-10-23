@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Abonado } from 'app/models/abonado';
+import { Abonado } from 'app/models/pedidos/abonado';
 
 const listaAbonado : Abonado[] = [
   {

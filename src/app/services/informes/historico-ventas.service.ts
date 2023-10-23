@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HistoricoVentas } from 'app/models/historico-ventas';
+import { HistoricoVentas } from 'app/models/informes/historico-ventas';
 
 @Injectable({
   providedIn: 'root'

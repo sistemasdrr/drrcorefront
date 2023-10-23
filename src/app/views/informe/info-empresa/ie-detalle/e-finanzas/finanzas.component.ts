@@ -1,9 +1,9 @@
 import { HistoricoVentasComponent } from './historico-ventas/historico-ventas.component';
-import { HistoricoVentasService } from './../../../../../services/historico-ventas.service';
+import { HistoricoVentasService } from '../../../../../services/informes/historico-ventas.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { HistoricoVentas } from 'app/models/historico-ventas';
+import { HistoricoVentas } from 'app/models/informes/historico-ventas';
 import { Observable, map, startWith } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';

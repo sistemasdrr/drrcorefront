@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Attachment } from 'app/models/attachment';
 import { DialogData } from 'app/models/dialog-data';
-import { Order } from 'app/models/order';
+import { Order } from 'app/models/pedidos/order';
 import { OrderService } from 'app/services/order.service';
 import Swal from 'sweetalert2';
 

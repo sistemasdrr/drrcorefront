@@ -11,7 +11,7 @@ const routes: Routes = [
     title : 'Lista de Empresas - DRR Core V1'
   },
   {
-    path : 'empresa/detalle', component : IEDetalleComponent,
+    path : 'empresa/detalle/:codigoInforme', component : IEDetalleComponent,
     title : 'Detalles de Empresa - DRR Core V1'
   },
   {

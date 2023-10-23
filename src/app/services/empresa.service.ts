@@ -8,6 +8,7 @@ export class EmpresaService {
   empresas : Empresa[] = [
     {
       id : 1,
+      codigoInforme : 'E0000143232',
       rc : 'NN',
       idioma : 'ESPAÑOL',
       razonSocial : 'VALICO S.A.C.',
@@ -25,6 +26,7 @@ export class EmpresaService {
     },
     {
       id : 2,
+      codigoInforme : 'E0000406826',
       rc : 'B',
       idioma : 'ESPAÑOL-INGLES',
       razonSocial : 'Tubos y Perfiles Metalicos S.A.',
@@ -42,6 +44,7 @@ export class EmpresaService {
     },
     {
       id : 3,
+      codigoInforme : 'E0000651081',
       rc : 'A+',
       idioma : 'ESPAÑOL-INGLES',
       razonSocial : 'Tejeduria Galicia S.A.',
@@ -59,9 +62,10 @@ export class EmpresaService {
     },
     {
       id : 4,
+      codigoInforme : 'E0000379674',
       rc : 'C',
       idioma : 'ESPAÑOL-INGLES',
-      razonSocial : 'Superenvases Envalica C.A.',
+      razonSocial : 'Superenvases Envalic C.A.',
       datosAl : '02/06/06',
       pais : 'VEN',
       rucInit : 'J00098240',
@@ -81,5 +85,8 @@ export class EmpresaService {
   }
   getEmpresaById(id : number){
     return this.empresas.filter(x => x.id == id)[0]
+  }
+  deleteEmpresa(id : number){
+    this.empresas = this.empresas.filter(x => x.id !== id)
   }
 }

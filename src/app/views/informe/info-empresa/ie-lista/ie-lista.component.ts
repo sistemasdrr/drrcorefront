@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Empresa } from 'app/models/empresa';
 import { EmpresaService } from 'app/services/empresa.service';
 import { debounceTime, distinctUntilChanged, fromEvent, tap } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ie-lista',
@@ -57,9 +58,38 @@ export class IEListaComponent implements OnInit, AfterViewInit{
       this.refresh();
       this.dataSource.sort = this.sort;
   }
+  agregarEmpresa(){
+    this.router.navigate(['informes/empresa/detalle/nuevo']);
+  }
 
-  editOrder(cupon : string){
-    this.router.navigate(['informes/empresa/detalle']);
+  editarEmpresa(codInforme : string){
+    this.router.navigate(['informes/empresa/detalle/'+codInforme]);
+  }
+  eliminarEmpresa(id : string){
+    Swal.fire({
+      title: '¿Está seguro de eliminar este registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se elimino correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+        this.empresaService.deleteEmpresa(parseInt(id))
+        this.loadData()
+      }
+    });
   }
   applyFilter() {
     const filterValue = (this.filter.nativeElement as HTMLInputElement).value;

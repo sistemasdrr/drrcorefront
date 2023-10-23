@@ -1,4 +1,4 @@
-import { DeudaBancaria } from './../models/deuda-bancaria';
+import { DeudaBancaria } from '../../models/informes/deuda-bancaria';
 import { Injectable } from '@angular/core';
 
 

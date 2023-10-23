@@ -5,11 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BuscarAbonadoDialogComponent } from '@shared/components/buscar-abonado-dialog/buscar-abonado-dialog.component';
 import { MatTableDataSource} from '@angular/material/table';
-import { RequestedReports } from 'app/models/requested-reports';
-import { RequestedReportsService } from 'app/services/requested-reports.service';
+import { ReportesSolicitados } from 'app/models/informes/reportes-solicitados';
+import { RequestedReportsService } from 'app/services/pedidos/reportes-solicitados.service';
 import { BuscarEmpresaDialogComponent } from '@shared/components/buscar-empresa-dialog/buscar-empresa-dialog.component';
-import { Abonado } from 'app/models/abonado';
-import { AbonadoService } from 'app/services/abonado.service';
+import { Abonado } from 'app/models/pedidos/abonado';
+import { AbonadoService } from 'app/services/pedidos/abonado.service';
 import { Pais } from 'app/models/pais';
 
 interface Idioma {
@@ -49,7 +49,18 @@ export class DetalleComponent implements OnInit {
   }
   buscarPorNombreInforme = ""
   buscarPorNombre(nombreInforme : string){
-
+    let informe = this.empresaPersonaService.getEmpresasPersonas()
+    informe = informe.filter(x => x.nombreSolicitado === nombreInforme)
+    if(informe){
+      this.paisSeleccionado = informe[0].pais
+      this.actualizarSeleccion(this.paisSeleccionado)
+      this.ruc = informe[0].ruc
+      this.continente = informe[0].continente
+      this.ciudad = informe[0].ciudad
+      this.direccion = informe[0].direccion
+      this.correo = informe[0].correo
+      this.telefono = informe[0].telefono
+    }
   }
   //FORM ABONADO
   nombreAbonado : string = ''
@@ -102,7 +113,7 @@ export class DetalleComponent implements OnInit {
   tipoTramiteSeleccionado = this.tipoTramites[0].value
 
   columnsToDisplay = ['tipo', 'cupon', 'nombreSolicitado', 'despacho', 'abonado', 'tramite', 'pais', 'balance', 'calidad', 'estado' ];
-  dataSource: MatTableDataSource<RequestedReports>;
+  dataSource: MatTableDataSource<ReportesSolicitados>;
 
   public tipo_formulario: string | null = '';
   public formulario: string = '';
@@ -150,6 +161,9 @@ export class DetalleComponent implements OnInit {
         },
       ];
     }
+
+    this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
+    this.paises = this.PaisService.getPaises()
   }
   constructor(
     public dialog: MatDialog,
@@ -160,9 +174,7 @@ export class DetalleComponent implements OnInit {
     private PaisService : PaisService,
     private empresaPersonaService : EmpresaPersonaService
   ) {
-
-    this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
-    this.paises = this.PaisService.getPaises()
+    this.dataSource = new MatTableDataSource()
 
   }
   TipoFormulario(tipo: string) {

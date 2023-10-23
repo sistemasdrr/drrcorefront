@@ -1,7 +1,7 @@
-import { HistoricoVentasService } from './../../../../../../services/historico-ventas.service';
+import { HistoricoVentasService } from '../../../../../../services/informes/historico-ventas.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { HistoricoVentas } from 'app/models/historico-ventas';
+import { HistoricoVentas } from 'app/models/informes/historico-ventas';
 
 @Component({
   selector: 'app-historico-ventas',

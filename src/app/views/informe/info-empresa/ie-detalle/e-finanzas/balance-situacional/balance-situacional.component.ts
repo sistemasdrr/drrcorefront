@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit   } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Balance, BalanceInforme } from 'app/models/balance';
-import { BalanceService } from 'app/services/balance.service';
+import { Balance, BalanceInforme } from 'app/models/informes/balance';
+import { BalanceService } from 'app/services/informes/balance.service';
 
 @Component({
   selector: 'app-balance-situacional',

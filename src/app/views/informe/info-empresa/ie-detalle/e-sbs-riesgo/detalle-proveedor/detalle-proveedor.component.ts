@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Proveedor } from 'app/models/proveedor';
-import { ProveedorService } from 'app/services/proveedor.service';
+import { Proveedor } from 'app/models/informes/proveedor';
+import { ProveedorService } from 'app/services/informes/proveedor.service';
 import Swal from 'sweetalert2';
 
 @Component({

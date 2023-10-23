@@ -8,7 +8,7 @@ import { MatSort } from '@angular/material/sort';
 
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { Order } from 'app/models/order';
+import { Order } from 'app/models/pedidos/order';
 import { OrderService } from 'app/services/order.service';
 
 import { Router } from '@angular/router';

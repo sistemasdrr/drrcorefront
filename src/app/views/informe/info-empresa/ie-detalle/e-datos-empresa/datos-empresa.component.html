@@ -16,7 +16,7 @@
       <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;" >
           <mat-label >Informe Investigado el</mat-label>
-          <input matInput [matDatepicker]="fecha_informe" #fechaInput [ngModel]="" [readonly]="true" (dateChange)="selectFechaInforme($event)">
+          <input matInput [matDatepicker]="fecha_informe" #fechaInput [ngModel]="fechaInformeInvestigadoDate" [readonly]="true" (dateChange)="selectFechaInforme($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
           <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
         </mat-form-field>
@@ -50,8 +50,8 @@
       <div class="col-md-3 d-flex justify-content-center">
         <mat-form-field style="width: 100%;">
           <mat-label>Tipo de Institución</mat-label>
-          <mat-select [(ngModel)]="tipoIntitucionInforme" (selectionChange)="selectInstitucionInforme($event.value)" >
-            <mat-option [value]="'PERSONA JURIDICA'">
+          <mat-select [(ngModel)]="tipoInstitucionInforme" (selectionChange)="selectInstitucionInforme($event.value)" >
+            <mat-option [value]="'PERSONA JURÍDICA'">
               PERSONA JURÍDICA
             </mat-option>
             <mat-option [value]="'PERSONA CON NEGOCIO'">
@@ -81,7 +81,7 @@
       <div class="col-md-3">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
-          <input matInput [matDatepicker]="fecha_constitucion" #fechaInput [ngModel]="" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
+          <input matInput [matDatepicker]="fecha_constitucion" #fechaInput [ngModel]="fechaConstitucionInformeDate" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_constitucion"></mat-datepicker-toggle>
           <mat-datepicker #fecha_constitucion color="primary"></mat-datepicker>
         </mat-form-field>
