@@ -55,6 +55,13 @@ const routes: Routes = [
           then((m) => m.InformeModule)
             ,canActivate: [AuthGuard]
       },
+      {
+        path: 'situacion',
+        loadChildren: () =>
+          import('./views/situacion/situacion.module').
+          then((m) => m.SituacionModule)
+            ,canActivate: [AuthGuard]
+      },
     ],
   },
   {

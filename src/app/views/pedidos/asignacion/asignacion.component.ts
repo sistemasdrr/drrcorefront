@@ -29,7 +29,7 @@ export class AsignacionComponent implements AfterViewInit {
   breadscrums = [
     {
       title: 'Asignación',
-      items: ['Home','Pedidos'],
+      items: ['Producción','Pedidos'],
       active: 'Asignación',
     },
   ];

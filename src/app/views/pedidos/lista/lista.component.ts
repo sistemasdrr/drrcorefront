@@ -31,7 +31,7 @@ export class ListaComponent implements AfterViewInit {
   breadscrums = [
     {
       title: 'Pedidos',
-      items: ['Home'],
+      items: ['Producción'],
       active: 'Pedidos',
     },
   ];

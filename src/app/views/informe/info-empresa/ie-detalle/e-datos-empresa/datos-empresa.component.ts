@@ -40,21 +40,21 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     "",
     "A+ : SIN RIESGO (Solventes, Situación Financiera Muy Buena)",
     "A- : RIESGO MINIMO (Solventes, Situación Financiera Satisfactoria)",
-    "B : RIESGO MODERADO (Situación Financiera Levemente Extendida)",
+    "B : RIESGO MODERADO (Situación Financiera levemente extendida)",
     "C : RIESGO ALTO (Situación Extendida. Se recomienda garantía colateral)",
     "D : RIESGO MUY ALTO (Situación Financiera Pesada. Pérdidas)",
-    "E : RIESGO MUY ALTO (Inoperativa o Liquidad o Quebrada)",
-    "NN : RIESGO INDETERMINADO (Información Insuficiente o Inexistente)"
+    "E : RIESGO MUY ALTO (Inoperativa o Liquidada o Quebrada)",
+    "NN : RIESGO INDETERMINADO (Información insuficiente o inexistente)."
   ]
   politicaPagos : string[] = [
     "",
-    "1. EXCELENTES PAGADORES (Pagan siempre a tiempo o antes)",
+    "1. EXCELENTE PAGADORES (Pagan siempre a tiempo o antes)",
     "2. PUNTUALES (Pagos siempre a tiempo. Varios años)",
-    "3. IRREGULARES (Pagos puntuales y a veces demorados)",
-    "4. MOROSOS (Demoras constantes, Incumplidos, Protestos)",
-    "5. ND (No se pudo determinar Política de Pagos al momento. Nuevos)",
-    "6. NC (No se le reporta Notas en Contra. Se presume buen cumplimiento)",
-    "7. NN (Carece de información crediticia. No son conocidos por consultados)"
+    "3. IRREGULARES (Pagos Puntuales y a veces demorados)",
+    "4. MOROSOS (Demoras constantes. Incumplidos. Protestos)",
+    "5. ND (No se pudo determinar política de pagos al momento. Nuevos)",
+    "6. NC ( No se le reporta Notas en contra. Se presume buen cumplimiento)",
+    "7. NN (Carece de experiencia crediticia. No son conocidos por consultados)"
   ]
 
   controlReputacion = new FormControl<string | Reputacion>('');

@@ -13,7 +13,7 @@ export class IPDetalleComponent {
       subtitle: 'Nombre de Persona',
       codigoInforme : 'X0000729604',
       usuario : 'Julio del Risco Lizarzaburu',
-      items: ['Home', 'Informes'],
+      items: ['Producción', 'Informes'],
       active: 'Persona',
     },
   ];

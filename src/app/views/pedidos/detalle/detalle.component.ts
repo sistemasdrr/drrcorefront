@@ -148,7 +148,7 @@ export class DetalleComponent implements OnInit {
       this.breadscrums = [
         {
           title: 'Editar Cupón',
-          items: ['Home', 'Pedidos'],
+          items: ['Producción', 'Pedidos'],
           active: 'Editar',
         },
       ];
@@ -156,7 +156,7 @@ export class DetalleComponent implements OnInit {
       this.breadscrums = [
         {
           title: 'Nuevo Cupón',
-          items: ['Home', 'Pedidos'],
+          items: ['Producción', 'Pedidos'],
           active: '1',
         },
       ];

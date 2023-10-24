@@ -61,7 +61,8 @@
               </a>
               <ul class="ml-menu">
                 <li [routerLinkActive]="''" [ngClass]="activeLI === 4 ? 'active' : ''">
-                  <a [routerLink]="" class="" (click)="activeLI = 4">
+                  <a [routerLink]="'/situacion/lista'" class="" (click)="activeLI = 4">
+                    <i class="fa-solid fa-sitemap"></i>
                     <span class="hide-menu">Situación
                     </span>
                   </a>
@@ -70,6 +71,7 @@
               <ul class="ml-menu">
                 <li [routerLinkActive]="''" [ngClass]="activeLI === 5 ? 'active' : ''">
                   <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 5">
+                    <i class="fa-regular fa-paper-plane"></i>
                   <span class="hide-menu">Despacho
                   </span>
                 </a>

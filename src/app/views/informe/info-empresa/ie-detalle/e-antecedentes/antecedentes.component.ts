@@ -105,7 +105,24 @@ constructor(
       this.notariaInforme = this.antecedentesLegales[0].notaria
       this.registrosPublicosInforme = this.antecedentesLegales[0].registrosPublicos
       this.registrosPublicosIngInforme = this.antecedentesLegales[0].registrosPublicosIng
-
+      this.comentarioAntecedentes = this.antecedentesLegales[0].comentarioAntecedentesLegales
+      this.comentarioAntecedentesIng = this.antecedentesLegales[0].comentarioAntecedentesLegalesIng
+      this.historialAntecedentes = this.antecedentesLegales[0].comentarioHistoriaAntecedentes
+      this.historialAntecedentesIng = this.antecedentesLegales[0].comentarioHistoriaAntecedentesIng
+      this.capitalPagadoMoneda = this.antecedentesLegales[0].moneda
+      this.capitalPagadoMonto = this.antecedentesLegales[0].monto
+      this.capitalPagadoObservacion = this.antecedentesLegales[0].observacion
+      this.capitalPagadoObservacionIng = this.antecedentesLegales[0].observacionIng
+      this.origenInforme = this.antecedentesLegales[0].origen
+      this.fechaAumentoInforme = this.antecedentesLegales[0].fechaAumento
+      this.fechaAumentoIngInforme = this.antecedentesLegales[0].fechaAumentoIng
+      this.monedaPaisInforme = this.antecedentesLegales[0].monedaPais
+      this.cotizadaEnBolsaInforme = this.antecedentesLegales[0].cotizada
+      this.cotizadaEnBolsaPorInforme = this.antecedentesLegales[0].por
+      this.actualTCInforme = this.antecedentesLegales[0].actualTC
+      this.actualTCIngInforme = this.antecedentesLegales[0].actualTCIng
+      this.fechaUltimaConsultaInforme = this.antecedentesLegales[0].fechaUltimaConsultaRRPP
+      this.ultimaConsultaPorInforme = this.antecedentesLegales[0].fechaUltimaConsultaPor
 
     }
   }

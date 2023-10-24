@@ -20,7 +20,7 @@ export class IEListaComponent implements OnInit, AfterViewInit{
       subtitle: '',
       codigoInforme : '',
       usuario : 'Julio del Risco Lizarzaburu',
-      items: ['Home', 'Informes'],
+      items: ['Producción', 'Informes'],
       active: 'Empresa',
     },
   ];
@@ -65,7 +65,7 @@ export class IEListaComponent implements OnInit, AfterViewInit{
   editarEmpresa(codInforme : string){
     this.router.navigate(['informes/empresa/detalle/'+codInforme]);
   }
-  eliminarEmpresa(id : string){
+  eliminarEmpresa(codInforme : string){
     Swal.fire({
       title: '¿Está seguro de eliminar este registro?',
       text: "",
@@ -86,8 +86,8 @@ export class IEListaComponent implements OnInit, AfterViewInit{
           width: '20rem',
           heightAuto : true
         });
-        this.empresaService.deleteEmpresa(parseInt(id))
-        this.loadData()
+        this.empresaService.deleteEmpresa(codInforme)
+        this.refresh()
       }
     });
   }

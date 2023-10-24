@@ -24,7 +24,7 @@
                     <option value="OR">OR</option>
                   </select>
 
-                  <div style="margin: 0 0 0 1rem;">Tipo de Tramite</div>
+                  <div style="margin: 0 0 0 1rem;">Tipo de Trámite</div>
                   <select class="form-select " [(ngModel)]="tipoTramite" (change)="applyFilterTipoTramite()" style="margin: 0 1rem 0 .5rem;" aria-label="Tipo de Tramite">
                     <option selected></option>
                     <option value="T1">T1</option>
@@ -85,22 +85,22 @@
           <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
           <td mat-cell *matCellDef="let order" class="text-center">
             <div *ngIf="order.estado==='PEND. VENCIDO'" >
-              <span class="float-end progress-percent label label-danger shadow" style="width: 170px;">
+              <span class="float-end progress-percent label label-danger shadow" style="width: 150px;">
                 {{order.estado}}
               </span>
             </div>
             <div *ngIf="order.estado==='PENDIENTE'" >
-              <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
+              <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 150px;">
                 {{order.estado}}
               </span>
             </div>
             <div *ngIf="order.estado==='ENVIADO'" >
-              <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
+              <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 150px;">
                 {{order.estado}}
               </span>
             </div>
             <div *ngIf="order.estado==='ENV. VENCIDO'" >
-              <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
+              <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 150px;">
                 {{order.estado}}
               </span>
             </div>
@@ -118,7 +118,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="tipoTramite" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Tramite</th>
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Trámite</th>
             <td mat-cell *matCellDef="let order" class="text-center">
               <div *ngIf="order.tipoTramite === 'T1'">
                 <div class="badge badge-solid-blue">{{order.tipoTramite}}</div>
@@ -150,10 +150,10 @@
           <ng-container matColumnDef="{{columnsToDisplay[9]}}" >
             <th mat-header-cell *matHeaderCellDef  class="text-center" style="width: 10rem;"> Acciones </th>
             <td mat-cell *matCellDef="let order" class="text-center" style="min-width: 8rem;">
-              <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.cupon)" class="tbl-action-btn ">
+              <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.cupon)" class="tbl-action-btn " matTooltip="Editar">
                 <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
               </button>
-              <button mat-icon-button class="tbl-action-btn">
+              <button mat-icon-button class="tbl-action-btn" matTooltip="Eliminar">
                 <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
               </button>
             </td>

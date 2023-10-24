@@ -86,7 +86,7 @@ export class EmpresaService {
   getEmpresaById(id : number){
     return this.empresas.filter(x => x.id == id)[0]
   }
-  deleteEmpresa(id : number){
-    this.empresas = this.empresas.filter(x => x.id !== id)
+  deleteEmpresa(codInforme : string){
+    this.empresas = this.empresas.filter(x => x.codigoInforme !== codInforme)
   }
 }

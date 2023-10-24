@@ -12,7 +12,17 @@ export class IEDetalleComponent implements OnInit {
   title : string = 'Detalles de Empresa'
   subtitle : string = ''
   codigoInforme : string | null = '';
-
+  usr = 'Julio del Risco Lizarzaburu'
+  breadscrums = [
+    {
+      title: '',
+      subtitle: '',
+      codigoInforme : '',
+      usuario : 'Julio del Risco Lizarzaburu',
+      items: ['Producción', 'Informes'],
+      active: 'Empresa',
+    },
+  ]
 
   private datosEmpresa : DatosEmpresa[] = []
 
@@ -31,17 +41,18 @@ export class IEDetalleComponent implements OnInit {
       this.datosEmpresa = this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')
       this.subtitle = ' - ' + this.datosEmpresa[0].razonSocial
     }
+    this.breadscrums = [
+      {
+        title: this.title,
+        subtitle: this.subtitle,
+        codigoInforme : this.codigoInforme+'',
+        usuario : this.usr,
+        items: ['Producción', 'Informes'],
+        active: 'Empresa',
+      },
+    ]
   }
 
-  breadscrums = [
-    {
-      title: this.title,
-      subtitle: this.subtitle,
-      codigoInforme : this.codigoInforme,
-      usuario : 'Julio del Risco Lizarzaburu',
-      items: ['Home', 'Informes'],
-      active: 'Empresa',
-    },
-  ];
+
 
 }
