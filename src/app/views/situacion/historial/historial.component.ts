@@ -12,6 +12,9 @@ import { OrderService } from 'app/services/order.service';
 })
 export class HistorialComponent implements OnInit {
 
+  nmrCupon = ""
+  abonado = ""
+
   breadscrums = [
     {
       title: 'Historial',
@@ -28,11 +31,18 @@ export class HistorialComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private orderService : OrderService){
-    this.dataSource = new MatTableDataSource()
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
     this.dataSource.data = this.orderService.getOrders()
+    this.dataSource.paginator = this.paginator;
+  }
+
+  applyFilter(){
+    this.dataSource.data = this.orderService.getOrders().filter(x => x.cupon.trim().toLocaleLowerCase().includes(this.nmrCupon) && x.abonado.nombre.trim().toLocaleLowerCase().includes(this.abonado.toLocaleLowerCase()))
+    this.dataSource.paginator = this.paginator;
+
   }
 
 }

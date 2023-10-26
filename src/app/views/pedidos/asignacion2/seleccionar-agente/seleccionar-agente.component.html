@@ -1,0 +1,145 @@
+<div class="container" >
+  <mat-dialog-content class="mat-typography" style="min-width: 60rem;">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" style="overflow-y: visible;">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <div style="font-size: 24px;">Asignación del Cupón  </div>
+            <div>
+              <button mat-mini-fab class="bg-blue" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+                <mat-icon class="material-icons-outlined col-white" matSuffix>save</mat-icon>
+              </button>
+              <button mat-mini-fab class="bg-red" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Salir" (click)="cerrarDialog()">
+                <mat-icon class="material-icons-outlined col-white" matSuffix>logout</mat-icon>
+              </button>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-7 d-flex mt-5">
+                <div class="col-md-3">
+                  <mat-button-toggle-group  #group="matButtonToggleGroup" class="w-100 shadow" [vertical]="true" [disabled]="estado === 'editar'">
+                    <mat-button-toggle value="Reportero" (click)="filtrarDatos('Reportero')" >Reportero</mat-button-toggle>
+                    <mat-button-toggle value="Agente" (click)="filtrarDatos('Agente')">Agente</mat-button-toggle>
+                    <mat-button-toggle value="Digitadora" (click)="filtrarDatos('Digitadora')">Digitadora</mat-button-toggle>
+                    <mat-button-toggle value="Traductora" (click)="filtrarDatos('Traductora')">Traductora</mat-button-toggle>
+                    <mat-button-toggle value="Supervisor" (click)="filtrarDatos('Supervisor')">Supervisor</mat-button-toggle>
+                  </mat-button-toggle-group>
+                </div>
+                <div class="col-md-9 mat-elevation-z8" >
+                  <mat-selection-list #asignacion [multiple]="false" [disabled]="estado === 'editar'" style="width: 100%; overflow-y: auto;" (selectionChange)="seleccionarTrabajador(asignacion.selectedOptions.selected[0].value.codigo,asignacion.selectedOptions.selected[0].value.nombre)" >
+                    <mat-list-option *ngFor="let asig of datos" [value]="asig">
+                      <div style="font-size: 12px; border-radius: 20px;" >
+                        {{asig.codigo}} || {{asig.nombre}}
+                      </div>
+                    </mat-list-option>
+                  </mat-selection-list>
+                </div>
+            </div>
+            <div class="col-md-5 ">
+              <div class="d-flex justify-content-between">
+                <div style="font-size: 20px;" *ngIf="estado === 'agregar'">
+                  Agregar Asignación
+                </div>
+                <div style="font-size: 20px;"  *ngIf="estado === 'editar'">
+                  Editar Asignación
+                </div>
+                <div>
+                  <button mat-mini-fab style="margin: 0 .5rem .5rem .5rem;" [class]="asignado === '' ? 'bg-grey' : 'bg-blue'"  *ngIf="estado === 'agregar'" [disabled]="asignado === ''" #tooltip="matTooltip" matTooltip="Agregar" (click)="agregarAsignacion(asignacion.selectedOptions.selected[0].value.codigo)">
+                    <mat-icon class="material-icons-outlined col-white" matSuffix>add</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="bg-blue" style="margin: 0 .5rem .5rem .5rem;"  *ngIf="estado === 'editar'" #tooltip="matTooltip" matTooltip="Editar">
+                    <mat-icon class="material-icons-outlined col-white" matSuffix>edit</mat-icon>
+                  </button>
+                  <button mat-mini-fab class="bg-red" *ngIf="estado === 'editar'" #tooltip="matTooltip" matTooltip="Cancelar" (click)="cancelarEditar()">
+                    <mat-icon class="material-icons-outlined col-white" matSuffix>cancel</mat-icon>
+                  </button></div>
+              </div>
+
+              <hr>
+
+              <mat-form-field class="example-full-width">
+                <mat-label>Código || Nombre</mat-label>
+                <input matInput [(ngModel)]="asignado" readonly="true">
+              </mat-form-field>
+              <mat-form-field class="" style="width: 30%; margin-right: 1rem;">
+                <mat-label>Calidad</mat-label>
+                <mat-select [(ngModel)]="calidad">
+                  <mat-option [value]="''">
+                  </mat-option>
+                  <mat-option [value]="'A'">
+                    A
+                  </mat-option>
+                  <mat-option [value]="'B'">
+                    B
+                  </mat-option>
+                  <mat-option [value]="'C'">
+                    C
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="" style="width: 50%;">
+                <mat-label>Precio</mat-label>
+                <input matInput [(ngModel)]="precio" type="number" >
+              </mat-form-field>
+              <mat-form-field class="example-full-width" style="min-height: 5rem;">
+                <mat-label>Referencias</mat-label>
+                <textarea matInput [(ngModel)]="referencias"></textarea>
+              </mat-form-field>
+              <mat-form-field class="example-full-width" style="min-height: 5rem;">
+                <mat-label>Observaciones</mat-label>
+                <textarea matInput [(ngModel)]="observaciones"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12 mt-3">
+              <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+                <ng-container matColumnDef="asignado" >
+                  <th mat-header-cell *matHeaderCellDef  class="text-center"> Asignado A </th>
+                  <td mat-cell *matCellDef="let asign" class="text-center"> {{asign.trabajador.codigo}} || {{asign.trabajador.nombre}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fechaAsignacion" >
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Asignación</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.fechaAsignacion}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="fechaEntrega" >
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Entrega</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.fechaEntrega}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="calidad" >
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Calidad</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.calidad}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="precio" >
+                  <th mat-header-cell *matHeaderCellDef  class="text-center"> Precio</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.precio}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="accion" >
+                  <th mat-header-cell *matHeaderCellDef  class="text-center"></th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    <button mat-icon-button #tooltip="matTooltip" matTooltip="Editar" (click)="editarAsignacion(asign.id)">
+                      <i class="fa-regular fa-pen-to-square" style="font-size: 24px; color: #6777ef;"></i>
+                    </button>
+                    <button mat-icon-button #tooltip="matTooltip" matTooltip="Eliminar" (click)="eliminarAsignacion(asign.id)">
+                      <i class="fa-solid fa-trash" style="font-size: 24px; color: red;"></i>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                <tr mat-row *matRowDef="let asign; columns: columnas;"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

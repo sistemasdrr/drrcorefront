@@ -15,7 +15,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 const today = new Date();
 const month = today.getMonth();
 const year = today.getFullYear();
-const day = today.getDay()
+const day = today.getDate()
 
 @Component({
   selector: 'app-lista',
@@ -43,22 +43,18 @@ export class ListaSituacionComponent implements  OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('filter') filter!: ElementRef;
 
   constructor(private orderService : OrderService, private router : Router, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource();
     this.range = this.fb.group({
-      start: new FormControl(new Date(2023, 0, 1)),
+      start: new FormControl(new Date(new Date().getFullYear(), 0, 1)),
       end: new FormControl(new Date(year, month, day)),
     });
   }
 
   ngOnInit(): void {
-
+    this.dataSource.paginator = this.paginator;
   }
-
-
-
 
   applyFilter() {
     this.dataSource.data = this.orderService.getOrders()
@@ -74,10 +70,10 @@ export class ListaSituacionComponent implements  OnInit {
         parseInt(x.fechaIngreso.split('/')[1], 10) - 1,
         parseInt(x.fechaIngreso.split('/')[0], 10)
         ) < this.fechaFin &&
-      x.informe.includes(this.nombreEmpresa));
+      x.informe.toLocaleLowerCase().includes(this.nombreEmpresa.toLocaleLowerCase()));
 
       this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+      this.dataSource.sort = this.sort;
   }
 
   //FILTROS

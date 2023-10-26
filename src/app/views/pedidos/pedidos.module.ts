@@ -17,12 +17,16 @@ import {FormsModule} from '@angular/forms';
 import { SharedModule } from '@shared';
 import { ComponentsModule } from '@shared/components/components.module';
 import { AsignacionComponent } from './asignacion/asignacion.component';
+import { Asignacion2Component } from './asignacion2/asignacion2.component';
+import { SeleccionarAgenteComponent } from './asignacion2/seleccionar-agente/seleccionar-agente.component';
 
 @NgModule({
   declarations: [
     ListaComponent,
     DetalleComponent,
-    AsignacionComponent
+    AsignacionComponent,
+    Asignacion2Component,
+    SeleccionarAgenteComponent
 
   ],
   imports: [

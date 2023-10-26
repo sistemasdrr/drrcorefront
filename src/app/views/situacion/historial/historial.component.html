@@ -11,17 +11,17 @@
             <div class="col-md-3">
               <mat-form-field class="w-100" style="padding-top: 1rem;">
                 <mat-label>Cupón</mat-label>
-                <input matInput >
+                <input matInput [(ngModel)]="nmrCupon">
               </mat-form-field>
             </div>
             <div class="col-md-3">
               <mat-form-field class="w-100" style="padding-top: 1rem;">
                 <mat-label>Abonado</mat-label>
-                <input matInput >
+                <input matInput [(ngModel)]="abonado">
               </mat-form-field>
             </div>
             <div class="col-md-1 d-flex justify-content-center align-items-center">
-              <button mat-icon-button  [class]="'bg-primary'" matTooltip="Aplicar Filtros"  [disabled]="">
+              <button mat-icon-button  [class]="'bg-primary'" matTooltip="Aplicar Filtros" (click)="applyFilter()"  [disabled]="">
                 <i class="fa-solid fa-magnifying-glass col-white"></i>
               </button>
             </div>
@@ -100,13 +100,12 @@
               </button>
             </td>
           </ng-container>
-
-
-
           <tr mat-header-row *matHeaderRowDef="columnsToDisplayTbl1"></tr>
           <tr mat-row *matRowDef="let order; columns: columnsToDisplayTbl1;">
           </tr>
         </table>
+        <mat-paginator [pageSizeOptions]="[10, 25]" ></mat-paginator>
+
 
       </div>
     </div>
