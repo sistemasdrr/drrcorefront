@@ -1,0 +1,307 @@
+<section class="content">
+  <div class="container-fluid" style="overflow: auto; width: 100%;">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+    <div class="card card-body mb-3">
+      <div class="row">
+        <div class="col-md-12 d-flex justify-content-between">
+          <div><h4>Información General</h4></div>
+          <div>
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="volver()" #tooltip="matTooltip" matTooltip="Volver">
+            <mat-icon class="col-white">arrow_back</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+            <mat-icon class="col-white">save</mat-icon>
+          </button>
+          </div>
+        </div>
+        <hr>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Tipo de Doc. de Identidad</mat-label>
+                <mat-select [(ngModel)]="tipoDocIdent">
+                  <mat-option value=""></mat-option>
+                  <mat-option value="DNI">DNI</mat-option>
+                  <mat-option value="Carnet Extranjeria">Carnet Extranjeria</mat-option>
+                  <mat-option value="Pasaporte">Pasaporte</mat-option>
+                  <mat-option value="Otros">Otros</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="example-full-width">
+                <mat-label>Núm. de Doc. de Identidad</mat-label>
+                <input matInput [(ngModel)]="numDocIdent" >
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-label>Email</mat-label>
+                <input matInput [(ngModel)]="email" >
+                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>mail</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-label>Apellidos</mat-label>
+                <input matInput [(ngModel)]="apellidos">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-label>Nombres</mat-label>
+                <input matInput [(ngModel)]="nombres" >
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Teléfono Celular</mat-label>
+                <input matInput [(ngModel)]="telCelular" >
+                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>smartphone</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Teléfono Fijo</mat-label>
+                <input matInput [(ngModel)]="telFijo" >
+                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>call</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field class="example-full-width">
+                <mat-label>Teléfono de Emergencias</mat-label>
+                <input matInput [(ngModel)]="telEmergencia" >
+                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>medical_services</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="row">
+            <div class="col-md-12" style="height: 14rem; border: 2px solid black;" ></div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <mat-form-field class="example-full-width">
+            <mat-label>Dirección</mat-label>
+            <input matInput [(ngModel)]="direccion">
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>home</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Estado Civil</mat-label>
+            <mat-select [(ngModel)]="estadoCivil">
+              <mat-option value=""></mat-option>
+              <mat-option value="Soltero(a)">Soltero(a)</mat-option>
+              <mat-option value="Casado(a)">Casado(a)</mat-option>
+              <mat-option value="Conviviente">Conviviente</mat-option>
+              <mat-option value="Viudo">Viudo</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Número de Hijos</mat-label>
+            <mat-select [(ngModel)]="numHijos">
+              <mat-option value="0">0</mat-option>
+              <mat-option value="1">1</mat-option>
+              <mat-option value="2">2</mat-option>
+              <mat-option value="3">3</mat-option>
+              <mat-option value="4">4</mat-option>
+              <mat-option value="5">5</mat-option>
+              <mat-option value="6">6</mat-option>
+              <mat-option value="7+">7+</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Tipo de Sangre</mat-label>
+            <input matInput [(ngModel)]="tipoSangre" >
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>bloodtype</mat-icon>
+          </mat-form-field>
+        </div>
+        <h5>Lugar de Nacimiento</h5>
+        <hr>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Lugar</mat-label>
+            <input matInput [(ngModel)]="lugarNac" >
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Ciudad</mat-label>
+            <input matInput [(ngModel)]="ciudadNac">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>País</mat-label>
+            <input matInput [(ngModel)]="paisNac" >
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field color="primary" class="w-100">
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input matInput [matDatepicker]="fechaNacimiento" [(ngModel)]="fechaNacimientoDate">
+            <mat-datepicker-toggle matIconSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
+            <mat-datepicker #fechaNacimiento color="primary"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <h5>Trabajo</h5>
+        <hr>
+        <div class="col-md-4">
+          <mat-form-field color="primary" class="w-100">
+            <mat-label>Fecha de Ingreso</mat-label>
+            <input matInput [matDatepicker]="fechaIngreso" [(ngModel)]="fechaIngresoDate">
+            <mat-datepicker-toggle matIconSuffix [for]="fechaIngreso"></mat-datepicker-toggle>
+            <mat-datepicker #fechaIngreso color="primary"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-8">
+          <mat-form-field class="example-full-width">
+            <mat-label>Cargo</mat-label>
+            <input matInput [(ngModel)]="cargo">
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <mat-label>Tipo de Contrato</mat-label>
+            <textarea matInput [(ngModel)]="tipoContrato"  style="min-height: 5rem;"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+    <div class="card card-body mb-3">
+      <div class="row">
+        <h4>Información Bancaria</h4>
+        <hr>
+        <h5>Cuenta Sueldo</h5><br>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-label>Institución Bancaria</mat-label>
+            <input matInput [(ngModel)]="CSbanco" >
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>account_balance</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Tipo de Cuenta</mat-label>
+            <mat-select [(ngModel)]="CStipoCuenta">
+              <mat-option value=""></mat-option>
+              <mat-option value="Cuenta Corriente">Cuenta Corriente</mat-option>
+              <mat-option value="Cuenta de Ahorros">Cuenta de Ahorros</mat-option>
+              <mat-option value="Cuenta Sueldo">Cuenta Sueldo</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Número de Cuenta</mat-label>
+            <input matInput [(ngModel)]="CSnumCuenta" >
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>credit_card</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Moneda</mat-label>
+            <mat-select [(ngModel)]="CSmoneda">
+              <mat-option value=""></mat-option>
+              <mat-option value="Dolares">Dolares</mat-option>
+              <mat-option value="Soles">Soles</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>monetization_on</mat-icon>
+          </mat-form-field>
+        </div>
+        <h5>Cuenta CTS</h5><br>
+        <div class="col-md-4">
+          <mat-form-field class="example-full-width">
+            <mat-label>Institución Bancaria</mat-label>
+            <input matInput  [(ngModel)]="CCmoneda" >
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>account_balance</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Tipo de Cuenta</mat-label>
+            <mat-select  [(ngModel)]="CCmoneda">
+              <mat-option value=""></mat-option>
+              <mat-option value="Cuenta Corriente">Cuenta Corriente</mat-option>
+              <mat-option value="Cuenta de Ahorros">Cuenta de Ahorros</mat-option>
+              <mat-option value="Cuenta Sueldo">Cuenta Sueldo</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="example-full-width">
+            <mat-label>Número de Cuenta</mat-label>
+            <input matInput  [(ngModel)]="CCmoneda" >
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>credit_card</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field class="example-full-width">
+            <mat-label>Moneda</mat-label>
+            <mat-select  [(ngModel)]="CCmoneda">
+              <mat-option value=""></mat-option>
+              <mat-option value="Dolares">Dolares</mat-option>
+              <mat-option value="Soles">Soles</mat-option>
+            </mat-select>
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>monetization_on</mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="card card-body mb-3">
+      <div class="row">
+        <h4>ESSALUD - Derecho Habientes</h4>
+        <hr>
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+
+          <ng-container matColumnDef="id" >
+          <th mat-header-cell *matHeaderCellDef class="text-center"> ID </th>
+          <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.id}} </td>
+          </ng-container>
+          <ng-container matColumnDef="nombre" >
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Nombre Completo </th>
+          <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.nombre}} </td>
+          </ng-container>
+          <ng-container matColumnDef="tipoVinculo" >
+          <th mat-header-cell *matHeaderCellDef class="text-center"> Tipo de Vinculo</th>
+          <td mat-cell *matCellDef="let essalud" class="text-center">
+            {{essalud.tipoVinculo}}
+           </td>
+          </ng-container>
+          <ng-container matColumnDef="docIdentidad" >
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Documento de Identidad </th>
+            <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.documentoIdentidad}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="accion" >
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              <button mat-mini-fab color="primary" style="margin-top: .7rem;" >
+                <mat-icon class="col-white">add</mat-icon>
+              </button>
+            </th>
+            <td mat-cell *matCellDef="let personal" class="text-center">
+              <button mat-icon-button #tooltip="matTooltip" matTooltip="Eliminar" >
+                <i class="fa-solid fa-trash col-red" style="font-size: 24px;"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+          <tr mat-row *matRowDef="let personal; columns: columnas;"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

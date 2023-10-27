@@ -1,24 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { Asignacion } from 'app/models/pedidos/asignacion/asignacion';
+import { Trabajador } from 'app/models/pedidos/asignacion/trabajador';
+import { AsignacionService } from 'app/services/pedidos/asignacion/asignacion.service';
 import Swal from 'sweetalert2';
-
-export interface Trabajador{
-  id : number
-  tipo : string
-  codigo : string
-  nombre : string
-}
-export interface TrabajadoresAsignados{
-  id : number
-  trabajador : Trabajador
-  referencias : string
-  observaciones : string
-  fechaAsignacion : string
-  fechaEntrega : string
-  calidad : string
-  precio : number
-}
 
 @Component({
   selector: 'app-seleccionar-agente',
@@ -28,232 +15,122 @@ export interface TrabajadoresAsignados{
 export class SeleccionarAgenteComponent implements OnInit {
 
   estado = "agregar"
-  idEditar = 0
+  idEditarAsignacion = 0
+  idEditarTrabajador = 0
+  fechaAsignacionDate = new Date()
+  fechaEntregaDate = new Date()
 
-  dataSource : MatTableDataSource<TrabajadoresAsignados>
+  dataSource : MatTableDataSource<Asignacion>
   columnas = ['asignado','fechaAsignacion','fechaEntrega','calidad','precio','accion']
-  listaTrabajadores : Trabajador[] = [
-    {
-      id : 1,
-      tipo : 'Reportero',
-      codigo : 'R10',
-      nombre : 'Rafael Alonso Del Risco'
-    },
-    {
-      id : 2,
-      tipo : 'Reportero',
-      codigo : 'R11',
-      nombre : 'Julio Enrique Del Risco L.'
-    },
-    {
-      id : 3,
-      tipo : 'Reportero',
-      codigo : 'R12',
-      nombre : 'Marco Antonio Polo'
-    },
-    {
-      id : 4,
-      tipo : 'Reportero',
-      codigo : 'R14',
-      nombre : 'Julio Jr. Del Risco A.'
-    },
-    {
-      id : 5,
-      tipo : 'Reportero',
-      codigo : 'R15',
-      nombre : 'Rafael Alonso Del Risco'
-    },
-    {
-      id : 6,
-      tipo : 'Agente',
-      codigo : 'A04',
-      nombre : 'BYINGTON COLOMBIA S.A.S.'
-    },
-    {
-      id : 7,
-      tipo : 'Agente',
-      codigo : 'A09',
-      nombre : 'VENEZUELA REPORTS DR-P C.A.'
-    },
-    {
-      id : 8,
-      tipo : 'Agente',
-      codigo : 'A17',
-      nombre : 'MM REPORTES MEXICANOS'
-    },
-    {
-      id : 9,
-      tipo : 'Agente',
-      codigo : 'A26',
-      nombre : 'RAAZIQ BCR - BUSINESS CREDITS REPORTS'
-    },
-    {
-      id : 10,
-      tipo : 'Digitadora',
-      codigo : 'D11',
-      nombre : 'Raquel Irene Perez'
-    },
-    {
-      id : 11,
-      tipo : 'Digitadora',
-      codigo : 'D12',
-      nombre : 'Katia Esther Bustamante'
-    },
-    {
-      id : 12,
-      tipo : 'Digitadora',
-      codigo : 'D13',
-      nombre : 'Sara Cristina Noriega'
-    },
-    {
-      id : 13,
-      tipo : 'Digitadora',
-      codigo : 'D15',
-      nombre : 'Cecilia Isabel Rodriguez'
-    },
-    {
-      id : 14,
-      tipo : 'Digitadora',
-      codigo : 'D18',
-      nombre : 'Rafael Alonso Del Risco'
-    },
-    {
-      id : 15,
-      tipo : 'Traductora',
-      codigo : 'T11',
-      nombre : 'Maria del Rosario Huanqui'
-    },
-    {
-      id : 16,
-      tipo : 'Traductora',
-      codigo : 'T12',
-      nombre : 'Rosa Luz Lara'
-    },
-    {
-      id : 17,
-      tipo : 'Traductora',
-      codigo : 'T16',
-      nombre : 'Saori Teruya'
-    },
-    {
-      id : 18,
-      tipo : 'Traductora',
-      codigo : 'T18',
-      nombre : 'Monica Yepez'
-    },
-    {
-      id : 19,
-      tipo : 'Digitadora',
-      codigo : 'D19',
-      nombre : 'Isabel Lujan'
-    },
-    {
-      id : 20,
-      tipo : 'Supervisor',
-      codigo : 'S70',
-      nombre : 'Rafael Del Risco Aliaga(TF)'
-    },
-    {
-      id : 21,
-      tipo : 'Supervisor',
-      codigo : 'S71',
-      nombre : 'Julio Jr. Del Risco Aliaga'
-    },
-    {
-      id : 22,
-      tipo : 'Supervisor',
-      codigo : 'S72',
-      nombre : 'Juan Carlos Lizarzaburu'
-    },
-    {
-      id : 23,
-      tipo : 'Supervisor',
-      codigo : 'S73',
-      nombre : 'Julio Del Risco Lizarzaburu(TF)'
-    },
-  ]
-  tablaTrabajadoresAsignados : TrabajadoresAsignados[] = [
-    {
-      id : 1,
-      trabajador : {
-        id : 2,
-        tipo : 'Reportero',
-        codigo : 'R11',
-        nombre : 'Julio Enrique Del Risco L.'
-      },
-      referencias : 'referencias',
-      observaciones : 'observaciones',
-      fechaAsignacion : '26/10/2023',
-      fechaEntrega : '30/10/2023',
-      calidad : 'A',
-      precio : 0
-    }
-  ]
 
   asignado = ""
   precio = 0
   calidad = ""
+  fechaAsignacion = ""
+  fechaEntrega = ""
   referencias = ""
   observaciones = ""
+
   seleccionarTrabajador(codigo : string, nombre : string){
     this.asignado = codigo + ' || ' + nombre
   }
   datos : Trabajador[] = []
   constructor(public dialogRef: MatDialogRef<SeleccionarAgenteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any){
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private asignacionService : AsignacionService){
       this.dataSource = new MatTableDataSource()
-
     }
 
     ngOnInit(): void {
-      this.dataSource.data = this.tablaTrabajadoresAsignados
+      this.dataSource.data = this.asignacionService.getAsignaciones()
     }
 
   filtrarDatos(tipo : string){
-    this.datos = this.listaTrabajadores.filter(x => x.tipo === tipo)
+    this.datos = this.asignacionService.getTrabajadores().filter(x => x.tipo === tipo)
   }
   agregarAsignacion(codigo : string){
-    console.log(this.listaTrabajadores.filter(x => x.codigo === codigo)[0])
+    const date = new Date()
     let maxId = 0
-    this.tablaTrabajadoresAsignados.forEach(trabajadorAsignado => {
-      if(trabajadorAsignado.id > maxId){
-        maxId = trabajadorAsignado.id
+    this.asignacionService.getAsignaciones().forEach(asignacion => {
+      if(asignacion.id > maxId){
+        maxId = asignacion.id
       }
     });
-    this.tablaTrabajadoresAsignados.push({
+    this.asignacionService.addAsignacion({
       id : maxId+1,
-      trabajador : this.listaTrabajadores.filter(x => x.codigo === codigo)[0],
+      trabajador : this.asignacionService.getTrabajadores().filter(x => x.codigo === codigo)[0],
       referencias : this.referencias,
       observaciones : this.observaciones,
-      fechaAsignacion : '26/10/2023',
-      fechaEntrega : '30/10/2023',
+      fechaAsignacion : this.fechaAsignacionDate.getDate()+'/'+this.fechaAsignacionDate.getMonth()+'/'+this.fechaAsignacionDate.getFullYear(),
+      fechaEntrega : this.fechaEntregaDate.getDate()+'/'+this.fechaEntregaDate.getMonth()+'/'+this.fechaEntregaDate.getFullYear(),
       calidad : this.calidad,
       precio : this.precio
     })
-    this.dataSource.data = this.tablaTrabajadoresAsignados
-    this.estado = 'agregar'
-    this.asignado = ''
-    this.precio = 0
-    this.calidad = ''
-    this.referencias = ''
-    this.observaciones = ''
-    this.datos = []
+
+    this.dataSource.data = this.asignacionService.getAsignaciones()
   }
-  editarAsignacion(id : number){
+  seleccionarAsignacion(id : number){
     this.estado = "editar"
-    const asignacion = this.tablaTrabajadoresAsignados.filter(x => x.id == id)[0]
-    this.idEditar = asignacion.id
+    const asignacion = this.asignacionService.getAsignaciones().filter(x => x.id == id)[0]
+    this.idEditarTrabajador = asignacion.trabajador.id
+    this.idEditarAsignacion = asignacion.id
     this.asignado = asignacion.trabajador.codigo + ' || ' + asignacion.trabajador.nombre
     this.precio = asignacion.precio
+    const fechaAsignacion = asignacion.fechaAsignacion.split('/')
+    this.fechaAsignacion = asignacion.fechaAsignacion
+    if(fechaAsignacion){
+      this.fechaAsignacionDate = new Date(parseInt(fechaAsignacion[2]), parseInt(fechaAsignacion[1])-1,parseInt(fechaAsignacion[0]))
+    }
+    const fechaEntrega = asignacion.fechaEntrega.split('/')
+    this.fechaEntrega = asignacion.fechaEntrega
+    if(fechaEntrega){
+      this.fechaEntregaDate = new Date(parseInt(fechaEntrega[2]), parseInt(fechaEntrega[1])-1,parseInt(fechaEntrega[0]))
+    }
     this.calidad = asignacion.calidad
     this.referencias = asignacion.referencias
     this.observaciones = asignacion.observaciones
   }
 
-  editar(){
-    
-  }
+  editarAsignacion(){
+    Swal.fire({
+      title: '¿Está seguro de editar este registro?',
+      text: "",
+      icon: 'info',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        this.estado = "editar"
+        const trabajador = this.asignacionService.getTrabajadores().filter(x => x.id == this.idEditarTrabajador)[0]
 
+        const obj : Asignacion = {
+          id : this.idEditarAsignacion,
+          trabajador : trabajador,
+          referencias : this.referencias,
+          observaciones : this.observaciones,
+          fechaAsignacion : this.fechaAsignacion,
+          fechaEntrega : this.fechaEntrega,
+          calidad : this.calidad,
+          precio : this.precio
+        }
+        this.asignacionService.updateAsignacion(obj)
+        this.dataSource.data = this.asignacionService.getAsignaciones()
+        this.limpiar()
+        Swal.fire({
+          title :'¡Actualizado!',
+          text : 'El registro se edito correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        })
+      }
+    })
+  }
 
   eliminarAsignacion(id : number){
     Swal.fire({
@@ -269,19 +146,48 @@ export class SeleccionarAgenteComponent implements OnInit {
       heightAuto : true
     }).then((result) => {
       if (result.value) {
-        this.dataSource.data = this.tablaTrabajadoresAsignados.filter(x => x.id !== id)
+        this.asignacionService.deleteAsignacion(id)
+        this.dataSource.data = this.asignacionService.getAsignaciones()
+        this.limpiar()
       }
     })
   }
-  cancelarEditar(){
+
+  cerrarDialog(){
+    this.dialogRef.close()
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+
+    return `${day}/${month}/${year}`;
+  }
+
+  selectFechaAsignacion(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaAsignacion = this.formatDate(selectedDate);
+    }
+  }
+  selectFechaEntrega(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaEntrega = this.formatDate(selectedDate);
+    }
+  }
+  limpiar(){
     this.estado = 'agregar'
     this.asignado = ''
     this.precio = 0
     this.calidad = ''
+    this.fechaAsignacion = ''
+    this.fechaAsignacionDate = new Date()
+    this.fechaEntrega = ''
+    this.fechaEntregaDate = new Date()
     this.referencias = ''
     this.observaciones = ''
-  }
-  cerrarDialog(){
-    this.dialogRef.close()
+    this.datos = []
   }
 }

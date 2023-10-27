@@ -71,15 +71,14 @@ export class ListaComponent implements AfterViewInit {
     this.loadData();
     this.dataSource.paginator = this.paginator;
   }
+
   applyFilter() {
     const filterValue = (this.filter.nativeElement as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-
 
   applyFilterTipoInforme() {
     this.dataSource.data = this.orderService.getOrders()
@@ -91,15 +90,15 @@ export class ListaComponent implements AfterViewInit {
       .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
   }
 
-
   addOrder(){
     this.router.navigate(['pedidos/detalle/agregar/nuevo']);
   }
+
   editOrder(cupon : string){
     this.router.navigate(['pedidos/detalle/editar/' + cupon]);
   }
+
   assignOrder(){
     this.router.navigate(['pedidos/asignacion']);
   }
-
 }

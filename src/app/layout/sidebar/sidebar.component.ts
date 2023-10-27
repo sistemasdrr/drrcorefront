@@ -78,11 +78,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     if (this.authService.currentUserValue) {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
-
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
+    const rtr = this.router.url
+    if(rtr.includes('informes/persona')){
+      this.activeLI = 8
+    }else if(rtr.includes('informes/empresa')){
+      this.activeLI = 7
+    }else if(rtr.includes('pedidos')){
+      this.activeLI = 6
+    }else if(rtr.includes('situacion')){
+      this.activeLI = 4
+    }else if(rtr.includes('mantenimiento')){
+      this.activeLI = 12
+    }
 
-    
   }
   ngOnDestroy() {
     this.routerObj.unsubscribe();
