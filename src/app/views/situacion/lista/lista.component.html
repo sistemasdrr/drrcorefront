@@ -9,7 +9,7 @@
         <div class="card shadow">
           <div class="row">
             <div class="col-md-4">
-              <mat-form-field class="w-100" style="padding-top: 1rem;">
+              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;">
                 <mat-label>Nombre de la Empresa</mat-label>
                 <input matInput placeholder="Ej. ALICORP SA"[(ngModel)]="nombreEmpresa">
               </mat-form-field>
@@ -48,7 +48,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-1 d-flex justify-content-center align-items-center">
-              <button mat-icon-button  [class]="'bg-primary'" matTooltip="Aplicar Filtros" (click)="applyFilter()" [disabled]="">
+              <button mat-mini-fab [class]="'bg-primary'" matTooltip="Aplicar Filtros" (click)="applyFilter()" [disabled]="">
                 <i class="fa-solid fa-magnifying-glass col-white"></i>
               </button>
             </div>

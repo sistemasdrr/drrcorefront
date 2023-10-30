@@ -38,7 +38,7 @@ export class ListaComponent implements OnInit, AfterViewInit {
   }
 
   agregarPersonal(){
-
+    this.router.navigate(['mantenimiento/personal/detalle/nuevo']);
   }
 
   editarPersonal(id : number){

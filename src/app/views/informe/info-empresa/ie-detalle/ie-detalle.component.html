@@ -6,9 +6,9 @@
     </div>
 
     <div class="" style="width:100%;">
-      <mat-tab-group >
-        <mat-tab>
-          <ng-template mat-tab-label>
+      <mat-tab-group [preserveContent]="true">
+        <mat-tab >
+          <ng-template mat-tab-label >
             <i class="fa-solid fa-building-wheat" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Empresa"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Empresa</b></div>
           </ng-template>
@@ -16,7 +16,7 @@
             <app-datos-empresa></app-datos-empresa>
           </ng-template>
         </mat-tab>
-        <mat-tab [ngClass]="{'tab-completo': false}">
+        <mat-tab [ngClass]="{'tab-completo': false}" [disabled]="" >
           <ng-template mat-tab-label>
             <i class="fa-solid fa-clock-rotate-left " style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Antecedentes</b></div>

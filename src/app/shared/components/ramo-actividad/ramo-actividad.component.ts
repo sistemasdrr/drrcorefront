@@ -1,6 +1,6 @@
 import { Actividad, RamoNegocio } from 'app/models/informes/ramo-negocio';
 import { RamoNegocioService } from 'app/services/informes/ramo-negocio.service';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AgregarEditarRamoNegocioComponent } from './agregar-editar/agregar-editar.component';
 
@@ -21,6 +21,7 @@ export class RamoActividadDialogComponent {
   listaActividades: Actividad[] = []
   actividadesSeleccionadas : Actividad[] = []
 
+
    //ENVIO DE COMENTARIO
    @Output()
    eventSelectRamo = new EventEmitter<{
@@ -36,16 +37,9 @@ export class RamoActividadDialogComponent {
     this.ramoNegocios = this.ramoNegocioService.getAllRamoNegocio()
   }
   selectRamo(idRamo : number, nombreRamo : string){
-    if(this.idRamoSeleccionado == idRamo){
-      this.listaActividades = []
-      this.actividadesSeleccionadas = []
-      this.idRamoSeleccionado = 0
-      this.nombreRamoSeleccionado = ""
-    }else{
       this.idRamoSeleccionado = idRamo
       this.nombreRamoSeleccionado = nombreRamo
       this.listaActividades = this.ramoNegocioService.getActividadByRamoId(idRamo)
-    }
   }
 
 
@@ -60,6 +54,10 @@ export class RamoActividadDialogComponent {
     );
   }
 
+  mostrarActividades(){
+
+  }
+
   selectActividad(idActividad : number){
     const selActividad = this.listaActividades.filter(x => x.id == idActividad)[0]
     this.listaActividades = this.listaActividades.filter(x => x.id !== idActividad)
@@ -70,13 +68,6 @@ export class RamoActividadDialogComponent {
     this.actividadesSeleccionadas = this.actividadesSeleccionadas.filter(x => x.id !== idActividad)
     this.listaActividades.push(deselActividad)
   }
-
-
-
-
-
-
-
 
   dialogRamo(){
     const dialogRef1 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
@@ -111,6 +102,9 @@ export class RamoActividadDialogComponent {
       actividades : this.actividadesSeleccionadas
     };
     this.eventSelectRamo.emit(data);
+    this.dialogRef.close()
+  }
+  salir(){
     this.dialogRef.close()
   }
 }

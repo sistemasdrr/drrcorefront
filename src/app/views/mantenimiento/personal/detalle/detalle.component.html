@@ -4,7 +4,7 @@
       <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
-    <div class="card card-body mb-3">
+    <div class="card card-body shadow mb-3">
       <div class="row">
         <div class="col-md-12 d-flex justify-content-between">
           <div><h4>Información General</h4></div>
@@ -12,7 +12,7 @@
             <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="volver()" #tooltip="matTooltip" matTooltip="Volver">
             <mat-icon class="col-white">arrow_back</mat-icon>
           </button>
-          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardarDatos()" #tooltip="matTooltip" matTooltip="Guardar">
             <mat-icon class="col-white">save</mat-icon>
           </button>
           </div>
@@ -60,7 +60,7 @@
             <div class="col-md-4">
               <mat-form-field class="example-full-width">
                 <mat-label>Teléfono Celular</mat-label>
-                <input matInput [(ngModel)]="telCelular" >
+                <input matInput [(ngModel)]="telCelular"  mask="(+00) 000-000-000" [showMaskTyped]="true" >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>smartphone</mat-icon>
               </mat-form-field>
             </div>
@@ -82,7 +82,16 @@
         </div>
         <div class="col-md-3">
           <div class="row">
-            <div class="col-md-12" style="height: 14rem; border: 2px solid black;" ></div>
+            <div class="col-md-12" style="height: 14rem; border: 2px solid black;" >
+              <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" class="w-100 h-100" (change)="onSelect($event)" [accept]="'image/*'" >
+                <div class="d-flex justify-content-center" style="background-size: cover; width: 100%; height: 100%" >
+                  <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class=" w-100 h-100" *ngFor="let file of files" [file]="file" >
+
+
+                  </ngx-dropzone-image-preview>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-5">
@@ -180,7 +189,7 @@
       </div>
 
     </div>
-    <div class="card card-body mb-3">
+    <div class="card card-body shadow mb-3">
       <div class="row">
         <h4>Información Bancaria</h4>
         <hr>
@@ -225,14 +234,14 @@
         <div class="col-md-4">
           <mat-form-field class="example-full-width">
             <mat-label>Institución Bancaria</mat-label>
-            <input matInput  [(ngModel)]="CCmoneda" >
+            <input matInput  [(ngModel)]="CCbanco" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>account_balance</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="example-full-width">
             <mat-label>Tipo de Cuenta</mat-label>
-            <mat-select  [(ngModel)]="CCmoneda">
+            <mat-select  [(ngModel)]="CCtipoCuenta">
               <mat-option value=""></mat-option>
               <mat-option value="Cuenta Corriente">Cuenta Corriente</mat-option>
               <mat-option value="Cuenta de Ahorros">Cuenta de Ahorros</mat-option>
@@ -243,7 +252,7 @@
         <div class="col-md-3">
           <mat-form-field class="example-full-width">
             <mat-label>Número de Cuenta</mat-label>
-            <input matInput  [(ngModel)]="CCmoneda" >
+            <input matInput  [(ngModel)]="CCnumCuenta" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>credit_card</mat-icon>
           </mat-form-field>
         </div>
@@ -260,7 +269,7 @@
         </div>
       </div>
     </div>
-    <div class="card card-body mb-3">
+    <div class="card card-body shadow mb-3">
       <div class="row">
         <h4>ESSALUD - Derecho Habientes</h4>
         <hr>
@@ -287,12 +296,12 @@
 
           <ng-container matColumnDef="accion" >
             <th mat-header-cell *matHeaderCellDef class="text-center">
-              <button mat-mini-fab color="primary" style="margin-top: .7rem;" >
+              <button mat-mini-fab color="primary" (click)="agregarEssalud()">
                 <mat-icon class="col-white">add</mat-icon>
               </button>
             </th>
-            <td mat-cell *matCellDef="let personal" class="text-center">
-              <button mat-icon-button #tooltip="matTooltip" matTooltip="Eliminar" >
+            <td mat-cell *matCellDef="let essalud" class="text-center">
+              <button mat-icon-button #tooltip="matTooltip" matTooltip="Eliminar" (click)="eliminarEssalud(essalud.id)" >
                 <i class="fa-solid fa-trash col-red" style="font-size: 24px;"></i>
               </button>
             </td>

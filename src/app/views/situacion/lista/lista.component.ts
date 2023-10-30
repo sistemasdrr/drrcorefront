@@ -77,9 +77,6 @@ export class ListaSituacionComponent implements  OnInit {
   }
 
   //FILTROS
-
-
-
   nombreEmpresa = ""
   fechaInicio : Date = new Date(2023, 0, 1)
   fechaFin : Date = new Date(year, month, day)
