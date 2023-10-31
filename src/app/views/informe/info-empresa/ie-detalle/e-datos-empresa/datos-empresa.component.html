@@ -25,7 +25,7 @@
       <div class="col-md-3 d-flex justify-content-center">
         <mat-form-field style="width: 100%;">
           <mat-label>Idioma</mat-label>
-          <mat-select [(ngModel)]="idiomaInforme" (selectionChange)="selectIdioma($event.value)">
+          <mat-select [(ngModel)]="datosEmpresa[0].idioma" (selectionChange)="selectIdioma($event.value)">
             <mat-option [value]="'ESPAÑOL'">
               <span class="fi fi-es"></span>
               ESPAÑOL
