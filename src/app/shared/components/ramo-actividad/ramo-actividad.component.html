@@ -38,11 +38,11 @@
             </div>
             <div class="col-md-12">
               <div class="table-container ">
-                <mat-selection-list #ramo [multiple]="false" >
-                  <mat-list-option *ngFor="let ramo of filtrarRamo" (click)="selectRamo(ramo.id, ramo.nombre)">
+                <mat-list >
+                  <mat-list-item *ngFor="let ramo of filtrarRamo" [ngClass]="{'select': seleccionado === ramo.id}" (click)="selectRamo(ramo.id, ramo.nombre)" >
                     {{ ramo.id }} - {{ ramo.nombre}}
-                  </mat-list-option>
-                </mat-selection-list>
+                  </mat-list-item>
+                </mat-list>
               </div>
             </div>
           </div>
@@ -58,11 +58,11 @@
             </div>
             <div class="col-md-12">
               <div style="height: 300px;">
-                <mat-selection-list #actividad >
-                  <mat-list-option *ngFor="let actividad of filtrarActividad" >
-                    {{ actividad.nombre }}
-                  </mat-list-option>
-                </mat-selection-list>
+                <mat-list >
+                  <mat-list-item [class]="verificar(actividad) ? 'select' : ''" *ngFor="let actividad of filtrarActividad" (click)="selectActividad(actividad)" >
+                    {{actividad.nombre}}
+                  </mat-list-item>
+                </mat-list>
               </div>
             </div>
           </div>

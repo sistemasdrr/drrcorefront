@@ -53,6 +53,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.setMenuHeight();
     this.checkStatuForResize(false);
   }
+  
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {

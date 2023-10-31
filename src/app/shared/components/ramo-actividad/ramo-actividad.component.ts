@@ -1,15 +1,16 @@
 import { Actividad, RamoNegocio } from 'app/models/informes/ramo-negocio';
 import { RamoNegocioService } from 'app/services/informes/ramo-negocio.service';
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AgregarEditarRamoNegocioComponent } from './agregar-editar/agregar-editar.component';
+import { MatSelectionList } from '@angular/material/list';
 
 @Component({
   selector: 'app-ramo-actividad-dialog',
   templateUrl: './ramo-actividad.component.html',
   styleUrls: ['./ramo-actividad.component.scss']
 })
-export class RamoActividadDialogComponent {
+export class RamoActividadDialogComponent implements OnInit {
   buscar : string =''
   buscarRamo : string = ''
 
@@ -29,20 +30,47 @@ export class RamoActividadDialogComponent {
     actividades : Actividad[]
    }>();
 
+  @ViewChild('ramo') ramo! : MatSelectionList
+
   constructor(
     public dialogRef: MatDialogRef<AgregarEditarRamoNegocioComponent>,
+    @Inject(MAT_DIALOG_DATA) public data : any,
     private ramoNegocioService : RamoNegocioService,
     private dialog : MatDialog
-    ){
+  ){
+  }
+  ngOnInit(): void {
     this.ramoNegocios = this.ramoNegocioService.getAllRamoNegocio()
-  }
-  selectRamo(idRamo : number, nombreRamo : string){
-      this.idRamoSeleccionado = idRamo
-      this.nombreRamoSeleccionado = nombreRamo
-      this.listaActividades = this.ramoNegocioService.getActividadByRamoId(idRamo)
+    if(this.data.ramoNegocio != ''){
+      const ramo = this.ramoNegocioService.getAllRamoNegocio().filter(x => x.nombre == this.data.ramoNegocio)[0]
+      this.seleccionado = ramo.id
+      this.listaActividades = this.ramoNegocioService.getActividadByRamoId(ramo.id);
+    }
+    if(this.data.actividadEspecifica != ''){
+      const lista = this.data.actividadEspecifica.split('-')
+      lista.forEach((actividad : string)=> {
+        this.actividadesSeleccionadas.push(this.ramoNegocioService.getAllActividad().filter(x => x.nombre == actividad)[0])
+      });
+    }
   }
 
+  selectRamo(idRamo: number, nombreRamo: string) {
+    this.idRamoSeleccionado = idRamo;
+    this.nombreRamoSeleccionado = nombreRamo;
+    this.actividadesSeleccionadas = [];
+    this.listaActividades = this.ramoNegocioService.getActividadByRamoId(idRamo);
+    this.seleccionado = idRamo;
 
+  }
+  seleccionado: number | null = null;
+
+  seleccionarItem(id: number) {
+    if (this.seleccionado === id) {
+      this.seleccionado = null;
+    } else {
+      this.seleccionado = id;
+    }
+  }
   get filtrarActividad(): Actividad[] {
     return this.listaActividades.filter(act =>
       act.nombre.toLowerCase().includes(this.buscar.toLowerCase())
@@ -57,16 +85,23 @@ export class RamoActividadDialogComponent {
   mostrarActividades(){
 
   }
-
-  selectActividad(idActividad : number){
-    const selActividad = this.listaActividades.filter(x => x.id == idActividad)[0]
-    this.listaActividades = this.listaActividades.filter(x => x.id !== idActividad)
-    this.actividadesSeleccionadas.push(selActividad)
+  verificar(actividad : Actividad) : boolean{
+    const index = this.actividadesSeleccionadas.findIndex(a => a.id === actividad.id);
+    if (index !== -1) {
+      return true
+    }else{
+      return false
+    }
   }
-  deselectActividad(idActividad : number){
-    const deselActividad = this.actividadesSeleccionadas.filter(x => x.id == idActividad)[0]
-    this.actividadesSeleccionadas = this.actividadesSeleccionadas.filter(x => x.id !== idActividad)
-    this.listaActividades.push(deselActividad)
+  selectActividad(actividad : Actividad){
+    const index = this.actividadesSeleccionadas.findIndex(a => a.id === actividad.id);
+    if (index !== -1) {
+      this.actividadesSeleccionadas.splice(index, 1);
+    } else {
+      this.actividadesSeleccionadas.push(actividad);
+    }
+
+    console.log(this.actividadesSeleccionadas)
   }
 
   dialogRamo(){
@@ -97,12 +132,10 @@ export class RamoActividadDialogComponent {
 
 
   guardar(){
-    const data = {
+    this.dialogRef.close({
       ramoNegocio : this.nombreRamoSeleccionado,
       actividades : this.actividadesSeleccionadas
-    };
-    this.eventSelectRamo.emit(data);
-    this.dialogRef.close()
+    })
   }
   salir(){
     this.dialogRef.close()

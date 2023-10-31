@@ -1,13 +1,14 @@
 .mat-mdc-list{
-  border-radius: 1rem;
-  padding-left: 1rem;
   transition: .3s ease all;
 }
-.mat-mdc-list:hover{
+.select{
+  background-color: rgba(0,0,0,0.3);
+  transition: .3s ease all;
+}
+.mat-mdc-list-item:hover{
   background-color: rgba(0,0,0,0.5);
   transition: .3s ease all;
   color: white;
-  transform: scale(1.01);
 
 }
 .table-container {

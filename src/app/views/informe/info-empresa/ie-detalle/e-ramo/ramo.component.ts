@@ -6,6 +6,7 @@ import { RamoActividadDialogComponent } from '@shared/components/ramo-actividad/
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { Observable, map, startWith } from 'rxjs';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { Actividad } from 'app/models/informes/ramo-negocio';
 
 export interface data {
   name: string;
@@ -55,12 +56,19 @@ export class RamoComponent implements OnInit{
   ramoActividadDialog() {
     const dialogRef1 = this.dialog.open(RamoActividadDialogComponent, {
     data: {
+      ramoNegocio : this.ramoNegociosInforme,
+      actividadEspecifica : this.actividadEspecificaInforme
       },
     });
-  dialogRef1.componentInstance.eventSelectRamo.subscribe((data) => {
-    console.log('Datos recibidos desde el diálogo:', data);
-    // Haz lo que necesites con los datos recibidos.
-  });
+    dialogRef1.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        this.ramoNegociosInforme = data.ramoNegocio
+        data.actividades.forEach((actividad : Actividad)  => {
+          this.actividadEspecificaInforme += actividad.nombre + '-'
+        });
+      }
+    })
   }
   ImportacionDialog() {
     const dialogRef2 = this.dialog.open(CuadroImpoExpoComponent, {

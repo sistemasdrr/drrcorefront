@@ -1,5 +1,4 @@
 import { Pais } from "app/models/pais"
-import { PersoneriaJuridica, SituacionRuc } from "app/views/informe/info-empresa/ie-detalle/e-datos-empresa/datos-empresa.component"
 
 export interface DatosEmpresa{
   codigoInforme : string
@@ -38,4 +37,20 @@ export interface DatosEmpresa{
   comentarioReputacionIng : string
   comentarioPrensa : string
   comentarioPrensaIng : string
+}
+
+export interface data {
+  name: string;
+}
+export interface SituacionRuc {
+  id : number
+  description : string
+}
+export interface PersoneriaJuridica {
+  id : number
+  description : string
+}
+export interface Reputacion {
+  id : number
+  description : string
 }

@@ -151,33 +151,25 @@ constructor(
       switch(input){
 
         case 'registrosPublicos':
-        this.registrosPublicosInforme = data.comentario_es;
-        this.registrosPublicosIngInforme = data.comentario_en;
+        this.antecedentesLegales[0].registrosPublicos = data.comentario_es;
+        this.antecedentesLegales[0].registrosPublicosIng = data.comentario_en;
         console.log(this.registrosPublicosInforme)
         break
-        case 'historialAntecedentes':
-         this.historialAntecedentes = data.comentario_es;
-         this.historialAntecedentesIng = data.comentario_en;
-         console.log(this.historialAntecedentes)
-         break
         case 'fechaAumento':
-        this.fechaAumentoInforme = data.comentario_es;
-        this.fechaAumentoIngInforme = data.comentario_en;
-        console.log(this.fechaAumentoInforme)
+          this.antecedentesLegales[0].fechaAumento = data.comentario_es;
+          this.antecedentesLegales[0].fechaAumento = data.comentario_en;
         break
         case 'actualTC':
-        this.actualTCInforme = data.comentario_es;
-        this.actualTCIngInforme = data.comentario_en;
-        console.log(this.actualTCInforme)
+          this.antecedentesLegales[0].actualTC = data.comentario_es;
+          this.antecedentesLegales[0].actualTCIng = data.comentario_en;
         break
         case 'comentarioAntecedentes':
-        this.comentarioAntecedentes = data.comentario_es;
-        this.comentarioAntecedentesIng = data.comentario_en;
-        console.log(this.comentarioAntecedentes)
+          this.antecedentesLegales[0].comentarioAntecedentesLegales = data.comentario_es;
+          this.antecedentesLegales[0].comentarioAntecedentesLegalesIng = data.comentario_en;
         break
         case 'historiaAntecedentes':
-        this.historialAntecedentes = data.comentario_es;
-        this.historialAntecedentesIng = data.comentario_en;
+          this.antecedentesLegales[0].comentarioHistoriaAntecedentes = data.comentario_es;
+        this.antecedentesLegales[0].comentarioHistoriaAntecedentesIng = data.comentario_en;
         console.log(this.historialAntecedentes)
         break
       }
@@ -201,44 +193,36 @@ constructor(
         console.log(data)
         switch(input){
           case 'duracion':
-          this.duracionInforme = data.comentario_es;
-          this.duracionIngInforme = data.comentario_en;
-          console.log(this.duracionInforme)
+            this.antecedentesLegales[0].duracion = data.comentario_es;
+            this.antecedentesLegales[0].duracionIng = data.comentario_en;
           break
           case 'registradaEn':
-          this.registradaEnInforme = data.comentario_es;
-          this.registradaEnIngInforme = data.comentario_en;
-          console.log(this.registradaEnInforme)
+            this.antecedentesLegales[0].registradaEn = data.comentario_es;
+            this.antecedentesLegales[0].registradaEnIng = data.comentario_en;
           break
           case 'registrosPublicos':
-          this.registrosPublicosInforme = data.comentario_es;
-          this.registrosPublicosIngInforme = data.comentario_en;
-          console.log(this.registrosPublicosInforme)
+          this.antecedentesLegales[0].registrosPublicos = data.comentario_es;
+          this.antecedentesLegales[0].registrosPublicosIng = data.comentario_en;
           break
           case 'historialAntecedentes':
            this.historialAntecedentes = data.comentario_es;
            this.historialAntecedentesIng = data.comentario_en;
-           console.log(this.historialAntecedentes)
            break
           case 'fechaAumento':
           this.fechaAumentoInforme = data.comentario_es;
           this.fechaAumentoIngInforme = data.comentario_en;
-          console.log(this.fechaAumentoInforme)
           break
           case 'actualTC':
           this.actualTCInforme = data.comentario_es;
           this.actualTCIngInforme = data.comentario_en;
-          console.log(this.actualTCInforme)
           break
           case 'comentarioAntecedentes':
           this.comentarioAntecedentes = data.comentario_es;
           this.comentarioAntecedentesIng = data.comentario_en;
-          console.log(this.comentarioAntecedentes)
           break
           case 'historiaAntecedentes':
           this.historialAntecedentes = data.comentario_es;
           this.historialAntecedentesIng = data.comentario_en;
-          console.log(this.historialAntecedentes)
           break
         }
       }

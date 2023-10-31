@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute } from '@angular/router';
+import { MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import Swal from 'sweetalert2';
@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./ie-detalle.component.scss']
 })
 export class IEDetalleComponent implements OnInit {
+
 
   title : string = 'Detalles de Empresa'
   subtitle : string = ''
@@ -28,8 +29,11 @@ export class IEDetalleComponent implements OnInit {
 
   private datosEmpresa : DatosEmpresa[] = []
 
+
+
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router : Router,
     private datosEmpresaService : DatosEmpresaService
     ){
     this.codigoInforme = this.activatedRoute.snapshot.paramMap.get('codigoInforme');
@@ -42,7 +46,7 @@ export class IEDetalleComponent implements OnInit {
 
   onTabChange(event: any) {
     const selectedTabIndex = event.index;
-   
+
     Swal.fire({
       title: '¿Está seguro de cambiar de pestaña sin guardar los cambios?',
       text: "",
@@ -67,11 +71,13 @@ export class IEDetalleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.codigoInforme)
     if(this.codigoInforme === 'nuevo'){
       this.subtitle = ' - Nuevo'
     }else{
       this.datosEmpresa = this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')
+      if(this.datosEmpresa[0] == null){
+        this.router.navigate(['**']);
+      }
       this.subtitle = ' - ' + this.datosEmpresa[0].razonSocial
     }
     this.breadscrums = [

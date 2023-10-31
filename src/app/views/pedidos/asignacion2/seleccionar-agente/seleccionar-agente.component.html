@@ -30,7 +30,7 @@
                 <div class="col-md-9 mat-elevation-z8" >
                   <mat-selection-list #asignacion [multiple]="false" [disabled]="estado === 'editar'" style="width: 100%; overflow-y: auto;" (selectionChange)="seleccionarTrabajador(asignacion.selectedOptions.selected[0].value.codigo,asignacion.selectedOptions.selected[0].value.nombre)" >
                     <mat-list-option *ngFor="let asig of datos" [value]="asig">
-                      <div style="font-size: 12px; border-radius: 20px;" >
+                      <div style="font-size: 14px; border-radius: 20px;" >
                         {{asig.codigo}} || {{asig.nombre}}
                       </div>
                     </mat-list-option>

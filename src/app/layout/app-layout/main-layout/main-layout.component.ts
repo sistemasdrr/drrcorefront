@@ -12,6 +12,7 @@ import { DOCUMENT } from '@angular/common';
 export class MainLayoutComponent implements AfterViewInit {
   direction!: Direction;
   public config!: InConfiguration;
+  
   constructor(
     private directoryService: DirectionService,
     private configService: ConfigService,
