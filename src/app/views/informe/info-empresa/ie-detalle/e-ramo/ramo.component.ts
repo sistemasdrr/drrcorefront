@@ -64,14 +64,19 @@ export class RamoComponent implements OnInit{
       if (data) {
         console.log(data)
         this.ramoNegociosInforme = data.ramoNegocio
+        this.actividadEspecificaInforme = ''
         data.actividades.forEach((actividad : Actividad)  => {
-          this.actividadEspecificaInforme += actividad.nombre + '-'
+          if(data.actividades[data.actividades.length-1] == actividad){
+            this.actividadEspecificaInforme += actividad.nombre
+          }else{
+            this.actividadEspecificaInforme += actividad.nombre + '-'
+          }
         });
       }
     })
   }
   ImportacionDialog() {
-    const dialogRef2 = this.dialog.open(CuadroImpoExpoComponent, {
+    let dialogRef2 = this.dialog.open(CuadroImpoExpoComponent, {
     data: {
       titulo : "Importaciones",
       codigoEmpresa : "codigo"

@@ -40,7 +40,10 @@
               <div class="table-container ">
                 <mat-list >
                   <mat-list-item *ngFor="let ramo of filtrarRamo" [ngClass]="{'select': seleccionado === ramo.id}" (click)="selectRamo(ramo.id, ramo.nombre)" >
-                    {{ ramo.id }} - {{ ramo.nombre}}
+                    <div class="w-100 d-flex justify-content-between">
+                      {{ ramo.id }} - {{ ramo.nombre}}
+                      <mat-icon *ngIf="seleccionado === ramo.id" class="material-icons-two-tone color-icon" matSuffix>check</mat-icon>
+                    </div>
                   </mat-list-item>
                 </mat-list>
               </div>
@@ -60,7 +63,10 @@
               <div style="height: 300px;">
                 <mat-list >
                   <mat-list-item [class]="verificar(actividad) ? 'select' : ''" *ngFor="let actividad of filtrarActividad" (click)="selectActividad(actividad)" >
-                    {{actividad.nombre}}
+                    <div class="w-100 d-flex justify-content-between">
+                      {{actividad.nombre}}
+                      <mat-icon *ngIf="verificar(actividad)" class="material-icons-two-tone color-icon" matSuffix>check</mat-icon>
+                    </div>
                   </mat-list-item>
                 </mat-list>
               </div>

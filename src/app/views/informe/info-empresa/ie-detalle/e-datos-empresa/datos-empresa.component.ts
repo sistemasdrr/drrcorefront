@@ -13,9 +13,6 @@ import Swal from 'sweetalert2';
 import { DatosEmpresa, PersoneriaJuridica, Reputacion, SituacionRuc } from 'app/models/informes/empresa/datos-empresa';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 
-
-
-
 @Component({
   selector: 'app-datos-empresa',
   templateUrl: './datos-empresa.component.html',
@@ -39,15 +36,51 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   politicaPagos : string[] = []
   calificacionCrediticia : string[] = []
 
-  codigoInforme : string | null = ''
   datosEmpresa : DatosEmpresa[] = []
 
+  //DATOS DE EMPRESA
+  codigoInforme : string | null = ''
+  fechaInformeInvestigadoDate : Date = new Date()
+  informeInvestigadoEl = ""
+  idiomaInforme = ""
+  tipoInstitucionInforme = ""
+  yFundacionInforme = ""
+  razonSocialInforme = ""
+  nombreComercialInforme = ""
+  fechaConstitucionInformeDate : Date = new Date()
+  fechaConstitucionInforme = ""
+  tipoRucInforme = ""
+  codigoRucInforme = ""
+  comentarioIdentificacionInforme = ""
+  comentarioIdentificacionIngInforme = ""
+  direccionCompletaInforme = ""
+  duracionInforme = ""
+  dptoEstadoInforme = ""
+  codigoTelefonoInforme = ""
+  numeroTelefonoInforme = ""
+  numeroCelularInforme = ""
+  codPostalInforme = ""
+  whatsappEmpresarialInforme = ""
+  emailCorporativoInforme = ""
+  paginaWebInforme = ""
+  riesgoCrediticioInforme = ""
+  politicaPagosInforme = ""
+  reputacionInforme = ""
+  comentarioReputacionInforme = ""
+  comentarioReputacionIngInforme = ""
+  comentarioPrensaInforme = ""
+  comentarioPrensaIngInforme = ""
+
+  //TITULOS
+  tituloComentarioIdentificacion : string = 'Comentario de Identificación'
+  tituloComentarioReputacion : string = 'Comentario de Reputación'
+  tituloComentarioPrensa : string = 'Comentario de Prensa'
   constructor(
     private dialog : MatDialog,
     private PaisService : PaisService,
     private router : Router,
     private activatedRoute: ActivatedRoute,
-    private datosEmpresaService : DatosEmpresaService
+    private datosEmpresaService : DatosEmpresaService,
   ){
     this.filterReputacion = new Observable<Reputacion[]>()
     this.filterSituacionRuc = new Observable<SituacionRuc[]>()
@@ -93,20 +126,50 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       }),
     )
     if(this.codigoInforme !== 'nuevo'){
-      this.datosEmpresa = this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')
-      const fecha1 = this.datosEmpresa[0].informeInvestigadoEl.split("/");
+      const datosEmpresa = this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')
+      console.log(datosEmpresa)
+      this.informeInvestigadoEl = datosEmpresa[0].informeInvestigadoEl
+      const fecha1 = this.informeInvestigadoEl.split("/");
       if(fecha1){
         this.fechaInformeInvestigadoDate = new Date(parseInt(fecha1[2]), parseInt(fecha1[1])-1,parseInt(fecha1[0]))
       }
-      const fecha2 = this.datosEmpresa[0].fechaConstitucion.split("/");
+      this.idiomaInforme = datosEmpresa[0].idioma
+      this.tipoInstitucionInforme = datosEmpresa[0].tipoInstitucion
+      this.yFundacionInforme = datosEmpresa[0].yFundacion+''
+      this.razonSocialInforme = datosEmpresa[0].razonSocial
+      this.nombreComercialInforme = datosEmpresa[0].nombreComercial
+      this.fechaConstitucionInforme = datosEmpresa[0].fechaConstitucion
+      const fecha2 = this.fechaConstitucionInforme.split("/");
       if(fecha2){
         this.fechaConstitucionInformeDate = new Date(parseInt(fecha2[2]), parseInt(fecha2[1])-1,parseInt(fecha2[0]))
       }
+      this.tipoRucInforme = datosEmpresa[0].tipoRuc
+      this.codigoRucInforme = datosEmpresa[0].codigoRuc
+      this.comentarioIdentificacionInforme = datosEmpresa[0].comentarioIdentificacion
+      this.comentarioIdentificacionIngInforme = datosEmpresa[0].comentarioIdentificacionIng
+      this.direccionCompletaInforme = datosEmpresa[0].direccionCompleta
+      this.duracionInforme = datosEmpresa[0].duracion
+      this.dptoEstadoInforme = datosEmpresa[0].dptoEstado
+      this.paisInforme = datosEmpresa[0].pais
+      this.codigoTelefonoInforme = datosEmpresa[0].codigoTelefono
+      this.numeroTelefonoInforme = datosEmpresa[0].numeroTelefono
+      this.numeroCelularInforme = datosEmpresa[0].numeroCelular
+      this.codPostalInforme = datosEmpresa[0].codPostal
+      this.whatsappEmpresarialInforme = datosEmpresa[0].whatsappEmpresarial
+      this.emailCorporativoInforme = datosEmpresa[0].emailCorporativo
+      this.paginaWebInforme = datosEmpresa[0].paginaWeb
+      this.riesgoCrediticioInforme = datosEmpresa[0].riesgoCrediticio
+      this.politicaPagosInforme = datosEmpresa[0].politicaPagos
+      this.reputacionInforme = datosEmpresa[0].reputacion
+      this.comentarioReputacionInforme = datosEmpresa[0].comentarioReputacion
+      this.comentarioReputacionIngInforme = datosEmpresa[0].comentarioReputacionIng
+      this.comentarioPrensaInforme = datosEmpresa[0].comentarioPrensa
+      this.comentarioPrensaIngInforme = datosEmpresa[0].comentarioPrensaIng
 
-      this.personeriaJuridicaInforme = this.datosEmpresa[0].personeriaJuridica
-      this.situacionRucInforme = this.datosEmpresa[0].situacionRuc
+      this.personeriaJuridicaInforme = datosEmpresa[0].personeriaJuridica
+      this.situacionRucInforme = datosEmpresa[0].situacionRuc
 
-      this.selectRiesgoCrediticio( this.datosEmpresa[0].riesgoCrediticio)
+      this.selectRiesgoCrediticio( this.riesgoCrediticioInforme)
     }
   }
   personeriaJuridicaInforme :  PersoneriaJuridica = {
@@ -117,11 +180,57 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     id : 0,
     description : ''
   }
+  paisInforme : Pais = {
+    id : 0,
+    nombre : '',
+    nombreAcort : '',
+    nombreMayus : '',
+    icono : ''
+  }
 
   ngOnDestroy(): void {
     console.log('Se destruyo el componente')
   }
+  armarModelo(){
+    this.datosEmpresa[0] = {
+      codigoInforme : this.codigoInforme+'',
+      informeInvestigadoEl : this.informeInvestigadoEl,
+      idioma : this.idiomaInforme,
+      tipoInstitucion : this.tipoInstitucionInforme,
+      yFundacion : parseInt(this.yFundacionInforme),
+      razonSocial : this.razonSocialInforme,
+      nombreComercial : this.nombreComercialInforme,
+      fechaConstitucion : this.fechaConstitucionInforme,
+      personeriaJuridica : this.personeriaJuridicaInforme,
 
+      tipoRuc : this.tipoRucInforme,
+      codigoRuc : this.codigoRucInforme,
+      situacionRuc : this.situacionRucInforme,
+
+      comentarioIdentificacion : this.comentarioIdentificacionInforme,
+      comentarioIdentificacionIng : this.comentarioIdentificacionIngInforme,
+
+      direccionCompleta : this.direccionCompletaInforme,
+      duracion : this.duracionInforme,
+      dptoEstado : this.dptoEstadoInforme,
+      pais : this.paisInforme,
+      codigoTelefono : this.codigoTelefonoInforme,
+      numeroTelefono : this.numeroTelefonoInforme,
+      numeroCelular : this.numeroCelularInforme,
+      codPostal : this.codPostalInforme,
+      whatsappEmpresarial : this.whatsappEmpresarialInforme,
+      emailCorporativo : this.emailCorporativoInforme,
+      paginaWeb : this.paginaWebInforme,
+
+      riesgoCrediticio : this.riesgoCrediticioInforme,
+      politicaPagos : this.politicaPagosInforme,
+      reputacion : this.reputacionInforme,
+      comentarioReputacion : this.comentarioReputacionInforme,
+      comentarioReputacionIng : this.comentarioReputacionIngInforme,
+      comentarioPrensa : this.comentarioPrensaInforme,
+      comentarioPrensaIng :this.comentarioPrensaIngInforme,
+    }
+  }
   private _filterPais(description: string): Pais[] {
     const filterValue = description.toLowerCase();
     return this.paises.filter(pais => pais.nombre.toLowerCase().includes(filterValue));
@@ -138,7 +247,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     const filterValue = description.toLowerCase();
     return this.personeriaJuridica.filter(personeriaJuridica => personeriaJuridica.description.toLowerCase().includes(filterValue));
   }
-
   displayPais(pais : Pais): string {
     return pais && pais.nombre ? pais.nombre : '';
   }
@@ -166,43 +274,39 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       if (data) {
         switch(input){
           case 'comentarioIdentificacion':
-            this.datosEmpresa[0].comentarioIdentificacion = data.comentario_es;
-            this.datosEmpresa[0].comentarioIdentificacionIng = data.comentario_en;
+            this.comentarioIdentificacionInforme = data.comentario_es;
+            this.comentarioIdentificacionIngInforme = data.comentario_en;
           break
           case 'comentarioReputacion':
-            this.datosEmpresa[0].comentarioReputacion = data.comentario_es;
-            this.datosEmpresa[0].comentarioReputacionIng = data.comentario_en;
+            this.comentarioReputacionInforme = data.comentario_es;
+            this.comentarioReputacionIngInforme = data.comentario_en;
           break
           case 'comentarioPrensa':
-            this.datosEmpresa[0].comentarioPrensa = data.comentario_es;
-            this.datosEmpresa[0].comentarioPrensaIng = data.comentario_en;
+            this.comentarioPrensaInforme = data.comentario_es;
+            this.comentarioPrensaIngInforme = data.comentario_en;
           break
         }
       }
     });
   }
-
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
     if (selectedDate) {
-      this.datosEmpresa[0].informeInvestigadoEl = this.formatDate(selectedDate);
+      this.informeInvestigadoEl = this.formatDate(selectedDate);
     }
   }
   selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
     if (selectedDate) {
-      this.datosEmpresa[0].fechaConstitucion = this.formatDate(selectedDate);
+      this.fechaConstitucionInforme = this.formatDate(selectedDate);
     }
   }
-
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
-
     return `${day}/${month}/${year}`;
   }
-
   historicoPedidos(){
     const dialog = this.dialog.open(HistoricoPedidosComponent,{
       data : {
@@ -210,29 +314,22 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       }
     })
   }
-
-  //TITULOS
-  tituloComentarioIdentificacion : string = 'Comentario de Identificación'
-  tituloComentarioReputacion : string = 'Comentario de Reputación'
-  tituloComentarioPrensa : string = 'Comentario de Prensa'
-
   selectIdioma(idioma : string){
-    this.datosEmpresa[0].idioma = idioma
+    this.idiomaInforme = idioma
   }
   selectInstitucionInforme(institucionInforme : string){
-    this.datosEmpresa[0].tipoInstitucion = institucionInforme
+    this.tipoInstitucionInforme = institucionInforme
   }
   selectPersoneriaJuridica(personeriaJuridica : PersoneriaJuridica){
-    console.log(personeriaJuridica)
     this.personeriaJuridicaInforme = personeriaJuridica
-    this.datosEmpresa[0].personeriaJuridica = this.datosEmpresaService.getPersoneriaJuridica().filter(x => x.description == personeriaJuridica.description)[0]
+    this.personeriaJuridicaInforme = this.datosEmpresaService.getPersoneriaJuridica().filter(x => x.description == personeriaJuridica.description)[0]
   }
   selectSituacionRuc(situacionRuc : SituacionRuc){
     this.situacionRucInforme = situacionRuc
     this.datosEmpresa[0].situacionRuc = this.datosEmpresaService.getSituacionRuc().filter(x => x.description == situacionRuc.description)[0]
   }
   selectRiesgoCrediticio(riesgoCrediticio : string){
-    this.datosEmpresa[0].riesgoCrediticio = riesgoCrediticio
+    this.riesgoCrediticioInforme = riesgoCrediticio
     if(riesgoCrediticio == ""){
       this.gaugeRiesgoCrediticio = 0
       this.colorRiesgoCrediticio = "white"
@@ -276,7 +373,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     }
   }
   selectPoliticaPagos(politicaPagos : string){
-    this.datosEmpresa[0].politicaPagos = politicaPagos
+    this.politicaPagosInforme = politicaPagos
     if(politicaPagos == ""){
       this.colorPoliticaPagos = "white"
     }else if(politicaPagos.includes("1")){
@@ -297,7 +394,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   }
   selectReputacion(event: MatSelectChange) {
     const selectedReputacion = event.value;
-    this.datosEmpresa[0].reputacion = selectedReputacion
+    this.reputacionInforme = selectedReputacion
     if(selectedReputacion.id == 0){
       this.colorReputacion = "white"
     }else if(selectedReputacion.id > 0 && selectedReputacion.id <= 4){
@@ -306,56 +403,50 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       this.colorReputacion = "red"
     }
   }
-
   iconoSeleccionado: string = ""
   actualizarSeleccionPais(id: number) {
     const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
     if (paisSeleccionadoObj) {
-      this.datosEmpresa[0].pais = paisSeleccionadoObj;
+      this.paisInforme = paisSeleccionadoObj;
       this.iconoSeleccionado = paisSeleccionadoObj.icono;
     }
   }
   cambiarIcono(objPais : any){
     this.iconoSeleccionado = objPais.icono
   }
-  //DATOS DE EMPRESA
-  fechaInformeInvestigadoDate : Date = new Date()
-
-  fechaConstitucionInformeDate : Date = new Date()
-
-
-
   guardar(){
-    this.datosEmpresa[0].situacionRuc = this.situacionRucInforme
-    this.datosEmpresa[0].personeriaJuridica = this.personeriaJuridicaInforme
-    console.log(this.datosEmpresa[0])
+    this.armarModelo()
     this.datosEmpresaService.updateDatosEmpresa(this.datosEmpresa[0])
   }
   salir(){
-    Swal.fire({
-      title: '¿Está seguro de salir sin guardar los cambios?',
-      text: "",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonText : 'Cancelar',
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí',
-      width: '20rem',
-      heightAuto : true
-    }).then((result) => {
-      if (result.value) {
-        this.router.navigate(['informes/empresa/lista']);
-      }
-    });
+    this.armarModelo()
+    console.log(this.datosEmpresa[0])
+    console.log(this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')[0])
+    if(JSON.stringify(this.datosEmpresa) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+''))){
+      Swal.fire({
+        title: '¿Está seguro de salir sin guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.router.navigate(['informes/empresa/lista']);
+        }
+      });
+    }else{
+      this.router.navigate(['informes/empresa/lista']);
+    }
   }
-
   //GAUGE
   gaugeRiesgoCrediticio = 0
-
   colorRiesgoCrediticio : string = "white"
   colorPoliticaPagos : string = "white"
-
   calificacionRiesgoCrediticio = ""
   descripcionRiesgoCrediticio = ""
   colorReputacion = "white"

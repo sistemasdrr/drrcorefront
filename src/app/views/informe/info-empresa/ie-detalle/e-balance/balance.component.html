@@ -3,29 +3,25 @@
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Balance General</h4>
-        <mat-form-field style="">
-          <mat-label>Balance</mat-label>
-          <mat-select (selectionChange)="actualizarBalance($event.value)" [(ngModel)]="balanceSeleccionado">
-            <mat-option *ngFor="let balance of balanceInforme.balanceGeneral" [value]="balance.num">
-              {{balance.nombreBalance}} al {{balance.fechaBalance}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
         <div>
-          <button mat-mini-fab class="bg-green" style="margin: 0 .5rem .5rem .5rem;" (click)="agregarBalance()" #tooltip="matTooltip" matTooltip="Nuevo Balance">
-            <mat-icon class="col-white">add</mat-icon>
+          <button mat-mini-fab class="bg-green" style="margin: 0 .5rem .5rem .5rem;" (click)="agregarBalance()" #tooltip="matTooltip" [matTooltip]="agregar === true ? 'Agregar' : 'Nuevo Balance'">
+            <mat-icon class="col-white" *ngIf="!agregar">add</mat-icon>
+            <mat-icon class="col-white" *ngIf="agregar">check</mat-icon>
           </button>
-          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
-            <mat-icon class="col-white">save</mat-icon>
+          <button mat-mini-fab class="bg-red" *ngIf="agregar" style="margin: 0 2rem .5rem .5rem; " (click)="cancelarAgregarBalance()" #tooltip="matTooltip" matTooltip="Cancelar">
+            <mat-icon class="col-white">cancel</mat-icon>
           </button>
           <button mat-mini-fab class="bg-purple" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Adjuntos">
             <mat-icon class="col-white">attach_file</mat-icon>
           </button>
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+            <mat-icon class="col-white">save</mat-icon>
+          </button>
         </div>
       </div>
       <hr>
-      <div class="col-md-3">
-        <mat-form-field style="width: 100%;">
+      <div class="col-md-3" *ngIf="agregar === false">
+        <mat-form-field style="width: 100%;" >
           <mat-label>Balance</mat-label>
           <mat-select (selectionChange)="actualizarBalance($event.value)" [(ngModel)]="balanceSeleccionado">
             <mat-option *ngFor="let balance of balanceInforme.balanceGeneral" [value]="balance.num">
@@ -34,7 +30,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" [ngClass]="{'col-md-4': agregar === true}">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Balance</mat-label>
           <input matInput [matDatepicker]="fecha_balance" [(ngModel)]="fechaBalance" [readonly]="!agregar">
@@ -42,13 +38,13 @@
           <mat-datepicker #fecha_balance color="primary"></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" [ngClass]="{'col-md-4': agregar === true}">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Tipo de Balance</mat-label>
           <input matInput [(ngModel)]="tipoBalance" [readonly]="!agregar">
         </mat-form-field>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3" [ngClass]="{'col-md-4': agregar === true}">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Duración de Balance</mat-label>
           <input matInput [(ngModel)]="tiempoBalance" [readonly]="!agregar">

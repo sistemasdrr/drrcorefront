@@ -69,13 +69,11 @@ constructor(
   public dialog: MatDialog,
   private empresaRelacionadaService : EmpresaRelacionadaService,
   private activatedRoute: ActivatedRoute,
-    private antecedentesLegalesService : AntecedentesLegalesService
+    private antecedentesLegalesService : AntecedentesLegalesService,
   ) {
     this.filteredOptions = new Observable<data[]>();
     this.dataSource = new MatTableDataSource<EmpresaRelacionada>
     this.codigoInforme = this.activatedRoute.snapshot.paramMap.get('codigoInforme');
-    console.log(this.codigoInforme)
-
 }
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.GetAllEmpresaRelacionada())
@@ -123,7 +121,6 @@ constructor(
       this.actualTCIngInforme = this.antecedentesLegales[0].actualTCIng
       this.fechaUltimaConsultaInforme = this.antecedentesLegales[0].fechaUltimaConsultaRRPP
       this.ultimaConsultaPorInforme = this.antecedentesLegales[0].fechaUltimaConsultaPor
-
     }
   }
 
@@ -353,5 +350,7 @@ constructor(
     console.log(this.actualTCInforme)
     console.log(this.fechaUltimaConsultaInforme)
     console.log(this.ultimaConsultaPorInforme)
+  }
+  salir(){
   }
 }

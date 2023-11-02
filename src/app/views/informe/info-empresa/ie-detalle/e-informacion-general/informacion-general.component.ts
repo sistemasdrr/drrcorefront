@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
+import { AttachmentService } from 'app/services/attachment.service';
 
 @Component({
   selector: 'app-informacion-general',
@@ -8,17 +9,18 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
   styleUrls: ['./informacion-general.component.scss']
 })
 export class InformacionGeneralComponent implements OnInit {
-  informacionGeneral = ""
-  informacionIngGeneral = ""
+  informacionGeneral = "";
+  informacionIngGeneral = "";
 
   constructor(
-    private dialog : MatDialog
+    private dialog : MatDialog,
+    private api : AttachmentService
   ){
 
   }
 
   ngOnInit(): void {
-    
+
   }
 
   agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
@@ -29,6 +31,13 @@ export class InformacionGeneralComponent implements OnInit {
       subtitulo : subtitulo,
       empresa: empresa,
       },
+    });
+  }
+  probarApi(){
+    this.api.probarApi().subscribe(data =>{
+      if(data){
+        console.log(data)
+      }
     });
   }
 }

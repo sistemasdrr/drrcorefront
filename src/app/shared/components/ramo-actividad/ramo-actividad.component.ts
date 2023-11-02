@@ -44,16 +44,25 @@ export class RamoActividadDialogComponent implements OnInit {
     if(this.data.ramoNegocio != ''){
       const ramo = this.ramoNegocioService.getAllRamoNegocio().filter(x => x.nombre == this.data.ramoNegocio)[0]
       this.seleccionado = ramo.id
+      this.nombreRamoSeleccionado = this.data.ramoNegocio
       this.listaActividades = this.ramoNegocioService.getActividadByRamoId(ramo.id);
+      if(this.data.actividadEspecifica != ''){
+        const lista = this.data.actividadEspecifica.split('-')
+        lista.forEach((actividad : string)=> {
+          this.actividadesSeleccionadas.push(this.ramoNegocioService.getAllActividad().filter(x => x.nombre == actividad)[0])
+        });
+      }
     }
-    if(this.data.actividadEspecifica != ''){
-      const lista = this.data.actividadEspecifica.split('-')
-      lista.forEach((actividad : string)=> {
-        this.actividadesSeleccionadas.push(this.ramoNegocioService.getAllActividad().filter(x => x.nombre == actividad)[0])
-      });
+
+  }
+  verificar(actividad : Actividad) : boolean{
+    const index = this.actividadesSeleccionadas.findIndex(a => a.id === actividad.id);
+    if (index !== -1) {
+      return true
+    }else{
+      return false
     }
   }
-
   selectRamo(idRamo: number, nombreRamo: string) {
     this.idRamoSeleccionado = idRamo;
     this.nombreRamoSeleccionado = nombreRamo;
@@ -82,17 +91,6 @@ export class RamoActividadDialogComponent implements OnInit {
     );
   }
 
-  mostrarActividades(){
-
-  }
-  verificar(actividad : Actividad) : boolean{
-    const index = this.actividadesSeleccionadas.findIndex(a => a.id === actividad.id);
-    if (index !== -1) {
-      return true
-    }else{
-      return false
-    }
-  }
   selectActividad(actividad : Actividad){
     const index = this.actividadesSeleccionadas.findIndex(a => a.id === actividad.id);
     if (index !== -1) {
@@ -100,10 +98,7 @@ export class RamoActividadDialogComponent implements OnInit {
     } else {
       this.actividadesSeleccionadas.push(actividad);
     }
-
-    console.log(this.actividadesSeleccionadas)
   }
-
   dialogRamo(){
     const dialogRef1 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
       data: {
@@ -116,7 +111,6 @@ export class RamoActividadDialogComponent implements OnInit {
       this.actividadesSeleccionadas = []
     });
   }
-
   dialogActividad(){
     const dialogRef2 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
       data: {
@@ -129,8 +123,6 @@ export class RamoActividadDialogComponent implements OnInit {
       this.actividadesSeleccionadas = []
     });
   }
-
-
   guardar(){
     this.dialogRef.close({
       ramoNegocio : this.nombreRamoSeleccionado,

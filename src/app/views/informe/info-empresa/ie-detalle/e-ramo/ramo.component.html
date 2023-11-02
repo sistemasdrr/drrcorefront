@@ -8,24 +8,27 @@
         </button>
       </div>
       <hr>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <mat-form-field class="example-full-width">
           <mat-label>Sector (Principal)</mat-label>
-          <input matInput placeholder="" [(ngModel)]="sectorPrincipalInforme">
+          <mat-select [(ngModel)]="sectorPrincipalInforme">
+            <mat-option [value]="'1'">1</mat-option>
+            <mat-option [value]="'12'">12</mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <mat-form-field class="example-full-width">
           <mat-label>Ramo de Negocios (Principal)</mat-label>
-          <input matInput placeholder="" [(ngModel)]="ramoNegociosInforme">
+          <input matInput placeholder="" [(ngModel)]="ramoNegociosInforme" [readonly]="true">
         </mat-form-field>
       </div>
-      <div class="col-md-4 d-flex">
-        <mat-form-field class="" style="width: 75%;">
+      <div class="col-md-12 d-flex">
+        <mat-form-field class="" style="width: 85%;">
           <mat-label>Actividad Específica</mat-label>
-          <input matInput placeholder="" [(ngModel)]="actividadEspecificaInforme">
+          <input matInput placeholder="" [(ngModel)]="actividadEspecificaInforme" [readonly]="true">
         </mat-form-field>
-        <div class="d-flex justify-content-center" style="width: 25%;">
+        <div class="d-flex justify-content-center" style="width: 15%;">
           <button mat-mini-fab class="bg-blue" style="margin-top: .7rem;" (click)="ramoActividadDialog()" #tooltip="matTooltip" matTooltip="Seleccionar Ramo y Actividad">
             <mat-icon class="col-white">question_mark</mat-icon>
           </button>

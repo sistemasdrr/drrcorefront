@@ -296,6 +296,11 @@ export class BalanceComponent implements OnInit {
 
     }
   }
+  cancelarAgregarBalance(){
+    this.agregar = false
+    this.balanceSeleccionado = 0
+    this.actualizarBalance(0)
+  }
 
   ultimoNumBalance() : number{
     let num = 0
