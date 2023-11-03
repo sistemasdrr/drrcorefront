@@ -1,3 +1,5 @@
+import { Moneda } from "../moneda"
+
 export interface AntecedentesLegales{
   codigoInforme : string
   fechaConstitucion : string
@@ -19,7 +21,7 @@ export interface AntecedentesLegales{
   fechaAumento : string
   fechaAumentoIng : string
 
-  moneda : string
+  moneda : Moneda
   cotizada : string
   por : string
   actualTC : string

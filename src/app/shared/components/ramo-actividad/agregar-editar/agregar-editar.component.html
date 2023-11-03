@@ -13,7 +13,6 @@
             </div>
             <div class="right">
               <ul class="tbl-export-btn">
-               
                 <li class="tbl-header-btn">
                   <div class="m-l-10" >
                     <button class="btn bg-red d-flex" type="button" >
@@ -30,7 +29,7 @@
           <div class="body">
             <div class="row">
               <div class="col-md-12" *ngIf="accion === 'ACTIVIDAD'">
-                <mat-form-field class="example-full-width">
+                <mat-form-field class="w-100">
                   <mat-label>Ramo de Negocio</mat-label>
                   <input type="text" matInput [matAutocomplete]="auto">
                   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"  (optionSelected)="seleccionarRamo($event);" >

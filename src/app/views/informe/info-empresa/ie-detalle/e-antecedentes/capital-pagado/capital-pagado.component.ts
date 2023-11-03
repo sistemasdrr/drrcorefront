@@ -72,9 +72,15 @@ export class CapitalPagadoComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<CapitalPagadoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: CapitalPagadoData
   ) {
+    this.moneda = {
+      codigo : '',
+      name : ''
+    }
     console.log(data)
     this.filteredOptions = new Observable<MonedaData[]>();
-    this.moneda = this.options.filter(option => option.codigo.toLocaleLowerCase().includes(data.moneda.toLowerCase()))[0]
+    if(data.moneda != null && data.moneda != undefined){
+      this.moneda = this.options.filter(option => option.codigo.toLocaleLowerCase().includes(data.moneda.toLowerCase()))[0]
+    }
 
     this.monto = data.monto
     this.observacion = data.observacion

@@ -9,13 +9,13 @@
       </div>
       <hr>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Entrevistado(s)</mat-label>
           <input matInput placeholder="" [(ngModel)]="entrevistado">
         </mat-form-field>
       </div>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Cargo(s)</mat-label>
           <input matInput placeholder="" [(ngModel)]="cargos">
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="cargosIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCargo,'',cargos,cargosIng,'cargos')">
@@ -24,7 +24,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-12">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Grado de Colaboración</mat-label>
           <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="gradoColaboracion">
           <button matSuffix mat-mini-fab color="primary" *ngIf="gradoColaboracion !== ''" style="background-color: rgba(0,0,0,0);" (click)="gradoColaboracion = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
@@ -94,7 +94,7 @@
               </div>
             </div>
             <div class="col-md-4">
-              <mat-form-field class="example-full-width mb-4">
+              <mat-form-field class="w-100 mb-4">
                 <mat-label>Comentario de la Entrevista.</mat-label>
                 <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioEntrevista"></textarea>
                 <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioEntrevistaIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioEntrevista,'',comentarioEntrevista,comentarioEntrevistaIng, 'comentarioEntrevista')">
@@ -102,7 +102,7 @@
                 </button>
                 <mat-hint>Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes</mat-hint>
               </mat-form-field>
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Auditor(es)</mat-label>
                 <input matInput placeholder="" [(ngModel)]="auditores">
               </mat-form-field>
@@ -155,7 +155,7 @@
         </button>
       </div>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Comentario de Informe con Balance</mat-label>
           <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="comentarioConBalance"></textarea>
         </mat-form-field>
@@ -166,7 +166,7 @@
         </mat-slide-toggle>
       </div>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Comentario de Informe sin Balance</mat-label>
           <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="comentarioSinBalance"></textarea>
         </mat-form-field>
@@ -177,7 +177,7 @@
         </mat-slide-toggle>
       </div>
       <div class="col-md-12">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Comentario Financiero Elegido</mat-label>
           <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="comentarioElegido"></textarea>
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioElegidoIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioFinanciero,'',comentarioElegido,comentarioElegidoIng, 'comentarioElegido')">
@@ -192,7 +192,7 @@
   <div class="col-md-4">
     <div class="row counter-box shadow mb-2">
       <div class="col-md-12">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Comentario del Analista</mat-label>
           <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioAnalista"></textarea>
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioAnalistaIng === '' ? 'sin-traduccion' : ''"  (click)="agregarComentario(tituloComentarioAnalista,'',comentarioAnalista,comentarioAnalistaIng,'comentarioAnalista')">
@@ -201,7 +201,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-12">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Riesgo Crediticio</mat-label>
           <input matInput placeholder="" [(ngModel)]="riesgoCrediticio">
         </mat-form-field>

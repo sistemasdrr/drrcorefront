@@ -61,19 +61,19 @@
         </mat-form-field>
       </div>
       <div class="col-md-3">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Año de Fundación</mat-label>
           <input matInput placeholder="" type="number" mask="9999"  [(ngModel)]="yFundacionInforme">
         </mat-form-field>
       </div>
       <div class="col-md-5">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Razón Social</mat-label>
           <input matInput placeholder="" [(ngModel)]="razonSocialInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Nombre Comercial / Sigla</mat-label>
           <input matInput placeholder="" [(ngModel)]="nombreComercialInforme">
         </mat-form-field>
@@ -87,7 +87,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-12">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Personería Jurídica</mat-label>
           <input type="text" matInput [formControl]="controlPersoneriaJuridica" [matAutocomplete]="auto1" [(ngModel)]="personeriaJuridicaInforme" >
           <button matSuffix mat-mini-fab color="primary" *ngIf="personeriaJuridicaInforme.description !== ''" style="background-color: rgba(0,0,0,0);" (click)="personeriaJuridicaInforme.description = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
@@ -111,13 +111,13 @@
           <mat-label>Tipo</mat-label>
           <input matInput placeholder="" [(ngModel)]="tipoRucInforme">
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Código</mat-label>
           <input matInput placeholder="" [(ngModel)]="codigoRucInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Situación RUC</mat-label>
           <input type="text" matInput [formControl]="controlSituacionRUC" [matAutocomplete]="auto2" [(ngModel)]="situacionRucInforme">
           <button matSuffix mat-mini-fab color="primary" *ngIf="situacionRucInforme.description !== ''" style="background-color: rgba(0,0,0,0);" (click)="situacionRucInforme.description = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
@@ -144,26 +144,26 @@
     <div class="row counter-box shadow">
       <h4>Información de Contacto</h4>
       <div class="col-md-10">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Dirección Completa</mat-label>
           <input matInput placeholder="" [(ngModel)]="direccionCompletaInforme" >
           <mat-hint>Av., N° de Barrio, Urb., Fracc., Colonia, Dist., Prov.</mat-hint>
         </mat-form-field>
       </div>
       <div class="col-md-2">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Duración</mat-label>
           <input matInput placeholder  [(ngModel)]="duracionInforme">
         </mat-form-field>
       </div>
       <div class="col-md-3">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Dpto. o Estado</mat-label>
           <input matInput placeholder  [(ngModel)]="dptoEstadoInforme">
         </mat-form-field>
       </div>
       <div class="col-md-3">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>País</mat-label>
           <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto5" [(ngModel)]="paisInforme" (ngModelChange)="cambiarIcono(paisInforme)">
           <button class="btn-traduccion" matSuffix mat-icon-button>
@@ -183,37 +183,37 @@
           <mat-label>Código</mat-label>
           <input matInput placeholder="" [(ngModel)]="codigoTelefonoInforme">
         </mat-form-field>
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Teléfonos Fijos</mat-label>
           <input matInput placeholder="" [(ngModel)]="numeroTelefonoInforme">
         </mat-form-field>
       </div>
       <div class="col-md-5">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Teléfonos Celulares</mat-label>
           <input matInput placeholder="" [(ngModel)]="numeroCelularInforme">
         </mat-form-field>
       </div>
       <div class="col-md-3">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Cód. Postal</mat-label>
           <input matInput placeholder="" [(ngModel)]="codPostalInforme">
         </mat-form-field>
       </div>
       <div class="col-md-4">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Whatsapp Empresarial</mat-label>
           <input matInput placeholder="" [(ngModel)]="whatsappEmpresarialInforme">
         </mat-form-field>
       </div>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Email Corporativo</mat-label>
           <input matInput placeholder="" [(ngModel)]="emailCorporativoInforme">
         </mat-form-field>
       </div>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width">
+        <mat-form-field class="w-100">
           <mat-label>Página Web</mat-label>
           <input matInput placeholder="" [(ngModel)]="paginaWebInforme">
         </mat-form-field>
@@ -286,7 +286,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width mt-2" >
+        <mat-form-field class="w-100 mt-2" >
           <mat-label>Comentario de Reputación</mat-label>
           <textarea matInput type="text" [(ngModel)]="comentarioReputacionInforme" style="min-height: 8rem;"></textarea>
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioReputacionIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioReputacion,'', comentarioReputacionInforme, comentarioReputacionIngInforme,'comentarioReputacion')">
@@ -295,7 +295,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-6">
-        <mat-form-field class="example-full-width mt-2" >
+        <mat-form-field class="w-100 mt-2" >
           <mat-label>Comentario de Prensa</mat-label>
           <textarea matInput type="text" [(ngModel)]="comentarioPrensaInforme" style="min-height: 8rem;"></textarea>
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioPrensaIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioPrensa,'', comentarioPrensaInforme, comentarioPrensaIngInforme,'comentarioPrensa')">

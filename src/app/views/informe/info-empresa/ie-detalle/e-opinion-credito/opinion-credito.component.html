@@ -16,7 +16,7 @@
         </mat-slide-toggle>
       </div>
       <div class="col-md-4">
-        <mat-form-field class="example-full-width mt-2" >
+        <mat-form-field class="w-100 mt-2" >
           <mat-label>Crédito Consultado</mat-label>
           <input matInput type="text" placeholder="" [(ngModel)]="creditoConsultado" [readonly]="!checkSolicitudCredito">
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="creditoConsultadoIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCreditoConsultado,'',creditoConsultado,creditoConsultadoIng,'creditoConsultado')" [disabled]="!checkSolicitudCredito">
@@ -25,7 +25,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-4">
-        <mat-form-field class="example-full-width mt-2">
+        <mat-form-field class="w-100 mt-2">
           <mat-label>Crédito Sugerido</mat-label>
           <input matInput type="text" placeholder=""  [(ngModel)]="creditoSugerido" [readonly]="!checkSolicitudCredito">
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="creditoSugeridoIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCreditoSugerido,'',creditoSugerido,creditoSugeridoIng,'creditoSugerido')" [disabled]="!checkSolicitudCredito">
@@ -35,7 +35,7 @@
       </div>
       <h5>Comentario Acorde a lo Anotado</h5>
       <div class="col-md-12">
-        <mat-form-field class="example-full-width mt-2">
+        <mat-form-field class="w-100 mt-2">
           <mat-label>Comentario</mat-label>
           <textarea matInput type="text" placeholder="" style="min-height: 8rem;" [(ngModel)]="comentarioAnotado"></textarea>
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioAnotadoIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentario,'',comentarioAnotado,comentarioAnotadoIng,'comentarioAnotado')">
@@ -45,7 +45,7 @@
       </div>
       <h5>Comentarios Anteriores (No se imprime)</h5>
       <div class="col-md-12">
-        <mat-form-field class="example-full-width mt-2">
+        <mat-form-field class="w-100 mt-2">
           <mat-label>Comentario</mat-label>
           <textarea matInput type="text" placeholder="" style="min-height: 8rem;" [(ngModel)]="comentarioAnterior"></textarea>
         </mat-form-field>

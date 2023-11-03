@@ -51,7 +51,7 @@
         <h5>Cabecera de Balance</h5>
         <hr>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Tipo de Moneda</mat-label>
             <span matSuffix style="margin-right: .5rem; color:gray;">
               <i class="fa-solid fa-hourglass-start"></i>
@@ -60,7 +60,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Tipo de C. x US$ Dólar</mat-label>
             <span matSuffix style="margin-right: .5rem; color:gray;">
             </span>
@@ -68,7 +68,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Ventas</mat-label>
             <span matSuffix style="margin-right: .5rem; color:gray;">
             </span>
@@ -76,7 +76,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Utilidades (Pérdidas) Netas</mat-label>
             <span matSuffix style="margin-right: .5rem; color:gray;">
             </span>
@@ -327,28 +327,28 @@
         <h4>Ratios</h4>
         <hr>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Indice de Liquidez</mat-label>
             <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="indiceLiquidez" [readOnly]="true">
             <mat-hint><em>(Activo Corriente / Pasivo Corriente)</em></mat-hint>
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Ratio de Endeudamiento (<i class="fa-solid fa-percent"></i>)</mat-label>
             <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="ratioEndeudamiento"  [readOnly]="true">
             <mat-hint><em>(Patrimonio / Pasivo Corriente %)</em></mat-hint>
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Ratio de Rentabilidad (<i class="fa-solid fa-percent"></i>)</mat-label>
             <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="ratioRentabilidad" [readOnly]="true">
             <mat-hint><em>(Utilidad / Ventas %)</em></mat-hint>
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Capital de Trabajo</mat-label>
             <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="capitalTrabajo"  [readOnly]="true">
             <mat-hint><em>(Activo Corriente - Pasivo Corriente)</em></mat-hint>

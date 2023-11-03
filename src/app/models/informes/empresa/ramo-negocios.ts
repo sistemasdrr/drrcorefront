@@ -17,13 +17,14 @@ export interface RamoNegocios{
   ventaCreditoIng : string
   territorioVentas : string
   territorioVentasIng : string
+  ventaExterior : string
   ventaExteriorIng : string
   comprasNacionales : string
   comprasNacionalesIng : string
   comprasExterior : string
   comprasExteriorIng : string
 
-  numTrabajadores : number
+  numTrabajadores : string
   titularidad : string
   areaTotal : string
   areaTotalIng : string

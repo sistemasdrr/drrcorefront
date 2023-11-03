@@ -41,35 +41,35 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   //DATOS DE EMPRESA
   codigoInforme : string | null = ''
   fechaInformeInvestigadoDate : Date = new Date()
-  informeInvestigadoEl = ""
-  idiomaInforme = ""
-  tipoInstitucionInforme = ""
-  yFundacionInforme = ""
-  razonSocialInforme = ""
-  nombreComercialInforme = ""
+  informeInvestigadoEl : string = ""
+  idiomaInforme : string = ""
+  tipoInstitucionInforme : string = ""
+  yFundacionInforme : string = ""
+  razonSocialInforme : string = ""
+  nombreComercialInforme : string = ""
   fechaConstitucionInformeDate : Date = new Date()
-  fechaConstitucionInforme = ""
-  tipoRucInforme = ""
-  codigoRucInforme = ""
-  comentarioIdentificacionInforme = ""
-  comentarioIdentificacionIngInforme = ""
-  direccionCompletaInforme = ""
-  duracionInforme = ""
-  dptoEstadoInforme = ""
-  codigoTelefonoInforme = ""
-  numeroTelefonoInforme = ""
-  numeroCelularInforme = ""
-  codPostalInforme = ""
-  whatsappEmpresarialInforme = ""
-  emailCorporativoInforme = ""
-  paginaWebInforme = ""
-  riesgoCrediticioInforme = ""
-  politicaPagosInforme = ""
-  reputacionInforme = ""
-  comentarioReputacionInforme = ""
-  comentarioReputacionIngInforme = ""
-  comentarioPrensaInforme = ""
-  comentarioPrensaIngInforme = ""
+  fechaConstitucionInforme : string = ""
+  tipoRucInforme : string = ""
+  codigoRucInforme : string = ""
+  comentarioIdentificacionInforme : string = ""
+  comentarioIdentificacionIngInforme : string = ""
+  direccionCompletaInforme : string = ""
+  duracionInforme : string = ""
+  dptoEstadoInforme : string = ""
+  codigoTelefonoInforme : string = ""
+  numeroTelefonoInforme : string = ""
+  numeroCelularInforme : string = ""
+  codPostalInforme : string = ""
+  whatsappEmpresarialInforme : string = ""
+  emailCorporativoInforme : string = ""
+  paginaWebInforme : string = ""
+  riesgoCrediticioInforme : string = ""
+  politicaPagosInforme : string = ""
+  reputacionInforme : string = ""
+  comentarioReputacionInforme : string = ""
+  comentarioReputacionIngInforme : string = ""
+  comentarioPrensaInforme : string = ""
+  comentarioPrensaIngInforme : string = ""
 
   //TITULOS
   tituloComentarioIdentificacion : string = 'Comentario de Identificación'
@@ -88,8 +88,13 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     this.filterPais = new Observable<Pais[]>()
     this.codigoInforme = this.activatedRoute.snapshot.paramMap.get('codigoInforme');
   }
-
+  compararModelosF: any
   ngOnInit(){
+    const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+    if (tabDatosEmpresa) {
+        tabDatosEmpresa.classList.remove('tab-cambios')
+    }
+
     this.paises = this.PaisService.getPaises()
     this.reputaciones = this.datosEmpresaService.getReputacion()
     this.situacionRuc = this.datosEmpresaService.getSituacionRuc()
@@ -165,13 +170,31 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       this.comentarioReputacionIngInforme = datosEmpresa[0].comentarioReputacionIng
       this.comentarioPrensaInforme = datosEmpresa[0].comentarioPrensa
       this.comentarioPrensaIngInforme = datosEmpresa[0].comentarioPrensaIng
-
       this.personeriaJuridicaInforme = datosEmpresa[0].personeriaJuridica
       this.situacionRucInforme = datosEmpresa[0].situacionRuc
-
       this.selectRiesgoCrediticio( this.riesgoCrediticioInforme)
     }
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 5000);
+
   }
+
+  compararModelos(){
+    this.armarModelo()
+    if(JSON.stringify(this.datosEmpresa) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+''))){
+      const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+      if (tabDatosEmpresa) {
+          tabDatosEmpresa.classList.add('tab-cambios')
+      }
+    }else{
+      const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+      if (tabDatosEmpresa) {
+          tabDatosEmpresa.classList.remove('tab-cambios')
+      }
+    }
+  }
+
   personeriaJuridicaInforme :  PersoneriaJuridica = {
     id : 0,
     description : ''
@@ -190,6 +213,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     console.log('Se destruyo el componente')
+    clearInterval(this.compararModelosF);
   }
   armarModelo(){
     this.datosEmpresa[0] = {

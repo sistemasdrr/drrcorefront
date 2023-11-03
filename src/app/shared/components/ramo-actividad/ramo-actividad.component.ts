@@ -49,7 +49,7 @@ export class RamoActividadDialogComponent implements OnInit {
       if(this.data.actividadEspecifica != ''){
         const lista = this.data.actividadEspecifica.split('-')
         lista.forEach((actividad : string)=> {
-          this.actividadesSeleccionadas.push(this.ramoNegocioService.getAllActividad().filter(x => x.nombre == actividad)[0])
+          this.actividadesSeleccionadas.push(this.ramoNegocioService.getAllActividad().filter(x => x.nombre == actividad.trim())[0])
         });
       }
     }

@@ -13,6 +13,7 @@ import {
 import { ROUTES } from './sidebar-items';
 import { AuthService } from '@core';
 import { RouteInfo } from './sidebar.metadata';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-sidebar',
@@ -53,7 +54,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.setMenuHeight();
     this.checkStatuForResize(false);
   }
-  
+
   @HostListener('document:mousedown', ['$event'])
   onGlobalClick(event: Event): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
@@ -146,6 +147,29 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.renderer.addClass(gerencia, 'd-none')
       this.renderer.addClass(produccion, 'd-none')
       this.renderer.addClass(administracion, 'd-none')
+    }
+  }
+  goTo(num : number){
+    const tabAntecedentes = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+    if(tabAntecedentes?.classList.contains('tab-cambios')){
+      Swal.fire({
+        title: '¿Está seguro de salir sin guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.router.navigate(['/mantenimiento/personal/lista'])
+        }
+      });
+    }else{
+      this.router.navigate(['/mantenimiento/personal/lista'])
     }
   }
 }

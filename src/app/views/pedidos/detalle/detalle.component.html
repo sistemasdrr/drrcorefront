@@ -1,7 +1,7 @@
 <section class="content">
   <div class="container-fluid">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
-      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [codigoInforme]="''" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
     <div class="row">
@@ -33,7 +33,7 @@
             </div>
             <hr>
             <div class="col-md-4 d-flex align-items-center">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Código del Abonado</mat-label>
                 <input matInput placeholder="Ej. 1234" value="" [(ngModel)]="codAbonado" (ngModelChange)="asignarDatosAbonado()">
                 <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
@@ -42,7 +42,7 @@
               </mat-form-field>
             </div>
             <div class="col-md-2 d-flex justify-content-center">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Tipo de Trámite </mat-label>
                 <mat-select [(value)]="tipoTramiteSeleccionado">
                   <mat-option [value]="tipoTramite.value" *ngFor="let tipoTramite of tipoTramites">{{ tipoTramite.viewValue }}</mat-option>
@@ -82,7 +82,7 @@
               <div class="counter-box shadow m-1">
                 <h4>Datos Referenciales del Abonado</h4>
                 <div class="d-flex align-items-center ">
-                  <mat-form-field class="example-full-width input-readonly" style="margin-right: 1rem;">
+                  <mat-form-field class="w-100 input-readonly" style="margin-right: 1rem;">
                     <mat-label>Abonado</mat-label>
                     <input matInput placeholder="" value="" [(ngModel)]="nombreAbonado" readonly>
                   </mat-form-field>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Pais</mat-label>
                       <div class="input-container">
                         <input matInput placeholder="" value="" [(ngModel)]="pais" readonly>
@@ -99,7 +99,7 @@
                         </div>
                       </div>
                     </mat-form-field>
-                    <mat-form-field class="example-full-width d-flex">
+                    <mat-form-field class="w-100 d-flex">
                       <mat-label>Estado</mat-label>
                       <div class="input-container">
                         <input matInput placeholder="" value="" [(ngModel)]="estado" readonly>
@@ -109,11 +109,11 @@
                     </mat-form-field>
                   </div>
                   <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Nro. Referencia</mat-label>
                       <input matInput placeholder="" [(ngModel)]="nmrReferencia" value="" >
                     </mat-form-field>
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Crédito Consultado</mat-label>
                       <input matInput placeholder="" value="" [(ngModel)]="creditoConsultado">
                     </mat-form-field>
@@ -121,13 +121,13 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <mat-form-field class="example-full-width" >
+                    <mat-form-field class="w-100" >
                       <mat-label>Indicaciones del Abonado</mat-label>
                       <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="indicacionesAbonado"></textarea>
                     </mat-form-field>
                   </div>
                   <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Datos Adicionales</mat-label>
                       <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="datosAdicionales"></textarea>
                     </mat-form-field>
@@ -168,13 +168,13 @@
                 </div>
                 <div class="row">
                   <div class="col-md-3">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>RUC</mat-label>
                       <input matInput placeholder="" [(ngModel)]="ruc" >
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Continente </mat-label>
                       <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado">
                         <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
@@ -182,7 +182,7 @@
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>País</mat-label>
                       <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
                         <mat-option *ngFor="let pais of paises" [value]="pais.id">
@@ -196,7 +196,7 @@
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Ciudad</mat-label>
                       <input matInput placeholder="" [(ngModel)]="ciudad">
                     </mat-form-field>
@@ -204,19 +204,19 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Dirección</mat-label>
                       <input matInput placeholder="" [(ngModel)]="direccion">
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Correo</mat-label>
                       <input matInput type="email" placeholder="" [(ngModel)]="correo" >
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Teléfono</mat-label>
                       <input matInput placeholder="" [(ngModel)]="telefono" >
                     </mat-form-field>
@@ -228,7 +228,7 @@
                 <h4>Detalles del Informe</h4>
                 <div class="row">
                   <div class="col-md-2">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="w-100">
                       <mat-label>Tipo de Informe </mat-label>
                       <mat-select [(value)]="tipoInformeSeleccionado">
                         <mat-option [value]="tipoInforme.value" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.viewValue }}</mat-option>

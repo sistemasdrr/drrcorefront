@@ -79,25 +79,25 @@
           </mat-form-field>
         </div>
         <div class="col-md-8">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Apellidos y Nombres</mat-label>
             <input matInput placeholder="" [(ngModel)]="apellidosNombresInforme">
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Nacionalidad</mat-label>
             <input matInput placeholder="" [(ngModel)]="nacionalidadInforme">
           </mat-form-field>
         </div>
         <div class="col-md-8">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Nacido El</mat-label>
             <input matInput placeholder="" [(ngModel)]="nacidoElInforme">
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>En</mat-label>
             <input matInput placeholder="" [(ngModel)]="nacidoEnInforme">
           </mat-form-field>
@@ -107,7 +107,7 @@
             <mat-label>Tipo de Doc.</mat-label>
             <input matInput placeholder="" [(ngModel)]="tipoDocumentoInforme">
           </mat-form-field>
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Código de Documento</mat-label>
             <input matInput placeholder="" [(ngModel)]="codigoDocumentoInforme">
           </mat-form-field>
@@ -163,7 +163,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-5">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>País</mat-label>
             <mat-select [(ngModel)]="paisInforme" (selectionChange)="actualizarSeleccionPais($event.value)">
               <mat-option *ngFor="let pais of paises" [value]="pais.id">
@@ -193,13 +193,13 @@
       <div class="row counter-box shadow">
         <h4></h4>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Estado Civil </mat-label>
             <input matInput placeholder="" [(ngModel)]="estadoCivilInforme" >
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Con</mat-label>
             <input matInput placeholder  [(ngModel)]="relacionCivilConInforme">
           </mat-form-field>
@@ -211,7 +211,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Celular</mat-label>
             <input matInput placeholder="" [(ngModel)]="celularInforme">
           </mat-form-field>
@@ -229,25 +229,25 @@
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Profesión</mat-label>
             <input matInput placeholder="" [(ngModel)]="profesionInforme">
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Socio de Club</mat-label>
             <input matInput placeholder="" [(ngModel)]="socioClubInforme">
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Email</mat-label>
             <input matInput placeholder="" [(ngModel)]="emailInforme">
           </mat-form-field>
         </div>
         <div class="col-md-12">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Seguros</mat-label>
             <input matInput placeholder="" [(ngModel)]="segurosInforme">
           </mat-form-field>
@@ -320,7 +320,7 @@
           </div>
         </div>
         <div class="col-md-12">
-          <mat-form-field class="example-full-width mt-2" *ngIf="booleanExplicarDatosMalaReputacion">
+          <mat-form-field class="w-100 mt-2" *ngIf="booleanExplicarDatosMalaReputacion">
             <mat-label>Explicar Datos de Mala Reputación</mat-label>
             <textarea matInput type="text" [(ngModel)]="comentarioPrensaInforme" style="min-height: 8rem;"></textarea>
             <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioPrensa,'', 'español','ingles')">
@@ -329,7 +329,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-12">
-          <mat-form-field class="example-full-width mt-2">
+          <mat-form-field class="w-100 mt-2">
             <mat-label>Comentarios Diversos / Prensa</mat-label>
             <textarea matInput type="text" [(ngModel)]="comentarioPrensaInforme" style="min-height: 8rem;"></textarea>
             <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioPrensa,'', 'español','ingles')">
@@ -338,7 +338,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-12">
-          <mat-form-field class="example-full-width mt-2">
+          <mat-form-field class="w-100 mt-2">
             <mat-label>Comentario Privado (No se Imprime)</mat-label>
             <textarea matInput type="text" [(ngModel)]="comentarioPrensaInforme" style="min-height: 8rem;"></textarea>
             <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioPrensa,'', 'español','ingles')">

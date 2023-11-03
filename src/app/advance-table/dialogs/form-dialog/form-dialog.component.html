@@ -16,7 +16,7 @@
     <form class="register-form m-4" [formGroup]="advanceTableForm" (ngSubmit)="submit">
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>First Name</mat-label>
             <input matInput formControlName="fName">
             <mat-icon matSuffix class="material-icons-two-tone color-icon p-3">face</mat-icon>
@@ -26,7 +26,7 @@
           </mat-form-field>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Last Name</mat-label>
             <input matInput formControlName="lName">
             <mat-icon matSuffix class="material-icons-two-tone color-icon p-3">face</mat-icon>
@@ -52,7 +52,7 @@
       </div>
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput formControlName="email" required>
             <mat-icon matSuffix class="material-icons-two-tone color-icon p-3">email</mat-icon>
@@ -63,7 +63,7 @@
           </mat-form-field>
         </div>
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Birth date</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="bDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -76,7 +76,7 @@
       </div>
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Mobile</mat-label>
             <input matInput formControlName="mobile" type="number">
             <mat-icon matSuffix class="material-icons-two-tone color-icon p-3">phone</mat-icon>
@@ -86,7 +86,7 @@
           </mat-form-field>
         </div>
         <div class=" col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width " appearance="outline">
+          <mat-form-field class="w-100 " appearance="outline">
             <mat-label>Country</mat-label>
             <mat-select formControlName="country" required>
               <mat-option [value]="'india'">
@@ -119,7 +119,7 @@
       </div>
       <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-          <mat-form-field class="example-full-width" appearance="outline">
+          <mat-form-field class="w-100" appearance="outline">
             <mat-label>Address</mat-label>
             <textarea matInput formControlName="address"></textarea>
           </mat-form-field>

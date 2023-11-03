@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="col-md-5 mb-3">
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="w-100">
         <mat-label>Moneda del País</mat-label>
         <input type="text" matInput [formControl]="controlMoneda" [matAutocomplete]="auto" [(ngModel)]="moneda" (ngModelChange)="selectMoneda($event)">
         <span matSuffix style="margin-right: .5rem; color:gray;">
@@ -44,7 +44,7 @@
       </mat-form-field>
     </div>
     <div class="col-md-7 mb-3">
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="w-100">
         <mat-label>Monto</mat-label>
         <input matInput placeholder="" mask="separator.2" thousandSeparator="," [(ngModel)]="monto">
         <span matSuffix style="margin-right: .5rem; color:gray;">
@@ -55,7 +55,7 @@
     <h4>Observación</h4>
     <hr>
     <div class="col-md-12 mb-3">
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="w-100">
         <mat-label>(Español)</mat-label>
         <textarea matInput placeholder="" [(ngModel)]="observacion"></textarea>
         <button class="btn-traduccion" matSuffix mat-icon-button>
@@ -64,7 +64,7 @@
       </mat-form-field>
     </div>
     <div class="col-md-12 mb-3">
-      <mat-form-field class="example-full-width">
+      <mat-form-field class="w-100">
         <mat-label>(Inglés)</mat-label>
         <textarea matInput placeholder="" [(ngModel)]="observacionIng"></textarea>
         <button class="btn-traduccion" matSuffix mat-icon-button>

@@ -12,15 +12,15 @@ export class AntecedentesLegalesService {
     this.antecedentesLegales = [
       {
         codigoInforme : 'E0000143232',
-        fechaConstitucion : '',
-        inicioActividades : '',
-        duracion : '',
-        duracionIng : '',
-        registradaEn : '',
-        registradaEnIng : '',
-        notaria : '',
-        registrosPublicos : '',
-        registrosPublicosIng : '',
+        fechaConstitucion : '3/11/2023',
+        inicioActividades : '1999',
+        duracion : 'indefinida',
+        duracionIng : 'undefined',
+        registradaEn : 'registrada en',
+        registradaEnIng : 'registrada en ing',
+        notaria : 'notaria',
+        registrosPublicos : 'reg publicos ',
+        registrosPublicosIng : 'reg publicos ing',
 
         monedaPais : '',
         monto : '',
@@ -31,7 +31,11 @@ export class AntecedentesLegalesService {
         fechaAumento : '',
         fechaAumentoIng : '',
 
-        moneda : 'PERU - SOL',
+        moneda :  {
+          id : 1,
+          pais : 'PERU',
+          moneda : 'SOL'
+        },
         cotizada : '',
         por : '',
         actualTC : '3.23',
@@ -65,12 +69,16 @@ export class AntecedentesLegalesService {
         fechaAumento : '01/10/2021',
         fechaAumentoIng : '01/10/2021',
 
-        moneda : 'PERU - SOL',
+        moneda :  {
+          id : 1,
+          pais : 'PERU',
+          moneda : 'SOL'
+        },
         cotizada : 'NO',
         por : 'Por Capitalización',
         actualTC : 'PEN | 3.57 | Soles',
         actualTCIng : 'PEN | 3.57 | Soles',
-        fechaUltimaConsultaRRPP : '',
+        fechaUltimaConsultaRRPP : '01/10/2021',
         fechaUltimaConsultaPor : '',
 
         comentarioAntecedentesLegales : 'El 28 de junio 2021 se registra en el Asiento B00010 Por escritura pública del 21/12/2020 y su aclaratoria del 15/02/2021 otorgadas ante notario de Lima Carola Cecilia Hidalgo Moran, y por Junta obligatoria de accionistas del 01/07/2020 y su reapertura el 07/12/2020, se acordó Aumentar el capital social, mediante capitalización del resultado por exposición a la inflación. \nEn consecuencia, el capital social es de S/ 16,933,836.00 representado por el mismo número de acciones comunes nominativas de un valor nominal de S/ 1.00 cada una, íntegramente suscritas y pagadas.\nAsimismo se acordó aprobar que el número de Directores para el período 2020-2023, sea de 5 miembros y 1 suplente.\n\nEl 01 de octubre 2021 se registra en el Asiento B00011, Por escritura pública del 08/09/2021 otorgada ante notario de Lima Jose Alfredo Paino Scarpati, y por junta general del 11/12/2021 se acordó aprobar la Escisión Parcial del patrimonio de la sociedad del rubro y transferir un bloque patrimonial a favor de la sociedad Inmobiliaria Cintac Perú S.A..\nEn consecuencia, se acuerda reducir el capital social en la suma de S/ 1,031,318.00 Soles, quedando el capital social de la titular en la suma de S/ 15,902,518.00, representado por 15,902,518 acciones comunes y nominativas de un valor nominal de S/ 1.00 cada una, íntegramente suscritas y pagadas.\nLa fecha de entrada en vigencia de la escisión es el 11 de diciembre 2020.\n\nNo se obtuvo la composición accionaria de la empresa por medio de fuentes directas ni externas.\n\nAnte SUNAT, la titular:\nEs Emisor Electrónico desde el 29/09/2015 (Facturas) desde el 30/09/2015 (Boletas)\nEstá Afiliada a la PLE - Planilla Electrónica desde el 01/01/2013.\n\n- Incorporada al Régimen de Agentes de Retención del IGV (R.S.037-2003) a partir del 01/06/2002.\n- Incorporada al Régimen de Agentes de Percepción del IGV - Venta Interna (R.S.058-2006) a partir del 01/04/2006.',

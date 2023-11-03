@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 })
 export class IEDetalleComponent implements OnInit {
 
-
   title : string = 'Detalles de Empresa'
   subtitle : string = ''
   codigoInforme : string | null = '';
@@ -28,8 +27,6 @@ export class IEDetalleComponent implements OnInit {
   ]
 
   private datosEmpresa : DatosEmpresa[] = []
-
-
 
   constructor(
     private activatedRoute: ActivatedRoute,

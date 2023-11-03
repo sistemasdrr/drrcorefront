@@ -1,7 +1,7 @@
 <section class="content">
   <div class="container-fluid" style="overflow: auto; width: 100%;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
-      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [codigoInforme]="''" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
     <div class="card card-body shadow mb-3">
@@ -21,7 +21,7 @@
         <div class="col-md-9">
           <div class="row">
             <div class="col-md-3">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Tipo de Doc. de Identidad</mat-label>
                 <mat-select [(ngModel)]="tipoDocIdent">
                   <mat-option value=""></mat-option>
@@ -33,46 +33,46 @@
               </mat-form-field>
             </div>
             <div class="col-md-3">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Núm. de Doc. de Identidad</mat-label>
                 <input matInput [(ngModel)]="numDocIdent" >
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Email</mat-label>
                 <input matInput [(ngModel)]="email" >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>mail</mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Apellidos</mat-label>
                 <input matInput [(ngModel)]="apellidos">
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Nombres</mat-label>
                 <input matInput [(ngModel)]="nombres" >
               </mat-form-field>
             </div>
             <div class="col-md-4">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Teléfono Celular</mat-label>
                 <input matInput [(ngModel)]="telCelular"  mask="(+00) 000-000-000" [showMaskTyped]="true" >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>smartphone</mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-4">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Teléfono Fijo</mat-label>
                 <input matInput [(ngModel)]="telFijo" >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>call</mat-icon>
               </mat-form-field>
             </div>
             <div class="col-md-4">
-              <mat-form-field class="example-full-width">
+              <mat-form-field class="w-100">
                 <mat-label>Teléfono de Emergencias</mat-label>
                 <input matInput [(ngModel)]="telEmergencia" >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>medical_services</mat-icon>
@@ -95,14 +95,14 @@
           </div>
         </div>
         <div class="col-md-5">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Dirección</mat-label>
             <input matInput [(ngModel)]="direccion">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>home</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-md-2">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Estado Civil</mat-label>
             <mat-select [(ngModel)]="estadoCivil">
               <mat-option value=""></mat-option>
@@ -114,7 +114,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Número de Hijos</mat-label>
             <mat-select [(ngModel)]="numHijos">
               <mat-option value="0">0</mat-option>
@@ -130,7 +130,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-2">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Tipo de Sangre</mat-label>
             <input matInput [(ngModel)]="tipoSangre" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>bloodtype</mat-icon>
@@ -139,19 +139,19 @@
         <h5>Lugar de Nacimiento</h5>
         <hr>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Lugar</mat-label>
             <input matInput [(ngModel)]="lugarNac" >
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Ciudad</mat-label>
             <input matInput [(ngModel)]="ciudadNac">
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>País</mat-label>
             <input matInput [(ngModel)]="paisNac" >
           </mat-form-field>
@@ -175,13 +175,13 @@
           </mat-form-field>
         </div>
         <div class="col-md-8">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Cargo</mat-label>
             <input matInput [(ngModel)]="cargo">
           </mat-form-field>
         </div>
         <div class="col-md-12">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Tipo de Contrato</mat-label>
             <textarea matInput [(ngModel)]="tipoContrato"  style="min-height: 5rem;"></textarea>
           </mat-form-field>
@@ -195,14 +195,14 @@
         <hr>
         <h5>Cuenta Sueldo</h5><br>
         <div class="col-md-4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Institución Bancaria</mat-label>
             <input matInput [(ngModel)]="CSbanco" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>account_balance</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Tipo de Cuenta</mat-label>
             <mat-select [(ngModel)]="CStipoCuenta">
               <mat-option value=""></mat-option>
@@ -213,14 +213,14 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Número de Cuenta</mat-label>
             <input matInput [(ngModel)]="CSnumCuenta" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>credit_card</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-md-2">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Moneda</mat-label>
             <mat-select [(ngModel)]="CSmoneda">
               <mat-option value=""></mat-option>
@@ -232,14 +232,14 @@
         </div>
         <h5>Cuenta CTS</h5><br>
         <div class="col-md-4">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Institución Bancaria</mat-label>
             <input matInput  [(ngModel)]="CCbanco" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>account_balance</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Tipo de Cuenta</mat-label>
             <mat-select  [(ngModel)]="CCtipoCuenta">
               <mat-option value=""></mat-option>
@@ -250,14 +250,14 @@
           </mat-form-field>
         </div>
         <div class="col-md-3">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Número de Cuenta</mat-label>
             <input matInput  [(ngModel)]="CCnumCuenta" >
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>credit_card</mat-icon>
           </mat-form-field>
         </div>
         <div class="col-md-2">
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="w-100">
             <mat-label>Moneda</mat-label>
             <mat-select  [(ngModel)]="CCmoneda">
               <mat-option value=""></mat-option>

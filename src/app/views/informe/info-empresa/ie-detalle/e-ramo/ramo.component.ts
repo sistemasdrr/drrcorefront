@@ -69,7 +69,7 @@ export class RamoComponent implements OnInit{
           if(data.actividades[data.actividades.length-1] == actividad){
             this.actividadEspecificaInforme += actividad.nombre
           }else{
-            this.actividadEspecificaInforme += actividad.nombre + '-'
+            this.actividadEspecificaInforme += actividad.nombre + ' - '
           }
         });
       }
