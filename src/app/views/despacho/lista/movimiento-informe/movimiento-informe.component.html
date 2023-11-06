@@ -1,0 +1,56 @@
+<div class="container" >
+  <mat-dialog-content class="mat-typography" style="min-width: 60rem; min-height: 30rem;">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" style="overflow-y: visible;">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <div style="font-size: 24px;">Movimientos del Informe </div>
+            <div>
+              <button mat-mini-fab class="bg-red" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Salir">
+                <mat-icon class="material-icons-outlined col-white" matSuffix>logout</mat-icon>
+              </button>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+                <ng-container matColumnDef="asignado" >
+                  <th mat-header-cell *matHeaderCellDef  class="text-center"> Asignado A </th>
+                  <td mat-cell *matCellDef="let asign" class="text-center"> {{asign.trabajador.codigo}} || {{asign.trabajador.nombre}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fechaAsignacion" >
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Asignación</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.fechaAsignacion}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="fechaEntrega" >
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Entrega</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.fechaEntrega}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="calidad" >
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Calidad</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.calidad}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="precio" >
+                  <th mat-header-cell *matHeaderCellDef  class="text-center"> Precio</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.precio}}
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+                <tr mat-row *matRowDef="let asign; columns: columnas;"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

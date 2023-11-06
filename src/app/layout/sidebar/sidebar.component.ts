@@ -89,6 +89,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.activeLI = 7
     }else if(rtr.includes('pedidos')){
       this.activeLI = 6
+    }else if(rtr.includes('despacho')){
+      this.activeLI = 5
     }else if(rtr.includes('situacion')){
       this.activeLI = 4
     }else if(rtr.includes('mantenimiento')){

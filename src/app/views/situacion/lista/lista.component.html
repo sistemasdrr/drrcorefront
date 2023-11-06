@@ -11,12 +11,12 @@
             <div class="col-md-4">
               <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;">
                 <mat-label>Nombre de la Empresa</mat-label>
-                <input matInput placeholder="Ej. ALICORP SA"[(ngModel)]="nombreEmpresa">
+                <input matInput placeholder="Ej. ALICORP SA" [(ngModel)]="nombreEmpresa" (keypress)="enter($event)">
               </mat-form-field>
             </div>
             <div class="col-md-3">
               <mat-form-field class="w-100" style="padding-top: 1rem;">
-                <mat-label>Rango de Fechas</mat-label>
+                <mat-label>Buscar entre</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
                   <input matStartDate formControlName="start" [readOnly]="true" placeholder="Start date"  [ngModel]="fechaInicio" (dateChange)="mostrarFechas()">
                   <input matEndDate formControlName="end" [readOnly]="true" placeholder="End date"   (dateChange)="mostrarFechas()">

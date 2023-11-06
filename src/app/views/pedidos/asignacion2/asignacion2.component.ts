@@ -15,11 +15,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AdjuntarArchivosComponent } from '@shared/components/adjuntar-archivos/adjuntar-archivos.component';
 import { SeleccionarAgenteComponent } from './seleccionar-agente/seleccionar-agente.component';
 
-interface Agentes{
-  codigo : string
-  nombre : string
-}
-
 @Component({
   selector: 'app-asignacion2',
   templateUrl: './asignacion2.component.html',
@@ -56,33 +51,6 @@ export class Asignacion2Component implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
-
-  //FUNCION DE LOS BOTONES
-  agenteSeleccionado : string = ""
-
-  agentes : Agentes[] = [
-    {
-      codigo : "98765",
-      nombre : "agente 1"
-    },
-    {
-      codigo : "98485",
-      nombre : "agente 2"
-    },
-    {
-      codigo : "98331",
-      nombre : "agente 3"
-    },
-    {
-      codigo : "98983",
-      nombre : "agente 4"
-    },
-    {
-      codigo : "98744",
-      nombre : "agente 5"
-    },
-  ]
-
   //CHECKBOX
 
   isAllSelected() {
@@ -110,10 +78,10 @@ export class Asignacion2Component implements AfterViewInit {
     this.router.navigate(['pedidos/lista']);
   }
 
-  seleccionarAgentes(cod : string){
+  asignarTrabajador(codigoCupon : string){
     const dialogRef = this.dialog.open(SeleccionarAgenteComponent, {
       data: {
-        data: cod,
+        data: codigoCupon,
       },
     });
   }

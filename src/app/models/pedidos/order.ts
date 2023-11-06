@@ -1,5 +1,6 @@
 import { Abonado } from "./abonado"
 import { Attachment } from "../attachment"
+import { Asignacion } from "./asignacion/asignacion"
 
 export interface Order {
   id: string
@@ -34,5 +35,5 @@ export interface Order {
   fax : string
   precioInforme: number
   fechaInforme: string
-
+  asignacion : Asignacion[]
 }

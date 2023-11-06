@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
       <!-- breadcrumb -->
-      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [codigoInforme]="''" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
     <div class="row clearfix">
@@ -208,12 +208,12 @@
               <h4 class="m-b-20">Total Visitors</h4>
               <h6>5,98,345</h6>
               <div class="d-inline-block">
-                <ngx-gauge [size]="150" 
-                    type="arch" 
-                    [thick]="10" 
-                    [value]="68.2" 
-                    cap="butt" 
-                    label="Revenue" 
+                <ngx-gauge [size]="150"
+                    type="arch"
+                    [thick]="10"
+                    [value]="68.2"
+                    cap="butt"
+                    label="Revenue"
                     append="%"
                     [animate]="true"
                     foregroundColor="#28c76f "

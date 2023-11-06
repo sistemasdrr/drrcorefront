@@ -63,6 +63,13 @@ const routes: Routes = [
             ,canActivate: [AuthGuard]
       },
       {
+        path: 'despacho',
+        loadChildren: () =>
+          import('./views/despacho/despacho.module').
+          then((m) => m.DespachoModule)
+            ,canActivate: [AuthGuard]
+      },
+      {
         path: 'mantenimiento',
         loadChildren: () =>
           import('./views/mantenimiento/mantenimiento.module').

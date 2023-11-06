@@ -90,6 +90,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   }
   compararModelosF: any
   ngOnInit(){
+
     const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
     if (tabDatosEmpresa) {
         tabDatosEmpresa.classList.remove('tab-cambios')
@@ -173,10 +174,25 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       this.personeriaJuridicaInforme = datosEmpresa[0].personeriaJuridica
       this.situacionRucInforme = datosEmpresa[0].situacionRuc
       this.selectRiesgoCrediticio( this.riesgoCrediticioInforme)
+    }else{
+      console.log('informe no encontrado')
     }
+
+    if(this.idiomaInforme != '' && this.tipoInstitucionInforme != '' && this.yFundacionInforme != '' && this.razonSocialInforme != '' &&
+      this.nombreComercialInforme != '' && this.tipoRucInforme != '' && this.codigoRucInforme != '' && this.comentarioIdentificacionInforme != '' &&
+      this.comentarioIdentificacionIngInforme != '' && this.direccionCompletaInforme != '' && this.duracionInforme != '' && this.dptoEstadoInforme != '' &&
+      this.codigoTelefonoInforme != '' && this.numeroTelefonoInforme != '' && this.numeroCelularInforme != '' && this.codPostalInforme != '' &&
+      this.whatsappEmpresarialInforme != '' && this.emailCorporativoInforme != '' && this.paginaWebInforme != '' ){
+        const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+        if (tabDatosEmpresa) {
+            tabDatosEmpresa.classList.add('tab-con-datos')
+        }
+      }
+
     this.compararModelosF = setInterval(() => {
       this.compararModelos();
     }, 5000);
+
 
   }
 

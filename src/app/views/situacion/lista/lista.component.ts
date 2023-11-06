@@ -37,7 +37,11 @@ export class ListaSituacionComponent implements  OnInit {
       active: 'Situación',
     },
   ];
-
+  enter(event : any){
+    if(event.code == 'Enter'){
+      this.applyFilter()
+    }
+  }
   dataSource: MatTableDataSource<Order>;
   columnsToDisplay = [ 'informe',  'tipoInforme', 'tipoTramite', 'calidad', 'fechaIngreso', 'fechaVencimiento', 'fechaDescarga', 'Acciones' ];
 

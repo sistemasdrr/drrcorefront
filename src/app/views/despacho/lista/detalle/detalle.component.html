@@ -1,0 +1,122 @@
+<div class="container" >
+  <mat-dialog-content class="mat-typography" style="min-width: 60rem; min-height: 30rem;">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" style="overflow-y: visible;">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <div style="font-size: 24px;">Detalle del Informe </div>
+            <div>
+              <button mat-mini-fab class="bg-blue" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Despachar">
+                <mat-icon class="material-icons-outlined col-white" matSuffix>send</mat-icon>
+              </button>
+              <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+                <mat-icon class="material-icons-outlined col-white" matSuffix>save</mat-icon>
+              </button>
+              <button mat-mini-fab class="bg-red" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Salir">
+                <mat-icon class="material-icons-outlined col-white" matSuffix>logout</mat-icon>
+              </button>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+                <div class="row m-0 p-0">
+                  <div class="col-md-6">
+                    <mat-form-field class="w-100">
+                      <mat-label>Nombre de Informe</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="nombreInforme" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class="w-100">
+                      <mat-label>Siglas</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="siglasInforme" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field color="primary" style="width: 100%;" >
+                      <mat-label >Fecha de Despacho</mat-label>
+                      <input matInput [matDatepicker]="fecha_despacho_informe" #fechaInput [(ngModel)]="fechaDespachoDate">
+                      <mat-datepicker-toggle matIconSuffix [for]="fecha_despacho_informe"></mat-datepicker-toggle>
+                      <mat-datepicker #fecha_despacho_informe color="primary"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field class="w-100">
+                      <mat-label>Dirección, Ciudad, Estado, Provincia, Telf(s)</mat-label>
+                      <textarea matInput placeholder="" [(ngModel)]="direccionInforme" style="max-height: 5rem;" ></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100">
+                      <mat-label>Tipo RT</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="tipoRT" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class="w-100">
+                      <mat-label>Código Registro Tributario</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="codigoRT" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>País</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="paisInforme" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Balance</mat-label>
+                      <mat-select [(ngModel)]="balanceInforme">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option [value]="'SI'">SI</mat-option>
+                        <mat-option [value]="'NO'">NO</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w-100">
+                      <mat-label>Calidad</mat-label>
+                      <mat-select [(ngModel)]="calidad">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option [value]="'A'">A</mat-option>
+                        <mat-option [value]="'B'">B</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100">
+                      <mat-label>Tipo de Informe</mat-label>
+                      <mat-select [(ngModel)]="tipoInforme">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option [value]="'OR'">OR</mat-option>
+                        <mat-option [value]="'RV'">RV</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100">
+                      <mat-label>Tipo de Trámite</mat-label>
+                      <mat-select [(ngModel)]="tipoTramite">
+                        <mat-option [value]=""></mat-option>
+                        <mat-option [value]="'T1'">T1</mat-option>
+                        <mat-option [value]="'T2'">T2</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio</mat-label>
+                      <input matInput [(ngModel)]="precioInforme" type="number">
+                    </mat-form-field>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>
