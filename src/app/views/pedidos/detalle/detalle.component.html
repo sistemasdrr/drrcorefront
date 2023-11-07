@@ -6,383 +6,373 @@
     </div>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <!-- DATOS GENERALES -->
+      <!-- DATOS GENERALES -->
         <div class="row counter-box p-3">
-            <h4>Datos Generales</h4>
-            <div class="col-md-6 d-flex align-items-center justify-content-center">
-              <div class=" bg-c-green order-info-box7 w-100 shadow" style="border-radius: .5rem; padding: .5rem; margin-bottom: .8rem; ">
-                <div class="d-flex justify-content-between">
-                  <h3 class=" text-end m-b-5 " style="margin-top: .5rem;"><i class="fas fa-ticket-alt float-start" style="margin-top: .2rem; margin-right: .5rem;"> </i> Nro. del Cupón</h3>
-                  <h2 class="text-end" style="margin-top: .5rem;">{{ nmrCupon }}</h2>
-                </div>
-
+          <h4>Datos Generales</h4>
+          <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class=" bg-c-green order-info-box7 w-100 shadow" style="border-radius: .5rem; padding: .5rem; margin-bottom: .8rem; ">
+              <div class="d-flex justify-content-between">
+                <h3 class=" text-end m-b-5 " style="margin-top: .5rem;"><i class="fas fa-ticket-alt float-start" style="margin-top: .2rem; margin-right: .5rem;"> </i> Nro. del Cupón</h3>
+                <h2 class="text-end" style="margin-top: .5rem;">{{ nmrCupon }}</h2>
               </div>
-            </div>
-            <div class="col-md-6 d-flex justify-content-center align-items-center" >
-              <button class="btn bg-cyan btn-lg btn-block waves-effect mb-3" style="margin-left: 1rem; margin-right: 1rem;" type="button">
-                <div class="d-flex align-items-center" style="font-size: 20px;">
-                  <i class="fa-solid fa-floppy-disk"></i>&nbsp; <div style="font-size: 20px;"> Guardar</div>
-                </div>
-              </button>
-              <button class="btn bg-red btn-lg btn-block waves-effect mb-3" style="margin-left: 1rem; margin-right: 1rem; " (click)="volver()" type="button">
-                <div class="d-flex align-items-center" style="font-size: 20px;">
-                  <i class="fa-solid fa-right-from-bracket"></i>&nbsp; <div style="font-size: 20px;"> Cancelar</div>
-                </div>
-              </button>
-
-            </div>
-            <hr>
-            <div class="col-md-4 d-flex align-items-center">
-              <mat-form-field class="w-100">
-                <mat-label>Código del Abonado</mat-label>
-                <input matInput placeholder="Ej. 1234" value="" [(ngModel)]="codAbonado" (ngModelChange)="asignarDatosAbonado()">
-                <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-              </mat-form-field>
-            </div>
-            <div class="col-md-2 d-flex justify-content-center">
-              <mat-form-field class="w-100">
-                <mat-label>Tipo de Trámite </mat-label>
-                <mat-select [(value)]="tipoTramiteSeleccionado">
-                  <mat-option [value]="tipoTramite.value" *ngFor="let tipoTramite of tipoTramites">{{ tipoTramite.viewValue }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="col-md-2 d-flex justify-content-center">
-              <mat-form-field color="primary" style="width: 100%;">
-                <mat-label>Fecha del Pedido</mat-label>
-                <input matInput [matDatepicker]="fecha_pedido">
-                <mat-datepicker-toggle matIconSuffix [for]="fecha_pedido"></mat-datepicker-toggle>
-                <mat-datepicker #fecha_pedido color="primary"></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div class="col-md-2 d-flex justify-content-center">
-              <mat-form-field color="primary" style="width: 100%;">
-                <mat-label>Fecha de Vencimiento</mat-label>
-                <input matInput [matDatepicker]="fecha_vencimiento">
-                <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento"></mat-datepicker-toggle>
-                <mat-datepicker #fecha_vencimiento color="primary"></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <div class="col-md-2 d-flex justify-content-center">
-              <mat-form-field color="primary" style="width: 100%;">
-                <mat-label>Fecha de Venc. Real</mat-label>
-                <input matInput [matDatepicker]="fecha_vencimiento_real">
-                <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
-                <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
-              </mat-form-field>
             </div>
           </div>
-
-          <!-- DATOS DEL ABONADO Y DE LA EMPRESA -->
-          <div class="row">
-            <!-- DATOS DEL ABONADO -->
-            <div class="col-md-4 mt-3">
-              <div class="counter-box shadow m-1">
-                <h4>Datos Referenciales del Abonado</h4>
-                <div class="d-flex align-items-center ">
-                  <mat-form-field class="w-100 input-readonly" style="margin-right: 1rem;">
-                    <mat-label>Abonado</mat-label>
-                    <input matInput placeholder="" value="" [(ngModel)]="nombreAbonado" readonly>
-                  </mat-form-field>
-                  <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:15rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <mat-form-field class="w-100">
-                      <mat-label>Pais</mat-label>
-                      <div class="input-container">
-                        <input matInput placeholder="" value="" [(ngModel)]="pais" readonly>
-                        <div>
-                          <span class="fi fi-{{codigoPais}}" style="font-size: 20px;"></span>
-                        </div>
-                      </div>
-                    </mat-form-field>
-                    <mat-form-field class="w-100 d-flex">
-                      <mat-label>Estado</mat-label>
-                      <div class="input-container">
-                        <input matInput placeholder="" value="" [(ngModel)]="estado" readonly>
-                        <div class="circle-inactive" *ngIf="estado === 'INACTIVO'"></div>
-                        <div class="circle-active" *ngIf="estado === 'ACTIVO'"></div>
-                      </div>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-6">
-                    <mat-form-field class="w-100">
-                      <mat-label>Nro. Referencia</mat-label>
-                      <input matInput placeholder="" [(ngModel)]="nmrReferencia" value="" >
-                    </mat-form-field>
-                    <mat-form-field class="w-100">
-                      <mat-label>Crédito Consultado</mat-label>
-                      <input matInput placeholder="" value="" [(ngModel)]="creditoConsultado">
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <mat-form-field class="w-100" >
-                      <mat-label>Indicaciones del Abonado</mat-label>
-                      <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="indicacionesAbonado"></textarea>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-6">
-                    <mat-form-field class="w-100">
-                      <mat-label>Datos Adicionales</mat-label>
-                      <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="datosAdicionales"></textarea>
-                    </mat-form-field>
-                  </div>
-
-                </div>
-
+          <div class="col-md-6 d-flex justify-content-center align-items-center" >
+            <button class="btn bg-cyan btn-lg btn-block waves-effect mb-3" style="margin-left: 1rem; margin-right: 1rem;" type="button">
+              <div class="d-flex align-items-center" style="font-size: 20px;">
+                <i class="fa-solid fa-floppy-disk"></i>&nbsp; <div style="font-size: 20px;"> Guardar</div>
               </div>
-            </div>
-            <!-- DATOS DE LA EMPRESA -->
-            <div class="col-md-8 mt-3">
-              <div class="counter-box shadow m-1" >
-                <h4>Datos de la Empresa/Persona a Investigar</h4>
-                <div class="row">
-                  <div class="col-md-6 d-flex align-items-center">
-                    <mat-form-field class="w-100">
-                      <mat-label>Nombre de la Empresa/Persona Solicitado</mat-label>
-                      <input matInput placeholder="" value="" [(ngModel)]="buscarPorNombreInforme" (ngModelChange)="buscarPorNombre(buscarPorNombreInforme)">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-6 d-flex align-items-center">
-                    <mat-form-field class="w-100">
-                      <mat-label>Nombre de la Empresa/Persona</mat-label>
-                      <input matInput placeholder="Ej. ALICORP SA" value="">
-                      <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarEmpresaPersona()">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                      </button>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-4 d-flex justify-content-center">
-                    <!--mat-form-field style="width: 100%;">
-                      <mat-label>Tipo de Informe </mat-label>
-                      <mat-select [(value)]="idiomaSeleccionado">
-                        <mat-option [value]="idioma.value" *ngFor="let idioma of idiomas">{{ idioma.viewValue }}</mat-option>
-                      </mat-select>
-                    </!--mat-form-field-->
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
-                      <mat-label>RUC</mat-label>
-                      <input matInput placeholder="" [(ngModel)]="ruc" >
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
-                      <mat-label>Continente </mat-label>
-                      <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado">
-                        <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
-                      <mat-label>País</mat-label>
-                      <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
-                        <mat-option *ngFor="let pais of paises" [value]="pais.id">
-                          <span class="fi fi-{{pais.icono}}"></span>
-                          {{pais.nombre}}
-                        </mat-option>
-                      </mat-select>
-                      <button class="btn-traduccion" matSuffix mat-icon-button>
-                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
-                      </button>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
-                      <mat-label>Ciudad</mat-label>
-                      <input matInput placeholder="" [(ngModel)]="ciudad">
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <mat-form-field class="w-100">
-                      <mat-label>Dirección</mat-label>
-                      <input matInput placeholder="" [(ngModel)]="direccion">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
-                      <mat-label>Correo</mat-label>
-                      <input matInput type="email" placeholder="" [(ngModel)]="correo" >
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
-                      <mat-label>Teléfono</mat-label>
-                      <input matInput placeholder="" [(ngModel)]="telefono" >
-                    </mat-form-field>
-                  </div>
-                </div>
+            </button>
+            <button class="btn bg-red btn-lg btn-block waves-effect mb-3" style="margin-left: 1rem; margin-right: 1rem; " (click)="volver()" type="button">
+              <div class="d-flex align-items-center" style="font-size: 20px;">
+                <i class="fa-solid fa-right-from-bracket"></i>&nbsp; <div style="font-size: 20px;"> Cancelar</div>
               </div>
-              <!-- DETALLES DEL INFORME -->
-              <div class="counter-box shadow m-1 mt-3">
-                <h4>Detalles del Informe</h4>
-                <div class="row">
-                  <div class="col-md-2">
-                    <mat-form-field class="w-100">
-                      <mat-label>Tipo de Informe </mat-label>
-                      <mat-select [(value)]="tipoInformeSeleccionado">
-                        <mat-option [value]="tipoInforme.value" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.viewValue }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-2 d-flex justify-content-center">
-                    <mat-form-field color="primary" style="width: 100%;">
-                      <mat-label>A la Fecha</mat-label>
-                      <input matInput [matDatepicker]="fecha_informe">
-                      <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
-                      <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field style="width: 100%;">
-                      <mat-label>Idioma</mat-label>
-                      <mat-select >
-                        <mat-option [value]="'CASTELLANO'">
-                          <span class="fi fi-es"></span>
-                          ESPAÑOL
-                        </mat-option>
-                        <mat-option [value]="'INGLES'">
-                          <span class="fi fi-us"></span>
-                          INGLÉS
-                        </mat-option>
-                        <mat-option [value]="'CASTELLANO-INGLES'">
-                          <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
-                          ESPAÑOL - INGLÉS
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-5 d-flex justify-content-center">
-                    <div>
-                      <div><h5>Precio de Informe (US$):  <b>25USD</b> </h5></div>
-                      <div><h5>Ultima Modificación: <b>27/09/2023</b></h5></div>
+            </button>
+          </div>
+          <hr>
+          <div class="col-md-4 d-flex align-items-center">
+            <mat-form-field class="w-100">
+              <mat-label>Código del Abonado</mat-label>
+              <input matInput placeholder="Ej. 1234" value="" [(ngModel)]="codAbonado" (ngModelChange)="asignarDatosAbonado()">
+              <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <mat-form-field class="w-100">
+              <mat-label>Tipo de Trámite </mat-label>
+              <mat-select [(ngModel)]="tipoTramite">
+                <mat-option [value]="''"></mat-option>
+                <mat-option [value]="'T1'">T1</mat-option>
+                <mat-option [value]="'T2'">T2</mat-option>
+                <mat-option [value]="'T3'">T3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <mat-form-field color="primary" style="width: 100%;">
+              <mat-label>Fecha del Pedido</mat-label>
+              <input matInput [matDatepicker]="fecha_pedido" [(ngModel)]="fechaIngresoDate">
+              <mat-datepicker-toggle matIconSuffix [for]="fecha_pedido"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_pedido color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <mat-form-field color="primary" style="width: 100%;">
+              <mat-label>Fecha de Vencimiento</mat-label>
+              <input matInput [matDatepicker]="fecha_vencimiento" [(ngModel)]="fechaVencimientoDate">
+              <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_vencimiento color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 d-flex justify-content-center">
+            <mat-form-field color="primary" style="width: 100%;">
+              <mat-label>Fecha de Venc. Real</mat-label>
+              <input matInput [matDatepicker]="fecha_vencimiento_real" [(ngModel)]="fechaVencimientoRealDate">
+              <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- DATOS DEL ABONADO Y DE LA EMPRESA -->
+        <div class="row">
+          <!-- DATOS DEL ABONADO -->
+          <div class="col-md-4 mt-3">
+            <div class="counter-box shadow m-1">
+              <h4>Datos Referenciales del Abonado</h4>
+              <div class="d-flex align-items-center ">
+                <mat-form-field class="w-100 input-readonly" style="margin-right: 1rem;">
+                  <mat-label>Abonado</mat-label>
+                  <input matInput placeholder="" value="" [(ngModel)]="nombreAbonado" readonly>
+                </mat-form-field>
+                <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:15rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Pais</mat-label>
+                    <div class="input-container">
+                      <input matInput placeholder="" value="" [(ngModel)]="pais" readonly>
+                      <div>
+                        <span class="fi fi-{{codigoPais}}" style="font-size: 20px;"></span>
+                      </div>
                     </div>
+                  </mat-form-field>
+                  <mat-form-field class="w-100 d-flex">
+                    <mat-label>Estado</mat-label>
+                    <div class="input-container">
+                      <input matInput placeholder="" value="" [(ngModel)]="estado" readonly>
+                      <div class="circle-inactive" *ngIf="estado === 'INACTIVO'"></div>
+                      <div class="circle-active" *ngIf="estado === 'ACTIVO'"></div>
+                    </div>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Nro. Referencia</mat-label>
+                    <input matInput placeholder="" [(ngModel)]="nmrReferencia" value="" >
+                  </mat-form-field>
+                  <mat-form-field class="w-100">
+                    <mat-label>Crédito Consultado</mat-label>
+                    <input matInput placeholder="" value="" [(ngModel)]="creditoConsultado">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="w-100" >
+                    <mat-label>Indicaciones del Abonado</mat-label>
+                    <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="indicacionesAbonado"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Datos Adicionales</mat-label>
+                    <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="datosAdicionales"></textarea>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <!-- DATOS DE LA EMPRESA -->
+          <div class="col-md-8 mt-3">
+            <div class="counter-box shadow m-1" >
+              <h4>Datos de la Empresa/Persona a Investigar</h4>
+              <div class="row">
+                <div class="col-md-6 d-flex align-items-center">
+                  <mat-form-field class="w-100">
+                    <mat-label>Nombre de la Empresa/Persona Solicitado</mat-label>
+                    <input matInput placeholder="" value="" [(ngModel)]="buscarPorNombreInforme" (ngModelChange)="buscarPorNombre(buscarPorNombreInforme)">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 d-flex align-items-center">
+                  <mat-form-field class="w-100">
+                    <mat-label>Nombre de la Empresa/Persona</mat-label>
+                    <input matInput placeholder="Ej. ALICORP SA" value="">
+                    <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarEmpresaPersona()">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4 d-flex justify-content-center">
+                  <!--mat-form-field style="width: 100%;">
+                    <mat-label>Tipo de Informe </mat-label>
+                    <mat-select [(value)]="idiomaSeleccionado">
+                      <mat-option [value]="idioma.value" *ngFor="let idioma of idiomas">{{ idioma.viewValue }}</mat-option>
+                    </mat-select>
+                  </!--mat-form-field-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>RUC</mat-label>
+                    <input matInput placeholder="" [(ngModel)]="ruc" >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>Continente </mat-label>
+                    <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado">
+                      <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>País</mat-label>
+                    <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
+                      <mat-option *ngFor="let pais of paises" [value]="pais.id">
+                        <span class="fi fi-{{pais.icono}}"></span>
+                        {{pais.nombre}}
+                      </mat-option>
+                    </mat-select>
+                    <button class="btn-traduccion" matSuffix mat-icon-button>
+                      <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+                    </button>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>Ciudad</mat-label>
+                    <input matInput placeholder="" [(ngModel)]="ciudad">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput placeholder="" [(ngModel)]="direccion">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>Correo</mat-label>
+                    <input matInput type="email" placeholder="" [(ngModel)]="correo" >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput placeholder="" [(ngModel)]="telefono" >
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <!-- DETALLES DEL INFORME -->
+            <div class="counter-box shadow m-1 mt-3">
+              <h4>Detalles del Informe</h4>
+              <div class="row">
+                <div class="col-md-2">
+                  <mat-form-field class="w-100">
+                    <mat-label>Tipo de Informe </mat-label>
+                    <mat-select [(value)]="tipoInformeSeleccionado">
+                      <mat-option [value]="tipoInforme.value" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.viewValue }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <mat-form-field color="primary" style="width: 100%;">
+                    <mat-label>A la Fecha</mat-label>
+                    <input matInput [matDatepicker]="fecha_informe">
+                    <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+                    <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field style="width: 100%;">
+                    <mat-label>Idioma</mat-label>
+                    <mat-select >
+                      <mat-option [value]="'CASTELLANO'">
+                        <span class="fi fi-es"></span>
+                        ESPAÑOL
+                      </mat-option>
+                      <mat-option [value]="'INGLES'">
+                        <span class="fi fi-us"></span>
+                        INGLÉS
+                      </mat-option>
+                      <mat-option [value]="'CASTELLANO-INGLES'">
+                        <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
+                        ESPAÑOL - INGLÉS
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5 d-flex justify-content-center">
+                  <div>
+                    <div><h5>Precio de Informe (US$):  <b>25USD</b> </h5></div>
+                    <div><h5>Ultima Modificación: <b>27/09/2023</b></h5></div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <!-- OTROS ABONADOS PIDIERON ESTE INFORME -->
+        <div class="row">
+          <div class="col-md-12 mt-3" >
+            <div class="counter-box shadow m-1" style="overflow-x: auto;">
+              <h4>Abonados que Pidieron este Informe</h4>
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
+                <ng-container matColumnDef="{{columnsToDisplay[0]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Tipo </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" >
+                    <div *ngIf="report[columnsToDisplay[0]] === 'OR'">
+                      <div class="badge badge-solid-orange" style="font-size: 16px;">{{report[columnsToDisplay[0]]}}</div>
+                    </div>
+                    <div *ngIf="report[columnsToDisplay[0]] === 'RV'">
+                      <div class="badge badge-solid-green" style="font-size: 16px;">{{report[columnsToDisplay[0]]}}</div>
+                    </div>
+                  </td>
+                </ng-container>
 
-          <!-- OTROS ABONADOS PIDIERON ESTE INFORME -->
-          <div class="row">
-            <div class="col-md-12 mt-3" >
-              <div class="counter-box shadow m-1" style="overflow-x: auto;">
-                <h4>Abonados que Pidieron este Informe</h4>
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
+                <ng-container matColumnDef="{{columnsToDisplay[1]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cupón </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[1]]}} </td>
+                </ng-container>
 
-                  <ng-container matColumnDef="{{columnsToDisplay[0]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Tipo </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" >
-                      <div *ngIf="report[columnsToDisplay[0]] === 'OR'">
-                        <div class="badge badge-solid-orange" style="font-size: 16px;">{{report[columnsToDisplay[0]]}}</div>
-                      </div>
-                      <div *ngIf="report[columnsToDisplay[0]] === 'RV'">
-                        <div class="badge badge-solid-green" style="font-size: 16px;">{{report[columnsToDisplay[0]]}}</div>
-                      </div>
-                    </td>
-                  </ng-container>
+                <ng-container matColumnDef="{{columnsToDisplay[2]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Nombre Solicitado </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[2]]}} </td>
+                </ng-container>
 
-                  <ng-container matColumnDef="{{columnsToDisplay[1]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cupón </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[1]]}} </td>
-                  </ng-container>
+                <ng-container matColumnDef="{{columnsToDisplay[3]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Despacho </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[3]]}} </td>
+                </ng-container>
 
-                  <ng-container matColumnDef="{{columnsToDisplay[2]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Nombre Solicitado </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[2]]}} </td>
-                  </ng-container>
+                <ng-container matColumnDef="{{columnsToDisplay[4]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Abonado </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[4]]}} </td>
+                </ng-container>
 
-                  <ng-container matColumnDef="{{columnsToDisplay[3]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Despacho </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[3]]}} </td>
-                  </ng-container>
+                <ng-container matColumnDef="{{columnsToDisplay[5]}}">
+                  <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> Trámite </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" >
+                    <div *ngIf="report[columnsToDisplay[5]] === 'T1'">
+                      <div class="badge badge-solid-blue">{{report[columnsToDisplay[5]]}}</div>
+                    </div>
+                    <div *ngIf="report[columnsToDisplay[5]] === 'T2'">
+                      <div class="badge badge-solid-purple">{{report[columnsToDisplay[5]]}}</div>
+                    </div>
+                    <div *ngIf="report[columnsToDisplay[5]] === 'T3'">
+                      <div class="badge badge-solid-cyan">{{report[columnsToDisplay[5]]}}</div>
+                    </div>
+                  </td>
+                </ng-container>
 
-                  <ng-container matColumnDef="{{columnsToDisplay[4]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Abonado </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[4]]}} </td>
-                  </ng-container>
+                <ng-container matColumnDef="{{columnsToDisplay[6]}}">
+                  <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> País </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report.pais.nombre}} <span class="fi fi-{{report.pais['icono']}}" style="font-size: 20px;"></span></td>
+                </ng-container>
 
-                  <ng-container matColumnDef="{{columnsToDisplay[5]}}">
-                    <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> Trámite </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" >
-                      <div *ngIf="report[columnsToDisplay[5]] === 'T1'">
-                        <div class="badge badge-solid-blue">{{report[columnsToDisplay[5]]}}</div>
-                      </div>
-                      <div *ngIf="report[columnsToDisplay[5]] === 'T2'">
-                        <div class="badge badge-solid-purple">{{report[columnsToDisplay[5]]}}</div>
-                      </div>
-                      <div *ngIf="report[columnsToDisplay[5]] === 'T3'">
-                        <div class="badge badge-solid-cyan">{{report[columnsToDisplay[5]]}}</div>
-                      </div>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="{{columnsToDisplay[6]}}">
-                    <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> País </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" > {{report.pais.nombre}} <span class="fi fi-{{report.pais['icono']}}" style="font-size: 20px;"></span></td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="{{columnsToDisplay[7]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Balance </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" >
-                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'SI'" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
-                      <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'NO'" class="example-margin" [checked]="false"  [disabled]="true"></mat-checkbox>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="{{columnsToDisplay[8]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Calidad </th>
-                    <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[8]]}} </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="{{columnsToDisplay[9]}}">
-                    <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Estado </th>
-                    <td mat-cell *matCellDef="let report" class="text-center">
-                      <div *ngIf="report[columnsToDisplay[9]]==='PEND. VENCIDO'" >
-                        <span class="float-end progress-percent label label-danger shadow" style="width: 170px;">
-                          {{report[columnsToDisplay[9]]}}
-                        </span>
-                      </div>
-                      <div *ngIf="report[columnsToDisplay[9]]==='PENDIENTE'" >
-                        <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
-                          {{report[columnsToDisplay[9]]}}
-                        </span>
-                      </div>
-                      <div *ngIf="report[columnsToDisplay[9]]==='ENVIADO'" >
-                        <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
-                          {{report[columnsToDisplay[9]]}}
-                        </span>
-                      </div>
-                      <div *ngIf="report.estado==='ENV. VENCIDO'" >
-                        <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
-                          {{report[columnsToDisplay[9]]}}
-                        </span>
-                      </div>
-                    </td>
-                  </ng-container>
-
-                  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-                  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-                </table>
-
-
-              </div>
+                <ng-container matColumnDef="{{columnsToDisplay[7]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Balance </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" >
+                    <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'SI'" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
+                    <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'NO'" class="example-margin" [checked]="false"  [disabled]="true"></mat-checkbox>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="{{columnsToDisplay[8]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Calidad </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[8]]}} </td>
+                </ng-container>
+                <ng-container matColumnDef="{{columnsToDisplay[9]}}">
+                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Estado </th>
+                  <td mat-cell *matCellDef="let report" class="text-center">
+                    <div *ngIf="report[columnsToDisplay[9]]==='PEND. VENCIDO'" >
+                      <span class="float-end progress-percent label label-danger shadow" style="width: 170px;">
+                        {{report[columnsToDisplay[9]]}}
+                      </span>
+                    </div>
+                    <div *ngIf="report[columnsToDisplay[9]]==='PENDIENTE'" >
+                      <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
+                        {{report[columnsToDisplay[9]]}}
+                      </span>
+                    </div>
+                    <div *ngIf="report[columnsToDisplay[9]]==='ENVIADO'" >
+                      <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
+                        {{report[columnsToDisplay[9]]}}
+                      </span>
+                    </div>
+                    <div *ngIf="report.estado==='ENV. VENCIDO'" >
+                      <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
+                        {{report[columnsToDisplay[9]]}}
+                      </span>
+                    </div>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+              </table>
             </div>
           </div>
-
         </div>
       </div>
-
-
+    </div>
   </div>
 </section>

@@ -51,6 +51,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   fechaConstitucionInforme : string = ""
   tipoRucInforme : string = ""
   codigoRucInforme : string = ""
+  nombreSolicitadoInforme : string = ""
   comentarioIdentificacionInforme : string = ""
   comentarioIdentificacionIngInforme : string = ""
   direccionCompletaInforme : string = ""
@@ -144,6 +145,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       this.yFundacionInforme = datosEmpresa[0].yFundacion+''
       this.razonSocialInforme = datosEmpresa[0].razonSocial
       this.nombreComercialInforme = datosEmpresa[0].nombreComercial
+      this.nombreSolicitadoInforme = datosEmpresa[0].nombreSolicitado
       this.fechaConstitucionInforme = datosEmpresa[0].fechaConstitucion
       const fecha2 = this.fechaConstitucionInforme.split("/");
       if(fecha2){
@@ -240,6 +242,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       yFundacion : parseInt(this.yFundacionInforme),
       razonSocial : this.razonSocialInforme,
       nombreComercial : this.nombreComercialInforme,
+      nombreSolicitado : this.nombreSolicitadoInforme,
       fechaConstitucion : this.fechaConstitucionInforme,
       personeriaJuridica : this.personeriaJuridicaInforme,
 
@@ -299,6 +302,19 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   displayPersoneriaJuridica(personeriaJuridica : PersoneriaJuridica): string {
     return personeriaJuridica && personeriaJuridica.description ? personeriaJuridica.description : '';
   }
+  limpiarSeleccionPais(){
+    this.controlPaises.reset();
+  }
+  limpiarSeleccionReputacion(){
+    this.controlReputacion.reset();
+  }
+  limpiarSeleccionSituacionRUC() {
+    console.log(this.controlSituacionRUC)
+    this.controlSituacionRUC.reset();
+  }
+  limpiarSeleccionPersoneriaJuridica(){
+    this.controlPersoneriaJuridica.reset();
+  }
 
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
@@ -330,12 +346,14 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     });
   }
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
+    this.fechaInformeInvestigadoDate = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
       this.informeInvestigadoEl = this.formatDate(selectedDate);
     }
   }
   selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
+    this.fechaConstitucionInformeDate = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
       this.fechaConstitucionInforme = this.formatDate(selectedDate);

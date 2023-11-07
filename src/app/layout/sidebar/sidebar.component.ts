@@ -30,9 +30,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   headerHeight = 60;
   routerObj;
 
-  tooltip1 = ""
-  tooltip2 = ""
-  tooltip3 = ""
+  tooltip1 = "";
+  tooltip2 = "";
+  tooltip3 = "";
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -47,7 +47,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
         this.renderer.removeClass(this.document.body, 'overlay-open');
       }
     });
-
   }
   @HostListener('window:resize', ['$event'])
   windowResizecall() {
@@ -62,19 +61,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   callToggleMenu(event: Event, length: number) {
-
     if (length > 0) {
       const parentElement = (event.target as HTMLInputElement).closest('li');
       const activeClass = parentElement?.classList.contains('active');
-
       if (activeClass) {
         this.renderer.removeClass(parentElement, 'active');
-
       } else {
         this.renderer.addClass(parentElement, 'active');
       }
     }
-
   }
   ngOnInit() {
     if (this.authService.currentUserValue) {
@@ -84,19 +79,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.bodyTag = this.document.body;
     const rtr = this.router.url
     if(rtr.includes('informes/persona')){
-      this.activeLI = 8
+      this.activeLI = 8;
     }else if(rtr.includes('informes/empresa')){
-      this.activeLI = 7
+      this.activeLI = 7;
     }else if(rtr.includes('pedidos')){
-      this.activeLI = 6
+      this.activeLI = 6;
     }else if(rtr.includes('despacho')){
-      this.activeLI = 5
+      this.activeLI = 5;
     }else if(rtr.includes('situacion')){
-      this.activeLI = 4
+      this.activeLI = 4;
     }else if(rtr.includes('mantenimiento')){
-      this.activeLI = 12
+      this.activeLI = 12;
     }
-
   }
   ngOnDestroy() {
     this.routerObj.unsubscribe();
@@ -127,28 +121,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   mouseHover() {
     const body = this.elementRef.nativeElement.closest('body');
-    const gerencia = this.document.getElementById('gerencia')
-    const produccion = this.document.getElementById('produccion')
-    const administracion = this.document.getElementById('administracion')
+    const gerencia = this.document.getElementById('gerencia');
+    const produccion = this.document.getElementById('produccion');
+    const administracion = this.document.getElementById('administracion');
     if (body.classList.contains('submenu-closed')) {
       this.renderer.addClass(this.document.body, 'side-closed-hover');
       this.renderer.removeClass(this.document.body, 'submenu-closed');
-      this.renderer.removeClass(gerencia, 'd-none')
-      this.renderer.removeClass(produccion, 'd-none')
-      this.renderer.removeClass(administracion, 'd-none')
+      this.renderer.removeClass(gerencia, 'd-none');
+      this.renderer.removeClass(produccion, 'd-none');
+      this.renderer.removeClass(administracion, 'd-none');
     }
   }
   mouseOut() {
     const body = this.elementRef.nativeElement.closest('body');
-    const gerencia = this.document.getElementById('gerencia')
-    const produccion = this.document.getElementById('produccion')
-    const administracion = this.document.getElementById('administracion')
+    const gerencia = this.document.getElementById('gerencia');
+    const produccion = this.document.getElementById('produccion');
+    const administracion = this.document.getElementById('administracion');
     if (body.classList.contains('side-closed-hover')) {
       this.renderer.removeClass(this.document.body, 'side-closed-hover');
       this.renderer.addClass(this.document.body, 'submenu-closed');
-      this.renderer.addClass(gerencia, 'd-none')
-      this.renderer.addClass(produccion, 'd-none')
-      this.renderer.addClass(administracion, 'd-none')
+      this.renderer.addClass(gerencia, 'd-none');
+      this.renderer.addClass(produccion, 'd-none');
+      this.renderer.addClass(administracion, 'd-none');
     }
   }
   goTo(num : number){
@@ -167,11 +161,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
         heightAuto : true
       }).then((result) => {
         if (result.value) {
-          this.router.navigate(['/mantenimiento/personal/lista'])
+          this.router.navigate(['/mantenimiento/personal/lista']);
         }
       });
     }else{
-      this.router.navigate(['/mantenimiento/personal/lista'])
+      this.router.navigate(['/mantenimiento/personal/lista']);
     }
   }
 }

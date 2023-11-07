@@ -24,6 +24,9 @@ export class ListaComponent implements OnInit {
 
   columnasInforme = ['informe','fecha','tipoTramite','tipoInforme','pais','abonado','opciones']
   dataSourceInforme : MatTableDataSource<Order>
+  tipoTramite = ""
+  tipoInforme = ""
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -53,4 +56,14 @@ export class ListaComponent implements OnInit {
       },
     })
   }
+  applyFilterTipoInforme() {
+    this.dataSourceInforme.data = this.orderService.getOrders()
+      .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
+  }
+
+  applyFilterTipoTramite() {
+    this.dataSourceInforme.data = this.orderService.getOrders()
+      .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
+  }
+
 }

@@ -17,7 +17,7 @@
           </div>
           <hr>
           <div class="row">
-            <div class="col-md-7 d-flex mt-5">
+            <div class="col-md-6 d-flex mt-5">
                 <div class="col-md-3">
                   <mat-button-toggle-group  #group="matButtonToggleGroup" class="w-100 shadow" [vertical]="true" [disabled]="estado === 'editar'">
                     <mat-button-toggle [ngClass]="{'bg-blue': activeList === 1}" value="Supervisor" (click)="filtrarDatos('Supervisor'); activeList = 1">Supervisor</mat-button-toggle>
@@ -37,7 +37,7 @@
                   </mat-selection-list>
                 </div>
             </div>
-            <div class="col-md-5 ">
+            <div class="col-md-6 ">
               <div class="d-flex justify-content-between">
                 <div style="font-size: 20px;" *ngIf="estado === 'agregar'">
                   Agregar Asignación
@@ -57,50 +57,74 @@
                   </button></div>
               </div>
               <hr>
-              <mat-form-field class="" style="width: 75%;">
-                <mat-label>Código || Nombre</mat-label>
-                <input matInput [(ngModel)]="asignado" readonly="true">
-              </mat-form-field>
-              <mat-form-field class="" style="width: 20%; margin-left: 1rem;">
-                <mat-label>Calidad</mat-label>
-                <mat-select [(ngModel)]="calidad">
-                  <mat-option [value]="''">
-                  </mat-option>
-                  <mat-option [value]="'A'">
-                    A
-                  </mat-option>
-                  <mat-option [value]="'B'">
-                    B
-                  </mat-option>
-                  <mat-option [value]="'C'">
-                    C
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <mat-form-field class="" style="width: 20%; margin-right: .5rem;">
-                <mat-label>Precio</mat-label>
-                <input matInput [(ngModel)]="precio" type="number">
-              </mat-form-field>
-              <mat-form-field color="primary" style="width: 36%; margin: 0 .5rem 0 .5rem;">
-                <mat-label>Fecha de Asignación</mat-label>
-                <input matInput [matDatepicker]="fechaAsignacion" [(ngModel)]="fechaAsignacionDate" (dateChange)="selectFechaAsignacion($event)">
-                <mat-datepicker-toggle matIconSuffix [for]="fechaAsignacion"></mat-datepicker-toggle>
-                <mat-datepicker #fechaAsignacion color="primary"></mat-datepicker>
-              </mat-form-field>
-              <mat-form-field color="primary" style="width: 35%; margin: 0 .5rem 0 .5rem;" >
-                <mat-label>Fecha de Entrega</mat-label>
-                <input matInput [matDatepicker]="fechaEntrega" [(ngModel)]="fechaEntregaDate" (dateChange)="selectFechaEntrega($event)">
-                <mat-datepicker-toggle matIconSuffix [for]="fechaEntrega"></mat-datepicker-toggle>
-                <mat-datepicker #fechaEntrega color="primary"></mat-datepicker>
-              </mat-form-field>
-              <mat-form-field class="w-100" style="min-height: 5rem;">
-                <mat-label>Referencias</mat-label>
-                <textarea matInput [(ngModel)]="referencias"></textarea>
-              </mat-form-field>
-              <mat-form-field class="w-100" style="min-height: 5rem;">
-                <mat-label>Observaciones</mat-label>
-                <textarea matInput [(ngModel)]="observaciones"></textarea>
-              </mat-form-field>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Código || Nombre</mat-label>
+                    <input matInput [(ngModel)]="asignado" readonly="true">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>Calidad</mat-label>
+                    <mat-select [(ngModel)]="calidad">
+                      <mat-option [value]="''">
+                      </mat-option>
+                      <mat-option [value]="'A'">
+                        A
+                      </mat-option>
+                      <mat-option [value]="'B'">
+                        B
+                      </mat-option>
+                      <mat-option [value]="'C'">
+                        C
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100">
+                    <mat-label>Precio</mat-label>
+                    <input matInput [(ngModel)]="precio" type="number">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field color="primary" class="w-100">
+                    <mat-label>Fecha de Asignación</mat-label>
+                    <input matInput [matDatepicker]="fechaAsignacion" [(ngModel)]="fechaAsignacionDate" (dateChange)="selectFechaAsignacion($event)">
+                    <mat-datepicker-toggle matIconSuffix [for]="fechaAsignacion"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaAsignacion color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field color="primary" class="w-100">
+                    <mat-label>Fecha de Vencimiento</mat-label>
+                    <input matInput [matDatepicker]="fechaVencimiento" [(ngModel)]="fechaVencimientoDate" (dateChange)="selectFechaVencimiento($event)">
+                    <mat-datepicker-toggle matIconSuffix [for]="fechaVencimiento"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaVencimiento color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field color="primary" class="w-100" >
+                    <mat-label>Fecha de Entrega</mat-label>
+                    <input matInput [matDatepicker]="fechaEntrega" [(ngModel)]="fechaEntregaDate" (dateChange)="selectFechaEntrega($event)">
+                    <mat-datepicker-toggle matIconSuffix [for]="fechaEntrega"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaEntrega color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-form-field class="w-100" style="min-height: 5rem;">
+                    <mat-label>Referencias</mat-label>
+                    <textarea matInput [(ngModel)]="referencias"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-form-field class="w-100" style="min-height: 5rem;">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput [(ngModel)]="observaciones"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
             <div class="col-md-12 mt-3">
               <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
@@ -112,6 +136,12 @@
                   <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Asignación</th>
                   <td mat-cell *matCellDef="let asign" class="text-center">
                     {{asign.fechaAsignacion}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="fechaVencimiento" >
+                  <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Vencimiento</th>
+                  <td mat-cell *matCellDef="let asign" class="text-center">
+                    {{asign.fechaVencimiento}}
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="fechaEntrega" >

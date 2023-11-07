@@ -8,12 +8,14 @@ export interface DatosEmpresa{
   yFundacion : number
   razonSocial : string
   nombreComercial : string
+  nombreSolicitado : string
   fechaConstitucion : string
   personeriaJuridica : PersoneriaJuridica
 
   tipoRuc : string
   codigoRuc : string
   situacionRuc : SituacionRuc
+
 
   comentarioIdentificacion : string
   comentarioIdentificacionIng : string

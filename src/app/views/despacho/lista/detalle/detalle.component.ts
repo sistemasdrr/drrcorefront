@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Pais } from 'app/models/pais';
 import { OrderService } from 'app/services/order.service';
+import { PaisService } from 'app/services/pais.service';
 
 @Component({
   selector: 'app-detalle',
@@ -10,8 +12,10 @@ import { OrderService } from 'app/services/order.service';
 export class DetalleComponent implements OnInit{
 
   nombreInforme = ""
-  siglasInforme = ""
+  fechaIngresoDate = new Date()
+  fechaVencimientoDate = new Date()
   fechaDespachoDate = new Date()
+  fechaDespacho = ""
   direccionInforme = ""
   tipoRT = ""
   codigoRT = ""
@@ -21,12 +25,40 @@ export class DetalleComponent implements OnInit{
   tipoInforme = ""
   tipoTramite = ""
   precioInforme = 0
-  constructor(public dialogRef: MatDialogRef<DetalleComponent>,@Inject(MAT_DIALOG_DATA) public data : any, private orderService : OrderService){
+
+  paises : Pais[] = []
+
+  constructor(public dialogRef: MatDialogRef<DetalleComponent>,
+    @Inject(MAT_DIALOG_DATA) public data : any,
+    private orderService : OrderService, private paisService : PaisService){
 
   }
   ngOnInit(): void {
     const order = this.orderService.getOrders().filter(x => x.cupon == this.data.cupon)[0]
+    this.paises = this.paisService.getPaises()
     this.nombreInforme = order.informe
+    this.direccionInforme = order.direccion
+    this.tipoRT = order.tipoRT
+    this.codigoRT = order.codigoRT
+    this.tipoInforme = order.tipoInforme
+    this.tipoTramite = order.tipoTramite
+    this.paisSeleccionado = order.pais.id
+    this.actualizarSeleccion(this.paisSeleccionado)
+    const fechaIngreso = order.fechaIngreso.split('/')
+    this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]),parseInt(fechaIngreso[1])-1,parseInt(fechaIngreso[0]))
+    const fechaVencimiento = order.fechaVencimiento.split('/')
+    this.fechaVencimientoDate = new Date(parseInt(fechaVencimiento[2]),parseInt(fechaVencimiento[1])-1,parseInt(fechaVencimiento[0]))
   }
-
+  paisSeleccionado : number = 0
+  iconoSeleccionado: string = ""
+  actualizarSeleccion(id: number) {
+    const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
+    if (paisSeleccionadoObj) {
+      this.paisSeleccionado = paisSeleccionadoObj.id;
+      this.iconoSeleccionado = paisSeleccionadoObj.icono;
+    }
+  }
+  salir(){
+    this.dialogRef.close()
+  }
 }

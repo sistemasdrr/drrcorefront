@@ -19,15 +19,17 @@ export class SeleccionarAgenteComponent implements OnInit {
   idEditarAsignacion = 0
   idEditarTrabajador = 0
   fechaAsignacionDate = new Date()
+  fechaVencimientoDate = new Date()
   fechaEntregaDate = new Date()
 
   dataSource : MatTableDataSource<Asignacion>
-  columnas = ['asignado','fechaAsignacion','fechaEntrega','calidad','precio','accion']
+  columnas = ['asignado','fechaAsignacion','fechaVencimiento','fechaEntrega','calidad','precio','accion']
 
   asignado = ""
   precio = 0
   calidad = ""
   fechaAsignacion = ""
+  fechaVencimiento = ""
   fechaEntrega = ""
   referencias = ""
   observaciones = ""
@@ -56,6 +58,7 @@ export class SeleccionarAgenteComponent implements OnInit {
 
   filtrarDatos(tipo : string){
     this.datos = this.asignacionService.getTrabajadores().filter(x => x.tipo === tipo)
+    this.asignado = ""
   }
   agregarAsignacion(codigo : string){
     const date = new Date()
@@ -71,6 +74,7 @@ export class SeleccionarAgenteComponent implements OnInit {
       referencias : this.referencias,
       observaciones : this.observaciones,
       fechaAsignacion : this.fechaAsignacionDate.getDate()+'/'+this.fechaAsignacionDate.getMonth()+'/'+this.fechaAsignacionDate.getFullYear(),
+      fechaVencimiento : this.fechaVencimientoDate.getDate()+'/'+this.fechaVencimientoDate.getMonth()+'/'+this.fechaVencimientoDate.getFullYear(),
       fechaEntrega : this.fechaEntregaDate.getDate()+'/'+this.fechaEntregaDate.getMonth()+'/'+this.fechaEntregaDate.getFullYear(),
       calidad : this.calidad,
       precio : this.precio
@@ -79,6 +83,7 @@ export class SeleccionarAgenteComponent implements OnInit {
     this.dataSource.data = this.orderService.getOrders().filter(x => x.cupon == this.data.data)[0].asignacion
   }
   seleccionarAsignacion(id : number){
+    this.limpiar()
     this.estado = "editar"
     const asignacion = this.asignacionService.getAsignaciones().filter(x => x.id == id)[0]
     this.idEditarTrabajador = asignacion.trabajador.id
@@ -89,6 +94,11 @@ export class SeleccionarAgenteComponent implements OnInit {
     this.fechaAsignacion = asignacion.fechaAsignacion
     if(fechaAsignacion){
       this.fechaAsignacionDate = new Date(parseInt(fechaAsignacion[2]), parseInt(fechaAsignacion[1])-1,parseInt(fechaAsignacion[0]))
+    }
+    const fechaVencimiento = asignacion.fechaVencimiento.split('/')
+    this.fechaVencimiento = asignacion.fechaVencimiento
+    if(fechaVencimiento){
+      this.fechaVencimientoDate = new Date(parseInt(fechaVencimiento[2]), parseInt(fechaVencimiento[1])-1,parseInt(fechaVencimiento[0]))
     }
     const fechaEntrega = asignacion.fechaEntrega.split('/')
     this.fechaEntrega = asignacion.fechaEntrega
@@ -123,6 +133,7 @@ export class SeleccionarAgenteComponent implements OnInit {
           referencias : this.referencias,
           observaciones : this.observaciones,
           fechaAsignacion : this.fechaAsignacion,
+          fechaVencimiento : this.fechaAsignacion,
           fechaEntrega : this.fechaEntrega,
           calidad : this.calidad,
           precio : this.precio
@@ -180,6 +191,12 @@ export class SeleccionarAgenteComponent implements OnInit {
       this.fechaAsignacion = this.formatDate(selectedDate);
     }
   }
+  selectFechaVencimiento(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaVencimiento = this.formatDate(selectedDate);
+    }
+  }
   selectFechaEntrega(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
     if (selectedDate) {
@@ -193,6 +210,8 @@ export class SeleccionarAgenteComponent implements OnInit {
     this.calidad = ''
     this.fechaAsignacion = ''
     this.fechaAsignacionDate = new Date()
+    this.fechaVencimiento = ''
+    this.fechaVencimientoDate = new Date()
     this.fechaEntrega = ''
     this.fechaEntregaDate = new Date()
     this.referencias = ''

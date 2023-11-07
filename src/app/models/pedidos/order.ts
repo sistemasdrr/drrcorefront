@@ -1,6 +1,7 @@
 import { Abonado } from "./abonado"
 import { Attachment } from "../attachment"
 import { Asignacion } from "./asignacion/asignacion"
+import { Pais } from "../pais"
 
 export interface Order {
   id: string
@@ -26,9 +27,10 @@ export interface Order {
   nombreReal : string
   nombreSolicitado : string
   continente : string
-  pais : string
+  pais : Pais
   ciudad : string
-  regTributario : string
+  tipoRT : string
+  codigoRT : string
   direccion : string
   telefono : string
   correo : string

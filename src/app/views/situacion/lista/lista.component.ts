@@ -32,7 +32,7 @@ const day = today.getDate()
 export class ListaSituacionComponent implements  OnInit {
   breadscrums = [
     {
-      title: 'Situación',
+      title: 'Situación de Informe',
       items: ['Producción'],
       active: 'Situación',
     },

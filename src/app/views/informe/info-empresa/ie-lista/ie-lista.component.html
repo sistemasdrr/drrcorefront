@@ -15,14 +15,12 @@
                 <li class="tbl-search-box d-flex">
                   <label for="search-input"><i class="material-icons search-icon">search</i></label>
                   <input placeholder="Buscar" type="text" #filter class="browser-default search-field" aria-label="Search box">
-
                   <div style="margin: 0 0 0 2rem;">País</div>
                   <select class="form-select"  [(ngModel)]="filtrarPais" style="margin: 0 1rem 0 .5rem;" aria-label="País">
                     <option selected></option>
                     <option value="RV">Peru</option>
                     <option value="OR">Brasil</option>
                   </select>
-
                 </li>
               </ul>
             </div>
@@ -32,13 +30,6 @@
                   <div class="m-l-10" matTooltip="NUEVO INFORME (OR)">
                     <button mat-mini-fab color="primary" (click)="agregarEmpresa()">
                       <mat-icon class="col-white">add</mat-icon>
-                    </button>
-                  </div>
-                </li>
-                <li class="tbl-header-btn">
-                  <div class="m-l-10" matTooltip="IMPRIMIR">
-                    <button mat-mini-fab style="background-color: red;">
-                      <mat-icon class="col-white">picture_as_pdf</mat-icon>
                     </button>
                   </div>
                 </li>
@@ -52,12 +43,10 @@
               </ul>
             </div>
           </div>
-
         </div>
       </div>
       <div class="col-md-12" style="overflow-x: auto;">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
-
           <ng-container matColumnDef="{{columnsToDisplay[0]}}" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RC </th>
           <td mat-cell *matCellDef="let empresa" class="text-center" style="border-radius: 10px;" [class]="empresa.rc ==='A+' ? 'bg-green' : empresa.rc === 'A-' ? 'l-bg-green' : empresa.rc === 'B' ? 'bg-yellow' : empresa.rc === 'C' ? 'bg-orange' : empresa.rc === 'D' ? 'bg-red' : empresa.rc === 'NN' ? 'bg-grey' : '' ">
@@ -123,18 +112,13 @@
               </button>
             </td>
           </ng-container>
-
           <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
           <tr mat-row *matRowDef="let empresa; columns: columnsToDisplay;"
-            class="" [ngClass]="empresa.rc === 'NN' ? 'bg-cyan' : ''" >
-          </tr>
+            class=""></tr>
+          <!--[ngClass]="empresa.rc === 'NN' ? 'bg-cyan' : ''"-->
         </table>
         <mat-paginator [pageSizeOptions]="[10, 25]" aria-label="Seleccionar página de Pedidos" class="w-100"></mat-paginator>
-
       </div>
     </div>
-
-
-
   </div>
 </section>

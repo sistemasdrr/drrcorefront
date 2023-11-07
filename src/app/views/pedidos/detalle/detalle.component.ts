@@ -11,6 +11,7 @@ import { BuscarEmpresaDialogComponent } from '@shared/components/buscar-empresa-
 import { Abonado } from 'app/models/pedidos/abonado';
 import { AbonadoService } from 'app/services/pedidos/abonado.service';
 import { Pais } from 'app/models/pais';
+import { OrderService } from 'app/services/order.service';
 
 interface Idioma {
   value: string;
@@ -24,11 +25,6 @@ interface TipoInforme {
   value: string;
   viewValue: string;
 }
-interface TipoTramite {
-  value: string;
-  viewValue: string;
-}
-
 
 @Component({
   selector: 'app-detalle',
@@ -62,6 +58,15 @@ export class DetalleComponent implements OnInit {
       this.telefono = informe[0].telefono
     }
   }
+
+  //DATOS GENERALES
+  tipoTramite = ""
+  fechaIngreso = ""
+  fechaIngresoDate = new Date()
+  fechaVencimiento = ""
+  fechaVencimientoDate = new Date()
+  fechaVencimientoReal = ""
+  fechaVencimientoRealDate = new Date()
   //FORM ABONADO
   nombreAbonado : string = ''
   isChecked = true;
@@ -100,17 +105,10 @@ export class DetalleComponent implements OnInit {
     {value: 'RV', viewValue: 'RV'},
     {value: 'OR', viewValue: 'OR'}
   ];
-  tipoTramites: TipoTramite[] = [
-    {value: 'T1', viewValue: 'T1'},
-    {value: 'T2', viewValue: 'T2'},
-    {value: 'T3', viewValue: 'T3'},
-    {value: 'T4', viewValue: 'T4'}
-  ];
 
   idiomaSeleccionado = this.idiomas[0].value
   continenteSeleccionado = this.continentes[0].value
   tipoInformeSeleccionado = this.tipoInformes[0].value
-  tipoTramiteSeleccionado = this.tipoTramites[0].value
 
   columnsToDisplay = ['tipo', 'cupon', 'nombreSolicitado', 'despacho', 'abonado', 'tramite', 'pais', 'balance', 'calidad', 'estado' ];
   dataSource: MatTableDataSource<ReportesSolicitados>;
@@ -129,17 +127,18 @@ export class DetalleComponent implements OnInit {
       active: '',
     },
   ];
-
-
-
-  revelarNombre(){
-    if(this.isChecked){
-      this.nombre_abonado = "SI"
-    }else{
-      this.nombre_abonado = "NO"
-    }
+  constructor(
+    public dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
+    private requestedReportsService : RequestedReportsService,
+    private router : Router,
+    private abonadoService : AbonadoService,
+    private PaisService : PaisService,
+    private empresaPersonaService : EmpresaPersonaService,
+    private orderService : OrderService
+  ) {
+    this.dataSource = new MatTableDataSource()
   }
-
   ngOnInit() {
     this.tipo_formulario = this.activatedRoute.snapshot.paramMap.get('tipo');
     this.nmrCupon = this.activatedRoute.snapshot.paramMap.get('cupon');
@@ -157,25 +156,22 @@ export class DetalleComponent implements OnInit {
         {
           title: 'Nuevo Cupón',
           items: ['Producción', 'Pedidos'],
-          active: '1',
+          active: (this.orderService.getLastNumCupon() + 1) + '',
         },
       ];
+      this.nmrCupon = (this.orderService.getLastNumCupon() + 1) + ''
     }
 
     this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
     this.paises = this.PaisService.getPaises()
   }
-  constructor(
-    public dialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private requestedReportsService : RequestedReportsService,
-    private router : Router,
-    private abonadoService : AbonadoService,
-    private PaisService : PaisService,
-    private empresaPersonaService : EmpresaPersonaService
-  ) {
-    this.dataSource = new MatTableDataSource()
 
+  revelarNombre(){
+    if(this.isChecked){
+      this.nombre_abonado = "SI"
+    }else{
+      this.nombre_abonado = "NO"
+    }
   }
   TipoFormulario(tipo: string) {
     this.tipo_formulario = tipo;
@@ -212,6 +208,8 @@ export class DetalleComponent implements OnInit {
         this.actualizarSeleccion(this.paisSeleccionado)
         this.ruc = val[0].ruc
         this.continente = val[0].continente
+        this.buscarPorNombreInforme = val[0].nombreBuscado
+
         this.ciudad = val[0].ciudad
         this.direccion = val[0].direccion
         this.correo = val[0].correo

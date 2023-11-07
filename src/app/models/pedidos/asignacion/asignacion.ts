@@ -6,6 +6,7 @@ export interface Asignacion{
   referencias : string
   observaciones : string
   fechaAsignacion : string
+  fechaVencimiento : string
   fechaEntrega : string
   calidad : string
   precio : number

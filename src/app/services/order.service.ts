@@ -67,9 +67,16 @@ export class OrderService {
       nombreReal: 'KARINTO SA',
       nombreSolicitado: 'KARINTO ',
       continente: 'AMERICA',
-      pais: 'PERU',
+      pais: {
+        id : 11,
+        nombre : "Peru",
+        nombreAcort : "PER",
+        nombreMayus : "PERU",
+        icono : "pe"
+      },
       ciudad: 'LIMA',
-      regTributario: 'Regi. tributario ...',
+      tipoRT: 'RTM',
+      codigoRT: '1545643546',
       direccion: 'direccion de la empresa',
       telefono: '945848646',
       correo: 'karinto@example.com',
@@ -88,9 +95,10 @@ export class OrderService {
           referencias: 'referencias',
           observaciones: 'observaciones',
           fechaAsignacion: '26/10/2023',
+          fechaVencimiento : '31/10/2023',
           fechaEntrega: '30/10/2023',
           calidad: 'A',
-          precio: 0
+          precio: 50
         }
       ],
     },
@@ -139,9 +147,16 @@ export class OrderService {
       nombreReal: 'NESTLE SA',
       nombreSolicitado: 'NESTLE',
       continente: 'AMERICA',
-      pais: 'PERU',
+      pais: {
+        id : 11,
+        nombre : "Peru",
+        nombreAcort : "PER",
+        nombreMayus : "PERU",
+        icono : "pe"
+      },
       ciudad: 'LIMA',
-      regTributario: 'Regi. tributario ...',
+      tipoRT: 'RTM',
+      codigoRT: '1545643546',
       direccion: 'direccion de la empresa',
       telefono: '945848646',
       correo: 'nestle@example.com',
@@ -195,9 +210,16 @@ export class OrderService {
       nombreReal: 'LAIVE SA',
       nombreSolicitado: 'LAIVE',
       continente: 'AMERICA',
-      pais: 'PERU',
+      pais: {
+        id : 11,
+        nombre : "Peru",
+        nombreAcort : "PER",
+        nombreMayus : "PERU",
+        icono : "pe"
+      },
       ciudad: 'LIMA',
-      regTributario: 'Regi. tributario ...',
+      tipoRT: 'RTM',
+      codigoRT: '154567549',
       direccion: 'direccion de la empresa',
       telefono: '945848646',
       correo: 'laive@example.com',
@@ -243,9 +265,16 @@ export class OrderService {
       nombreReal: 'SAYON SA',
       nombreSolicitado: 'SAYON ',
       continente: 'AMERICA',
-      pais: 'PERU',
+      pais: {
+        id : 11,
+        nombre : "Peru",
+        nombreAcort : "PER",
+        nombreMayus : "PERU",
+        icono : "pe"
+      },
       ciudad: 'LIMA',
-      regTributario: 'Regi. tributario ...',
+      tipoRT: 'RUC',
+      codigoRT : '1541515654',
       direccion: 'direccion de la empresa',
       telefono: '945848646',
       correo: 'sayon@example.com',
@@ -291,9 +320,16 @@ export class OrderService {
       nombreReal: 'SAN JORGE SAC',
       nombreSolicitado: 'SAN JORGE',
       continente: 'AMERICA',
-      pais: 'PERU',
+      pais: {
+        id : 11,
+        nombre : "Peru",
+        nombreAcort : "PER",
+        nombreMayus : "PERU",
+        icono : "pe"
+      },
       ciudad: 'LIMA',
-      regTributario: 'Regi. tributario ...',
+      tipoRT: 'RUC',
+      codigoRT : '78465489465',
       direccion: 'direccion de la empresa',
       telefono: '945848646',
       correo: 'san-jorge@example.com',
@@ -339,9 +375,16 @@ export class OrderService {
       nombreReal: 'GLORIA SA',
       nombreSolicitado: 'GLORIA ',
       continente: 'AMERICA',
-      pais: 'PERU',
+      pais: {
+        id : 11,
+        nombre : "Peru",
+        nombreAcort : "PER",
+        nombreMayus : "PERU",
+        icono : "pe"
+      },
       ciudad: 'LIMA',
-      regTributario: 'Regi. tributario ...',
+      tipoRT: 'RUC',
+      codigoRT : '1085161564',
       direccion: 'direccion de la empresa',
       telefono: '945848646',
       correo: 'gloria@example.com',
@@ -387,9 +430,16 @@ export class OrderService {
       nombreReal: 'ALICORP SA',
       nombreSolicitado: 'ALICORP ',
       continente: 'AMERICA',
-      pais: 'PERU',
+      pais: {
+        id : 11,
+        nombre : "Peru",
+        nombreAcort : "PER",
+        nombreMayus : "PERU",
+        icono : "pe"
+      },
       ciudad: 'LIMA',
-      regTributario: 'Regi. tributario ...',
+      tipoRT : 'RUC',
+      codigoRT: 'Regi. tributario ...',
       direccion: 'direccion de la empresa',
       telefono: '945848646',
       correo: 'alicorp@example.com',
@@ -411,7 +461,15 @@ export class OrderService {
     const order = this.orders.filter((x) => x.cupon === cupon)
     return order[0].attachments
   }
-
+  getLastNumCupon(){
+    let maxCupon = 0
+    for(let i = 0; i < this.orders.length ; i++){
+      if(maxCupon < parseInt(this.orders[i].cupon)){
+        maxCupon = parseInt(this.orders[i].cupon)
+      }
+    }
+    return maxCupon
+  }
   addAsignacionCupon(cupon: string, asignacion: Asignacion) {
     const index = this.orders.findIndex(x => x.cupon === cupon);
     if (index !== -1) {
@@ -419,7 +477,10 @@ export class OrderService {
     }
   }
   deleteAsignacionCupon(cupon : string, idAsignacion : number){
-    
+    const indexPedido = this.orders.findIndex(x => x.cupon === cupon);
+    if (indexPedido !== -1) {
+      const indexAsignacion = this.orders[indexPedido].asignacion
+    }
   }
 }
 

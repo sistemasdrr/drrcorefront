@@ -159,6 +159,7 @@ export class AsignacionService {
       referencias : 'referencias',
       observaciones : 'observaciones',
       fechaAsignacion : '26/10/2023',
+      fechaVencimiento : '31/10/2023',
       fechaEntrega : '30/10/2023',
       calidad : 'A',
       precio : 0

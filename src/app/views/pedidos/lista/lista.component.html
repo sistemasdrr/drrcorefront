@@ -6,12 +6,12 @@
     </div>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
+        <div class="card shadow">
           <div class="materialTableHeader" >
             <div class="left">
               <ul class="header-buttons-left ms-0">
                 <li class="tbl-title">
-                  <h2>Listado de Pedidos</h2>
+                  <h2>Buscar</h2>
                 </li>
                 <li class="tbl-search-box d-flex">
                   <label for="search-input"><i class="material-icons search-icon">search</i></label>
@@ -67,7 +67,6 @@
               </ul>
             </div>
           </div>
-
         </div>
       </div>
       <div class="col-md-12" style="overflow-x: auto;">
@@ -201,11 +200,11 @@
                       <div class="col-md-4">
                         <label><b>Nombre Real de la Empresa: </b>  {{order.nombreReal}}</label><br>
                         <label><b>Nombre Solicitado de la Empresa: </b>  {{order.nombreSolicitado}}</label><br>
-                        <label><b>Registro Tributario: </b>  {{order.regTributario}}</label>
+                        <label><b>Registro Tributario: </b>  {{order.tipoRT}} - {{order.codigoRT}}</label>
                       </div>
                       <div class="col-md-4">
                         <label><b>Continente: </b>  {{order.continente}}</label><br>
-                        <label><b>País: </b>  {{order.pais}}</label><br>
+                        <label><b>País: </b>  {{order.pais.nombre}} <span class="fi fi-{{order.pais.icono}}"></span></label><br>
                         <label><b>Ciudad: </b>  {{order.ciudad}}</label><br>
                       </div>
                       <div class="col-md-4">

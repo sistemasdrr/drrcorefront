@@ -33,7 +33,7 @@ import { HistorialComponent } from './historial/historial.component';
     MatInputModule,
     FormsModule,
     SharedModule,
-    ComponentsModule
+    ComponentsModule,
   ]
 })
 export class SituacionModule { }

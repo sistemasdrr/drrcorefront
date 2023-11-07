@@ -5,54 +5,58 @@
       </app-breadcrumb>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <div class="card shadow">
-          <div class="row">
-            <div class="col-md-4">
-              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;">
-                <mat-label>Nombre de la Empresa</mat-label>
-                <input matInput placeholder="Ej. ALICORP SA" [(ngModel)]="nombreEmpresa" (keypress)="enter($event)">
-              </mat-form-field>
-            </div>
-            <div class="col-md-3">
-              <mat-form-field class="w-100" style="padding-top: 1rem;">
-                <mat-label>Buscar entre</mat-label>
-                <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
-                  <input matStartDate formControlName="start" [readOnly]="true" placeholder="Start date"  [ngModel]="fechaInicio" (dateChange)="mostrarFechas()">
-                  <input matEndDate formControlName="end" [readOnly]="true" placeholder="End date"   (dateChange)="mostrarFechas()">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker ></mat-date-range-picker>
-
-              </mat-form-field>
-            </div>
-            <div class="col-md-2">
-              <mat-form-field class="w-100" style="padding-top: 1rem;">
-                <mat-label>Tipo de Informe</mat-label>
-                <mat-select  [(ngModel)]="tipoInforme">
-                  <mat-option value=""></mat-option>
-                  <mat-option value="RV">RV</mat-option>
-                  <mat-option value="OR">OR</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="col-md-2">
-              <mat-form-field class="w-100" style="padding-top: 1rem;">
-                <mat-label>Tipo de Trámite</mat-label>
-                <mat-select [(ngModel)]="tipoTramite">
-                  <mat-option value=""></mat-option>
-                  <mat-option value="T1">T1</mat-option>
-                  <mat-option value="T2">T2</mat-option>
-                  <mat-option value="T3">T3</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="col-md-1 d-flex justify-content-center align-items-center">
-              <button mat-mini-fab [class]="'bg-primary'" matTooltip="Aplicar Filtros" (click)="applyFilter()" [disabled]="">
-                <i class="fa-solid fa-magnifying-glass col-white"></i>
-              </button>
+      <div class="col-md-12 mb-3">
+        <div class="card shadow h-100 ">
+          <div class="materialTableHeader h-100" style="align-items: start;" >
+            <div class="left">
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
+                    <mat-label>Nombre de la Empresa</mat-label>
+                    <input matInput placeholder="Ej. ALICORP SA" [(ngModel)]="nombreEmpresa" (keypress)="enter($event)">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field class="w-100" style="padding-top: 1rem;">
+                    <mat-label>Buscar entre</mat-label>
+                    <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
+                      <input matStartDate formControlName="start" [readOnly]="true" placeholder="Start date"  [ngModel]="fechaInicio" (dateChange)="mostrarFechas()">
+                      <input matEndDate formControlName="end" [readOnly]="true" placeholder="End date"   (dateChange)="mostrarFechas()">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker ></mat-date-range-picker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                  <mat-form-field class="w-100" style="padding-top: 1rem;">
+                    <mat-label>Tipo de Informe</mat-label>
+                    <mat-select  [(ngModel)]="tipoInforme">
+                      <mat-option value=""></mat-option>
+                      <mat-option value="RV">RV</mat-option>
+                      <mat-option value="OR">OR</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                  <mat-form-field class="w-100" style="padding-top: 1rem;">
+                    <mat-label>Tipo de Trámite</mat-label>
+                    <mat-select [(ngModel)]="tipoTramite">
+                      <mat-option value=""></mat-option>
+                      <mat-option value="T1">T1</mat-option>
+                      <mat-option value="T2">T2</mat-option>
+                      <mat-option value="T3">T3</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-1 d-flex justify-content-center align-items-center">
+                  <button mat-mini-fab [class]="'bg-primary'" matTooltip="Aplicar Filtros" (click)="applyFilter()" [disabled]="">
+                    <i class="fa-solid fa-magnifying-glass col-white"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
+
 
 
         </div>

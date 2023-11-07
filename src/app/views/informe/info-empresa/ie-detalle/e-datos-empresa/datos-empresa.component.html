@@ -50,6 +50,7 @@
         <mat-form-field style="width: 100%;">
           <mat-label>Tipo de Institución</mat-label>
           <mat-select [(ngModel)]="tipoInstitucionInforme" (selectionChange)="selectInstitucionInforme($event.value)" >
+            <mat-option [value]="''"></mat-option>
             <mat-option [value]="'PERSONA JURÍDICA'">
               PERSONA JURÍDICA
             </mat-option>
@@ -63,6 +64,7 @@
         <mat-form-field class="w-100">
           <mat-label>Año de Fundación</mat-label>
           <input matInput placeholder="" type="number" mask="9999"  [(ngModel)]="yFundacionInforme">
+          <mat-hint style="color: red;" *ngIf="yFundacionInforme !==  fechaConstitucionInformeDate.getFullYear()+''">Año de Constitución Diferente. Explique.</mat-hint>
         </mat-form-field>
       </div>
       <div class="col-md-5">
@@ -85,11 +87,11 @@
           <mat-datepicker #fecha_constitucion color="primary"></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-8">
         <mat-form-field class="w-100">
           <mat-label>Personería Jurídica</mat-label>
           <input type="text" matInput [formControl]="controlPersoneriaJuridica" [matAutocomplete]="auto1" [(ngModel)]="personeriaJuridicaInforme" >
-          <button matSuffix mat-mini-fab color="primary" *ngIf="personeriaJuridicaInforme.description !== ''" style="background-color: rgba(0,0,0,0);" (click)="personeriaJuridicaInforme.description = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
+          <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);"  (click)="limpiarSeleccionPersoneriaJuridica()" #tooltip="matTooltip" matTooltip="Limpiar">
             <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
           </button>
           <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayPersoneriaJuridica">
@@ -99,13 +101,18 @@
           </mat-autocomplete>
         </mat-form-field>
       </div>
+      <div class="col-md-4">
+        <mat-form-field class="w-100">
+          <mat-label>Tal cual fue Solicitado</mat-label>
+          <input matInput placeholder="" [(ngModel)]="nombreSolicitadoInforme">
+        </mat-form-field>
+      </div>
       <div class="col-md-12">
         <div>
-          <h5>Ruc(Registro Tributario)</h5>
+          <h5>Registro Tributario</h5>
         </div>
-        <hr>
       </div>
-      <div class="col-md-5 d-flex">
+      <div class="col-md-4 d-flex">
         <mat-form-field class="">
           <mat-label>Tipo</mat-label>
           <input matInput placeholder="" [(ngModel)]="tipoRucInforme">
@@ -115,11 +122,11 @@
           <input matInput placeholder="" [(ngModel)]="codigoRucInforme">
         </mat-form-field>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-5">
         <mat-form-field class="w-100">
           <mat-label>Situación RUC</mat-label>
           <input type="text" matInput [formControl]="controlSituacionRUC" [matAutocomplete]="auto2" [(ngModel)]="situacionRucInforme">
-          <button matSuffix mat-mini-fab color="primary" *ngIf="situacionRucInforme.description !== ''" style="background-color: rgba(0,0,0,0);" (click)="situacionRucInforme.description = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
+          <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" (click)="limpiarSeleccionSituacionRUC()" #tooltip="matTooltip" matTooltip="Limpiar">
             <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
           </button>
           <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displaySituacionRuc">
@@ -152,7 +159,10 @@
       <div class="col-md-2">
         <mat-form-field class="w-100">
           <mat-label>Duración</mat-label>
-          <input matInput placeholder  [(ngModel)]="duracionInforme">
+          <mat-select [(ngModel)]="duracionInforme">
+            <mat-option [value]="''"></mat-option>
+            <mat-option [value]="'Indefinida'">Indefinida</mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-3">

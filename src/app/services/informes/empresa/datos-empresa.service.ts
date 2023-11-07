@@ -15,7 +15,8 @@ export class DatosEmpresaService {
       yFundacion : 1994,
       razonSocial : 'VALICO S.A.C.',
       nombreComercial : '',
-      fechaConstitucion : '',
+      nombreSolicitado : '',
+      fechaConstitucion : '10/11/1994',
       personeriaJuridica : {
         id : 0,
         description : 'Sociedad Anonima Cerrada'
@@ -65,6 +66,7 @@ export class DatosEmpresaService {
       yFundacion : 1967,
       razonSocial : 'TUBOS Y PERFILES METALICOS S.A.',
       nombreComercial : 'TUPEMESA',
+      nombreSolicitado : '1',
       fechaConstitucion : '10/10/1967',
       personeriaJuridica : {
         id : 0,

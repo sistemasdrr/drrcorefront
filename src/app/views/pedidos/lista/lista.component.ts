@@ -30,7 +30,7 @@ export class ListaComponent implements AfterViewInit {
   tipoTramite : string = ""
   breadscrums = [
     {
-      title: 'Pedidos',
+      title: 'Lista de Pedidos',
       items: ['Producción'],
       active: 'Pedidos',
     },

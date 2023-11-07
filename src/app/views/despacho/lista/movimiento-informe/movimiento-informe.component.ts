@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Asignacion } from 'app/models/pedidos/asignacion/asignacion';
-import { Order } from 'app/models/pedidos/order';
 import { OrderService } from 'app/services/order.service';
 
 @Component({
@@ -13,7 +12,7 @@ import { OrderService } from 'app/services/order.service';
 export class MovimientoInformeComponent implements OnInit {
 
   dataSource : MatTableDataSource<Asignacion>
-  columnas = ['asignado','fechaAsignacion','fechaEntrega','calidad','precio']
+  columnas = ['asignado','fechaAsignacion','fechaVencimiento','fechaEntrega','calidad','precio']
 
   constructor(public dialogRef: MatDialogRef<MovimientoInformeComponent>, @Inject(MAT_DIALOG_DATA) public data : any,private orderService : OrderService){
       this.dataSource = new MatTableDataSource()
@@ -26,6 +25,10 @@ export class MovimientoInformeComponent implements OnInit {
     }else{
       console.log('El pedido no tiene asignaciones')
     }
+  }
+
+  salir(){
+    this.dialogRef.close()
   }
 
 }
