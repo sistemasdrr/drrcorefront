@@ -3,8 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ESSALUD, Personal } from 'app/models/mantenimiento/persona/personal';
-import { PersonalService } from 'app/services/mantenimiento/personal.service';
+import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
 import { AgregarEssaludComponent } from './agregar-essalud/agregar-essalud.component';
+import { Pais } from 'app/models/pais';
+import { PaisService } from 'app/services/pais.service';
+import { Observable, map, startWith } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-detalle',
@@ -22,7 +28,7 @@ export class DetalleComponent implements OnInit {
 
   id = 0
   codigo = ""
-  tipoDocIdent = ""
+  tipoDocIdent = 0
   numDocIdent = ""
   email = ""
   apellidos = ""
@@ -31,24 +37,29 @@ export class DetalleComponent implements OnInit {
   telFijo = ""
   telEmergencia = ""
   direccion = ""
-  estadoCivil = ""
+  estadoCivil = 0
   numHijos = ""
   tipoSangre = ""
   lugarNac = ""
   ciudadNac = ""
-  paisNac = ""
+  paisNac : Pais = {
+    id : 0,
+    valor : '',
+    bandera : ''
+  }
   fechaNacimientoDate = new Date()
   fechaNacimiento = ""
   fechaIngresoDate = new Date()
   fechaIngreso = ""
-  cargo = ""
+  departamento = 0
+  cargo = 0
   tipoContrato = ""
   CSbanco = ""
-  CStipoCuenta = ""
+  CStipoCuenta = 0
   CSnumCuenta = ""
   CSmoneda = ""
   CCbanco = ""
-  CCtipoCuenta = ""
+  CCtipoCuenta = 0
   CCnumCuenta = ""
   CCmoneda = ""
   listaEssalud : ESSALUD[] = []
@@ -62,29 +73,34 @@ export class DetalleComponent implements OnInit {
     telefonoFijo : '',
     telefonoEmergencia : '',
     telefonoCelular : '',
-    tipoDocumento : '',
+    tipoDocumento : 0,
     numDocumento : '',
     direccion : '',
-    estadoCivil : '',
+    estadoCivil : 0,
     numeroHijos : '',
     fechaNacimiento : '',
-    lugarNacimiento1 : '',
-    lugarNacimiento2 : '',
-    lugarNacimiento3 : '',
+    lugarNacimiento : '',
+    ciudadNacimiento : '',
+    paisNacimiento : {
+      id : 0,
+      valor : '',
+      bandera : ''
+    },
     tipoSangre : '',
     email : '',
     fechaIngreso : '',
-    cargo : '',
+    departamento : 0,
+    cargo : 0,
     tipoContrato : '',
     estado : true,
     //CUENTA SUELDO
     CSBanco : '',
-    CSTipoCuenta : '',
+    CSTipoCuenta : 0,
     CSNumCuenta : '',
     CSMoneda : '',
     //CUENTA CTS
     CCBanco : '',
-    CCTipoCuenta : '',
+    CCTipoCuenta : 0,
     CCNumCuenta : '',
     CCMoneda : '',
     ESSALUD : []
@@ -92,16 +108,66 @@ export class DetalleComponent implements OnInit {
 
   columnas = ['id', 'nombre', 'tipoVinculo', 'docIdentidad','accion']
   dataSource : MatTableDataSource<ESSALUD>
+  paises : Pais[] = []
+  filterPais : Observable<Pais[]>
+  controlPaises = new FormControl<string | Pais>('')
+
+  tiposDocumento : data[] = []
+  estadosCivil : data[] = []
+  departamentos : data[] = []
+  cargos : data[]= []
+  tiposCuenta : data[] = []
 
   constructor(private router : Router,
     private personalService : PersonalService,
     private activatedRoute : ActivatedRoute,
-    public dialog: MatDialog){
+    public dialog: MatDialog, private paisService : PaisService,
+    private snackBar: MatSnackBar){
       this.dataSource = new MatTableDataSource()
+      this.filterPais = new Observable<Pais[]>()
   }
 
   ngOnInit(): void {
     console.log(this.router.url);
+    this.personalService.getTipoDocumento().subscribe(data => {
+      if(data.isSuccess == true){
+        this.tiposDocumento = data.data;
+      }
+    });
+    this.personalService.getEstadoCivil().subscribe(data => {
+      if(data.isSuccess == true){
+        this.estadosCivil = data.data;
+      }
+    });
+    this.personalService.getDepartamento().subscribe(data => {
+      if(data.isSuccess == true){
+        this.departamentos = data.data;
+      }
+    });
+    this.personalService.getTipoCuenta().subscribe(data => {
+      if(data.isSuccess == true){
+        this.tiposCuenta = data.data;
+      }
+    });
+    this.paisService.getPaises().subscribe(data => {
+      if(data.isSuccess == false){
+        this.paises = data.data;
+      }else{
+        this.snackBar.open('Ha ocurrido un problema en la conexión', '', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right',
+          panelClass: 'snackbar-danger',
+        });
+      }
+    });
+    this.filterPais = this.controlPaises.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.valor
+        return name ? this._filterPais(name as string) : this.paises.slice()
+      }),
+    )
     const idRoute = this.activatedRoute.snapshot.paramMap.get('id')
     if(parseInt(idRoute+'') > 0){
       this.id = parseInt(idRoute+'')
@@ -114,6 +180,7 @@ export class DetalleComponent implements OnInit {
           active: 'Detalle',
         },
       ];
+      console.log(personal.departamento)
       this.personal = {
         id : personal.id,
         codigo : personal.codigo,
@@ -128,12 +195,13 @@ export class DetalleComponent implements OnInit {
         estadoCivil : personal.estadoCivil,
         numeroHijos : personal.numeroHijos,
         fechaNacimiento : personal.fechaNacimiento,
-        lugarNacimiento1 : personal.lugarNacimiento1,
-        lugarNacimiento2 : personal.lugarNacimiento2,
-        lugarNacimiento3 : personal.lugarNacimiento3,
+        lugarNacimiento : personal.lugarNacimiento,
+        ciudadNacimiento : personal.ciudadNacimiento,
+        paisNacimiento : personal.paisNacimiento,
         tipoSangre : personal.tipoSangre,
         email : personal.email,
         fechaIngreso : personal.fechaIngreso,
+        departamento : personal.departamento,
         cargo : personal.cargo,
         tipoContrato : personal.tipoContrato,
         estado : true,
@@ -162,9 +230,9 @@ export class DetalleComponent implements OnInit {
       this.estadoCivil = personal.estadoCivil
       this.numHijos = personal.numeroHijos
       this.tipoSangre = personal.tipoSangre
-      this.lugarNac = personal.lugarNacimiento1
-      this.ciudadNac = personal.lugarNacimiento2
-      this.paisNac = personal.lugarNacimiento3
+      this.lugarNac = personal.lugarNacimiento
+      this.ciudadNac = personal.ciudadNacimiento
+      this.paisNac = personal.paisNacimiento
       this.fechaNacimiento = personal.fechaNacimiento
       const fechaNacimiento = personal.fechaNacimiento.split('/')
       if(fechaNacimiento.length > 0){
@@ -175,6 +243,8 @@ export class DetalleComponent implements OnInit {
       if(fechaIngreso.length > 0){
         this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]), parseInt(fechaIngreso[1]), parseInt(fechaIngreso[0]))
       }
+      this.departamento = personal.departamento
+      this.updateCargos(personal.departamento)
       this.cargo = personal.cargo
       this.tipoContrato = personal.tipoContrato
       this.CSbanco = personal.CSBanco
@@ -199,7 +269,33 @@ export class DetalleComponent implements OnInit {
       ];
     }
   }
-
+  updateCargos(id : number){
+    this.personalService.getCargoPorDepartamento(id).subscribe(data => {
+      if(data.isSuccess == true){
+        this.cargos = data.data;
+      }
+    });
+  }
+  private _filterPais(description: string): Pais[] {
+    const filterValue = description.toLowerCase();
+    return this.paises.filter(pais => pais.valor.toLowerCase().includes(filterValue));
+  }
+  displayPais(pais : Pais): string {
+    return pais && pais.valor ? pais.valor : '';
+  }
+  cambiarIcono(objPais : any){
+    this.iconoSeleccionado = objPais.bandera
+  }
+  /**/
+  paisSeleccionado : number =0
+  iconoSeleccionado: string = ""
+  actualizarSeleccion(id: number) {
+    const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
+    if (paisSeleccionadoObj) {
+      this.paisSeleccionado = paisSeleccionadoObj.id;
+      this.iconoSeleccionado = paisSeleccionadoObj.bandera;
+    }
+  }
   onSelect(event : any) {
     this.files = []
 
@@ -241,12 +337,13 @@ export class DetalleComponent implements OnInit {
       estadoCivil : this.estadoCivil,
       numeroHijos : this.numHijos,
       fechaNacimiento : this.fechaNacimiento,
-      lugarNacimiento1 : this.lugarNac,
-      lugarNacimiento2 : this.ciudadNac,
-      lugarNacimiento3 : this.paisNac,
+      lugarNacimiento : this.lugarNac,
+      ciudadNacimiento : this.ciudadNac,
+      paisNacimiento : this.paisNac,
       tipoSangre : this.tipoSangre,
       email : this.email,
       fechaIngreso : this.fechaIngreso,
+      departamento : this.departamento,
       cargo : this.cargo,
       tipoContrato : this.tipoContrato,
       estado : true,

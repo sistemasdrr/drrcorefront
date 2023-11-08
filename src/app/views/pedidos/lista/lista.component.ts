@@ -8,10 +8,12 @@ import { MatSort } from '@angular/material/sort';
 
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { Order } from 'app/models/pedidos/order';
-import { OrderService } from 'app/services/order.service';
+import { PedidoService } from 'app/services/pedido.service';
 
 import { Router } from '@angular/router';
+import { Pedido } from 'app/models/pedidos/pedido';
+import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
+import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
 
 @Component({
   selector: 'app-lista',
@@ -36,20 +38,25 @@ export class ListaComponent implements AfterViewInit {
     },
   ];
 
-  dataSource: MatTableDataSource<Order>;
+  dataSource: MatTableDataSource<Pedido>;
   columnsToDisplay = ['cupon', 'informe', 'estado', 'tipoInforme', 'tipoTramite', 'calidad', 'fechaIngreso', 'fechaVencimiento', 'fechaDescarga', 'Acciones' ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedOrder: Order | null = null;
-
+  expandedOrder: Pedido | null = null;
+  datosEmpresa : DatosEmpresa[] = []
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
 
-  constructor(private orderService : OrderService, private router : Router) {
-    this.dataSource = new MatTableDataSource(this.orderService.getOrders());
+  constructor(private pedidoService : PedidoService,
+    private router : Router,
+    private datosEmpresaService : DatosEmpresaService) {
+    this.dataSource = new MatTableDataSource(this.pedidoService.getOrders());
   }
   loadData() {
-    this.dataSource = new MatTableDataSource(this.orderService.getOrders());
+    this.dataSource = new MatTableDataSource(this.pedidoService.getOrders());
+  }
+  getDatosEmpresa(codigoInforme : string){
+    this.datosEmpresa = this.datosEmpresaService.getDatosEmpresa(codigoInforme)
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -81,12 +88,12 @@ export class ListaComponent implements AfterViewInit {
   }
 
   applyFilterTipoInforme() {
-    this.dataSource.data = this.orderService.getOrders()
+    this.dataSource.data = this.pedidoService.getOrders()
       .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
   }
 
   applyFilterTipoTramite() {
-    this.dataSource.data = this.orderService.getOrders()
+    this.dataSource.data = this.pedidoService.getOrders()
       .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
   }
 

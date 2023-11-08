@@ -215,13 +215,14 @@ export class PDatosPersonaComponent implements OnInit{
 
 constructor(
   private dialog : MatDialog,
-  private PaisService : PaisService,
+  private paisService : PaisService,
 ) {
   this.filterReputacion = new Observable<Reputacion[]>()
   this.filterSituacionRuc = new Observable<SituacionRuc[]>()
   this.filterPersoneriaJuridica = new Observable<PersoneriaJuridica[]>()
-  this.paises = this.PaisService.getPaises()
-
+  this.paisService.getPaises().subscribe(data => {
+    this.paises = data;
+  });
 }
   ngOnInit() {
     this.filterReputacion = this.controlReputacion.valueChanges.pipe(
@@ -414,7 +415,7 @@ constructor(
     const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
     if (paisSeleccionadoObj) {
       this.paisInforme = paisSeleccionadoObj.id;
-      this.iconoSeleccionado = paisSeleccionadoObj.icono;
+      this.iconoSeleccionado = paisSeleccionadoObj.bandera;
     }
   }
   //DATOS DE EMPRESA

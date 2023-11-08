@@ -11,7 +11,8 @@ import { BuscarEmpresaDialogComponent } from '@shared/components/buscar-empresa-
 import { Abonado } from 'app/models/pedidos/abonado';
 import { AbonadoService } from 'app/services/pedidos/abonado.service';
 import { Pais } from 'app/models/pais';
-import { OrderService } from 'app/services/order.service';
+import { PedidoService } from 'app/services/pedido.service';
+import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 
 interface Idioma {
   value: string;
@@ -40,7 +41,7 @@ export class DetalleComponent implements OnInit {
     const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
     if (paisSeleccionadoObj) {
       this.paisSeleccionado = paisSeleccionadoObj.id;
-      this.iconoSeleccionado = paisSeleccionadoObj.icono;
+      this.iconoSeleccionado = paisSeleccionadoObj.bandera;
     }
   }
   buscarPorNombreInforme = ""
@@ -60,6 +61,7 @@ export class DetalleComponent implements OnInit {
   }
 
   //DATOS GENERALES
+  informePara = "E"
   tipoTramite = ""
   fechaIngreso = ""
   fechaIngresoDate = new Date()
@@ -67,25 +69,44 @@ export class DetalleComponent implements OnInit {
   fechaVencimientoDate = new Date()
   fechaVencimientoReal = ""
   fechaVencimientoRealDate = new Date()
+
   //FORM ABONADO
-  nombreAbonado : string = ''
+  nombreAbonado = ""
   isChecked = true;
-  pais : string = ''
-  codigoPais : string = ''
-  estado : string = ''
-  nmrReferencia : string = ''
-  creditoConsultado : string = ''
-  indicacionesAbonado : string = ''
-  datosAdicionales : string = ''
+  pais = ""
+  codigoPais = ""
+  estado = ""
+  nmrReferencia = ""
+  creditoConsultado = ""
+  indicacionesAbonado = ""
+  datosAdicionales = ""
 
   //FORM EMPRESA
-  ruc : string = ''
-  continente : string = ''
-  paisEmp : string = ''
-  ciudad : string = ''
-  direccion : string = ''
-  correo : string = ''
-  telefono : string = ''
+  razonSocialInforme = ""
+  nombreComercialInforme = ""
+  tipoRT = ""
+  codigoRT = ""
+  ruc = ""
+  continente = ""
+  paisEmp = ""
+  ciudad = ""
+  direccion = ""
+  correo = ""
+  telefono = ""
+
+  //FORM PERSONA
+  apellidosNombresInforme = ""
+  tipoDI = ""
+  codigoDI = ""
+  codigoRuc = ""
+  situacionRuc = ""
+  estadoCivil = ""
+  ciudadPersona = ""
+  telefonoPersona = ""
+  direccionPersona = ""
+  riesgoCrediticioInforme = ""
+
+  calificacionCrediticia : string[] = []
 
   paises : Pais[] = []
 
@@ -135,13 +156,15 @@ export class DetalleComponent implements OnInit {
     private abonadoService : AbonadoService,
     private PaisService : PaisService,
     private empresaPersonaService : EmpresaPersonaService,
-    private orderService : OrderService
+    private pedidoService : PedidoService,
+    private datosEmpresaService : DatosEmpresaService
   ) {
     this.dataSource = new MatTableDataSource()
   }
   ngOnInit() {
     this.tipo_formulario = this.activatedRoute.snapshot.paramMap.get('tipo');
     this.nmrCupon = this.activatedRoute.snapshot.paramMap.get('cupon');
+    this.calificacionCrediticia = this.datosEmpresaService.getCalificacionCrediticia()
 
     if (this.tipo_formulario == 'editar') {
       this.breadscrums = [
@@ -156,14 +179,16 @@ export class DetalleComponent implements OnInit {
         {
           title: 'Nuevo Cupón',
           items: ['Producción', 'Pedidos'],
-          active: (this.orderService.getLastNumCupon() + 1) + '',
+          active: (this.pedidoService.getLastNumCupon() + 1) + '',
         },
       ];
-      this.nmrCupon = (this.orderService.getLastNumCupon() + 1) + ''
+      this.nmrCupon = (this.pedidoService.getLastNumCupon() + 1) + ''
     }
 
     this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
-    this.paises = this.PaisService.getPaises()
+    this.PaisService.getPaises().subscribe(data => {
+      this.paises = data;
+    });
   }
 
   revelarNombre(){

@@ -77,29 +77,29 @@
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
-          <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 14rem;"> {{order.informe}} </td>
+          <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 14rem;"> {{order.nombreRealEmpresa}} </td>
           </ng-container>
           <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
           <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
           <td mat-cell *matCellDef="let order" class="text-center">
-            <div *ngIf="order.estado==='PEND. VENCIDO'" >
+            <div *ngIf="order.estadoPedido==='PEND. VENCIDO'" >
               <span class="float-end progress-percent label label-danger shadow" style="width: 150px;">
-                {{order.estado}}
+                {{order.estadoPedido}}
               </span>
             </div>
-            <div *ngIf="order.estado==='PENDIENTE'" >
+            <div *ngIf="order.estadoPedido==='PENDIENTE'" >
               <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 150px;">
-                {{order.estado}}
+                {{order.estadoPedido}}
               </span>
             </div>
-            <div *ngIf="order.estado==='ENVIADO'" >
+            <div *ngIf="order.estadoPedido==='ENVIADO'" >
               <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 150px;">
-                {{order.estado}}
+                {{order.estadoPedido}}
               </span>
             </div>
-            <div *ngIf="order.estado==='ENV. VENCIDO'" >
+            <div *ngIf="order.estadoPedido==='ENV. VENCIDO'" >
               <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 150px;">
-                {{order.estado}}
+                {{order.estadoPedido}}
               </span>
             </div>
           </td>
@@ -160,7 +160,7 @@
           <ng-container matColumnDef="expand">
             <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
             <td mat-cell *matCellDef="let order">
-            <button mat-icon-button aria-label="expand row" (click)="(expandedOrder = expandedOrder === order ? null : order); $event.stopPropagation()">
+            <button mat-icon-button aria-label="expand row" (click)="(expandedOrder = expandedOrder === order ? null : order); $event.stopPropagation(); ">
               <mat-icon *ngIf="expandedOrder !== order">keyboard_arrow_down</mat-icon>
               <mat-icon *ngIf="expandedOrder === order">keyboard_arrow_up</mat-icon>
             </button>
@@ -168,7 +168,7 @@
           </ng-container>
 
           <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let order" [attr.colspan]="columnsToDisplayWithExpand.length">
+            <td mat-cell *matCellDef="let order;" [attr.colspan]="columnsToDisplayWithExpand.length">
               <div class="example-element-detail"
                   [@detailExpand]="order === expandedOrder ? 'expanded' : 'collapsed'">
                 <div class="card shadow m-4 w-100">
@@ -178,16 +178,17 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-4">
-                        <label><b>Abonado: </b>{{ order.abonado.codigo }} - {{ order.abonado.nombre }}</label><br>
+                        <label><b>Abonado: </b>{{ order.codigo }} - {{ order.nombre }}</label><br>
+                        <label><b>País: </b>{{ order.pais.nombre }}</label><br>
                         <label><b>Crédito Consultado:</b>  {{order.creditoConsultado}}</label><br>
-                        <label><b>Nro. de Orden: </b> {{order.numOrden}}</label>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Revelar Nombre:</b>  {{order.revelarNombre}}</label><br>
-                        <label><b>Nro. de Referencia: </b> {{order.numeroReferencia}}</label>
+                        <label><b>Revelar Nombre:</b><div *ngIf="order.revelarNombre === true">SI</div><div *ngIf="order.revelarNombre === false">NO</div></label><br>
+                        <label><b>Nro. de Referencia: </b> {{order.nroReferencia}}</label>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Indicaciones del Abonado: </b> {{order.indicacionesAbonado}}</label>
+                        <label><b>Indicaciones del Abonado: </b> {{order.indicaciones}}</label>
+                        <label><b>Datos Adicionales: </b> {{order.dtsAdicionales}}</label>
                       </div>
                     </div>
                     <br>
@@ -198,19 +199,19 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-4">
-                        <label><b>Nombre Real de la Empresa: </b>  {{order.nombreReal}}</label><br>
-                        <label><b>Nombre Solicitado de la Empresa: </b>  {{order.nombreSolicitado}}</label><br>
+                        <label><b>Nombre Real de la Empresa: </b>  {{order.nombreRealEmpresa}}</label><br>
+                        <label><b>Nombre Solicitado de la Empresa: </b>  {{order.nombreSolicitadoEmpresa}}</label><br>
                         <label><b>Registro Tributario: </b>  {{order.tipoRT}} - {{order.codigoRT}}</label>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Continente: </b>  {{order.continente}}</label><br>
-                        <label><b>País: </b>  {{order.pais.nombre}} <span class="fi fi-{{order.pais.icono}}"></span></label><br>
-                        <label><b>Ciudad: </b>  {{order.ciudad}}</label><br>
+                        <label><b>Continente: </b>  {{order.continenteEmpresa}}</label><br>
+                        <label><b>País: </b>  {{order.pais}} <span class="fi fi-{{order.paisEmpresa}}"></span></label><br>
+                        <label><b>Ciudad: </b>  {{order.ciudadEmpresa}}</label><br>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Dirección: </b>  {{order.direccion}}</label><br>
-                        <label><b>Correo: </b> {{order.correo}}</label><br>
-                        <label><b>Telefono: </b>  {{order.telefono}}</label><br>
+                        <label><b>Dirección: </b>  {{order.direccionEmpresa}}</label><br>
+                        <label><b>Correo: </b> {{order.correoEmpresa}}</label><br>
+                        <label><b>Telefono: </b>  {{order.telefonoEmpresa}}</label><br>
                       </div>
                       <br>
                     </div>

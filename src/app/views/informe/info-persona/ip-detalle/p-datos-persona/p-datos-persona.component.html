@@ -167,8 +167,8 @@
             <mat-label>País</mat-label>
             <mat-select [(ngModel)]="paisInforme" (selectionChange)="actualizarSeleccionPais($event.value)">
               <mat-option *ngFor="let pais of paises" [value]="pais.id">
-                <span class="fi fi-{{pais.icono}}"></span>
-                {{pais.nombre}}
+                <span class="fi fi-{{pais.bandera}}"></span>
+                {{pais.valor}}
               </mat-option>
             </mat-select>
             <button class="btn-traduccion" matSuffix mat-icon-button>

@@ -180,8 +180,8 @@
           </button>
           <mat-autocomplete #auto5="matAutocomplete" [displayWith]="displayPais" >
             <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
-              <span class="fi fi-{{pais.icono}}"></span>
-              {{pais.nombre}}
+              <span class="fi fi-{{pais.bandera}}"></span>
+              {{pais.valor}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

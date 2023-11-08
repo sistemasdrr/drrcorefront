@@ -41,8 +41,8 @@
             <ng-container matColumnDef="pais">
               <mat-header-cell *matHeaderCellDef class="text-center"> País</mat-header-cell>
               <mat-cell *matCellDef="let data" class="text-center">
-                {{ paises[data.pais -1].nombre }}
-                <span class="fi fi-{{paises[data.pais-1].icono}}" style="font-size: 20px;"></span>
+                {{ paises[data.pais -1].valor }}
+                <span class="fi fi-{{paises[data.pais-1].bandera}}" style="font-size: 20px;"></span>
               </mat-cell>
             </ng-container>
             <ng-container matColumnDef="ruc">

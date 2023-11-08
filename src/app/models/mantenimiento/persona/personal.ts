@@ -1,3 +1,5 @@
+import { Pais } from "app/models/pais"
+
 export interface Personal{
   id : number
   codigo : string
@@ -6,29 +8,30 @@ export interface Personal{
   telefonoFijo : string
   telefonoEmergencia : string
   telefonoCelular : string
-  tipoDocumento : string
+  tipoDocumento : number
   numDocumento : string
   direccion : string
-  estadoCivil : string
+  estadoCivil : number
   numeroHijos : string
   fechaNacimiento : string
-  lugarNacimiento1 : string
-  lugarNacimiento2 : string
-  lugarNacimiento3 : string
+  lugarNacimiento : string
+  ciudadNacimiento : string
+  paisNacimiento : Pais
   tipoSangre : string
   email : string
   fechaIngreso : string
-  cargo : string
+  departamento : number
+  cargo : number
   tipoContrato : string
   estado : boolean
   //CUENTA SUELDO
   CSBanco : string
-  CSTipoCuenta : string
+  CSTipoCuenta : number
   CSNumCuenta : string
   CSMoneda : string
   //CUENTA CTS
   CCBanco : string
-  CCTipoCuenta : string
+  CCTipoCuenta : number
   CCNumCuenta : string
   CCMoneda : string
   ESSALUD : ESSALUD[]
@@ -37,6 +40,6 @@ export interface Personal{
 export interface ESSALUD{
   id : number
   nombre : string
-  tipoVinculo : string
+  tipoVinculo : number
   documentoIdentidad : string
 }

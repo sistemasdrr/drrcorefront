@@ -46,8 +46,9 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit{
   eventSelectAbonado = new EventEmitter<string>();
   constructor(public dialogRef: MatDialogRef<BuscarEmpresaDialogComponent>, private empresaPersonaService : EmpresaPersonaService, private paisService : PaisService){
     this.dataSource = new MatTableDataSource(this.empresaPersonaService.getEmpresasPersonas())
-    this.paises = this.paisService.getPaises()
-  }
+    this.paisService.getPaises().subscribe(data => {
+      this.paises = data;
+    });  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

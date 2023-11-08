@@ -1,9 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Attachment } from 'app/models/attachment';
+import { Adjunto } from 'app/models/adjunto';
 import { DialogData } from 'app/models/dialog-data';
-import { Order } from 'app/models/pedidos/order';
-import { OrderService } from 'app/services/order.service';
+import { PedidoService } from 'app/services/pedido.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,15 +13,15 @@ import Swal from 'sweetalert2';
 export class AdjuntarArchivosComponent {
 
   cupon: string = "";
-  attachments : Attachment[] = []
+  attachments : Adjunto[] = []
 
   constructor(public dialogRef: MatDialogRef<AdjuntarArchivosComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
-    private orderService : OrderService
+    private pedidoService : PedidoService
   ) {
     console.log(dialogData);
     this.cupon = dialogData.data;
-    this.attachments = this.orderService.getAttachmentsByCupon(this.cupon)
+    this.attachments = this.pedidoService.getAttachmentsByCupon(this.cupon)
   }
 
   borrarAttachment(id : number){

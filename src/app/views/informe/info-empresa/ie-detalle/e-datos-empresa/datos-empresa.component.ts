@@ -78,7 +78,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   tituloComentarioPrensa : string = 'Comentario de Prensa'
   constructor(
     private dialog : MatDialog,
-    private PaisService : PaisService,
+    private paisService : PaisService,
     private router : Router,
     private activatedRoute: ActivatedRoute,
     private datosEmpresaService : DatosEmpresaService,
@@ -97,7 +97,29 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
         tabDatosEmpresa.classList.remove('tab-cambios')
     }
 
-    this.paises = this.PaisService.getPaises()
+    this.paisService.getPaises().subscribe(data => {
+      if(data.isSuccess == true){
+        this.paises = data.data;
+      }else{
+        Swal.fire({
+          title: 'Ocurrio un problema al obtener la lista de paises',
+          text: "",
+          icon: 'warning',
+          showCancelButton: true,
+          cancelButtonText : 'OK',
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Refrescar',
+          width: '20rem',
+          heightAuto : true
+        }).then((result) => {
+          if (result.value) {
+            window.location.reload();
+          }
+        });
+      }
+    });
+
     this.reputaciones = this.datosEmpresaService.getReputacion()
     this.situacionRuc = this.datosEmpresaService.getSituacionRuc()
     this.personeriaJuridica = this.datosEmpresaService.getPersoneriaJuridica()
@@ -107,7 +129,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     this.filterPais = this.controlPaises.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const name = typeof value === 'string' ? value : value?.nombre
+        const name = typeof value === 'string' ? value : value?.valor
         return name ? this._filterPais(name as string) : this.paises.slice()
       }),
     )
@@ -179,25 +201,25 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     }else{
       console.log('informe no encontrado')
     }
-
-    if(this.idiomaInforme != '' && this.tipoInstitucionInforme != '' && this.yFundacionInforme != '' && this.razonSocialInforme != '' &&
-      this.nombreComercialInforme != '' && this.tipoRucInforme != '' && this.codigoRucInforme != '' && this.comentarioIdentificacionInforme != '' &&
-      this.comentarioIdentificacionIngInforme != '' && this.direccionCompletaInforme != '' && this.duracionInforme != '' && this.dptoEstadoInforme != '' &&
-      this.codigoTelefonoInforme != '' && this.numeroTelefonoInforme != '' && this.numeroCelularInforme != '' && this.codPostalInforme != '' &&
-      this.whatsappEmpresarialInforme != '' && this.emailCorporativoInforme != '' && this.paginaWebInforme != '' ){
-        const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
-        if (tabDatosEmpresa) {
-            tabDatosEmpresa.classList.add('tab-con-datos')
-        }
-      }
-
+    this.tabDatosEmpresa()
     this.compararModelosF = setInterval(() => {
       this.compararModelos();
     }, 5000);
-
-
   }
 
+  tabDatosEmpresa(){
+    if(this.idiomaInforme != '' || this.tipoInstitucionInforme != '' || this.yFundacionInforme != '' || this.razonSocialInforme != '' ||
+    this.nombreComercialInforme != '' || this.tipoRucInforme != '' || this.codigoRucInforme != '' || this.comentarioIdentificacionInforme != '' ||
+    this.comentarioIdentificacionIngInforme != '' || this.direccionCompletaInforme != '' || this.duracionInforme != '' || this.dptoEstadoInforme != '' ||
+    this.codigoTelefonoInforme != '' || this.numeroTelefonoInforme != '' || this.numeroCelularInforme != '' || this.codPostalInforme != '' ||
+    this.whatsappEmpresarialInforme != '' || this.emailCorporativoInforme != '' || this.paginaWebInforme != '' ){
+    const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+      if (tabDatosEmpresa) {
+        tabDatosEmpresa.classList.add('tab-con-datos')
+        console.log('a')
+      }
+    }
+  }
   compararModelos(){
     this.armarModelo()
     if(JSON.stringify(this.datosEmpresa) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+''))){
@@ -212,7 +234,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       }
     }
   }
-
   personeriaJuridicaInforme :  PersoneriaJuridica = {
     id : 0,
     description : ''
@@ -223,15 +244,17 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   }
   paisInforme : Pais = {
     id : 0,
-    nombre : '',
-    nombreAcort : '',
-    nombreMayus : '',
-    icono : ''
+    valor : '',
+    bandera : ''
   }
 
   ngOnDestroy(): void {
     console.log('Se destruyo el componente')
     clearInterval(this.compararModelosF);
+    const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+      if (tabDatosEmpresa) {
+          tabDatosEmpresa.classList.remove('tab-cambios')
+      }
   }
   armarModelo(){
     this.datosEmpresa[0] = {
@@ -276,7 +299,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   }
   private _filterPais(description: string): Pais[] {
     const filterValue = description.toLowerCase();
-    return this.paises.filter(pais => pais.nombre.toLowerCase().includes(filterValue));
+    return this.paises.filter(pais => pais.valor.toLowerCase().includes(filterValue));
   }
   private _filterReputacion(description: string): Reputacion[] {
     const filterValue = description.toLowerCase();
@@ -291,7 +314,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     return this.personeriaJuridica.filter(personeriaJuridica => personeriaJuridica.description.toLowerCase().includes(filterValue));
   }
   displayPais(pais : Pais): string {
-    return pais && pais.nombre ? pais.nombre : '';
+    return pais && pais.valor ? pais.valor : '';
   }
   displayReputacion(reputacion : Reputacion): string {
     return reputacion && reputacion.description ? reputacion.description : '';
@@ -466,11 +489,11 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
     if (paisSeleccionadoObj) {
       this.paisInforme = paisSeleccionadoObj;
-      this.iconoSeleccionado = paisSeleccionadoObj.icono;
+      this.iconoSeleccionado = paisSeleccionadoObj.bandera;
     }
   }
   cambiarIcono(objPais : any){
-    this.iconoSeleccionado = objPais.icono
+    this.iconoSeleccionado = objPais.bandera
   }
   guardar(){
     this.armarModelo()

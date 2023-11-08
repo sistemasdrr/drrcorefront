@@ -10,11 +10,9 @@ const requestedReports : ReportesSolicitados[] = [
     abonado : "1013",
     tramite : "T1",
     pais : {
-      id : 5,
-      nombre : "Chile",
-      nombreAcort : "CHIL",
-      nombreMayus : "CHILE",
-      icono : "cl"
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
     },
     balance : "NO",
     calidad : "B",
@@ -28,11 +26,9 @@ const requestedReports : ReportesSolicitados[] = [
     abonado : "1043",
     tramite : "T3",
     pais : {
-      id : 5,
-      nombre : "Chile",
-      nombreAcort : "CHIL",
-      nombreMayus : "CHILE",
-      icono : "cl"
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
     },
     balance : "SI",
     calidad : "A",
@@ -46,11 +42,9 @@ const requestedReports : ReportesSolicitados[] = [
     abonado : "2004",
     tramite : "T1",
     pais :  {
-      id : 5,
-      nombre : "Chile",
-      nombreAcort : "CHIL",
-      nombreMayus : "CHILE",
-      icono : "cl"
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
     },
     balance : "SI",
     calidad : "A",
@@ -64,11 +58,9 @@ const requestedReports : ReportesSolicitados[] = [
     abonado : "3000",
     tramite : "T2",
     pais :  {
-      id : 5,
-      nombre : "Chile",
-      nombreAcort : "CHIL",
-      nombreMayus : "CHILE",
-      icono : "cl"
+      id : 49,
+      valor : "Chile",
+      bandera : "cl"
     },
     balance : "SI",
     calidad : "A",

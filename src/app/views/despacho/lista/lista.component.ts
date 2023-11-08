@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Order } from 'app/models/pedidos/order';
-import { OrderService } from 'app/services/order.service';
+import { Pedido } from 'app/models/pedidos/pedido';
+import { PedidoService } from 'app/services/pedido.service';
 import { MovimientoInformeComponent } from './movimiento-informe/movimiento-informe.component';
 import { DetalleComponent } from './detalle/detalle.component';
 
@@ -23,20 +23,20 @@ export class ListaComponent implements OnInit {
   ];
 
   columnasInforme = ['informe','fecha','tipoTramite','tipoInforme','pais','abonado','opciones']
-  dataSourceInforme : MatTableDataSource<Order>
+  dataSourceInforme : MatTableDataSource<Pedido>
   tipoTramite = ""
   tipoInforme = ""
-  
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
 
-  constructor(private orderService : OrderService,public dialog: MatDialog){
+  constructor(private pedidoService : PedidoService,public dialog: MatDialog){
     this.dataSourceInforme = new MatTableDataSource()
   }
 
   ngOnInit(): void {
-    this.dataSourceInforme.data = this.orderService.getOrders()
+    this.dataSourceInforme.data = this.pedidoService.getOrders()
     console.log(this.dataSourceInforme.data)
     this.dataSourceInforme.paginator = this.paginator
     this.dataSourceInforme.sort = this.sort
@@ -57,12 +57,12 @@ export class ListaComponent implements OnInit {
     })
   }
   applyFilterTipoInforme() {
-    this.dataSourceInforme.data = this.orderService.getOrders()
+    this.dataSourceInforme.data = this.pedidoService.getOrders()
       .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
   }
 
   applyFilterTipoTramite() {
-    this.dataSourceInforme.data = this.orderService.getOrders()
+    this.dataSourceInforme.data = this.pedidoService.getOrders()
       .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
   }
 

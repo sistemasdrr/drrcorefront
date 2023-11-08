@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Pais } from 'app/models/pais';
-import { OrderService } from 'app/services/order.service';
+import { PedidoService } from 'app/services/pedido.service';
 import { PaisService } from 'app/services/pais.service';
 
 @Component({
@@ -30,16 +30,17 @@ export class DetalleComponent implements OnInit{
 
   constructor(public dialogRef: MatDialogRef<DetalleComponent>,
     @Inject(MAT_DIALOG_DATA) public data : any,
-    private orderService : OrderService, private paisService : PaisService){
+    private pedidoService : PedidoService, private paisService : PaisService){
 
   }
   ngOnInit(): void {
-    const order = this.orderService.getOrders().filter(x => x.cupon == this.data.cupon)[0]
-    this.paises = this.paisService.getPaises()
-    this.nombreInforme = order.informe
-    this.direccionInforme = order.direccion
-    this.tipoRT = order.tipoRT
-    this.codigoRT = order.codigoRT
+    const order = this.pedidoService.getOrders().filter(x => x.cupon == this.data.cupon)[0]
+    this.paisService.getPaises().subscribe(data => {
+      this.paises = data;
+    });    // this.nombreInforme = order.informe
+    // this.direccionInforme = order.direccion
+    // this.tipoRT = order.tipoRT
+    // this.codigoRT = order.codigoRT
     this.tipoInforme = order.tipoInforme
     this.tipoTramite = order.tipoTramite
     this.paisSeleccionado = order.pais.id
@@ -55,7 +56,7 @@ export class DetalleComponent implements OnInit{
     const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
     if (paisSeleccionadoObj) {
       this.paisSeleccionado = paisSeleccionadoObj.id;
-      this.iconoSeleccionado = paisSeleccionadoObj.icono;
+      this.iconoSeleccionado = paisSeleccionadoObj.bandera;
     }
   }
   salir(){

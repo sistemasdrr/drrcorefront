@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Asignacion } from 'app/models/pedidos/asignacion/asignacion';
 import { Trabajador } from 'app/models/pedidos/asignacion/trabajador';
-import { OrderService } from 'app/services/order.service';
+import { PedidoService } from 'app/services/pedido.service';
 import { AsignacionService } from 'app/services/pedidos/asignacion/asignacion.service';
 import Swal from 'sweetalert2';
 
@@ -41,13 +41,13 @@ export class SeleccionarAgenteComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<SeleccionarAgenteComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private asignacionService : AsignacionService,
-    private orderService : OrderService){
+    private pedidoService : PedidoService){
       this.dataSource = new MatTableDataSource()
   }
 
   ngOnInit(): void {
     console.log(this.data.data)
-    const order = this.orderService.getOrders().filter(x => x.cupon == this.data.data)[0]
+    const order = this.pedidoService.getOrders().filter(x => x.cupon == this.data.data)[0]
     console.log(order)
     if(order.asignacion.length > 0){
       this.dataSource.data = order.asignacion
@@ -68,7 +68,7 @@ export class SeleccionarAgenteComponent implements OnInit {
         maxId = asignacion.id
       }
     });
-    this.orderService.addAsignacionCupon(this.data.data ,{
+    this.pedidoService.addAsignacionCupon(this.data.data ,{
       id : maxId+1,
       trabajador : this.asignacionService.getTrabajadores().filter(x => x.codigo === codigo)[0],
       referencias : this.referencias,
@@ -80,7 +80,7 @@ export class SeleccionarAgenteComponent implements OnInit {
       precio : this.precio
     })
 
-    this.dataSource.data = this.orderService.getOrders().filter(x => x.cupon == this.data.data)[0].asignacion
+    this.dataSource.data = this.pedidoService.getOrders().filter(x => x.cupon == this.data.data)[0].asignacion
   }
   seleccionarAsignacion(id : number){
     this.limpiar()

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
 
 @Component({
   selector: 'app-agregar-essalud',
@@ -12,13 +13,19 @@ export class AgregarEssaludComponent implements OnInit {
   tipoVinculo = ""
   documentoIdentidad = ""
 
+  tiposVinculo : data[] = []
+
   constructor(public dialogRef: MatDialogRef<AgregarEssaludComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any){
+    @Inject(MAT_DIALOG_DATA) public data: any, private personalService : PersonalService){
 
   }
 
   ngOnInit(): void {
-
+    this.personalService.getVinculoFamiliar().subscribe(data => {
+      if(data.isSuccess == true){
+        this.tiposVinculo = data.data;
+      }
+    });
   }
 
   cerrarDialog(){

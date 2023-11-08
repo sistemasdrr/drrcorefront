@@ -1,13 +1,13 @@
 
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource} from '@angular/material/table';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { Order } from 'app/models/pedidos/order';
-import { OrderService } from 'app/services/order.service';
+import { Pedido } from 'app/models/pedidos/pedido';
+import { PedidoService } from 'app/services/pedido.service';
 
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -42,13 +42,13 @@ export class ListaSituacionComponent implements  OnInit {
       this.applyFilter()
     }
   }
-  dataSource: MatTableDataSource<Order>;
+  dataSource: MatTableDataSource<Pedido>;
   columnsToDisplay = [ 'informe',  'tipoInforme', 'tipoTramite', 'calidad', 'fechaIngreso', 'fechaVencimiento', 'fechaDescarga', 'Acciones' ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private orderService : OrderService, private router : Router, private fb: FormBuilder) {
+  constructor(private pedidoService : PedidoService, private router : Router, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource();
     this.range = this.fb.group({
       start: new FormControl(new Date(new Date().getFullYear(), 0, 1)),
@@ -61,7 +61,7 @@ export class ListaSituacionComponent implements  OnInit {
   }
 
   applyFilter() {
-    this.dataSource.data = this.orderService.getOrders()
+    this.dataSource.data = this.pedidoService.getOrders()
       .filter(x => x.tipoTramite.includes(this.tipoTramite) &&
       x.tipoInforme.includes(this.tipoInforme) &&
       new Date(
@@ -73,8 +73,7 @@ export class ListaSituacionComponent implements  OnInit {
         parseInt(x.fechaIngreso.split('/')[2], 10),
         parseInt(x.fechaIngreso.split('/')[1], 10) - 1,
         parseInt(x.fechaIngreso.split('/')[0], 10)
-        ) < this.fechaFin &&
-      x.informe.toLocaleLowerCase().includes(this.nombreEmpresa.toLocaleLowerCase()));
+        ) < this.fechaFin);
 
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

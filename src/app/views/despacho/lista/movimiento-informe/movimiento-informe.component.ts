@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Asignacion } from 'app/models/pedidos/asignacion/asignacion';
-import { OrderService } from 'app/services/order.service';
+import { PedidoService } from 'app/services/pedido.service';
 
 @Component({
   selector: 'app-movimiento-informe',
@@ -14,12 +14,12 @@ export class MovimientoInformeComponent implements OnInit {
   dataSource : MatTableDataSource<Asignacion>
   columnas = ['asignado','fechaAsignacion','fechaVencimiento','fechaEntrega','calidad','precio']
 
-  constructor(public dialogRef: MatDialogRef<MovimientoInformeComponent>, @Inject(MAT_DIALOG_DATA) public data : any,private orderService : OrderService){
+  constructor(public dialogRef: MatDialogRef<MovimientoInformeComponent>, @Inject(MAT_DIALOG_DATA) public data : any,private pedidoService : PedidoService){
       this.dataSource = new MatTableDataSource()
   }
 
   ngOnInit(): void {
-    const order = this.orderService.getOrders().filter(x => x.cupon == this.data.cupon)[0]
+    const order = this.pedidoService.getOrders().filter(x => x.cupon == this.data.cupon)[0]
     if(order.asignacion.length > 0){
       this.dataSource.data = order.asignacion
     }else{

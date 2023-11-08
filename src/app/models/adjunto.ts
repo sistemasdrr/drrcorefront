@@ -1,4 +1,4 @@
-export interface Attachment{
+export interface Adjunto{
   id : number
   name : string
   type : string

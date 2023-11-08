@@ -39,14 +39,12 @@
               </button>
             </mat-form-field>
           </div>
-          <div class="col-md-2 d-flex justify-content-center">
+          <div class="col-md-2">
             <mat-form-field class="w-100">
-              <mat-label>Tipo de Trámite </mat-label>
-              <mat-select [(ngModel)]="tipoTramite">
-                <mat-option [value]="''"></mat-option>
-                <mat-option [value]="'T1'">T1</mat-option>
-                <mat-option [value]="'T2'">T2</mat-option>
-                <mat-option [value]="'T3'">T3</mat-option>
+              <mat-label>Informe de</mat-label>
+              <mat-select [(ngModel)]="informePara" >
+                <mat-option [value]="'E'">Empresa</mat-option>
+                <mat-option [value]="'P'">Persona</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -137,145 +135,264 @@
 
             </div>
           </div>
-          <!-- DATOS DE LA EMPRESA -->
+          <!-- DATOS DE LA EMPRESA/PERSONA -->
           <div class="col-md-8 mt-3">
-            <div class="counter-box shadow m-1" >
-              <h4>Datos de la Empresa/Persona a Investigar</h4>
-              <div class="row">
-                <div class="col-md-6 d-flex align-items-center">
-                  <mat-form-field class="w-100">
-                    <mat-label>Nombre de la Empresa/Persona Solicitado</mat-label>
-                    <input matInput placeholder="" value="" [(ngModel)]="buscarPorNombreInforme" (ngModelChange)="buscarPorNombre(buscarPorNombreInforme)">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6 d-flex align-items-center">
-                  <mat-form-field class="w-100">
-                    <mat-label>Nombre de la Empresa/Persona</mat-label>
-                    <input matInput placeholder="Ej. ALICORP SA" value="">
-                    <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarEmpresaPersona()">
+            <div class="counter-box shadow m-1">
+              <!-- FORMULARIO DE EMPRESA -->
+              <div *ngIf="informePara === 'E'">
+                <h4>Datos de la Empresa a Investigar</h4>
+                <div class="row" >
+                  <div class="col-md-6">
+                    <mat-form-field class="w-100">
+                      <mat-label>Razón Social</mat-label>
+                      <input matInput [(ngModel)]="razonSocialInforme" (ngModelChange)="buscarPorNombre(buscarPorNombreInforme)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-5">
+                    <mat-form-field class="w-100">
+                      <mat-label>Nombre Comercial</mat-label>
+                      <input matInput [(ngModel)]="nombreComercialInforme">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-1">
+                    <button class="btn-traduccion bg-blue mt-2" matSuffix mat-mini-fab (click)="buscarEmpresaPersona()">
                       <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-                  </mat-form-field>
+                  </div>
                 </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                  <!--mat-form-field style="width: 100%;">
-                    <mat-label>Tipo de Informe </mat-label>
-                    <mat-select [(value)]="idiomaSeleccionado">
-                      <mat-option [value]="idioma.value" *ngFor="let idioma of idiomas">{{ idioma.viewValue }}</mat-option>
-                    </mat-select>
-                  </!--mat-form-field-->
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Tipo Reg. Trib.</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="tipoRT" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Código Reg. Trib.</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="codigoRT" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w-100">
+                      <mat-label>Correo</mat-label>
+                      <input matInput type="email" placeholder="" [(ngModel)]="correo" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Continente </mat-label>
+                      <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado">
+                        <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>País</mat-label>
+                      <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
+                        <mat-option *ngFor="let pais of paises" [value]="pais.id">
+                          <span class="fi fi-{{pais.bandera}}"></span>
+                          {{pais.valor}}
+                        </mat-option>
+                      </mat-select>
+                      <button class="btn-traduccion" matSuffix mat-icon-button>
+                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Ciudad</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="ciudad">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Teléfono</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="telefono" >
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field class="w-100">
+                      <mat-label>Dirección</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="direccion">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field class="w-100">
+                      <mat-label>Riesgo Crediticio</mat-label>
+                      <mat-select [(ngModel)]="riesgoCrediticioInforme">
+                        <mat-option *ngFor="let cCrediticia of calificacionCrediticia" [value]="cCrediticia">
+                          {{cCrediticia}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <mat-form-field class="w-100">
-                    <mat-label>RUC</mat-label>
-                    <input matInput placeholder="" [(ngModel)]="ruc" >
-                  </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                  <mat-form-field class="w-100">
-                    <mat-label>Continente </mat-label>
-                    <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado">
-                      <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                  <mat-form-field class="w-100">
-                    <mat-label>País</mat-label>
-                    <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
-                      <mat-option *ngFor="let pais of paises" [value]="pais.id">
-                        <span class="fi fi-{{pais.icono}}"></span>
-                        {{pais.nombre}}
-                      </mat-option>
-                    </mat-select>
-                    <button class="btn-traduccion" matSuffix mat-icon-button>
-                      <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+              <!-- FORMULARIO DE PERSONA -->
+              <div *ngIf="informePara === 'P'">
+                <h4>Datos de la Persona a Investigar</h4>
+                <div class="row" >
+                  <div class="col-md-11">
+                    <mat-form-field class="w-100">
+                      <mat-label>Apellidos y Nombres</mat-label>
+                      <input matInput [(ngModel)]="apellidosNombresInforme">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-1">
+                    <button class="btn-traduccion bg-blue mt-2" matSuffix mat-mini-fab (click)="buscarEmpresaPersona()">
+                      <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-                  </mat-form-field>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <mat-form-field class="w-100">
-                    <mat-label>Ciudad</mat-label>
-                    <input matInput placeholder="" [(ngModel)]="ciudad">
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Tipo Documento</mat-label>
+                      <input matInput [(ngModel)]="tipoDI" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Código de Documento</mat-label>
+                      <input matInput [(ngModel)]="codigoDI" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Registro Tributario(RUC)</mat-label>
+                      <input matInput [(ngModel)]="codigoRuc" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Situación</mat-label>
+                      <input matInput [(ngModel)]="situacionRuc" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Estado Civil</mat-label>
+                      <input matInput [(ngModel)]="estadoCivil" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>País</mat-label>
+                      <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
+                        <mat-option *ngFor="let pais of paises" [value]="pais.id">
+                          <span class="fi fi-{{pais.bandera}}"></span>
+                          {{pais.valor}}
+                        </mat-option>
+                      </mat-select>
+                      <button class="btn-traduccion" matSuffix mat-icon-button>
+                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Ciudad</mat-label>
+                      <input matInput [(ngModel)]="ciudadPersona">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w-100">
+                      <mat-label>Teléfono</mat-label>
+                      <input matInput [(ngModel)]="telefonoPersona" >
+                    </mat-form-field>
+                  </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <mat-form-field class="w-100">
-                    <mat-label>Dirección</mat-label>
-                    <input matInput placeholder="" [(ngModel)]="direccion">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                  <mat-form-field class="w-100">
-                    <mat-label>Correo</mat-label>
-                    <input matInput type="email" placeholder="" [(ngModel)]="correo" >
-                  </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                  <mat-form-field class="w-100">
-                    <mat-label>Teléfono</mat-label>
-                    <input matInput placeholder="" [(ngModel)]="telefono" >
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <!-- DETALLES DEL INFORME -->
-            <div class="counter-box shadow m-1 mt-3">
-              <h4>Detalles del Informe</h4>
-              <div class="row">
-                <div class="col-md-2">
-                  <mat-form-field class="w-100">
-                    <mat-label>Tipo de Informe </mat-label>
-                    <mat-select [(value)]="tipoInformeSeleccionado">
-                      <mat-option [value]="tipoInforme.value" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.viewValue }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <mat-form-field color="primary" style="width: 100%;">
-                    <mat-label>A la Fecha</mat-label>
-                    <input matInput [matDatepicker]="fecha_informe">
-                    <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
-                    <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-3">
-                  <mat-form-field style="width: 100%;">
-                    <mat-label>Idioma</mat-label>
-                    <mat-select >
-                      <mat-option [value]="'CASTELLANO'">
-                        <span class="fi fi-es"></span>
-                        ESPAÑOL
-                      </mat-option>
-                      <mat-option [value]="'INGLES'">
-                        <span class="fi fi-us"></span>
-                        INGLÉS
-                      </mat-option>
-                      <mat-option [value]="'CASTELLANO-INGLES'">
-                        <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
-                        ESPAÑOL - INGLÉS
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-5 d-flex justify-content-center">
-                  <div>
-                    <div><h5>Precio de Informe (US$):  <b>25USD</b> </h5></div>
-                    <div><h5>Ultima Modificación: <b>27/09/2023</b></h5></div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field class="w-100">
+                      <mat-label>Dirección</mat-label>
+                      <input matInput [(ngModel)]="direccionPersona">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field class="w-100">
+                      <mat-label>Riesgo Crediticio</mat-label>
+                      <mat-select [(ngModel)]="riesgoCrediticioInforme">
+                        <mat-option *ngFor="let cCrediticia of calificacionCrediticia" [value]="cCrediticia">
+                          {{cCrediticia}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <!-- DETALLES DEL INFORME -->
+        <div class="row m-0 p-0">
+          <div class="counter-box shadow mt-3">
+            <h4>Detalles del Informe</h4>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-form-field class="w-100">
+                  <mat-label>Tipo de Informe </mat-label>
+                  <mat-select [(value)]="tipoInformeSeleccionado">
+                    <mat-option [value]="tipoInforme.value" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.viewValue }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="w-100">
+                  <mat-label>Tipo de Trámite </mat-label>
+                  <mat-select [(ngModel)]="tipoTramite">
+                    <mat-option [value]="''"></mat-option>
+                    <mat-option [value]="'T1'">T1</mat-option>
+                    <mat-option [value]="'T2'">T2</mat-option>
+                    <mat-option [value]="'T3'">T3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2 d-flex justify-content-center">
+                <mat-form-field color="primary" style="width: 100%;">
+                  <mat-label>A la Fecha</mat-label>
+                  <input matInput [matDatepicker]="fecha_informe">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Idioma</mat-label>
+                  <mat-select >
+                    <mat-option [value]="'CASTELLANO'">
+                      <span class="fi fi-es"></span>
+                      ESPAÑOL
+                    </mat-option>
+                    <mat-option [value]="'INGLES'">
+                      <span class="fi fi-us"></span>
+                      INGLÉS
+                    </mat-option>
+                    <mat-option [value]="'CASTELLANO-INGLES'">
+                      <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
+                      ESPAÑOL - INGLÉS
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3 d-flex justify-content-center">
+                <div>
+                  <div><h5>Precio de Informe(US$): <b>25USD</b> </h5></div>
+                  <div><h5>Ultima Modificación: <b>27/09/2023</b></h5></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- OTROS ABONADOS PIDIERON ESTE INFORME -->
-        <div class="row">
-          <div class="col-md-12 mt-3" >
-            <div class="counter-box shadow m-1" style="overflow-x: auto;">
+        <div class="row m-0 p-0">
+          <div class="col-md-12" >
+            <div class="counter-box shadow" style="overflow-x: auto;">
               <h4>Abonados que Pidieron este Informe</h4>
               <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
                 <ng-container matColumnDef="{{columnsToDisplay[0]}}">

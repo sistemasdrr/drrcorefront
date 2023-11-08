@@ -24,11 +24,7 @@
               <mat-form-field class="w-100">
                 <mat-label>Tipo de Doc. de Identidad</mat-label>
                 <mat-select [(ngModel)]="tipoDocIdent">
-                  <mat-option value=""></mat-option>
-                  <mat-option value="DNI">DNI</mat-option>
-                  <mat-option value="Carnet Extranjeria">Carnet Extranjeria</mat-option>
-                  <mat-option value="Pasaporte">Pasaporte</mat-option>
-                  <mat-option value="Otros">Otros</mat-option>
+                  <mat-option *ngFor="let tipoDoc of tiposDocumento" [value]="tipoDoc.id">{{tipoDoc.valor}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -105,11 +101,7 @@
           <mat-form-field class="w-100">
             <mat-label>Estado Civil</mat-label>
             <mat-select [(ngModel)]="estadoCivil">
-              <mat-option value=""></mat-option>
-              <mat-option value="Soltero(a)">Soltero(a)</mat-option>
-              <mat-option value="Casado(a)">Casado(a)</mat-option>
-              <mat-option value="Conviviente">Conviviente</mat-option>
-              <mat-option value="Viudo">Viudo</mat-option>
+              <mat-option *ngFor="let estCivil of estadosCivil" [value]="estCivil.id">{{estCivil.valor}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -153,7 +145,16 @@
         <div class="col-md-3">
           <mat-form-field class="w-100">
             <mat-label>País</mat-label>
-            <input matInput [(ngModel)]="paisNac" >
+            <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto5" [(ngModel)]="paisNac" (ngModelChange)="cambiarIcono(paisNac)">
+            <button class="btn-traduccion" matSuffix mat-icon-button>
+              <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+            </button>
+            <mat-autocomplete #auto5="matAutocomplete" [displayWith]="displayPais" >
+              <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                <span class="fi fi-{{pais.bandera}}"></span>
+                {{pais.valor}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
         <div class="col-md-3">
@@ -166,7 +167,7 @@
         </div>
         <h5>Trabajo</h5>
         <hr>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <mat-form-field color="primary" class="w-100">
             <mat-label>Fecha de Ingreso</mat-label>
             <input matInput [matDatepicker]="fechaIngreso" [(ngModel)]="fechaIngresoDate">
@@ -174,10 +175,21 @@
             <mat-datepicker #fechaIngreso color="primary"></mat-datepicker>
           </mat-form-field>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-3">
+          <mat-form-field class="w-100">
+            <mat-label>Departamento</mat-label>
+            <mat-select [(ngModel)]="departamento" (selectionChange)="updateCargos(departamento)">
+              <mat-option *ngFor="let dept of departamentos" [value]="dept.id">{{dept.valor}}</mat-option>
+
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
           <mat-form-field class="w-100">
             <mat-label>Cargo</mat-label>
-            <input matInput [(ngModel)]="cargo">
+            <mat-select [(ngModel)]="cargo">
+              <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">{{cargo.valor}}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div class="col-md-12">
@@ -205,10 +217,7 @@
           <mat-form-field class="w-100">
             <mat-label>Tipo de Cuenta</mat-label>
             <mat-select [(ngModel)]="CStipoCuenta">
-              <mat-option value=""></mat-option>
-              <mat-option value="Cuenta Corriente">Cuenta Corriente</mat-option>
-              <mat-option value="Cuenta de Ahorros">Cuenta de Ahorros</mat-option>
-              <mat-option value="Cuenta Sueldo">Cuenta Sueldo</mat-option>
+              <mat-option *ngFor="let tipoCuenta of tiposCuenta" [value]="tipoCuenta.id">{{tipoCuenta.valor}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -242,10 +251,7 @@
           <mat-form-field class="w-100">
             <mat-label>Tipo de Cuenta</mat-label>
             <mat-select  [(ngModel)]="CCtipoCuenta">
-              <mat-option value=""></mat-option>
-              <mat-option value="Cuenta Corriente">Cuenta Corriente</mat-option>
-              <mat-option value="Cuenta de Ahorros">Cuenta de Ahorros</mat-option>
-              <mat-option value="Cuenta Sueldo">Cuenta Sueldo</mat-option>
+              <mat-option *ngFor="let tipoCuenta of tiposCuenta" [value]="tipoCuenta.id">{{tipoCuenta.valor}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

@@ -5,8 +5,8 @@ import { MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { Order } from 'app/models/pedidos/order';
-import { OrderService } from 'app/services/order.service';
+import { Pedido } from 'app/models/pedidos/pedido';
+import { PedidoService } from 'app/services/pedido.service';
 
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -35,18 +35,18 @@ export class AsignacionComponent implements AfterViewInit {
   ];
 
   //TABLA
-  dataSource: MatTableDataSource<Order>;
+  dataSource: MatTableDataSource<Pedido>;
   columnsToDisplay = ['position','cupon', 'informe', 'tipoInforme', 'tipoTramite', 'fechaIngreso', 'fechaVencimiento', 'Acciones' ];
-  selection = new SelectionModel<Order>(true, []);
+  selection = new SelectionModel<Pedido>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
 
-  constructor(private orderService : OrderService,
+  constructor(private pedidoService : PedidoService,
     private router : Router,
     public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource(this.orderService.getOrders());
+    this.dataSource = new MatTableDataSource(this.pedidoService.getOrders());
     console.log(this.dataSource)
   }
 
@@ -97,7 +97,7 @@ export class AsignacionComponent implements AfterViewInit {
 
     this.selection.select(...this.dataSource.data);
   }
-  checkboxLabel(row?: Order): string {
+  checkboxLabel(row?: Pedido): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }

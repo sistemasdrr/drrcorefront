@@ -36,11 +36,9 @@ export class DatosEmpresaService {
       duracion : '',
       dptoEstado : 'LIMA',
       pais : {
-        id : 11,
-        nombre : "Peru",
-        nombreAcort : "PER",
-        nombreMayus : "PERU",
-        icono : "pe"
+        id: 182,
+        valor: "Perú",
+        bandera: "pe"
       },
       codigoTelefono : '+511',
       numeroTelefono : '3721458',
@@ -87,11 +85,9 @@ export class DatosEmpresaService {
       duracion : 'Indefinida',
       dptoEstado : 'Lima',
       pais : {
-        id : 11,
-        nombre : "Peru",
-        nombreAcort : "PER",
-        nombreMayus : "PERU",
-        icono : "pe"
+        id: 182,
+        valor: "Perú",
+        bandera: "pe"
       },
       codigoTelefono : '+511',
       numeroTelefono : '6370000',
