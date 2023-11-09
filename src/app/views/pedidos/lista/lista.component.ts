@@ -28,8 +28,8 @@ import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
   ],
 })
 export class ListaComponent implements AfterViewInit {
-  tipoInforme : string = ""
-  tipoTramite : string = ""
+  tipoInforme = 0
+  tipoTramite = 0
   breadscrums = [
     {
       title: 'Lista de Pedidos',
@@ -56,7 +56,7 @@ export class ListaComponent implements AfterViewInit {
     this.dataSource = new MatTableDataSource(this.pedidoService.getOrders());
   }
   getDatosEmpresa(codigoInforme : string){
-    this.datosEmpresa = this.datosEmpresaService.getDatosEmpresa(codigoInforme)
+    this.datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(codigoInforme)
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -89,12 +89,12 @@ export class ListaComponent implements AfterViewInit {
 
   applyFilterTipoInforme() {
     this.dataSource.data = this.pedidoService.getOrders()
-      .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
+      .filter(x => x.tipoTramite === this.tipoTramite && x.tipoInforme === this.tipoInforme);
   }
 
   applyFilterTipoTramite() {
     this.dataSource.data = this.pedidoService.getOrders()
-      .filter(x => x.tipoTramite.includes(this.tipoTramite) && x.tipoInforme.includes(this.tipoInforme));
+      .filter(x => x.tipoTramite === this.tipoTramite && x.tipoInforme === this.tipoInforme);
   }
 
   addOrder(){

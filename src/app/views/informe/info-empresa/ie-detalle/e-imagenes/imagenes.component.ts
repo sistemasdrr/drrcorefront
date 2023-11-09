@@ -9,14 +9,6 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
 })
 export class ImagenesComponent implements OnInit{
 
-  constructor(
-    private dialog : MatDialog
-  ){
-  }
-
-  ngOnInit(): void {
-  }
-
   files: File[] = []
   img1 = "assets/images/image-gallery/5.jpg"
   img2 = "assets/images/image-gallery/5.jpg"
@@ -28,7 +20,10 @@ export class ImagenesComponent implements OnInit{
 
   imgSeleccionadaCheck : boolean = false
   imgSeleccionada : string = ""
-
+  mostrarImg(){
+    this.files = []
+    this.imgSeleccionadaCheck = true
+  }
   cardSeleccionada : number = 0
 
   tituloSeleccion : string = ""
@@ -43,6 +38,14 @@ export class ImagenesComponent implements OnInit{
   imgDescIng2 : string = ""
   imgDescIng3 : string = ""
   imgDescIng4 : string = ""
+
+  constructor(
+    private dialog : MatDialog
+  ){
+  }
+  ngOnInit(): void {
+
+  }
 
   onSelect(event : any) {
     this.files = []
@@ -97,34 +100,57 @@ export class ImagenesComponent implements OnInit{
   }
 
   agregarImagen(card : number){
-    const reader = new FileReader();
-    reader.onload = (event) => {
-    const base64String = event.target?.result as string;
-      console.log('Base64 de la imagen:', base64String);
-      if(card == 1){
-        this.img1 = base64String;
-        this.imgDesc1 = this.desc
-        this.imgDescIng1 = this.descIng
-      }else if(card == 2){
-        this.img2 = base64String;
-        this.imgDesc2 = this.desc
-        this.imgDescIng2 = this.descIng
-      }else if(card == 3){
-        this.img3 = base64String;
-        this.imgDesc3 = this.desc
-        this.imgDescIng3 = this.descIng
-      }else if(card == 4){
-        this.img4 = base64String;
-        this.imgDesc4 = this.desc
-        this.imgDescIng4 = this.descIng
-      }
-      this.cardSeleccionada = 0
-      this.files = []
-      this.tituloSeleccion = ""
-      this.desc = ""
-      this.descIng = ""
-    };
-    reader.readAsDataURL(this.files[0]);
+    // const reader = new FileReader();
+    // reader.onload = (event) => {
+    // const base64String = event.target?.result as string;
+    //   console.log('Base64 de la imagen:', base64String);
+    //   if(card == 1){
+    //     this.img1 = base64String;
+    //     this.imgDesc1 = this.desc
+    //     this.imgDescIng1 = this.descIng
+    //   }else if(card == 2){
+    //     this.img2 = base64String;
+    //     this.imgDesc2 = this.desc
+    //     this.imgDescIng2 = this.descIng
+    //   }else if(card == 3){
+    //     this.img3 = base64String;
+    //     this.imgDesc3 = this.desc
+    //     this.imgDescIng3 = this.descIng
+    //   }else if(card == 4){
+    //     this.img4 = base64String;
+    //     this.imgDesc4 = this.desc
+    //     this.imgDescIng4 = this.descIng
+    //   }
+    //   this.cardSeleccionada = 0
+    //   this.files = []
+    //   this.tituloSeleccion = ""
+    //   this.desc = ""
+    //   this.descIng = ""
+    // };
+    // reader.readAsDataURL(this.files[0]);
+    if(card == 1){
+      this.img1 = this.imgSeleccionada;
+      this.imgDesc1 = this.desc
+      this.imgDescIng1 = this.descIng
+    }else if(card == 2){
+      this.img2 = this.imgSeleccionada;
+      this.imgDesc2 = this.desc
+      this.imgDescIng2 = this.descIng
+    }else if(card == 3){
+      this.img3 = this.imgSeleccionada;
+      this.imgDesc3 = this.desc
+      this.imgDescIng3 = this.descIng
+    }else if(card == 4){
+      this.img4 = this.imgSeleccionada;
+      this.imgDesc4 = this.desc
+      this.imgDescIng4 = this.descIng
+    }
+    this.imgSeleccionada = ""
+    this.cardSeleccionada = 0
+    this.files = []
+    this.tituloSeleccion = ""
+    this.desc = ""
+    this.descIng = ""
   }
 
   seleccionarCard(card : number){

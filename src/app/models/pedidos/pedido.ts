@@ -1,6 +1,5 @@
 import { Adjunto } from "../adjunto"
 import { Asignacion } from "./asignacion/asignacion"
-import { Pais } from "../pais"
 
 export interface Pedido {
   id: number
@@ -9,8 +8,8 @@ export interface Pedido {
   idioma : string
   codigoInforme: string
   estadoPedido : string
-  tipoInforme: string
-  tipoTramite : string
+  tipoInforme: number
+  tipoTramite : number
   calidad: string
   fechaIngreso: string
   fechaVencimiento: string
@@ -22,7 +21,7 @@ export interface Pedido {
   nombre : string
   codigo : string
   revelarNombre : boolean
-  pais : Pais
+  pais : number
   codigoPais : string,
   estado : string
   nroReferencia : string

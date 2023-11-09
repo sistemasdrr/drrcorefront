@@ -31,4 +31,16 @@ export class AgregarEssaludComponent implements OnInit {
   cerrarDialog(){
     this.dialogRef.close()
   }
+  agregarDerechoHabiente(){
+    this.dialogRef.close(
+      {
+        nombreCompleto: this.nombreCompleto,
+        tipoVinculo: this.tipoVinculo,
+        documentoIdentidad: this.documentoIdentidad
+      }
+    )
+    console.log(this.nombreCompleto)
+    console.log(this.tipoVinculo)
+    console.log(this.documentoIdentidad)
+  }
 }

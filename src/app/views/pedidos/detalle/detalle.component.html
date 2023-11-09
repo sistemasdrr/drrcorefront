@@ -34,6 +34,8 @@
             <mat-form-field class="w-100">
               <mat-label>Código del Abonado</mat-label>
               <input matInput placeholder="Ej. 1234" value="" [(ngModel)]="codAbonado" (ngModelChange)="asignarDatosAbonado()">
+              <mat-hint>{{abonadoNoEncontrado}}</mat-hint>
+
               <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
@@ -89,13 +91,17 @@
               <div class="row">
                 <div class="col-md-6">
                   <mat-form-field class="w-100">
-                    <mat-label>Pais</mat-label>
-                    <div class="input-container">
-                      <input matInput placeholder="" value="" [(ngModel)]="pais" readonly>
-                      <div>
-                        <span class="fi fi-{{codigoPais}}" style="font-size: 20px;"></span>
-                      </div>
-                    </div>
+                    <mat-label>País</mat-label>
+                    <input type="text" matInput [formControl]="controlPaisesAbonado" [matAutocomplete]="auto1" [(ngModel)]="paisAbonado">
+                    <button class="btn-traduccion" matSuffix mat-icon-button>
+                      <span class="fi fi-{{paisAbonado.bandera}}" style="font-size: 20px;"></span>
+                    </button>
+                    <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayPaisAbonado" >
+                      <mat-option *ngFor="let pais of filterPaisAbonado | async" [value]="pais">
+                        <span class="fi fi-{{pais.bandera}}"></span>
+                        {{pais.valor}}
+                      </mat-option>
+                    </mat-autocomplete>
                   </mat-form-field>
                   <mat-form-field class="w-100 d-flex">
                     <mat-label>Estado</mat-label>
@@ -170,35 +176,36 @@
                   <div class="col-md-3">
                     <mat-form-field class="w-100">
                       <mat-label>Código Reg. Trib.</mat-label>
-                      <input matInput placeholder="" [(ngModel)]="codigoRT" >
+                      <input matInput [(ngModel)]="codigoRT" >
                     </mat-form-field>
                   </div>
                   <div class="col-md-6">
                     <mat-form-field class="w-100">
-                      <mat-label>Correo</mat-label>
-                      <input matInput type="email" placeholder="" [(ngModel)]="correo" >
+                      <mat-label>Email</mat-label>
+                      <input matInput [(ngModel)]="correo" >
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="w-100">
                       <mat-label>Continente </mat-label>
-                      <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado">
-                        <mat-option [value]="continente.value" *ngFor="let continente of continentes">{{ continente.viewValue }}</mat-option>
+                      <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado" (ngModelChange)="actualizarContinente(continenteSeleccionado)">
+                        <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{ continente.valor }}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="w-100">
                       <mat-label>País</mat-label>
-                      <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
-                        <mat-option *ngFor="let pais of paises" [value]="pais.id">
+                      <input type="text" matInput [formControl]="controlPaisesEmpresa" [matAutocomplete]="auto2" [(ngModel)]="paisEmpresa" >
+                      <button class="btn-traduccion" matSuffix mat-icon-button>
+                        <span class="fi fi-{{paisEmpresa.bandera}}" style="font-size: 20px;"></span>
+                      </button>
+                      <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayPaisEmpresa" >
+                        <mat-option *ngFor="let pais of filterPaisEmpresa | async" [value]="pais">
                           <span class="fi fi-{{pais.bandera}}"></span>
                           {{pais.valor}}
                         </mat-option>
-                      </mat-select>
-                      <button class="btn-traduccion" matSuffix mat-icon-button>
-                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
-                      </button>
+                      </mat-autocomplete>
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
@@ -283,15 +290,16 @@
                   <div class="col-md-3">
                     <mat-form-field class="w-100">
                       <mat-label>País</mat-label>
-                      <mat-select [(ngModel)]="paisSeleccionado" (selectionChange)="actualizarSeleccion($event.value)">
-                        <mat-option *ngFor="let pais of paises" [value]="pais.id">
+                      <input type="text" matInput [formControl]="controlPaisesPersona" [matAutocomplete]="auto3" [(ngModel)]="paisPersona" >
+                      <button class="btn-traduccion" matSuffix mat-icon-button>
+                        <span class="fi fi-{{paisPersona.bandera}}" style="font-size: 20px;"></span>
+                      </button>
+                      <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayPaisPersona" >
+                        <mat-option *ngFor="let pais of filterPaisPersona | async" [value]="pais">
                           <span class="fi fi-{{pais.bandera}}"></span>
                           {{pais.valor}}
                         </mat-option>
-                      </mat-select>
-                      <button class="btn-traduccion" matSuffix mat-icon-button>
-                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
-                      </button>
+                      </mat-autocomplete>
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
@@ -337,8 +345,8 @@
               <div class="col-md-2">
                 <mat-form-field class="w-100">
                   <mat-label>Tipo de Informe </mat-label>
-                  <mat-select [(value)]="tipoInformeSeleccionado">
-                    <mat-option [value]="tipoInforme.value" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.viewValue }}</mat-option>
+                  <mat-select [(ngModel)]="tipoInformeSeleccionado">
+                    <mat-option [value]="tipoInforme.id" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.value }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -356,7 +364,7 @@
               <div class="col-md-2 d-flex justify-content-center">
                 <mat-form-field color="primary" style="width: 100%;">
                   <mat-label>A la Fecha</mat-label>
-                  <input matInput [matDatepicker]="fecha_informe">
+                  <input matInput [matDatepicker]="fecha_informe" [(ngModel)]="fechaInformeDate">
                   <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
                   <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
                 </mat-form-field>

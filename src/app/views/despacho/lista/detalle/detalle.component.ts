@@ -19,11 +19,11 @@ export class DetalleComponent implements OnInit{
   direccionInforme = ""
   tipoRT = ""
   codigoRT = ""
-  paisInforme = ""
+  paisInforme = 0
   balanceInforme = ""
   calidad = ""
-  tipoInforme = ""
-  tipoTramite = ""
+  tipoInforme = 0
+  tipoTramite = 0
   precioInforme = 0
 
   paises : Pais[] = []
@@ -43,7 +43,7 @@ export class DetalleComponent implements OnInit{
     // this.codigoRT = order.codigoRT
     this.tipoInforme = order.tipoInforme
     this.tipoTramite = order.tipoTramite
-    this.paisSeleccionado = order.pais.id
+    this.paisSeleccionado = order.pais
     this.actualizarSeleccion(this.paisSeleccionado)
     const fechaIngreso = order.fechaIngreso.split('/')
     this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]),parseInt(fechaIngreso[1])-1,parseInt(fechaIngreso[0]))

@@ -7,8 +7,11 @@ const listaAbonado : Abonado[] = [
     nombre : "Abonado 1 Abonado Abonado",
     codigo : "12345",
     revelarNombre : true,
-    pais : "PERU",
-    codigoPais : "pe",
+    pais : {
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
+    },
     estado : "INACTIVO",
     nroReferencia : "1234546789",
     creditoConsultado : "1 000 000",
@@ -20,8 +23,11 @@ const listaAbonado : Abonado[] = [
     nombre : "Abonado 2",
     codigo : "12346",
     revelarNombre : true,
-    pais : "CHILE",
-    codigoPais : "cl",
+    pais : {
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
+    },
     estado : "ACTIVO",
     nroReferencia : "1234546789",
     creditoConsultado : "1 000 000",
@@ -33,8 +39,11 @@ const listaAbonado : Abonado[] = [
     nombre : "Abonado 3",
     codigo : "12347",
     revelarNombre : true,
-    pais : "PERU",
-    codigoPais : "pe",
+    pais : {
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
+    },
     estado : "ACTIVO",
     nroReferencia : "1234546789",
     creditoConsultado : "1 000 000",
@@ -46,8 +55,11 @@ const listaAbonado : Abonado[] = [
     nombre : "Abonado 4",
     codigo : "12348",
     revelarNombre : true,
-    pais : "PERU",
-    codigoPais : "pe",
+    pais : {
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
+    },
     estado : "ACTIVO",
     nroReferencia : "1234546789",
     creditoConsultado : "1 000 000",
@@ -59,8 +71,11 @@ const listaAbonado : Abonado[] = [
     nombre : "Abonado 5",
     codigo : "12349",
     revelarNombre : false,
-    pais : "PERU",
-    codigoPais : "pe",
+    pais : {
+      id: 182,
+      valor: "Perú",
+      bandera: "pe"
+    },
     estado : "ACTIVO",
     nroReferencia : "1234546789",
     creditoConsultado : "1 000 000",

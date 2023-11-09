@@ -71,7 +71,7 @@ export class IEDetalleComponent implements OnInit {
     if(this.codigoInforme === 'nuevo'){
       this.subtitle = ' - Nuevo'
     }else{
-      this.datosEmpresa = this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')
+      this.datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+'')
       if(this.datosEmpresa[0] == null){
         this.router.navigate(['**']);
       }

@@ -25,7 +25,7 @@ export class PersonalService {
       telefonoCelular : '51 994 156 974',
       tipoDocumento : 1,
       numDocumento : '6640754',
-      direccion : '',
+      direccion : 'direcion...',
       estadoCivil : 2,
       numeroHijos : '2',
       fechaNacimiento : '31/05/1963',
@@ -102,7 +102,7 @@ export class PersonalService {
   }
 
   getTipoDocumento() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controller + '/doctype');
+    return this.http.get<any>(this.url + this.controller + '/doctype');
   }
   getEstadoCivil() : Observable<any>{
     return this.http.get<data[]>(this.url + this.controller + '/civilstatus');

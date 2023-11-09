@@ -1,13 +1,13 @@
 import { PaisService } from './../../../services/pais.service';
 import { Pais } from 'app/models/pais';
-import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { EmpresaPersona } from 'app/models/empresa-persona';
-import { EmpresaPersonaService } from 'app/services/empresa-persona.service';
 import { debounceTime, distinctUntilChanged, fromEvent, tap } from 'rxjs';
+import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
+import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
 
 
 @Component({
@@ -15,44 +15,39 @@ import { debounceTime, distinctUntilChanged, fromEvent, tap } from 'rxjs';
   templateUrl: './buscar-empresa-dialog.component.html',
   styleUrls: ['./buscar-empresa-dialog.component.scss']
 })
-export class BuscarEmpresaDialogComponent implements AfterViewInit{
+export class BuscarEmpresaDialogComponent implements AfterViewInit, OnInit{
 
   titulo : string = "Empresas o Personas"
   mostrarEmpresas : boolean = true
   codigoSeleccionado : string = ""
-  datos : EmpresaPersona = {
-    codigo : "",
-    tipo : "",
-    nombreBuscado : "",
-    nombreSolicitado : "",
-    continente : "",
-    pais : 0,
-    ciudad : "",
-    ruc : "",
-    fecha : "",
-    situacion : "",
-    direccion : "",
-    correo : "",
-    telefono : ""
-  }
   paises : Pais[] = []
-  columnsToDisplay = ['select', 'nombreBuscado', 'nombreSolicitado', 'pais', 'ruc', 'fecha', 'situacion'];
+  datosEmpresa : DatosEmpresa[] = []
+  columnsToDisplayEmpresa = ['select', 'nombreBuscado', 'nombreSolicitado', 'pais', 'ruc', 'fechaInvestigacion', 'fechaConstitucion'];
+  columnsToDisplayPersona = ['select', 'nombreBuscado', 'nombreSolicitado', 'pais', 'ruc', 'fecha', 'situacion'];
 
-  dataSource: MatTableDataSource<EmpresaPersona>;
+  dataSourceEmpresa: MatTableDataSource<DatosEmpresa>;
+  //dataSourcePersona: MatTableDataSource<DatosEmpresa>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
   @Output()
   eventSelectAbonado = new EventEmitter<string>();
-  constructor(public dialogRef: MatDialogRef<BuscarEmpresaDialogComponent>, private empresaPersonaService : EmpresaPersonaService, private paisService : PaisService){
-    this.dataSource = new MatTableDataSource(this.empresaPersonaService.getEmpresasPersonas())
+  constructor(public dialogRef: MatDialogRef<BuscarEmpresaDialogComponent>,
+    private paisService : PaisService,
+    private datosEmpresaService : DatosEmpresaService
+  ){
+    this.dataSourceEmpresa = new MatTableDataSource()
     this.paisService.getPaises().subscribe(data => {
       this.paises = data;
-    });  }
+    });
+  }
+  ngOnInit(): void {
+    this.dataSourceEmpresa.data = this.datosEmpresaService.getDatosEmpresas()
+  }
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    console.log(this.dataSource)
+    this.dataSourceEmpresa.paginator = this.paginator;
+    this.dataSourceEmpresa.sort = this.sort;
+    console.log(this.dataSourceEmpresa)
     fromEvent(this.filter.nativeElement, 'keyup')
       .pipe(
         debounceTime(50),
@@ -62,20 +57,23 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit{
         })
       )
       .subscribe();
-      this.dataSource.sort = this.sort;
+      this.dataSourceEmpresa.sort = this.sort;
   }
 
   applyFilter() {
     const filterValue = (this.filter.nativeElement as HTMLInputElement).value.toLowerCase().trim();
-    this.dataSource.filter = filterValue;
+    this.dataSourceEmpresa.filter = filterValue;
   }
 
 
-  seleccionarCodigoEmpresa(cod : string){
-    this.codigoSeleccionado = cod
+  seleccionarCodigoEmpresa(empresa : DatosEmpresa){
+    this.datosEmpresa = []
+    this.datosEmpresa.push(empresa)
   }
   realizarEnvioCodigo() {
-    this.dialogRef.close({ datos: this.codigoSeleccionado });
+    this.dialogRef.close({
+      datosEmpresa: this.datosEmpresa[0]
+     });
   }
 
 }

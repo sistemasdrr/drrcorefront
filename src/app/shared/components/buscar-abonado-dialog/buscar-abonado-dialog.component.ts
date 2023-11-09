@@ -24,6 +24,7 @@ export class BuscarAbonadoDialogComponent implements AfterViewInit {
   dataSource: MatTableDataSource<Abonado>;
   botonDeshabilitado: boolean = true;
   codigoAbonado : string = ""
+  abonado : Abonado[] = []
 
   @Output()
   eventSelectAbonado = new EventEmitter<string>();
@@ -62,9 +63,11 @@ export class BuscarAbonadoDialogComponent implements AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  realizarEnvioCodigo(codigo : string) {
-    this.codigoAbonado = codigo
-    this.dialogRef.close({ codigoAbonado: this.codigoAbonado });
+  realizarEnvioCodigo(abonado : Abonado) {
+    this.abonado = []
+    this.abonado.push(abonado)
+    this.dialogRef.close({
+      abonado: this.abonado[0]
+     });
   }
-
 }

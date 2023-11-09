@@ -1,4 +1,4 @@
-<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;"(paste)="onPaste($event)">
+<div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
   <div class="col-md-12 mb-2" >
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
@@ -97,6 +97,20 @@
 
           </ngx-dropzone-image-preview>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field class="w-100" >
+              <mat-label>Pegar la Url</mat-label>
+              <input matInput [(ngModel)]="imgSeleccionada" [disabled]="cardSeleccionada === 0" (ngModelChange)="mostrarImg()">
+            </mat-form-field>
+          </div>
+          <!--div class="col-md-6">
+            <mat-form-field class="w-100" >
+              <mat-label>Pegar la Imagen (Ctrl + v)</mat-label>
+              <input matInput [disabled]="cardSeleccionada === 0" (paste)="onPaste($event)">
+            </mat-form-field>
+          </!--div-->
+        </div>
       </div>
       <div class="col-md-4">
         <div class="d-flex ">
@@ -109,19 +123,18 @@
             </button>
           </div>
         </div>
-
         <hr>
-          <div class="col-md-12">
-            <mat-form-field class="w-100">
-              <mat-label>Descripción</mat-label>
-              <input matInput placeholder [(ngModel)]="desc"  [disabled]="cardSeleccionada === 0">
-            </mat-form-field>
-          </div>
-          <div class="col-md-12">
-            <mat-form-field class="w-100">
-              <mat-label>Descripción Inglés</mat-label>
-              <input matInput placeholder [(ngModel)]="descIng"  [disabled]="cardSeleccionada === 0">
-            </mat-form-field>
+        <div class="col-md-12">
+          <mat-form-field class="w-100">
+            <mat-label>Descripción</mat-label>
+            <input matInput [(ngModel)]="desc"  [disabled]="cardSeleccionada === 0">
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="w-100">
+            <mat-label>Descripción Inglés</mat-label>
+            <input matInput [(ngModel)]="descIng"  [disabled]="cardSeleccionada === 0">
+          </mat-form-field>
         </div>
       </div>
 

@@ -1,6 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Pais } from 'app/models/pais';
 import { Asignacion } from 'app/models/pedidos/asignacion/asignacion';
 import { Pedido } from 'app/models/pedidos/pedido';
+import { environment } from 'environments/environment';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -15,8 +19,8 @@ export class PedidoService {
       idioma : 'ESPAÑOL',
       codigoInforme: 'Z0015212165',
       estadoPedido : 'PENDIENTE',
-      tipoInforme: 'RV',
-      tipoTramite : 'T1',
+      tipoInforme: 1,
+      tipoTramite : 1,
       calidad: 'B',
       fechaIngreso: '12/09/2023',
       fechaVencimiento: '19/09/2024',
@@ -28,11 +32,7 @@ export class PedidoService {
       nombre: "Abonado 1 ",
       codigo: "12345",
       revelarNombre: true,
-      pais: {
-        id: 182,
-        valor: "Perú",
-        bandera: "pe"
-      },
+      pais: 182,
       codigoPais: "pe",
       estado: "INACTIVO",
       nroReferencia: "1234546789",
@@ -95,7 +95,19 @@ export class PedidoService {
     }
   ]
 
-  constructor() { }
+  url = environment.apiUrl
+  controller = "/Combo"
+  constructor(private http : HttpClient) {
+  }
+  getPaises(): Observable<any> {
+    return this.http.get<Pais[]>(this.url + this.controller + '/country');
+  }
+  getContinente(): Observable<any> {
+    return this.http.get<any>(this.url + this.controller + '/continent');
+  }
+  getPaisPorContinente(continent : number):  Observable<any>{
+    return this.http.get<any>(this.url + this.controller + '/countrybycontinent?continent='+continent);
+  }
   getOrders() {
     return this.orders;
   }
@@ -127,5 +139,6 @@ export class PedidoService {
       const indexAsignacion = this.orders[indexPedido].asignacion
     }
   }
+
 }
 

@@ -9,8 +9,7 @@ import { Pais } from 'app/models/pais';
 import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-detalle',
@@ -128,30 +127,29 @@ export class DetalleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.router.url);
-    this.personalService.getTipoDocumento().subscribe(data => {
-      if(data.isSuccess == true){
-        this.tiposDocumento = data.data;
+    this.personalService.getTipoDocumento().subscribe((response) => {
+      if(response.isSuccess == true){
+        this.tiposDocumento = response.data;
       }
     });
-    this.personalService.getEstadoCivil().subscribe(data => {
-      if(data.isSuccess == true){
-        this.estadosCivil = data.data;
+    this.personalService.getEstadoCivil().subscribe(response => {
+      if(response.isSuccess == true){
+        this.estadosCivil = response.data;
       }
     });
-    this.personalService.getDepartamento().subscribe(data => {
-      if(data.isSuccess == true){
-        this.departamentos = data.data;
+    this.personalService.getDepartamento().subscribe(response => {
+      if(response.isSuccess == true){
+        this.departamentos = response.data;
       }
     });
-    this.personalService.getTipoCuenta().subscribe(data => {
-      if(data.isSuccess == true){
-        this.tiposCuenta = data.data;
+    this.personalService.getTipoCuenta().subscribe(response => {
+      if(response.isSuccess == true){
+        this.tiposCuenta = response.data;
       }
     });
-    this.paisService.getPaises().subscribe(data => {
-      if(data.isSuccess == false){
-        this.paises = data.data;
+    this.paisService.getPaises().subscribe(response => {
+      if(response.isSuccess == true){
+        this.paises = response.data;
       }else{
         this.snackBar.open('Ha ocurrido un problema en la conexión', '', {
           duration: 3000,
@@ -269,6 +267,7 @@ export class DetalleComponent implements OnInit {
       ];
     }
   }
+
   updateCargos(id : number){
     this.personalService.getCargoPorDepartamento(id).subscribe(data => {
       if(data.isSuccess == true){
@@ -323,6 +322,7 @@ export class DetalleComponent implements OnInit {
     this.dataSource.data = this.listaEssalud
   }
   guardarDatos(){
+    console.log(this.files);
     this.personal = {
       id : this.id,
       codigo : this.codigo,

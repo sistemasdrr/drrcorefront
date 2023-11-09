@@ -283,8 +283,10 @@ export class DatosEmpresaService {
 
   constructor() {
   }
-
-  getDatosEmpresa(codigoInforme : string){
+  getDatosEmpresas(){
+    return this.datosEmpresas
+  }
+  getDatosEmpresaPorCodigo(codigoInforme : string){
     return this.datosEmpresas.filter(emp => emp.codigoInforme === codigoInforme)
   }
 

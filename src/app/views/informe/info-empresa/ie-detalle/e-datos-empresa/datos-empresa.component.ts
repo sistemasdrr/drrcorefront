@@ -155,7 +155,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       }),
     )
     if(this.codigoInforme !== 'nuevo'){
-      const datosEmpresa = this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')
+      const datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+'')
       console.log(datosEmpresa)
       this.informeInvestigadoEl = datosEmpresa[0].informeInvestigadoEl
       const fecha1 = this.informeInvestigadoEl.split("/");
@@ -222,7 +222,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   }
   compararModelos(){
     this.armarModelo()
-    if(JSON.stringify(this.datosEmpresa) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+''))){
+    if(JSON.stringify(this.datosEmpresa) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+''))){
       const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
       if (tabDatosEmpresa) {
           tabDatosEmpresa.classList.add('tab-cambios')
@@ -502,8 +502,8 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   salir(){
     this.armarModelo()
     console.log(this.datosEmpresa[0])
-    console.log(this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+'')[0])
-    if(JSON.stringify(this.datosEmpresa) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresa(this.codigoInforme+''))){
+    console.log(this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+'')[0])
+    if(JSON.stringify(this.datosEmpresa) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+''))){
       Swal.fire({
         title: '¿Está seguro de salir sin guardar los cambios?',
         text: "",

@@ -62,8 +62,8 @@ export class ListaSituacionComponent implements  OnInit {
 
   applyFilter() {
     this.dataSource.data = this.pedidoService.getOrders()
-      .filter(x => x.tipoTramite.includes(this.tipoTramite) &&
-      x.tipoInforme.includes(this.tipoInforme) &&
+      .filter(x => x.tipoTramite === this.tipoTramite &&
+      x.tipoInforme === this.tipoInforme &&
       new Date(
         parseInt(x.fechaIngreso.split('/')[2], 10),
         parseInt(x.fechaIngreso.split('/')[1], 10) - 1,
@@ -83,8 +83,8 @@ export class ListaSituacionComponent implements  OnInit {
   nombreEmpresa = ""
   fechaInicio : Date = new Date(2023, 0, 1)
   fechaFin : Date = new Date(year, month, day)
-  tipoInforme = ""
-  tipoTramite = ""
+  tipoInforme = 0
+  tipoTramite = 0
   maxDate: Date = new Date();
 
   range : FormGroup
