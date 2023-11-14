@@ -92,6 +92,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.activeLI = 12;
     }
   }
+
+  
+
   ngOnDestroy() {
     this.routerObj.unsubscribe();
   }

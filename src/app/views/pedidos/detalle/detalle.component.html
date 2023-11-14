@@ -345,8 +345,10 @@
               <div class="col-md-2">
                 <mat-form-field class="w-100">
                   <mat-label>Tipo de Informe </mat-label>
-                  <mat-select [(ngModel)]="tipoInformeSeleccionado">
-                    <mat-option [value]="tipoInforme.id" *ngFor="let tipoInforme of tipoInformes">{{ tipoInforme.value }}</mat-option>
+                  <mat-select [(ngModel)]="tipoInforme">
+                    <mat-option [value]="''"></mat-option>
+                    <mat-option [value]="'RV'">RV</mat-option>
+                    <mat-option [value]="'OR'">OR</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>

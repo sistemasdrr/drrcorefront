@@ -47,7 +47,7 @@ export class SeleccionarAgenteComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.data.data)
-    const order = this.pedidoService.getOrders().filter(x => x.cupon == this.data.data)[0]
+    const order = this.pedidoService.getPedidos().filter(x => x.cupon == this.data.data)[0]
     console.log(order)
     if(order.asignacion.length > 0){
       this.dataSource.data = order.asignacion
@@ -80,7 +80,7 @@ export class SeleccionarAgenteComponent implements OnInit {
       precio : this.precio
     })
 
-    this.dataSource.data = this.pedidoService.getOrders().filter(x => x.cupon == this.data.data)[0].asignacion
+    this.dataSource.data = this.pedidoService.getPedidos().filter(x => x.cupon == this.data.data)[0].asignacion
   }
   seleccionarAsignacion(id : number){
     this.limpiar()

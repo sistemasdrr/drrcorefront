@@ -42,58 +42,58 @@
 
           <ng-container matColumnDef="informe" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
-          <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 15rem;"> {{order.nombreRealEmpresa}} </td>
+          <td mat-cell *matCellDef="let pedido" class="text-left" style="min-width: 15rem;"> {{pedido.nombreRealEmpresa}} </td>
           </ng-container>
           <ng-container matColumnDef="fecha" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha Venc.</th>
-            <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaVencimiento}} </td>
+            <td mat-cell *matCellDef="let pedido" class="text-center"> {{pedido.fechaVencimiento}} </td>
           </ng-container>
           <ng-container matColumnDef="tipoTramite" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> Tipo de Trámite</th>
-            <td mat-cell *matCellDef="let order" class="text-center">
-              <div *ngIf="order.tipoTramite === 'T1'">
-                <div class="badge badge-solid-blue">{{order.tipoTramite}}</div>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <div *ngIf="pedido.tipoTramite === 'T1'">
+                <div class="badge badge-solid-blue">T1</div>
               </div>
-              <div *ngIf="order.tipoTramite === 'T2'">
-                <div class="badge badge-solid-purple">{{order.tipoTramite}}</div>
+              <div *ngIf="pedido.tipoTramite === 'T2'">
+                <div class="badge badge-solid-purple">T2</div>
               </div>
-              <div *ngIf="order.tipoTramite === 'T3'">
-                <div class="badge badge-solid-cyan">{{order.tipoTramite}}</div>
+              <div *ngIf="pedido.tipoTramite === 'T3'">
+                <div class="badge badge-solid-cyan">T3</div>
               </div>
             </td>
           </ng-container>
           <ng-container matColumnDef="tipoInforme" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> Tipo de Informe</th>
-            <td mat-cell *matCellDef="let order" class="text-center">
-              <div *ngIf="order.tipoInforme === 'OR'">
-                <div class="badge badge-solid-orange" style="font-size: 16px;">{{order.tipoInforme}}</div>
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <div *ngIf="pedido.tipoInforme === 'OR'">
+                <div class="badge badge-solid-orange" style="font-size: 16px;">OR</div>
               </div>
-              <div *ngIf="order.tipoInforme === 'RV'">
-                <div class="badge badge-solid-green" style="font-size: 16px;">{{order.tipoInforme}}</div>
+              <div *ngIf="pedido.tipoInforme === 'RV'">
+                <div class="badge badge-solid-green" style="font-size: 16px;">RV</div>
               </div>
             </td>
           </ng-container>
           <ng-container matColumnDef="pais" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> País </th>
-            <td mat-cell *matCellDef="let order" class="text-center">{{order.paisEmpresa}} <!--span-- class="fi fi-{{order.pais['icono']}}" style="font-size: 20px;"></!--span--> </td>
+            <td mat-cell *matCellDef="let pedido" class="text-center">{{pedido.paisEmpresa.valor}} <span class="fi fi-{{pedido.paisEmpresa.bandera}}" style="font-size: 20px;"></span> </td>
           </ng-container>
           <ng-container matColumnDef="abonado" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> Abonado </th>
-            <td mat-cell *matCellDef="let order" class="text-center"> {{order.codigo}} - {{order.nombre}} </td>
+            <td mat-cell *matCellDef="let pedido" class="text-center"> {{pedido.codigo}} - {{pedido.nombre}} </td>
           </ng-container>
           <ng-container matColumnDef="opciones" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> Opciones </th>
-            <td mat-cell *matCellDef="let order" class="text-center">
-              <button mat-icon-button #tooltip="matTooltip" matTooltip="Movimientos del Informe" (click)="movimientosInforme(order.cupon)">
+            <td mat-cell *matCellDef="let pedido" class="text-center">
+              <button mat-icon-button #tooltip="matTooltip" matTooltip="Movimientos del Informe" (click)="movimientosInforme(pedido.cupon)">
                 <i class="fa-solid fa-clock-rotate-left" style="font-size: 24px; color: #6777ef;"></i>
               </button>
-              <button mat-icon-button #tooltip="matTooltip" matTooltip="Información y Despacho del Informe" (click)="despachoInforme(order.cupon)">
+              <button mat-icon-button #tooltip="matTooltip" matTooltip="Información y Despacho del Informe" (click)="despachoInforme(pedido.cupon)">
                 <i class="fa-regular fa-envelope" style="font-size: 24px; color: rgb(91, 177, 247);"></i>
               </button>
             </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="columnasInforme"></tr>
-          <tr mat-row *matRowDef="let order; columns: columnasInforme;">
+          <tr mat-row *matRowDef="let pedido; columns: columnasInforme;">
           </tr>
         </table>
       </div>

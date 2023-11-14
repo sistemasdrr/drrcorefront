@@ -100,57 +100,34 @@ export class ImagenesComponent implements OnInit{
   }
 
   agregarImagen(card : number){
-    // const reader = new FileReader();
-    // reader.onload = (event) => {
-    // const base64String = event.target?.result as string;
-    //   console.log('Base64 de la imagen:', base64String);
-    //   if(card == 1){
-    //     this.img1 = base64String;
-    //     this.imgDesc1 = this.desc
-    //     this.imgDescIng1 = this.descIng
-    //   }else if(card == 2){
-    //     this.img2 = base64String;
-    //     this.imgDesc2 = this.desc
-    //     this.imgDescIng2 = this.descIng
-    //   }else if(card == 3){
-    //     this.img3 = base64String;
-    //     this.imgDesc3 = this.desc
-    //     this.imgDescIng3 = this.descIng
-    //   }else if(card == 4){
-    //     this.img4 = base64String;
-    //     this.imgDesc4 = this.desc
-    //     this.imgDescIng4 = this.descIng
-    //   }
-    //   this.cardSeleccionada = 0
-    //   this.files = []
-    //   this.tituloSeleccion = ""
-    //   this.desc = ""
-    //   this.descIng = ""
-    // };
-    // reader.readAsDataURL(this.files[0]);
-    if(card == 1){
-      this.img1 = this.imgSeleccionada;
-      this.imgDesc1 = this.desc
-      this.imgDescIng1 = this.descIng
-    }else if(card == 2){
-      this.img2 = this.imgSeleccionada;
-      this.imgDesc2 = this.desc
-      this.imgDescIng2 = this.descIng
-    }else if(card == 3){
-      this.img3 = this.imgSeleccionada;
-      this.imgDesc3 = this.desc
-      this.imgDescIng3 = this.descIng
-    }else if(card == 4){
-      this.img4 = this.imgSeleccionada;
-      this.imgDesc4 = this.desc
-      this.imgDescIng4 = this.descIng
-    }
-    this.imgSeleccionada = ""
-    this.cardSeleccionada = 0
-    this.files = []
-    this.tituloSeleccion = ""
-    this.desc = ""
-    this.descIng = ""
+    const reader = new FileReader();
+    reader.onload = (event) => {
+    const base64String = event.target?.result as string;
+      console.log('Base64 de la imagen:', base64String);
+      if(card == 1){
+        this.img1 = base64String;
+        this.imgDesc1 = this.desc
+        this.imgDescIng1 = this.descIng
+      }else if(card == 2){
+        this.img2 = base64String;
+        this.imgDesc2 = this.desc
+        this.imgDescIng2 = this.descIng
+      }else if(card == 3){
+        this.img3 = base64String;
+        this.imgDesc3 = this.desc
+        this.imgDescIng3 = this.descIng
+      }else if(card == 4){
+        this.img4 = base64String;
+        this.imgDesc4 = this.desc
+        this.imgDescIng4 = this.descIng
+      }
+      this.cardSeleccionada = 0
+      this.files = []
+      this.tituloSeleccion = ""
+      this.desc = ""
+      this.descIng = ""
+    };
+    reader.readAsDataURL(this.files[0]);
   }
 
   seleccionarCard(card : number){
@@ -177,6 +154,25 @@ export class ImagenesComponent implements OnInit{
       this.imgSeleccionada = this.img4
       this.desc = this.imgDesc4
       this.descIng = this.imgDescIng4
+    }
+  }
+  borrarImagen(card : number){
+    if(card == 1){
+      this.img1 = "assets/images/image-gallery/5.jpg"
+      this.imgDesc1 = ""
+      this.imgDescIng1 = ""
+    }else if(card == 2){
+      this.img2 = "assets/images/image-gallery/5.jpg"
+      this.imgDesc2 = ""
+      this.imgDescIng2 = ""
+    }else if(card == 3){
+      this.img3 = "assets/images/image-gallery/5.jpg"
+      this.imgDesc3 = ""
+      this.imgDescIng3 = ""
+    }else if(card == 4){
+      this.img4 = "assets/images/image-gallery/5.jpg"
+      this.imgDesc4 = ""
+      this.imgDescIng4 = ""
     }
   }
 }

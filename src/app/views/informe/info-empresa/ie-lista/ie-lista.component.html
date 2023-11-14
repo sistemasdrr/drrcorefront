@@ -47,13 +47,13 @@
       </div>
       <div class="col-md-12" style="overflow-x: auto;">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
-          <ng-container matColumnDef="{{columnsToDisplay[0]}}" >
+          <ng-container matColumnDef="rc" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RC </th>
           <td mat-cell *matCellDef="let empresa" class="text-center" style="border-radius: 10px;" [class]="empresa.rc ==='A+' ? 'bg-green' : empresa.rc === 'A-' ? 'l-bg-green' : empresa.rc === 'B' ? 'bg-yellow' : empresa.rc === 'C' ? 'bg-orange' : empresa.rc === 'D' ? 'bg-red' : empresa.rc === 'NN' ? 'bg-grey' : '' ">
             <b style="font-size: 20px;">{{empresa.rc}}</b>
           </td>
           </ng-container>
-          <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
+          <ng-container matColumnDef="idioma" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Idioma</th>
           <td mat-cell *matCellDef="let empresa" class="text-left">
             <span class="fi fi-es" style="font-size: 24px;" *ngIf="empresa.idioma === 'ESPAÑOL'"></span>

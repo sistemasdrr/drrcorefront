@@ -75,5 +75,4 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit, OnInit{
       datosEmpresa: this.datosEmpresa[0]
      });
   }
-
 }

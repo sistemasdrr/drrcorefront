@@ -1,7 +1,11 @@
-<section class="content">
-  <div class="container-fluid" style="overflow: auto; width: 100%;">
+<section class="content" >
+  <div class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+    <span class="loader"></span><br>
+    <h2 style="color: white;">&nbsp;Cargando...</h2>
+  </div>
+  <div class="container-fluid w-100 " [ngClass]="{'show-form': loading}" style="overflow: auto;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
-      <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [codigoInforme]="''" [active_item]="breadscrum.active">
+      <app-breadcrumb [title]="breadscrum.title" [subtitle]="''" [items]="breadscrum.items" [codigoInforme]="''" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
     <div class="card card-body shadow mb-3">
@@ -53,39 +57,56 @@
                 <input matInput [(ngModel)]="nombres" >
               </mat-form-field>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <mat-form-field class="w-100">
                 <mat-label>Teléfono Celular</mat-label>
-                <input matInput [(ngModel)]="telCelular"  mask="(+00) 000-000-000" [showMaskTyped]="true" >
+                <input matInput [(ngModel)]="telCelular"  >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>smartphone</mat-icon>
               </mat-form-field>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <mat-form-field class="w-100">
                 <mat-label>Teléfono Fijo</mat-label>
                 <input matInput [(ngModel)]="telFijo" >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>call</mat-icon>
               </mat-form-field>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <mat-form-field class="w-100">
                 <mat-label>Teléfono de Emergencias</mat-label>
                 <input matInput [(ngModel)]="telEmergencia" >
                 <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>medical_services</mat-icon>
               </mat-form-field>
             </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100">
+                <mat-label>Número de Hijos</mat-label>
+                <mat-select [(ngModel)]="numHijos">
+                  <mat-option [value]="0">0</mat-option>
+                  <mat-option [value]="1">1</mat-option>
+                  <mat-option [value]="2">2</mat-option>
+                  <mat-option [value]="3">3</mat-option>
+                  <mat-option [value]="4">4</mat-option>
+                  <mat-option [value]="5">5</mat-option>
+                  <mat-option [value]="6">6</mat-option>
+                  <mat-option [value]="7">7</mat-option>
+                </mat-select>
+                <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
+              </mat-form-field>
+            </div>
           </div>
         </div>
         <div class="col-md-3">
           <div class="row">
-            <div class="col-md-12" style="height: 14rem; border: 2px solid black;" >
+            <div class="col-md-12" style="height: 14rem;" >
               <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" class="w-100 h-100" (change)="onSelect($event)" [accept]="'image/*'" >
-                <div class="d-flex justify-content-center" style="background-size: cover; width: 100%; height: 100%" >
-                  <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class=" w-100 h-100" *ngFor="let file of files" [file]="file" >
-
-
-                  </ngx-dropzone-image-preview>
+                <div class="d-flex justify-content-center" style="background-size: cover; width: 100%; height: 100%" *ngIf="urlFoto !== ''">
+                  <img mat-card-image src="{{urlFoto}}" style="width: auto; height: 100%;">
                 </div>
+                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class=" w-100 h-100" *ngFor="let file of files" [file]="file" >
+
+
+                </ngx-dropzone-image-preview>
               </div>
             </div>
           </div>
@@ -105,62 +126,54 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-md-3">
-          <mat-form-field class="w-100">
-            <mat-label>Número de Hijos</mat-label>
-            <mat-select [(ngModel)]="numHijos">
-              <mat-option value="0">0</mat-option>
-              <mat-option value="1">1</mat-option>
-              <mat-option value="2">2</mat-option>
-              <mat-option value="3">3</mat-option>
-              <mat-option value="4">4</mat-option>
-              <mat-option value="5">5</mat-option>
-              <mat-option value="6">6</mat-option>
-              <mat-option value="7+">7+</mat-option>
-            </mat-select>
-            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-          </mat-form-field>
-        </div>
         <div class="col-md-2">
           <mat-form-field class="w-100">
             <mat-label>Tipo de Sangre</mat-label>
-            <input matInput [(ngModel)]="tipoSangre" >
+            <input matInput [(ngModel)]="tipoSangre" [maxLength]="10">
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>bloodtype</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="w-100">
+            <mat-label>URL de la Foto</mat-label>
+            <input matInput [(ngModel)]="urlFoto" >
+            <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>link</mat-icon>
           </mat-form-field>
         </div>
         <h5>Lugar de Nacimiento</h5>
         <hr>
         <div class="col-md-3">
           <mat-form-field class="w-100">
-            <mat-label>Lugar</mat-label>
-            <input matInput [(ngModel)]="lugarNac" >
+            <mat-label>País</mat-label>
+            <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto5" [(ngModel)]="paisNac" >
+            <button class="btn-traduccion" matSuffix mat-icon-button>
+              <span class="fi fi-{{paisNac.bandera}}" style="font-size: 20px;"></span><!--ESTO CAUSA ERROR-->
+            </button>
+            <mat-autocomplete #auto5="matAutocomplete" [displayWith]="displayPais" >
+              <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                <span class="fi fi-{{pais?.bandera}}"></span><!--ESTO CAUSA ERROR-->
+                {{pais.valor}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
+
         </div>
         <div class="col-md-3">
           <mat-form-field class="w-100">
-            <mat-label>Ciudad</mat-label>
+            <mat-label>Provincia</mat-label>
             <input matInput [(ngModel)]="ciudadNac">
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field class="w-100">
-            <mat-label>País</mat-label>
-            <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto5" [(ngModel)]="paisNac" (ngModelChange)="cambiarIcono(paisNac)">
-            <button class="btn-traduccion" matSuffix mat-icon-button>
-              <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
-            </button>
-            <mat-autocomplete #auto5="matAutocomplete" [displayWith]="displayPais" >
-              <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
-                <span class="fi fi-{{pais.bandera}}"></span>
-                {{pais.valor}}
-              </mat-option>
-            </mat-autocomplete>
+            <mat-label>Distrito</mat-label>
+            <input matInput [(ngModel)]="lugarNac" >
           </mat-form-field>
         </div>
         <div class="col-md-3">
           <mat-form-field color="primary" class="w-100">
             <mat-label>Fecha de Nacimiento</mat-label>
-            <input matInput [matDatepicker]="fechaNacimiento" [(ngModel)]="fechaNacimientoDate">
+            <input matInput [matDatepicker]="fechaNacimiento" [(ngModel)]="fechaNacimientoDate" (dateChange)="selectFechaNacimiento($event)">
             <mat-datepicker-toggle matIconSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
             <mat-datepicker #fechaNacimiento color="primary"></mat-datepicker>
           </mat-form-field>
@@ -170,9 +183,17 @@
         <div class="col-md-3">
           <mat-form-field color="primary" class="w-100">
             <mat-label>Fecha de Ingreso</mat-label>
-            <input matInput [matDatepicker]="fechaIngreso" [(ngModel)]="fechaIngresoDate">
+            <input matInput [matDatepicker]="fechaIngreso" [(ngModel)]="fechaIngresoDate" (dateChange)="selectFechaIngreso($event)">
             <mat-datepicker-toggle matIconSuffix [for]="fechaIngreso"></mat-datepicker-toggle>
             <mat-datepicker #fechaIngreso color="primary"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field color="primary" class="w-100">
+            <mat-label>Fecha de Cese</mat-label>
+            <input matInput [matDatepicker]="fechaCese" [(ngModel)]="fechaCeseDate" (dateChange)="selectFechaCese($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="fechaCese"></mat-datepicker-toggle>
+            <mat-datepicker #fechaCese color="primary"></mat-datepicker>
           </mat-form-field>
         </div>
         <div class="col-md-3">
@@ -184,7 +205,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <mat-form-field class="w-100">
             <mat-label>Cargo</mat-label>
             <mat-select [(ngModel)]="cargo">
@@ -232,9 +253,8 @@
           <mat-form-field class="w-100">
             <mat-label>Moneda</mat-label>
             <mat-select [(ngModel)]="CSmoneda">
-              <mat-option value=""></mat-option>
-              <mat-option value="Dolares">Dolares</mat-option>
-              <mat-option value="Soles">Soles</mat-option>
+              <mat-option [value]="tipoMoneda.id" *ngFor="let tipoMoneda of tiposMoneda">{{tipoMoneda.valor}}</mat-option>
+
             </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>monetization_on</mat-icon>
           </mat-form-field>
@@ -266,9 +286,7 @@
           <mat-form-field class="w-100">
             <mat-label>Moneda</mat-label>
             <mat-select  [(ngModel)]="CCmoneda">
-              <mat-option value=""></mat-option>
-              <mat-option value="Dolares">Dolares</mat-option>
-              <mat-option value="Soles">Soles</mat-option>
+              <mat-option [value]="tipoMoneda.id" *ngFor="let tipoMoneda of tiposMoneda">{{tipoMoneda.valor}}</mat-option>
             </mat-select>
             <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>monetization_on</mat-icon>
           </mat-form-field>
@@ -281,23 +299,23 @@
         <hr>
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
 
-          <ng-container matColumnDef="id" >
-          <th mat-header-cell *matHeaderCellDef class="text-center"> ID </th>
-          <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.id}} </td>
-          </ng-container>
           <ng-container matColumnDef="nombre" >
           <th mat-header-cell *matHeaderCellDef class="text-center"> Nombre Completo </th>
-          <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.nombre}} </td>
+          <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.nameHolder}} </td>
           </ng-container>
           <ng-container matColumnDef="tipoVinculo" >
           <th mat-header-cell *matHeaderCellDef class="text-center"> Tipo de Vinculo</th>
-          <td mat-cell *matCellDef="let essalud" class="text-center">
-            {{essalud.tipoVinculo}}
+          <td mat-cell *matCellDef="let essalud"  class="text-center">
+            <div *ngIf="essalud.idFamilyBondType === 1">Conyugue</div>
+            <div *ngIf="essalud.idFamilyBondType === 2">Hijo(a)</div>
+            <div *ngIf="essalud.idFamilyBondType === 3">Padre</div>
+            <div *ngIf="essalud.idFamilyBondType === 4">Madre</div>
+            <div *ngIf="essalud.idFamilyBondType === 5">Otros</div>
            </td>
           </ng-container>
           <ng-container matColumnDef="docIdentidad" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> Documento de Identidad </th>
-            <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.documentoIdentidad}} </td>
+            <td mat-cell *matCellDef="let essalud" class="text-center"> {{essalud.documentNumber}} </td>
           </ng-container>
 
           <ng-container matColumnDef="accion" >
@@ -307,7 +325,7 @@
               </button>
             </th>
             <td mat-cell *matCellDef="let essalud" class="text-center">
-              <button mat-icon-button #tooltip="matTooltip" matTooltip="Eliminar" (click)="eliminarEssalud(essalud.id)" >
+              <button mat-icon-button #tooltip="matTooltip" matTooltip="Eliminar" (click)="eliminarEssalud(essalud.nameHolder,essalud.idFamilyBondType,essalud.documentNumber)" >
                 <i class="fa-solid fa-trash col-red" style="font-size: 24px;"></i>
               </button>
             </td>

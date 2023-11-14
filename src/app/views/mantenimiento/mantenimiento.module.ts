@@ -10,6 +10,7 @@ import { AgregarEssaludComponent } from './personal/detalle/agregar-essalud/agre
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { MantenedorComponent } from './mantenedor/mantenedor.component';
     NgxMaskDirective,
     NgxMaskPipe,
     NgxDropzoneModule,
-
+    MatSortModule
   ],
   providers: [provideNgxMask()],
 

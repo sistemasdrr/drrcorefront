@@ -1,4 +1,3 @@
-import { DatosEmpresa } from './../../../models/informes/empresa/datos-empresa';
 import { EmpresaPersonaService } from 'app/services/empresa-persona.service';
 import { PaisService } from './../../../services/pais.service';
 import { OnInit, Component } from '@angular/core';
@@ -36,8 +35,8 @@ interface TipoInforme {
 export class DetalleComponent implements OnInit {
 
   /**/
-  paisSeleccionado : number =0
-  iconoSeleccionado: string = ""
+  paisSeleccionado = 0
+  iconoSeleccionado = ""
   buscarPorNombreInforme = ""
   buscarPorNombre(nombreInforme : string){
     let informe = this.empresaPersonaService.getEmpresasPersonas()
@@ -59,7 +58,7 @@ export class DetalleComponent implements OnInit {
   fechaIngreso = ""
   fechaIngresoDate = new Date()
   fechaVencimiento = ""
-  fechaVencimientoDate = new Date()
+  fechaVencimientoDate = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+3)
   fechaVencimientoReal = ""
   fechaVencimientoRealDate = new Date()
   fechaInforme = ""
@@ -147,10 +146,10 @@ export class DetalleComponent implements OnInit {
 
   idiomaSeleccionado = ""
   continenteSeleccionado = 1
-  tipoInformeSeleccionado = 1
+  tipoInforme = ""
 
-  codAbonado: string = ''
-  nombre_abonado : string = "SI"
+  codAbonado = ''
+  nombre_abonado = "SI"
   breadscrums = [
     {
       title: '',
@@ -230,6 +229,42 @@ export class DetalleComponent implements OnInit {
           active: 'Editar',
         },
       ];
+      const pedido = this.pedidoService.getPedidosPorCupon(this.nmrCupon+'')[0]
+      if(pedido){
+        this.codAbonado = pedido.codigo
+        this.asignarDatosAbonado()
+        this.informePara = pedido.informeEP
+        this.fechaIngreso = pedido.fechaIngreso
+        const fechaIngreso = pedido.fechaIngreso.split('/')
+        this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]),(parseInt(fechaIngreso[1])-1),parseInt(fechaIngreso[0]))
+        if(this.informePara === 'E'){
+          const datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(pedido.codigoInforme)
+          console.log(datosEmpresa)
+          if(datosEmpresa){
+            this.razonSocialInforme = datosEmpresa[0].razonSocial
+            this.nombreComercialInforme = datosEmpresa[0].nombreComercial
+            this.tipoRT = datosEmpresa[0].tipoRuc
+            this.codigoRT = datosEmpresa[0].codigoRuc
+            this.correo = datosEmpresa[0].emailCorporativo
+            this.paisEmpresa = datosEmpresa[0].pais
+            this.ciudad = datosEmpresa[0].dptoEstado
+            this.telefono = datosEmpresa[0].numeroTelefono
+            this.direccion = datosEmpresa[0].direccionCompleta
+            this.riesgoCrediticioInforme = datosEmpresa[0].riesgoCrediticio
+            this.tipoInforme = pedido.tipoInforme
+            this.tipoTramite = pedido.tipoTramite
+            this.fechaInforme = datosEmpresa[0].informeInvestigadoEl
+            const fechaInforme = datosEmpresa[0].informeInvestigadoEl.split('/')
+            if(fechaInforme){
+              this.fechaInformeDate = new Date(parseInt(fechaInforme[2]),(parseInt(fechaInforme[1])-1),parseInt(fechaInforme[0]))
+            }
+          }
+        }else if(this.informePara === 'P'){
+
+        }
+
+      }
+
     } else if (this.tipo_formulario == 'agregar') {
       this.breadscrums = [
         {
@@ -369,6 +404,4 @@ export class DetalleComponent implements OnInit {
       this.abonadoNoEncontrado = "No se encontró el abonado"
     }
   }
-
-
 }

@@ -42,7 +42,7 @@ export class Asignacion2Component implements AfterViewInit {
   constructor(private pedidoService : PedidoService,
     private router : Router,
     public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource(this.pedidoService.getOrders());
+    this.dataSource = new MatTableDataSource(this.pedidoService.getPedidos());
     console.log(this.dataSource)
   }
 

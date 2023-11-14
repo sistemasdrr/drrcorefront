@@ -26,7 +26,7 @@
                 <mat-form-field class="w-100" >
                   <mat-label>Tipo de Vinculo</mat-label>
                   <mat-select [(ngModel)]="tipoVinculo">
-                    <mat-option *ngFor="let tipoVinculo of tiposVinculo" [value]="tipoVinculo.id">{{tipoVinculo.valor}}</mat-option>
+                    <mat-option *ngFor="let tipVinculo of tiposVinculo" [value]="tipVinculo">{{tipVinculo.valor}}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>

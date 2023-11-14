@@ -24,8 +24,8 @@ export class ListaComponent implements OnInit {
 
   columnasInforme = ['informe','fecha','tipoTramite','tipoInforme','pais','abonado','opciones']
   dataSourceInforme : MatTableDataSource<Pedido>
-  tipoTramite = 0
-  tipoInforme = 0
+  tipoTramite = ""
+  tipoInforme = ""
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -36,7 +36,7 @@ export class ListaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSourceInforme.data = this.pedidoService.getOrders()
+    this.dataSourceInforme.data = this.pedidoService.getPedidos()
     console.log(this.dataSourceInforme.data)
     this.dataSourceInforme.paginator = this.paginator
     this.dataSourceInforme.sort = this.sort
@@ -57,12 +57,12 @@ export class ListaComponent implements OnInit {
     })
   }
   applyFilterTipoInforme() {
-    this.dataSourceInforme.data = this.pedidoService.getOrders()
+    this.dataSourceInforme.data = this.pedidoService.getPedidos()
       .filter(x => x.tipoTramite === this.tipoTramite && x.tipoInforme === this.tipoInforme);
   }
 
   applyFilterTipoTramite() {
-    this.dataSourceInforme.data = this.pedidoService.getOrders()
+    this.dataSourceInforme.data = this.pedidoService.getPedidos()
       .filter(x => x.tipoTramite === this.tipoTramite && x.tipoInforme === this.tipoInforme);
   }
 

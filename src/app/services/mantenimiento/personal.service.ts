@@ -13,110 +13,50 @@ export interface data{
   providedIn: 'root'
 })
 export class PersonalService {
-
-  listaPersonal : Personal[] = [
-    {
-      id : 1,
-      codigo : 'cod1',
-      nombres : 'Julio Enrique',
-      apellidos : 'Del Risco Aliaga',
-      telefonoFijo : '511 2212235',
-      telefonoEmergencia : '',
-      telefonoCelular : '51 994 156 974',
-      tipoDocumento : 1,
-      numDocumento : '6640754',
-      direccion : 'direcion...',
-      estadoCivil : 2,
-      numeroHijos : '2',
-      fechaNacimiento : '31/05/1963',
-      lugarNacimiento : 'Lima',
-      ciudadNacimiento : 'Lima',
-      paisNacimiento : {
-        id: 182,
-        valor: "Perú",
-        bandera: "pe"
-      },
-      tipoSangre : 'RH+',
-      email : 'juliojr@del-risco.com',
-      fechaIngreso : '',
-      departamento : 1,
-      cargo : 2,
-      tipoContrato : '',
-      estado : true,
-      //CUENTA SUELDO
-      CSBanco : 'SCOTIABANK',
-      CSTipoCuenta : 4,
-      CSNumCuenta : '8311654087',
-      CSMoneda : 'Dolares',
-      //CUENTA CTS
-      CCBanco : 'INTERBANK',
-      CCTipoCuenta : 5,
-      CCNumCuenta : '573162740388',
-      CCMoneda : 'Dolares',
-      ESSALUD : [
-        {
-          id : 1,
-          nombre : 'Nombre 1',
-          tipoVinculo : 1,
-          documentoIdentidad : 'dni'
-        },
-        {
-          id : 2,
-          nombre : 'Nombre 2',
-          tipoVinculo : 1,
-          documentoIdentidad : 'dni'
-        },
-      ]
-    }
-  ]
-
   url = environment.apiUrl
-  controller = "/Combo"
+  controllerCombo = "/Combo"
+  controllerMaster = "/Master"
 
   constructor(private http : HttpClient) { }
 
-  getPersonales(){
-    return this.listaPersonal
+  getPersonales(): Observable<any>{
+    return this.http.get<any>(this.url + this.controllerMaster + '/getEmployees');
   }
-  getPersonalById(id : number){
-    return this.listaPersonal.filter(x => x.id == id)[0]
+  getPersonalById(id : number): Observable<any>{
+    return this.http.get<any>(this.url + this.controllerMaster + '/getEmployeeById?id='+id);
   }
-  addPersonal(obj : Personal){
-    let idMax : number = 0
-    for (let i = 0; i < this.listaPersonal.length; i++) {
-      const elemento = this.listaPersonal[i]
-      if(idMax < elemento.id){
-        idMax = elemento.id
-      }
-    }
-    obj.id = idMax+1
-    this.listaPersonal.push(obj)
+  getPersonalByName(name : string): Observable<any>{
+    return this.http.get<any>(this.url + this.controllerMaster + '/getEmployeesByName?name='+name);
   }
-  updatePersonal(obj : Personal){
-    const index = this.listaPersonal.findIndex(x => x.id === obj.id);
-    if (index !== -1) {
-      this.listaPersonal[index] = obj;
-    }  }
+  addPersonal(request : Personal):Observable<any>{
+    return this.http.post<any>(this.url + this.controllerMaster + '/addEmployee',request);
+  }
   deletePersonal(id : number){
-    this.listaPersonal = this.listaPersonal.filter(x => x.id !== id)
+    return this.http.post<any>(this.url + this.controllerMaster + '/deleteEmployee?id='+id,'');
+  }
+  activePersonal(id : number){
+    return this.http.post<any>(this.url + this.controllerMaster + '/activeEmployee?id='+id,'');
   }
 
   getTipoDocumento() : Observable<any>{
-    return this.http.get<any>(this.url + this.controller + '/doctype');
+    return this.http.get<any>(this.url + this.controllerCombo + '/doctype');
+  }
+  getTipoMoneda() : Observable<any>{
+    return this.http.get<any>(this.url + this.controllerCombo + '/currency');
   }
   getEstadoCivil() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controller + '/civilstatus');
+    return this.http.get<data[]>(this.url + this.controllerCombo + '/civilstatus');
   }
   getDepartamento() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controller + '/jobdep');
+    return this.http.get<data[]>(this.url + this.controllerCombo + '/jobdep');
   }
   getCargoPorDepartamento(id : number) : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controller + '/jobbydep?department='+id);
+    return this.http.get<data[]>(this.url + this.controllerCombo + '/jobbydep?department='+id);
   }
   getTipoCuenta() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controller + '/bankaccounttype');
+    return this.http.get<data[]>(this.url + this.controllerCombo + '/bankaccounttype');
   }
   getVinculoFamiliar() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controller + '/fambondytype');
+    return this.http.get<data[]>(this.url + this.controllerCombo + '/fambondytype');
   }
 }

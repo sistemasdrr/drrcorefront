@@ -30,8 +30,7 @@ export class IEListaComponent implements OnInit, AfterViewInit{
   dataSource: MatTableDataSource<Empresa>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('filter') filter!: ElementRef
-  ;
+  @ViewChild('filter') filter!: ElementRef;
   columnsToDisplay = ['rc', 'idioma', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'fecEst', 'ex', 'calificacion','ejecPrincipal','acciones' ];
 
   constructor(private empresaService : EmpresaService,private router : Router){
@@ -58,6 +57,7 @@ export class IEListaComponent implements OnInit, AfterViewInit{
       this.refresh();
       this.dataSource.sort = this.sort;
   }
+  
   agregarEmpresa(){
     this.router.navigate(['informes/empresa/detalle/nuevo']);
   }

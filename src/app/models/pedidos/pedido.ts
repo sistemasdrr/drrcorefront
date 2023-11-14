@@ -1,4 +1,5 @@
 import { Adjunto } from "../adjunto"
+import { Pais } from "../pais"
 import { Asignacion } from "./asignacion/asignacion"
 
 export interface Pedido {
@@ -8,8 +9,8 @@ export interface Pedido {
   idioma : string
   codigoInforme: string
   estadoPedido : string
-  tipoInforme: number
-  tipoTramite : number
+  tipoInforme: string
+  tipoTramite : string
   calidad: string
   fechaIngreso: string
   fechaVencimiento: string
@@ -21,7 +22,7 @@ export interface Pedido {
   nombre : string
   codigo : string
   revelarNombre : boolean
-  pais : number
+  pais : Pais
   codigoPais : string,
   estado : string
   nroReferencia : string
@@ -35,16 +36,13 @@ export interface Pedido {
   tipoRT : string
   codigoRT : string
   continenteEmpresa : number
-  paisEmpresa : number
+  paisEmpresa : Pais
   ciudadEmpresa : string
   direccionEmpresa : string
   correoEmpresa : string
   telefonoEmpresa : string
 
   //DATOS PERSONA
-
-
-
   precioInforme: number
   //ASIGNACIONES
   asignacion : Asignacion[]

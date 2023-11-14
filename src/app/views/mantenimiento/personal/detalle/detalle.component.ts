@@ -10,6 +10,8 @@ import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detalle',
@@ -25,6 +27,8 @@ export class DetalleComponent implements OnInit {
     },
   ];
 
+  loading: boolean = true;
+
   id = 0
   codigo = ""
   tipoDocIdent = 0
@@ -37,7 +41,7 @@ export class DetalleComponent implements OnInit {
   telEmergencia = ""
   direccion = ""
   estadoCivil = 0
-  numHijos = ""
+  numHijos = 0
   tipoSangre = ""
   lugarNac = ""
   ciudadNac = ""
@@ -46,66 +50,65 @@ export class DetalleComponent implements OnInit {
     valor : '',
     bandera : ''
   }
-  fechaNacimientoDate = new Date()
-  fechaNacimiento = ""
-  fechaIngresoDate = new Date()
-  fechaIngreso = ""
+  fechaNacimientoDate : Date | null = new Date()
+  fechaNacimiento : string | null = ""
+  fechaIngresoDate : Date | null = new Date()
+  fechaIngreso : string | null = ""
+  fechaCeseDate : Date | null = new Date()
+  fechaCese : string | null = ""
   departamento = 0
   cargo = 0
   tipoContrato = ""
   CSbanco = ""
   CStipoCuenta = 0
   CSnumCuenta = ""
-  CSmoneda = ""
+  CSmoneda = 0
   CCbanco = ""
   CCtipoCuenta = 0
   CCnumCuenta = ""
-  CCmoneda = ""
-  listaEssalud : ESSALUD[] = []
+  CCmoneda = 0
+  listaEssalud : any[] = []
   files: File[] = []
+  urlFoto = ""
 
   personal : Personal = {
+    address : "",
+    birthday : "",
+    bloodType : "",
+    cellphone : "",
+    childrenNumber : 0,
+    code : "",
+    ctsBank : "",
+    distrit : "",
+    documentNumber : "",
+    email : "",
+    emergencyPhone : "",
+    endDate : "",
+    firstName : "",
+    healthInsuranceRequestDto : [],
     id : 0,
-    codigo : '',
-    nombres : '',
-    apellidos : '',
-    telefonoFijo : '',
-    telefonoEmergencia : '',
-    telefonoCelular : '',
-    tipoDocumento : 0,
-    numDocumento : '',
-    direccion : '',
-    estadoCivil : 0,
-    numeroHijos : '',
-    fechaNacimiento : '',
-    lugarNacimiento : '',
-    ciudadNacimiento : '',
-    paisNacimiento : {
-      id : 0,
-      valor : '',
-      bandera : ''
-    },
-    tipoSangre : '',
-    email : '',
-    fechaIngreso : '',
-    departamento : 0,
-    cargo : 0,
-    tipoContrato : '',
-    estado : true,
-    //CUENTA SUELDO
-    CSBanco : '',
-    CSTipoCuenta : 0,
-    CSNumCuenta : '',
-    CSMoneda : '',
-    //CUENTA CTS
-    CCBanco : '',
-    CCTipoCuenta : 0,
-    CCNumCuenta : '',
-    CCMoneda : '',
-    ESSALUD : []
+    idBankAccountTypeCts : 0,
+    idBankAccountTypeSalary : 0,
+    idCivilStatus : 0,
+    idCountry : 0,
+    idCurrencyCts : 0,
+    idCurrencySalary : 0,
+    idDocumentType : 0,
+    idJob : 0,
+    idJobDepartment : 0,
+    lastName : "",
+    numberAccountCts : "",
+    numberAccountSalary : "",
+    photoPath : "",
+    province : "",
+    salaryBank : "",
+    shortName : "",
+    startDate : "",
+    telephone : "",
+    workModality : "",
   }
 
-  columnas = ['id', 'nombre', 'tipoVinculo', 'docIdentidad','accion']
+  columnas = [ 'nombre', 'tipoVinculo', 'docIdentidad','accion']
   dataSource : MatTableDataSource<ESSALUD>
   paises : Pais[] = []
   filterPais : Observable<Pais[]>
@@ -116,6 +119,7 @@ export class DetalleComponent implements OnInit {
   departamentos : data[] = []
   cargos : data[]= []
   tiposCuenta : data[] = []
+  tiposMoneda : data[] = []
 
   constructor(private router : Router,
     private personalService : PersonalService,
@@ -142,6 +146,11 @@ export class DetalleComponent implements OnInit {
         this.departamentos = response.data;
       }
     });
+    this.personalService.getTipoMoneda().subscribe(response => {
+      if(response.isSuccess == true){
+        this.tiposMoneda = response.data;
+      }
+    });
     this.personalService.getTipoCuenta().subscribe(response => {
       if(response.isSuccess == true){
         this.tiposCuenta = response.data;
@@ -165,107 +174,147 @@ export class DetalleComponent implements OnInit {
         const name = typeof value === 'string' ? value : value?.valor
         return name ? this._filterPais(name as string) : this.paises.slice()
       }),
-    )
-    const idRoute = this.activatedRoute.snapshot.paramMap.get('id')
+    );
+    const idRoute = this.activatedRoute.snapshot.paramMap.get('id');
     if(parseInt(idRoute+'') > 0){
-      this.id = parseInt(idRoute+'')
-      const personal = this.personalService.getPersonalById(this.id)
+      this.personalService.getPersonalById(parseInt(idRoute+'')).subscribe((response) => {
 
-      this.breadscrums = [
-        {
-          title: 'Detalle de Personal - ' + personal.nombres + ' ' + personal.apellidos,
-          items: ['Administración','Mantenimiento'],
-          active: 'Detalle',
-        },
-      ];
-      console.log(personal.departamento)
-      this.personal = {
-        id : personal.id,
-        codigo : personal.codigo,
-        nombres : personal.nombres,
-        apellidos : personal.apellidos,
-        telefonoFijo : personal.telefonoFijo,
-        telefonoEmergencia : personal.telefonoEmergencia,
-        telefonoCelular : personal.telefonoCelular,
-        tipoDocumento : personal.tipoDocumento,
-        numDocumento : personal.numDocumento,
-        direccion : personal.direccion,
-        estadoCivil : personal.estadoCivil,
-        numeroHijos : personal.numeroHijos,
-        fechaNacimiento : personal.fechaNacimiento,
-        lugarNacimiento : personal.lugarNacimiento,
-        ciudadNacimiento : personal.ciudadNacimiento,
-        paisNacimiento : personal.paisNacimiento,
-        tipoSangre : personal.tipoSangre,
-        email : personal.email,
-        fechaIngreso : personal.fechaIngreso,
-        departamento : personal.departamento,
-        cargo : personal.cargo,
-        tipoContrato : personal.tipoContrato,
-        estado : true,
-        //CUENTA SUELDO
-        CSBanco : personal.CSBanco,
-        CSTipoCuenta : personal.CSTipoCuenta,
-        CSNumCuenta : personal.CSNumCuenta,
-        CSMoneda : personal.CSMoneda,
-        //CUENTA CTS
-        CCBanco : personal.CCBanco,
-        CCTipoCuenta : personal.CCTipoCuenta,
-        CCNumCuenta : personal.CCNumCuenta,
-        CCMoneda : personal.CCMoneda,
-        ESSALUD : personal.ESSALUD
+        if(response.isSuccess == true){
+          const personal = response.data;
+          this.personal = response.data
+          console.log(response.data)
+          if(personal){
+            this.breadscrums = [
+              {
+                title: 'Detalle de Personal - ' + personal.firstName + ' ' + personal.lastName,
+                items: ['Administración','Mantenimiento'],
+                active: 'Detalle',
+              },
+            ];
+            this.id = personal.id
+            this.codigo = personal.code
+            this.tipoDocIdent = personal.idDocumentType
+            this.numDocIdent = personal.documentNumber
+            this.email = personal.email
+            this.apellidos = personal.lastName
+            this.nombres = personal.firstName
+            this.telCelular = personal.cellphone
+            this.telFijo = personal.telephone
+            this.telEmergencia = personal.emergencyPhone
+            this.direccion = personal.address
+            this.estadoCivil = personal.idCivilStatus
+            this.numHijos = personal.childrenNumber
+            this.tipoSangre = personal.bloodType
+            this.urlFoto = personal.photoPath
+            this.lugarNac = personal.distrit
+            this.ciudadNac = personal.province
+            if(personal.idCountry > 0){
+              this.paisService.getPaises().subscribe(response => {
+                if(response.isSuccess === true){
+                  const paises : Pais[] = response.data
+                  this.paisNac = paises.filter(x => x.id === personal.idCountry)[0]
+                }
+              })
+            }
+            console.log(this.paisNac)
+            //this.paisNac = this.paises.filter(x => x.id === personal.idCountry)[0]
+            if(personal.birthday !== null){
+              this.fechaNacimiento = personal.birthday
+              const fechaNacimiento = personal.birthday.split('/')
+              if(fechaNacimiento.length > 0){
+                this.fechaNacimientoDate = new Date(parseInt(fechaNacimiento[2]), parseInt(fechaNacimiento[1])-1, parseInt(fechaNacimiento[0]))
+              }
+            }else{
+              this.fechaNacimiento = null
+              this.fechaNacimientoDate = null
+            }
+            if(personal.startDate !== null){
+              this.fechaIngreso = personal.startDate
+              const fechaIngreso = personal.startDate.split('/')
+              if(fechaIngreso.length > 0){
+                this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]), parseInt(fechaIngreso[1])-1, parseInt(fechaIngreso[0]))
+              }
+            }else{
+              this.fechaIngreso = null
+              this.fechaIngresoDate = null
+            }
+            if(personal.endDate !== null){
+              this.fechaCese = personal.endDate
+              const fechaCese = personal.endDate.split('/')
+              if(fechaCese.length > 0){
+                this.fechaCeseDate = new Date(parseInt(fechaCese[2]), parseInt(fechaCese[1])-1, parseInt(fechaCese[0]))
+              }
+            }else{
+              this.fechaCese = null
+              this.fechaCeseDate = null
+            }
+            this.departamento = personal.idJobDepartment
+            this.updateCargos(personal.idJobDepartment)
+            this.cargo = personal.idJob
+            this.tipoContrato = personal.workModality
+            this.CSbanco = personal.salaryBank
+            this.CStipoCuenta = personal.idBankAccountTypeSalary
+            this.CSnumCuenta = personal.numberAccountSalary
+            this.CSmoneda = personal.idCurrencySalary
+            this.CCbanco = personal.ctsBank
+            this.CCtipoCuenta = personal.idBankAccountTypeCts
+            this.CCnumCuenta = personal.numberAccountCts
+            this.CCmoneda = personal.idCurrencyCts
+            this.listaEssalud = personal.healthInsuranceResponseDto
+            this.actualizarTablaEssalud(personal.healthInsuranceResponseDto)
+          }
+          setTimeout(() => {
+            this.loading = false
+          }, 1000);
+
+        }
+      },
+      () =>{
+        this.loading = false;
+        console.log("hola")
       }
-      this.codigo = personal.codigo
-      this.tipoDocIdent = personal.tipoDocumento
-      this.numDocIdent = personal.numDocumento
-      this.email = personal.email
-      this.apellidos = personal.apellidos
-      this.nombres = personal.nombres
-      this.telCelular = personal.telefonoCelular
-      this.telFijo = personal.telefonoFijo
-      this.telEmergencia = personal.telefonoEmergencia
-      this.direccion = personal.direccion
-      this.estadoCivil = personal.estadoCivil
-      this.numHijos = personal.numeroHijos
-      this.tipoSangre = personal.tipoSangre
-      this.lugarNac = personal.lugarNacimiento
-      this.ciudadNac = personal.ciudadNacimiento
-      this.paisNac = personal.paisNacimiento
-      this.fechaNacimiento = personal.fechaNacimiento
-      const fechaNacimiento = personal.fechaNacimiento.split('/')
-      if(fechaNacimiento.length > 0){
-        this.fechaNacimientoDate = new Date(parseInt(fechaNacimiento[2]), parseInt(fechaNacimiento[1])-1, parseInt(fechaNacimiento[0]))
-      }
-      this.fechaIngreso = personal.fechaIngreso
-      const fechaIngreso = personal.fechaIngreso.split('/')
-      if(fechaIngreso.length > 0){
-        this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]), parseInt(fechaIngreso[1]), parseInt(fechaIngreso[0]))
-      }
-      this.departamento = personal.departamento
-      this.updateCargos(personal.departamento)
-      this.cargo = personal.cargo
-      this.tipoContrato = personal.tipoContrato
-      this.CSbanco = personal.CSBanco
-      this.CStipoCuenta = personal.CSTipoCuenta
-      this.CSnumCuenta = personal.CSNumCuenta
-      this.CSmoneda = personal.CSMoneda
-      this.CCbanco = personal.CCBanco
-      this.CCtipoCuenta = personal.CCTipoCuenta
-      this.CCnumCuenta = personal.CCNumCuenta
-      this.CCmoneda = personal.CCMoneda
-      this.listaEssalud = personal.ESSALUD
-      if(personal.ESSALUD.length > 0){
-        this.dataSource = new MatTableDataSource(this.listaEssalud)
-      }
-    }else if(idRoute?.includes('nuevo')){
-      this.breadscrums = [
-        {
-          title: 'Detalle de Personal - Nuevo',
-          items: ['Administración','Mantenimiento'],
-          active: 'Detalle',
-        },
-      ];
+    );
+    }else{
+      this.loading = false
+      this.fechaNacimiento = null
+      this.fechaNacimientoDate = null
+      this.fechaIngreso = null
+      this.fechaIngresoDate = null
+      this.fechaCese = null
+      this.fechaCeseDate = null
+      console.log("nuevo empleado")
     }
+  }
+
+  actualizarTablaEssalud(lista : ESSALUD[]){
+    this.dataSource = new MatTableDataSource(lista)
+  }
+  selectFechaNacimiento(event: MatDatepickerInputEvent<Date>) {
+    this.fechaNacimientoDate = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaNacimiento = this.formatDate(selectedDate);
+    }
+  }
+  selectFechaCese(event: MatDatepickerInputEvent<Date>) {
+    this.fechaCeseDate = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaCese = this.formatDate(selectedDate);
+    }
+  }
+  selectFechaIngreso(event: MatDatepickerInputEvent<Date>) {
+    this.fechaIngresoDate = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.fechaIngreso = this.formatDate(selectedDate);
+    }
+  }
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${day}/${month}/${year}`;
   }
 
   updateCargos(id : number){
@@ -282,12 +331,11 @@ export class DetalleComponent implements OnInit {
   displayPais(pais : Pais): string {
     return pais && pais.valor ? pais.valor : '';
   }
-  cambiarIcono(objPais : any){
-    this.iconoSeleccionado = objPais.bandera
-  }
+
   /**/
-  paisSeleccionado : number =0
+  paisSeleccionado : number = 0
   iconoSeleccionado: string = ""
+
   actualizarSeleccion(id: number) {
     const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
     if (paisSeleccionadoObj) {
@@ -297,7 +345,6 @@ export class DetalleComponent implements OnInit {
   }
   onSelect(event : any) {
     this.files = []
-
     this.files.push(...event.addedFiles);
     console.log(...event.addedFiles)
     // for (const file of this.files) {
@@ -312,58 +359,204 @@ export class DetalleComponent implements OnInit {
 
   agregarEssalud(){
     const dialogRef = this.dialog.open(AgregarEssaludComponent, {
-      data: {
-      },
+      data : this.id,
+    });
+    dialogRef.afterClosed().subscribe((essalud) => {
+      console.log(essalud)
+      this.listaEssalud.push({
+        nameHolder : essalud.nameHolder,
+        idFamilyBondType : essalud.idFamilyBondType,
+        valueFamilyBondType : essalud.valueFamilyBondType,
+        documentNumber : essalud.documentNumber
+      })
+      this.actualizarTablaEssalud(this.listaEssalud)
     });
   }
-  eliminarEssalud(id : number){
-    console.log(id)
-    this.listaEssalud = this.listaEssalud.filter(x => x.id !== id)
-    this.dataSource.data = this.listaEssalud
+  eliminarEssalud(nombreCompleto : string, tipoVinculo : number, numDocumento : string){
+    Swal.fire({
+      title: '¿Está seguro de eliminar este registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        this.listaEssalud = this.listaEssalud.filter(x => x.nameHolder !== nombreCompleto && x.idFamilyBondType !== tipoVinculo && x.documentNumber !== numDocumento)
+        this.actualizarTablaEssalud(this.listaEssalud)
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se elimino correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+      }
+    });
+  }
+  armarPersonal(){
+    this.personal = {
+      address : this.direccion,
+      birthday : this.fechaNacimiento,
+      bloodType : this.tipoSangre,
+      cellphone : this.telCelular,
+      childrenNumber : this.numHijos,
+      code : this.codigo,
+      ctsBank : this.CCbanco,
+      distrit : this.lugarNac,
+      documentNumber : this.numDocIdent,
+      email : this.email,
+      emergencyPhone : this.telEmergencia,
+      endDate : this.fechaCese,
+      firstName : this.nombres,
+      healthInsuranceRequestDto : [],
+      id : this.id,
+      idBankAccountTypeCts : this.CCtipoCuenta,
+      idBankAccountTypeSalary : this.CStipoCuenta,
+      idCivilStatus : this.estadoCivil,
+      idCountry : this.paisNac?.id,
+      idCurrencyCts : this.CCmoneda,
+      idCurrencySalary : this.CSmoneda,
+      idDocumentType : this.tipoDocIdent,
+      idJob : this.cargo,
+      idJobDepartment : this.departamento,
+      lastName : this.apellidos,
+      numberAccountCts : this.CCnumCuenta,
+      numberAccountSalary : this.CSnumCuenta,
+      photoPath : this.urlFoto,
+      province : this.ciudadNac,
+      salaryBank : this.CSbanco,
+      shortName : this.nombres + ' ' + this.apellidos,
+      startDate : this.fechaIngreso,
+      telephone : this.telFijo,
+      workModality : this.tipoContrato,
+    }
+    this.listaEssalud.forEach(essalud => {
+      this.personal.healthInsuranceRequestDto.push({
+        nameHolder : essalud.nameHolder,
+        idFamilyBondType : essalud.idFamilyBondType,
+        documentNumber : essalud.documentNumber
+      })
+    });
   }
   guardarDatos(){
-    console.log(this.files);
-    this.personal = {
-      id : this.id,
-      codigo : this.codigo,
-      nombres : this.nombres,
-      apellidos : this.apellidos,
-      telefonoFijo : this.telFijo,
-      telefonoEmergencia : this.telEmergencia,
-      telefonoCelular : this.telCelular,
-      tipoDocumento : this.tipoDocIdent,
-      numDocumento : this.numDocIdent,
-      direccion : this.direccion,
-      estadoCivil : this.estadoCivil,
-      numeroHijos : this.numHijos,
-      fechaNacimiento : this.fechaNacimiento,
-      lugarNacimiento : this.lugarNac,
-      ciudadNacimiento : this.ciudadNac,
-      paisNacimiento : this.paisNac,
-      tipoSangre : this.tipoSangre,
-      email : this.email,
-      fechaIngreso : this.fechaIngreso,
-      departamento : this.departamento,
-      cargo : this.cargo,
-      tipoContrato : this.tipoContrato,
-      estado : true,
-      //CUENTA SUELDO
-      CSBanco : this.CSbanco,
-      CSTipoCuenta : this.CStipoCuenta,
-      CSNumCuenta : this.CSnumCuenta,
-      CSMoneda : this.CSmoneda,
-      //CUENTA CTS
-      CCBanco : this.CCbanco,
-      CCTipoCuenta : this.CCtipoCuenta,
-      CCNumCuenta : this.CCnumCuenta,
-      CCMoneda : this.CCmoneda,
-      ESSALUD : this.listaEssalud
+    const idRoute = this.activatedRoute.snapshot.paramMap.get('id')
+    this.armarPersonal()
+    if(idRoute?.includes('nuevo')){
+      this.personal.id = 0
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.personalService.addPersonal(this.personal).subscribe(
+            (response) => {
+              console.log(response)
+              if(response.data == true && response.isSuccess == true && response.isWarning == false){
+                Swal.fire({
+                  title: 'Se agregó el registro con éxito',
+                  text: "",
+                  icon: 'success',
+                  confirmButtonColor: 'blue',
+                  confirmButtonText: 'Ok',
+                  width: '40rem',
+                  heightAuto : true
+                }).then((result) => {
+                  this.router.navigate(['mantenimiento/personal/lista'])
+                })
+              }else{
+                Swal.fire({
+                  title: 'Ocurrió un problema.',
+                  text: 'Completo los campos de DNI, Departamento y Cargo',
+                  icon: 'warning',
+                  confirmButtonColor: 'blue',
+                  confirmButtonText: 'Ok',
+                  width: '40rem',
+                  heightAuto : true
+                }).then((result) => {
+                })
+              }
+          },(error) => {
+            console.log(error)
+            Swal.fire({
+              title: 'Ocurrió un problema.',
+              text: error,
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '40rem',
+              heightAuto : true
+            }).then((result) => {
+            })
+          }
+          );
+        }
+      })
+    }else{
+      this.personal.id = parseInt(idRoute+'')
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '40rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.personalService.addPersonal(this.personal).subscribe(
+            (response) => {
+              Swal.fire({
+                title: 'Se guardo el registro con éxito',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: 'blue',
+                confirmButtonText: 'Ok',
+                width: '40rem',
+                heightAuto : true
+              }).then((result) => {
+                  this.router.navigate(['mantenimiento/personal/lista'])
+
+              })
+          },(error) => {
+            console.log(error)
+          }
+          );
+        }
+      })
     }
-    this.personalService.updatePersonal(this.personal)
-    this.router.navigate(['mantenimiento/personal/lista'])
   }
   volver(){
-    this.router.navigate(['mantenimiento/personal/lista'])
+    Swal.fire({
+      title: '¿Está seguro de salir?',
+      text: "Los datos ingresados no se guardarán",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '30rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        this.router.navigate(['mantenimiento/personal/lista'])
+      }
+    })
   }
 
 }

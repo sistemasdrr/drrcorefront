@@ -22,8 +22,8 @@ export class DetalleComponent implements OnInit{
   paisInforme = 0
   balanceInforme = ""
   calidad = ""
-  tipoInforme = 0
-  tipoTramite = 0
+  tipoInforme = ""
+  tipoTramite = ""
   precioInforme = 0
 
   paises : Pais[] = []
@@ -34,7 +34,7 @@ export class DetalleComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    const order = this.pedidoService.getOrders().filter(x => x.cupon == this.data.cupon)[0]
+    const order = this.pedidoService.getPedidos().filter(x => x.cupon == this.data.cupon)[0]
     this.paisService.getPaises().subscribe(data => {
       this.paises = data;
     });    // this.nombreInforme = order.informe
@@ -50,12 +50,16 @@ export class DetalleComponent implements OnInit{
     const fechaVencimiento = order.fechaVencimiento.split('/')
     this.fechaVencimientoDate = new Date(parseInt(fechaVencimiento[2]),parseInt(fechaVencimiento[1])-1,parseInt(fechaVencimiento[0]))
   }
-  paisSeleccionado : number = 0
+  paisSeleccionado : Pais = {
+    id : 0,
+    valor : "",
+    bandera : ""
+  }
   iconoSeleccionado: string = ""
-  actualizarSeleccion(id: number) {
-    const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
+  actualizarSeleccion(obj : Pais) {
+    const paisSeleccionadoObj = this.paises.find((pais) => pais.id === obj.id);
     if (paisSeleccionadoObj) {
-      this.paisSeleccionado = paisSeleccionadoObj.id;
+      this.paisSeleccionado = paisSeleccionadoObj;
       this.iconoSeleccionado = paisSeleccionadoObj.bandera;
     }
   }

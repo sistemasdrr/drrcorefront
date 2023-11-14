@@ -19,7 +19,7 @@ export class MovimientoInformeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const order = this.pedidoService.getOrders().filter(x => x.cupon == this.data.cupon)[0]
+    const order = this.pedidoService.getPedidos().filter(x => x.cupon == this.data.cupon)[0]
     if(order.asignacion.length > 0){
       this.dataSource.data = order.asignacion
     }else{

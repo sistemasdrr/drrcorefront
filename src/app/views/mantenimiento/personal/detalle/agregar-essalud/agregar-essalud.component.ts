@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TipoVinculo } from 'app/models/mantenimiento/persona/personal';
 import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
 
 @Component({
@@ -9,21 +10,27 @@ import { PersonalService, data } from 'app/services/mantenimiento/personal.servi
 })
 export class AgregarEssaludComponent implements OnInit {
   title = ""
+  idPersonal = 0
   nombreCompleto = ""
-  tipoVinculo = ""
+  tipoVinculo : TipoVinculo = {
+    id : 0,
+    valor : ''
+  }
   documentoIdentidad = ""
 
   tiposVinculo : data[] = []
 
   constructor(public dialogRef: MatDialogRef<AgregarEssaludComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private personalService : PersonalService){
-
+      if(data){
+        this.idPersonal = data
+      }
   }
 
   ngOnInit(): void {
-    this.personalService.getVinculoFamiliar().subscribe(data => {
-      if(data.isSuccess == true){
-        this.tiposVinculo = data.data;
+    this.personalService.getVinculoFamiliar().subscribe(response => {
+      if(response.isSuccess == true){
+        this.tiposVinculo = response.data;
       }
     });
   }
@@ -32,15 +39,11 @@ export class AgregarEssaludComponent implements OnInit {
     this.dialogRef.close()
   }
   agregarDerechoHabiente(){
-    this.dialogRef.close(
-      {
-        nombreCompleto: this.nombreCompleto,
-        tipoVinculo: this.tipoVinculo,
-        documentoIdentidad: this.documentoIdentidad
-      }
-    )
-    console.log(this.nombreCompleto)
-    console.log(this.tipoVinculo)
-    console.log(this.documentoIdentidad)
+    this.dialogRef.close({
+      nameHolder : this.nombreCompleto,
+      idFamilyBondType : this.tipoVinculo.id,
+      valueFamilyBondType : this.tipoVinculo.valor,
+      documentNumber : this.documentoIdentidad
+    })
   }
 }

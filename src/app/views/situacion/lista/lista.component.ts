@@ -61,7 +61,7 @@ export class ListaSituacionComponent implements  OnInit {
   }
 
   applyFilter() {
-    this.dataSource.data = this.pedidoService.getOrders()
+    this.dataSource.data = this.pedidoService.getPedidos()
       .filter(x => x.tipoTramite === this.tipoTramite &&
       x.tipoInforme === this.tipoInforme &&
       new Date(
@@ -83,8 +83,8 @@ export class ListaSituacionComponent implements  OnInit {
   nombreEmpresa = ""
   fechaInicio : Date = new Date(2023, 0, 1)
   fechaFin : Date = new Date(year, month, day)
-  tipoInforme = 0
-  tipoTramite = 0
+  tipoInforme = ""
+  tipoTramite = ""
   maxDate: Date = new Date();
 
   range : FormGroup

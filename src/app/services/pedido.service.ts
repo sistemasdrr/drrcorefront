@@ -17,10 +17,10 @@ export class PedidoService {
       cupon: '432412',
       informeEP : 'E',
       idioma : 'ESPAÑOL',
-      codigoInforme: 'Z0015212165',
+      codigoInforme: 'E0000406826',
       estadoPedido : 'PENDIENTE',
-      tipoInforme: 1,
-      tipoTramite : 1,
+      tipoInforme: "RV",
+      tipoTramite : "T1",
       calidad: 'B',
       fechaIngreso: '12/09/2023',
       fechaVencimiento: '19/09/2024',
@@ -32,7 +32,11 @@ export class PedidoService {
       nombre: "Abonado 1 ",
       codigo: "12345",
       revelarNombre: true,
-      pais: 182,
+      pais: {
+        id : 182,
+        valor : "Perú",
+        bandera : "pe"
+      },
       codigoPais: "pe",
       estado: "INACTIVO",
       nroReferencia: "1234546789",
@@ -44,7 +48,11 @@ export class PedidoService {
       tipoRT : 'tipo rt',
       codigoRT : 'codigo rt',
       continenteEmpresa : 1,
-      paisEmpresa : 1,
+      paisEmpresa : {
+        id : 182,
+        valor : "Perú",
+        bandera : "pe"
+      },
       ciudadEmpresa : 'ciudad',
       direccionEmpresa : 'direccion',
       correoEmpresa : 'correo',
@@ -108,8 +116,11 @@ export class PedidoService {
   getPaisPorContinente(continent : number):  Observable<any>{
     return this.http.get<any>(this.url + this.controller + '/countrybycontinent?continent='+continent);
   }
-  getOrders() {
+  getPedidos() {
     return this.orders;
+  }
+  getPedidosPorCupon(cupon : string){
+    return this.orders.filter(x => x.cupon === cupon)
   }
   getCommentByCupon(cupon: string) {
     return this.orders.filter((x) => x.cupon === cupon);

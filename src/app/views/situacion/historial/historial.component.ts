@@ -35,12 +35,12 @@ export class HistorialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource.data = this.pedidoService.getOrders()
+    this.dataSource.data = this.pedidoService.getPedidos()
     this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(){
-    this.dataSource.data = this.pedidoService.getOrders().filter(x => x.cupon.trim().toLocaleLowerCase().includes(this.nmrCupon) && x.nombre.trim().toLocaleLowerCase().includes(this.abonado.toLocaleLowerCase()))
+    this.dataSource.data = this.pedidoService.getPedidos().filter(x => x.cupon.trim().toLocaleLowerCase().includes(this.nmrCupon) && x.nombre.trim().toLocaleLowerCase().includes(this.abonado.toLocaleLowerCase()))
     this.dataSource.paginator = this.paginator;
 
   }
