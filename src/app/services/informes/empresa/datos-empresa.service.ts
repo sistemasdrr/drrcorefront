@@ -10,8 +10,8 @@ export class DatosEmpresaService {
     {
       codigoInforme : 'E0000143232',
       informeInvestigadoEl : '31/12/2005',
-      idioma : 'ESPAÑOL',
-      tipoInstitucion : '31/12/05',
+      idioma : 'E',
+      tipoInstitucion : 'PJ',
       yFundacion : 1994,
       razonSocial : 'VALICO S.A.C.',
       nombreComercial : '',
@@ -59,8 +59,8 @@ export class DatosEmpresaService {
     {
       codigoInforme : 'E0000406826',
       informeInvestigadoEl : '30/07/2023',
-      idioma : 'ESPAÑOL-INGLES',
-      tipoInstitucion : 'PERSONA JURÍDICA',
+      idioma : 'A',
+      tipoInstitucion : 'PJ',
       yFundacion : 1967,
       razonSocial : 'TUBOS Y PERFILES METALICOS S.A.',
       nombreComercial : 'TUPEMESA',

@@ -176,7 +176,9 @@ export class DetalleComponent implements OnInit {
       }),
     );
     const idRoute = this.activatedRoute.snapshot.paramMap.get('id');
-    if(parseInt(idRoute+'') > 0){
+    const contieneLetras = /[a-zA-Z]/.test(idRoute+'');
+
+    if(parseInt(idRoute+'') > 0 && contieneLetras == false){
       this.personalService.getPersonalById(parseInt(idRoute+'')).subscribe((response) => {
 
         if(response.isSuccess == true){
@@ -265,16 +267,25 @@ export class DetalleComponent implements OnInit {
           }
           setTimeout(() => {
             this.loading = false
-          }, 1000);
+          }, 500);
 
         }
       },
-      () =>{
+      (error) =>{
         this.loading = false;
-        console.log("hola")
+        Swal.fire({
+          title: 'Ocurrió un problema.',
+          text: error,
+          icon: 'warning',
+          confirmButtonColor: 'blue',
+          confirmButtonText: 'Comunicarse con Sistemas',
+          width: '40rem',
+          heightAuto : true
+        }).then(() => {
+        })
       }
     );
-    }else{
+    }else if(idRoute === 'nuevo' && contieneLetras == true){
       this.loading = false
       this.fechaNacimiento = null
       this.fechaNacimientoDate = null
@@ -283,6 +294,20 @@ export class DetalleComponent implements OnInit {
       this.fechaCese = null
       this.fechaCeseDate = null
       console.log("nuevo empleado")
+    }else{
+      Swal.fire({
+        title: 'No se encontró el registro',
+        text: "",
+        icon: 'warning',
+        confirmButtonColor: 'blue',
+        confirmButtonText: 'Volver',
+        width: '40rem',
+        heightAuto : true
+      }).then((result) => {
+        this.loading = false
+        this.router.navigate(['mantenimiento/personal/lista'])
+
+      })
     }
   }
 
@@ -472,7 +497,7 @@ export class DetalleComponent implements OnInit {
                   confirmButtonText: 'Ok',
                   width: '40rem',
                   heightAuto : true
-                }).then((result) => {
+                }).then(() => {
                   this.router.navigate(['mantenimiento/personal/lista'])
                 })
               }else{
@@ -484,7 +509,7 @@ export class DetalleComponent implements OnInit {
                   confirmButtonText: 'Ok',
                   width: '40rem',
                   heightAuto : true
-                }).then((result) => {
+                }).then(() => {
                 })
               }
           },(error) => {
@@ -494,10 +519,10 @@ export class DetalleComponent implements OnInit {
               text: error,
               icon: 'warning',
               confirmButtonColor: 'blue',
-              confirmButtonText: 'Ok',
-              width: '40rem',
+              confirmButtonText: 'Comunicarse con Sistemas',
+              width: '30rem',
               heightAuto : true
-            }).then((result) => {
+            }).then(() => {
             })
           }
           );
@@ -518,6 +543,7 @@ export class DetalleComponent implements OnInit {
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          this.loading = true
           this.personalService.addPersonal(this.personal).subscribe(
             (response) => {
               Swal.fire({
@@ -529,7 +555,8 @@ export class DetalleComponent implements OnInit {
                 width: '40rem',
                 heightAuto : true
               }).then((result) => {
-                  this.router.navigate(['mantenimiento/personal/lista'])
+                this.loading = false
+                this.router.navigate(['mantenimiento/personal/lista'])
 
               })
           },(error) => {

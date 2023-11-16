@@ -1,18 +1,36 @@
 <div class="breadcrumb-main">
     <div class="row">
-        <div class=" d-flex align-items-center" [ngClass]="codigoInforme === '' ? 'col-6' : 'col-4'">
+        <div class=" d-flex align-items-center" [ngClass]="codigoInforme === '' ? 'col-6' : 'col-3'">
             <div class="breadcrumb-title ">
                 <h3 class="page-title">{{title}} {{subtitle}}</h3>
             </div>
         </div>
-        <div class="col-4 d-flex align-items-center" *ngIf="codigoInforme !== ''">
-          <div class="info-box7 bg-c-blue m-0 p-0 w-100 d-md-block d-none">
+        <div class="col-6 d-flex align-items-center justify-content-center" *ngIf="codigoInforme !== ''">
+          <div class="info-box7 bg-c-blue m-0 d-md-block d-none shadow" style="padding: 0 .5rem 0 .5rem;">
             <div class="info-box7-block d-flex justify-content-center align-items-center">
-              <h4 class="m-b-10"  style="color: white; ">Cód. Informe: {{codigoInforme}}</h4>
+              <div>
+                <h5 class="d-flex justify-content-center"  style="color: white; ">Cód. Informe: &nbsp;<b>{{codigoInforme}}</b></h5>
+              </div>
             </div>
           </div>
+          <div class="d-flex" style="margin-left: 1rem;" *ngIf="codigoInforme !== ''">
+            <button class="btn d-flex shadow" style="background-color: #d37d04; color: white; margin: 0 .5rem .5rem .5rem;" type="button" >
+              <i class="fa-solid fa-users" style="font-size: 22px; margin-top: .4rem;"></i>
+              <div style="font-size: 22px;">&nbsp;Socios</div>
+            </button>
+            <button class="btn bg-red d-flex shadow col-white"  type="button" style="margin: 0 .5rem .5rem .5rem;">
+              <i class="fa-solid fa-file-pdf" style="font-size: 22px; margin-top: .4rem;"></i>
+              <div style="font-size: 22px;">&nbsp;Ver Informe</div>
+            </button>
+            <!--button  mat-fab class="bg-white" matTooltip="Socios" style="margin: 0 .5rem .5rem .5rem;">
+              <app-feather-icons [icon]="'users'" class="tbl-fav-socios"></app-feather-icons>
+            </!--button>
+            <button--  mat-fab class="bg-white" matTooltip="Generar PDF" style="margin: 0 .5rem .5rem .5rem;">
+              <app-feather-icons [icon]="'file-text'" class="tbl-fav-pdf"></app-feather-icons>
+            </button-->
+          </div>
         </div>
-        <div class="d-flex align-items-center justify-content-end" [ngClass]="codigoInforme === '' ? 'col-6' : 'col-4'">
+        <div class="d-flex align-items-center justify-content-end" [ngClass]="codigoInforme === '' ? 'col-6' : 'col-3'">
             <ul class="breadcrumb-list">
                 <li class="breadcrumb-item bcrumb-1">
                     <a [routerLink]="'/dashboard/main'">

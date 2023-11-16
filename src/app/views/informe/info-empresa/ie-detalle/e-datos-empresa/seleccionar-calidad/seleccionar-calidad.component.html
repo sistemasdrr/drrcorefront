@@ -1,0 +1,218 @@
+<div class="container m-0 p-0">
+  <mat-dialog-content class="m-0 p-0" style="min-width: 70rem; min-height: 50rem; overflow: auto;">
+    <div class="row m-0 p-0"  >
+      <div class="col-md-12">
+        <div class="card">
+          <div class="header">
+            <div class="materialTableHeader mt-3">
+              <div class="left">
+                <ul class="header-buttons-left ms-0">
+                  <li class="tbl-title">
+                    <h5 style="font-size: 30px;">Seleccionar Calidad del Informe</h5>
+                  </li>
+                </ul>
+              </div>
+              <div class="right">
+                <ul class="tbl-export-btn">
+                  <li class="tbl-header-btn">
+                    <div class="m-l-10">
+                      <button mat-icon-button  class="btn bg-red " (click)="volver()" #tooltip="matTooltip" matTooltip="Volver">
+                        <mat-icon>logout</mat-icon>
+                      </button>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div class="body">
+                <div class="demo">
+                  <div class="container">
+                    <div class="row m-0 p-0">
+                      <div class="col-md-3 col-sm-6">
+                        <div class="pricingTable greenColor m-1">
+                          <div class="pricingTable-header">
+                            <div class="price-value" style="font-size: 50px;"> A
+                            </div>
+                          </div>
+                          <h3 class="heading">Standard</h3>
+                          <div class="pricing-content" style="margin: 0 1rem 0 1rem;">
+                            <ul>
+                              <li style="text-align: justify;">
+                                <b>Un Informe de Calidad A,</b> debe contener la mayoría de los ítems de cada rubro.<br><br></li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 1: </b> No menos de <b>6 ítems</b>, (1, 2, 3, 5, 6 y 8)</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 2: </b> No menos de <b>4 ítems</b> (1, 3, 4 y 5)</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 3: </b> No menos de <b>5 ítems</b> (1, 2, 3, 4 y 6)</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 4: </b> No menos de <b>3 ítems</b> (1, 2 y 3)</li>
+                            </ul>
+                          </div>
+                          <div class="pricingTable-signup">
+                            <a class="mb-3" (click)="seleccionarCalidad('A')">Seleccionar</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6">
+                        <div class="pricingTable blueColor m-1">
+                          <div class="pricingTable-header">
+                            <div class="price-value" style="font-size: 50px;"> B
+                            </div>
+                          </div>
+                          <h3 class="heading">Business</h3>
+                          <div class="pricing-content" style="margin: 0 1rem 0 1rem;">
+                            <ul>
+                              <li style="text-align: justify;">
+                                <b>Un Informe de Calidad B,</b> debe tener casi los mismos ítems del anterior,
+                                pero no Balance.</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 1: </b> No menos de <b>5 ítems</b>, (1, 2, 3, 5 y 6)</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 2: </b> No menos de <b>4 ítems</b> (1, 3, 4 y 5)</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 3: </b> No menos de <b>4 ítems</b> (1, 3, 4 y 6)</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 4: </b> No menos de <b>2 ítems</b> (1 y 3)</li>
+                            </ul>
+                          </div>
+                          <div class="pricingTable-signup">
+                            <a class="mb-3" (click)="seleccionarCalidad('B')">Seleccionar</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6">
+                        <div class="pricingTable m-1">
+                          <div class="pricingTable-header">
+                            <div class="price-value" style="font-size: 50px;"> C
+                            </div>
+                          </div>
+                          <h3 class="heading">PREMIUM</h3>
+                          <div class="pricing-content" style="margin: 0 1rem 0 1rem;">
+                            <ul>
+                              <li style="text-align: justify;">
+                                <b>Un Informe de Calidad C,</b> es aquel que contiene datos y cifras básicas.<br><br></li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 1: </b> No menos de <b>4 ítems</b>, (1, 2, 3, 5 y 6)</li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 2: </b> No menos de <b>2 ítems</b> (1 y 3)<br><br></li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 3: </b> No menos de <b>2 ítems</b> (1 y 6)<br><br></li>
+                              <li style="text-align: justify;">
+                                <b>Rubro 4: </b> No menos de <b>1 ítem</b> (3)</li>
+                            </ul>
+                          </div>
+                          <div class="pricingTable-signup">
+                            <a class="mb-3" (click)="seleccionarCalidad('C')">Seleccionar</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3 col-sm-6">
+                        <div class="pricingTable redColor m-1">
+                          <div class="pricingTable-header">
+                            <div class="price-value" style="font-size: 50px;"> D
+                            </div>
+                          </div>
+                          <h3 class="heading">EXTRA</h3>
+                          <div class="pricing-content" style="margin: 0 1rem 0 1rem;">
+                            <ul>
+                              <li style="text-align: justify;">
+                                <b>Un Informe de Calidad D,</b> es aquel que prácticamente no tiene datos ni cifras destacables, incluso puede ser un informe de Información General.</li>
+                              <li style="text-align: justify;">
+                                <b>También aquel informe </b> que solo se obtuvo datos muy precarios y casi sin valor crediticio.</li>
+                              <li style="text-align: justify;">
+                                <b>Se puede decir que </b> es aquel informe que no tiene datos ni cifras ni búsquedas diversas en Internet.</li>
+                            </ul>
+                          </div>
+                          <div class="pricingTable-signup">
+                            <a class="mb-3" (click)="seleccionarCalidad('D')">Seleccionar</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="custom-accordion m-3">
+              <div class="item">
+                <div class="icon">I</div>
+                <div class="title">
+                  <div class="text">RUBRO 1</div>
+                </div>
+                <div class="content">
+                  <div class="d-flex w-100 justify-content-center">Antecedentes Legales (¿Quiénes son?)</div>
+                  <p>1. Razón Social Correcta</p>
+                  <p>2. Dirección Correcta</p>
+                  <p>3. Registro Tributario</p>
+                  <p>4. Registros Públicos o de Comercio</p>
+                  <p>5. Capital Pagado Actual (Desde)</p>
+                  <p>6. Principal Ejecutivo/Representante Legal y Principales Accionistas</p>
+                  <p>7. ¿Integran algún Grupo Económico?</p>
+                  <p>8. Empresas Relacionadas</p>
+                  <p>9. Historia</p>
+                </div>
+              </div>
+              <div class="item">
+                <div class="icon">II</div>
+                <div class="title">
+                  <div class="text">RUBRO 2</div>
+                </div>
+                <div class="content">
+                  <div class="d-flex w-100 justify-content-center">Ramo de Negocio (¿Qué hacen?)</div>
+                  <p>1. Ramo de Negocio (¿Qué hacen y cómo?)</p>
+                  <p>2. ¿Tienen competencia?</p>
+                  <p>3. Numero de Trabajadroes</p>
+                  <p>4. ¿Local propio o alquilado?</p>
+                  <p>5. ¿Importan?</p>
+                  <p>6. ¿Exportan?</p>
+                </div>
+              </div>
+              <div class="item">
+                <div class="icon">III</div>
+                <div class="title">
+                  <div class="text">RUBRO 3</div>
+                </div>
+                <div class="content">
+                  <div class="d-flex w-100 justify-content-center">Situación Financiera (¿Qué tienen y cómo les va?)</div>
+                  <p>1. Persona Entrevistada y su Cargo</p>
+                  <p>2. ¿Balance General último?</p>
+                  <p>3. ¿Histórico de Ventas 2, 3 años?</p>
+                  <p>4. Situación Financiera actual</p>
+                  <p>5. Activos Fijos (Propiedades muebles e inmuebles)</p>
+                  <p>6. Comentarios del Analista</p>
+
+                </div>
+              </div>
+              <div class="item">
+                <div class="icon">IV</div>
+                <div class="title">
+                  <div class="text">RUBRO 4</div>
+                </div>
+                <div class="content">
+                  <div class="d-flex w-100 justify-content-center">Referencias Comerciales (¿Cómo pagan?)</div>
+                  <p>1. Referencias Comerciales Positivas (Mínimo 2)</p>
+                  <p>2. Costumbres de Pago (Siempre Puntual, Lento o Moroso)</p>
+                  <p>3. Proveedores Nacionales y Extranjeros actuales identificados</p>
+                  <p>4. Datos de la Central de Riesgos (Morosidad, Endeudamientos)</p>
+                  <p>5. ¿Litigios?</p>
+
+                </div>
+              </div>
+              <div class="item">
+                <div class="icon"></div>
+                <div class="title">
+                </div>
+                <div class="content">RUBROS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+</div>

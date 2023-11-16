@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Personal } from 'app/models/mantenimiento/persona/personal';
-import { PersonalService } from 'app/services/mantenimiento/personal.service';
+import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,6 +24,9 @@ export class ListaComponent implements OnInit, AfterViewInit {
   loading : boolean = true
 
   filtroNombre = ""
+  filtroDepartamento = 0
+
+  departamentos : data[] = []
 
   dataSource : MatTableDataSource<Personal>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,12 +39,30 @@ export class ListaComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.personalService.getPersonales().subscribe((response) => {
+    this.personalService.getDepartamento().subscribe(response => {
+      if(response.isSuccess == true){
+        this.departamentos = response.data;
+      }
+    });
+    this.personalService.getPersonales().subscribe(
+      (response) => {
       if(response.isSuccess == true){
         this.dataSource.data = response.data;
         console.log(response.data)
         this.loading = false
       }
+    },(error) => {
+      this.loading = false;
+        Swal.fire({
+          title: 'Ocurrió un problema.',
+          text: '',
+          icon: 'warning',
+          confirmButtonColor: 'blue',
+          confirmButtonText: 'Comunicarse con Sistemas',
+          width: '30rem',
+          heightAuto : true
+        }).then(() => {
+        })
     });
   }
 
@@ -49,7 +70,10 @@ export class ListaComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  applyFilterDepartamento(){
+    console.log(this.filtroDepartamento)
+    this.dataSource.data =  this.dataSource.data.filter(x => x.idJobDepartment === this.filtroDepartamento)
+  }
   agregarPersonal(){
     this.router.navigate(['mantenimiento/personal/detalle/nuevo']);
   }
@@ -69,6 +93,7 @@ export class ListaComponent implements OnInit, AfterViewInit {
       heightAuto : true
     }).then((result) => {
       if (result.value) {
+        this.loading = true
         this.personalService.deletePersonal(id).subscribe(
           (response) => {
             console.log(response)
@@ -81,7 +106,7 @@ export class ListaComponent implements OnInit, AfterViewInit {
               width: '40rem',
               heightAuto : true
             }).then(() => {
-
+              this.loading = false
               this.actualizarTabla()
             })
         },(error) => {
@@ -104,6 +129,7 @@ export class ListaComponent implements OnInit, AfterViewInit {
       heightAuto : true
     }).then((result) => {
       if (result.value) {
+        this.loading = true
         this.personalService.activePersonal(id).subscribe(
           (response) => {
             console.log(response)
@@ -116,6 +142,7 @@ export class ListaComponent implements OnInit, AfterViewInit {
               width: '40rem',
               heightAuto : true
             }).then(() => {
+              this.loading = false
               this.actualizarTabla()
             })
         },(error) => {

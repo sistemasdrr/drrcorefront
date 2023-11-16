@@ -2,7 +2,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HistoricoPedidosService } from '../../../../../../services/informes/historico-pedidos.service';
 import { Component, Inject } from '@angular/core';
 import { HistoricoPedidos } from 'app/models/informes/historico-pedidos';
-import Swal from 'sweetalert2';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -29,22 +28,7 @@ export class HistoricoPedidosComponent {
 
 
   volver(){
-    Swal.fire({
-      title: '¿Está seguro de salir?',
-      text: "Los datos ingresados no se guardaran",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonText : 'No',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí',
-      width: '20rem',
-      heightAuto : true
-    }).then((result) => {
-      if (result.value) {
-        this.dialogRef.close()
-      }
-    })
+    this.dialogRef.close()
   }
 
 }

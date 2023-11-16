@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css?family=Sunflower:300,500,700');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    line-height: 1.5;
+}
+
+body {
+    background: #1c1c1c;
+}
+
+.custom-accordion {
+    background: #e1e1e1;
+    color: #000000;
+    font-family: 'Sunflower', sans-serif;
+    padding-bottom: 2rem;
+    border-radius: 10px;
+
+    > .item {
+        padding: 1rem 2rem;
+        margin: 0 auto;
+        max-width: 30rem;
+
+        &:last-of-type {
+            background: #462521;
+            text-align: center;
+
+            > .icon {
+                color: #FFFFFF;
+            }
+        }
+
+        &:nth-of-type(6) {
+            padding-bottom: 2rem;
+        }
+    }
+
+    > .item > .icon {
+        color: #462521;
+        font-size: 2rem;
+    }
+
+    > .item > .title {
+        font-size: 1.5rem;
+    }
+
+    > .item > .content {
+
+    }
+}
+
+@media screen and (min-width: 800px) and (min-height: 270px) {
+
+    .custom-accordion {
+        display: table;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        height: 23rem;
+        overflow: hidden;
+        padding-bottom: 0;
+
+
+        > .item {
+            display: table-cell;
+            position: relative;
+            height: 100%;
+            padding: 2rem 1rem;
+            text-align: center;
+            transform-origin: 0 50%;
+            border-radius: 10px;
+            transition: all .3s cubic-bezier(.8,.16,.42,.89);
+
+            &:hover:not(:last-of-type) {
+                transform: scaleX(2) translateX(-1px);
+                box-shadow: 0 0 3rem #301916;
+                background: #c6c8c8;
+                border-color: transparent;
+            }
+
+            &:hover + .item {
+                opacity: .1;
+            }
+
+            &:hover + .item:last-of-type {
+                opacity: .1;
+                background: #8A6552;
+            }
+
+            &:not(:last-of-type) {
+                border-right: 1px solid rgb(165, 185, 185);
+            }
+
+            &:last-of-type {
+                background:  rgb(114, 114, 114);
+                width: 15%;
+                border-radius: 10px;
+            }
+
+            &:last-of-type .heart-icon {
+                font-size: 6rem;
+            }
+
+            &:hover:last-of-type .heart-icon {
+                transform: scale(2);
+            }
+
+            &:last-of-type > .title {
+                transform: rotate(0) translateX(-50%) translateY(-2.5rem);
+                padding: 0;
+                text-align: center;
+
+            }
+
+
+            &:last-of-type > .content {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-50%);
+            }
+
+            &:hover:not(:last-of-type) > .icon {
+                transform: scaleX(.5);
+            }
+
+            &:hover:not(:last-of-type) > .title {
+                transform: scaleX(.5) translateX(-50%);
+                background: #bfbdca;
+                text-align: center;
+
+
+                padding: 0;
+
+                > .text {
+                    transform: translateX(-50%);
+                    left: 50%;
+                }
+            }
+
+            &:hover:not(:last-of-type) > .content {
+                opacity: 1;
+            }
+        }
+
+        > .item > .icon {
+            font-weight: 700;
+            font-size: 2rem;
+            transition: all .3s cubic-bezier(.8,.16,.42,.89);
+            color: #FFFFFF;
+        }
+
+        > .item > .title {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            height: 1.5rem;
+            width: 200%;
+            text-align: left;
+            transform-origin: 0 50%;
+            transform: rotate(-90deg);
+            transition: all .3s cubic-bezier(.8,.16,.42,.89);
+            font-size: 1.2rem;
+        }
+
+        > .item > .title > .text {
+            position: absolute;
+            left: 2rem;
+            bottom: 0;
+            white-space: nowrap;
+            transition: all .3s cubic-bezier(.8,.16,.42,.89);
+        }
+
+        > .item > .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%) scaleX(.5);
+            transition: all .3s cubic-bezier(.8,.16,.42,.89);
+            opacity: 0;
+            padding: 1rem;
+            pointer-events: none;
+        }
+
+    }
+
+}
+
+.heart-icon {
+    color: #CA2E55;
+    font-size: 3rem;
+    transition: all .3s cubic-bezier(.8,.16,.42,.89);
+}

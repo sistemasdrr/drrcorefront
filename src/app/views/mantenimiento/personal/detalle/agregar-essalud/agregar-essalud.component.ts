@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TipoVinculo } from 'app/models/mantenimiento/persona/personal';
 import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
+import { PaisService } from 'app/services/pais.service';
 
 @Component({
   selector: 'app-agregar-essalud',

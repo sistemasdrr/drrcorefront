@@ -17,6 +17,7 @@ import { CuadroImpoExpoComponent } from './cuadro-impo-expo/cuadro-impo-expo.com
 import { AgregarEditarComponent } from './cuadro-impo-expo/agregar-editar/agregar-editar.component';
 import { AgregarEditarRamoNegocioComponent } from './ramo-actividad/agregar-editar/agregar-editar.component';
 import { NgScrollbarModule } from "ngx-scrollbar";
+import { FeatherIconsModule } from "./feather-icons/feather-icons.module";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { NgScrollbarModule } from "ngx-scrollbar";
     MatSelectModule,
     MatListModule,
     ReactiveFormsModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+    FeatherIconsModule
   ],
   exports: [
     FileUploadComponent,

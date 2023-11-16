@@ -14,7 +14,9 @@ mat-form-field{
   }
   input{
     border-bottom: 3px solid rgb(200, 233, 200);
-
+  }
+  input.error{
+    border-bottom: 3px solid rgb(233, 200, 200);
   }
   input:read-only{
     border-bottom: 3px solid rgb(163, 163, 247);

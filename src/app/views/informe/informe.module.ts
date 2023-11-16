@@ -56,6 +56,7 @@ import { PDeudaBancariaComponent } from './info-persona/ip-detalle/p-sbs-riesgo/
 import { PTrabajoComponent } from './info-persona/ip-detalle/p-trabajo/p-trabajo.component';
 import { CapitalPagadoComponent } from './info-empresa/ie-detalle/e-antecedentes/capital-pagado/capital-pagado.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { SeleccionarCalidadComponent } from './info-empresa/ie-detalle/e-datos-empresa/seleccionar-calidad/seleccionar-calidad.component';
 
 @NgModule({
   declarations: [
@@ -92,13 +93,13 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     PHistoriaComponent,
     PTrabajoComponent,
     CapitalPagadoComponent,
+    SeleccionarCalidadComponent,
 
   ],
   imports: [
     CommonModule,
     InformeRoutingModule,
     ComponentsModule,
-    MatIconModule,
     MatTabsModule,
     MatDatepickerModule,
     MatFormFieldModule,

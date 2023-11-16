@@ -56,3 +56,7 @@ export interface Reputacion {
   id : number
   description : string
 }
+export interface Duracion {
+  id : number
+  description : string
+}

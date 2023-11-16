@@ -5,9 +5,10 @@ import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from './material.module';
 import { FeatherIconsModule } from './components/feather-icons/feather-icons.module';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule, MatIconModule],
   exports: [
     CommonModule,
     FormsModule,

@@ -19,6 +19,11 @@
                 <li class="tbl-search-box d-flex">
                   <label for="search-input"><i class="material-icons search-icon">search</i></label>
                   <input placeholder="Nombre o Apellido" type="text" class="browser-default search-field" [(ngModel)]="filtroNombre" (keypress)="enter($event)" aria-label="Buscar por Nombre" style="margin: 0 .5rem 0 .5rem;">
+                  <!--div style="margin: 0 0 0 2rem;">Departamento</!--div>
+                  <select-- class="form-select"  [(ngModel)]="filtroDepartamento" (change)="applyFilterDepartamento()" style="margin: 0 1rem 0 .5rem;" aria-label="Tipo de Informe">
+                    <option [value]="0"></option>
+                    <option [value]="departamento.id" *ngFor="let departamento of departamentos">{{departamento.valor}}</option>
+                  </select-->
                   <button mat-mini-fab [class]="'bg-primary'" matTooltip="Aplicar Filtros" (click)="aplicarFiltro()" [disabled]="">
                     <i class="fa-solid fa-magnifying-glass col-white"></i>
                   </button>
@@ -82,7 +87,7 @@
               <a mat-icon-button [routerLink]="'/mantenimiento/personal/detalle/'+personal.id" #tooltip="matTooltip" matTooltip="Editar" >
                 <i class="fa-regular fa-pen-to-square" style="font-size: 24px; color: #6777ef;"></i>
               </a>
-              <button mat-icon-button #tooltip="matTooltip" matTooltip="Eliminar" *ngIf="personal.enable === true" (click)="desactivarPersonal(personal.id)">
+              <button mat-icon-button #tooltip="matTooltip" matTooltip="Desactivar" *ngIf="personal.enable === true" (click)="desactivarPersonal(personal.id)">
                 <i class="fa-solid fa-xmark col-red" style="font-size: 24px;"></i>
               </button>
               <button mat-icon-button #tooltip="matTooltip" matTooltip="Activar" *ngIf="personal.enable === false" (click)="activarPersonal(personal.id)">
