@@ -56,9 +56,6 @@
         <mat-form-field class="w-100">
           <mat-label>Países</mat-label>
           <input  matInput placeholder="" [(ngModel)]="paisesImportacionInforme" [disabled]="checkImportacion !== 'SI'" >
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkImportacion !== 'SI'" [class]="paisesImportacionIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloImportacion,'', paisesImportacionInforme, paisesImportacionIngInforme,'paisesImportan')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
-          </button>
         </mat-form-field>
       </div>
       <div class="col-md-1 d-flex justify-content-center">
@@ -82,13 +79,30 @@
         </mat-form-field>
       </div>
       <div class="col-md-9">
-        <mat-form-field class="w-100">
-          <mat-label>Países</mat-label>
-          <input matInput placeholder="" [(ngModel)]="paisesExportacionInforme" [disabled]="checkExportacion !== 'SI'">
-          <button class="btn-traduccion" matSuffix mat-icon-button [disabled]="checkExportacion !== 'SI'" [class]="paisesExportacionIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloExportacion,'', paisesExportacionInforme, paisesExportacionIngInforme,'paisesExportan')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
-          </button>
-        </mat-form-field>
+        <form class="w-100">
+          <mat-form-field class="example-chip-list w-100">
+            <mat-label>Paises </mat-label>
+            <mat-chip-grid #chipGrid aria-label="Country selection">
+                <mat-chip-row *ngFor="let pais of paisesSeleccionados;" (removed)="remove(pais.valor)">
+                  {{pais.valor}} &nbsp;<span class="fi fi-{{pais.bandera}}"></span>
+                  <button matChipRemove [attr.aria-label]="'remove ' + pais.valor">
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip-row>
+            </mat-chip-grid>
+            <input placeholder="Seleccionar Pais" #paisExpoInput [formControl]="controlPaises"
+              [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)"/>
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPais" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let pais of filterPais | async" [value]="pais.valor">
+                <span class="fi fi-{{pais.bandera}}"></span>
+                {{pais.valor}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+
       </div>
       <div class="col-md-1 d-flex justify-content-center">
         <button mat-mini-fab class="bg-brown" style="margin-top: .7rem;" #tooltip="matTooltip" matTooltip="Cuadro de Exportación" (click)="ExportacionDialog()">
@@ -165,8 +179,8 @@
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Titularidad</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="titularidadInforme">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto1" [(ngModel)]="titularidadInforme">
+          <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
               {{option.name}}
             </mat-option>

@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ComboData } from 'app/models/combo';
 import { TipoVinculo } from 'app/models/mantenimiento/persona/personal';
-import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
-import { PaisService } from 'app/services/pais.service';
+import { ComboService } from 'app/services/combo.service';
+import { PersonalService } from 'app/services/mantenimiento/personal.service';
 
 @Component({
   selector: 'app-agregar-essalud',
@@ -19,17 +20,19 @@ export class AgregarEssaludComponent implements OnInit {
   }
   documentoIdentidad = ""
 
-  tiposVinculo : data[] = []
+  tiposVinculo : ComboData[] = []
 
   constructor(public dialogRef: MatDialogRef<AgregarEssaludComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private personalService : PersonalService){
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private personalService : PersonalService,
+    private comboService : ComboService){
       if(data){
         this.idPersonal = data
       }
   }
 
   ngOnInit(): void {
-    this.personalService.getVinculoFamiliar().subscribe(response => {
+    this.comboService.getVinculoFamiliar().subscribe(response => {
       if(response.isSuccess == true){
         this.tiposVinculo = response.data;
       }

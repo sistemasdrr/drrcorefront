@@ -1,10 +1,11 @@
 import { Pais } from "app/models/pais"
 
 export interface DatosEmpresa{
-  codigoInforme : string
+  idInforme : string
   informeInvestigadoEl : string
   idioma : string
   tipoInstitucion : string
+  calidadInforme : string
   yFundacion : number
   razonSocial : string
   nombreComercial : string
@@ -15,7 +16,6 @@ export interface DatosEmpresa{
   tipoRuc : string
   codigoRuc : string
   situacionRuc : SituacionRuc
-
 
   comentarioIdentificacion : string
   comentarioIdentificacionIng : string
@@ -40,7 +40,42 @@ export interface DatosEmpresa{
   comentarioPrensa : string
   comentarioPrensaIng : string
 }
-
+export interface Company{
+  id : number
+  oldCode : string
+  name : string
+  socialName : string
+  lastSearched : string
+  language : string
+  typeRegister : string
+  yearFundation : string
+  constitutionDate : string
+  quality : string
+  idLegalPersonType : number
+  taxTypeName : string
+  taxTypeCode : string
+  idLegalRegisterSituation : number
+  address : string
+  duration : string
+  place : string
+  idCountry : number
+  subTelephone : string
+  tellphone : string
+  cellphone : string
+  telephone : string
+  postalCode : string
+  whatsappPhone : string
+  email : string
+  webPage : string
+  idCreditRisk : number
+  idPaymentPolicy : number
+  idReputation : number
+  reputationComentary : string
+  newsComentary : string
+  identificacionCommentary : string
+  Traduction : Traduction[]
+  enable : boolean
+}
 export interface data {
   name: string;
 }
@@ -59,4 +94,8 @@ export interface Reputacion {
 export interface Duracion {
   id : number
   description : string
+}
+export interface Traduction{
+  key : string
+  value : string
 }

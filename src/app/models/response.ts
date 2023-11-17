@@ -1,6 +1,6 @@
-export interface Response{
-  Data : any
-  IsSuccess : boolean
-  IsWarning : boolean
-  Message : string
+export interface Response<T>{
+  data : T
+  isSuccess : boolean
+  isWarning : boolean
+  message : string
 }

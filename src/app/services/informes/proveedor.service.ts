@@ -26,9 +26,9 @@ export class ProveedorService {
       articulos : "Artefactos electronicos",
       articulosIng : "electrical artefacts",
       atendio : "JPFL",
+      comentarioAdicional : "comentario adicional (no se imprime)",
+      comentarioAdicionalIng : "comentario adicional (no se imprime) ing",
       comentario : "comentario 1",
-      comentarioIng : "comment 1",
-      comentarioAdicional : "comentario adicional (no se imprime)"
     },
     {
       id : 2,
@@ -48,9 +48,9 @@ export class ProveedorService {
       articulos : "Artefactos electronicos",
       articulosIng : "electrical artefacts",
       atendio : "JPFL",
+      comentarioAdicional : "comentario adicional (no se imprime)",
+      comentarioAdicionalIng : "comentario adicional (no se imprime) ING",
       comentario : "comentario 1",
-      comentarioIng : "comment 1",
-      comentarioAdicional : "comentario adicional (no se imprime)"
     },
 
   ]

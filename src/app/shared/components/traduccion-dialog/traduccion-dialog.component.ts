@@ -25,7 +25,6 @@ export class TraduccionDialogComponent{
   constructor(
     public dialogRef: MatDialogRef<TraduccionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: TraduccionData) {
-      console.log(data)
     this.titulo = this.data.titulo
     this.subtitulo = this.data.subtitulo
     this.tipo = this.data.tipo

@@ -38,25 +38,4 @@ export class PersonalService {
     return this.http.post<any>(this.url + this.controllerMaster + '/activeEmployee?id='+id,'');
   }
 
-  getTipoDocumento() : Observable<any>{
-    return this.http.get<any>(this.url + this.controllerCombo + '/doctype');
-  }
-  getTipoMoneda() : Observable<any>{
-    return this.http.get<any>(this.url + this.controllerCombo + '/currency');
-  }
-  getEstadoCivil() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controllerCombo + '/civilstatus');
-  }
-  getDepartamento() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controllerCombo + '/jobdep');
-  }
-  getCargoPorDepartamento(id : number) : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controllerCombo + '/jobbydep?department='+id);
-  }
-  getTipoCuenta() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controllerCombo + '/bankaccounttype');
-  }
-  getVinculoFamiliar() : Observable<any>{
-    return this.http.get<data[]>(this.url + this.controllerCombo + '/fambondytype');
-  }
 }

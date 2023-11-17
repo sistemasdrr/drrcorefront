@@ -57,6 +57,7 @@ import { PTrabajoComponent } from './info-persona/ip-detalle/p-trabajo/p-trabajo
 import { CapitalPagadoComponent } from './info-empresa/ie-detalle/e-antecedentes/capital-pagado/capital-pagado.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SeleccionarCalidadComponent } from './info-empresa/ie-detalle/e-datos-empresa/seleccionar-calidad/seleccionar-calidad.component';
+import { AvalesComponent } from './info-empresa/ie-detalle/e-sbs-riesgo/avales/avales.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { SeleccionarCalidadComponent } from './info-empresa/ie-detalle/e-datos-e
     PTrabajoComponent,
     CapitalPagadoComponent,
     SeleccionarCalidadComponent,
+    AvalesComponent,
 
   ],
   imports: [

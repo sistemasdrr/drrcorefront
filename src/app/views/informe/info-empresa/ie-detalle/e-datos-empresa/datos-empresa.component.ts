@@ -116,23 +116,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     this.paisService.getPaises().subscribe(data => {
       if(data.isSuccess == true){
         this.paises = data.data;
-      }else{
-        Swal.fire({
-          title: 'Ocurrio un problema al obtener la lista de paises',
-          text: "",
-          icon: 'warning',
-          showCancelButton: true,
-          cancelButtonText : 'OK',
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Refrescar',
-          width: '20rem',
-          heightAuto : true
-        }).then((result) => {
-          if (result.value) {
-            window.location.reload();
-          }
-        });
       }
     });
 
@@ -180,7 +163,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     if(this.codigoInforme !== 'nuevo'){
       const datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+'')
       this.datosEmpresa2[0] = datosEmpresa[0]
-      console.log(datosEmpresa)
       this.informeInvestigadoEl = datosEmpresa[0].informeInvestigadoEl
       const fecha1 = this.informeInvestigadoEl.split("/");
       if(fecha1){
@@ -188,6 +170,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       }
       this.idiomaInforme = datosEmpresa[0].idioma
       this.tipoInstitucionInforme = datosEmpresa[0].tipoInstitucion
+      this.calidadInforme = datosEmpresa[0].calidadInforme
       this.yFundacionInforme = datosEmpresa[0].yFundacion+''
       this.razonSocialInforme = datosEmpresa[0].razonSocial
       this.nombreComercialInforme = datosEmpresa[0].nombreComercial
@@ -273,11 +256,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     valor : '',
     bandera : ''
   }
-  cons(){
-    console.log(this.personeriaJuridicaInforme)
-  }
   ngOnDestroy(): void {
-    console.log('Se destruyo el componente')
     clearInterval(this.compararModelosF);
     const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
       if (tabDatosEmpresa) {
@@ -286,10 +265,11 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
   }
   armarModelo(){
     this.datosEmpresa1[0] = {
-      codigoInforme : this.codigoInforme+'',
+      idInforme : this.codigoInforme+'',
       informeInvestigadoEl : this.informeInvestigadoEl,
       idioma : this.idiomaInforme,
       tipoInstitucion : this.tipoInstitucionInforme,
+      calidadInforme : this.calidadInforme,
       yFundacion : parseInt(this.yFundacionInforme),
       razonSocial : this.razonSocialInforme,
       nombreComercial : this.nombreComercialInforme,
@@ -374,7 +354,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
         this.msgPais = "Opción Seleccionada"
         this.colorMsgPais = "green"
       }
-      console.log(this.paisInforme)
     }else{
       this.msgPais = "Seleccione una opción."
         this.colorMsgPais = "red"
@@ -394,7 +373,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       this.msgSituacionRuc = "Opción Seleccionada"
       this.colorMsgSituacionRuc = "green"
     }
-    console.log(this.situacionRucInforme)
   }
   limpiarSeleccionPersoneriaJuridica(){
     this.controlPersoneriaJuridica.reset();
@@ -407,7 +385,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
       this.msgPersoneriaJuridica = "Opción Seleccionada"
       this.colorMsgPersonaJuridica = "green"
     }
-    console.log(this.personeriaJuridicaInforme)
   }
   limpiarSeleccionDuracion(){
     this.controlDuracion.reset();
@@ -470,7 +447,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy{
     })
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        console.log(data)
         this.calidadInforme = data.calidad
       }
     });

@@ -37,8 +37,10 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit, OnInit{
     private datosEmpresaService : DatosEmpresaService
   ){
     this.dataSourceEmpresa = new MatTableDataSource()
-    this.paisService.getPaises().subscribe(data => {
-      this.paises = data;
+    this.paisService.getPaises().subscribe(response => {
+      if(response.isSuccess == true && response.isWarning == false){
+        this.paises = response.data;
+      }
     });
   }
   ngOnInit(): void {

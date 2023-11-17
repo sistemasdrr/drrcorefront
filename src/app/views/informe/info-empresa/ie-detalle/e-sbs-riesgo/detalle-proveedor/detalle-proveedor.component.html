@@ -96,30 +96,49 @@
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Monto Máximo</mat-label>
                 <input matInput placeholder="" [(ngModel)]="montoMaximo">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="montoMaximoIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Monto Máximo','', montoMaximo, montoMaximoIng,'montoMaximo')">
+                  <span class="fi fi-us" style="font-size: 24px;"></span>
+                </button>
               </mat-form-field>
             </div>
             <div class="col-md-2">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Plazos</mat-label>
                 <input matInput placeholder="" [(ngModel)]="plazos">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="plazosIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Plazos','', plazos, plazosIng,'plazos')">
+                  <span class="fi fi-us" style="font-size: 24px;"></span>
+                </button>
               </mat-form-field>
             </div>
             <div class="col-md-3">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Cumplimiento</mat-label>
-                <input matInput placeholder="" [(ngModel)]="cumplimiento">
+                <mat-select [(ngModel)]="cumplimiento">
+                  <mat-option [value]="''"></mat-option>
+                  <mat-option [value]="'Lento Eventual'">Lento Eventual</mat-option>
+                  <mat-option [value]="'Lento Siempre'">Lento Siempre</mat-option>
+                  <mat-option [value]="'Moroso'">Moroso</mat-option>
+                  <mat-option [value]="'Puntual'">Puntual</mat-option>
+                  <mat-option [value]="'Sin Experiencia'">Sin Experiencia</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
             <div class="col-md-2">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Cliente desde</mat-label>
                 <input matInput placeholder="" [(ngModel)]="clienteDesde">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="clienteDesdeIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Cliente Desde','', clienteDesde, clienteDesdeIng,'clienteDesde')">
+                  <span class="fi fi-us" style="font-size: 24px;"></span>
+                </button>
               </mat-form-field>
             </div>
             <div class="col-md-3">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Artículos (¿Que le venden?)</mat-label>
                 <input matInput placeholder="" [(ngModel)]="articulos">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="articulosIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Articulos','', articulos, articulosIng,'articulos')">
+                  <span class="fi fi-us" style="font-size: 24px;"></span>
+                </button>
               </mat-form-field>
             </div>
             <h5 style="font-size: 20px;">Comentarios</h5>
@@ -127,6 +146,9 @@
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Comentario Adicional del Proveedor o del Referencista</mat-label>
                 <textarea matInput placeholder="" [(ngModel)]="comentario" style="min-height: 5rem;"></textarea>
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioAdicionalIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario('Comentario Adicional del Proveedor o Referencista','', comentarioAdicional, comentarioAdicionalIng,'comentarioAdicional')">
+                  <span class="fi fi-us" style="font-size: 24px;"></span>
+                </button>
               </mat-form-field>
             </div>
             <div class="col-md-12">

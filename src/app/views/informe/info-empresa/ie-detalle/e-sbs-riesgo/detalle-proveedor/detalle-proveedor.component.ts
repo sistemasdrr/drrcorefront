@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { Proveedor } from 'app/models/informes/proveedor';
 import { ProveedorService } from 'app/services/informes/proveedor.service';
 import Swal from 'sweetalert2';
@@ -13,24 +14,30 @@ export class DetalleProveedorComponent {
   titulo : string = ''
   accion : string = ''
   //DATOS DEL FORM
-  id : number = 0
-  proveedor : string = ''
-  pais : number = 0
-  calificacion : string = ''
-  fecha : string = '29/9/2023'
-  telefono : string = ''
-  atendio : string = ''
-  moneda : number = 0
-  montoMaximo : string = ''
-  plazos : string = ''
-  cumplimiento : string = ''
-  clienteDesde : string = ''
-  articulos : string = ''
-  comentario : string = ''
-  comentarioAdicional : string = ''
+  id = 0
+  proveedor = ''
+  pais = 0
+  calificacion = ''
+  fecha = '29/9/2023'
+  telefono = ''
+  atendio = ''
+  moneda = 0
+  montoMaximo = ''
+  montoMaximoIng = ''
+  plazos = ''
+  plazosIng = ''
+  cumplimiento = ''
+  clienteDesde = ''
+  clienteDesdeIng = ''
+  articulos = ''
+  articulosIng = ''
+  comentarioAdicional = ''
+  comentarioAdicionalIng = ''
+  comentario = ''
 
   constructor(
     public dialogRef: MatDialogRef<DetalleProveedorComponent>,
+    private dialog : MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private proveedorService : ProveedorService
     ){
@@ -53,13 +60,74 @@ export class DetalleProveedorComponent {
         this.atendio = prov.atendio
         this.moneda = prov.moneda
         this.montoMaximo = prov.credMaximo
+        this.montoMaximoIng = prov.credMaximoIng
         this.plazos = prov.plazos
+        this.plazosIng = prov.plazosIng
         this.cumplimiento = prov.cumplimiento
         this.clienteDesde = prov.clientesDesde
+        this.clienteDesdeIng = prov.clientesDesdeIng
         this.articulos = prov.articulos
+        this.articulosIng = prov.articulosIng
         this.comentario = prov.comentario
         this.comentarioAdicional = prov.comentarioAdicional
+        this.comentarioAdicionalIng = prov.comentarioAdicionalIng
       }
+    }
+
+    agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+      const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        tipo : 'input',
+        comentario_es : comentario_es,
+        comentario_en : comentario_en,
+        },
+      });
+      dialogRef.afterClosed().subscribe((data) => {
+        console.log(data)
+        if (data) {
+          switch(input){
+            case 'montoMaximo':
+              this.montoMaximo = data.comentario_es;
+              this.montoMaximoIng = data.comentario_en;
+            break
+            case 'plazos':
+              this.plazos = data.comentario_es;
+              this.plazosIng = data.comentario_en;
+            break
+            case 'clienteDesde':
+              this.clienteDesde = data.comentario_es;
+              this.clienteDesdeIng = data.comentario_en;
+            break
+            case 'articulos':
+              this.articulos = data.comentario_es;
+              this.articulosIng = data.comentario_en;
+            break
+          }
+        }
+      });
+    }
+    agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+      const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        tipo : 'textarea',
+        comentario_es : comentario_es,
+        comentario_en : comentario_en,
+        },
+      });
+      dialogRef.afterClosed().subscribe((data) => {
+        if (data) {
+          switch(input){
+            case 'comentarioAdicional':
+              this.comentarioAdicional = data.comentario_es;
+              this.comentarioAdicionalIng = data.comentario_en;
+            break
+          }
+        }
+      });
     }
 
     agregar(){
@@ -72,18 +140,18 @@ export class DetalleProveedorComponent {
         fecha : this.fecha,
         moneda : this.moneda,
         credMaximo : this.montoMaximo,
-        credMaximoIng : this.montoMaximo,
+        credMaximoIng : this.montoMaximoIng,
         plazos : this.plazos,
-        plazosIng : this.plazos,
+        plazosIng : this.plazosIng,
         cumplimiento : this.cumplimiento,
         clientesDesde : this.clienteDesde,
-        clientesDesdeIng : this.clienteDesde,
+        clientesDesdeIng : this.clienteDesdeIng,
         articulos : this.articulos,
-        articulosIng : this.articulos,
+        articulosIng : this.articulosIng,
         atendio : this.atendio,
+        comentarioAdicional : this.comentarioAdicional,
+        comentarioAdicionalIng : this.comentarioAdicionalIng,
         comentario : this.comentario,
-        comentarioIng : this.comentario,
-        comentarioAdicional : this.comentarioAdicional
       }
       this.proveedorService.AddProveedor(obj)
       Swal.fire({
@@ -121,30 +189,29 @@ export class DetalleProveedorComponent {
             fecha : this.fecha,
             moneda : this.moneda,
             credMaximo : this.montoMaximo,
-            credMaximoIng : this.montoMaximo,
+            credMaximoIng : this.montoMaximoIng,
             plazos : this.plazos,
-            plazosIng : this.plazos,
+            plazosIng : this.plazosIng,
             cumplimiento : this.cumplimiento,
             clientesDesde : this.clienteDesde,
-            clientesDesdeIng : this.clienteDesde,
+            clientesDesdeIng : this.clienteDesdeIng,
             articulos : this.articulos,
-            articulosIng : this.articulos,
+            articulosIng : this.articulosIng,
             atendio : this.atendio,
+            comentarioAdicional : this.comentarioAdicional,
+            comentarioAdicionalIng : this.comentarioAdicionalIng,
             comentario : this.comentario,
-            comentarioIng : this.comentario,
-            comentarioAdicional : this.comentarioAdicional
           }
           this.proveedorService.UpdateProveedor(obj)
+          console.log(obj)
           Swal.fire({
             title :'¡Actualizado!',
             text : 'El registro se edito correctamente.',
             icon : 'success',
             width: '20rem',
             heightAuto : true
-          }).then((result) => {
-            if (result.value) {
-              this.dialogRef.close()
-            }
+          }).then(() => {
+            this.dialogRef.close()
           })
         }
       })

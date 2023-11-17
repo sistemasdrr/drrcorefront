@@ -35,9 +35,12 @@ export class DetalleComponent implements OnInit{
   }
   ngOnInit(): void {
     const order = this.pedidoService.getPedidos().filter(x => x.cupon == this.data.cupon)[0]
-    this.paisService.getPaises().subscribe(data => {
-      this.paises = data;
-    });    // this.nombreInforme = order.informe
+    this.paisService.getPaises().subscribe(response => {
+      if(response.isSuccess == true && response.isWarning == false){
+        this.paises = response.data;
+      }
+    });
+    // this.nombreInforme = order.informe
     // this.direccionInforme = order.direccion
     // this.tipoRT = order.tipoRT
     // this.codigoRT = order.codigoRT

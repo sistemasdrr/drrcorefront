@@ -8,10 +8,11 @@ export class DatosEmpresaService {
 
   private datosEmpresas : DatosEmpresa[] = [
     {
-      codigoInforme : 'E0000143232',
+      idInforme : 'E0000143232',
       informeInvestigadoEl : '31/12/2005',
       idioma : 'E',
       tipoInstitucion : 'PJ',
+      calidadInforme : 'B',
       yFundacion : 1994,
       razonSocial : 'VALICO S.A.C.',
       nombreComercial : '',
@@ -57,10 +58,11 @@ export class DatosEmpresaService {
       comentarioPrensaIng : ''
     },
     {
-      codigoInforme : 'E0000406826',
+      idInforme : 'E0000406826',
       informeInvestigadoEl : '30/07/2023',
       idioma : 'A',
       tipoInstitucion : 'PJ',
+      calidadInforme : 'A',
       yFundacion : 1967,
       razonSocial : 'TUBOS Y PERFILES METALICOS S.A.',
       nombreComercial : 'TUPEMESA',
@@ -286,12 +288,12 @@ export class DatosEmpresaService {
   getDatosEmpresas(){
     return this.datosEmpresas
   }
-  getDatosEmpresaPorCodigo(codigoInforme : string){
-    return this.datosEmpresas.filter(emp => emp.codigoInforme === codigoInforme)
+  getDatosEmpresaPorCodigo(idInforme : string){
+    return this.datosEmpresas.filter(emp => emp.idInforme === idInforme)
   }
 
   updateDatosEmpresa(datosEmpresa : DatosEmpresa){
-    const index = this.datosEmpresas.findIndex(x => x.codigoInforme === datosEmpresa.codigoInforme);
+    const index = this.datosEmpresas.findIndex(x => x.idInforme === datosEmpresa.idInforme);
     if (index !== -1) {
       this.datosEmpresas[index] = datosEmpresa;
     }else{

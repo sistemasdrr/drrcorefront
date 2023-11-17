@@ -13,21 +13,26 @@ export class PDetalleProveedorComponent {
   titulo : string = ''
   accion : string = ''
   //DATOS DEL FORM
-  id : number = 0
-  proveedor : string = ''
-  pais : number = 0
-  calificacion : string = ''
-  fecha : string = '29/9/2023'
-  telefono : string = ''
-  atendio : string = ''
-  moneda : number = 0
-  montoMaximo : string = ''
-  plazos : string = ''
-  cumplimiento : string = ''
-  clienteDesde : string = ''
-  articulos : string = ''
-  comentario : string = ''
-  comentarioAdicional : string = ''
+  id = 0
+  proveedor = ''
+  pais = 0
+  calificacion = ''
+  fecha = '29/9/2023'
+  telefono = ''
+  atendio = ''
+  moneda = 0
+  montoMaximo = ''
+  montoMaximoIng = ''
+  plazos = ''
+  plazosIng = ''
+  cumplimiento = ''
+  clienteDesde = ''
+  clienteDesdeIng = ''
+  articulos = ''
+  articulosIng = ''
+  comentarioAdicional = ''
+  comentarioAdicionalIng = ''
+  comentario = ''
 
   constructor(
     public dialogRef: MatDialogRef<PDetalleProveedorComponent>,
@@ -81,9 +86,9 @@ export class PDetalleProveedorComponent {
         articulos : this.articulos,
         articulosIng : this.articulos,
         atendio : this.atendio,
+        comentarioAdicional : this.comentarioAdicional,
+        comentarioAdicionalIng : this.comentarioAdicionalIng,
         comentario : this.comentario,
-        comentarioIng : this.comentario,
-        comentarioAdicional : this.comentarioAdicional
       }
       this.proveedorService.AddProveedor(obj)
       Swal.fire({
@@ -130,9 +135,9 @@ export class PDetalleProveedorComponent {
             articulos : this.articulos,
             articulosIng : this.articulos,
             atendio : this.atendio,
+            comentarioAdicional : this.comentarioAdicional,
+            comentarioAdicionalIng : this.comentarioAdicionalIng,
             comentario : this.comentario,
-            comentarioIng : this.comentario,
-            comentarioAdicional : this.comentarioAdicional
           }
           this.proveedorService.UpdateProveedor(obj)
           Swal.fire({

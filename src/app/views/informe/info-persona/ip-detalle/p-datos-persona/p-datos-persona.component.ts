@@ -220,8 +220,10 @@ constructor(
   this.filterReputacion = new Observable<Reputacion[]>()
   this.filterSituacionRuc = new Observable<SituacionRuc[]>()
   this.filterPersoneriaJuridica = new Observable<PersoneriaJuridica[]>()
-  this.paisService.getPaises().subscribe(data => {
-    this.paises = data;
+  this.paisService.getPaises().subscribe(response => {
+    if(response.isSuccess == true && response.isWarning == false){
+      this.paises = response.data;
+    }
   });
 }
   ngOnInit() {

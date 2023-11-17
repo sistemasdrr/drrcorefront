@@ -16,7 +16,7 @@ export interface Proveedor{
   articulos : string
   articulosIng : string
   atendio : string
-  comentario : string
-  comentarioIng : string
   comentarioAdicional : string
+  comentarioAdicionalIng : string
+  comentario : string
 }

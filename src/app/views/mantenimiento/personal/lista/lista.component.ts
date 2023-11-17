@@ -3,7 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ComboData } from 'app/models/combo';
 import { Personal } from 'app/models/mantenimiento/persona/personal';
+import { ComboService } from 'app/services/combo.service';
 import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
 import Swal from 'sweetalert2';
 
@@ -26,7 +28,7 @@ export class ListaComponent implements OnInit, AfterViewInit {
   filtroNombre = ""
   filtroDepartamento = 0
 
-  departamentos : data[] = []
+  departamentos : ComboData[] = []
 
   dataSource : MatTableDataSource<Personal>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -34,12 +36,12 @@ export class ListaComponent implements OnInit, AfterViewInit {
   columnas = ['codigo','nombres','departamento','cargo','fechaIngreso','fechaNacimiento','estado','accion']
 
 
-  constructor(private personalService : PersonalService, private router : Router){
+  constructor(private personalService : PersonalService, private comboService : ComboService, private router : Router){
     this.dataSource = new MatTableDataSource()
   }
 
   ngOnInit(): void {
-    this.personalService.getDepartamento().subscribe(response => {
+    this.comboService.getDepartamento().subscribe(response => {
       if(response.isSuccess == true){
         this.departamentos = response.data;
       }

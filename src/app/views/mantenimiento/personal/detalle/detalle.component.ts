@@ -12,6 +12,8 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import Swal from 'sweetalert2';
+import { ComboService } from 'app/services/combo.service';
+import { ComboData } from 'app/models/combo';
 
 @Component({
   selector: 'app-detalle',
@@ -114,15 +116,16 @@ export class DetalleComponent implements OnInit {
   filterPais : Observable<Pais[]>
   controlPaises = new FormControl<string | Pais>('')
 
-  tiposDocumento : data[] = []
-  estadosCivil : data[] = []
-  departamentos : data[] = []
-  cargos : data[]= []
-  tiposCuenta : data[] = []
-  tiposMoneda : data[] = []
+  tiposDocumento : ComboData[] = []
+  estadosCivil : ComboData[] = []
+  departamentos : ComboData[] = []
+  cargos : ComboData[]= []
+  tiposCuenta : ComboData[] = []
+  tiposMoneda : ComboData[] = []
 
   constructor(private router : Router,
     private personalService : PersonalService,
+    private comboService : ComboService,
     private activatedRoute : ActivatedRoute,
     public dialog: MatDialog, private paisService : PaisService,
     private snackBar: MatSnackBar){
@@ -131,27 +134,27 @@ export class DetalleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.personalService.getTipoDocumento().subscribe((response) => {
+    this.comboService.getTipoDocumento().subscribe((response) => {
       if(response.isSuccess == true){
         this.tiposDocumento = response.data;
       }
     });
-    this.personalService.getEstadoCivil().subscribe(response => {
+    this.comboService.getEstadoCivil().subscribe(response => {
       if(response.isSuccess == true){
         this.estadosCivil = response.data;
       }
     });
-    this.personalService.getDepartamento().subscribe(response => {
+    this.comboService.getDepartamento().subscribe(response => {
       if(response.isSuccess == true){
         this.departamentos = response.data;
       }
     });
-    this.personalService.getTipoMoneda().subscribe(response => {
+    this.comboService.getTipoMoneda().subscribe(response => {
       if(response.isSuccess == true){
         this.tiposMoneda = response.data;
       }
     });
-    this.personalService.getTipoCuenta().subscribe(response => {
+    this.comboService.getTipoCuenta().subscribe(response => {
       if(response.isSuccess == true){
         this.tiposCuenta = response.data;
       }
@@ -343,9 +346,9 @@ export class DetalleComponent implements OnInit {
   }
 
   updateCargos(id : number){
-    this.personalService.getCargoPorDepartamento(id).subscribe(data => {
-      if(data.isSuccess == true){
-        this.cargos = data.data;
+    this.comboService.getCargoPorDepartamento(id).subscribe(response => {
+      if(response.isSuccess == true){
+        this.cargos = response.data;
       }
     });
   }
