@@ -53,7 +53,7 @@ export class ListaComponent implements OnInit, AfterViewInit {
         console.log(response.data)
         this.loading = false
       }
-    },(error) => {
+    },() => {
       this.loading = false;
         Swal.fire({
           title: 'Ocurrió un problema.',

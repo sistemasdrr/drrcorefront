@@ -70,11 +70,11 @@ export interface Company{
   idCreditRisk : number
   idPaymentPolicy : number
   idReputation : number
+  lastUpdaterUser : number
   reputationComentary : string
   newsComentary : string
   identificacionCommentary : string
-  Traduction : Traduction[]
-  enable : boolean
+  Traductions : Traduction[]
 }
 export interface data {
   name: string;

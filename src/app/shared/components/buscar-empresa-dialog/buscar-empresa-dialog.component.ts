@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, fromEvent, tap } from 'rxjs';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
-import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
+import { Company, DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
 
 
 @Component({
@@ -25,7 +25,7 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit, OnInit{
   columnsToDisplayEmpresa = ['select', 'nombreBuscado', 'nombreSolicitado', 'pais', 'ruc', 'fechaInvestigacion', 'fechaConstitucion'];
   columnsToDisplayPersona = ['select', 'nombreBuscado', 'nombreSolicitado', 'pais', 'ruc', 'fecha', 'situacion'];
 
-  dataSourceEmpresa: MatTableDataSource<DatosEmpresa>;
+  dataSourceEmpresa: MatTableDataSource<Company>;
   //dataSourcePersona: MatTableDataSource<DatosEmpresa>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

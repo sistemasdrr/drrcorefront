@@ -1,112 +1,52 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DatosEmpresa, PersoneriaJuridica, Reputacion, SituacionRuc } from 'app/models/informes/empresa/datos-empresa';
+import { Company, DatosEmpresa, PersoneriaJuridica, Reputacion, SituacionRuc } from 'app/models/informes/empresa/datos-empresa';
+import { Response } from 'app/models/response';
+import { environment } from 'environments/environment';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatosEmpresaService {
 
-  private datosEmpresas : DatosEmpresa[] = [
+  private datosEmpresas : Company[] = [
     {
-      idInforme : 'E0000143232',
-      informeInvestigadoEl : '31/12/2005',
-      idioma : 'E',
-      tipoInstitucion : 'PJ',
-      calidadInforme : 'B',
-      yFundacion : 1994,
-      razonSocial : 'VALICO S.A.C.',
-      nombreComercial : '',
-      nombreSolicitado : '',
-      fechaConstitucion : '10/11/1994',
-      personeriaJuridica : {
-        id : 0,
-        description : 'Sociedad Anonima Cerrada'
-      },
-
-      tipoRuc : 'RUC',
-      codigoRuc : '20254765814',
-      situacionRuc : {
-        id : 0,
-        description : ''
-      },
-
-      comentarioIdentificacion : '',
-      comentarioIdentificacionIng : '',
-
-      direccionCompleta : '',
-      duracion : '',
-      dptoEstado : 'LIMA',
-      pais : {
-        id: 182,
-        valor: "Perú",
-        bandera: "pe"
-      },
-      codigoTelefono : '+511',
-      numeroTelefono : '3721458',
-      numeroCelular : '511',
-      codPostal : '',
-      whatsappEmpresarial : '3722741',
-      emailCorporativo : '',
-      paginaWeb : '',
-
-      riesgoCrediticio : 'NN : RIESGO INDETERMINADO (Información insuficiente o inexistente).',
-      politicaPagos : '',
-      reputacion : '',
-      comentarioReputacion : '',
-      comentarioReputacionIng : '',
-      comentarioPrensa : '',
-      comentarioPrensaIng : ''
-    },
-    {
-      idInforme : 'E0000406826',
-      informeInvestigadoEl : '30/07/2023',
-      idioma : 'A',
-      tipoInstitucion : 'PJ',
-      calidadInforme : 'A',
-      yFundacion : 1967,
-      razonSocial : 'TUBOS Y PERFILES METALICOS S.A.',
-      nombreComercial : 'TUPEMESA',
-      nombreSolicitado : '1',
-      fechaConstitucion : '10/10/1967',
-      personeriaJuridica : {
-        id : 0,
-        description : 'Sociedad Anonima'
-      },
-
-      tipoRuc : 'RUC',
-      codigoRuc : '20100151112',
-      situacionRuc : {
-        id : 0,
-        description : 'Activa'
-      },
-
-      comentarioIdentificacion : 'Debemos indicar que la presente empresa investigada NO APARECE EN LA LISTA CLINTON (Listado de empresas vinculadas al terrorismo y narcotráfico, publicado por la Oficina de Control de Activos Extranjeros del Departamento de Tesoro de Estados Unidos de N.A.',
-      comentarioIdentificacionIng : 'Please be advised  that the investigated company DOES NOT appear in the list of companies linked to terrorism and drug trafficking published by OFAC, Office of Foreign Assets Control of the United States Department of the Treasury (Clinton List).',
-
-      direccionCompleta : 'Henry Ford, Zona Industrial Sur, Edif. Superenvases Envalic (Frente al Concejo Municipal),',
-      duracion : 'Indefinida',
-      dptoEstado : 'Lima',
-      pais : {
-        id: 182,
-        valor: "Perú",
-        bandera: "pe"
-      },
-      codigoTelefono : '+511',
-      numeroTelefono : '6370000',
-      numeroCelular : 'a',
-      codPostal : 'Lima, 16',
-      whatsappEmpresarial : 'a',
-      emailCorporativo : 'mzanabria@tupemesa.com.pe ; rcalderon@tupemesa.com.pe',
-      paginaWeb : 'www.tupemesa.com.pe',
-
-      riesgoCrediticio : 'B : RIESGO MODERADO (Situación Financiera levemente extendida)',
-      politicaPagos : '6. NC ( No se le reporta Notas en contra. Se presume buen cumplimiento)',
-      reputacion : '',
-      comentarioReputacion : '',
-      comentarioReputacionIng : '',
-      comentarioPrensa : '',
-      comentarioPrensaIng : ''
-    },
+      id : 1,
+      oldCode : 'E0000143232',
+      name : 'VALICO S.A.C.',
+      socialName : 'VALICO S.A.C.',
+      lastSearched : '31/12/2005',
+      language : 'E',
+      typeRegister : 'tipo registro',
+      yearFundation : '1994',
+      constitutionDate : '10/11/1994',
+      quality : 'A',
+      idLegalPersonType : 368,
+      taxTypeName : 'RUC',
+      taxTypeCode : '20254765814',
+      idLegalRegisterSituation : 1,
+      address : '',
+      duration : '',
+      place : '',
+      idCountry : 182,
+      subTelephone : '+51',
+      tellphone : '2382198329',
+      cellphone : '381279831',
+      telephone : '2131903281',
+      postalCode : '15201',
+      whatsappPhone : '21321312',
+      email : 'EADWADW@DASDAS',
+      webPage : 'www.sdadsada.com',
+      idCreditRisk : 1,
+      idPaymentPolicy : 2,
+      idReputation : 3,
+      lastUpdaterUser : 0,
+      reputationComentary : 'c',
+      newsComentary : 'comentario de prensa',
+      identificacionCommentary : 'comentario de identificacion',
+      Traductions : []
+    }
   ]
   private situacionRuc : SituacionRuc[] = [
     {
@@ -283,17 +223,17 @@ export class DatosEmpresaService {
     },
   ]
 
-  constructor() {
+  constructor(private http : HttpClient) {
   }
   getDatosEmpresas(){
     return this.datosEmpresas
   }
-  getDatosEmpresaPorCodigo(idInforme : string){
-    return this.datosEmpresas.filter(emp => emp.idInforme === idInforme)
+  getDatosEmpresaPorId(id : number): Observable<Company[]>{
+    const empresaEncontrada = this.datosEmpresas.filter(emp => emp.id === id);
+    return of(empresaEncontrada);
   }
-
-  updateDatosEmpresa(datosEmpresa : DatosEmpresa){
-    const index = this.datosEmpresas.findIndex(x => x.idInforme === datosEmpresa.idInforme);
+  updateDatosEmpresa(datosEmpresa : Company){
+    const index = this.datosEmpresas.findIndex(x => x.id === datosEmpresa.id);
     if (index !== -1) {
       this.datosEmpresas[index] = datosEmpresa;
     }else{
@@ -315,5 +255,11 @@ export class DatosEmpresaService {
   }
   getReputacion(){
     return this.reputacion
+  }
+
+  url = environment.apiUrl
+  controllerCompany = "/Company"
+  AddDatosEmpresa(company : Company) :Observable<Response<Company>>{
+    return this.http.post<Response<Company>>(this.url + this.controllerCompany + '/add', company);
   }
 }

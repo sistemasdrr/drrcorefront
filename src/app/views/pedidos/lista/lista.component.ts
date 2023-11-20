@@ -55,9 +55,6 @@ export class ListaComponent implements AfterViewInit {
   loadData() {
     this.dataSource = new MatTableDataSource(this.pedidoService.getPedidos());
   }
-  getDatosEmpresa(codigoInforme : string){
-    this.datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(codigoInforme)
-  }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;

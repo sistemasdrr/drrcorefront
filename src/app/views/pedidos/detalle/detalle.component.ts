@@ -238,27 +238,27 @@ export class DetalleComponent implements OnInit {
         const fechaIngreso = pedido.fechaIngreso.split('/')
         this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]),(parseInt(fechaIngreso[1])-1),parseInt(fechaIngreso[0]))
         if(this.informePara === 'E'){
-          const datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(pedido.codigoInforme)
-          console.log(datosEmpresa)
-          if(datosEmpresa){
-            this.razonSocialInforme = datosEmpresa[0].razonSocial
-            this.nombreComercialInforme = datosEmpresa[0].nombreComercial
-            this.tipoRT = datosEmpresa[0].tipoRuc
-            this.codigoRT = datosEmpresa[0].codigoRuc
-            this.correo = datosEmpresa[0].emailCorporativo
-            this.paisEmpresa = datosEmpresa[0].pais
-            this.ciudad = datosEmpresa[0].dptoEstado
-            this.telefono = datosEmpresa[0].numeroTelefono
-            this.direccion = datosEmpresa[0].direccionCompleta
-            this.riesgoCrediticioInforme = datosEmpresa[0].riesgoCrediticio
-            this.tipoInforme = pedido.tipoInforme
-            this.tipoTramite = pedido.tipoTramite
-            this.fechaInforme = datosEmpresa[0].informeInvestigadoEl
-            const fechaInforme = datosEmpresa[0].informeInvestigadoEl.split('/')
-            if(fechaInforme){
-              this.fechaInformeDate = new Date(parseInt(fechaInforme[2]),(parseInt(fechaInforme[1])-1),parseInt(fechaInforme[0]))
-            }
-          }
+          // const datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(pedido.codigoInforme)
+          // console.log(datosEmpresa)
+          // if(datosEmpresa){
+          //   this.razonSocialInforme = datosEmpresa[0].razonSocial
+          //   this.nombreComercialInforme = datosEmpresa[0].nombreComercial
+          //   this.tipoRT = datosEmpresa[0].tipoRuc
+          //   this.codigoRT = datosEmpresa[0].codigoRuc
+          //   this.correo = datosEmpresa[0].emailCorporativo
+          //   this.paisEmpresa = datosEmpresa[0].pais
+          //   this.ciudad = datosEmpresa[0].dptoEstado
+          //   this.telefono = datosEmpresa[0].numeroTelefono
+          //   this.direccion = datosEmpresa[0].direccionCompleta
+          //   this.riesgoCrediticioInforme = datosEmpresa[0].riesgoCrediticio
+          //   this.tipoInforme = pedido.tipoInforme
+          //   this.tipoTramite = pedido.tipoTramite
+          //   this.fechaInforme = datosEmpresa[0].informeInvestigadoEl
+          //   const fechaInforme = datosEmpresa[0].informeInvestigadoEl.split('/')
+          //   if(fechaInforme){
+          //     this.fechaInformeDate = new Date(parseInt(fechaInforme[2]),(parseInt(fechaInforme[1])-1),parseInt(fechaInforme[0]))
+          //   }
+          // }
         }else if(this.informePara === 'P'){
 
         }
