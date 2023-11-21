@@ -1,11 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { PaisService } from './../../../../services/pais.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Empresa } from 'app/models/empresa';
-import { EmpresaService } from 'app/services/empresa.service';
-import { debounceTime, distinctUntilChanged, fromEvent, tap } from 'rxjs';
+import { Company } from 'app/models/informes/empresa/datos-empresa';
+import { Pais } from 'app/models/pais';
+import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
+import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,7 +16,8 @@ import Swal from 'sweetalert2';
   templateUrl: './ie-lista.component.html',
   styleUrls: ['./ie-lista.component.scss']
 })
-export class IEListaComponent implements OnInit, AfterViewInit{
+export class IEListaComponent implements OnInit{
+  private readonly CACHE_KEY = 'authCache';
   breadscrums = [
     {
       title: 'Lista de Empresas',
@@ -24,48 +28,126 @@ export class IEListaComponent implements OnInit, AfterViewInit{
       active: 'Empresa',
     },
   ];
+  loading : boolean = false
+  controlPaises = new FormControl<string | Pais>('')
+  paises: Pais[] = []
+  filterPais: Observable<Pais[]>
+  iconoSeleccionado = ""
+  paisSeleccionado: Pais = {
+    id: 0,
+    valor: '',
+    bandera: ''
+  }
+  msgPais = ""
+  colorMsgPais = ""
+  //FILTROS
+  razonSocial = ""
+  filtroRB = "C"
+  idPais = 0
+  chkConInforme = true
 
-  filtrarPais = ""
 
-  dataSource: MatTableDataSource<Empresa>;
+  dataSource: MatTableDataSource<Company>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
-  columnsToDisplay = ['rc', 'idioma', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'fecEst', 'ex', 'calificacion','ejecPrincipal','acciones' ];
+  columnsToDisplay = ['rc', 'idioma', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'fecEst', 'importan','exportan', 'calificacion','ejecPrincipal','acciones' ];
 
-  constructor(private empresaService : EmpresaService,private router : Router){
+  constructor(private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService){
     this.dataSource = new MatTableDataSource()
+    this.filterPais = new Observable<Pais[]>()
+    this.loading = true
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.empresaService.getAllEmpresas())
+    this.dataSource = new MatTableDataSource()
+
+    this.paisService.getPaises().subscribe((response) => {
+      if (response.isSuccess == true) {
+        this.paises = response.data;
+      }
+    }).add(() => {
+      if(localStorage.getItem('busquedaEmpresas')){
+        const busqueda = JSON.parse(localStorage.getItem('busquedaEmpresas')+'')
+        this.razonSocial = busqueda.razonSocial
+        this.filtroRB = busqueda.filtro
+        if(busqueda.idCountry > 0){
+          this.idPais = busqueda.idCountry
+          this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idCountry)[0]
+          this.iconoSeleccionado = this.paisSeleccionado.bandera
+        }else{
+          this.limpiarSeleccionPais()
+        }
+        this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idPais)[0]
+        this.chkConInforme = busqueda.conInforme
+        this.filtrarEmpresas()
+      }
+    })
+
+    this.filterPais = this.controlPaises.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.valor
+        return name ? this._filterPais(name as string) : this.paises.slice()
+      }),
+    )
+    this.loading = false
+  }
+  private _filterPais(description: string): Pais[] {
+    const filterValue = description.toLowerCase();
+    return this.paises.filter(pais => pais.valor.toLowerCase().includes(filterValue));
+  }
+  displayPais(pais: Pais): string {
+    return pais && pais.valor ? pais.valor : '';
+  }
+  limpiarSeleccionPais() {
+    this.controlPaises.reset();
+    this.idPais = 0
+    this.iconoSeleccionado = ""
+  }
+  cambioPais(pais: Pais) {
+    if (pais !== null && pais !== undefined) {
+      this.iconoSeleccionado = pais.bandera
+      this.idPais = pais.id
+      console.log(this.idPais)
+      if (typeof pais === 'string' || pais === null) {
+        this.msgPais = "Seleccione una opción."
+        this.colorMsgPais = "red"
+      } else {
+        this.msgPais = "Opción Seleccionada"
+        this.colorMsgPais = "green"
+      }
+    } else {
+      this.idPais = 0
+      console.log(this.idPais)
+      this.msgPais = "Seleccione una opción."
+      this.colorMsgPais = "red"
+    }
+  }
+  filtrarEmpresas(){
+    const busqueda = {
+      razonSocial : this.razonSocial,
+      filtro : this.filtroRB,
+      idPais : this.idPais,
+      conInforme : this.chkConInforme
+    }
+    localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda))
+    this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.dataSource = new MatTableDataSource(response.data.filter(x => x.enable === true))
+          this.dataSource.sort = this.sort
+          this.dataSource.paginator = this.paginator
+        }
+      }
+    )
 
   }
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
-    fromEvent(this.filter.nativeElement, 'keyup')
-      .pipe(
-        debounceTime(50),
-        distinctUntilChanged(),
-        tap(() => {
-          this.applyFilter();
-        })
-      )
-      .subscribe();
-      this.refresh();
-      this.dataSource.sort = this.sort;
-  }
-  
   agregarEmpresa(){
     this.router.navigate(['informes/empresa/detalle/nuevo']);
   }
 
-  editarEmpresa(codInforme : string){
-    this.router.navigate(['informes/empresa/detalle/'+codInforme]);
-  }
-  eliminarEmpresa(codInforme : string){
+  eliminarEmpresa(id : number){
     Swal.fire({
       title: '¿Está seguro de eliminar este registro?',
       text: "",
@@ -86,24 +168,14 @@ export class IEListaComponent implements OnInit, AfterViewInit{
           width: '20rem',
           heightAuto : true
         });
-        this.empresaService.deleteEmpresa(codInforme)
-        this.refresh()
+        this.datosEmpresaService.deleteDatosEmpresa(id).subscribe(
+          (response) => {
+            console.log(response)
+          }
+        ).add(() => {
+          this.filtrarEmpresas()
+        })
       }
     });
-  }
-  applyFilter() {
-    const filterValue = (this.filter.nativeElement as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-  refresh() {
-    this.loadData();
-    this.dataSource.paginator = this.paginator;
-  }
-  loadData() {
-    this.dataSource = new MatTableDataSource(this.empresaService.getAllEmpresas());
   }
 }

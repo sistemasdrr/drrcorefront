@@ -44,7 +44,6 @@ export class BuscarEmpresaDialogComponent implements AfterViewInit, OnInit{
     });
   }
   ngOnInit(): void {
-    this.dataSourceEmpresa.data = this.datosEmpresaService.getDatosEmpresas()
   }
   ngAfterViewInit() {
     this.dataSourceEmpresa.paginator = this.paginator;

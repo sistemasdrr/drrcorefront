@@ -31,9 +31,13 @@ export class IEDetalleComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router : Router,
-    private datosEmpresaService : DatosEmpresaService
-    ){
-    this.codigoInforme = this.activatedRoute.snapshot.paramMap.get('codigoInforme');
+    private datosEmpresaService : DatosEmpresaService){
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id?.includes('nuevo')) {
+      this.id = 0
+    } else {
+      this.id = parseInt(id + '')
+    }
   }
 
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
@@ -41,7 +45,34 @@ export class IEDetalleComponent implements OnInit {
   selectedIndex: number = 0;
   currentTabIndex: number = 0;
 
+  loading: boolean = true;
+  id = 0
   ngOnInit(): void {
+    console.log('ngoninit')
+    if(this.id > 0){
+      this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe((response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          const DatosEmpresa = response.data
+          this.codigoInforme = DatosEmpresa.oldCode
+        }else{
+          Swal.fire({
+            title: "No se encontró el informe",
+            text: "",
+            icon: 'warning',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Ok',
+            width: '20rem',
+            heightAuto : true
+          }).then(() => {
+            this.router.navigate(['informes/empresa/lista']);
+          });
+        }
+      }).add(() => {
+        this.loading = false
+      })
+    }else{
+      this.loading = false
+    }
     if(this.codigoInforme === 'nuevo'){
       this.subtitle = ' - Nuevo'
     }else{

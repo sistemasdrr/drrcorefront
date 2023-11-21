@@ -17,6 +17,8 @@ import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { data } from 'app/services/mantenimiento/personal.service';
+import { ComboService } from 'app/services/combo.service';
+import { RiesgoCrediticio } from 'app/models/combo';
 
 interface Idioma {
   value: string;
@@ -100,7 +102,7 @@ export class DetalleComponent implements OnInit {
   direccionPersona = ""
   riesgoCrediticioInforme = ""
 
-  calificacionCrediticia : string[] = []
+  calificacionCrediticia : RiesgoCrediticio[] = []
 
   filterPaisAbonado : Observable<Pais[]>
   filterPaisEmpresa : Observable<Pais[]>
@@ -167,6 +169,7 @@ export class DetalleComponent implements OnInit {
     private empresaPersonaService : EmpresaPersonaService,
     private pedidoService : PedidoService,
     private datosEmpresaService : DatosEmpresaService,
+    private comboService : ComboService,
     private snackBar: MatSnackBar
   ) {
     this.dataSource = new MatTableDataSource()
@@ -219,7 +222,11 @@ export class DetalleComponent implements OnInit {
 
     this.tipo_formulario = this.activatedRoute.snapshot.paramMap.get('tipo');
     this.nmrCupon = this.activatedRoute.snapshot.paramMap.get('cupon');
-    this.calificacionCrediticia = this.datosEmpresaService.getCalificacionCrediticia()
+    this.comboService.getRiesgoCrediticio().subscribe((response) =>{
+      if(response.isSuccess === true && response.isWarning === false){
+        this.calificacionCrediticia = response.data
+      }
+    })
 
     if (this.tipo_formulario == 'editar') {
       this.breadscrums = [

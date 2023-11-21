@@ -64,7 +64,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     bandera: ''
   }
 
-  btnGuardar = true
+  btnGuardar = false
 
   //DATOS DE EMPRESA
   id = 0
@@ -72,12 +72,12 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   name = ""
   socialName = ""
   lastSearched = ""
-  lastSearchedD: Date = new Date()
+  lastSearchedD: Date | null = new Date()
   language = ""
   typeRegister = ""
   yearFundation = ""
   constitutionDate = ""
-  constitutionDateD: Date = new Date()
+  constitutionDateD: Date | null = new Date()
   quality = ""
   idLegalPersonType = 0
   taxTypeName = ""
@@ -137,6 +137,9 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   tituloComentarioIdentificacion = 'Comentario de Identificación'
   tituloComentarioReputacion = 'Comentario de Reputación'
   tituloComentarioPrensa = 'Comentario de Prensa'
+
+  loading = false
+
   constructor(
     private dialog: MatDialog,
     private paisService: PaisService,
@@ -166,12 +169,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     }
 
     this.getComboPersonaJuridica();
-    this.getCompanyByID();
 
-    // this.tabDatosEmpresa()
-    // this.compararModelosF = setInterval(() => {
-    //   this.compararModelos();
-    // }, 5000);
     this.filterPais = this.controlPaises.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -210,123 +208,173 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     )
   }
 
-   getComboPersonaJuridica(){
+  getComboPersonaJuridica(){
      this.comboService.getPersoneriaJuridica().subscribe((response) => {
       if (response.isSuccess === true) {
         this.personeriaJuridica = response.data
-        this.getComboPaises();
       }
+    }).add(() =>{
+      this.getComboPaises()
     })
   }
   getComboPaises(){
     this.paisService.getPaises().subscribe((response) => {
       if (response.isSuccess == true) {
         this.paises = response.data;
-        this.getComboReputacion();
       }
-    });
+    }).add(() =>{
+      this.getComboReputacion()
+    })
   }
   getComboReputacion(){
     this.comboService.getReputacion().subscribe((response) => {
       if (response.isSuccess === true) {
         this.reputaciones = response.data
-        this.getComboSituacionRuc();
       }
+    }).add(() =>{
+      this.getComboSituacionRuc();
     })
   }
 getComboSituacionRuc(){
   this.comboService.getSituacionRUC().subscribe((response) => {
     if (response.isSuccess === true) {
       this.situacionRuc = response.data
-      this.getComboPoliticaPagos();
     }
+  }).add(() =>{
+    this.getComboPoliticaPagos();
   })
 }
 getComboPoliticaPagos(){
   this.comboService.getPoliticaPagos().subscribe((response) => {
     if (response.isSuccess === true) {
       this.politicaPagos = response.data
-      this.getComboRiesgoCrediticio();
     }
+  }).add(() =>{
+    this.getComboRiesgoCrediticio();
   })
 }
 getComboRiesgoCrediticio(){
   this.comboService.getRiesgoCrediticio().subscribe((response) => {
     if (response.isSuccess === true) {
-      this.calificacionCrediticia == response.data
-      console.log(response.data)
-
+      this.calificacionCrediticia = response.data
     }
-  });
+  }).add(() =>{
+    this.getCompanyByID()
+  })
 }
 getCompanyByID(){
-
   if (this.id > 0) {
-    this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe((response) => {
-      if (response && response.length > 0) {
-        const DatosEmpresa = response[0]
-
-        console.log(DatosEmpresa)
-        this.oldCode = DatosEmpresa.oldCode
-        this.name = DatosEmpresa.name
-        this.socialName = DatosEmpresa.socialName
-        this.lastSearched = DatosEmpresa.lastSearched
-        const fecha1 = this.lastSearched.split("/");
-        if (fecha1) {
-          this.lastSearchedD = new Date(parseInt(fecha1[2]), parseInt(fecha1[1]) - 1, parseInt(fecha1[0]))
+    this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe(
+      (response) => {
+        if (response.isSuccess === true && response.isWarning === false) {
+          console.log(response.data)
+          const DatosEmpresa = response.data
+          this.datosEmpresa2[0] = response.data
+          this.oldCode = DatosEmpresa.oldCode
+          this.name = DatosEmpresa.name
+          this.socialName = DatosEmpresa.socialName
+          this.lastSearched = DatosEmpresa.lastSearched
+          if(DatosEmpresa.lastSearched !== '' && DatosEmpresa.lastSearched !== null){
+            const fecha1 = this.lastSearched.split("/");
+            if (fecha1) {
+              this.lastSearchedD = new Date(parseInt(fecha1[2]), parseInt(fecha1[0]) - 1, parseInt(fecha1[1]))
+            }
+          }else{
+            this.lastSearchedD = null
+          }
+          this.language = DatosEmpresa.language
+          this.typeRegister = DatosEmpresa.typeRegister
+          this.yearFundation = DatosEmpresa.yearFundation
+          this.constitutionDate = DatosEmpresa.constitutionDate
+          if(DatosEmpresa.constitutionDate !== '' && DatosEmpresa.constitutionDate !== null){
+            const fecha2 = this.constitutionDate.split("/");
+            if (fecha2) {
+              this.constitutionDateD = new Date(parseInt(fecha2[2]), parseInt(fecha2[0]) - 1, parseInt(fecha2[1]))
+            }
+          }else{
+            this.constitutionDateD = null
+          }
+          this.quality = DatosEmpresa.quality
+          if(DatosEmpresa.idLegalPersonType > 0 && DatosEmpresa.idLegalPersonType !== null){
+            this.idLegalPersonType = DatosEmpresa.idLegalPersonType
+            this.personeriaJuridicaInforme = this.personeriaJuridica.filter(x => x.id === this.idLegalPersonType)[0]
+          }else{
+            this.limpiarSeleccionPersoneriaJuridica()
+          }
+          this.taxTypeName = DatosEmpresa.taxTypeName
+          this.taxTypeCode = DatosEmpresa.taxTypeCode
+          if(DatosEmpresa.idLegalRegisterSituation > 0 && DatosEmpresa.idLegalRegisterSituation !== null){
+            this.idLegalRegisterSituation = DatosEmpresa.idLegalRegisterSituation
+            this.situacionRucInforme = this.situacionRuc.filter(x => x.id === this.idLegalRegisterSituation)[0]
+          }else{
+            this.limpiarSeleccionSituacionRUC()
+          }
+          this.address = DatosEmpresa.address
+          this.duration = DatosEmpresa.duration
+          this.place = DatosEmpresa.place
+          if(DatosEmpresa.idCountry > 0 && DatosEmpresa.idCountry !== null){
+            this.idCountry = DatosEmpresa.idCountry
+            this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
+          }else{
+            this.limpiarSeleccionPais()
+          }
+          this.subTelephone = DatosEmpresa.subTelephone
+          this.tellphone = DatosEmpresa.tellphone
+          this.cellphone = DatosEmpresa.cellphone
+          this.telephone = DatosEmpresa.telephone
+          this.postalCode = DatosEmpresa.postalCode
+          this.whatsappPhone = DatosEmpresa.whatsappPhone
+          this.email = DatosEmpresa.email
+          this.webPage = DatosEmpresa.webPage
+          if(DatosEmpresa.idCreditRisk > 0 && DatosEmpresa.idCreditRisk !== null){
+            this.idCreditRisk = DatosEmpresa.idCreditRisk
+            this.riesgoCrediticioSeleccionado = this.calificacionCrediticia.filter(x => x.id === this.idCreditRisk)[0]
+          }else{
+            this.idCreditRisk = 0
+          }
+          this.gaugeRiesgoCrediticio = this.riesgoCrediticioSeleccionado.rate
+          this.descripcionRiesgoCrediticio = this.riesgoCrediticioSeleccionado.abreviation
+          this.colorRiesgoCrediticio = this.riesgoCrediticioSeleccionado.color
+          this.calificacionRiesgoCrediticio = this.riesgoCrediticioSeleccionado.identifier
+          if(DatosEmpresa.idPaymentPolicy > 0 && DatosEmpresa.idPaymentPolicy !== null){
+            this.idPaymentPolicy = DatosEmpresa.idPaymentPolicy
+            this.politicaPagoSeleccionada = this.politicaPagos.filter(x => x.id === this.idPaymentPolicy)[0]
+          }else{
+            this.idPaymentPolicy = 0
+          }
+          if(DatosEmpresa.idReputation > 0 && DatosEmpresa.idReputation !== null){
+            this.idReputation = DatosEmpresa.idReputation
+            this.reputacionSeleccionada = this.reputaciones.filter(x => x.id === this.idReputation)[0]
+          }else{
+            this.idReputation = 0
+          }
+          this.lastUpdaterUser = 0
+          this.reputationComentary = DatosEmpresa.reputationComentary
+          if(DatosEmpresa.traductions.length > 0){
+            if(DatosEmpresa.traductions[0].value !== null && DatosEmpresa.traductions[0].value !== ''){
+              this.identificacionCommentaryEng = DatosEmpresa.traductions[0].value
+            }
+            if(DatosEmpresa.traductions[1].value !== null && DatosEmpresa.traductions[1].value !== ''){
+              this.durationEng = DatosEmpresa.traductions[1].value
+            }
+            if(DatosEmpresa.traductions[2].value !== null && DatosEmpresa.traductions[2].value !== ''){
+              this.reputationComentaryEng = DatosEmpresa.traductions[2].value
+            }
+            if(DatosEmpresa.traductions[3].value !== null && DatosEmpresa.traductions[3].value !== ''){
+              this.newsComentaryEng = DatosEmpresa.traductions[3].value
+            }
+          }
+          this.newsComentary = DatosEmpresa.newsComentary
+          this.identificacionCommentary = DatosEmpresa.identificacionCommentary
         }
-        this.language = DatosEmpresa.language
-        this.typeRegister = DatosEmpresa.typeRegister
-        this.yearFundation = DatosEmpresa.yearFundation
-        this.constitutionDate = DatosEmpresa.constitutionDate
-        const fecha2 = this.constitutionDate.split("/");
-        if (fecha2) {
-          this.constitutionDateD = new Date(parseInt(fecha2[2]), parseInt(fecha2[1]) - 1, parseInt(fecha2[0]))
-        }
-        this.quality = DatosEmpresa.quality
-        this.idLegalPersonType = DatosEmpresa.idLegalPersonType
-        console.log(this.personeriaJuridica)
-        this.personeriaJuridicaInforme = this.personeriaJuridica.filter(x => x.id === this.idLegalPersonType)[0]
-        this.taxTypeName = DatosEmpresa.taxTypeName
-        this.taxTypeCode = DatosEmpresa.taxTypeCode
-        this.idLegalRegisterSituation = DatosEmpresa.idLegalRegisterSituation
-
-        this.situacionRucInforme = this.situacionRuc.filter(x => x.id === 1)[0]
-
-        this.address = DatosEmpresa.address
-        this.duration = DatosEmpresa.duration
-        this.durationEng = ""
-        this.place = DatosEmpresa.place
-        this.idCountry = DatosEmpresa.idCountry
-        this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
-        this.subTelephone = DatosEmpresa.subTelephone
-        this.tellphone = DatosEmpresa.tellphone
-        this.cellphone = DatosEmpresa.cellphone
-        this.telephone = DatosEmpresa.telephone
-        this.postalCode = DatosEmpresa.postalCode
-        this.whatsappPhone = DatosEmpresa.whatsappPhone
-        this.email = DatosEmpresa.email
-        this.webPage = DatosEmpresa.webPage
-        this.idCreditRisk = DatosEmpresa.idCreditRisk
-        console.log(this.calificacionCrediticia)
-        this.riesgoCrediticioSeleccionado = this.calificacionCrediticia.filter(x => x.id === this.idCreditRisk)[0]
-        this.idPaymentPolicy = DatosEmpresa.idPaymentPolicy
-        this.politicaPagoSeleccionada = this.politicaPagos.filter(x => x.id === this.idPaymentPolicy)[0]
-        this.idReputation = DatosEmpresa.idReputation
-        this.reputacionSeleccionada = this.reputaciones.filter(x => x.id === this.idReputation)[0]
-        this.lastUpdaterUser = 0
-        this.reputationComentary = DatosEmpresa.reputationComentary
-        this.reputationComentaryEng = ""
-        this.newsComentary = DatosEmpresa.newsComentary
-        this.newsComentaryEng = ""
-        this.identificacionCommentary = DatosEmpresa.identificacionCommentary
-        this.identificacionCommentaryEng = ""
-      }
-    },() => {
-      console.log("Holas")
-    })
+      }).add(() => {
+        this.tabDatosEmpresa()
+        this.compararModelosF = setInterval(() => {
+          this.compararModelos();
+        }, 2000);
+      })
+    }
   }
-}
   tabDatosEmpresa() {
     if (this.language != '' || this.typeRegister != '' || this.yearFundation != '' || this.name != '' ||
       this.socialName != '' || this.taxTypeName != '' || this.taxTypeCode != '' || this.identificacionCommentary != '' ||
@@ -339,19 +387,18 @@ getCompanyByID(){
       }
     }
   }
-
   compararModelos(): void {
     this.armarModelo();
     const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
     if (JSON.stringify(this.datosEmpresa1) !== JSON.stringify(this.datosEmpresa2)) {
       if (tabDatosEmpresa) {
         tabDatosEmpresa.classList.add('tab-cambios');
-        this.btnGuardar = false
+        this.btnGuardar = true
       }
     } else {
       if (tabDatosEmpresa) {
         tabDatosEmpresa.classList.remove('tab-cambios');
-        this.btnGuardar = true;
+        this.btnGuardar = false;
       }
     }
   }
@@ -397,7 +444,25 @@ getCompanyByID(){
       reputationComentary: this.reputationComentary,
       newsComentary: this.newsComentary,
       identificacionCommentary: this.identificacionCommentary,
-      Traductions: []
+      enable : true,
+      traductions: [
+        {
+          key : 'L_E_COMIDE',
+          value : this.identificacionCommentaryEng
+        },
+        {
+          key : 'S_E_DURATION',
+          value : this.durationEng
+        },
+        {
+          key : 'L_E_REPUTATION',
+          value : this.reputationComentaryEng
+        },
+        {
+          key : 'L_E_NEW',
+          value : this.newsComentaryEng
+        },
+      ]
     }
   }
   private _filterPais(description: string): Pais[] {
@@ -437,12 +502,15 @@ getCompanyByID(){
   }
   limpiarSeleccionPais() {
     this.controlPaises.reset();
+    this.idCountry = 0
+    this.iconoSeleccionado = ""
   }
-  cambioPais(obj: any) {
-    if (obj !== null) {
-
-      this.iconoSeleccionado = obj?.bandera
-      if (typeof obj === 'string' || obj === null) {
+  cambioPais(pais: Pais) {
+    if (pais !== null) {
+      this.iconoSeleccionado =pais.bandera
+      this.idCountry = pais.id
+      console.log(this.idCountry)
+      if (typeof pais === 'string' || pais === null) {
         this.msgPais = "Seleccione una opción."
         this.colorMsgPais = "red"
       } else {
@@ -450,6 +518,8 @@ getCompanyByID(){
         this.colorMsgPais = "green"
       }
     } else {
+      this.idCountry = 0
+      console.log(this.idCountry)
       this.msgPais = "Seleccione una opción."
       this.colorMsgPais = "red"
     }
@@ -459,6 +529,7 @@ getCompanyByID(){
   }
   limpiarSeleccionSituacionRUC() {
     this.controlSituacionRUC.reset();
+    this.idLegalRegisterSituation = 0
   }
   cambioSituacionRuc(situacionRuc: ComboData) {
     if (typeof situacionRuc === 'string' || situacionRuc === null) {
@@ -467,29 +538,24 @@ getCompanyByID(){
       this.colorMsgSituacionRuc = "red"
     } else {
       this.msgSituacionRuc = "Opción Seleccionada."
-      this.idLegalRegisterSituation = situacionRuc?.id
+      this.idLegalRegisterSituation = situacionRuc.id
       this.colorMsgSituacionRuc = "green"
     }
-    console.log(this.idLegalRegisterSituation)
   }
   limpiarSeleccionPersoneriaJuridica() {
     this.controlPersoneriaJuridica.reset();
+    this.idLegalPersonType = 0
   }
   cambioPersoneriaJuridica(personeriaJuridica: ComboData) {
-    if(personeriaJuridica !== null){
-      console.log(personeriaJuridica)
-      if (typeof personeriaJuridica === 'string' || personeriaJuridica === null) {
-        this.msgPersoneriaJuridica = "Seleccione alguna opción."
-        this.idLegalPersonType = 0
-        this.colorMsgPersonaJuridica = "red"
-      } else {
-        this.msgPersoneriaJuridica = "Opción Seleccionada"
-        this.idLegalPersonType = personeriaJuridica?.id
-        this.colorMsgPersonaJuridica = "green"
-      }
-      console.log(this.idLegalPersonType)
+    if (typeof personeriaJuridica === 'string' || personeriaJuridica === null) {
+      this.msgPersoneriaJuridica = "Seleccione alguna opción."
+      this.idLegalPersonType = 0
+      this.colorMsgPersonaJuridica = "red"
+    } else {
+      this.msgPersoneriaJuridica = "Opción Seleccionada"
+      this.idLegalPersonType = personeriaJuridica.id
+      this.colorMsgPersonaJuridica = "green"
     }
-
   }
   limpiarSeleccionDuracion() {
     this.controlDuracion.reset();
@@ -568,12 +634,13 @@ getCompanyByID(){
     if (selectedDate) {
       this.constitutionDate = this.formatDate(selectedDate);
     }
+    console.log(this.constitutionDate)
   }
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
+    return `${month}/${day}/${year}`;
   }
   historicoPedidos() {
     const dialog = this.dialog.open(HistoricoPedidosComponent, {
@@ -626,47 +693,104 @@ getCompanyByID(){
   }
   guardar() {
     this.armarModelo()
-    Swal.fire({
-      title: '¿Está seguro de guardar los cambios?',
-      text: "",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí',
-      width: '20rem',
-      heightAuto: true
-    }).then((result) => {
-      if (result.value) {
-        this.datosEmpresaService.updateDatosEmpresa(this.datosEmpresa1[0])
-      }
-    });
+    if(this.id > 0){
+      Swal.fire({
+        title: '¿Está seguro de guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          console.log(this.datosEmpresa1[0])
+          this.datosEmpresaService.updateDatosEmpresa(this.datosEmpresa1[0]).subscribe((response) => {
+            this.loading = true
+            if(response.isSuccess === true && response.isWarning === false){
+              Swal.fire({
+                title: 'Se guardaron los cambios correctamente',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto: true
+              })
+              this.datosEmpresa2 = this.datosEmpresa1
+              this.loading = false
+            }
+            console.log(response)
+          })
+        }
+      });
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          console.log(this.datosEmpresa1[0])
+          this.datosEmpresaService.updateDatosEmpresa(this.datosEmpresa1[0]).subscribe((response) => {
+            this.loading = true
+            if(response.isSuccess === true && response.isWarning === false){
+              Swal.fire({
+                title: 'Se agregó el registro correctamente',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto: true
+              })
+              
+              this.router.navigate(['informes/empresa/lista']);
+              this.datosEmpresa2 = this.datosEmpresa1
+              this.loading = false
+            }
+            console.log(response)
+          })
+        }
+      });
+    }
+
   }
   salir() {
-    // this.armarModelo()
-    // console.log(this.datosEmpresa1[0])
-    // console.log(this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+'')[0])
-    // if(JSON.stringify(this.datosEmpresa1) !== JSON.stringify(this.datosEmpresaService.getDatosEmpresaPorCodigo(this.codigoInforme+''))){
-    //   Swal.fire({
-    //     title: '¿Está seguro de salir sin guardar los cambios?',
-    //     text: "",
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     cancelButtonText : 'Cancelar',
-    //     confirmButtonColor: '#d33',
-    //     cancelButtonColor: '#3085d6',
-    //     confirmButtonText: 'Sí',
-    //     width: '20rem',
-    //     heightAuto : true
-    //   }).then((result) => {
-    //     if (result.value) {
-    //       this.router.navigate(['informes/empresa/lista']);
-    //     }
-    //   });
-    // }else{
-    //   this.router.navigate(['informes/empresa/lista']);
-    // }
+    this.armarModelo()
+
+    if(this.btnGuardar === true){
+      Swal.fire({
+        title: '¿Está seguro de salir sin guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.router.navigate(['informes/empresa/lista']);
+        }
+      });
+    }else{
+      this.router.navigate(['informes/empresa/lista']);
+    }
   }
   //GAUGE
   gaugeRiesgoCrediticio = 0

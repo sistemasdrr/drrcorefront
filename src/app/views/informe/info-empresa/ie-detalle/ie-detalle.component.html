@@ -1,5 +1,9 @@
 <section class="content">
-  <div class="container-fluid" style="width: 100%; margin: 0; padding: 0;">
+  <div class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+    <span class="loader"></span><br>
+    <h2 style="color: white;">&nbsp;Cargando...</h2>
+  </div>
+  <div class="container-fluid" [ngClass]="{'show-form': loading}" style="width: 100%; margin: 0; padding: 0;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
       <app-breadcrumb [title]="breadscrum.title" [subtitle]="breadscrum.subtitle" [codigoInforme]="codigoInforme+''" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
       </app-breadcrumb>

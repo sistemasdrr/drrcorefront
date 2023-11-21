@@ -74,7 +74,8 @@ export interface Company{
   reputationComentary : string
   newsComentary : string
   identificacionCommentary : string
-  Traductions : Traduction[]
+  enable : boolean
+  traductions : Traduction[]
 }
 export interface data {
   name: string;
