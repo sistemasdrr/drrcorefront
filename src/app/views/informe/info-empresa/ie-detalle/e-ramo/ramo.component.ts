@@ -13,6 +13,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Pais } from 'app/models/pais';
 import { PaisService } from 'app/services/pais.service';
+import { DialogComercioComponent } from './dialog-comercio/dialog-comercio.component';
 
 export interface data {
   name: string;
@@ -156,6 +157,17 @@ export class RamoComponent implements OnInit{
       codigoEmpresa : "codigo"
     },
   });
+  }
+  comercioExteriorDialog(input : string){
+    const dialogRef1 = this.dialog.open(DialogComercioComponent, {
+      data: {
+        titulo : input,
+        monto : this.ramoNegociosInforme,
+        plazos : this.actividadEspecificaInforme,
+        observacion : this.actividadEspecificaInforme,
+        observacionIng : this.actividadEspecificaInforme
+        },
+      });
   }
 
   //titularidad

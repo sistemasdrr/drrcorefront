@@ -58,6 +58,7 @@ import { CapitalPagadoComponent } from './info-empresa/ie-detalle/e-antecedentes
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SeleccionarCalidadComponent } from './info-empresa/ie-detalle/e-datos-empresa/seleccionar-calidad/seleccionar-calidad.component';
 import { AvalesComponent } from './info-empresa/ie-detalle/e-sbs-riesgo/avales/avales.component';
+import { DialogComercioComponent } from './info-empresa/ie-detalle/e-ramo/dialog-comercio/dialog-comercio.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { AvalesComponent } from './info-empresa/ie-detalle/e-sbs-riesgo/avales/a
     CapitalPagadoComponent,
     SeleccionarCalidadComponent,
     AvalesComponent,
+    DialogComercioComponent,
 
   ],
   imports: [

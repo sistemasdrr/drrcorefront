@@ -77,6 +77,21 @@ export interface Company{
   enable : boolean
   traductions : Traduction[]
 }
+export interface TCompany{
+  id : number
+  name : string
+  code : string
+  creditRisk : string
+  language : string
+  traductionPercentage : number
+  lastReportDate : string
+  country : string
+  flagCountry : string
+  isoCountry : string
+  taxNumber : string
+  quality : string
+  manager : string
+}
 export interface data {
   name: string;
 }

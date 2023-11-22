@@ -67,7 +67,7 @@
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Capital Pagado Actual</mat-label>
-          <input matInput placeholder="" [(ngModel)]="capitalPagadoActualInforme" [readonly]="true">
+          <input matInput [(ngModel)]="capitalPagadoActualInforme" [readonly]="true">
           <button matSuffix mat-mini-fab color="primary" (click)="abrirCapitalPagado()"  #tooltip="matTooltip" matTooltip="Editar">
             <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
             <span class="fi fi-us" [class]="capitalPagadoObservacionIng === '' ? 'sin-traduccion' : ''"></span>

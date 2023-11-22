@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Company} from 'app/models/informes/empresa/datos-empresa';
+import { Company, TCompany} from 'app/models/informes/empresa/datos-empresa';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -15,8 +15,9 @@ export class DatosEmpresaService {
 
   constructor(private http : HttpClient) {
   }
-  getDatosEmpresas(razonSocial : string, tipoFiltro : string, idPais : number, conInforme : boolean): Observable<Response<Company[]>>{
-    return this.http.post<Response<Company[]>>(this.url + this.controllerCompany + '/getbyname?name='+razonSocial,'');
+  getDatosEmpresas(razonSocial : string, tipoFiltro : string, idPais : number, conInforme : boolean): Observable<Response<TCompany[]>>{
+    console.log(idPais)
+    return this.http.post<Response<TCompany[]>>(this.url + this.controllerCompany + '/getbyname?name='+razonSocial+'&form='+tipoFiltro+'&idCountry='+idPais,'');
   }
   getDatosEmpresaPorId(id : number): Observable<Response<Company>>{
     return this.http.post<Response<Company>>(this.url + this.controllerCompany + '/get?id='+id,'');

@@ -28,7 +28,12 @@ export interface data {
 })
 export class AntecedentesComponent implements OnInit, OnDestroy{
 
-  codigoInforme : string | null = ''
+  //FORM ANTECENDENTES
+  id = 0
+  constitutionDate = ""
+  startActivities = ""
+  
+
   antecedentesLegales : AntecedentesLegales[] = []
   //TABLA
   dataSource: MatTableDataSource<EmpresaRelacionada>;
@@ -50,9 +55,15 @@ constructor(
     private antecedentesLegalesService : AntecedentesLegalesService,
     private monedaService : MonedaService
   ) {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id?.includes('nuevo')) {
+      this.id = 0
+    } else {
+      this.id = parseInt(id + '')
+    }
+    console.log(this.id)
     this.filteredOptions = new Observable<Moneda[]>();
     this.dataSource = new MatTableDataSource<EmpresaRelacionada>
-    this.codigoInforme = this.activatedRoute.snapshot.paramMap.get('codigoInforme');
   }
   compararModelosF : any
   ngOnInit() {
@@ -67,46 +78,46 @@ constructor(
       }),
     );
 
-    if(this.codigoInforme !== 'nuevo'){
-      const antecedentesLegales = this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+'')
-      console.log(this.antecedentesLegales)
-      this.fechaConstitucionInforme = antecedentesLegales[0].fechaConstitucion
-      const fecha1 = this.fechaConstitucionInforme.split("/");
-      if(fecha1){
-        this.fechaConstitucionInformeDate = new Date(parseInt(fecha1[2]), parseInt(fecha1[1])-1,parseInt(fecha1[0]))
-      }
+    // if(this.codigoInforme !== 'nuevo'){
+    //   const antecedentesLegales = this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+'')
+    //   console.log(this.antecedentesLegales)
+    //   this.fechaConstitucionInforme = antecedentesLegales[0].fechaConstitucion
+    //   const fecha1 = this.fechaConstitucionInforme.split("/");
+    //   if(fecha1){
+    //     this.fechaConstitucionInformeDate = new Date(parseInt(fecha1[2]), parseInt(fecha1[1])-1,parseInt(fecha1[0]))
+    //   }
 
-      this.inicioActividadesInforme = antecedentesLegales[0].inicioActividades
-      this.duracionInforme = antecedentesLegales[0].duracion
-      this.duracionIngInforme = antecedentesLegales[0].duracionIng
-      this.registradaEnInforme = antecedentesLegales[0].registradaEn
-      this.registradaEnIngInforme = antecedentesLegales[0].registradaEnIng
-      this.notariaInforme = antecedentesLegales[0].notaria
-      this.registrosPublicosInforme = antecedentesLegales[0].registrosPublicos
-      this.registrosPublicosIngInforme = antecedentesLegales[0].registrosPublicosIng
-      this.comentarioAntecedentes = antecedentesLegales[0].comentarioAntecedentesLegales
-      this.comentarioAntecedentesIng = antecedentesLegales[0].comentarioAntecedentesLegalesIng
-      this.historialAntecedentes = antecedentesLegales[0].comentarioHistoriaAntecedentes
-      this.historialAntecedentesIng = antecedentesLegales[0].comentarioHistoriaAntecedentesIng
-      this.capitalPagadoMoneda = antecedentesLegales[0].monedaPais
-      this.capitalPagadoMonto = antecedentesLegales[0].monto
-      this.capitalPagadoObservacion = antecedentesLegales[0].observacion
-      this.capitalPagadoObservacionIng = antecedentesLegales[0].observacionIng
-      this.origenInforme = antecedentesLegales[0].origen
-      this.fechaAumentoInforme = antecedentesLegales[0].fechaAumento
-      this.fechaAumentoIngInforme = antecedentesLegales[0].fechaAumentoIng
-      this.monedaPaisInforme = antecedentesLegales[0].moneda
-      this.cotizadaEnBolsaInforme = antecedentesLegales[0].cotizada
-      this.cotizadaEnBolsaPorInforme = antecedentesLegales[0].por
-      this.actualTCInforme = antecedentesLegales[0].actualTC
-      this.actualTCIngInforme = antecedentesLegales[0].actualTCIng
-      this.fechaUltimaConsultaInforme = antecedentesLegales[0].fechaUltimaConsultaRRPP
-      const fecha2 = this.fechaUltimaConsultaInforme.split("/");
-      if(fecha2){
-        this.fechaUltimaConsultaInformeDate = new Date(parseInt(fecha2[2]), parseInt(fecha2[1])-1,parseInt(fecha2[0]))
-      }
-      this.ultimaConsultaPorInforme = antecedentesLegales[0].fechaUltimaConsultaPor
-    }
+    //   this.inicioActividadesInforme = antecedentesLegales[0].inicioActividades
+    //   this.duracionInforme = antecedentesLegales[0].duracion
+    //   this.duracionIngInforme = antecedentesLegales[0].duracionIng
+    //   this.registradaEnInforme = antecedentesLegales[0].registradaEn
+    //   this.registradaEnIngInforme = antecedentesLegales[0].registradaEnIng
+    //   this.notariaInforme = antecedentesLegales[0].notaria
+    //   this.registrosPublicosInforme = antecedentesLegales[0].registrosPublicos
+    //   this.registrosPublicosIngInforme = antecedentesLegales[0].registrosPublicosIng
+    //   this.comentarioAntecedentes = antecedentesLegales[0].comentarioAntecedentesLegales
+    //   this.comentarioAntecedentesIng = antecedentesLegales[0].comentarioAntecedentesLegalesIng
+    //   this.historialAntecedentes = antecedentesLegales[0].comentarioHistoriaAntecedentes
+    //   this.historialAntecedentesIng = antecedentesLegales[0].comentarioHistoriaAntecedentesIng
+    //   this.capitalPagadoMoneda = antecedentesLegales[0].monedaPais
+    //   this.capitalPagadoMonto = antecedentesLegales[0].monto
+    //   this.capitalPagadoObservacion = antecedentesLegales[0].observacion
+    //   this.capitalPagadoObservacionIng = antecedentesLegales[0].observacionIng
+    //   this.origenInforme = antecedentesLegales[0].origen
+    //   this.fechaAumentoInforme = antecedentesLegales[0].fechaAumento
+    //   this.fechaAumentoIngInforme = antecedentesLegales[0].fechaAumentoIng
+    //   this.monedaPaisInforme = antecedentesLegales[0].moneda
+    //   this.cotizadaEnBolsaInforme = antecedentesLegales[0].cotizada
+    //   this.cotizadaEnBolsaPorInforme = antecedentesLegales[0].por
+    //   this.actualTCInforme = antecedentesLegales[0].actualTC
+    //   this.actualTCIngInforme = antecedentesLegales[0].actualTCIng
+    //   this.fechaUltimaConsultaInforme = antecedentesLegales[0].fechaUltimaConsultaRRPP
+    //   const fecha2 = this.fechaUltimaConsultaInforme.split("/");
+    //   if(fecha2){
+    //     this.fechaUltimaConsultaInformeDate = new Date(parseInt(fecha2[2]), parseInt(fecha2[1])-1,parseInt(fecha2[0]))
+    //   }
+    //   this.ultimaConsultaPorInforme = antecedentesLegales[0].fechaUltimaConsultaPor
+    // }
     this.compararModelosF = setInterval(() => {
       this.compararModelos();
     }, 5000);
@@ -117,19 +128,17 @@ constructor(
 
   compararModelos(){
     this.armarModelo()
-    console.log(this.antecedentesLegales)
-    console.log(this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+''))
-    if(JSON.stringify(this.antecedentesLegales) !== JSON.stringify(this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+''))){
-      const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
-      if (tabAntecedentes) {
-        tabAntecedentes.classList.add('tab-cambios')
-      }
-    }else{
-      const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
-      if (tabAntecedentes) {
-        tabAntecedentes.classList.remove('tab-cambios')
-      }
-    }
+    // if(JSON.stringify(this.antecedentesLegales) !== JSON.stringify(this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+''))){
+    //   const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
+    //   if (tabAntecedentes) {
+    //     tabAntecedentes.classList.add('tab-cambios')
+    //   }
+    // }else{
+    //   const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
+    //   if (tabAntecedentes) {
+    //     tabAntecedentes.classList.remove('tab-cambios')
+    //   }
+    // }
   }
 
   displayFn(moneda: Moneda): string {
@@ -361,7 +370,7 @@ constructor(
   }
   armarModelo(){
     this.antecedentesLegales[0] = {
-      codigoInforme : this.codigoInforme+'',
+      codigoInforme : this.id+'',
       fechaConstitucion : this.fechaConstitucionInforme,
       inicioActividades : this.inicioActividadesInforme,
       duracion : this.duracionInforme,

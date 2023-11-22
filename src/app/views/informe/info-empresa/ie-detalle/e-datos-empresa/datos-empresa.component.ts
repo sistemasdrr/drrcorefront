@@ -269,7 +269,6 @@ getCompanyByID(){
         if (response.isSuccess === true && response.isWarning === false) {
           console.log(response.data)
           const DatosEmpresa = response.data
-          this.datosEmpresa2[0] = response.data
           this.oldCode = DatosEmpresa.oldCode
           this.name = DatosEmpresa.name
           this.socialName = DatosEmpresa.socialName
@@ -368,11 +367,68 @@ getCompanyByID(){
           this.identificacionCommentary = DatosEmpresa.identificacionCommentary
         }
       }).add(() => {
+        this.cargarModelo()
         this.tabDatosEmpresa()
         this.compararModelosF = setInterval(() => {
           this.compararModelos();
         }, 2000);
       })
+    }
+  }
+  cargarModelo(){
+    this.datosEmpresa2[0] = {
+      id: this.id,
+      oldCode: this.oldCode,
+      name: this.name,
+      socialName: this.socialName,
+      lastSearched: this.lastSearched,
+      language: this.language,
+      typeRegister: this.typeRegister,
+      yearFundation: this.yearFundation,
+      constitutionDate: this.constitutionDate,
+      quality: this.quality,
+      idLegalPersonType: this.idLegalPersonType,
+      taxTypeName: this.taxTypeName,
+      taxTypeCode: this.taxTypeCode,
+      idLegalRegisterSituation: this.idLegalRegisterSituation,
+      address: this.address,
+      duration: this.duration,
+      place: this.place,
+      idCountry: this.idCountry,
+      subTelephone: this.subTelephone,
+      tellphone: this.tellphone,
+      cellphone: this.cellphone,
+      telephone: this.telephone,
+      postalCode: this.postalCode,
+      whatsappPhone: this.whatsappPhone,
+      email: this.email,
+      webPage: this.webPage,
+      idCreditRisk: this.idCreditRisk,
+      idPaymentPolicy: this.idPaymentPolicy,
+      idReputation: this.idReputation,
+      lastUpdaterUser: 0,
+      reputationComentary: this.reputationComentary,
+      newsComentary: this.newsComentary,
+      identificacionCommentary: this.identificacionCommentary,
+      enable : true,
+      traductions: [
+        {
+          key : 'L_E_COMIDE',
+          value : this.identificacionCommentaryEng
+        },
+        {
+          key : 'S_E_DURATION',
+          value : this.durationEng
+        },
+        {
+          key : 'L_E_REPUTATION',
+          value : this.reputationComentaryEng
+        },
+        {
+          key : 'L_E_NEW',
+          value : this.newsComentaryEng
+        },
+      ]
     }
   }
   tabDatosEmpresa() {
@@ -634,7 +690,6 @@ getCompanyByID(){
     if (selectedDate) {
       this.constitutionDate = this.formatDate(selectedDate);
     }
-    console.log(this.constitutionDate)
   }
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
@@ -647,41 +702,39 @@ getCompanyByID(){
       data: {
         titulo: "Histórico de Pedidos"
       }
-    })
+    });
   }
   selectIdioma(idioma: string) {
-    this.language = idioma
+    this.language = idioma;
   }
   selectInstitucionInforme(institucionInforme: string) {
-    this.typeRegister = institucionInforme
+    this.typeRegister = institucionInforme;
   }
   selectPersoneriaJuridica(personeriaJuridica: ComboData) {
-    this.personeriaJuridicaInforme = personeriaJuridica
-    this.personeriaJuridicaInforme = this.personeriaJuridica.filter(x => x.valor == personeriaJuridica.valor)[0]
+    this.personeriaJuridicaInforme = personeriaJuridica;
+    this.personeriaJuridicaInforme = this.personeriaJuridica.filter(x => x.valor == personeriaJuridica.valor)[0];
   }
   selectSituacionRuc(situacionRuc: ComboData) {
-    this.idLegalRegisterSituation = situacionRuc.id
+    this.idLegalRegisterSituation = situacionRuc.id;
   }
   selectRiesgoCrediticio(event: MatSelectChange) {
-    this.riesgoCrediticioSeleccionado = event.value
-    this.idCreditRisk = event.value.id
+    this.riesgoCrediticioSeleccionado = event.value;
+    this.idCreditRisk = event.value.id;
 
-    this.gaugeRiesgoCrediticio = event.value.rate
-    this.descripcionRiesgoCrediticio = event.value.abreviation
-    this.colorRiesgoCrediticio = event.value.color
-    this.calificacionRiesgoCrediticio = event.value.identifier
+    this.gaugeRiesgoCrediticio = event.value.rate;
+    this.descripcionRiesgoCrediticio = event.value.abreviation;
+    this.colorRiesgoCrediticio = event.value.color;
+    this.calificacionRiesgoCrediticio = event.value.identifier;
   }
   selectPoliticaPagos(event: MatSelectChange) {
-    this.politicaPagoSeleccionada = event.value
-    this.idPaymentPolicy = event.value.id
-    this.colorPoliticaPagos = event.value.color
-    console.log(event.value)
+    this.politicaPagoSeleccionada = event.value;
+    this.idPaymentPolicy = event.value.id;
+    this.colorPoliticaPagos = event.value.color;
   }
   selectReputacion(event: MatSelectChange) {
-    this.reputacionSeleccionada = event.value
-    this.idReputation = event.value.id
-    this.colorReputacion = event.value.color
-    console.log(event.value)
+    this.reputacionSeleccionada = event.value;
+    this.idReputation = event.value.id;
+    this.colorReputacion = event.value.color;
   }
   iconoSeleccionado: string = ""
   actualizarSeleccionPais(id: number) {
@@ -707,25 +760,33 @@ getCompanyByID(){
         heightAuto: true
       }).then((result) => {
         if (result.value) {
-          console.log(this.datosEmpresa1[0])
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.datosEmpresaService.updateDatosEmpresa(this.datosEmpresa1[0]).subscribe((response) => {
-            this.loading = true
-            if(response.isSuccess === true && response.isWarning === false){
-              Swal.fire({
-                title: 'Se guardaron los cambios correctamente',
-                text: "",
-                icon: 'success',
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ok',
-                width: '30rem',
-                heightAuto: true
-              })
-              this.datosEmpresa2 = this.datosEmpresa1
-              this.loading = false
+          if(response.isSuccess === true && response.isWarning === false){
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
             }
-            console.log(response)
-          })
+            Swal.fire({
+              title: 'Se guardaron los cambios correctamente',
+              text: "",
+              icon: 'success',
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto: true
+            })
+            const busqueda = JSON.parse(localStorage.getItem('busquedaEmpresas')+'');
+            busqueda.razonSocial = this.name;
+            busqueda.idPais = this.idCountry;
+            localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
+            this.router.navigate(['informes/empresa/lista']);
+            this.cargarModelo();
+          }
+        })
         }
       });
     }else{
@@ -742,10 +803,15 @@ getCompanyByID(){
         heightAuto: true
       }).then((result) => {
         if (result.value) {
-          console.log(this.datosEmpresa1[0])
           this.datosEmpresaService.updateDatosEmpresa(this.datosEmpresa1[0]).subscribe((response) => {
-            this.loading = true
+            const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.remove('hide-loader');
+            }
             if(response.isSuccess === true && response.isWarning === false){
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
+              }
               Swal.fire({
                 title: 'Se agregó el registro correctamente',
                 text: "",
@@ -756,10 +822,13 @@ getCompanyByID(){
                 width: '30rem',
                 heightAuto: true
               })
-              
+              const busqueda = JSON.parse(localStorage.getItem('busquedaEmpresas')+'');
+              busqueda.razonSocial = this.name;
+              busqueda.idPais = this.idCountry;
+              localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
+
               this.router.navigate(['informes/empresa/lista']);
-              this.datosEmpresa2 = this.datosEmpresa1
-              this.loading = false
+              this.cargarModelo()
             }
             console.log(response)
           })
@@ -769,7 +838,7 @@ getCompanyByID(){
 
   }
   salir() {
-    this.armarModelo()
+    this.armarModelo();
 
     if(this.btnGuardar === true){
       Swal.fire({

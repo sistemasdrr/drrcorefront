@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { Company } from 'app/models/informes/empresa/datos-empresa';
+import { TCompany } from 'app/models/informes/empresa/datos-empresa';
 import { Pais } from 'app/models/pais';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { Observable, map, startWith } from 'rxjs';
@@ -47,11 +47,11 @@ export class IEListaComponent implements OnInit{
   chkConInforme = true
 
 
-  dataSource: MatTableDataSource<Company>;
+  dataSource: MatTableDataSource<TCompany>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
-  columnsToDisplay = ['rc', 'idioma', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'fecEst', 'importan','exportan', 'calificacion','ejecPrincipal','acciones' ];
+  columnsToDisplay = ['rc', 'idioma', 'codigoEmpresa', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'traduccion', 'calificacion','ejecPrincipal','acciones' ];
 
   constructor(private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService){
     this.dataSource = new MatTableDataSource()
@@ -112,6 +112,7 @@ export class IEListaComponent implements OnInit{
       console.log(this.idPais)
       if (typeof pais === 'string' || pais === null) {
         this.msgPais = "Seleccione una opción."
+        this.idPais = 0
         this.colorMsgPais = "red"
       } else {
         this.msgPais = "Opción Seleccionada"
@@ -124,7 +125,16 @@ export class IEListaComponent implements OnInit{
       this.colorMsgPais = "red"
     }
   }
+  filtrar(event : any){
+    if(event.code == 'Enter'){
+      this.filtrarEmpresas()
+    }
+  }
   filtrarEmpresas(){
+    const listaEmpresas = document.getElementById('loader-lista-empresas') as HTMLElement | null;
+    if(listaEmpresas){
+      listaEmpresas.classList.remove('hide-loader');
+    }
     const busqueda = {
       razonSocial : this.razonSocial,
       filtro : this.filtroRB,
@@ -135,12 +145,15 @@ export class IEListaComponent implements OnInit{
     this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
-          this.dataSource = new MatTableDataSource(response.data.filter(x => x.enable === true))
+          this.dataSource = new MatTableDataSource(response.data)
           this.dataSource.sort = this.sort
           this.dataSource.paginator = this.paginator
         }
-      }
-    )
+      }).add(() => {
+        if(listaEmpresas){
+          listaEmpresas.classList.add('hide-loader');
+        }
+      })
 
   }
   agregarEmpresa(){
