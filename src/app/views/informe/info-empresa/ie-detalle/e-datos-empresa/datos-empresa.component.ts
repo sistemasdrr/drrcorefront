@@ -783,7 +783,7 @@ getCompanyByID(){
             busqueda.razonSocial = this.name;
             busqueda.idPais = this.idCountry;
             localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
-            this.router.navigate(['informes/empresa/lista']);
+            this.router.navigate(['informes/empresa/detalle/'+this.id]);
             this.cargarModelo();
           }
         })
@@ -827,7 +827,7 @@ getCompanyByID(){
               busqueda.idPais = this.idCountry;
               localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
 
-              this.router.navigate(['informes/empresa/lista']);
+              this.router.navigate(['informes/empresa/detalle/4']);
               this.cargarModelo()
             }
             console.log(response)

@@ -11,7 +11,7 @@
 
     <div class="" style="width:100%;">
       <mat-tab-group [preserveContent]="true">
-        <mat-tab >
+        <mat-tab>
           <ng-template mat-tab-label >
             <i id="tab-datos-empresa" class="fa-solid fa-building-wheat" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Empresa"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Empresa</b></div>
@@ -20,7 +20,7 @@
             <app-datos-empresa></app-datos-empresa>
           </ng-template>
         </mat-tab>
-        <mat-tab [ngClass]="{'tab-completo': false}" [disabled]="" >
+        <mat-tab [ngClass]="{'tab-completo': false}" [disabled]="id === 0">
           <ng-template mat-tab-label>
             <i id="tab-antecedentes" class="fa-solid fa-clock-rotate-left " style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Antecedentes</b></div>
@@ -29,7 +29,7 @@
             <app-antecedentes></app-antecedentes>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab  [disabled]="id === 0">
           <ng-template mat-tab-label>
             <i id="tab-ramo-negocio" class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Ramo de Negocio"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Ramo</b></div>
@@ -38,7 +38,7 @@
             <app-ramo></app-ramo>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab  [disabled]="id === 0">
           <ng-template mat-tab-label>
             <i id="tab-finanzas" class="fa-solid fa-coins" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Finanzas"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Finanzas</b></div>
@@ -47,7 +47,7 @@
             <app-finanzas></app-finanzas>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab  [disabled]="id === 0">
           <ng-template mat-tab-label>
             <i id="tab-balance" class="fa-solid fa-scale-balanced" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Balance General"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Balance</b></div>
@@ -56,7 +56,7 @@
             <app-balance></app-balance>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab [disabled]="id === 0">
           <ng-template mat-tab-label>
             <i id="tab-sbs-riesgo" class="fa-solid fa-gauge-high" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="SBS / C. Riesgo"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>SBS / C. Riesgo</b></div>
@@ -65,7 +65,7 @@
             <app-sbs-riesgo></app-sbs-riesgo>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab [disabled]="id === 0">
           <ng-template mat-tab-label>
             <i id="tab-opinion-credito" class="fa-solid fa-comment-dollar" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Opinión de Crédito"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Opinión de Crédito</b></div>
@@ -74,7 +74,7 @@
             <app-opinion-credito></app-opinion-credito>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab [disabled]="id === 0">
           <ng-template mat-tab-label>
             <i id="tab-info-general" class="fa-solid fa-circle-info" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Información General"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Info. General</b></div>
@@ -83,7 +83,7 @@
             <app-informacion-general></app-informacion-general>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab [disabled]="id === 0">
           <ng-template mat-tab-label >
             <i id="tab-imagenes" class="fa-regular fa-image" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Imágenes"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Imágenes</b></div>

@@ -51,7 +51,7 @@ export class IEListaComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
-  columnsToDisplay = ['rc', 'idioma', 'codigoEmpresa', 'razonSocial', 'datosAl', 'pais', 'rucInit', 'traduccion', 'calificacion','ejecPrincipal','acciones' ];
+  columnsToDisplay = ['rc', 'idioma', 'rucInit', 'razonSocial', 'datosAl', 'pais', 'traduccion', 'calificacion','ejecPrincipal','acciones' ];
 
   constructor(private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService){
     this.dataSource = new MatTableDataSource()
@@ -129,6 +129,19 @@ export class IEListaComponent implements OnInit{
     if(event.code == 'Enter'){
       this.filtrarEmpresas()
     }
+  }
+  limpiar(){
+    this.razonSocial = ""
+    this.filtroRB = "C"
+    this.idPais = 0
+    this.paisSeleccionado = {
+      id: 0,
+      valor: '',
+      bandera: ''
+    }
+    this.chkConInforme = true
+    
+    this.filtrarEmpresas()
   }
   filtrarEmpresas(){
     const listaEmpresas = document.getElementById('loader-lista-empresas') as HTMLElement | null;

@@ -91,6 +91,7 @@ export interface TCompany{
   taxNumber : string
   quality : string
   manager : string
+  onWeb : boolean
 }
 export interface data {
   name: string;
