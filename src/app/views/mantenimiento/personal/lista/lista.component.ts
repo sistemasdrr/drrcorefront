@@ -56,11 +56,11 @@ export class ListaComponent implements OnInit, AfterViewInit {
     },() => {
       this.loading = false;
         Swal.fire({
-          title: 'Ocurrió un problema.',
+          title: 'Ocurrió un problema. Comunicarse con Sistemas.',
           text: '',
           icon: 'warning',
           confirmButtonColor: 'blue',
-          confirmButtonText: 'Comunicarse con Sistemas',
+          confirmButtonText: 'Ok',
           width: '30rem',
           heightAuto : true
         }).then(() => {

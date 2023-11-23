@@ -67,6 +67,18 @@ export class IEDetalleComponent implements OnInit {
             this.router.navigate(['informes/empresa/lista']);
           });
         }
+      },(error) => {
+        this.loading = false
+        Swal.fire({
+          title: 'Ocurrió un problema. Comunicarse con Sistemas',
+          text: error,
+          icon: 'warning',
+          confirmButtonColor: 'blue',
+          confirmButtonText: 'Ok',
+          width: '40rem',
+          heightAuto : true
+        }).then(() => {
+        })
       }).add(() => {
         this.loading = false
       })

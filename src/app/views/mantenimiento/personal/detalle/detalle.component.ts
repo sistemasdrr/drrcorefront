@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ESSALUD, Personal } from 'app/models/mantenimiento/persona/personal';
-import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
+import { PersonalService } from 'app/services/mantenimiento/personal.service';
 import { AgregarEssaludComponent } from './agregar-essalud/agregar-essalud.component';
 import { Pais } from 'app/models/pais';
 import { PaisService } from 'app/services/pais.service';
@@ -277,11 +277,11 @@ export class DetalleComponent implements OnInit {
       (error) =>{
         this.loading = false;
         Swal.fire({
-          title: 'Ocurrió un problema.',
+          title: 'Ocurrió un problema. Comunicarse con Sistemas.',
           text: error,
           icon: 'warning',
           confirmButtonColor: 'blue',
-          confirmButtonText: 'Comunicarse con Sistemas',
+          confirmButtonText: 'Ok',
           width: '40rem',
           heightAuto : true
         }).then(() => {

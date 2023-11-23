@@ -140,7 +140,7 @@ export class IEListaComponent implements OnInit{
       bandera: ''
     }
     this.chkConInforme = true
-    
+
     this.filtrarEmpresas()
   }
   filtrarEmpresas(){
@@ -162,6 +162,20 @@ export class IEListaComponent implements OnInit{
           this.dataSource.sort = this.sort
           this.dataSource.paginator = this.paginator
         }
+      },(error) => {
+        if(listaEmpresas){
+          listaEmpresas.classList.add('hide-loader');
+        }
+        Swal.fire({
+          title: 'Ocurrió un problema. Comunicarse con Sistemas.',
+          text: error,
+          icon: 'warning',
+          confirmButtonColor: 'blue',
+          confirmButtonText: 'Ok',
+          width: '40rem',
+          heightAuto : true
+        }).then(() => {
+        })
       }).add(() => {
         if(listaEmpresas){
           listaEmpresas.classList.add('hide-loader');

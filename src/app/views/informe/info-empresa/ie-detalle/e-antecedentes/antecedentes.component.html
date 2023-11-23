@@ -17,7 +17,7 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
-          <input matInput [matDatepicker]="fecha_contitucion_informe" [(ngModel)]="fechaConstitucionInformeDate" [readonly]="true" (dateChange)="onDateChange1($event)">
+          <input matInput [matDatepicker]="fecha_contitucion_informe" [(ngModel)]="constitutionDateD" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_contitucion_informe"></mat-datepicker-toggle>
           <mat-datepicker #fecha_contitucion_informe color="primary"></mat-datepicker>
         </mat-form-field>
@@ -28,14 +28,14 @@
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-flag-checkered"></i>
           </span>
-          <input matInput placeholder="" [(ngModel)]="inicioActividadesInforme"  mask="9999" type="number">
+          <input matInput placeholder="" [(ngModel)]="startFunctionYear"  mask="9999" type="number">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Duración</mat-label>
-          <input matInput placeholder="" [(ngModel)]="duracionInforme">
-          <button class="btn-traduccion" [class]="duracionIngInforme === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloDuracion,'', duracionInforme, duracionIngInforme, 'duracion')">
+          <input matInput placeholder="" [(ngModel)]="operationDuration">
+          <button class="btn-traduccion" [class]="operationDurationEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloDuracion,'', operationDuration, operationDurationEng, 'duracion')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -43,8 +43,8 @@
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Registrada en</mat-label>
-          <input matInput placeholder="" [(ngModel)]="registradaEnInforme">
-          <button class="btn-traduccion" [class]="registradaEnIngInforme === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistradaEn,'', registradaEnInforme, registradaEnIngInforme,'registradaEn')">
+          <input matInput placeholder="" [(ngModel)]="registerPlace">
+          <button class="btn-traduccion" [class]="registerPlaceEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistradaEn,'', registerPlace, registerPlaceEng,'registradaEn')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -52,14 +52,14 @@
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Notaria</mat-label>
-          <input matInput placeholder="" [(ngModel)]="notariaInforme">
+          <input matInput placeholder="" [(ngModel)]="notaryRegister">
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Registros Públicos</mat-label>
-          <input matInput placeholder="" [(ngModel)]="registrosPublicosInforme">
-          <button class="btn-traduccion" [class]="registrosPublicosIngInforme === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistrosPublicos,'', registrosPublicosInforme, registrosPublicosIngInforme, 'registrosPublicos')">
+          <input matInput placeholder="" [(ngModel)]="publicRegister">
+          <button class="btn-traduccion" [class]="publicRegisterEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion(tituloRegistrosPublicos,'', publicRegister, publicRegisterEng, 'registrosPublicos')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -70,14 +70,14 @@
           <input matInput [(ngModel)]="capitalPagadoActualInforme" [readonly]="true">
           <button matSuffix mat-mini-fab color="primary" (click)="abrirCapitalPagado()"  #tooltip="matTooltip" matTooltip="Editar">
             <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
-            <span class="fi fi-us" [class]="capitalPagadoObservacionIng === '' ? 'sin-traduccion' : ''"></span>
+            <span class="fi fi-us" [class]="currentPaidCapitalComentaryEng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-4 d-flex">
         <mat-form-field style="width: 100%;">
           <mat-label>Origen</mat-label>
-          <mat-select [(ngModel)]="origenInforme" (selectionChange)="selectOrigen($event.value)">
+          <mat-select [(ngModel)]="origin" (selectionChange)="selectOrigen($event.value)">
             <mat-option [value]="''">
             </mat-option>
             <mat-option [value]="'Nacional'">
@@ -96,8 +96,8 @@
       <div class="col-md-4 d-flex">
         <mat-form-field class="w-100">
           <mat-label>Fecha Aumento</mat-label>
-          <input matInput placeholder="" [(ngModel)]="fechaAumentoInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="fechaAumentoIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloFechaAumento,'', fechaAumentoInforme, fechaAumentoIngInforme, 'fechaAumento')">
+          <input matInput placeholder="" [(ngModel)]="increaceDateCapital">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="increaceDateCapitalEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloFechaAumento,'', increaceDateCapital, increaceDateCapitalEng, 'fechaAumento')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -105,10 +105,14 @@
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Moneda del País</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" [(ngModel)]="monedaPaisInforme">
+          <input type="text" matInput [formControl]="ctrlMoneda" [matAutocomplete]="auto" [ngClass]="colorMsgTipoMoneda === 'red' ? 'error': ''" [(ngModel)]="currencyInforme" (ngModelChange)="seleccionarTipoMoneda(currencyInforme)">
+          <mat-hint [ngClass]="colorMsgTipoMoneda === 'red' ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="colorMsgTipoMoneda === 'red'"></i><i class="fa-solid fa-circle-check" *ngIf="colorMsgTipoMoneda === 'green'"></i>&nbsp;{{msgTipoMoneda}}</mat-hint>
+          <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);"  (click)="limpiarSeleccionTipoMoneda()" #tooltip="matTooltip" matTooltip="Limpiar">
+            <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+          </button>
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let moneda of filteredOptions | async" [value]="moneda">
-              {{moneda.moneda}} - {{moneda.pais}}
+            <mat-option *ngFor="let moneda of filteredMoneda | async" [value]="moneda">
+              {{moneda.valor}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -117,7 +121,7 @@
         <div class="d-flex">
           <mat-form-field style="width: 45%;">
             <mat-label>¿Cotizada en Bolsa?</mat-label>
-            <mat-select [(ngModel)]="cotizadaEnBolsaInforme" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
+            <mat-select [(ngModel)]="traded" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
               <mat-option [value]="''">
               </mat-option>
               <mat-option [value]="'SI'">
@@ -131,7 +135,7 @@
 
           <mat-form-field style="width: 55%;">
             <mat-label>Por</mat-label>
-            <mat-select [(ngModel)]="cotizadaEnBolsaPorInforme" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
+            <mat-select [(ngModel)]="tradedBy" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
               <mat-option [value]="''">
               </mat-option>
               <mat-option [value]="'CAPITALIZACION'">
@@ -147,8 +151,8 @@
       <div class="col-md-3 d-flex">
         <mat-form-field class="w-100">
           <mat-label>Actual T.C. X 1 US$</mat-label>
-          <input matInput placeholder="" [(ngModel)]="actualTCInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="actualTCIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloActualTC,'', actualTCInforme, actualTCIngInforme, 'actualTC')">
+          <input matInput placeholder="" [(ngModel)]="currentExchangeRate" mask="9.99">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="currentExchangeRateEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloActualTC,'', currentExchangeRate+'', currentExchangeRateEng, 'actualTC')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -156,7 +160,7 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Ultima Consulta a RR.PP.</mat-label>
-          <input matInput [matDatepicker]="fecha_ultima_consulta" [(ngModel)]="fechaUltimaConsultaInformeDate" (dateChange)="onDateChange2($event)">
+          <input matInput [matDatepicker]="fecha_ultima_consulta" [(ngModel)]="lastQueryRrpp" (dateChange)="selectFechaUltimaConsulta($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_ultima_consulta"></mat-datepicker-toggle>
           <mat-datepicker #fecha_ultima_consulta color="primary"></mat-datepicker>
         </mat-form-field>
@@ -164,7 +168,7 @@
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Por</mat-label>
-          <input matInput placeholder="" [(ngModel)]="ultimaConsultaPorInforme">
+          <input matInput placeholder="" [(ngModel)]="lastQueryRrppBy">
         </mat-form-field>
       </div>
     </div>
@@ -224,15 +228,15 @@
 
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"  #tooltip="matTooltip" matTooltip="Antecedentes Legales" [class]="comentarioAntecedentes === '' ? 'sin-traduccion' : ''"
-        (click)="agregarComentario(tituloComentarioAntecedentes,subtituloComentarioAntecedentes, comentarioAntecedentes, comentarioAntecedentesIng, 'comentarioAntecedentes')">
+        <button class="btn bg-blue d-flex justify-content-center" style="color: white; width: 9rem;"  #tooltip="matTooltip" matTooltip="Antecedentes Legales" [class]="backgroundEng === '' ? 'sin-traduccion' : ''"
+        (click)="agregarComentario(tituloComentarioAntecedentes,subtituloComentarioAntecedentes, background, backgroundEng, 'comentarioAntecedentes')">
           <i class="fa-regular fa-comment-dots" style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Antecedentes
         </button>
       </div>
       <div class="col-md-12 d-flex justify-content-center mb-2">
-        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" #tooltip="matTooltip" matTooltip="Historia (Antecedentes)" [class]="historialAntecedentes === '' ? 'sin-traduccion' : ''"
-        (click)="agregarComentario(tituloHistoria,subtituloHistoria, historialAntecedentes, historialAntecedentesIng , 'historiaAntecedentes')">
+        <button class="btn bg-cyan d-flex justify-content-center" style="color: white; width: 9rem;" #tooltip="matTooltip" matTooltip="Historia (Antecedentes)" [class]="historyEng === '' ? 'sin-traduccion' : ''"
+        (click)="agregarComentario(tituloHistoria,subtituloHistoria, history, historyEng , 'historiaAntecedentes')">
           <i class="fa-solid fa-magnifying-glass"  style="font-size: 18px; margin-top: .1rem;"></i>
           &nbsp;Historia
         </button>

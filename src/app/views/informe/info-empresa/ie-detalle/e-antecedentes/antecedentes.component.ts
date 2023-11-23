@@ -13,9 +13,11 @@ import { Observable, map, startWith } from 'rxjs';
 import { CapitalPagadoComponent } from './capital-pagado/capital-pagado.component';
 import { ActivatedRoute } from '@angular/router';
 import { AntecedentesLegalesService } from 'app/services/informes/empresa/antecedentes-legales.service';
-import { AntecedentesLegales } from 'app/models/informes/empresa/antecendentes-legales';
-import { Moneda } from 'app/models/informes/moneda';
-import { MonedaService } from 'app/services/informes/moneda.service';
+import { Background } from 'app/models/informes/empresa/antecendentes-legales';
+import { Traduction } from 'app/models/informes/empresa/datos-empresa';
+import { ComboService } from 'app/services/combo.service';
+import { ComboData } from 'app/models/combo';
+import Swal from 'sweetalert2';
 
 export interface data {
   name: string;
@@ -28,13 +30,88 @@ export interface data {
 })
 export class AntecedentesComponent implements OnInit, OnDestroy{
 
+  capitalPagadoActualInforme = ""
   //FORM ANTECENDENTES
   id = 0
+  idCompany = 0
   constitutionDate = ""
-  startActivities = ""
-  
+  constitutionDateD : Date | null = new Date()
+  startFunctionYear = ""
+  operationDuration = ""
+  operationDurationEng = ""
+  registerPlace = ""
+  registerPlaceEng = ""
+  notaryRegister = ""
+  publicRegister = ""
+  publicRegisterEng = ""
+  currentPaidCapital = 0
+  currentPaidCapitalCurrency = 0
+  currentPaidCapitalCurrencyInforme : ComboData =  {
+    id : 0,
+    valor  : '',
+  }
+  currentPaidCapitalComentary = ""
+  currentPaidCapitalComentaryEng = ""
+  origin = ""
+  increaceDateCapital = ""
+  increaceDateCapitalEng = ""
+  currency = 0
+  currencyInforme : ComboData =  {
+    id : 0,
+    valor  : '',
+  }
+  traded : boolean | null = false
+  tradedBy = ""
+  currentExchangeRate = 0
+  currentExchangeRateEng = ""
+  lastQueryRrpp = ""
+  lastQueryRrppD : Date | null = new Date()
+  lastQueryRrppBy = ""
+  background = ""
+  backgroundEng = ""
+  history = ""
+  historyEng = ""
+  traductions : Traduction[] = [
+    {
+      key : "S_B_DURATION",
+      value : ""
+    },
+    {
+      key : "S_B_REGISTERIN",
+      value : ""
+    },
+    {
+      key : "S_B_PUBLICREGIS",
+      value : ""
+    },
+    {
+      key : "L_B_PAIDCAPITAL",
+      value : ""
+    },
+    {
+      key : "S_B_INCREASEDATE",
+      value : ""
+    },
+    {
+      key : "S_B_TAXRATE",
+      value : ""
+    },
+    {
+      key : "L_B_LEGALBACK",
+      value : ""
+    },
+    {
+      key : "L_B_HISTORY",
+      value : ""
+    },
+  ]
 
-  antecedentesLegales : AntecedentesLegales[] = []
+  BackgroundsActual : Background[] = []
+  BackgroundsModificado : Background[] = []
+
+  ctrlMoneda = new FormControl<string | ComboData>('');
+  listaMonedas : ComboData[] = []
+  filteredMoneda: Observable<ComboData[]>;
   //TABLA
   dataSource: MatTableDataSource<EmpresaRelacionada>;
 
@@ -45,79 +122,112 @@ export class AntecedentesComponent implements OnInit, OnDestroy{
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
 
-  myControl = new FormControl<string | Moneda>('');
-  listaMonedas : Moneda[] = []
-  filteredOptions: Observable<Moneda[]>;
+
 constructor(
   public dialog: MatDialog,
   private empresaRelacionadaService : EmpresaRelacionadaService,
   private activatedRoute: ActivatedRoute,
     private antecedentesLegalesService : AntecedentesLegalesService,
-    private monedaService : MonedaService
+    private comboService : ComboService
   ) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
-      this.id = 0
+      this.idCompany = 0
     } else {
-      this.id = parseInt(id + '')
+      this.idCompany = parseInt(id + '')
     }
-    console.log(this.id)
-    this.filteredOptions = new Observable<Moneda[]>();
+    console.log(this.idCompany)
+    this.filteredMoneda = new Observable<ComboData[]>();
     this.dataSource = new MatTableDataSource<EmpresaRelacionada>
   }
   compararModelosF : any
   ngOnInit() {
-    this.listaMonedas = this.monedaService.getMonedas()
+    this.comboService.getTipoMoneda().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.listaMonedas = response.data
+        }
+      }
+    ).add(() => {
+      this.antecedentesLegalesService.getAntecedentesLegalesPorId(this.idCompany).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const antecedentesLegales = response.data
+            this.id = antecedentesLegales.id
+            this.traductions = antecedentesLegales.traductions
+
+            if(antecedentesLegales.constitutionDate !== '' && antecedentesLegales.constitutionDate !== null){
+              this.constitutionDate = antecedentesLegales.constitutionDate
+              const fecha1 = this.constitutionDate.split("/")
+              this.constitutionDateD = fecha1.length > 0 ? new Date(parseInt(fecha1[2]), parseInt(fecha1[0]) - 1, parseInt(fecha1[1])) : null;
+            }else{
+              this.constitutionDateD = null
+            }
+            console.log(antecedentesLegales)
+            this.startFunctionYear = antecedentesLegales.startFunctionYear
+            this.operationDuration = antecedentesLegales.operationDuration
+            this.operationDurationEng = antecedentesLegales.traductions[0].value
+            this.registerPlace = antecedentesLegales.registerPlace
+            this.registerPlaceEng = antecedentesLegales.traductions[1].value
+            this.notaryRegister = antecedentesLegales.notaryRegister
+            this.publicRegister = antecedentesLegales.publicRegister
+            this.publicRegisterEng = antecedentesLegales.traductions[2].value
+            this.currentPaidCapital = antecedentesLegales.currentPaidCapital
+            this.currentPaidCapitalCurrency = antecedentesLegales.currentPaidCapitalCurrency
+            this.currentPaidCapitalCurrencyInforme =  {
+              id : 0,
+              valor  : '',
+            }
+            this.currentPaidCapitalComentary = antecedentesLegales.currentPaidCapitalComentary
+            this.currentPaidCapitalComentaryEng = antecedentesLegales.traductions[3].value
+            this.origin = antecedentesLegales.origin
+            this.increaceDateCapital = antecedentesLegales.increaceDateCapital
+            this.increaceDateCapitalEng = antecedentesLegales.traductions[4].value
+            if(antecedentesLegales.currency > 0 && antecedentesLegales.currency !== null){
+              this.currency = antecedentesLegales.currency
+              this.currencyInforme = this.listaMonedas.filter(x => x.id === this.currency)[0]
+            }else{
+              this.limpiarSeleccionTipoMoneda()
+            }
+            this.traded = antecedentesLegales.traded
+            this.tradedBy = antecedentesLegales.tradedBy
+            this.currentExchangeRate = antecedentesLegales.currentExchangeRate
+            this.currentExchangeRateEng = antecedentesLegales.traductions[5].value
+            this.lastQueryRrpp = antecedentesLegales.lastQueryRrpp
+            this.lastQueryRrppBy = antecedentesLegales.lastQueryRrppBy
+            this.background = antecedentesLegales.background
+            this.backgroundEng = antecedentesLegales.traductions[6].value
+            this.history = antecedentesLegales.history
+            this.historyEng = antecedentesLegales.traductions[7].value
+          }
+        }, (error) => {
+          Swal.fire({
+            title: 'Ocurrió un problema. Comunicarse con Sistemas',
+            text: error,
+            icon: 'warning',
+            confirmButtonColor: 'blue',
+            confirmButtonText: 'Ok',
+            width: '40rem',
+            heightAuto : true
+          }).then(() => {
+          })
+        }).add(() => {
+          this.currentPaidCapitalCurrencyInforme = this.listaMonedas.filter(x => x.id === this.currentPaidCapitalCurrency)[0]
+          this.currencyInforme = this.listaMonedas.filter(x => x.id === this.currency)[0]
+          this.armarModeloActual()
+        });
+    });
+
     this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.GetAllEmpresaRelacionada())
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredMoneda = this.ctrlMoneda.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const name = typeof value === 'string' ? value : value?.pais + ' - ' + value?.moneda;
+        const name = typeof value === 'string' ? value : value?.valor;
         return name ? this._filter(name as string) : this.listaMonedas.slice();
       }),
     );
 
-    // if(this.codigoInforme !== 'nuevo'){
-    //   const antecedentesLegales = this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+'')
-    //   console.log(this.antecedentesLegales)
-    //   this.fechaConstitucionInforme = antecedentesLegales[0].fechaConstitucion
-    //   const fecha1 = this.fechaConstitucionInforme.split("/");
-    //   if(fecha1){
-    //     this.fechaConstitucionInformeDate = new Date(parseInt(fecha1[2]), parseInt(fecha1[1])-1,parseInt(fecha1[0]))
-    //   }
-
-    //   this.inicioActividadesInforme = antecedentesLegales[0].inicioActividades
-    //   this.duracionInforme = antecedentesLegales[0].duracion
-    //   this.duracionIngInforme = antecedentesLegales[0].duracionIng
-    //   this.registradaEnInforme = antecedentesLegales[0].registradaEn
-    //   this.registradaEnIngInforme = antecedentesLegales[0].registradaEnIng
-    //   this.notariaInforme = antecedentesLegales[0].notaria
-    //   this.registrosPublicosInforme = antecedentesLegales[0].registrosPublicos
-    //   this.registrosPublicosIngInforme = antecedentesLegales[0].registrosPublicosIng
-    //   this.comentarioAntecedentes = antecedentesLegales[0].comentarioAntecedentesLegales
-    //   this.comentarioAntecedentesIng = antecedentesLegales[0].comentarioAntecedentesLegalesIng
-    //   this.historialAntecedentes = antecedentesLegales[0].comentarioHistoriaAntecedentes
-    //   this.historialAntecedentesIng = antecedentesLegales[0].comentarioHistoriaAntecedentesIng
-    //   this.capitalPagadoMoneda = antecedentesLegales[0].monedaPais
-    //   this.capitalPagadoMonto = antecedentesLegales[0].monto
-    //   this.capitalPagadoObservacion = antecedentesLegales[0].observacion
-    //   this.capitalPagadoObservacionIng = antecedentesLegales[0].observacionIng
-    //   this.origenInforme = antecedentesLegales[0].origen
-    //   this.fechaAumentoInforme = antecedentesLegales[0].fechaAumento
-    //   this.fechaAumentoIngInforme = antecedentesLegales[0].fechaAumentoIng
-    //   this.monedaPaisInforme = antecedentesLegales[0].moneda
-    //   this.cotizadaEnBolsaInforme = antecedentesLegales[0].cotizada
-    //   this.cotizadaEnBolsaPorInforme = antecedentesLegales[0].por
-    //   this.actualTCInforme = antecedentesLegales[0].actualTC
-    //   this.actualTCIngInforme = antecedentesLegales[0].actualTCIng
-    //   this.fechaUltimaConsultaInforme = antecedentesLegales[0].fechaUltimaConsultaRRPP
-    //   const fecha2 = this.fechaUltimaConsultaInforme.split("/");
-    //   if(fecha2){
-    //     this.fechaUltimaConsultaInformeDate = new Date(parseInt(fecha2[2]), parseInt(fecha2[1])-1,parseInt(fecha2[0]))
-    //   }
-    //   this.ultimaConsultaPorInforme = antecedentesLegales[0].fechaUltimaConsultaPor
-    // }
     this.compararModelosF = setInterval(() => {
       this.compararModelos();
     }, 5000);
@@ -125,28 +235,51 @@ constructor(
   ngOnDestroy(): void {
     clearInterval(this.compararModelosF)
   }
+  msgTipoMoneda = ""
+  colorMsgTipoMoneda = ""
+  seleccionarTipoMoneda(moneda : ComboData){
+    if(moneda !== null){
+      if (typeof moneda === 'string' || moneda === null) {
+        this.msgTipoMoneda = "Seleccione una opción."
+        this.currency = 0
+        this.colorMsgTipoMoneda = "red"
+      } else {
+        this.msgTipoMoneda = "Opción Seleccionada."
+        this.currency = moneda.id
+        this.colorMsgTipoMoneda = "green"
+      }
+    }else{
+      this.currency = 0
+      this.msgTipoMoneda = "Seleccione una opción."
+      this.colorMsgTipoMoneda = "red"
+    }
+  }
+  limpiarSeleccionTipoMoneda() {
+    this.ctrlMoneda.reset();
+    this.currency = 0
+  }
 
   compararModelos(){
-    this.armarModelo()
-    // if(JSON.stringify(this.antecedentesLegales) !== JSON.stringify(this.antecedentesLegalesService.getAntecedentesLegales(this.codigoInforme+''))){
-    //   const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
-    //   if (tabAntecedentes) {
-    //     tabAntecedentes.classList.add('tab-cambios')
-    //   }
-    // }else{
-    //   const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
-    //   if (tabAntecedentes) {
-    //     tabAntecedentes.classList.remove('tab-cambios')
-    //   }
-    // }
+    this.armarModeloModificado()
+    if(JSON.stringify(this.BackgroundsActual) !== JSON.stringify(this.BackgroundsModificado)){
+      const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
+      if (tabAntecedentes) {
+        tabAntecedentes.classList.add('tab-cambios')
+      }
+    }else{
+      const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
+      if (tabAntecedentes) {
+        tabAntecedentes.classList.remove('tab-cambios')
+      }
+    }
   }
 
-  displayFn(moneda: Moneda): string {
-    return moneda && moneda.moneda ? moneda.moneda : '';
+  displayFn(moneda: ComboData): string {
+    return moneda && moneda.valor ? moneda.valor : '';
   }
 
-  private _filter(name: string): Moneda[] {
-    return this.listaMonedas.filter(option => option.moneda.toLowerCase().includes(name.toLowerCase()));
+  private _filter(name: string): ComboData[] {
+    return this.listaMonedas.filter(option => option.valor.toLowerCase().includes(name.toLowerCase()));
   }
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
@@ -162,26 +295,15 @@ constructor(
     if (data) {
       console.log(data)
       switch(input){
-        case 'registrosPublicos':
-        this.registrosPublicosInforme = data.comentario_es;
-        this.registrosPublicosIngInforme = data.comentario_en;
-        console.log(this.registrosPublicosInforme)
-        break
-        case 'fechaAumento':
-          this.fechaAumentoInforme = data.comentario_es;
-          this.fechaAumentoIngInforme = data.comentario_en;
-        break
-        case 'actualTC':
-          this.actualTCInforme = data.comentario_es;
-          this.actualTCIngInforme = data.comentario_en;
-        break
         case 'comentarioAntecedentes':
-          this.comentarioAntecedentes = data.comentario_es;
-          this.comentarioAntecedentesIng = data.comentario_en;
+          this.background = data.comentario_es;
+          this.backgroundEng = data.comentario_en;
+          this.traductions[6].value = data.comentario_en
         break
         case 'historiaAntecedentes':
-          this.historialAntecedentes = data.comentario_es;
-        this.historialAntecedentesIng = data.comentario_en;
+          this.history = data.comentario_es;
+          this.historyEng = data.comentario_en;
+          this.traductions[7].value = data.comentario_en
         break
       }
     }
@@ -202,74 +324,68 @@ constructor(
         console.log(data)
         switch(input){
           case 'duracion':
-            this.duracionInforme = data.comentario_es;
-            this.duracionIngInforme = data.comentario_en;
+            this.operationDuration = data.comentario_es
+            this.operationDurationEng = data.comentario_en
+            this.traductions[0].value = data.comentario_en
           break
           case 'registradaEn':
-            this.registradaEnInforme = data.comentario_es;
-            this.registradaEnIngInforme = data.comentario_en;
+            this.registerPlace = data.comentario_es
+            this.registerPlaceEng = data.comentario_en
+            this.traductions[1].value = data.comentario_en
           break
           case 'registrosPublicos':
-          this.registrosPublicosInforme = data.comentario_es;
-          this.registrosPublicosIngInforme = data.comentario_en;
+          this.publicRegister = data.comentario_es
+          this.publicRegisterEng = data.comentario_en
+          this.traductions[2].value = data.comentario_en
           break
-          case 'historialAntecedentes':
-           this.historialAntecedentes = data.comentario_es;
-           this.historialAntecedentesIng = data.comentario_en;
-           break
           case 'fechaAumento':
-          this.fechaAumentoInforme = data.comentario_es;
-          this.fechaAumentoIngInforme = data.comentario_en;
+          this.increaceDateCapital = data.comentario_es
+          this.increaceDateCapitalEng = data.comentario_en
+          this.traductions[4].value = data.comentario_en
           break
           case 'actualTC':
-          this.actualTCInforme = data.comentario_es;
-          this.actualTCIngInforme = data.comentario_en;
-          break
-          case 'comentarioAntecedentes':
-          this.comentarioAntecedentes = data.comentario_es;
-          this.comentarioAntecedentesIng = data.comentario_en;
-          break
-          case 'historiaAntecedentes':
-          this.historialAntecedentes = data.comentario_es;
-          this.historialAntecedentesIng = data.comentario_en;
+          this.currentExchangeRate = data.comentario_es
+          this.currentExchangeRateEng = data.comentario_en
+          this.traductions[5].value = data.comentario_en
           break
         }
       }
     });
   }
-  func(string : string, valor : string){
-    string = valor
-  }
   abrirCapitalPagado(){
     const dialogRef = this.dialog.open(CapitalPagadoComponent, {
       data : {
-        moneda : this.capitalPagadoMoneda,
-        monto : this.capitalPagadoMonto,
-        observacion : this.capitalPagadoObservacion,
-        observacionIng : this.capitalPagadoObservacionIng
+        moneda : this.currentPaidCapitalCurrency,
+        monto : this.currentPaidCapital,
+        observacion : this.currentPaidCapitalComentary,
+        observacionIng : this.currentPaidCapitalComentaryEng
       }
     })
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        this.capitalPagadoActualInforme = data.capitalPagado.moneda + ' | ' + data.capitalPagado.monto + ' | ' + data.capitalPagado.observacion
-        this.capitalPagadoMoneda = data.capitalPagado.moneda
-        this.capitalPagadoMonto = data.capitalPagado.monto
-        this.capitalPagadoObservacion = data.capitalPagado.observacion
-        this.capitalPagadoObservacionIng = data.capitalPagado.observacionIng
+        console.log(data)
+        const moneda = typeof data.moneda ==='undefined' ? data.moneda : ''
+        this.capitalPagadoActualInforme = moneda + ' | ' + data.monto + ' | ' + data.observacion
+        this.currentPaidCapitalCurrency = data.idMoneda
+        console.log(typeof(data.moneda))
+        this.currentPaidCapital = data.monto
+        this.currentPaidCapitalComentary = data.observacion
+        this.currentPaidCapitalComentaryEng = data.observacionIng
+        this.traductions[3].value = data.observacionIng
       }
     });
   }
 
-  onDateChange1(event: MatDatepickerInputEvent<Date>) {
+  selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
     if (selectedDate) {
-      this.fechaConstitucionInforme = this.formatDate(selectedDate);
+      this.constitutionDate = this.formatDate(selectedDate);
     }
   }
-  onDateChange2(event: MatDatepickerInputEvent<Date>) {
+  selectFechaUltimaConsulta(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
     if (selectedDate) {
-      this.fechaUltimaConsultaInforme = this.formatDate(selectedDate);
+      this.lastQueryRrpp = this.formatDate(selectedDate);
     }
   }
 
@@ -278,7 +394,7 @@ constructor(
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
 
-    return `${day}/${month}/${year}`;
+    return `${month}/${day}/${year}`;
   }
 
   //TITULOS DE COMENTARIOS
@@ -293,115 +409,202 @@ constructor(
   tituloHistoria : string = 'Historia (Antecedentes)'
   subtituloHistoria: string = 'Anote aquí unicamente el Historial de la Empresa a travéz del tiempo, a que grupo económico pertenecen, destacar al principal accionista, posición en el mercado, etc.'
 
-
-  empresaCotizada(){
-    if(this.checkEmpresaCotizada){
-      this.checkEmpresaCotizada = false
-    }else{
-      this.checkEmpresaCotizada = true
-    }
-  }
-
   selectOrigen(origen : string){
-    this.origenInforme = origen
+    this.origin = origen
   }
   selectCotizadoEnBolsaPor(cotizadaEnBolsaPor : string){
-    this.cotizadaEnBolsaPorInforme = cotizadaEnBolsaPor
+    this.tradedBy = cotizadaEnBolsaPor
   }
 
   //ANTECEDENTES
-  fechaConstitucionInforme : string = ""
-  fechaConstitucionInformeDate : Date = new Date()
-  inicioActividadesInforme : string = ""
-  duracionInforme : string = ""
-  duracionIngInforme : string = ""
-  registradaEnInforme : string = "1"
-  registradaEnIngInforme : string = "2"
-  notariaInforme : string = ""
-  registrosPublicosInforme : string = ""
-  registrosPublicosIngInforme : string = ""
-
-  comentarioAntecedentes : string = ""
-  comentarioAntecedentesIng : string = ""
-
-  historialAntecedentes : string = ""
-  historialAntecedentesIng : string = ""
-
-  capitalPagadoMoneda : string = ""
-  capitalPagadoMonto : string = ""
-  capitalPagadoObservacion : string = ""
-  capitalPagadoObservacionIng : string = ""
-
-  capitalPagadoActualInforme : string = ""
-
-  origenInforme : string = ""
-  fechaAumentoInforme : string = ""
-  fechaAumentoIngInforme : string = ""
-  monedaPaisInforme : Moneda =  {
-    id : 0,
-    pais : '',
-    moneda : ''
-  }
-  checkEmpresaCotizada : boolean = false
-  cotizadaEnBolsaInforme : string = ""
-  cotizadaEnBolsaPorInforme : string = ""
-  actualTCInforme : string = ""
-  actualTCIngInforme : string = ""
-  fechaUltimaConsultaInforme : string = ""
-  fechaUltimaConsultaInformeDate : Date = new Date()
-  ultimaConsultaPorInforme : string = ""
 
   guardar(){
-    console.log(this.fechaConstitucionInforme)
-    console.log(this.inicioActividadesInforme)
-    console.log(this.duracionInforme)
-    console.log(this.registradaEnInforme)
-    console.log(this.notariaInforme)
-    console.log(this.registrosPublicosInforme)
-    console.log(this.capitalPagadoActualInforme)
-    console.log(this.origenInforme)
-    console.log(this.fechaAumentoInforme)
-    console.log(this.monedaPaisInforme)
-    console.log(this.checkEmpresaCotizada)
-    console.log(this.cotizadaEnBolsaPorInforme)
-    console.log(this.actualTCInforme)
-    console.log(this.fechaUltimaConsultaInforme)
-    console.log(this.ultimaConsultaPorInforme)
+    this.armarModeloModificado()
+    Swal.fire({
+      title: '¿Está seguro de guardar los cambios?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí',
+      width: '30rem',
+      heightAuto: true
+    }).then((result) => {
+      if (result.value) {
+        const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
+        this.antecedentesLegalesService.updateAntecedentesLegales(this.BackgroundsModificado[0]).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
+              }
+              Swal.fire({
+                title: 'Se guardaron los cambios correctamente',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto: true
+              })
+            }else{
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
+              }
+              Swal.fire({
+                title: 'Ocurrió un problema. Comunicarse con Sistemas.',
+                text: '',
+                icon: 'warning',
+                confirmButtonColor: 'blue',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto : true
+              }).then(() => {
+              })
+            }
+        },(error) => {
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.add('hide-loader');
+          }
+          Swal.fire({
+            title: 'Ocurrió un problema. Comunicarse con Sistemas.',
+            text: error.message,
+            icon: 'warning',
+            confirmButtonColor: 'blue',
+            confirmButtonText: 'Ok',
+            width: '30rem',
+            heightAuto : true
+          }).then(() => {
+          })
+        }).add(
+          () =>{
+
+          })
+      }
+    });
   }
-  armarModelo(){
-    this.antecedentesLegales[0] = {
-      codigoInforme : this.id+'',
-      fechaConstitucion : this.fechaConstitucionInforme,
-      inicioActividades : this.inicioActividadesInforme,
-      duracion : this.duracionInforme,
-      duracionIng : this.duracionIngInforme,
-      registradaEn : this.registradaEnInforme,
-      registradaEnIng : this.registradaEnIngInforme,
-      notaria : this.notariaInforme,
-      registrosPublicos : this.registrosPublicosInforme,
-      registrosPublicosIng : this.registrosPublicosIngInforme,
-
-      monedaPais : this.capitalPagadoMoneda,
-      monto : this.capitalPagadoMonto,
-      observacion : this.capitalPagadoObservacion,
-      observacionIng : this.capitalPagadoObservacionIng,
-
-      origen : this.origenInforme,
-      fechaAumento : this.fechaAumentoInforme,
-      fechaAumentoIng : this.fechaAumentoIngInforme,
-
-      moneda : this.monedaPaisInforme,
-      cotizada : this.cotizadaEnBolsaInforme,
-      por : this.cotizadaEnBolsaPorInforme,
-      actualTC : this.actualTCInforme,
-      actualTCIng : this.actualTCIngInforme,
-      fechaUltimaConsultaRRPP : this.fechaUltimaConsultaInforme,
-      fechaUltimaConsultaPor : this.ultimaConsultaPorInforme,
-
-      comentarioAntecedentesLegales : this.comentarioAntecedentes,
-      comentarioAntecedentesLegalesIng : this.comentarioAntecedentesIng,
-      comentarioHistoriaAntecedentes : this.historialAntecedentes,
-      comentarioHistoriaAntecedentesIng : this.historialAntecedentesIng,
+  armarModeloActual(){
+    this.BackgroundsActual[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      constitutionDate : this.constitutionDate,
+      startFunctionYear : this.startFunctionYear,
+      operationDuration : this.operationDuration,
+      registerPlace : this.registerPlace,
+      notaryRegister : this.notaryRegister,
+      publicRegister : this.publicRegister,
+      currentPaidCapital : this.currentPaidCapital,
+      currentPaidCapitalCurrency : this.currentPaidCapitalCurrency,
+      currentPaidCapitalComentary : this.currentPaidCapitalComentary,
+      origin : this.origin,
+      increaceDateCapital : this.increaceDateCapital,
+      currency : this.currency,
+      traded : this.traded,
+      tradedBy : this.tradedBy,
+      currentExchangeRate : this.currentExchangeRate,
+      lastQueryRrpp : this.lastQueryRrpp,
+      lastQueryRrppBy : this.lastQueryRrppBy,
+      background : this.background,
+      history : this.history,
+      traductions : [
+        {
+          key : "S_B_DURATION",
+          value : this.operationDurationEng
+        },
+        {
+          key : "S_B_REGISTERIN",
+          value : this.registerPlaceEng
+        },
+        {
+          key : "S_B_PUBLICREGIS",
+          value : this.publicRegisterEng
+        },
+        {
+          key : "L_B_PAIDCAPITAL",
+          value : this.currentPaidCapitalComentaryEng
+        },
+        {
+          key : "S_B_INCREASEDATE",
+          value : this.increaceDateCapitalEng
+        },
+        {
+          key : "S_B_TAXRATE",
+          value : this.currentExchangeRateEng
+        },
+        {
+          key : "L_B_LEGALBACK",
+          value : this.backgroundEng
+        },
+        {
+          key : "L_B_HISTORY",
+          value : this.historyEng
+        }
+      ]
+    }
+  }
+  armarModeloModificado(){
+    this.BackgroundsModificado[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      constitutionDate : this.constitutionDate,
+      startFunctionYear : this.startFunctionYear,
+      operationDuration : this.operationDuration,
+      registerPlace : this.registerPlace,
+      notaryRegister : this.notaryRegister,
+      publicRegister : this.publicRegister,
+      currentPaidCapital : this.currentPaidCapital,
+      currentPaidCapitalCurrency : this.currentPaidCapitalCurrency,
+      currentPaidCapitalComentary : this.currentPaidCapitalComentary,
+      origin : this.origin,
+      increaceDateCapital : this.increaceDateCapital,
+      currency : this.currency,
+      traded : this.traded,
+      tradedBy : this.tradedBy,
+      currentExchangeRate : this.currentExchangeRate,
+      lastQueryRrpp : this.lastQueryRrpp,
+      lastQueryRrppBy : this.lastQueryRrppBy,
+      background : this.background,
+      history : this.history,
+      traductions : [
+        {
+          key : "S_B_DURATION",
+          value : this.operationDurationEng
+        },
+        {
+          key : "S_B_REGISTERIN",
+          value : this.registerPlaceEng
+        },
+        {
+          key : "S_B_PUBLICREGIS",
+          value : this.publicRegisterEng
+        },
+        {
+          key : "L_B_PAIDCAPITAL",
+          value : this.currentPaidCapitalComentaryEng
+        },
+        {
+          key : "S_B_INCREASEDATE",
+          value : this.increaceDateCapitalEng
+        },
+        {
+          key : "S_B_TAXRATE",
+          value : this.currentExchangeRateEng
+        },
+        {
+          key : "L_B_LEGALBACK",
+          value : this.backgroundEng
+        },
+        {
+          key : "L_B_HISTORY",
+          value : this.historyEng
+        }
+      ]
     }
   }
   salir(){

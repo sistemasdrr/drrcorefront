@@ -32,13 +32,13 @@
     <div class="col-md-5 mb-3">
       <mat-form-field class="w-100">
         <mat-label>Moneda del País</mat-label>
-        <input type="text" matInput [formControl]="controlMoneda" [matAutocomplete]="auto" [(ngModel)]="moneda" (ngModelChange)="selectMoneda($event)">
+        <input type="text" matInput [formControl]="ctrlMoneda" [matAutocomplete]="auto" [(ngModel)]="currentPaidCapitalCurrencyInforme" (ngModelChange)="selectMoneda(currentPaidCapitalCurrencyInforme)">
         <span matSuffix style="margin-right: .5rem; color:gray;">
           <i class="fa-solid fa-coins"></i>
         </span>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option.name}}
+          <mat-option *ngFor="let option of filteredMoneda | async" [value]="option">
+            {{option.valor}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -46,7 +46,7 @@
     <div class="col-md-7 mb-3">
       <mat-form-field class="w-100">
         <mat-label>Monto</mat-label>
-        <input matInput placeholder="" mask="separator.2" thousandSeparator="," [(ngModel)]="monto">
+        <input matInput placeholder="" mask="separator.2" thousandSeparator="," [(ngModel)]="capital">
         <span matSuffix style="margin-right: .5rem; color:gray;">
           <i class="fa-solid fa-circle-dollar-to-slot"></i>
         </span>
@@ -57,19 +57,15 @@
     <div class="col-md-12 mb-3">
       <mat-form-field class="w-100">
         <mat-label>(Español)</mat-label>
-        <textarea matInput placeholder="" [(ngModel)]="observacion"></textarea>
-        <button class="btn-traduccion" matSuffix mat-icon-button>
-          <span class="fi fi-es" style="font-size: 24px;"></span>
-        </button>
+        <textarea matInput placeholder="" [(ngModel)]="commentary"></textarea>
+        <span matSuffix  class="fi fi-es" style="font-size: 24px;"></span>
       </mat-form-field>
     </div>
     <div class="col-md-12 mb-3">
       <mat-form-field class="w-100">
         <mat-label>(Inglés)</mat-label>
-        <textarea matInput placeholder="" [(ngModel)]="observacionIng"></textarea>
-        <button class="btn-traduccion" matSuffix mat-icon-button>
-          <span class="fi fi-us" style="font-size: 24px;"></span>
-        </button>
+        <textarea matInput placeholder="" [(ngModel)]="commentaryEng"></textarea>
+        <span matSuffix class="fi fi-us" style="font-size: 24px;"></span>
       </mat-form-field>
     </div>
   </div>

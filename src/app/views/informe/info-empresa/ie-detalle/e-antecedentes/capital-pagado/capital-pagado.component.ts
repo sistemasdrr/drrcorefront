@@ -2,6 +2,8 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { ComboService } from 'app/services/combo.service';
+import { ComboData } from 'app/models/combo';
 
 export interface CapitalPagadoData{
   moneda : string
@@ -9,11 +11,6 @@ export interface CapitalPagadoData{
   observacion : string
   observacionIng : string
 }
-export interface MonedaData{
-  codigo : string
-  name : string
-}
-
 @Component({
   selector: 'app-capital-pagado',
   templateUrl: './capital-pagado.component.html',
@@ -21,89 +18,64 @@ export interface MonedaData{
 })
 export class CapitalPagadoComponent implements OnInit {
 
-  moneda : MonedaData
-  monto = ""
-  observacion = ""
-  observacionIng = ""
+  idCurrency = 0
+  currentPaidCapitalCurrencyInforme : ComboData =  {
+    id : 0,
+    valor  : '',
+  }
+  capital = 0
+  commentary = ""
+  commentaryEng = ""
+
+
+  ctrlMoneda = new FormControl<string | ComboData>('');
+  listaMonedas : ComboData[] = []
+  filteredMoneda: Observable<ComboData[]>;
 
   @Output()
   eventCapitalPagado = new EventEmitter<CapitalPagadoData>();
 
-  options: MonedaData[] = [
-    {
-      codigo : 'PEN',
-      name: 'PEN - Nuevos Soles (S/.)'
-    },
-    {
-      codigo : 'USD',
-      name: 'USD - Dolár EstadoUnidense ($)'
-    },
-    {
-      codigo : 'EUR',
-      name: 'EUR - Euro (€)'
-    },
-    {
-      codigo : 'JPY',
-      name: 'JPY - Yen Japonés (¥)'
-    },
-    {
-      codigo : 'MXN',
-      name: 'MXN - Peso Mexicano ($)'
-    },
-    {
-      codigo : 'CLP',
-      name: 'CLP - Peso Chileno ($)'
-    },
-    {
-      codigo : 'INR',
-      name: 'INR -Rupia India (₹)'
-    },
-    {
-      codigo : 'RUB',
-      name: 'RUB - Rublo Ruso (₽)'
-    }];
-  filteredOptions: Observable<MonedaData[]>;
-  controlMoneda = new FormControl<string | MonedaData>('');
-
-  selectMoneda(event : any){
-    console.log(event)
+  selectMoneda(data : ComboData){
+    if (data !== null) {
+      if (typeof data === 'string' || data === null) {
+        this.idCurrency = 0
+      } else {
+        this.idCurrency = data.id
+      }
+    } else {
+      this.idCurrency = 0
+    }
+    console.log(this.idCurrency)
   }
 
   constructor(public dialogRef: MatDialogRef<CapitalPagadoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CapitalPagadoData
-  ) {
-    this.moneda = {
-      codigo : '',
-      name : ''
-    }
-    console.log(data)
-    this.filteredOptions = new Observable<MonedaData[]>();
-    if(data.moneda != null && data.moneda != undefined){
-      this.moneda = this.options.filter(option => option.codigo.toLocaleLowerCase().includes(data.moneda.toLowerCase()))[0]
-    }
-
-    this.monto = data.monto
-    this.observacion = data.observacion
-    this.observacionIng = data.observacionIng
+    @Inject(MAT_DIALOG_DATA) public data: CapitalPagadoData, private comboService : ComboService) {
+    this.filteredMoneda = new Observable<ComboData[]>()
   }
 
   ngOnInit() {
-    this.filteredOptions = this.controlMoneda.valueChanges.pipe(
+    this.comboService.getTipoMoneda().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.listaMonedas = response.data
+        }
+      });
+    this.filteredMoneda = this.ctrlMoneda.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const name = typeof value === 'string' ? value : value?.name;
-        return name ? this._filter(name as string) : this.options.slice();
+        const name = typeof value === 'string' ? value : value?.valor;
+        return name ? this._filter(name as string) : this.listaMonedas.slice();
       }),
     );
 
   }
 
-  displayFn(user: MonedaData): string {
-    return user && user.codigo ? user.codigo : '';
+  displayFn(data: ComboData): string {
+    return data && data.valor ? data.valor : '';
   }
 
-  private _filter(name: string): MonedaData[] {
-    return this.options.filter(option => option.name.toLowerCase().includes(name.toLowerCase()));
+  private _filter(name: string): ComboData[] {
+    return this.listaMonedas.filter(x => x.valor.toLowerCase().includes(name.toLowerCase()));
   }
 
   cerrarDialog(){
@@ -111,13 +83,12 @@ export class CapitalPagadoComponent implements OnInit {
   }
   realizarEnvioCodigo() {
     this.dialogRef.close(
-      {
-        capitalPagado : {
-          moneda : this.moneda.codigo,
-          monto : this.monto,
-          observacion :this.observacion,
-          observacionIng : this.observacionIng
-        }
-       });
+    {
+      idMoneda : this.idCurrency,
+      moneda : this.currentPaidCapitalCurrencyInforme.valor,
+      monto : this.capital,
+      observacion :this.commentary,
+      observacionIng : this.commentaryEng
+    });
   }
 }
