@@ -29,6 +29,11 @@ export class DialogComercioComponent implements OnInit{
     this.dialogRef.close()
   }
   guardar(){
-
+    this.dialogRef.close({
+      monto : this.monto,
+      plazos : this.plazos,
+      observacion : this.observacion,
+      observacionIng : this.observacionIng
+    })
   }
 }

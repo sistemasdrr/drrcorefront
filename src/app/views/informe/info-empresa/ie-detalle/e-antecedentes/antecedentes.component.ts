@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,10 +14,10 @@ import { CapitalPagadoComponent } from './capital-pagado/capital-pagado.componen
 import { ActivatedRoute } from '@angular/router';
 import { AntecedentesLegalesService } from 'app/services/informes/empresa/antecedentes-legales.service';
 import { Background } from 'app/models/informes/empresa/antecendentes-legales';
-import { Traduction } from 'app/models/informes/empresa/datos-empresa';
 import { ComboService } from 'app/services/combo.service';
 import { ComboData } from 'app/models/combo';
 import Swal from 'sweetalert2';
+import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
 
 export interface data {
   name: string;
@@ -26,7 +26,8 @@ export interface data {
 @Component({
   selector: 'app-antecedentes',
   templateUrl: './antecedentes.component.html',
-  styleUrls: ['./antecedentes.component.scss']
+  styleUrls: ['./antecedentes.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AntecedentesComponent implements OnInit, OnDestroy{
 
@@ -71,40 +72,7 @@ export class AntecedentesComponent implements OnInit, OnDestroy{
   backgroundEng = ""
   history = ""
   historyEng = ""
-  traductions : Traduction[] = [
-    {
-      key : "S_B_DURATION",
-      value : ""
-    },
-    {
-      key : "S_B_REGISTERIN",
-      value : ""
-    },
-    {
-      key : "S_B_PUBLICREGIS",
-      value : ""
-    },
-    {
-      key : "L_B_PAIDCAPITAL",
-      value : ""
-    },
-    {
-      key : "S_B_INCREASEDATE",
-      value : ""
-    },
-    {
-      key : "S_B_TAXRATE",
-      value : ""
-    },
-    {
-      key : "L_B_LEGALBACK",
-      value : ""
-    },
-    {
-      key : "L_B_HISTORY",
-      value : ""
-    },
-  ]
+
 
   BackgroundsActual : Background[] = []
   BackgroundsModificado : Background[] = []
@@ -151,10 +119,10 @@ constructor(
     ).add(() => {
       this.antecedentesLegalesService.getAntecedentesLegalesPorId(this.idCompany).subscribe(
         (response) => {
+          console.log(response)
           if(response.isSuccess === true && response.isWarning === false){
             const antecedentesLegales = response.data
             this.id = antecedentesLegales.id
-            this.traductions = antecedentesLegales.traductions
 
             if(antecedentesLegales.constitutionDate !== '' && antecedentesLegales.constitutionDate !== null){
               this.constitutionDate = antecedentesLegales.constitutionDate
@@ -166,23 +134,43 @@ constructor(
             console.log(antecedentesLegales)
             this.startFunctionYear = antecedentesLegales.startFunctionYear
             this.operationDuration = antecedentesLegales.operationDuration
-            this.operationDurationEng = antecedentesLegales.traductions[0].value
+            if(antecedentesLegales.traductions.length > 0){
+              this.operationDurationEng = antecedentesLegales.traductions[0].value
+              this.registerPlaceEng = antecedentesLegales.traductions[1].value
+              this.publicRegisterEng = antecedentesLegales.traductions[2].value
+              this.currentPaidCapitalComentaryEng = antecedentesLegales.traductions[3].value
+              this.increaceDateCapitalEng = antecedentesLegales.traductions[4].value
+              this.currentExchangeRateEng = antecedentesLegales.traductions[5].value
+              this.backgroundEng = antecedentesLegales.traductions[6].value
+              this.historyEng = antecedentesLegales.traductions[7].value
+            }
             this.registerPlace = antecedentesLegales.registerPlace
-            this.registerPlaceEng = antecedentesLegales.traductions[1].value
             this.notaryRegister = antecedentesLegales.notaryRegister
             this.publicRegister = antecedentesLegales.publicRegister
-            this.publicRegisterEng = antecedentesLegales.traductions[2].value
             this.currentPaidCapital = antecedentesLegales.currentPaidCapital
-            this.currentPaidCapitalCurrency = antecedentesLegales.currentPaidCapitalCurrency
+            if(antecedentesLegales.currentPaidCapitalCurrency > 0 && antecedentesLegales.currentPaidCapitalCurrency !== null){
+              this.currentPaidCapitalCurrency = antecedentesLegales.currentPaidCapitalCurrency
+              this.currentPaidCapitalCurrencyInforme = this.listaMonedas.filter(x => x.id === this.currentPaidCapitalCurrency)[0]
+              this.capitalPagadoActualInforme = this.currentPaidCapitalCurrencyInforme.valor + ' | ' + this.currentPaidCapital
+
+            }else{
+              this.currentPaidCapitalCurrency = 0
+              this.capitalPagadoActualInforme = ' | ' + this.currentPaidCapital
+
+            }
+            if(antecedentesLegales.currency > 0 && antecedentesLegales.currency !== null){
+              this.currency = antecedentesLegales.currentPaidCapitalCurrency
+              this.currencyInforme = this.listaMonedas.filter(x => x.id === this.currency)[0]
+            }else{
+              this.limpiarSeleccionTipoMoneda()
+            }
             this.currentPaidCapitalCurrencyInforme =  {
               id : 0,
               valor  : '',
             }
             this.currentPaidCapitalComentary = antecedentesLegales.currentPaidCapitalComentary
-            this.currentPaidCapitalComentaryEng = antecedentesLegales.traductions[3].value
             this.origin = antecedentesLegales.origin
             this.increaceDateCapital = antecedentesLegales.increaceDateCapital
-            this.increaceDateCapitalEng = antecedentesLegales.traductions[4].value
             if(antecedentesLegales.currency > 0 && antecedentesLegales.currency !== null){
               this.currency = antecedentesLegales.currency
               this.currencyInforme = this.listaMonedas.filter(x => x.id === this.currency)[0]
@@ -192,13 +180,10 @@ constructor(
             this.traded = antecedentesLegales.traded
             this.tradedBy = antecedentesLegales.tradedBy
             this.currentExchangeRate = antecedentesLegales.currentExchangeRate
-            this.currentExchangeRateEng = antecedentesLegales.traductions[5].value
             this.lastQueryRrpp = antecedentesLegales.lastQueryRrpp
             this.lastQueryRrppBy = antecedentesLegales.lastQueryRrppBy
             this.background = antecedentesLegales.background
-            this.backgroundEng = antecedentesLegales.traductions[6].value
             this.history = antecedentesLegales.history
-            this.historyEng = antecedentesLegales.traductions[7].value
           }
         }, (error) => {
           Swal.fire({
@@ -239,7 +224,7 @@ constructor(
   colorMsgTipoMoneda = ""
   seleccionarTipoMoneda(moneda : ComboData){
     if(moneda !== null){
-      if (typeof moneda === 'string' || moneda === null) {
+      if (typeof moneda === 'string' || moneda === null || moneda === undefined) {
         this.msgTipoMoneda = "Seleccione una opción."
         this.currency = 0
         this.colorMsgTipoMoneda = "red"
@@ -298,16 +283,26 @@ constructor(
         case 'comentarioAntecedentes':
           this.background = data.comentario_es;
           this.backgroundEng = data.comentario_en;
-          this.traductions[6].value = data.comentario_en
         break
         case 'historiaAntecedentes':
           this.history = data.comentario_es;
           this.historyEng = data.comentario_en;
-          this.traductions[7].value = data.comentario_en
         break
       }
     }
   });
+  }
+  empresasRelacionadas(){
+    const dialogRef = this.dialog.open(ListaEmpresasComponent, {
+      data : {
+        idCompany : this.idCompany
+      }
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+      }
+    });
   }
   agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
@@ -326,27 +321,22 @@ constructor(
           case 'duracion':
             this.operationDuration = data.comentario_es
             this.operationDurationEng = data.comentario_en
-            this.traductions[0].value = data.comentario_en
           break
           case 'registradaEn':
             this.registerPlace = data.comentario_es
             this.registerPlaceEng = data.comentario_en
-            this.traductions[1].value = data.comentario_en
           break
           case 'registrosPublicos':
           this.publicRegister = data.comentario_es
           this.publicRegisterEng = data.comentario_en
-          this.traductions[2].value = data.comentario_en
           break
           case 'fechaAumento':
           this.increaceDateCapital = data.comentario_es
           this.increaceDateCapitalEng = data.comentario_en
-          this.traductions[4].value = data.comentario_en
           break
           case 'actualTC':
           this.currentExchangeRate = data.comentario_es
           this.currentExchangeRateEng = data.comentario_en
-          this.traductions[5].value = data.comentario_en
           break
         }
       }
@@ -364,14 +354,13 @@ constructor(
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         console.log(data)
-        const moneda = typeof data.moneda ==='undefined' ? data.moneda : ''
+        const moneda = typeof data.moneda !=='undefined' ? data.moneda : ''
         this.capitalPagadoActualInforme = moneda + ' | ' + data.monto + ' | ' + data.observacion
         this.currentPaidCapitalCurrency = data.idMoneda
         console.log(typeof(data.moneda))
         this.currentPaidCapital = data.monto
         this.currentPaidCapitalComentary = data.observacion
         this.currentPaidCapitalComentaryEng = data.observacionIng
-        this.traductions[3].value = data.observacionIng
       }
     });
   }
@@ -420,6 +409,7 @@ constructor(
 
   guardar(){
     this.armarModeloModificado()
+    console.log(this.BackgroundsModificado)
     Swal.fire({
       title: '¿Está seguro de guardar los cambios?',
       text: "",
@@ -439,6 +429,7 @@ constructor(
           }
         this.antecedentesLegalesService.updateAntecedentesLegales(this.BackgroundsModificado[0]).subscribe(
           (response) => {
+            console.log(response)
             if(response.isSuccess === true && response.isWarning === false){
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');
@@ -453,6 +444,8 @@ constructor(
                 width: '30rem',
                 heightAuto: true
               })
+              this.armarModeloActual()
+
             }else{
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');
@@ -484,8 +477,15 @@ constructor(
           })
         }).add(
           () =>{
-
-          })
+            if(this.id === 0){
+              this.antecedentesLegalesService.getAntecedentesLegalesPorId(this.idCompany).subscribe(
+                (response) => {
+                  if(response.isSuccess === true && response.isWarning === false){
+                    this.id = response.data.id
+                  }
+            });
+          }
+        })
       }
     });
   }

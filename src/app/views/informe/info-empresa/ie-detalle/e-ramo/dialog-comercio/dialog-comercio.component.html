@@ -31,10 +31,10 @@
     </div>
     <div class="col-md-6 mb-3">
       <mat-form-field class="w-100">
-        <mat-label>Monto</mat-label>
+        <mat-label>Porcentaje</mat-label>
         <input matInput mask="separator.2" thousandSeparator="," [(ngModel)]="monto">
         <span matSuffix style="margin-right: .5rem; color:gray;">
-          <i class="fa-solid fa-circle-dollar-to-slot"></i>
+          <i class="fa-solid fa-percent"></i>
         </span>
       </mat-form-field>
     </div>
@@ -43,7 +43,7 @@
         <mat-label>Plazos</mat-label>
         <input matInput [(ngModel)]="plazos">
         <span matSuffix style="margin-right: .5rem; color:gray;">
-          <i class="fa-solid fa-circle-dollar-to-slot"></i>
+          <i class="fa-regular fa-calendar-days"></i>
         </span>
       </mat-form-field>
     </div>

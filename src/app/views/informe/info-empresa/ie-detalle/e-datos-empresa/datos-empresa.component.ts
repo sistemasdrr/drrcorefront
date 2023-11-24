@@ -154,6 +154,13 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     this.filterDuracion = new Observable<string[]>()
     this.filterPais = new Observable<Pais[]>()
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.activatedRoute.params.subscribe(params => {
+      const relacionar = params['relacionar'];
+      const idCompany = params['idCompany'];
+      console.log('relacionar:', relacionar);
+      console.log('idCompany:', idCompany);
+    });
     if (id?.includes('nuevo')) {
       this.id = 0
     } else {

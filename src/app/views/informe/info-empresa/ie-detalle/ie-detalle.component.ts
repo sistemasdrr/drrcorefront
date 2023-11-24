@@ -48,12 +48,12 @@ export class IEDetalleComponent implements OnInit {
   loading: boolean = true;
   id = 0
   ngOnInit(): void {
-    console.log('ngoninit')
     if(this.id > 0){
       this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe((response) => {
         if(response.isSuccess === true && response.isWarning === false){
           const DatosEmpresa = response.data
           this.codigoInforme = DatosEmpresa.oldCode
+          this.subtitle = DatosEmpresa.name
         }else{
           Swal.fire({
             title: "No se encontró el informe",

@@ -14,6 +14,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Pais } from 'app/models/pais';
 import { PaisService } from 'app/services/pais.service';
 import { DialogComercioComponent } from './dialog-comercio/dialog-comercio.component';
+import * as cheerio from 'cheerio';
 
 export interface data {
   name: string;
@@ -29,21 +30,31 @@ export class RamoComponent implements OnInit{
   importacion = "NO"
   exportacion = "NO"
 
-  numeroPaises = [1,2,3,4]
+  numeroPaisesImpo = [1,2,3,4]
+  numeroPaisesExpo = [5,6,7,8]
 
+  separatorKeysCodes: number[] = [ENTER, COMMA];
 
-
-  controlPaises = new FormControl<string | Pais>('')
-  paises : Pais[] = []
-  paisesSeleccionados : Pais[] = []
-  filterPais : Observable<Pais[]>
-  paisInforme : Pais = {
+  controlPaisesImpo = new FormControl<string | Pais>('')
+  paisesImpo : Pais[] = []
+  paisesSeleccionadosImpo : Pais[] = []
+  filterPaisImpo : Observable<Pais[]>
+  paisInformeImpo : Pais = {
     id : 0,
     valor : '',
     bandera : ''
   }
 
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  controlPaisesExpo = new FormControl<string | Pais>('')
+  paisesExpo : Pais[] = []
+  paisesSeleccionadosExpo : Pais[] = []
+  filterPaisExpo : Observable<Pais[]>
+  paisInformeExpo : Pais = {
+    id : 0,
+    valor : '',
+    bandera : ''
+  }
+
   fruitCtrl = new FormControl('');
 
 
@@ -56,45 +67,140 @@ export class RamoComponent implements OnInit{
   announcer = inject(LiveAnnouncer);
 
   public Editor: any = ClassicEditor;
+  data = '<figure class="table"><table><tbody><tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure>'
 
   constructor(private dialog : MatDialog,
     private paisService : PaisService){
 
     this.filteredOptions = new Observable<data[]>();
-    this.filterPais = new Observable<Pais[]>()
-
+    this.filterPaisImpo = new Observable<Pais[]>()
+    this.filterPaisExpo = new Observable<Pais[]>()
   }
-  add(event: MatChipInputEvent): void {
+  ngOnInit() {
+    this.paisService.getPaises().subscribe(data => {
+      if(data.isSuccess == true){
+        this.paisesImpo = data.data;
+        this.paisesExpo = data.data;
+        this.numeroPaisesImpo.forEach(num => {
+          const p = this.paisesImpo.filter(x => x.id === num)[0]
+          if(p){
+            this.paisesSeleccionadosImpo.push(p)
+          }
+        });
+        this.numeroPaisesExpo.forEach(num => {
+          const p = this.paisesExpo.filter(x => x.id === num)[0]
+          if(p){
+            this.paisesSeleccionadosExpo.push(p)
+          }
+        });
+        console.log(this.paisesSeleccionadosImpo)
+        console.log(this.paisesSeleccionadosExpo)
+      }
+    });
+    this.filterPaisImpo = this.controlPaisesImpo.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.valor
+        return name ? this._filterPaisImpo(name as string) : this.paisesImpo.slice()
+      }),
+    )
+    this.filterPaisExpo = this.controlPaisesExpo.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.valor
+        return name ? this._filterPaisExpo(name as string) : this.paisesExpo.slice()
+      }),
+    )
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.name;
+        return name ? this._filter(name as string) : this.options.slice();
+      }),
+    );
+  }
+  private _filterPaisImpo(description: string): Pais[] {
+    const filterValue = description.toLowerCase();
+    return this.paisesImpo.filter(pais => pais.valor.toLowerCase().includes(filterValue));
+  }
+  private _filterPaisExpo(description: string): Pais[] {
+    const filterValue = description.toLowerCase();
+    return this.paisesExpo.filter(pais => pais.valor.toLowerCase().includes(filterValue));
+  }
+  private _filter(name: string): data[] {
+    const filterValue = name.toLowerCase();
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+  displayPais(pais : Pais): string {
+    return pais && pais.valor ? pais.valor : '';
+  }
+  displayFn(user: data): string {
+    return user && user.name ? user.name : '';
+  }
+
+  addImpo(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
     if (value) {
       this.fruits.push(value);
     }
     event.chipInput!.clear();
-    this.fruitCtrl.setValue(null);
+    this.controlPaisesImpo.setValue(null);
   }
 
-  remove(pais: string): void {
-    const deletePais = this.paisesSeleccionados.filter(x => x.valor === pais)
+  removeImpo(pais: string): void {
+    const deletePais = this.paisesSeleccionadosImpo.filter(x => x.valor === pais)
 
     if (deletePais.length > 0) {
-      this.paisesSeleccionados = this.paisesSeleccionados.filter(x => x.valor !== pais)
+      this.paisesSeleccionadosImpo = this.paisesSeleccionadosImpo.filter(x => x.valor !== pais)
 
       this.announcer.announce(`Se Removio  ${pais}`);
     }
   }
-  selected(event: MatAutocompleteSelectedEvent): void {
+  selectedImpo(event: MatAutocompleteSelectedEvent): void {
     console.log(event.option.value)
-    const pais = this.paises.filter(x => x.valor === event.option.value)[0]
+    const pais = this.paisesImpo.filter(x => x.valor === event.option.value)[0]
     if(pais){
-      const paisRepetido = this.paisesSeleccionados.filter(x => x.valor === event.option.value)[0]
+      const paisRepetido = this.paisesSeleccionadosImpo.filter(x => x.valor === event.option.value)[0]
       if(paisRepetido){
         console.log('Pais Repetido')
       }else{
-        this.paisesSeleccionados.push(pais)
+        this.paisesSeleccionadosImpo.push(pais)
       }
     }
     this.paisExpoInput.nativeElement.value = '';
-    this.controlPaises.setValue(null);
+    this.controlPaisesImpo.setValue(null);
+  }
+  addExpo(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.fruits.push(value);
+    }
+    event.chipInput!.clear();
+    this.controlPaisesExpo.setValue(null);
+  }
+
+  removeExpo(pais: string): void {
+    const deletePais = this.paisesSeleccionadosExpo.filter(x => x.valor === pais)
+
+    if (deletePais.length > 0) {
+      this.paisesSeleccionadosExpo = this.paisesSeleccionadosExpo.filter(x => x.valor !== pais)
+
+      this.announcer.announce(`Se Removio  ${pais}`);
+    }
+  }
+  selectedExpo(event: MatAutocompleteSelectedEvent): void {
+    console.log(event.option.value)
+    const pais = this.paisesExpo.filter(x => x.valor === event.option.value)[0]
+    if(pais){
+      const paisRepetido = this.paisesSeleccionadosExpo.filter(x => x.valor === event.option.value)[0]
+      if(paisRepetido){
+        console.log('Pais Repetido')
+      }else{
+        this.paisesSeleccionadosExpo.push(pais)
+      }
+    }
+    this.paisExpoInput.nativeElement.value = '';
+    this.controlPaisesExpo.setValue(null);
   }
   importan(){
     if(this.checkImportacion){
@@ -168,58 +274,32 @@ export class RamoComponent implements OnInit{
         observacionIng : this.actividadEspecificaInforme
         },
       });
+    dialogRef1.afterClosed().subscribe(
+      (data) => {
+        if(data){
+          switch(input){
+            case '':
+              break
+            case '':
+              break
+            case '':
+              break
+            case '':
+              break
+            case '':
+              break
+            case '':
+              break
+          }
+        }
+      }
+    )
   }
 
   //titularidad
   myControl = new FormControl<string | data>('');
   options: data[] = [{name: 'Alquilado'}, {name: 'Comodato'}, {name: 'Compartido'}, {name: 'No Revelado'}, {name: 'Oficina Virtual'}, {name: 'Propio Cancelado'}, {name: 'Propio Pagandolo'}];
   filteredOptions: Observable<data[]>;
-
-  ngOnInit() {
-    this.paisService.getPaises().subscribe(data => {
-      if(data.isSuccess == true){
-        this.paises = data.data;
-        this.numeroPaises.forEach(num => {
-          const p = this.paises.filter(x => x.id === num)[0]
-          if(p){
-            this.paisesSeleccionados.push(p)
-          }
-        });
-        console.log(this.paisesSeleccionados)
-      }
-    });
-
-
-    this.filterPais = this.controlPaises.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.valor
-        return name ? this._filterPais(name as string) : this.paises.slice()
-      }),
-    )
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.name;
-        return name ? this._filter(name as string) : this.options.slice();
-      }),
-    );
-  }
-  private _filterPais(description: string): Pais[] {
-    const filterValue = description.toLowerCase();
-    return this.paises.filter(pais => pais.valor.toLowerCase().includes(filterValue));
-  }
-  private _filter(name: string): data[] {
-    const filterValue = name.toLowerCase();
-    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-  displayPais(pais : Pais): string {
-    return pais && pais.valor ? pais.valor : '';
-  }
-  displayFn(user: data): string {
-    return user && user.name ? user.name : '';
-  }
-
 
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {

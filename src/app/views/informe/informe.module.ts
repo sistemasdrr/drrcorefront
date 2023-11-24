@@ -59,6 +59,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SeleccionarCalidadComponent } from './info-empresa/ie-detalle/e-datos-empresa/seleccionar-calidad/seleccionar-calidad.component';
 import { AvalesComponent } from './info-empresa/ie-detalle/e-sbs-riesgo/avales/avales.component';
 import { DialogComercioComponent } from './info-empresa/ie-detalle/e-ramo/dialog-comercio/dialog-comercio.component';
+import { ListaEmpresasComponent } from './info-empresa/ie-detalle/e-antecedentes/lista-empresas/lista-empresas.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { DialogComercioComponent } from './info-empresa/ie-detalle/e-ramo/dialog
     SeleccionarCalidadComponent,
     AvalesComponent,
     DialogComercioComponent,
+    ListaEmpresasComponent,
 
   ],
   imports: [
