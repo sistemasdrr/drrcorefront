@@ -100,7 +100,6 @@ import { ListaEmpresasComponent } from './info-empresa/ie-detalle/e-antecedentes
     AvalesComponent,
     DialogComercioComponent,
     ListaEmpresasComponent,
-
   ],
   imports: [
     CommonModule,

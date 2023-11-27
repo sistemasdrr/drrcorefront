@@ -39,22 +39,24 @@ export class SbsRiesgoComponent {
   //TABLA PROVEEDOR
   agregarProveedor() {
     const dialogR1 = this.dialog.open(DetalleProveedorComponent, {
-    data: {
-      accion : 'AGREGAR',
-      id : 0
-      },
-    });
+      disableClose: true,
+      data: {
+        accion : 'AGREGAR',
+        id : 0
+        },
+      });
     dialogR1.afterClosed().subscribe(() => {
       this.refresh()
     });
   }
   editarProveedor(id : number) {
     const dialogR2 = this.dialog.open(DetalleProveedorComponent, {
-    data: {
-      accion : 'EDITAR',
-      id : id
-    },
-  });
+      disableClose: true,
+      data: {
+        accion : 'EDITAR',
+        id : id
+      },
+    });
   dialogR2.afterClosed().subscribe(() => {
     this.refresh()
     });
@@ -95,22 +97,24 @@ export class SbsRiesgoComponent {
   //TABLA MOROSIDAD COMERCIAL
   agregarMorosidadComercial() {
     const dialogR1 = this.dialog.open(MorosidadComercialComponent, {
-    data: {
-      accion : 'AGREGAR',
-      id : 0
-      },
-    });
+      disableClose: true,
+      data: {
+        accion : 'AGREGAR',
+        id : 0
+        },
+      });
     dialogR1.afterClosed().subscribe(() => {
       this.refresh()
     });
   }
   editarMorosidadComercial(id : number) {
     const dialogR2 = this.dialog.open(MorosidadComercialComponent, {
-    data: {
-      accion : 'EDITAR',
-      id : id
-    },
-  });
+      disableClose: true,
+      data: {
+        accion : 'EDITAR',
+        id : id
+      },
+    });
   dialogR2.afterClosed().subscribe(() => {
     this.refresh()
     });
@@ -119,22 +123,24 @@ export class SbsRiesgoComponent {
   //TABLA SBS
   agregarDeudaBancaria() {
     const dialogR1 = this.dialog.open(DeudaBancariaComponent, {
-    data: {
-      accion : 'AGREGAR',
-      id : 0
-      },
-    });
+      disableClose: true,
+      data: {
+        accion : 'AGREGAR',
+        id : 0
+        },
+      });
     dialogR1.afterClosed().subscribe(() => {
       this.refresh()
     });
   }
   editarDeudaBancaria(id : number) {
     const dialogR2 = this.dialog.open(DeudaBancariaComponent, {
-    data: {
-      accion : 'EDITAR',
-      id : id
-    },
-  });
+      disableClose: true,
+      data: {
+        accion : 'EDITAR',
+        id : id
+      },
+    });
   dialogR2.afterClosed().subscribe(() => {
     this.refresh()
     });

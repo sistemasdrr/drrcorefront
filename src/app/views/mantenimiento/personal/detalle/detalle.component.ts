@@ -20,12 +20,12 @@ import { ComboData } from 'app/models/combo';
   templateUrl: './detalle.component.html',
   styleUrls: ['./detalle.component.scss']
 })
-export class DetalleComponent implements OnInit {
+export class DetallePersonalComponent implements OnInit {
   breadscrums = [
     {
       title: 'Detalle de Personal',
       items: ['Administración','Mantenimiento'],
-      active: 'Detalle',
+      active: 'Personal',
     },
   ];
 
@@ -387,6 +387,7 @@ export class DetalleComponent implements OnInit {
 
   agregarEssalud(){
     const dialogRef = this.dialog.open(AgregarEssaludComponent, {
+      disableClose: true,
       data : this.id,
     });
     dialogRef.afterClosed().subscribe((essalud) => {

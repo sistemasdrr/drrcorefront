@@ -339,6 +339,7 @@ export class DetalleComponent implements OnInit {
 
   buscarAbonado() {
     const dialogRef = this.dialog.open(BuscarAbonadoDialogComponent, {
+      disableClose: true,
     data: {
       mensaje: 'Abonado',
     },

@@ -80,6 +80,7 @@ export class Asignacion2Component implements AfterViewInit {
 
   asignarTrabajador(codigoCupon : string){
     const dialogRef = this.dialog.open(SeleccionarAgenteComponent, {
+      disableClose: true,
       data: {
         data: codigoCupon,
       },
@@ -88,6 +89,7 @@ export class Asignacion2Component implements AfterViewInit {
   //ACCIONES
   agregarComentario(cod : string) {
     const dialogRef = this.dialog.open(ComentarioComponent, {
+      disableClose: true,
     data: {
       data: cod,
     },
@@ -102,6 +104,7 @@ export class Asignacion2Component implements AfterViewInit {
   }
   agregarAdjuntos(cod : string) {
     const dialogRef = this.dialog.open(AdjuntarArchivosComponent, {
+      disableClose: true,
     data: {
       data: cod,
     },

@@ -1,16 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListaComponent } from './personal/lista/lista.component';
-import { DetalleComponent } from './personal/detalle/detalle.component';
+import { ListaPersonalComponent } from './personal/lista/lista.component';
+import { DetallePersonalComponent } from './personal/detalle/detalle.component';
+import { ListaAbonadoComponent } from './abonado/lista/lista.component';
+import { DetalleAbonadoComponent } from './abonado/detalle/detalle.component';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
 
 const routes: Routes = [
   {
-    path : 'personal/lista', component : ListaComponent,
+    path : 'personal/lista', component : ListaPersonalComponent,
     title : 'Lista de Personal - DRR Core V1'
   },
   {
-    path : 'personal/detalle/:id', component : DetalleComponent,
+    path : 'personal/detalle/:id', component : DetallePersonalComponent,
+    title : 'Detalles de Personal - DRR Core V1'
+  },
+  {
+    path : 'abonado/lista', component : ListaAbonadoComponent,
+    title : 'Lista de Personal - DRR Core V1'
+  },
+  {
+    path : 'abonado/detalle/:id', component : DetalleAbonadoComponent,
     title : 'Detalles de Personal - DRR Core V1'
   },
   {

@@ -275,13 +275,14 @@ constructor(
 
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-    data: {
-      titulo : titulo,
-      subtitulo : subtitulo,
-      comentario_es : comentario_es,
-      comentario_en : comentario_en,
-      },
-    });
+      disableClose: true,
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        comentario_es : comentario_es,
+        comentario_en : comentario_en,
+        },
+      });
   }
 
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
@@ -305,6 +306,7 @@ constructor(
 
   historicoPedidos(){
     const dialog = this.dialog.open(HistoricoPedidosComponent,{
+      disableClose: true,
       data : {
         titulo : "Histórico de Pedidos"
       }

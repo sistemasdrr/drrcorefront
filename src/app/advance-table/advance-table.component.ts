@@ -88,6 +88,7 @@ export class AdvanceTableComponent
       tempDirection = 'ltr';
     }
     const dialogRef = this.dialog.open(FormDialogComponent, {
+      disableClose: true,
       data: {
         advanceTable: this.advanceTable,
         action: 'add',
@@ -120,6 +121,7 @@ export class AdvanceTableComponent
       tempDirection = 'ltr';
     }
     const dialogRef = this.dialog.open(FormDialogComponent, {
+      disableClose: true,
       data: {
         advanceTable: row,
         action: 'edit',
@@ -157,6 +159,7 @@ export class AdvanceTableComponent
       tempDirection = 'ltr';
     }
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
+      disableClose: true,
       data: row,
       direction: tempDirection,
     });

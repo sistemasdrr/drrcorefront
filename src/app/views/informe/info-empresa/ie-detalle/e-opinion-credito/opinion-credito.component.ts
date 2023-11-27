@@ -29,14 +29,15 @@ export class OpinionCreditoComponent implements OnInit {
 
   agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-    data: {
-      titulo : titulo,
-      subtitulo : subtitulo,
-      tipo : 'input',
-      comentario_es : comentario_es,
-      comentario_en : comentario_en
-      },
-    });
+      disableClose: true,
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        tipo : 'input',
+        comentario_es : comentario_es,
+        comentario_en : comentario_en
+        },
+      });
 
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
@@ -56,14 +57,15 @@ export class OpinionCreditoComponent implements OnInit {
   }
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-    data: {
-      titulo : titulo,
-      subtitulo : subtitulo,
-      tipo : 'textarea',
-      comentario_es : comentario_es,
-      comentario_en : comentario_en
-      },
-    });
+      disableClose: true,
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        tipo : 'textarea',
+        comentario_es : comentario_es,
+        comentario_en : comentario_en
+        },
+      });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         console.log(data)

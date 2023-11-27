@@ -101,6 +101,7 @@ export class RamoActividadDialogComponent implements OnInit {
   }
   dialogRamo(){
     const dialogRef1 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
+      disableClose: true,
       data: {
         accion : "RAMO",
       },
@@ -113,6 +114,7 @@ export class RamoActividadDialogComponent implements OnInit {
   }
   dialogActividad(){
     const dialogRef2 = this.dialog.open(AgregarEditarRamoNegocioComponent, {
+      disableClose: true,
       data: {
         accion : "ACTIVIDAD",
       },

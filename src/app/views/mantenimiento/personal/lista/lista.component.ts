@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { ComboData } from 'app/models/combo';
 import { Personal } from 'app/models/mantenimiento/persona/personal';
 import { ComboService } from 'app/services/combo.service';
-import { PersonalService, data } from 'app/services/mantenimiento/personal.service';
+import { PersonalService } from 'app/services/mantenimiento/personal.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,12 +14,12 @@ import Swal from 'sweetalert2';
   templateUrl: './lista.component.html',
   styleUrls: ['./lista.component.scss']
 })
-export class ListaComponent implements OnInit, AfterViewInit {
+export class ListaPersonalComponent implements OnInit, AfterViewInit {
   breadscrums = [
     {
       title: 'Lista de Personal',
       items: ['Administración','Mantenimiento'],
-      active: 'Lista',
+      active: 'Personal',
     },
   ];
 

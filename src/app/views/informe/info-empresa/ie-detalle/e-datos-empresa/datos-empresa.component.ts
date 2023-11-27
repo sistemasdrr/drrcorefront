@@ -628,6 +628,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
 
   agregarComentario(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      disableClose: true,
       data: {
         titulo: titulo,
         subtitulo: subtitulo,
@@ -657,6 +658,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   agregarTraduccion(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      disableClose: true,
       data: {
         titulo: titulo,
         subtitulo: subtitulo,
@@ -678,6 +680,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   seleccionarCalidad() {
     const dialogRef = this.dialog.open(SeleccionarCalidadComponent, {
+      disableClose: true,
     })
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
@@ -707,6 +710,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   historicoPedidos() {
     const dialog = this.dialog.open(HistoricoPedidosComponent, {
+      disableClose: true,
       data: {
         titulo: "Histórico de Pedidos"
       }

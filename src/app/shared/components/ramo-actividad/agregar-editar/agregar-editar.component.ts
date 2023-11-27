@@ -225,6 +225,8 @@ export class AgregarEditarRamoNegocioComponent {
       })
     }
   }
-
+  salir(){
+    this.dialogRef.close()
+  }
 
 }

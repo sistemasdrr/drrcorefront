@@ -181,7 +181,6 @@ export class IEListaComponent implements OnInit{
           listaEmpresas.classList.add('hide-loader');
         }
       })
-
   }
   agregarEmpresa(){
     this.router.navigate(['informes/empresa/detalle/nuevo']);

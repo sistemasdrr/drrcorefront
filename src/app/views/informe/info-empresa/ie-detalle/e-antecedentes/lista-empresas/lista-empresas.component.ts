@@ -238,6 +238,5 @@ export class ListaEmpresasComponent implements OnInit {
         )
       }
     });
-
   }
 }

@@ -112,6 +112,7 @@ export class AsignacionComponent implements AfterViewInit {
   //ACCIONES
   agregarComentario(cod : string) {
     const dialogRef = this.dialog.open(ComentarioComponent, {
+      disableClose: true,
     data: {
       data: cod,
     },
@@ -126,6 +127,7 @@ export class AsignacionComponent implements AfterViewInit {
   }
   agregarAdjuntos(cod : string) {
     const dialogRef = this.dialog.open(AdjuntarArchivosComponent, {
+      disableClose: true,
     data: {
       data: cod,
     },

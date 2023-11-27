@@ -1,0 +1,243 @@
+<div class="container-fluid"  style="width: 100%; margin: 0; padding: 0;">
+  <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+    <div class="col-md-12 mb-2">
+      <div class="row counter-box shadow ">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <h4>Datos Generales</h4>
+          <div>
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
+              <mat-icon class="col-white">arrow_back</mat-icon>
+            </button>
+            <button id="btn-guardar-datos-empresa" mat-mini-fab class="bg-cyan shadow" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
+              <mat-icon class="col-white">save</mat-icon>
+            </button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-2">
+            <mat-form-field color="primary" style="width: 100%;" >
+              <mat-label >Fecha de Ingreso</mat-label>
+              <input matInput [matDatepicker]="fecha_ingreso_abonado" #fechaInput [ngModel]="incomeDateD" [readonly]="true" (dateChange)="selectFechaIngreso($event)">
+              <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso_abonado"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Idioma</mat-label>
+              <mat-select [(ngModel)]="language">
+                <mat-option [value]="'E'">
+                  <span class="fi fi-es"></span>
+                  ESPAÑOL
+                </mat-option>
+                <mat-option [value]="'I'">
+                  <span class="fi fi-us"></span>
+                  INGLÉS
+                </mat-option>
+              </mat-select>
+              <button class="btn-traduccion" matSuffix mat-icon-button>
+                <span class="fi fi-es" style="font-size: 24px;" *ngIf="language === 'E'"></span>
+                <span class="fi fi-us" style="font-size: 24px;" *ngIf="language  === 'I'"></span>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Tipo de Abonado</mat-label>
+              <mat-select [(ngModel)]="abonadoType">
+                <mat-option [value]="'SC'">
+                  Solo Cliente
+                </mat-option>
+                <mat-option [value]="'CA'">
+                  Cliente - Agente
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5" style="margin: .5rem 0 0 0;">
+            <mat-slide-toggle [(ngModel)]="revealName" class="mb-3" (click)="!revealName" style="margin-left: 1rem;">Revelar Nombre: <div *ngIf="revealName === true">SÍ</div><div *ngIf="revealName === false">NO</div></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="normalPrice" class="mb-3" (click)="!normalPrice" style="margin-left: 1rem;">Precio Normal: <div *ngIf="normalPrice === true">SÍ</div><div *ngIf="normalPrice === false">NO</div></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="maximumCredit" class="mb-3" (click)="!maximumCredit" style="margin-left: 1rem;">Crédito Máximo: <div *ngIf="maximumCredit === true">SÍ</div><div *ngIf="maximumCredit === false">NO</div></mat-slide-toggle>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="w-100">
+              <mat-label>Código</mat-label>
+              <input matInput placeholder="" [(ngModel)]="code">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-100">
+              <mat-label>Nombre</mat-label>
+              <input matInput placeholder="" [(ngModel)]="name">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Siglas</mat-label>
+              <input matInput placeholder="" [(ngModel)]="acronym">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Rubro</mat-label>
+              <input matInput placeholder="" [(ngModel)]="acronym">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Registro Tributario</mat-label>
+              <input matInput placeholder="" [(ngModel)]="acronym">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Tipo de Facturación</mat-label>
+              <mat-select [(ngModel)]="facturationType">
+                <mat-option [value]="'FM'">
+                  Fact. Mensual
+                </mat-option>
+                <mat-option [value]="'CC'">
+                  Con Cupones
+                </mat-option>
+                <mat-option [value]="'OL'">
+                  Online
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <h4>Información de Contacto</h4>
+          <hr>
+          <div class="col-md-8">
+            <mat-form-field class="w-100">
+              <mat-label>Dirección</mat-label>
+              <input matInput placeholder="" [(ngModel)]="address">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Contacto Principal</mat-label>
+              <input matInput placeholder="" [(ngModel)]="principalContact">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Continente</mat-label>
+              <input matInput placeholder="" [(ngModel)]="idContinent">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>País</mat-label>
+              <input matInput placeholder="" [(ngModel)]="idCountry">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Ciudad</mat-label>
+              <input matInput placeholder="" [(ngModel)]="city">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Fax</mat-label>
+              <input matInput placeholder="" [(ngModel)]="fax">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Teléfono</mat-label>
+              <input matInput placeholder="" [(ngModel)]="telephone">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="" [(ngModel)]="email">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Página Web</mat-label>
+              <input matInput placeholder="" [(ngModel)]="webPage">
+            </mat-form-field>
+          </div>
+          <h4>Despacho</h4>
+          <hr>
+          <h5>Enviar Informe</h5>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Para</mat-label>
+              <input matInput placeholder="" [(ngModel)]="sendReportToName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Teléfono</mat-label>
+              <input matInput placeholder="" [(ngModel)]="sendReportToTelephone">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="" [(ngModel)]="sendReportToEmail">
+            </mat-form-field>
+          </div>
+          <h5>Enviar Factura</h5>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Para</mat-label>
+              <input matInput placeholder="" [(ngModel)]="sendInvoiceToName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Teléfono</mat-label>
+              <input matInput placeholder="" [(ngModel)]="sendInvoiceToTelephone">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="" [(ngModel)]="sendInvoiceToEmail">
+            </mat-form-field>
+          </div>
+          <h5>Contacto Adicional</h5>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Para</mat-label>
+              <input matInput placeholder="" [(ngModel)]="additionalContactName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Teléfono</mat-label>
+              <input matInput placeholder="" [(ngModel)]="additionalContactTelephone">
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="" [(ngModel)]="additionalContactEmail">
+            </mat-form-field>
+          </div>
+          <h4>Otros</h4>
+          <hr>
+          <div class="col-md-6">
+            <mat-form-field class="w-100">
+              <mat-label>Observaciones</mat-label>
+              <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="observations"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="w-100">
+              <mat-label>Indicaciones para el Cupón</mat-label>
+              <textarea matInput placeholder=""  style="min-height: 6rem;" [(ngModel)]="indications"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

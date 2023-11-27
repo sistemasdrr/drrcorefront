@@ -70,13 +70,14 @@ export class ImagenesComponent implements OnInit{
 
   agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-    data: {
-      titulo1 : titulo1,
-      titulo2 : titulo2,
-      subtitulo : subtitulo,
-      empresa: empresa,
-      },
-    });
+      disableClose: true,
+      data: {
+        titulo1 : titulo1,
+        titulo2 : titulo2,
+        subtitulo : subtitulo,
+        empresa: empresa,
+        },
+      });
   }
   onPaste(event: any) {
     this.files = []
