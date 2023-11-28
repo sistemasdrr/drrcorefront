@@ -69,4 +69,7 @@ export class HistoricoVentasComponent implements OnInit {
     }
     this.historicoVentasService.UpdateHistoricoVentas(obj)
   }
+  salir(){
+    this.dialogRef.close()
+  }
 }

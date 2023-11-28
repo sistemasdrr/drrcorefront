@@ -1,1 +1,151 @@
-<p>agregar-editar works!</p>
+<div class="container" style="max-width: 60rem;" >
+  <div class="row m-0 p-0"  >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <div class="materialTableHeader mt-3">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h5 style="font-size: 24px;">{{titulo}}</h5>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10">
+                    <button mat-icon-button  class="btn bg-red "  (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
+                      <mat-icon>logout</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="id === 0">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button  class="btn btn-primary" (click)="editar()" #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="id !== 0"  >
+                      <mat-icon>save</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <mat-dialog-content class="mat-typography p-0 m-0">
+          <div class="body m-0 p-0">
+            <div class="row p-0 m-0">
+              <h4 style="font-size: 20px;">Información General</h4>
+              <div class="col-md-3">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Fecha de Ingreso</mat-label>
+                  <input matInput [matDatepicker]="fecha_ingreso_abonado" #fechaInput [ngModel]="dateD" [readonly]="true" (dateChange)="selectFecha($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso_abonado"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100">
+                  <mat-label>Continente</mat-label>
+                  <mat-select [(ngModel)]="idContinent" (selectionChange)="selectContinente(idContinent)">
+                      <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{continente.valor}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100">
+                  <mat-label>País</mat-label>
+                  <input type="text" matInput [formControl]="controlPaises" [ngClass]="colorMsgPais === 'red' ? 'error': ''" [matAutocomplete]="auto6" [(ngModel)]="countryPrecio" (ngModelChange)="cambioPais(countryPrecio)">
+                  <mat-hint [ngClass]="colorMsgPais === 'red' ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="colorMsgPais === 'red'"></i><i class="fa-solid fa-circle-check" *ngIf="colorMsgPais === 'green'"></i>&nbsp;{{msgPais}}</mat-hint>
+                  <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                    <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+                  </button>
+                  <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPais" >
+                    <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                      <span class="fi fi-{{pais.bandera}}"></span>
+                      {{pais.valor}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100">
+                  <mat-label>Tipo de Moneda</mat-label>
+                  <mat-select [(ngModel)]="idCurrency">
+                      <mat-option [value]="31">S/.-Sol(PEN)</mat-option>
+                      <mat-option [value]="1">US$-Dólar estadounidense(USD)</mat-option>
+                      <mat-option [value]="2">€-Euro(EUR)</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <h5 style="font-size:18px;">Normal</h5>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio</mat-label>
+                      <input matInput [(ngModel)]="priceT1" type="number" >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Días Utiles</mat-label>
+                      <input matInput [(ngModel)]="dayT1" type="number">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <h5 style="font-size:18px;">Urgente</h5>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio</mat-label>
+                      <input matInput [(ngModel)]="priceT2" type="number">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Días Utiles</mat-label>
+                      <input matInput [(ngModel)]="dayT2" type="number">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <h5 style="font-size:18px;">Super Urgente</h5>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio</mat-label>
+                      <input matInput [(ngModel)]="priceT3" type="number">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Días Utiles</mat-label>
+                      <input matInput [(ngModel)]="dayT3" type="number">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <h5 style="font-size:18px;">Super Urgente</h5>
+                  <div class="col-md-12  m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio B</mat-label>
+                      <input matInput [(ngModel)]="priceB" type="number">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-dialog-content>
+      </div>
+    </div>
+  </div>
+</div>

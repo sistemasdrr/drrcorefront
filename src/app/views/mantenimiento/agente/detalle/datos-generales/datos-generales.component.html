@@ -1,0 +1,118 @@
+<div class="container-fluid"  style="width: 100%; margin: 0; padding: 0;">
+  <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+    <div class="col-md-12 mb-2">
+      <div class="row counter-box shadow ">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <h4>Datos Generales</h4>
+          <div>
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
+              <mat-icon class="col-white">arrow_back</mat-icon>
+            </button>
+            <button id="btn-guardar-datos-empresa" mat-mini-fab class="bg-cyan shadow" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
+              <mat-icon class="col-white">save</mat-icon>
+            </button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field color="primary" style="width: 100%;" >
+              <mat-label >Fecha de Ingreso</mat-label>
+              <input matInput [matDatepicker]="fecha_ingreso_abonado" #fechaInput [ngModel]="startDateD" [readonly]="true" (dateChange)="selectFechaIngreso($event)">
+              <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso_abonado"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Idioma</mat-label>
+              <mat-select [(ngModel)]="language">
+                <mat-option [value]="'E'">
+                  <span class="fi fi-es"></span>
+                  ESPAÑOL
+                </mat-option>
+                <mat-option [value]="'I'">
+                  <span class="fi fi-us"></span>
+                  INGLÉS
+                </mat-option>
+              </mat-select>
+              <button class="btn-traduccion" matSuffix mat-icon-button>
+                <span class="fi fi-es" style="font-size: 24px;" *ngIf="language === 'E'"></span>
+                <span class="fi fi-us" style="font-size: 24px;" *ngIf="language  === 'I'"></span>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 d-flex justify-content-center" style="margin: .5rem 0 0 0;">
+            <mat-slide-toggle [(ngModel)]="status" class="mb-3" (click)="!status" style="margin-left: 1rem;">Estado: <div *ngIf="status === true">Activo</div><div *ngIf="status === false">Inactivo</div></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="specialCase" class="mb-3" (click)="!specialCase" style="margin-left: 1rem;">Caso Especial: <div *ngIf="specialCase === true">SÍ</div><div *ngIf="specialCase === false">NO</div></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="agenteAbonado" class="mb-3" (click)="!agenteAbonado" style="margin-left: 1rem;">Agente / Abonado: <div *ngIf="agenteAbonado === true">SÍ</div><div *ngIf="agenteAbonado === false">NO</div></mat-slide-toggle>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="w-100">
+              <mat-label>Código</mat-label>
+              <input matInput placeholder="" [(ngModel)]="code">
+            </mat-form-field>
+          </div>
+          <div class="col-md-7">
+            <mat-form-field class="w-100">
+              <mat-label>Nombre</mat-label>
+              <input matInput placeholder="" [(ngModel)]="name">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>País</mat-label>
+              <input type="text" matInput [formControl]="controlPaises" [ngClass]="colorMsgPais === 'red' ? 'error': ''" [matAutocomplete]="auto6" [(ngModel)]="countryAgente" (ngModelChange)="cambioPais(countryAgente)">
+              <mat-hint [ngClass]="colorMsgPais === 'red' ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="colorMsgPais === 'red'"></i><i class="fa-solid fa-circle-check" *ngIf="colorMsgPais === 'green'"></i>&nbsp;{{msgPais}}</mat-hint>
+              <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+              </button>
+              <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPais" >
+                <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                  <span class="fi fi-{{pais.bandera}}"></span>
+                  {{pais.valor}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-md-7">
+            <mat-form-field class="w-100">
+              <mat-label>Dirección</mat-label>
+              <input matInput placeholder="" [(ngModel)]="address">
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="w-100">
+              <mat-label>Encargado</mat-label>
+              <input matInput placeholder="" [(ngModel)]="inCharge">
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="w-100">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="" [(ngModel)]="email">
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="w-100">
+              <mat-label>Teléfono</mat-label>
+              <input matInput placeholder="" [(ngModel)]="telephone">
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="w-100">
+              <mat-label>Fax</mat-label>
+              <input matInput placeholder="" [(ngModel)]="fax">
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field class="w-100">
+              <mat-label>Observaciones</mat-label>
+              <textarea matInput placeholder="" [(ngModel)]="observations" style="min-height: 7rem;"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

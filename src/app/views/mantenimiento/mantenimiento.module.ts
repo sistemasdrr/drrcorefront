@@ -16,10 +16,14 @@ import { FeatherIconsModule } from '@shared/components/feather-icons/feather-ico
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ListaAbonadoComponent } from './abonado/lista/lista.component';
 import { DetalleAbonadoComponent } from './abonado/detalle/detalle.component';
-import { DatosGeneralesComponent } from './abonado/detalle/datos-generales/datos-generales.component';
-import { PreciosComponent } from './abonado/detalle/precios/precios.component';
+import { DatosGeneralesAbonadoComponent } from './abonado/detalle/datos-generales/datos-generales.component';
+import { PreciosAbonadoComponent } from './abonado/detalle/precios/precios.component';
 import { CuponeraComponent } from './abonado/detalle/cuponera/cuponera.component';
 import { AgregarEditarComponent } from './abonado/detalle/precios/agregar-editar/agregar-editar.component';
+import { DetalleAgenteComponent } from './agente/detalle/detalle.component';
+import { ListaAgenteComponent } from './agente/lista/lista.component';
+import { PreciosAgenteComponent } from './agente/detalle/precios/precios.component';
+import { DatosGeneralesAgenteComponent } from './agente/detalle/datos-generales/datos-generales.component';
 
 
 @NgModule({
@@ -30,10 +34,14 @@ import { AgregarEditarComponent } from './abonado/detalle/precios/agregar-editar
     DetalleAbonadoComponent,
     AgregarEssaludComponent,
     MantenedorComponent,
-    DatosGeneralesComponent,
-    PreciosComponent,
+    DatosGeneralesAbonadoComponent,
+    DatosGeneralesAgenteComponent,
+    PreciosAbonadoComponent,
+    PreciosAgenteComponent,
     CuponeraComponent,
     AgregarEditarComponent,
+    DetalleAgenteComponent,
+    ListaAgenteComponent,
   ],
   imports: [
     CommonModule,

@@ -44,13 +44,16 @@
           </div>
           <div class="col-md-3">
             <mat-form-field style="width: 100%;">
-              <mat-label>Tipo de Abonado</mat-label>
-              <mat-select [(ngModel)]="abonadoType">
-                <mat-option [value]="'SC'">
-                  Solo Cliente
+              <mat-label>Moneda</mat-label>
+              <mat-select [(ngModel)]="currency">
+                <mat-option [value]="'S'">
+                  Soles
                 </mat-option>
-                <mat-option [value]="'CA'">
-                  Cliente - Agente
+                <mat-option [value]="'D'">
+                  Dolares
+                </mat-option>
+                <mat-option [value]="'E'">
+                  Euros
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -81,13 +84,26 @@
           <div class="col-md-3">
             <mat-form-field class="w-100">
               <mat-label>Rubro</mat-label>
-              <input matInput placeholder="" [(ngModel)]="acronym">
+              <input matInput placeholder="" [(ngModel)]="idRubro">
             </mat-form-field>
           </div>
           <div class="col-md-3">
             <mat-form-field class="w-100">
               <mat-label>Registro Tributario</mat-label>
-              <input matInput placeholder="" [(ngModel)]="acronym">
+              <input matInput placeholder="" [(ngModel)]="taxRegistration">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field style="width: 100%;">
+              <mat-label>Tipo de Abonado</mat-label>
+              <mat-select [(ngModel)]="abonadoType">
+                <mat-option [value]="'SC'">
+                  Solo Cliente
+                </mat-option>
+                <mat-option [value]="'CA'">
+                  Cliente - Agente
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
           <div class="col-md-3">
@@ -123,13 +139,25 @@
           <div class="col-md-3">
             <mat-form-field class="w-100">
               <mat-label>Continente</mat-label>
-              <input matInput placeholder="" [(ngModel)]="idContinent">
+              <mat-select [(ngModel)]="idContinent" (selectionChange)="selectContinente(idContinent)">
+                  <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{continente.valor}}</mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
           <div class="col-md-3">
             <mat-form-field class="w-100">
               <mat-label>País</mat-label>
-              <input matInput placeholder="" [(ngModel)]="idCountry">
+              <input type="text" matInput [formControl]="controlPaises" [ngClass]="colorMsgPais === 'red' ? 'error': ''" [matAutocomplete]="auto6" [(ngModel)]="countryAbonado" (ngModelChange)="cambioPais(countryAbonado)">
+              <mat-hint [ngClass]="colorMsgPais === 'red' ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="colorMsgPais === 'red'"></i><i class="fa-solid fa-circle-check" *ngIf="colorMsgPais === 'green'"></i>&nbsp;{{msgPais}}</mat-hint>
+              <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+              </button>
+              <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPais" >
+                <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                  <span class="fi fi-{{pais.bandera}}"></span>
+                  {{pais.valor}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
           </div>
           <div class="col-md-3">

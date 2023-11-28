@@ -1,5 +1,5 @@
 <section class="content" >
-  <div id="pagina-detalle-abonado" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+  <div id="pagina-detalle-agente" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
     <span class="loader"></span><br>
     <h2 style="color: white;">&nbsp;Cargando...</h2>
   </div>
@@ -16,25 +16,25 @@
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Info. General</b></div>
           </ng-template>
           <ng-template matTabContent>
-            <app-datos-generales-abonado></app-datos-generales-abonado>
+            <app-datos-generales-agente></app-datos-generales-agente>
           </ng-template>
         </mat-tab>
         <mat-tab [ngClass]="{'tab-completo': false}">
           <ng-template mat-tab-label>
-            <i id="tab-antecedentes" class="fa-solid fa-circle-dollar-to-slot" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
+            <i id="tab-precios" class="fa-solid fa-circle-dollar-to-slot" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Precios</b></div>
           </ng-template>
           <ng-template matTabContent>
-            <app-precios-abonado></app-precios-abonado>
+            <app-precios-agente></app-precios-agente>
           </ng-template>
         </mat-tab>
         <mat-tab >
           <ng-template mat-tab-label>
-            <i id="tab-ramo-negocio" class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Ramo de Negocio"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Cuponera</b></div>
+            <i id="tab-precios-excepcionales" class="fa-solid fa-money-check-dollar" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Ramo de Negocio"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Precios Excep.</b></div>
           </ng-template>
           <ng-template matTabContent>
-            <app-cuponera></app-cuponera>
+
           </ng-template>
         </mat-tab>
 

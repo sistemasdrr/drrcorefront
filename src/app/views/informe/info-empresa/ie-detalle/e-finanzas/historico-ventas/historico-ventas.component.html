@@ -1,5 +1,5 @@
 <div class="container" style="max-width: 30rem;" >
-  <div class="row "  >
+  <div class="row m-0 p-0"  >
     <div class="col-md-12">
       <div class="card">
         <div class="header">
@@ -15,7 +15,7 @@
               <ul class="tbl-export-btn">
                 <li class="tbl-header-btn">
                   <div class="m-l-10">
-                    <button mat-icon-button  class="btn bg-red "  #tooltip="matTooltip" matTooltip="Volver">
+                    <button mat-icon-button  class="btn bg-red "  (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
                       <mat-icon>logout</mat-icon>
                     </button>
                   </div>
@@ -34,42 +34,42 @@
             </div>
           </div>
         </div>
-        <mat-dialog-content class="mat-typography">
+        <mat-dialog-content class="mat-typography p-0 m-0">
 
-          <div class="body">
-            <div class="row">
+          <div class="body m-0 p-0">
+            <div class="row p-0 m-0">
               <div class="col-md-12" *ngIf="accion === 'EDITAR'">
-                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-form-field class="w-100" >
                   <mat-label>ID</mat-label>
                   <input matInput [(ngModel)]="id" readonly="true">
                 </mat-form-field>
               </div>
               <div class="col-md-12">
-                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-form-field class="w-100">
                   <mat-label>Moneda Ventas</mat-label>
                   <input matInput [(ngModel)]="moneda" >
                 </mat-form-field>
               </div>
               <div class="col-md-12">
-                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-form-field class="w-100">
                   <mat-label>Fecha</mat-label>
                   <input matInput [(ngModel)]="fecha" >
                 </mat-form-field>
               </div>
               <div class="col-md-12">
-                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-form-field class="w-100" >
                   <mat-label>Ventas</mat-label>
                   <input matInput [(ngModel)]="ventas" >
                 </mat-form-field>
               </div>
               <div class="col-md-12">
-                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-form-field class="w-100">
                   <mat-label>T.C. x US$</mat-label>
                   <input matInput [(ngModel)]="tc" >
                 </mat-form-field>
               </div>
               <div class="col-md-12">
-                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-form-field class="w-100">
                   <mat-label>Equivalente en Dolares</mat-label>
                   <input matInput [(ngModel)]="equivaleDolar" >
                 </mat-form-field>

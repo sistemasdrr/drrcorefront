@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComboData, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
+import { Pais } from 'app/models/pais';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -50,5 +51,14 @@ export class ComboService {
   }
   getSituacionRUC() : Observable<Response<ComboData[]>>{
     return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/legalregister');
+  }
+  getPaises() : Observable<Response<Pais[]>>{
+    return this.http.get<Response<Pais[]>>(this.url + this.controllerCombo + '/country');
+  }
+  getContinentes() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/continent');
+  }
+  getPaisesPorContinente(idContinent : number) : Observable<Response<Pais[]>>{
+    return this.http.get<Response<Pais[]>>(this.url + this.controllerCombo + '/countrybycontinent?continent='+idContinent);
   }
 }

@@ -5,6 +5,8 @@ import { DetallePersonalComponent } from './personal/detalle/detalle.component';
 import { ListaAbonadoComponent } from './abonado/lista/lista.component';
 import { DetalleAbonadoComponent } from './abonado/detalle/detalle.component';
 import { MantenedorComponent } from './mantenedor/mantenedor.component';
+import { ListaAgenteComponent } from './agente/lista/lista.component';
+import { DetalleAgenteComponent } from './agente/detalle/detalle.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,14 @@ const routes: Routes = [
   {
     path : 'abonado/detalle/:id', component : DetalleAbonadoComponent,
     title : 'Detalles de Personal - DRR Core V1'
+  },
+  {
+    path : 'agente/lista', component : ListaAgenteComponent,
+    title : 'Lista de Agentes - DRR Core V1'
+  },
+  {
+    path : 'agente/detalle/:id', component : DetalleAgenteComponent,
+    title : 'Detalles de Agente - DRR Core V1'
   },
   {
     path : 'general', component : MantenedorComponent,

@@ -2,23 +2,23 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Route, Router } from '@angular/router';
-import { AbonadoT } from 'app/models/mantenimiento/abonado/abonado';
-import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
+import { Router } from '@angular/router';
+import { AgenteT } from 'app/models/mantenimiento/agentes/agente';
+import { AgenteService } from 'app/services/mantenimiento/agente.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-lista-abonado',
+  selector: 'app-lista',
   templateUrl: './lista.component.html',
   styleUrls: ['./lista.component.scss']
 })
-export class ListaAbonadoComponent implements OnInit{
+export class ListaAgenteComponent implements OnInit{
   breadscrums = [
     {
-      title: 'Lista de Abonados',
+      title: 'Lista de Agentes',
       subtitle: '',
       items: ['Administración','Mantenimiento'],
-      active: 'Abonado',
+      active: 'Agente',
     },
   ];
 
@@ -29,42 +29,30 @@ export class ListaAbonadoComponent implements OnInit{
   nombre = ""
   estado = "A"
 
-  //TABLA
-  dataSource : MatTableDataSource<AbonadoT>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-  columnsToDisplay = ['codigo','nombre','siglas','direccion','pais','acciones']
+   //TABLA
+   dataSource : MatTableDataSource<AgenteT>;
+   @ViewChild(MatPaginator) paginator!: MatPaginator;
+   @ViewChild(MatSort) sort!: MatSort;
+   columnsToDisplay = ['codigo','nombre','direccion','email','telefono','pais']
 
-  constructor(private abonadoService : AbonadoService, private router : Router){
+  constructor(private agenteService : AgenteService, private router : Router){
     this.dataSource = new MatTableDataSource()
   }
-
   ngOnInit(): void {
-    this.abonadoService.getAbonados(this.codigo, this.nombre, this.estado).subscribe(
-      (response) => {
-        if(response.isSuccess === true && response.isWarning === false){
-          this.dataSource.data = response.data
-        }
-      }
-    ).add(
-      () => {
-        this.loading = false
-      }
-    )
+    this.loading = false
   }
-
-  filtrarAbonados(){
-    const listaAbonados = document.getElementById('loader-lista-abonados') as HTMLElement | null;
-    if(listaAbonados){
-      listaAbonados.classList.remove('hide-loader');
+  filtrarAgentes(){
+    const listaAgentes = document.getElementById('loader-lista-agentes') as HTMLElement | null;
+    if(listaAgentes){
+      listaAgentes.classList.remove('hide-loader');
     }
     const busqueda = {
       codigo : this.codigo,
       nombre : this.nombre,
       estado : this.nombre,
     }
-    localStorage.setItem('busquedaAbonados', JSON.stringify(busqueda))
-    this.abonadoService.getAbonados(this.codigo.trim(), this.nombre.trim(), this.estado).subscribe(
+    localStorage.setItem('busquedaAgentes', JSON.stringify(busqueda))
+    this.agenteService.getAgentes(this.codigo.trim(), this.nombre.trim(), this.estado).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
           this.dataSource = new MatTableDataSource(response.data)
@@ -72,8 +60,8 @@ export class ListaAbonadoComponent implements OnInit{
           this.dataSource.paginator = this.paginator
         }
       },(error) => {
-        if(listaAbonados){
-          listaAbonados.classList.add('hide-loader');
+        if(listaAgentes){
+          listaAgentes.classList.add('hide-loader');
         }
         Swal.fire({
           title: 'Ocurrió un problema. Comunicarse con Sistemas.',
@@ -86,8 +74,8 @@ export class ListaAbonadoComponent implements OnInit{
         }).then(() => {
         })
       }).add(() => {
-        if(listaAbonados){
-          listaAbonados.classList.add('hide-loader');
+        if(listaAgentes){
+          listaAgentes.classList.add('hide-loader');
         }
       })
   }
@@ -95,12 +83,12 @@ export class ListaAbonadoComponent implements OnInit{
     this.codigo = ""
     this.nombre = ""
     this.estado = "A"
-    this.filtrarAbonados()
+    this.filtrarAgentes()
   }
-  agregarAbonado(){
-    this.router.navigate(['mantenimiento/abonado/detalle/nuevo']);
+  agregarAgente(){
+    this.router.navigate(['mantenimiento/agente/detalle/nuevo']);
   }
-  eliminarAbonado(idAbonado : number){
+  eliminarAgente(idAbonado : number){
     Swal.fire({
       title: '¿Está seguro de eliminar este registro?',
       text: "",
@@ -121,12 +109,12 @@ export class ListaAbonadoComponent implements OnInit{
           width: '20rem',
           heightAuto : true
         });
-        this.abonadoService.deleteAbonado(idAbonado).subscribe(
+        this.agenteService.deleteAgente(idAbonado).subscribe(
           (response) => {
             console.log(response)
           }
         ).add(() => {
-          this.filtrarAbonados()
+          this.filtrarAgentes()
         })
       }
     });

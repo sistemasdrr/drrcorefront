@@ -27,7 +27,14 @@ export class IEDetalleComponent implements OnInit {
   ]
 
   private datosEmpresa : DatosEmpresa[] = []
+  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
 
+  selectedIndex: number = 0;
+  currentTabIndex: number = 0;
+
+  loading: boolean = true;
+  id = 0
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private router : Router,
@@ -40,13 +47,7 @@ export class IEDetalleComponent implements OnInit {
     }
   }
 
-  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
 
-  selectedIndex: number = 0;
-  currentTabIndex: number = 0;
-
-  loading: boolean = true;
-  id = 0
   ngOnInit(): void {
     if(this.id > 0){
       this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe((response) => {

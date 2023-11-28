@@ -142,7 +142,7 @@
               </ul>
               <ul class="ml-menu">
                 <li [routerLinkActive]="''" [ngClass]="activeLI === 12 ? 'active' : ''">
-                  <a [ngClass]="''" class=""  (click)="callToggleMenu($event,2)">
+                  <a [ngClass]="''" class=""  (click)="callToggleMenu($event,3)">
                     <i class="fa-solid fa-sliders"></i>&nbsp;
                     <span class="hide-menu">Mantenimiento
                     </span>
@@ -157,6 +157,12 @@
                     <li [routerLinkActive]="''">
                     <a [routerLink]="'mantenimiento/abonado/lista'">
                       Abonado
+                    </a>
+                  </ul>
+                  <ul class="ml-menu-2" >
+                    <li [routerLinkActive]="''">
+                    <a [routerLink]="'mantenimiento/agente/lista'">
+                      Agente
                     </a>
                   </ul>
                 </li>

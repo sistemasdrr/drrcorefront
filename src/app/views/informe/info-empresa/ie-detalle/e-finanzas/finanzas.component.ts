@@ -195,7 +195,7 @@ export class FinanzasComponent implements OnInit {
   balanceSituacional(idInforme : number) {
     const dialogRef = this.dialog.open(BalanceSituacionalComponent, {
       disableClose: true,
-    data : idInforme,
+      data : idInforme,
     });
   }
   selectSituacionFinanciera(situacionFinanciera : string){

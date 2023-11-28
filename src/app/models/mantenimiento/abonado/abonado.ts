@@ -47,13 +47,11 @@ export interface Abonado{
 
 export interface PrecioAbonado{
   id : number
+  idAbonado : number
   date : string
   idContinent : number
   idCountry : number
-  country : string
-  flagCountry : string
   idCurrency : number
-  currency : string
   priceT1 : number
   dayT1: number
   priceT2 : number
@@ -68,8 +66,8 @@ export interface PrecioAbonadoT{
   country : string
   flagCountry : string
   currency : string
-  priceT1 : string
-  priceT2 : string
-  priceT3 : string
-  priceB : string
+  priceT1 : string //precio / dias => 75 / 5
+  priceT2 : string //precio / dias => 75 / 5
+  priceT3 : string //precio / dias => 75 / 5
+  priceB : string //precio => 75
 }
