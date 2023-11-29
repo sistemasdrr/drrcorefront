@@ -70,7 +70,6 @@ export class ImagenesComponent implements OnInit{
 
   agregarComentario(titulo1 : string, titulo2 : string, subtitulo : string, empresa : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo1 : titulo1,
         titulo2 : titulo2,

@@ -19,11 +19,12 @@ import { DetalleAbonadoComponent } from './abonado/detalle/detalle.component';
 import { DatosGeneralesAbonadoComponent } from './abonado/detalle/datos-generales/datos-generales.component';
 import { PreciosAbonadoComponent } from './abonado/detalle/precios/precios.component';
 import { CuponeraComponent } from './abonado/detalle/cuponera/cuponera.component';
-import { AgregarEditarComponent } from './abonado/detalle/precios/agregar-editar/agregar-editar.component';
+import { AgregarEditarPrecioAbonadoComponent } from './abonado/detalle/precios/agregar-editar/agregar-editar.component';
 import { DetalleAgenteComponent } from './agente/detalle/detalle.component';
 import { ListaAgenteComponent } from './agente/lista/lista.component';
 import { PreciosAgenteComponent } from './agente/detalle/precios/precios.component';
 import { DatosGeneralesAgenteComponent } from './agente/detalle/datos-generales/datos-generales.component';
+import { AgregarEditarAgenteComponent } from './agente/detalle/precios/agregar-editar/agregar-editar.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { DatosGeneralesAgenteComponent } from './agente/detalle/datos-generales/
     PreciosAbonadoComponent,
     PreciosAgenteComponent,
     CuponeraComponent,
-    AgregarEditarComponent,
+    AgregarEditarPrecioAbonadoComponent,
+    AgregarEditarAgenteComponent,
     DetalleAgenteComponent,
     ListaAgenteComponent,
   ],

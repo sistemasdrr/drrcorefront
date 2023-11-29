@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Agente, AgenteT, PrecioAgente, PrecioAgenteT } from 'app/models/mantenimiento/agentes/agente';
+import { Agente, AgenteT, PrecioAgente, PrecioAgenteT } from 'app/models/mantenimiento/agente';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';

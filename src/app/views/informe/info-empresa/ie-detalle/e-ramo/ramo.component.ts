@@ -228,7 +228,6 @@ export class RamoComponent implements OnInit{
 
   ramoActividadDialog() {
     const dialogRef1 = this.dialog.open(RamoActividadDialogComponent, {
-      disableClose: true,
       data: {
         ramoNegocio : this.ramoNegociosInforme,
         actividadEspecifica : this.actividadEspecificaInforme
@@ -251,7 +250,6 @@ export class RamoComponent implements OnInit{
   }
   ImportacionDialog() {
     let dialogRef2 = this.dialog.open(CuadroImpoExpoComponent, {
-      disableClose: true,
       data: {
         titulo : "Importaciones",
         codigoEmpresa : "codigo"
@@ -260,7 +258,6 @@ export class RamoComponent implements OnInit{
   }
   ExportacionDialog() {
     const dialogRef3 = this.dialog.open(CuadroImpoExpoComponent, {
-      disableClose: true,
       data: {
         titulo : "Exportaciones",
         codigoEmpresa : "codigo"
@@ -269,7 +266,6 @@ export class RamoComponent implements OnInit{
   }
   comercioExteriorDialog(input : string){
     const dialogRef1 = this.dialog.open(DialogComercioComponent, {
-      disableClose: true,
       data: {
         titulo : input,
         monto : this.ramoNegociosInforme,
@@ -307,7 +303,6 @@ export class RamoComponent implements OnInit{
 
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
     data: {
       titulo : titulo,
       subtitulo : subtitulo,
@@ -340,7 +335,6 @@ export class RamoComponent implements OnInit{
   }
   agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo : titulo,
         subtitulo : subtitulo,

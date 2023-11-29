@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Abonado, AbonadoT, PrecioAbonado, PrecioAbonadoT } from 'app/models/mantenimiento/abonado/abonado';
+import { Abonado, AbonadoT, PrecioAbonado, PrecioAbonadoT } from 'app/models/mantenimiento/abonado';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';

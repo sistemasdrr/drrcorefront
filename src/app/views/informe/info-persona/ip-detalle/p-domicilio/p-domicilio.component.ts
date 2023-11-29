@@ -24,7 +24,6 @@ export class PDomicilioComponent {
   }
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo : titulo,
         subtitulo : subtitulo,

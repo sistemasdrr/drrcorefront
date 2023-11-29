@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-abonado',
@@ -19,8 +18,15 @@ export class DetalleAbonadoComponent implements OnInit{
     },
   ];
 
-  constructor(){
+  id = 0
 
+  constructor(private activatedRoute : ActivatedRoute){
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id?.includes('nuevo')) {
+      this.id = 0
+    } else {
+      this.id = parseInt(id + '')
+    }
   }
   ngOnInit(): void {
     this.loading = false

@@ -40,7 +40,6 @@ export class PSbsRiesgoComponent {
   //TABLA PROVEEDOR
   agregarProveedor() {
     const dialogR1 = this.dialog.open(PDetalleProveedorComponent, {
-      disableClose: true,
       data: {
         accion : 'AGREGAR',
         id : 0
@@ -52,7 +51,6 @@ export class PSbsRiesgoComponent {
   }
   editarProveedor(id : number) {
     const dialogR2 = this.dialog.open(PDetalleProveedorComponent, {
-      disableClose: true,
       data: {
         accion : 'EDITAR',
         id : id
@@ -98,7 +96,6 @@ export class PSbsRiesgoComponent {
   //TABLA MOROSIDAD COMERCIAL
   agregarMorosidadComercial() {
     const dialogR1 = this.dialog.open(PMorosidadComercialComponent, {
-      disableClose: true,
     data: {
       accion : 'AGREGAR',
       id : 0
@@ -110,7 +107,6 @@ export class PSbsRiesgoComponent {
   }
   editarMorosidadComercial(id : number) {
     const dialogR2 = this.dialog.open(PMorosidadComercialComponent, {
-      disableClose: true,
     data: {
       accion : 'EDITAR',
       id : id
@@ -124,7 +120,6 @@ export class PSbsRiesgoComponent {
   //TABLA SBS
   agregarDeudaBancaria() {
     const dialogR1 = this.dialog.open(PDeudaBancariaComponent, {
-      disableClose: true,
     data: {
       accion : 'AGREGAR',
       id : 0
@@ -136,7 +131,6 @@ export class PSbsRiesgoComponent {
   }
   editarDeudaBancaria(id : number) {
     const dialogR2 = this.dialog.open(PDeudaBancariaComponent, {
-      disableClose: true,
     data: {
       accion : 'EDITAR',
       id : id

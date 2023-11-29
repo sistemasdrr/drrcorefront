@@ -44,7 +44,6 @@ export class ListaComponent implements OnInit {
 
   movimientosInforme(cupon : string){
     const dialogRef = this.dialog.open(MovimientoInformeComponent, {
-      disableClose: true,
       data: {
         cupon : cupon,
       },
@@ -52,7 +51,6 @@ export class ListaComponent implements OnInit {
   }
   despachoInforme(cupon : string){
     const dialogRef = this.dialog.open(DetalleComponent, {
-      disableClose: true,
       data: {
         cupon : cupon,
       },

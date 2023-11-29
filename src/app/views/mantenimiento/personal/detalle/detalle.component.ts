@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ESSALUD, Personal } from 'app/models/mantenimiento/persona/personal';
+import { ESSALUD, Personal } from 'app/models/mantenimiento/personal';
 import { PersonalService } from 'app/services/mantenimiento/personal.service';
 import { AgregarEssaludComponent } from './agregar-essalud/agregar-essalud.component';
 import { Pais } from 'app/models/pais';
@@ -387,7 +387,6 @@ export class DetallePersonalComponent implements OnInit {
 
   agregarEssalud(){
     const dialogRef = this.dialog.open(AgregarEssaludComponent, {
-      disableClose: true,
       data : this.id,
     });
     dialogRef.afterClosed().subscribe((essalud) => {

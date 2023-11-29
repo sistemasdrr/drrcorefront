@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ComboData } from 'app/models/combo';
-import { Personal } from 'app/models/mantenimiento/persona/personal';
+import { Personal } from 'app/models/mantenimiento/personal';
 import { ComboService } from 'app/services/combo.service';
 import { PersonalService } from 'app/services/mantenimiento/personal.service';
 import Swal from 'sweetalert2';

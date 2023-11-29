@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComboData } from 'app/models/combo';
-import { Abonado } from 'app/models/mantenimiento/abonado/abonado';
+import { Abonado } from 'app/models/mantenimiento/abonado';
 import { Pais } from 'app/models/pais';
 import { ComboService } from 'app/services/combo.service';
 import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
@@ -192,7 +192,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
   }
   cambioPais(pais: Pais) {
     console.log(pais)
-    if (typeof pais === 'string' || pais === null) {
+    if (typeof pais === 'string' || pais === null || this.countryAbonado.id === 0) {
       this.msgPais = "Seleccione una opción."
       this.colorMsgPais = "red"
       this.iconoSeleccionado = ""

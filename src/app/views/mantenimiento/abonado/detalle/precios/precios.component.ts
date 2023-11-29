@@ -3,10 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PrecioAbonadoT } from 'app/models/mantenimiento/abonado/abonado';
+import { PrecioAbonadoT } from 'app/models/mantenimiento/abonado';
 import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
 import Swal from 'sweetalert2';
-import { AgregarEditarComponent } from './agregar-editar/agregar-editar.component';
+import { AgregarEditarPrecioAbonadoComponent } from './agregar-editar/agregar-editar.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -45,20 +45,42 @@ export class PreciosAbonadoComponent implements OnInit{
     }
   }
   agregarPrecio(){
-    const dialogRef = this.dialog.open(AgregarEditarComponent, {
-      disableClose: true,
+    const dialogRef = this.dialog.open(AgregarEditarPrecioAbonadoComponent, {
       data : {
-        id : 0
+        id : 0,
+        idAbonado : this.id
       },
     });
+    dialogRef.afterClosed().subscribe(
+      () => {
+        this.abonadoService.getPreciosPorIdAbonado(this.id).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.dataSource = new MatTableDataSource(response.data)
+            }
+          }
+        )
+      }
+    )
   }
   editarPrecio(idPrecio : number){
-    const dialogRef = this.dialog.open(AgregarEditarComponent, {
-      disableClose: true,
+    const dialogRef = this.dialog.open(AgregarEditarPrecioAbonadoComponent, {
       data : {
-        id : idPrecio
+        id : idPrecio,
+        idAbonado : this.id
       },
     });
+    dialogRef.afterClosed().subscribe(
+      () => {
+        this.abonadoService.getPreciosPorIdAbonado(this.id).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.dataSource = new MatTableDataSource(response.data)
+            }
+          }
+        )
+      }
+    )
   }
   guardar(){
 

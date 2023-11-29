@@ -6,19 +6,24 @@ import { ComboData } from 'app/models/combo';
 import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { Pais } from 'app/models/pais';
+import { PrecioAbonado } from 'app/models/mantenimiento/abonado';
+import { ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
+import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
 
 @Component({
   selector: 'app-agregar-editar',
   templateUrl: './agregar-editar.component.html',
   styleUrls: ['./agregar-editar.component.scss']
 })
-export class AgregarEditarComponent implements OnInit {
+export class AgregarEditarPrecioAbonadoComponent implements OnInit {
 
   titulo = ""
   accion = ""
 
   //FORM
   id = 0
+  idAbonado = 0
   date = ""
   dateD : Date | null = null
   idContinent = 0
@@ -37,6 +42,8 @@ export class AgregarEditarComponent implements OnInit {
   dayT3 = 0
   priceB = 0
 
+  Precio : PrecioAbonado[] = []
+
   continentes : ComboData[] = []
 
   controlPaises = new FormControl<string | Pais>('')
@@ -46,9 +53,10 @@ export class AgregarEditarComponent implements OnInit {
   colorMsgPais = ""
   iconoSeleccionado = ""
 
-  constructor(public dialogRef: MatDialogRef<AgregarEditarComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private comboService : ComboService){
+  constructor(private abonadoService : AbonadoService, private activatedRoute : ActivatedRoute,public dialogRef: MatDialogRef<AgregarEditarPrecioAbonadoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private comboService : ComboService){
     if(data){
       this.id = data.id
+      this.idAbonado = data.idAbonado
     }
     this.filterPais = new Observable<Pais[]>
   }
@@ -62,6 +70,39 @@ export class AgregarEditarComponent implements OnInit {
     )
     if(this.id > 0){
       this.titulo = "Editar Precio"
+      this.abonadoService.getPrecioPorId(this.id).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const precioAbonado = response.data
+            if(precioAbonado){
+              this.date = precioAbonado.date
+              if(this.date !== "" && this.date !== null){
+                const fecha = this.date.split("/")
+                if(fecha.length > 0){
+                  this.dateD = new Date(parseInt(fecha[2]),parseInt(fecha[1]),parseInt(fecha[0]))
+                }else{
+                  this.dateD = null
+                }
+              }
+              this.idContinent = precioAbonado.idContinent
+              this.selectContinente()
+              this.idCountry = precioAbonado.idCountry
+              this.idCurrency = precioAbonado.idCurrency
+              this.priceT1 = precioAbonado.priceT1
+              this.dayT1 = precioAbonado.dayT1
+              this.priceT2 = precioAbonado.priceT2
+              this.dayT2 = precioAbonado.dayT2
+              this.priceT3 = precioAbonado.priceT3
+              this.dayT3 = precioAbonado.dayT3
+              this.priceB = precioAbonado.priceB
+            }
+          }
+        }
+      ).add(
+        () => {
+          this.countryPrecio = this.paises.filter(x => x.id === this.idCountry)[0]
+        }
+      )
     }else{
       this.titulo = "Agregar Precio"
     }
@@ -83,7 +124,7 @@ export class AgregarEditarComponent implements OnInit {
   }
   cambioPais(pais: Pais) {
     console.log(pais)
-    if (typeof pais === 'string' || pais === null) {
+    if (typeof pais === 'string' || pais === null || this.countryPrecio.id === 0) {
       this.msgPais = "Seleccione una opción."
       this.colorMsgPais = "red"
       this.iconoSeleccionado = ""
@@ -114,7 +155,7 @@ export class AgregarEditarComponent implements OnInit {
     const year = date.getFullYear().toString();
     return `${month}/${day}/${year}`;
   }
-  selectContinente(idContinent : number){
+  selectContinente(){
     this.comboService.getPaisesPorContinente(this.idContinent).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
@@ -126,11 +167,96 @@ export class AgregarEditarComponent implements OnInit {
       }
     )
   }
-  agregar(){
-
-  }
-  editar(){
-
+  guardar(){
+    this.Precio[0] = {
+      id : this.id,
+      idAbonado : this.idAbonado,
+      date : this.date,
+      idContinent : this.idContinent,
+      idCountry : this.idCountry,
+      idCurrency : this.idCurrency,
+      priceT1 : this.priceT1,
+      dayT1 : this.dayT1,
+      priceT2 : this.priceT2,
+      dayT2 : this.dayT2,
+      priceT3 : this.priceT3,
+      dayT3 : this.dayT3,
+      priceB : this.priceB
+    }
+    if(this.id > 0){
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          this.abonadoService.addPrecio(this.Precio[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'Se modificó el registro correctamente',
+                  text: "",
+                  icon: 'success',
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6',
+                  confirmButtonText: 'Ok',
+                  width: '30rem',
+                  heightAuto: true
+                })
+              }
+            }
+          ).add(
+            () => {
+              this.dialogRef.close()
+            }
+          )
+        }
+      })
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          this.abonadoService.addPrecio(this.Precio[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'Se agregó el registro correctamente',
+                  text: "",
+                  icon: 'success',
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6',
+                  confirmButtonText: 'Ok',
+                  width: '30rem',
+                  heightAuto: true
+                })
+              }
+            }
+          ).add(
+            () => {
+              this.dialogRef.close()
+            }
+          )
+        }
+      })
+    }
+    console.log(this.Precio[0])
   }
   salir(){
     this.dialogRef.close()

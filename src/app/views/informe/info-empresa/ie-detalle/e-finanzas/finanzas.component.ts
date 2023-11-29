@@ -110,7 +110,6 @@ export class FinanzasComponent implements OnInit {
 
   agregarHistoricoVentas(){
     const dialogR1 = this.dialog.open(HistoricoVentasComponent, {
-      disableClose: true,
       data: {
         accion : 'AGREGAR',
         id : 0
@@ -122,7 +121,6 @@ export class FinanzasComponent implements OnInit {
   }
   editarHistoricoVentas(id : number){
     const dialogR2 = this.dialog.open(HistoricoVentasComponent, {
-      disableClose: true,
       data: {
         accion : 'EDITAR',
         id : id
@@ -134,7 +132,6 @@ export class FinanzasComponent implements OnInit {
   }
   agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo : titulo,
         subtitulo : subtitulo,
@@ -158,7 +155,6 @@ export class FinanzasComponent implements OnInit {
   }
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
     data: {
       titulo : titulo,
       subtitulo : subtitulo,
@@ -194,7 +190,6 @@ export class FinanzasComponent implements OnInit {
   }
   balanceSituacional(idInforme : number) {
     const dialogRef = this.dialog.open(BalanceSituacionalComponent, {
-      disableClose: true,
       data : idInforme,
     });
   }

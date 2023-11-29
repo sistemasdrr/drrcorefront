@@ -275,7 +275,6 @@ constructor(
 
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo : titulo,
         subtitulo : subtitulo,
@@ -306,7 +305,6 @@ constructor(
 
   historicoPedidos(){
     const dialog = this.dialog.open(HistoricoPedidosComponent,{
-      disableClose: true,
       data : {
         titulo : "Histórico de Pedidos"
       }

@@ -570,7 +570,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   cambioPais(pais: Pais) {
     if (pais !== null) {
-      if (typeof pais === 'string' || pais === null) {
+      if (typeof pais === 'string' || pais === null || this.paisSeleccionado.id === 0) {
         this.msgPais = "Seleccione una opción."
         this.colorMsgPais = "red"
         this.iconoSeleccionado = ""
@@ -596,7 +596,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     this.idLegalRegisterSituation = 0
   }
   cambioSituacionRuc(situacionRuc: ComboData) {
-    if (typeof situacionRuc === 'string' || situacionRuc === null) {
+    if (typeof situacionRuc === 'string' || situacionRuc === null || this.idLegalRegisterSituation === 0) {
       this.msgSituacionRuc = "Seleccione una opción."
       this.idLegalRegisterSituation = 0
       this.colorMsgSituacionRuc = "red"
@@ -628,7 +628,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
 
   agregarComentario(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo: titulo,
         subtitulo: subtitulo,
@@ -658,7 +657,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   agregarTraduccion(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo: titulo,
         subtitulo: subtitulo,
@@ -680,7 +678,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   seleccionarCalidad() {
     const dialogRef = this.dialog.open(SeleccionarCalidadComponent, {
-      disableClose: true,
     })
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
@@ -710,7 +707,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   historicoPedidos() {
     const dialog = this.dialog.open(HistoricoPedidosComponent, {
-      disableClose: true,
       data: {
         titulo: "Histórico de Pedidos"
       }

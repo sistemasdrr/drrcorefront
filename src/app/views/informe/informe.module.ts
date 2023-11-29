@@ -127,6 +127,9 @@ import { ListaEmpresasComponent } from './info-empresa/ie-detalle/e-antecedentes
     NgxGaugeModule,
     CKEditorModule
   ],
+  exports: [
+    ListaEmpresasComponent
+  ],
   providers: [provideNgxMask()],
 })
 export class InformeModule { }

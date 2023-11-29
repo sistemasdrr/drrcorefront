@@ -41,7 +41,14 @@ export interface PrecioAgente{
   dayT2: number
   priceT3 : number
   dayT3: number
-
+  pricePN : number
+  dayPN: number
+  priceBD : number
+  dayBD: number
+  priceRP : number
+  dayRP: number
+  priceCR : number
+  dayCR: number
 }
 export interface PrecioAgenteT{
   id : number

@@ -19,6 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { data } from 'app/services/mantenimiento/personal.service';
 import { ComboService } from 'app/services/combo.service';
 import { RiesgoCrediticio } from 'app/models/combo';
+import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
 
 interface Idioma {
   value: string;
@@ -64,7 +65,7 @@ export class DetalleComponent implements OnInit {
   fechaVencimientoReal = ""
   fechaVencimientoRealDate = new Date()
   fechaInforme = ""
-  fechaInformeDate = new Date()
+  fechaInformeDate : Date | null = new Date()
   //FORM ABONADO
   abonadoNoEncontrado = ""
   nombreAbonado = ""
@@ -339,7 +340,6 @@ export class DetalleComponent implements OnInit {
 
   buscarAbonado() {
     const dialogRef = this.dialog.open(BuscarAbonadoDialogComponent, {
-      disableClose: true,
     data: {
       mensaje: 'Abonado',
     },
@@ -360,23 +360,35 @@ export class DetalleComponent implements OnInit {
     });
   }
   buscarEmpresaPersona() {
-    const dialogRef1 = this.dialog.open(BuscarEmpresaDialogComponent);
-    dialogRef1.afterClosed().subscribe((informe) => {
-      console.log(informe)
-      if (informe.datosEmpresa) {
-        this.razonSocialInforme = informe.datosEmpresa.razonSocial
-        this.nombreComercialInforme = informe.datosEmpresa.nombreComercial
-        this.tipoRT = informe.datosEmpresa.tipoRuc
-        this.codigoRT = informe.datosEmpresa.codigoRuc
-        this.correo = informe.datosEmpresa.emailCorporativo
-        this.paisEmpresa = informe.datosEmpresa.pais
-        this.ciudad = informe.datosEmpresa.dptoEstado
-        this.direccion = informe.datosEmpresa.direccionCompleta
-        this.telefono = informe.datosEmpresa.numeroTelefono
-        const fechaInforme = informe.datosEmpresa.informeInvestigadoEl.split('/')
-        this.fechaInformeDate = new Date(parseInt(fechaInforme[2]),(parseInt(fechaInforme[1])-1),parseInt(fechaInforme[0]))
-        this.riesgoCrediticioInforme = informe.datosEmpresa.riesgoCrediticio
-      }
+    const dialogRef1 = this.dialog.open(ListaEmpresasComponent);
+    dialogRef1.afterClosed().subscribe((data) => {
+      console.log(data.idCompany)
+      this.datosEmpresaService.getDatosEmpresaPorId(data.idCompany).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const datosEmpresa = response.data
+            if(datosEmpresa){
+              this.razonSocialInforme = datosEmpresa.name
+              this.nombreComercialInforme = datosEmpresa.socialName
+              this.tipoRT = datosEmpresa.taxTypeName
+              this.codigoRT = datosEmpresa.taxTypeCode
+              this.correo = datosEmpresa.email
+              this.ciudad = datosEmpresa.place
+              this.direccion = datosEmpresa.address
+              this.telefono = datosEmpresa.telephone
+              if(datosEmpresa.lastSearched !== "" && datosEmpresa.lastSearched !== null){
+                const lastSearched = datosEmpresa.lastSearched.split("/")
+                if(lastSearched.length > 0){
+                  this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[1]),parseInt(lastSearched[0]))
+                }else{
+                  this.fechaInformeDate = null
+                }
+              }
+              this.riesgoCrediticioInforme
+            }
+          }
+        }
+      )
     });
   }
   volver(){

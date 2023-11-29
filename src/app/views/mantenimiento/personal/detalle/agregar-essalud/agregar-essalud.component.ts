@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ComboData } from 'app/models/combo';
-import { TipoVinculo } from 'app/models/mantenimiento/persona/personal';
+import { TipoVinculo } from 'app/models/mantenimiento/personal';
 import { ComboService } from 'app/services/combo.service';
 import { PersonalService } from 'app/services/mantenimiento/personal.service';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Agente } from 'app/models/mantenimiento/agentes/agente';
+import { Agente } from 'app/models/mantenimiento/agente';
 import { Pais } from 'app/models/pais';
 import { ComboService } from 'app/services/combo.service';
 import { AgenteService } from 'app/services/mantenimiento/agente.service';
@@ -128,7 +128,7 @@ export class DatosGeneralesAgenteComponent implements OnInit {
 
   cambioPais(pais: Pais) {
     console.log(pais)
-    if (typeof pais === 'string' || pais === null) {
+    if (typeof pais === 'string' || pais === null || this.countryAgente.id === 0) {
       this.msgPais = "Seleccione una opción."
       this.colorMsgPais = "red"
       this.iconoSeleccionado = ""

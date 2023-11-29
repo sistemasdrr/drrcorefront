@@ -19,18 +19,20 @@
             <app-datos-generales-abonado></app-datos-generales-abonado>
           </ng-template>
         </mat-tab>
+        <!--mat-tab [ngClass]="{'tab-completo': false}" [disabled]="id === 0"-->
         <mat-tab [ngClass]="{'tab-completo': false}">
           <ng-template mat-tab-label>
-            <i id="tab-antecedentes" class="fa-solid fa-circle-dollar-to-slot" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
+            <i id="tab-precios" class="fa-solid fa-circle-dollar-to-slot" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Precios</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-precios-abonado></app-precios-abonado>
           </ng-template>
         </mat-tab>
-        <mat-tab >
+        <!--mat-tab  [disabled]="id === 0"-->
+        <mat-tab>
           <ng-template mat-tab-label>
-            <i id="tab-ramo-negocio" class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Ramo de Negocio"></i>
+            <i id="tab-cuponera" class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Ramo de Negocio"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Cuponera</b></div>
           </ng-template>
           <ng-template matTabContent>

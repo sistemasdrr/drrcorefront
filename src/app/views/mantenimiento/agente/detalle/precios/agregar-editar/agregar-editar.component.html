@@ -22,7 +22,10 @@
                 </li>
                 <li class="tbl-header-btn">
                   <div class="m-l-10" >
-                    <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="id === 0">
+                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="id === 0">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button  class="btn btn-primary" (click)="editar()" #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="id !== 0"  >
                       <mat-icon>save</mat-icon>
                     </button>
                   </div>
@@ -46,7 +49,7 @@
               <div class="col-md-3">
                 <mat-form-field class="w-100">
                   <mat-label>Continente</mat-label>
-                  <mat-select [(ngModel)]="idContinent" [ngClass]="idContinent === 0 ? 'error': ''" (selectionChange)="selectContinente()">
+                  <mat-select [(ngModel)]="idContinent"  [ngClass]="idContinent === 0 ? 'error': ''" (selectionChange)="selectContinente(idContinent)">
                       <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{continente.valor}}</mat-option>
                   </mat-select>
                   <mat-hint class="d-flex" [ngClass]="idContinent === 0 ? 'col-red': 'col-green'" >
@@ -140,11 +143,68 @@
               </div>
               <div class="col-md-3">
                 <div class="row">
-                  <h5 style="font-size:18px;">Precio B</h5>
+                  <h5 style="font-size:18px;">P.N.</h5>
                   <div class="col-md-12  m-0">
                     <mat-form-field class="w-100">
                       <mat-label>Precio B</mat-label>
-                      <input matInput [(ngModel)]="priceB" type="number" [min]="0">
+                      <input matInput [(ngModel)]="pricePN" type="number" [min]="0">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Días Utiles</mat-label>
+                      <input matInput [(ngModel)]="dayPN" type="number" [min]="0">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <h5 style="font-size:18px;">B.D.</h5>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio</mat-label>
+                      <input matInput [(ngModel)]="priceBD" type="number" [min]="0">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Días Utiles</mat-label>
+                      <input matInput [(ngModel)]="dayBD" type="number" [min]="0">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <h5 style="font-size:18px;">R.P.</h5>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio</mat-label>
+                      <input matInput [(ngModel)]="priceRP" type="number" [min]="0">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Días Utiles</mat-label>
+                      <input matInput [(ngModel)]="dayRP" type="number" [min]="0">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="row">
+                  <h5 style="font-size:18px;">C.R.</h5>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Precio</mat-label>
+                      <input matInput [(ngModel)]="priceCR" type="number" [min]="0">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 m-0">
+                    <mat-form-field class="w-100">
+                      <mat-label>Días Utiles</mat-label>
+                      <input matInput [(ngModel)]="dayCR" type="number" [min]="0">
                     </mat-form-field>
                   </div>
                 </div>

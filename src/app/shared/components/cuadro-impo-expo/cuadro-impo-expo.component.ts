@@ -53,7 +53,6 @@ export class CuadroImpoExpoComponent{
 
   agregar(){
     const dialogRef1 = this.dialog.open(AgregarEditarComponent, {
-      disableClose: true,
       data: {
         accion : "AGREGAR",
       },
@@ -72,7 +71,6 @@ export class CuadroImpoExpoComponent{
   }
   editar(id : string, año : string, monto : string){
     const dialogRef2 = this.dialog.open(AgregarEditarComponent, {
-      disableClose: true,
       data: {
         accion : "EDITAR",
         anio : año,

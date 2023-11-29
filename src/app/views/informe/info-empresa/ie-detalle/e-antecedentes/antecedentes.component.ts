@@ -268,7 +268,6 @@ constructor(
   }
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
     data: {
       titulo : titulo,
       subtitulo : subtitulo,
@@ -295,7 +294,6 @@ constructor(
   }
   empresasRelacionadas(){
     const dialogRef = this.dialog.open(ListaEmpresasComponent, {
-      disableClose: true,
       data : {
         idCompany : this.idCompany
       }
@@ -308,7 +306,6 @@ constructor(
   }
   agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      disableClose: true,
       data: {
         titulo : titulo,
         subtitulo : subtitulo,
@@ -347,7 +344,6 @@ constructor(
   }
   abrirCapitalPagado(){
     const dialogRef = this.dialog.open(CapitalPagadoComponent, {
-      disableClose: true,
       data : {
         moneda : this.currentPaidCapitalCurrency,
         monto : this.currentPaidCapital,

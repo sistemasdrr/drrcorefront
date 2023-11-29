@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { AgenteT } from 'app/models/mantenimiento/agentes/agente';
+import { AgenteT } from 'app/models/mantenimiento/agente';
 import { AgenteService } from 'app/services/mantenimiento/agente.service';
 import Swal from 'sweetalert2';
 
