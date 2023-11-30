@@ -48,3 +48,36 @@ export interface Pedido {
   asignacion : Asignacion[]
   adjuntos : Adjunto[]
 }
+
+export interface Order {
+  id : number
+  language : string
+  typeOrder : string
+  dateOrder : string
+
+  startDate : string
+  endDate : string
+  realEndDate : string
+
+  //Abonado
+  idAbonado : number
+  referenceNumber : number
+  creditAmount : number
+  terms : string
+
+  idCompany : number
+  idPerson : number
+}
+export interface OrderT{
+  id : number
+  couponNumber : number
+  name : string
+  idSubscriber : number
+  status : string
+  reportType : string
+  procedureType : string
+  quality : string
+  startDate : string
+  endDate : string
+  downloadDate : string
+}

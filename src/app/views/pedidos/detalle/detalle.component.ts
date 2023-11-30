@@ -7,8 +7,6 @@ import { BuscarAbonadoDialogComponent } from '@shared/components/buscar-abonado-
 import { MatTableDataSource} from '@angular/material/table';
 import { ReportesSolicitados } from 'app/models/informes/reportes-solicitados';
 import { RequestedReportsService } from 'app/services/pedidos/reportes-solicitados.service';
-import { BuscarEmpresaDialogComponent } from '@shared/components/buscar-empresa-dialog/buscar-empresa-dialog.component';
-import { Abonado } from 'app/models/pedidos/abonado';
 import { AbonadoService } from 'app/services/pedidos/abonado.service';
 import { Pais } from 'app/models/pais';
 import { PedidoService } from 'app/services/pedido.service';
@@ -36,6 +34,7 @@ interface TipoInforme {
   styleUrls: ['./detalle.component.scss'],
 })
 export class DetalleComponent implements OnInit {
+  language = ""
 
   /**/
   paisSeleccionado = 0
@@ -101,7 +100,7 @@ export class DetalleComponent implements OnInit {
   ciudadPersona = ""
   telefonoPersona = ""
   direccionPersona = ""
-  riesgoCrediticioInforme = ""
+  idCreditRisk = 0
 
   calificacionCrediticia : RiesgoCrediticio[] = []
 
@@ -268,7 +267,6 @@ export class DetalleComponent implements OnInit {
           //   }
           // }
         }else if(this.informePara === 'P'){
-
         }
 
       }
@@ -384,7 +382,7 @@ export class DetalleComponent implements OnInit {
                   this.fechaInformeDate = null
                 }
               }
-              this.riesgoCrediticioInforme
+              this.idCreditRisk = datosEmpresa.idCreditRisk
             }
           }
         }
@@ -396,32 +394,32 @@ export class DetalleComponent implements OnInit {
   }
 
   asignarDatosAbonado() {
-    const abonado: Abonado | null = this.abonadoService.getAbonadoPorCodigo(this.codAbonado);
+    // const abonado: Abonado | null = this.abonadoService.getAbonadoPorCodigo(this.codAbonado);
 
-    if (abonado !== null) {
-      this.nombreAbonado = abonado.codigo + ' - ' + abonado.nombre;
-      this.isChecked = abonado.revelarNombre;
-      this.paisAbonado = abonado.pais
-      this.estado = abonado.estado;
-      this.nmrReferencia = abonado.nroReferencia;
-      this.creditoConsultado = abonado.creditoConsultado;
-      this.indicacionesAbonado = abonado.indicaciones;
-      this.datosAdicionales = abonado.dtsAdicionales;
-      this.abonadoNoEncontrado = "Abonado Encontrado"
-    } else {
-      this.nombreAbonado = ""
-      this.isChecked = false
-      this.paisAbonado = {
-        id : 0,
-        valor : '',
-        bandera : ''
-      }
-      this.estado = ""
-      this.nmrReferencia = ""
-      this.creditoConsultado = ""
-      this.indicacionesAbonado = ""
-      this.datosAdicionales = ""
-      this.abonadoNoEncontrado = "No se encontró el abonado"
-    }
+    // if (abonado !== null) {
+    //   this.nombreAbonado = abonado.codigo + ' - ' + abonado.nombre;
+    //   this.isChecked = abonado.revelarNombre;
+    //   this.paisAbonado = abonado.pais
+    //   this.estado = abonado.estado;
+    //   this.nmrReferencia = abonado.nroReferencia;
+    //   this.creditoConsultado = abonado.creditoConsultado;
+    //   this.indicacionesAbonado = abonado.indicaciones;
+    //   this.datosAdicionales = abonado.dtsAdicionales;
+    //   this.abonadoNoEncontrado = "Abonado Encontrado"
+    // } else {
+    //   this.nombreAbonado = ""
+    //   this.isChecked = false
+    //   this.paisAbonado = {
+    //     id : 0,
+    //     valor : '',
+    //     bandera : ''
+    //   }
+    //   this.estado = ""
+    //   this.nmrReferencia = ""
+    //   this.creditoConsultado = ""
+    //   this.indicacionesAbonado = ""
+    //   this.datosAdicionales = ""
+    //   this.abonadoNoEncontrado = "No se encontró el abonado"
+    // }
   }
 }
