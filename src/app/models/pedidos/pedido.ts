@@ -53,11 +53,12 @@ export interface Order {
   id : number
   language : string
   typeOrder : string
-  dateOrder : string
+  typeReport: string
+  dateReport: string
 
   startDate : string
-  endDate : string
-  realEndDate : string
+  expirationDate : string
+  realExpirationDate : string
 
   //Abonado
   idAbonado : number

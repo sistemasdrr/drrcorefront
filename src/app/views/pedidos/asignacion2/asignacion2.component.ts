@@ -24,7 +24,7 @@ export class Asignacion2Component implements AfterViewInit {
   //BREADCRUMB
   breadscrums = [
     {
-      title: 'Asignación',
+      title: 'Asignación de Empleados',
       items: ['Producción','Pedidos'],
       active: 'Asignación',
     },

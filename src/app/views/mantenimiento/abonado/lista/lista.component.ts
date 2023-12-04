@@ -40,6 +40,14 @@ export class ListaAbonadoComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
+    if(localStorage.getItem('busquedaAbonados')){
+      const busqueda = JSON.parse(localStorage.getItem('busquedaAbonados')+'')
+      this.codigo = busqueda.codigo
+      this.nombre = busqueda.nombre
+      this.estado = busqueda.estado
+    }
+
     this.abonadoService.getAbonados(this.codigo, this.nombre, this.estado).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
@@ -61,7 +69,7 @@ export class ListaAbonadoComponent implements OnInit{
     const busqueda = {
       codigo : this.codigo,
       nombre : this.nombre,
-      estado : this.nombre,
+      estado : this.estado,
     }
     localStorage.setItem('busquedaAbonados', JSON.stringify(busqueda))
     this.abonadoService.getAbonados(this.codigo.trim(), this.nombre.trim(), this.estado).subscribe(
@@ -116,12 +124,43 @@ export class ListaAbonadoComponent implements OnInit{
       if (result.value) {
         Swal.fire({
           title :'¡Eliminado!',
-          text : 'El registro se elimino correctamente.',
+          text : 'El registro se eliminó correctamente.',
           icon : 'success',
           width: '20rem',
           heightAuto : true
         });
         this.abonadoService.deleteAbonado(idAbonado).subscribe(
+          (response) => {
+            console.log(response)
+          }
+        ).add(() => {
+          this.filtrarAbonados()
+        })
+      }
+    });
+  }
+  activarAbonado(idAbonado : number){
+    Swal.fire({
+      title: '¿Está seguro de activar este registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se activó correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+        this.abonadoService.activeAbonado(idAbonado).subscribe(
           (response) => {
             console.log(response)
           }

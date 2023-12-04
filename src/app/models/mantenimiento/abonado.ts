@@ -6,6 +6,7 @@ export interface AbonadoT{
   address : string
   country : string
   flagCountry : string
+  isoCountry : string
   enable : boolean
 }
 export interface Abonado{
@@ -14,7 +15,7 @@ export interface Abonado{
   idContinent : number
   idCountry : number
   city : string
-  incomeDate : string
+  startDate : string
   name : string
   acronym : string
   address : string
@@ -39,8 +40,8 @@ export interface Abonado{
   indications : string
   maximumCredit : boolean
   revealName : boolean
-  abonadoType : string //SC = SOLO CLIENTE - CA = CLIENTE / AGENTE
-  currency : string //SOLO DE 3 TIPOS: S = SOLES, D = DOLARES, E = EUROS
+  subscriberType : string //SC = SOLO CLIENTE - CA = CLIENTE / AGENTE
+  idCurrency : number //SOLO DE 3 TIPOS: S = SOLES, D = DOLARES, E = EUROS
   facturationType : string //FM = FACT. MENSUAL, CC = CON CUPONES, OL = ONLINE
   normalPrice : boolean
 }

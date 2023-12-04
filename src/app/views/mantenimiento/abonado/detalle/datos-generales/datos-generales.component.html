@@ -45,15 +45,15 @@
           <div class="col-md-3">
             <mat-form-field style="width: 100%;">
               <mat-label>Moneda</mat-label>
-              <mat-select [(ngModel)]="currency">
-                <mat-option [value]="'S'">
-                  Soles
+              <mat-select [(ngModel)]="idCurrency">
+                <mat-option [value]="31">
+                  S/.-Sol(PEN)
                 </mat-option>
-                <mat-option [value]="'D'">
-                  Dolares
+                <mat-option [value]="1">
+                  US$-Dólar estadounidense(USD)
                 </mat-option>
-                <mat-option [value]="'E'">
-                  Euros
+                <mat-option [value]="2">
+                  €-Euro(EUR)
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -96,7 +96,7 @@
           <div class="col-md-3">
             <mat-form-field style="width: 100%;">
               <mat-label>Tipo de Abonado</mat-label>
-              <mat-select [(ngModel)]="abonadoType">
+              <mat-select [(ngModel)]="subscriberType">
                 <mat-option [value]="'SC'">
                   Solo Cliente
                 </mat-option>

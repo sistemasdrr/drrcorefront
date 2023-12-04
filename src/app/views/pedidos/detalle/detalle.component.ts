@@ -16,7 +16,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { data } from 'app/services/mantenimiento/personal.service';
 import { ComboService } from 'app/services/combo.service';
-import { RiesgoCrediticio } from 'app/models/combo';
+import { ComboData, RiesgoCrediticio } from 'app/models/combo';
 import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
 
 interface Idioma {
@@ -54,15 +54,24 @@ export class DetalleComponent implements OnInit {
     }
   }
 
+  idContinent = 0
+
+  countryAbonado : Pais = {
+    id : 0,
+    valor : "",
+    bandera : ""
+  }
+  idCountry = 0
+
   //DATOS GENERALES
   informePara = "E"
   tipoTramite = ""
   fechaIngreso = ""
-  fechaIngresoDate = new Date()
+  fechaIngresoDate : Date = new Date()
   fechaVencimiento = ""
-  fechaVencimientoDate = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+3)
+  fechaVencimientoDate : Date = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+3)
   fechaVencimientoReal = ""
-  fechaVencimientoRealDate = new Date()
+  fechaVencimientoRealDate : Date | null = new Date()
   fechaInforme = ""
   fechaInformeDate : Date | null = new Date()
   //FORM ABONADO
@@ -147,7 +156,7 @@ export class DetalleComponent implements OnInit {
   public nmrCupon: string | null = '';
 
   idiomaSeleccionado = ""
-  continenteSeleccionado = 1
+  idCountryEmpresa = 0
   tipoInforme = ""
 
   codAbonado = ''
@@ -176,6 +185,9 @@ export class DetalleComponent implements OnInit {
     this.filterPaisAbonado = new Observable<Pais[]>()
     this.filterPaisEmpresa = new Observable<Pais[]>()
     this.filterPaisPersona = new Observable<Pais[]>()
+
+
+
   }
   ngOnInit() {
     this.pedidoService.getContinente().subscribe(response => {
@@ -218,7 +230,7 @@ export class DetalleComponent implements OnInit {
         return name ? this._filterPaisPersona(name as string) : this.paisesPersona.slice()
       }),
     )
-    this.actualizarContinente(this.continenteSeleccionado)
+    this.selectContinente(this.idContinent)
 
     this.tipo_formulario = this.activatedRoute.snapshot.paramMap.get('tipo');
     this.nmrCupon = this.activatedRoute.snapshot.paramMap.get('cupon');
@@ -284,17 +296,33 @@ export class DetalleComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
   }
-  actualizarContinente(continente : number){
-    this.paisEmpresa = {
-      id : 0,
-      valor : '',
-      bandera : ''
-    }
-    this.pedidoService.getPaisPorContinente(continente).subscribe(response => {
-      if(response.isSuccess == true){
-        this.paisesEmpresa = response.data;
+  selectContinente(idContinent : number){
+    this.comboService.getPaisesPorContinente(this.idContinent).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.paisesEmpresa = []
+          this.paisesEmpresa = response.data
+          console.log(response.data)
+          this.limpiarSeleccionPais()
+        }
       }
-    });
+    )
+  }
+  cambioPais(pais: Pais) {
+    console.log(pais)
+    if (typeof pais === 'string' || pais === null || this.countryAbonado.id === 0) {
+      this.iconoSeleccionado = ""
+      this.idCountry = 0
+    } else {
+      this.iconoSeleccionado = pais.bandera
+      this.idCountry = pais.id
+    }
+    console.log(this.idCountry)
+  }
+  limpiarSeleccionPais() {
+    this.controlPaisesEmpresa.reset();
+    this.idCountry = 0
+    this.iconoSeleccionado = ""
   }
   private _filterPaisAbonado(description: string): Pais[] {
     const filterValue = description.toLowerCase();

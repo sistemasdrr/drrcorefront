@@ -23,10 +23,6 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
   id = 0
   code = ""
 
-  continentAbonado : ComboData = {
-    id : 0,
-    valor : ""
-  }
   idContinent = 0
 
   countryAbonado : Pais = {
@@ -63,8 +59,8 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
   indications = ""
   maximumCredit = false
   revealName = false
-  abonadoType = ""
-  currency = ""
+  subscriberType = ""
+  idCurrency = 0
   facturationType = ""
   normalPrice = false
 
@@ -74,7 +70,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
   paises: Pais[] = []
   filterPais: Observable<Pais[]>
   msgPais = ""
-  colorMsgPais = ""
+  colorMsgPais = "red"
   iconoSeleccionado = ""
 
   abonadoActual : Abonado[] = []
@@ -102,14 +98,31 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
           this.abonadoService.getAbonadoPorId(this.id).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                console.log(response.data)
                 const abonado = response.data
                 if(abonado){
                   this.code = abonado.code
                   this.idContinent = abonado.idContinent
-                  this.selectContinente(this.idContinent)
-                  this.idCountry = abonado.idCountry
+                  this.comboService.getPaisesPorContinente(this.idContinent).subscribe(
+                    (response) => {
+                      if(response.isSuccess === true && response.isWarning === false){
+                        this.paises = []
+                        this.paises = response.data
+                      }
+                    }
+                  ).add(
+                    () => {
+                      if(abonado.idCountry > 0 || abonado.idCountry !== null){
+                        this.idCountry = abonado.idCountry
+                        console.log(this.paises)
+                        this.countryAbonado = this.paises.filter(x => x.id === abonado.idCountry)[0]
+                      }else{
+                        this.idCountry = 0
+                      }
+                    }
+                  )
                   this.city = abonado.city
-                  this.incomeDate = abonado.incomeDate
+                  this.incomeDate = abonado.startDate
                   if(this.incomeDate !== "" && this.incomeDate !== null){
                     const fecha = this.incomeDate.split("/")
                     if(fecha.length > 0){
@@ -143,13 +156,10 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
                   this.indications = abonado.indications
                   this.maximumCredit = abonado.maximumCredit
                   this.revealName = abonado.revealName
-                  this.abonadoType = abonado.abonadoType
-                  this.currency = abonado.currency
+                  this.subscriberType = abonado.subscriberType
+                  this.idCurrency = abonado.idCurrency
                   this.facturationType = abonado.facturationType
                   this.normalPrice = abonado.normalPrice
-                  if(this.idCountry > 0 && this.idCountry !== null){
-                    this.countryAbonado = this.paises.filter(x => x.id === this.idCountry)[0]
-                  }
                   this.armarModeloActual()
                   this.armarModeloModificado()
                 }
@@ -238,7 +248,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       idContinent : this.idContinent,
       idCountry : this.idCountry,
       city : this.city,
-      incomeDate : this.incomeDate,
+      startDate : this.incomeDate,
       name : this.name,
       acronym : this.acronym,
       address : this.address,
@@ -263,8 +273,8 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       indications : this.indications,
       maximumCredit : this.maximumCredit,
       revealName : this.revealName,
-      abonadoType : this.abonadoType,
-      currency : this.currency,
+      subscriberType : this.subscriberType,
+      idCurrency : this.idCurrency,
       facturationType : this.facturationType,
       normalPrice : this.normalPrice
     }
@@ -276,7 +286,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       idContinent : this.idContinent,
       idCountry : this.idCountry,
       city : this.city,
-      incomeDate : this.incomeDate,
+      startDate : this.incomeDate,
       name : this.name,
       acronym : this.acronym,
       address : this.address,
@@ -301,8 +311,8 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       indications : this.indications,
       maximumCredit : this.maximumCredit,
       revealName : this.revealName,
-      abonadoType : this.abonadoType,
-      currency : this.currency,
+      subscriberType : this.subscriberType,
+      idCurrency : this.idCurrency,
       facturationType : this.facturationType,
       normalPrice : this.normalPrice
     }
@@ -323,6 +333,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
         heightAuto: true
       }).then((result) => {
         if (result.value) {
+          console.log(this.abonadoModificado[0])
           const paginaDetalleAbonado = document.getElementById('pagina-detalle-abonado') as HTMLElement | null;
           if(paginaDetalleAbonado){
             paginaDetalleAbonado.classList.remove('hide-loader');

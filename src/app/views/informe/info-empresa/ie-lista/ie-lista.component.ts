@@ -56,7 +56,6 @@ export class IEListaComponent implements OnInit{
   constructor(private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService){
     this.dataSource = new MatTableDataSource()
     this.filterPais = new Observable<Pais[]>()
-    this.loading = true
   }
 
   ngOnInit(): void {
@@ -81,6 +80,8 @@ export class IEListaComponent implements OnInit{
         this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idPais)[0]
         this.chkConInforme = busqueda.conInforme
         this.filtrarEmpresas()
+        this.loading = false
+
       }
     })
 
@@ -91,7 +92,6 @@ export class IEListaComponent implements OnInit{
         return name ? this._filterPais(name as string) : this.paises.slice()
       }),
     )
-    this.loading = false
   }
   private _filterPais(description: string): Pais[] {
     const filterValue = description.toLowerCase();
@@ -208,6 +208,68 @@ export class IEListaComponent implements OnInit{
           heightAuto : true
         });
         this.datosEmpresaService.deleteDatosEmpresa(id).subscribe(
+          (response) => {
+            console.log(response)
+          }
+        ).add(() => {
+          this.filtrarEmpresas()
+        })
+      }
+    });
+  }
+  activarWebEmpresa(id : number){
+    Swal.fire({
+      title: '¿Está seguro de mostrar este registro en la web?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se actualizo correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+        this.datosEmpresaService.activarWebEmpresa(id).subscribe(
+          (response) => {
+            console.log(response)
+          }
+        ).add(() => {
+          this.filtrarEmpresas()
+        })
+      }
+    });
+  }
+  desactivarWebEmpresa(id : number){
+    Swal.fire({
+      title: '¿Está seguro de ocultar este registro en la web?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se actualizo correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+        this.datosEmpresaService.desactivarWebEmpresa(id).subscribe(
           (response) => {
             console.log(response)
           }

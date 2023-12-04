@@ -17,6 +17,14 @@ export class SigninComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  arrayImg = [
+    'https://www.tooltyp.com/wp-content/uploads/2014/10/1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg',
+    'https://www.salesforce.com/content/dam/web/es_mx/blog/reporte-de-ventas.jpg',
+    'https://itop.academy/wp-content/uploads/2022/10/gestion-informes-reportes-sap-business-one-itop-academy.jpg',
+    'https://static5.depositphotos.com/1009762/449/i/950/depositphotos_4499086-stock-illustration-annual-report-graph-diagram-chart.jpg',
+
+  ]
+  url = ""
   loginForm!: UntypedFormGroup;
   submitted = false;
   error = '';
@@ -29,6 +37,7 @@ export class SigninComponent
     super();
   }
   ngOnInit() {
+    console.log(this.getRandomNumber())
     this.loginForm = this.formBuilder.group({
       email: [
         'admin@lorax.com',
@@ -36,6 +45,10 @@ export class SigninComponent
       ],
       password: ['admin', Validators.required],
     });
+    this.url = this.arrayImg[this.getRandomNumber()]
+  }
+  getRandomNumber() : number {
+    return Math.floor(Math.random() * (0 - 3) + 4);
   }
 
   get form(): { [key: string]: AbstractControl } {

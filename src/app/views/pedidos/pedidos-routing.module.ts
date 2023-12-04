@@ -15,7 +15,11 @@ const routes: Routes = [
     title : 'Detalles del Pedido - DRR Core V1'
   },
   {
-    path: 'asignacion', component: Asignacion2Component,
+    path: 'asignacion-empleados', component: Asignacion2Component,
+    title : 'Asignación del Pedido - DRR Core V1'
+  },
+  {
+    path: 'asignacion', component: AsignacionComponent,
     title : 'Asignación del Pedido - DRR Core V1'
   },
 ];

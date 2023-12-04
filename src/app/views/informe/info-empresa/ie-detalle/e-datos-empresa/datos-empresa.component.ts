@@ -72,12 +72,12 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   name = ""
   socialName = ""
   lastSearched = ""
-  lastSearchedD: Date | null = new Date()
+  lastSearchedD: Date | null = null
   language = ""
   typeRegister = ""
   yearFundation = ""
   constitutionDate = ""
-  constitutionDateD: Date | null = new Date()
+  constitutionDateD: Date | null = null
   quality = ""
   idLegalPersonType = 0
   taxTypeName = ""

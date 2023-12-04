@@ -225,20 +225,20 @@
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="w-100">
-                      <mat-label>Continente </mat-label>
-                      <mat-select [(ngModel)]="continente" [(value)]="continenteSeleccionado" (ngModelChange)="actualizarContinente(continenteSeleccionado)">
-                        <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{ continente.valor }}</mat-option>
+                      <mat-label>Continente</mat-label>
+                      <mat-select [(ngModel)]="idContinent" (selectionChange)="selectContinente(idContinent)">
+                          <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{continente.valor}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
                     <mat-form-field class="w-100">
                       <mat-label>País</mat-label>
-                      <input type="text" matInput [formControl]="controlPaisesEmpresa" [matAutocomplete]="auto2" [(ngModel)]="paisEmpresa" >
-                      <button class="btn-traduccion" matSuffix mat-icon-button>
-                        <span class="fi fi-{{paisEmpresa.bandera}}" style="font-size: 20px;"></span>
+                      <input type="text" matInput [formControl]="controlPaisesEmpresa" [matAutocomplete]="auto6" [(ngModel)]="countryAbonado" (ngModelChange)="cambioPais(countryAbonado)">
+                      <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
                       </button>
-                      <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayPaisEmpresa" >
+                      <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPaisEmpresa" >
                         <mat-option *ngFor="let pais of filterPaisEmpresa | async" [value]="pais">
                           <span class="fi fi-{{pais.bandera}}"></span>
                           {{pais.valor}}

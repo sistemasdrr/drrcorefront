@@ -20,6 +20,12 @@ export class DatosEmpresaService {
     return this.http.post<Response<TCompany[]>>(this.url + this.controllerCompany + '/getbyname?name='+razonSocial+'&form='+tipoFiltro+'&idCountry='+idPais,'')
     .pipe(catchError(this.handleErrorGet));
   }
+  activarWebEmpresa(id : number) :Observable<Response<boolean>>{
+    return this.http.post<Response<boolean>>(this.url + this.controllerCompany + '/activeweb?id='+id,'')
+  }
+  desactivarWebEmpresa(id : number) :Observable<Response<boolean>>{
+    return this.http.post<Response<boolean>>(this.url + this.controllerCompany + '/desactiveweb?id='+id,'')
+  }
   getDatosEmpresaPorId(id : number): Observable<Response<Company>>{
     return this.http.post<Response<Company>>(this.url + this.controllerCompany + '/get?id='+id,'')
     .pipe(catchError(this.handleErrorGet));

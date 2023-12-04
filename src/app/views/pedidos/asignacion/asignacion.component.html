@@ -117,10 +117,10 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button *ngIf="order.attachments.length > 0" (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
+            <button mat-icon-button (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
               <mat-icon style="color: red;">attach_file</mat-icon>
             </button>
-            <button mat-icon-button *ngIf="order.attachments.length === 0" (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
+            <button mat-icon-button (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
               <mat-icon style="color: gray;">attach_file</mat-icon>
 
             </button>

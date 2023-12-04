@@ -12,15 +12,15 @@ export class AbonadoService {
   url = environment.apiUrl
   controllerCombo = "/Combo"
   controllerMaster = "/Master"
-  controllerAbonado = "/"
+  controllerAbonado = "/Subscriber"
 
   constructor(private http : HttpClient) { }
 
-  getAbonados(code : string, name : string, state : string): Observable<Response<AbonadoT[]>>{
-    return this.http.get<Response<AbonadoT[]>>(this.url + this.controllerAbonado + '/getAll?code='+code+'&name='+name+'&state='+state);
+  getAbonados(code : string, name : string, enable : string): Observable<Response<AbonadoT[]>>{
+    return this.http.get<Response<AbonadoT[]>>(this.url + + this.controllerAbonado + '/get?code='+code+'&name='+name+'&enable='+enable);
   }
   getAbonadoPorId(idAbonado : number): Observable<Response<Abonado>>{
-    return this.http.get<Response<Abonado>>(this.url + this.controllerAbonado + '/getById?id='+idAbonado);
+    return this.http.get<Response<Abonado>>(this.url + + this.controllerAbonado + '/getById?id='+idAbonado);
   }
   getPreciosPorIdAbonado(idAbonado : number): Observable<Response<PrecioAbonadoT[]>>{
     return this.http.get<Response<PrecioAbonadoT[]>>(this.url + this.controllerAbonado + '/getPreciosAbonadoById?id='+idAbonado);
@@ -32,10 +32,13 @@ export class AbonadoService {
     return this.http.post<Response<boolean>>(this.url + this.controllerAbonado + '/addPrecio',precio);
   }
   addAbonado(abonado : Abonado): Observable<Response<number>>{
-    return this.http.post<Response<number>>(this.url + this.controllerAbonado + '/addAbonado',abonado);
+    return this.http.post<Response<number>>(this.url + + this.controllerAbonado + '/add',abonado);
   }
   deleteAbonado(id : number): Observable<Response<boolean>>{
-    return this.http.get<Response<boolean>>(this.url + this.controllerAbonado + '/deleteAbonado?id='+id);
+    return this.http.post<Response<boolean>>(this.url + + this.controllerAbonado + '/delete?id='+id,'');
+  }
+  activeAbonado(id : number): Observable<Response<boolean>>{
+    return this.http.post<Response<boolean>>(this.url + + this.controllerAbonado + '/active?id='+id,'');
   }
   deletePrecio(idPrecio : number): Observable<Response<boolean>>{
     return this.http.get<Response<boolean>>(this.url + this.controllerAbonado + '/deletePrecio?id='+idPrecio);

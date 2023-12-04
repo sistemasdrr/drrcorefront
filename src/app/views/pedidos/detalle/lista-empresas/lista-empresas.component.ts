@@ -219,7 +219,7 @@ export class ListaEmpresasComponent implements OnInit {
 
     console.log(idCompany)
     Swal.fire({
-      title: '¿Está seguro de relacionar esta empresa?',
+      title: '¿Está seguro de seleccionar esta empresa?',
       text: "",
       icon: 'warning',
       showCancelButton: true,

@@ -54,7 +54,7 @@
 
           <!-- PRODUCCION -->
           <ul class="menu-toggle">
-            <li [routerLinkActive]="'active'" [ngClass]="{'active': activeLI >= 4 && activeLI<= 9}">
+            <li [routerLinkActive]="'active'" [ngClass]="{'active': activeLI >= 4 && activeLI<= 10}">
               <a (click)="callToggleMenu($event,1)" [ngClass]="'menu-toggle d-flex'" >
                 <i-feather [name]="'clipboard'" class="sidebarIcon" ></i-feather>
                 <div id="produccion">-- PRODUCCIÓN</div>
@@ -88,7 +88,16 @@
               </ul>
               <ul class="ml-menu">
                 <li [routerLinkActive]="''" [ngClass]="activeLI === 7 ? 'active' : ''">
-                  <a [routerLink]="'/informes/empresa/lista'" class="" (click)="activeLI = 7">
+                  <a [routerLink]="'/pedidos/asignacion-empleados'" class="" (click)="activeLI = 7">
+                    <i class="fa-solid fa-clipboard-user"></i>&nbsp;
+                    <span class="hide-menu">Asignación
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <ul class="ml-menu">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 8 ? 'active' : ''">
+                  <a [routerLink]="'/informes/empresa/lista'" class="" (click)="activeLI = 8">
                     <i class="fa-solid fa-building"></i>&nbsp;
                     <span class="hide-menu">Empresas
                     </span>
@@ -96,8 +105,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''" [ngClass]="activeLI === 8 ? 'active' : ''">
-                  <a [routerLink]="'/informes/persona/detalle'" class="" (click)="activeLI = 8">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 9 ? 'active' : ''">
+                  <a [routerLink]="'/informes/persona/detalle'" class="" (click)="activeLI = 9">
                     <i class="fa-solid fa-user-tie"></i>&nbsp;
                     <span class="hide-menu">Personas
                     </span>
@@ -105,8 +114,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''" [ngClass]="activeLI === 9 ? 'active' : ''">
-                  <a [routerLink]="" class="" (click)="activeLI = 9">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 10 ? 'active' : ''">
+                  <a [routerLink]="" class="" (click)="activeLI = 10">
                     <span class="hide-menu">Plantillas
                     </span>
                   </a>
@@ -117,14 +126,14 @@
 
           <!--ADMINISTRACION-->
           <ul class="menu-toggle">
-            <li [routerLinkActive]="'active'" [ngClass]="{'active': activeLI >= 10 && activeLI<= 13}">
+            <li [routerLinkActive]="'active'" [ngClass]="{'active': activeLI >= 11 && activeLI<= 13}">
               <a (click)="callToggleMenu($event,1)" [ngClass]="'menu-toggle d-flex'" >
                 <i-feather [name]="'sliders'" class="sidebarIcon"></i-feather>
                 <div id="administracion">-- ADMINISTRACIÓN</div>
               </a>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''" [ngClass]="activeLI === 10 ? 'active' : ''">
-                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 10">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 11 ? 'active' : ''">
+                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 11">
                     <i class="fa-solid fa-file-invoice-dollar"></i>&nbsp;
               <span class="hide-menu">Facturación
               </span>
@@ -132,8 +141,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''" [ngClass]="activeLI === 11 ? 'active' : ''">
-                  <a [routerLink]=""  class="" (click)="activeLI = 11" >
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 12 ? 'active' : ''">
+                  <a [routerLink]=""  class="" (click)="activeLI = 12" >
                     <i class="fa-solid fa-chart-column"></i>&nbsp;
                     <span class="hide-menu">Reportes
                     </span>
@@ -141,7 +150,7 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''" [ngClass]="activeLI === 12 ? 'active' : ''">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 13 ? 'active' : ''">
                   <a [ngClass]="''" class=""  (click)="callToggleMenu($event,3)">
                     <i class="fa-solid fa-sliders"></i>&nbsp;
                     <span class="hide-menu">Mantenimiento
