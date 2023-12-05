@@ -161,7 +161,7 @@
           <div class="col-md-4">
             <mat-form-field class="" style="width: 30%;">
               <mat-label>Tipo</mat-label>
-              <input matInput placeholder="" [(ngModel)]="taxTypeName" maxlength="10">
+              <input matInput placeholder="" [(ngModel)]="taxTypeName" maxlength="10" [readonly]="true">
             </mat-form-field>
             <mat-form-field class="" style="width: 70%;">
               <mat-label>Código</mat-label>
@@ -196,27 +196,12 @@
       <div class="col-md-12 mb-2">
         <div class="row counter-box shadow">
           <h4>Información de Contacto</h4>
-          <div class="col-md-10">
+          <div class="col-md-12">
             <mat-form-field class="w-100">
               <mat-label>Dirección Completa</mat-label>
               <input matInput placeholder="" [(ngModel)]="address" >
               <mat-hint>Av., N° de Barrio, Urb., Fracc., Colonia, Dist., Prov.</mat-hint>
             </mat-form-field>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field class="w-100">
-              <mat-label>Duración</mat-label>
-              <input type="text" matInput [formControl]="controlDuracion" [matAutocomplete]="auto5" [(ngModel)]="duration" >
-              <button class="btn-traduccion" matSuffix mat-icon-button [class]="durationEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloDuracionInforme,'', duration, durationEng,'duracionInforme')">
-                <span class="fi fi-us" style="font-size: 24px;"></span>
-              </button>
-              <mat-autocomplete #auto5="matAutocomplete" >
-                <mat-option *ngFor="let drcn of filterDuracion | async" [value]="drcn">
-                  {{drcn}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-
           </div>
           <div class="col-md-3">
             <mat-form-field class="w-100">
@@ -244,7 +229,7 @@
           <div class="col-md-6 d-flex">
             <mat-form-field style="width: 50%;">
               <mat-label>Código</mat-label>
-              <input matInput placeholder="" [(ngModel)]="subTelephone">
+              <input matInput placeholder="" [(ngModel)]="subTelephone" [readonly]="true">
             </mat-form-field>
             <mat-form-field class="w-100">
               <mat-label>Teléfonos Fijos</mat-label>

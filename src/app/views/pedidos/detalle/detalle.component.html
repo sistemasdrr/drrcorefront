@@ -6,10 +6,10 @@
     </div>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <!-- DATOS GENERALES -->
+      <!-- DATOS DEL ABONADO -->
         <div class="row counter-box p-3">
           <div class="d-flex justify-content-between align-items-center">
-            <h4>Datos Generales</h4>
+            <h4>Datos del Abonado</h4>
             <div class="col-md-4 d-flex align-items-center justify-content-center">
               <div class=" bg-c-green order-info-box7 w-100 shadow" style="border-radius: .5rem; padding: .5rem; margin-bottom: .8rem; ">
                 <div class="d-flex justify-content-between">
@@ -28,31 +28,35 @@
             </div>
           </div>
           <hr>
-          <div class="col-md-3 d-flex justify-content-center">
-            <mat-form-field color="primary" style="width: 100%;">
-              <mat-label>Fecha del Pedido</mat-label>
-              <input matInput [matDatepicker]="fecha_pedido" [(ngModel)]="fechaIngresoDate">
-              <mat-datepicker-toggle matIconSuffix [for]="fecha_pedido"></mat-datepicker-toggle>
-              <mat-datepicker #fecha_pedido color="primary"></mat-datepicker>
+          <div class="col-md-6 d-flex align-items-center ">
+            <mat-form-field class="w-100 input-readonly" style="margin-right: 1rem;">
+              <mat-label>Abonado</mat-label>
+              <input matInput placeholder="" value="" [(ngModel)]="nombreAbonado" readonly>
+              <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </mat-form-field>
+
+            <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:10rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="w-100">
+              <mat-label>Nro. Referencia</mat-label>
+              <input matInput placeholder="" [(ngModel)]="nmrReferencia" value="" >
             </mat-form-field>
           </div>
-          <div class="col-md-3 d-flex justify-content-center">
-            <mat-form-field color="primary" style="width: 100%;">
-              <mat-label>Fecha de Vencimiento</mat-label>
-              <input matInput [matDatepicker]="fecha_vencimiento" [(ngModel)]="fechaVencimientoDate">
-              <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento"></mat-datepicker-toggle>
-              <mat-datepicker #fecha_vencimiento color="primary"></mat-datepicker>
+          <div class="col-md-2">
+            <mat-form-field class="w-100 d-flex">
+              <mat-label>Estado</mat-label>
+              <div class="input-container">
+                <input matInput placeholder="" value="" [(ngModel)]="estado" readonly>
+                <div class="circle-inactive" *ngIf="estado === 'INACTIVO'"></div>
+                <div class="circle-active" *ngIf="estado === 'ACTIVO'"></div>
+              </div>
             </mat-form-field>
           </div>
-          <div class="col-md-3 d-flex justify-content-center">
-            <mat-form-field color="primary" style="width: 100%;">
-              <mat-label>Fecha de Venc. Real</mat-label>
-              <input matInput [matDatepicker]="fecha_vencimiento_real" [(ngModel)]="fechaVencimientoRealDate">
-              <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
-              <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="col-md-3">
+
+          <div class="col-md-2">
             <mat-form-field style="width: 100%;">
               <mat-label>Idioma</mat-label>
               <mat-select [(ngModel)]="language">
@@ -72,110 +76,149 @@
               </a>
             </mat-form-field>
           </div>
-          <div class="col-md-2">
-            <mat-form-field class="w-100">
-              <mat-label>Informe de</mat-label>
-              <mat-select [(ngModel)]="informePara" >
-                <mat-option [value]="'E'">Empresa</mat-option>
-                <mat-option [value]="'P'">Persona</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field class="w-100">
-              <mat-label>Tipo de Informe </mat-label>
-              <mat-select [(ngModel)]="tipoInforme">
-                <mat-option [value]="''"></mat-option>
-                <mat-option [value]="'RV'">RV</mat-option>
-                <mat-option [value]="'OR'">OR</mat-option>
-                <mat-option [value]="'EF'">EF</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-md-2 d-flex justify-content-center">
-            <mat-form-field color="primary" style="width: 100%;">
-              <mat-label>A la Fecha</mat-label>
-              <input matInput [matDatepicker]="fecha_informe" [(ngModel)]="fechaInformeDate">
-              <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
-              <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field class="w-100">
-              <mat-label>Tipo de Trámite </mat-label>
-              <mat-select [(ngModel)]="tipoTramite">
-                <mat-option [value]="''"></mat-option>
-                <mat-option [value]="'T1'">T1</mat-option>
-                <mat-option [value]="'T2'">T2</mat-option>
-                <mat-option [value]="'T3'">T3</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-md-3 d-flex justify-content-center">
-            <div>
-              <div><h5>Precio de Informe(US$): <b>25USD</b> </h5></div>
-              <div><h5>Ultima Modificación: <b>27/09/2023</b></h5></div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field class="w-100">
+                  <mat-label>Crédito Consultado</mat-label>
+                  <input matInput placeholder="" value="" [(ngModel)]="creditoConsultado">
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100">
+                  <mat-label>Plazos</mat-label>
+                  <input matInput placeholder="" value="" [(ngModel)]="creditoConsultado">
+                </mat-form-field>
+              </div>
             </div>
           </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="w-100" >
+                  <mat-label>Indicaciones del Abonado</mat-label>
+                  <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="indicacionesAbonado"></textarea>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="w-100">
+                  <mat-label>Datos Adicionales</mat-label>
+                  <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="datosAdicionales"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
         </div>
-        <!-- DATOS DEL ABONADO Y DE LA EMPRESA -->
+        <!-- DATOS GENERALES Y DE LA EMPRESA -->
         <div class="row">
-          <!-- DATOS DEL ABONADO -->
+          <!-- DATOS GENERALES -->
           <div class="col-md-4 mt-3">
             <div class="counter-box shadow m-1">
               <div class="row">
-                <h4>Datos del Abonado</h4>
-                <div class="col-md-12 d-flex align-items-center ">
-                  <mat-form-field class="w-100 input-readonly" style="margin-right: 1rem;">
-                    <mat-label>Abonado</mat-label>
-                    <input matInput placeholder="" value="" [(ngModel)]="nombreAbonado" readonly>
-                    <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
-                      <i class="fa-solid fa-magnifying-glass"></i>
+                <h4>Datos Generales</h4>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Informe de</mat-label>
+                    <mat-select [(ngModel)]="informePara" >
+                      <mat-option [value]="'E'">Empresa</mat-option>
+                      <mat-option [value]="'P'">Persona</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 d-flex justify-content-center">
+                  <mat-form-field color="primary" style="width: 100%;">
+                    <mat-label>Fecha del Pedido</mat-label>
+                    <input matInput [matDatepicker]="fecha_pedido" [(ngModel)]="fechaIngresoDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="fecha_pedido"></mat-datepicker-toggle>
+                    <mat-datepicker #fecha_pedido color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 d-flex justify-content-center">
+                  <mat-form-field color="primary" style="width: 100%;">
+                    <mat-label>Fecha de Vencimiento</mat-label>
+                    <input matInput [matDatepicker]="fecha_vencimiento" [(ngModel)]="fechaVencimientoDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento"></mat-datepicker-toggle>
+                    <mat-datepicker #fecha_vencimiento color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 d-flex justify-content-center">
+                  <mat-form-field color="primary" style="width: 100%;">
+                    <mat-label>Fecha de Venc. Real</mat-label>
+                    <input matInput [matDatepicker]="fecha_vencimiento_real" [(ngModel)]="fechaVencimientoRealDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="fecha_vencimiento_real"></mat-datepicker-toggle>
+                    <mat-datepicker #fecha_vencimiento_real color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Continente</mat-label>
+                    <mat-select [(ngModel)]="idContinent" (selectionChange)="selectContinente(idContinent)">
+                        <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{continente.valor}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>País</mat-label>
+                    <input type="text" matInput [formControl]="controlPaisesEmpresa" [matAutocomplete]="auto6" [(ngModel)]="countryAbonado" (ngModelChange)="cambioPais(countryAbonado)">
+                    <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                      <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
                     </button>
+                    <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPaisEmpresa" >
+                      <mat-option *ngFor="let pais of filterPaisEmpresa | async" [value]="pais">
+                        <span class="fi fi-{{pais.bandera}}"></span>
+                        {{pais.valor}}
+                      </mat-option>
+                    </mat-autocomplete>
                   </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Tipo de Informe </mat-label>
+                    <mat-select [(ngModel)]="tipoInforme">
+                      <mat-option [value]="''"></mat-option>
+                      <mat-option [value]="'RV'">RV</mat-option>
+                      <mat-option [value]="'OR'">OR</mat-option>
+                      <mat-option [value]="'EF'">EF</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6 d-flex justify-content-center">
+                  <mat-form-field color="primary" style="width: 100%;">
+                    <mat-label>A la Fecha</mat-label>
+                    <input matInput [matDatepicker]="fecha_informe" [(ngModel)]="fechaInformeDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
+                    <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>Tipo de Trámite </mat-label>
+                    <mat-select [(ngModel)]="tipoTramite">
+                      <mat-option [value]="''"></mat-option>
+                      <mat-option [value]="'T1'">T1</mat-option>
+                      <mat-option [value]="'T2'">T2</mat-option>
+                      <mat-option [value]="'T3'">T3</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12 d-flex justify-content-center">
+                  <div>
+                    <div><h5>Precio(US$): <b>25USD</b> </h5></div>
+                    <div><h5>Última Modificación: <b>27/09/2023</b></h5></div>
+                  </div>
+                </div>
 
-                  <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:10rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field class="w-100">
-                    <mat-label>Nro. Referencia</mat-label>
-                    <input matInput placeholder="" [(ngModel)]="nmrReferencia" value="" >
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field class="w-100 d-flex">
-                    <mat-label>Estado</mat-label>
-                    <div class="input-container">
-                      <input matInput placeholder="" value="" [(ngModel)]="estado" readonly>
-                      <div class="circle-inactive" *ngIf="estado === 'INACTIVO'"></div>
-                      <div class="circle-active" *ngIf="estado === 'ACTIVO'"></div>
-                    </div>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field class="w-100">
-                    <mat-label>Crédito Consultado</mat-label>
-                    <input matInput placeholder="" value="" [(ngModel)]="creditoConsultado">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field class="w-100">
-                    <mat-label>Plazos</mat-label>
-                    <input matInput placeholder="" value="" [(ngModel)]="creditoConsultado">
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field class="w-100" >
-                    <mat-label>Indicaciones del Abonado</mat-label>
-                    <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="indicacionesAbonado"></textarea>
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field class="w-100">
-                    <mat-label>Datos Adicionales</mat-label>
-                    <textarea matInput placeholder="" style="min-height: 7rem;" [(ngModel)]="datosAdicionales"></textarea>
-                  </mat-form-field>
-                </div>
               </div>
             </div>
           </div>
@@ -205,14 +248,12 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
+                  <div class="col-md-6">
+                    <mat-form-field class="" style="width: 35%;">
                       <mat-label>Tipo Reg. Trib.</mat-label>
                       <input matInput placeholder="" [(ngModel)]="tipoRT" >
                     </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
+                    <mat-form-field class="" style="width: 65%;">
                       <mat-label>Código Reg. Trib.</mat-label>
                       <input matInput [(ngModel)]="codigoRT" >
                     </mat-form-field>
@@ -223,27 +264,10 @@
                       <input matInput [(ngModel)]="correo" >
                     </mat-form-field>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-6">
                     <mat-form-field class="w-100">
-                      <mat-label>Continente</mat-label>
-                      <mat-select [(ngModel)]="idContinent" (selectionChange)="selectContinente(idContinent)">
-                          <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{continente.valor}}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-3">
-                    <mat-form-field class="w-100">
-                      <mat-label>País</mat-label>
-                      <input type="text" matInput [formControl]="controlPaisesEmpresa" [matAutocomplete]="auto6" [(ngModel)]="countryAbonado" (ngModelChange)="cambioPais(countryAbonado)">
-                      <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
-                        <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
-                      </button>
-                      <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPaisEmpresa" >
-                        <mat-option *ngFor="let pais of filterPaisEmpresa | async" [value]="pais">
-                          <span class="fi fi-{{pais.bandera}}"></span>
-                          {{pais.valor}}
-                        </mat-option>
-                      </mat-autocomplete>
+                      <mat-label>Dirección</mat-label>
+                      <input matInput placeholder="" [(ngModel)]="direccion">
                     </mat-form-field>
                   </div>
                   <div class="col-md-3">
@@ -260,12 +284,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12">
-                    <mat-form-field class="w-100">
-                      <mat-label>Dirección</mat-label>
-                      <input matInput placeholder="" [(ngModel)]="direccion">
-                    </mat-form-field>
-                  </div>
+
                   <div class="col-md-12">
                     <mat-form-field class="w-100">
                       <mat-label>Riesgo Crediticio</mat-label>

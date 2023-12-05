@@ -23,7 +23,7 @@ export class AgregarEditarPrecioAbonadoComponent implements OnInit {
 
   //FORM
   id = 0
-  idAbonado = 0
+  idSubscriber = 0
   date = ""
   dateD : Date | null = null
   idContinent = 0
@@ -56,7 +56,9 @@ export class AgregarEditarPrecioAbonadoComponent implements OnInit {
   constructor(private abonadoService : AbonadoService, private activatedRoute : ActivatedRoute,public dialogRef: MatDialogRef<AgregarEditarPrecioAbonadoComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private comboService : ComboService){
     if(data){
       this.id = data.id
-      this.idAbonado = data.idAbonado
+
+      this.idSubscriber = data.idSubscriber
+      console.log(this.id)
     }
     this.filterPais = new Observable<Pais[]>
   }
@@ -72,6 +74,7 @@ export class AgregarEditarPrecioAbonadoComponent implements OnInit {
       this.titulo = "Editar Precio"
       this.abonadoService.getPrecioPorId(this.id).subscribe(
         (response) => {
+          console.log(response)
           if(response.isSuccess === true && response.isWarning === false){
             const precioAbonado = response.data
             if(precioAbonado){
@@ -85,8 +88,25 @@ export class AgregarEditarPrecioAbonadoComponent implements OnInit {
                 }
               }
               this.idContinent = precioAbonado.idContinent
-              this.selectContinente()
               this.idCountry = precioAbonado.idCountry
+              this.comboService.getPaisesPorContinente(this.idContinent).subscribe(
+                (response) => {
+                  if(response.isSuccess === true && response.isWarning === false){
+                    this.paises = []
+                    this.paises = response.data
+                    this.limpiarSeleccionPais()
+                  }
+                }
+              ).add(
+                () => {
+                  if(precioAbonado.idCountry > 0 || precioAbonado.idCountry !== null){
+                    this.idCountry = precioAbonado.idCountry
+                    this.countryPrecio = this.paises.filter(x => x.id === precioAbonado.idCountry)[0]
+                  }else{
+                    this.idCountry = 0
+                  }
+                }
+              )
               this.idCurrency = precioAbonado.idCurrency
               this.priceT1 = precioAbonado.priceT1
               this.dayT1 = precioAbonado.dayT1
@@ -124,7 +144,7 @@ export class AgregarEditarPrecioAbonadoComponent implements OnInit {
   }
   cambioPais(pais: Pais) {
     console.log(pais)
-    if (typeof pais === 'string' || pais === null || this.countryPrecio.id === 0) {
+    if (typeof pais === 'string' || pais === null) {
       this.msgPais = "Seleccione una opción."
       this.colorMsgPais = "red"
       this.iconoSeleccionado = ""
@@ -170,7 +190,7 @@ export class AgregarEditarPrecioAbonadoComponent implements OnInit {
   guardar(){
     this.Precio[0] = {
       id : this.id,
-      idAbonado : this.idAbonado,
+      idSubscriber : this.idSubscriber,
       date : this.date,
       idContinent : this.idContinent,
       idCountry : this.idCountry,

@@ -48,7 +48,7 @@ export interface Abonado{
 
 export interface PrecioAbonado{
   id : number
-  idAbonado : number
+  idSubscriber : number
   date : string
   idContinent : number
   idCountry : number
@@ -63,6 +63,7 @@ export interface PrecioAbonado{
 }
 export interface PrecioAbonadoT{
   id : number
+  idSubscriber : number
   date : string
   country : string
   flagCountry : string

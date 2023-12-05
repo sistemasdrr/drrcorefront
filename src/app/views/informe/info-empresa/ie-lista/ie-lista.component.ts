@@ -79,7 +79,6 @@ export class IEListaComponent implements OnInit{
         }
         this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idPais)[0]
         this.chkConInforme = busqueda.conInforme
-        this.filtrarEmpresas()
         this.loading = false
 
       }

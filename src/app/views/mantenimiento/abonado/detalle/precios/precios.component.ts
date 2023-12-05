@@ -34,11 +34,14 @@ export class PreciosAbonadoComponent implements OnInit{
     }
   }
   ngOnInit(): void {
+
+    console.log(this.id)
     if(this.id > 0){
       this.abonadoService.getPreciosPorIdAbonado(this.id).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
             this.dataSource = new MatTableDataSource(response.data)
+            console.log(response)
           }
         }
       )
@@ -48,7 +51,7 @@ export class PreciosAbonadoComponent implements OnInit{
     const dialogRef = this.dialog.open(AgregarEditarPrecioAbonadoComponent, {
       data : {
         id : 0,
-        idAbonado : this.id
+        idSubscriber : this.id
       },
     });
     dialogRef.afterClosed().subscribe(
@@ -67,7 +70,7 @@ export class PreciosAbonadoComponent implements OnInit{
     const dialogRef = this.dialog.open(AgregarEditarPrecioAbonadoComponent, {
       data : {
         id : idPrecio,
-        idAbonado : this.id
+        idSubscriber : this.id
       },
     });
     dialogRef.afterClosed().subscribe(
@@ -82,7 +85,37 @@ export class PreciosAbonadoComponent implements OnInit{
       }
     )
   }
-  guardar(){
+  eliminarPrecio(id : number) {
+    Swal.fire({
+      title: '¿Está seguro de eliminar este registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí',
+      width: '30rem',
+      heightAuto: true
+    }).then((result) => {
+      if (result.value) {
+        this.abonadoService.deletePrecio(id).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              Swal.fire({
+                title: 'Se eliminó el registro correctamente',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto: true
+              })
+            }
+          })
+      }
+    })
 
   }
   salir(){
