@@ -20,6 +20,8 @@ import { AsignacionComponent } from './asignacion/asignacion.component';
 import { Asignacion2Component } from './asignacion2/asignacion2.component';
 import { SeleccionarAgenteComponent } from './asignacion2/seleccionar-agente/seleccionar-agente.component';
 import { ListaEmpresasComponent } from './detalle/lista-empresas/lista-empresas.component';
+import { ConsultarComponent } from './lista/consultar/consultar.component';
+import { ListaAbonadosComponent } from './detalle/lista-abonados/lista-abonados.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { ListaEmpresasComponent } from './detalle/lista-empresas/lista-empresas.
     AsignacionComponent,
     Asignacion2Component,
     SeleccionarAgenteComponent,
-    ListaEmpresasComponent
+    ListaEmpresasComponent,
+    ConsultarComponent,
+    ListaAbonadosComponent
   ],
   imports: [
     CommonModule,

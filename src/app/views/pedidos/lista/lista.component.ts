@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { Pedido } from 'app/models/pedidos/pedido';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
+import { MatDialog } from '@angular/material/dialog';
+import { ConsultarComponent } from './consultar/consultar.component';
 
 @Component({
   selector: 'app-lista',
@@ -49,7 +51,8 @@ export class ListaComponent implements AfterViewInit {
 
   constructor(private pedidoService : PedidoService,
     private router : Router,
-    private datosEmpresaService : DatosEmpresaService) {
+    private datosEmpresaService : DatosEmpresaService,
+    public dialog : MatDialog) {
     this.dataSource = new MatTableDataSource(this.pedidoService.getPedidos());
   }
   loadData() {
@@ -76,6 +79,13 @@ export class ListaComponent implements AfterViewInit {
 
   editOrder(cupon : string){
     this.router.navigate(['pedidos/detalle/editar/' + cupon]);
+  }
+  consultar(){
+    const dialogRef = this.dialog.open(ConsultarComponent, {
+      data : {
+       
+      },
+    });
   }
 
   assignOrder(){

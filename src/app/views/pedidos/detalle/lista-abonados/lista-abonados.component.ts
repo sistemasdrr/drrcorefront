@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,21 +9,12 @@ import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-lista-abonado',
-  templateUrl: './lista.component.html',
-  styleUrls: ['./lista.component.scss']
+  selector: 'app-lista-abonados',
+  templateUrl: './lista-abonados.component.html',
+  styleUrls: ['./lista-abonados.component.scss']
 })
-export class ListaAbonadoComponent implements OnInit{
-  breadscrums = [
-    {
-      title: 'Lista de Abonados',
-      subtitle: '',
-      items: ['Administración','Mantenimiento'],
-      active: 'Abonado',
-    },
-  ];
-
-  loading : boolean = true
+export class ListaAbonadosComponent implements OnInit{
+  loading = false
 
   //FILTROS
   codigo = ""
@@ -33,20 +25,14 @@ export class ListaAbonadoComponent implements OnInit{
   dataSource : MatTableDataSource<AbonadoT>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnsToDisplay = ['codigo','nombre','siglas','direccion','pais','tipoFacturacion','acciones']
+  //columnsToDisplay = ['codigo','nombre','siglas','direccion','pais','acciones']
+  columnsToDisplay = ['codigo','nombre','pais','tipoFacturacion','acciones']
 
-  constructor(private abonadoService : AbonadoService, private router : Router){
+  constructor(public dialogRef: MatDialogRef<ListaAbonadosComponent>,@Inject(MAT_DIALOG_DATA) public data: any,private abonadoService : AbonadoService, private router : Router){
     this.dataSource = new MatTableDataSource()
   }
 
   ngOnInit(): void {
-
-    if(localStorage.getItem('busquedaAbonados')){
-      const busqueda = JSON.parse(localStorage.getItem('busquedaAbonados')+'')
-      this.codigo = busqueda.codigo
-      this.nombre = busqueda.nombre
-      this.estado = busqueda.estado
-    }
 
     this.abonadoService.getAbonados(this.codigo, this.nombre, this.estado).subscribe(
       (response) => {
@@ -105,8 +91,10 @@ export class ListaAbonadoComponent implements OnInit{
     this.estado = "A"
     this.filtrarAbonados()
   }
-  agregarAbonado(){
-    this.router.navigate(['mantenimiento/abonado/detalle/nuevo']);
+  seleccionarAbonado(id : number){
+    this.dialogRef.close(
+      {id : id}
+    )
   }
   eliminarAbonado(idAbonado : number){
     Swal.fire({
@@ -171,3 +159,4 @@ export class ListaAbonadoComponent implements OnInit{
     });
   }
 }
+

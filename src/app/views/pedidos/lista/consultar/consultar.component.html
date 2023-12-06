@@ -1,0 +1,75 @@
+<div class="container" style="max-width: 50rem;" >
+  <div class="row m-0 p-0"  >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <div class="materialTableHeader mt-3">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h5 style="font-size: 24px;">Consultar Cupón</h5>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10">
+                    <button mat-icon-button  class="btn bg-red "  (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
+                      <mat-icon>logout</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Enviar">
+                      <mat-icon>mail</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <mat-dialog-content class="mat-typography p-0 m-0">
+          <div class="body m-0 p-0">
+            <div class="row p-0 m-0 pt-3">
+              <div class="col-md-6 m-0">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Fecha de Consulta</mat-label>
+                  <input matInput [matDatepicker]="fecha_ingreso_abonado" #fechaInput>
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso_abonado"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 m-0">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Abonado</mat-label>
+                  <input type="text" matInput >
+                </mat-form-field>
+              </div>
+              <div class="col-md-12 m-0">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Correo</mat-label>
+                  <input type="text" matInput >
+                </mat-form-field>
+              </div>
+              <div class="col-md-12 m-0">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Informe</mat-label>
+                  <input type="text" matInput >
+                </mat-form-field>
+              </div>
+              <div class="col-md-12 m-0">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Observación</mat-label>
+                  <textarea type="text" matInput  style="min-height: 8rem;"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-dialog-content>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+.btn-traduccion{
+  background-color: rgba(0,0,0,0);
+  border: 0px solid white;
+}
+.sin-traduccion{
+  filter: contrast(.3);
+}
+mat-form-field{
+  .mdc-text-field {
+    background-color: red!important;
+  }
+  mat-label{
+
+  }
+  input{
+    border-bottom: 3px solid rgb(200, 233, 200);
+  }
+  input.error{
+    border-bottom: 3px solid rgb(233, 200, 200);
+  }
+  mat-select.error{
+    border-bottom: 3px solid rgb(233, 200, 200);
+  }
+  input:read-only{
+    border-bottom: 3px solid rgb(163, 163, 247);
+
+  }
+  mat-select{
+    border-bottom: 3px solid rgb(200, 233, 200);
+  }
+  textarea{
+    border-bottom: 3px solid rgb(200, 233, 200);
+  }
+
+}
+.tab-cambios{
+  color : green;
+}
+.tab-con-datos{
+  color : red;
+}

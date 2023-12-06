@@ -3,11 +3,9 @@ import { PaisService } from './../../../services/pais.service';
 import { OnInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BuscarAbonadoDialogComponent } from '@shared/components/buscar-abonado-dialog/buscar-abonado-dialog.component';
 import { MatTableDataSource} from '@angular/material/table';
 import { ReportesSolicitados } from 'app/models/informes/reportes-solicitados';
 import { RequestedReportsService } from 'app/services/pedidos/reportes-solicitados.service';
-import { AbonadoService } from 'app/services/pedidos/abonado.service';
 import { Pais } from 'app/models/pais';
 import { PedidoService } from 'app/services/pedido.service';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
@@ -16,8 +14,11 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { data } from 'app/services/mantenimiento/personal.service';
 import { ComboService } from 'app/services/combo.service';
-import { ComboData, RiesgoCrediticio } from 'app/models/combo';
+import { RiesgoCrediticio } from 'app/models/combo';
 import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
+import { ListaAbonadosComponent } from './lista-abonados/lista-abonados.component';
+import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
+import { Abonado } from 'app/models/mantenimiento/abonado';
 
 interface Idioma {
   value: string;
@@ -80,7 +81,7 @@ export class DetalleComponent implements OnInit {
   isChecked = true;
   pais = ""
   codigoPais = ""
-  estado = ""
+  estado = true
   nmrReferencia = ""
   creditoConsultado = ""
   indicacionesAbonado = ""
@@ -251,7 +252,6 @@ export class DetalleComponent implements OnInit {
       const pedido = this.pedidoService.getPedidosPorCupon(this.nmrCupon+'')[0]
       if(pedido){
         this.codAbonado = pedido.codigo
-        this.asignarDatosAbonado()
         this.informePara = pedido.informeEP
         this.fechaIngreso = pedido.fechaIngreso
         const fechaIngreso = pedido.fechaIngreso.split('/')
@@ -365,24 +365,32 @@ export class DetalleComponent implements OnInit {
   }
 
   buscarAbonado() {
-    const dialogRef = this.dialog.open(BuscarAbonadoDialogComponent, {
+    const dialogRef = this.dialog.open(ListaAbonadosComponent, {
     data: {
       mensaje: 'Abonado',
     },
   });
     dialogRef.afterClosed().subscribe((data) => {
-      if (data.abonado) {
-        console.log(data.abonado)
-        this.codAbonado = data.abonado.codigo
-        this.nombreAbonado = data.abonado.codigo + ' - ' + data.abonado.nombre
-        this.paisAbonado = data.abonado.pais
-        this.estado = data.abonado.estado
-        this.nmrReferencia = data.abonado.nroReferencia
-        this.creditoConsultado = data.abonado.creditoConsultado
-        this.indicacionesAbonado = data.abonado.indicaciones
-        this.datosAdicionales = data.abonado.dtsAdicionales
-        this.abonadoNoEncontrado = "Abonado Encontrado"
+     console.log(data)
+     this.abonadoService.getAbonadoPorId(data.id).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          const abonado : Abonado = response.data
+          if(abonado){
+            this.codAbonado = abonado.code
+            this.isChecked = abonado.revealName
+            this.estado = abonado.enable;
+            this.indicacionesAbonado = abonado.indications;
+            this.datosAdicionales = abonado.observations;
+            this.language = abonado.language
+          }
+        }
       }
+     ).add(
+      () => {
+        
+      }
+     )
     });
   }
   buscarEmpresaPersona() {
@@ -421,33 +429,37 @@ export class DetalleComponent implements OnInit {
     this.router.navigate(['pedidos/lista']);
   }
 
-  asignarDatosAbonado() {
-    // const abonado: Abonado | null = this.abonadoService.getAbonadoPorCodigo(this.codAbonado);
-
-    // if (abonado !== null) {
-    //   this.nombreAbonado = abonado.codigo + ' - ' + abonado.nombre;
-    //   this.isChecked = abonado.revelarNombre;
-    //   this.paisAbonado = abonado.pais
-    //   this.estado = abonado.estado;
-    //   this.nmrReferencia = abonado.nroReferencia;
-    //   this.creditoConsultado = abonado.creditoConsultado;
-    //   this.indicacionesAbonado = abonado.indicaciones;
-    //   this.datosAdicionales = abonado.dtsAdicionales;
-    //   this.abonadoNoEncontrado = "Abonado Encontrado"
-    // } else {
-    //   this.nombreAbonado = ""
-    //   this.isChecked = false
-    //   this.paisAbonado = {
-    //     id : 0,
-    //     valor : '',
-    //     bandera : ''
-    //   }
-    //   this.estado = ""
-    //   this.nmrReferencia = ""
-    //   this.creditoConsultado = ""
-    //   this.indicacionesAbonado = ""
-    //   this.datosAdicionales = ""
-    //   this.abonadoNoEncontrado = "No se encontró el abonado"
-    // }
+  // asignarDatosAbonado() {
+  //   const abonado: Abonado | null = this.abonadoService.getAbonadoPorCodigo(this.codAbonado);
+  //   console.log(abonado)
+  //   if (abonado !== null) {
+  //     this.nombreAbonado = abonado.codigo + ' - ' + abonado.nombre;
+  //     this.isChecked = abonado.revelarNombre;
+  //     this.paisAbonado = abonado.pais
+  //     this.estado = abonado.estado;
+  //     this.nmrReferencia = abonado.nroReferencia;
+  //     this.creditoConsultado = abonado.creditoConsultado;
+  //     this.indicacionesAbonado = abonado.indicaciones;
+  //     this.datosAdicionales = abonado.dtsAdicionales;
+  //     this.abonadoNoEncontrado = "Abonado Encontrado"
+  //   } else {
+  //     this.nombreAbonado = ""
+  //     this.isChecked = false
+  //     this.paisAbonado = {
+  //       id : 0,
+  //       valor : '',
+  //       bandera : ''
+  //     }
+  //     this.estado = ""
+  //     this.nmrReferencia = ""
+  //     this.creditoConsultado = ""
+  //     this.indicacionesAbonado = ""
+  //     this.datosAdicionales = ""
+  //     this.abonadoNoEncontrado = "No se encontró el abonado"
+  //   }
+  // }
+  filtrar(event : any){
+    if(event.code == 'Enter'){
+    }
   }
 }

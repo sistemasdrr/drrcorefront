@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ComboData } from 'app/models/combo';
 import { Abonado, AbonadoT, PrecioAbonado, PrecioAbonadoT } from 'app/models/mantenimiento/abonado';
+import { Pais } from 'app/models/pais';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -43,4 +45,20 @@ export class AbonadoService {
   deletePrecio(idPrecio : number): Observable<Response<boolean>>{
     return this.http.get<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/deletePrice?id='+idPrecio);
   }
+  getContinentes(idAbonado : number): Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api' + this.controllerAbonado + '/getContinents?id='+idAbonado);
+  }
+  getPaises(idAbonado : number, idContinent : number): Observable<Response<Pais[]>>{
+    return this.http.get<Response<Pais[]>>('https://localhost:7234/api' + this.controllerAbonado + '/getCountries?idSubscriber='+idAbonado+'&idContinent='+idContinent);
+  }
+  getPreciosPorPais(idAbonado : number, idContinent : number, idPais : number): Observable<Response<Precio[]>>{
+    return this.http.get<Response<Precio[]>>('https://localhost:7234/api' + this.controllerAbonado + '/getPriceByIds?idSubscriber='+idAbonado+'&idContinent='+idContinent+'&idCountry='+idPais);
+  }
+
+
+}
+export interface Precio{
+  name : string
+  price : number
+  days : number
 }

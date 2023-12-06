@@ -7,6 +7,7 @@ export interface AbonadoT{
   country : string
   flagCountry : string
   isoCountry : string
+  facturationType : string
   enable : boolean
 }
 export interface Abonado{
@@ -44,6 +45,7 @@ export interface Abonado{
   idCurrency : number //SOLO DE 3 TIPOS: S = SOLES, D = DOLARES, E = EUROS
   facturationType : string //FM = FACT. MENSUAL, CC = CON CUPONES, OL = ONLINE
   normalPrice : boolean
+  enable : boolean
 }
 
 export interface PrecioAbonado{

@@ -276,7 +276,8 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       subscriberType : this.subscriberType,
       idCurrency : this.idCurrency,
       facturationType : this.facturationType,
-      normalPrice : this.normalPrice
+      normalPrice : this.normalPrice,
+      enable : true
     }
   }
   armarModeloModificado(){
@@ -314,7 +315,8 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       subscriberType : this.subscriberType,
       idCurrency : this.idCurrency,
       facturationType : this.facturationType,
-      normalPrice : this.normalPrice
+      normalPrice : this.normalPrice,
+      enable : true
     }
   }
   guardar(){

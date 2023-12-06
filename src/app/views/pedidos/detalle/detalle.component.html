@@ -19,7 +19,7 @@
               </div>
             </div>
             <div>
-              <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Volver">
+              <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;"  #tooltip="matTooltip" matTooltip="Volver" (click)="volver()">
                 <mat-icon class="col-white">arrow_back</mat-icon>
               </button>
               <button id="btn-guardar-datos-empresa" mat-mini-fab class="bg-cyan shadow" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
@@ -28,16 +28,22 @@
             </div>
           </div>
           <hr>
-          <div class="col-md-6 d-flex align-items-center ">
+          <div class="col-md-3 d-flex align-items-center ">
             <mat-form-field class="w-100 input-readonly" style="margin-right: 1rem;">
               <mat-label>Abonado</mat-label>
-              <input matInput placeholder="" value="" [(ngModel)]="nombreAbonado" readonly>
+              <input matInput placeholder="" value="" [(ngModel)]="codAbonado"  (keypress)="filtrar($event);" >
               <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
             </mat-form-field>
 
             <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:10rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field class="w-100">
+              <mat-label>Nombre del Cliente</mat-label>
+              <input matInput placeholder="" [readonly]="!isChecked">
+            </mat-form-field>
           </div>
           <div class="col-md-2">
             <mat-form-field class="w-100">
@@ -49,9 +55,10 @@
             <mat-form-field class="w-100 d-flex">
               <mat-label>Estado</mat-label>
               <div class="input-container">
-                <input matInput placeholder="" value="" [(ngModel)]="estado" readonly>
-                <div class="circle-inactive" *ngIf="estado === 'INACTIVO'"></div>
-                <div class="circle-active" *ngIf="estado === 'ACTIVO'"></div>
+                <input matInput placeholder=""  *ngIf="estado === true" value="ACTIVO" readonly>
+                <input matInput placeholder=""  *ngIf="estado === false" value="INACTIVO" readonly>
+                <div class="circle-inactive" *ngIf="estado === false"></div>
+                <div class="circle-active" *ngIf="estado === true"></div>
               </div>
             </mat-form-field>
           </div>
