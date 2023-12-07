@@ -33,7 +33,7 @@ export class ListaAgenteComponent implements OnInit{
    dataSource : MatTableDataSource<AgenteT>;
    @ViewChild(MatPaginator) paginator!: MatPaginator;
    @ViewChild(MatSort) sort!: MatSort;
-   columnsToDisplay = ['codigo','nombre','direccion','email','telefono','pais']
+   columnsToDisplay = ['codigo','nombre','direccion','email','telefono','pais','acciones']
 
   constructor(private agenteService : AgenteService, private router : Router){
     this.dataSource = new MatTableDataSource()
@@ -54,6 +54,7 @@ export class ListaAgenteComponent implements OnInit{
     localStorage.setItem('busquedaAgentes', JSON.stringify(busqueda))
     this.agenteService.getAgentes(this.codigo.trim(), this.nombre.trim(), this.estado).subscribe(
       (response) => {
+        console.log(response.data)
         if(response.isSuccess === true && response.isWarning === false){
           this.dataSource = new MatTableDataSource(response.data)
           this.dataSource.sort = this.sort

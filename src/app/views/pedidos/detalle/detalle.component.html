@@ -35,6 +35,8 @@
               <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
+              <mat-hint *ngIf="idAbonado === 0" style="color: red;"><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Seleccione un Abonado</mat-hint>
+              <mat-hint *ngIf="idAbonado !== 0" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;Abonado Seleccionado</mat-hint>
             </mat-form-field>
 
             <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:10rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
@@ -42,7 +44,7 @@
           <div class="col-md-3">
             <mat-form-field class="w-100">
               <mat-label>Nombre del Cliente</mat-label>
-              <input matInput placeholder="" [readonly]="!isChecked">
+              <input matInput placeholder="" [(ngModel)]="nombreAbonado" [readonly]="!isChecked">
             </mat-form-field>
           </div>
           <div class="col-md-2">
@@ -81,6 +83,8 @@
                 <span class="fi fi-us" style="font-size: 20px" *ngIf="language  === 'I'"></span>
                 <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png); font-size: 20px;" *ngIf="language === 'A'"></span>
               </a>
+              <mat-hint *ngIf="language === ''" style="color: red;"><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Seleccione un idioma</mat-hint>
+              <mat-hint *ngIf="language !== ''" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;Idioma Seleccionado</mat-hint>
             </mat-form-field>
           </div>
           <div class="col-md-4">
@@ -172,6 +176,8 @@
                     <mat-select [(ngModel)]="idContinent" (selectionChange)="selectContinente(idContinent)">
                         <mat-option [value]="continente.id" *ngFor="let continente of continentes">{{continente.valor}}</mat-option>
                     </mat-select>
+                    <mat-hint *ngIf="idContinent === 0" style="color: red;"><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Seleccione un Continente</mat-hint>
+                    <mat-hint *ngIf="idContinent !== 0" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;Continente Seleccionado</mat-hint>
                   </mat-form-field>
                 </div>
                 <div class="col-md-6">
@@ -187,6 +193,8 @@
                         {{pais.valor}}
                       </mat-option>
                     </mat-autocomplete>
+                  <mat-hint *ngIf="idCountry === 0" style="color: red;"><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Seleccione un País</mat-hint>
+                  <mat-hint *ngIf="idCountry !== 0" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;País Seleccionado</mat-hint>
                   </mat-form-field>
                 </div>
                 <div class="col-md-6">
@@ -211,17 +219,16 @@
                 <div class="col-md-6">
                   <mat-form-field class="w-100">
                     <mat-label>Tipo de Trámite </mat-label>
-                    <mat-select [(ngModel)]="tipoTramite">
-                      <mat-option [value]="''"></mat-option>
-                      <mat-option [value]="'T1'">T1</mat-option>
-                      <mat-option [value]="'T2'">T2</mat-option>
-                      <mat-option [value]="'T3'">T3</mat-option>
+                    <mat-select [(ngModel)]="tipoTramite" (selectionChange)="tipotramite()">
+                      <mat-option *ngFor="let precio of listaPrecio" [value]="precio">{{precio.name}}</mat-option>
                     </mat-select>
+                  <mat-hint *ngIf="precio === 0" style="color: red;"><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Seleccione un T. de Trámite</mat-hint>
+                  <mat-hint *ngIf="precio !== 0" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;Trámite Seleccionado</mat-hint>
                   </mat-form-field>
                 </div>
                 <div class="col-md-12 d-flex justify-content-center">
                   <div>
-                    <div><h5>Precio(US$): <b>25USD</b> </h5></div>
+                    <div><h5>Precio(US$): <b>{{precio}}</b> </h5></div>
                     <div><h5>Última Modificación: <b>27/09/2023</b></h5></div>
                   </div>
                 </div>

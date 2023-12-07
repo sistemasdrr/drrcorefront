@@ -126,7 +126,7 @@
 
           <!--ADMINISTRACION-->
           <ul class="menu-toggle">
-            <li [routerLinkActive]="'active'" [ngClass]="{'active': activeLI >= 11 && activeLI<= 13}">
+            <li [routerLinkActive]="'active'" [ngClass]="{'active': activeLI >= 11 && activeLI<= 14}">
               <a (click)="callToggleMenu($event,1)" [ngClass]="'menu-toggle d-flex'" >
                 <i-feather [name]="'sliders'" class="sidebarIcon"></i-feather>
                 <div id="administracion">-- ADMINISTRACIÓN</div>
@@ -151,7 +151,7 @@
               </ul>
               <ul class="ml-menu">
                 <li [routerLinkActive]="''" [ngClass]="activeLI === 13 ? 'active' : ''">
-                  <a [ngClass]="''" class=""  (click)="callToggleMenu($event,3)">
+                  <a [ngClass]="''" class=""  (click)="callToggleMenu($event,3); activeLI = 13;">
                     <i class="fa-solid fa-sliders"></i>&nbsp;
                     <span class="hide-menu">Mantenimiento
                     </span>
@@ -177,8 +177,8 @@
                 </li>
               </ul>
               <ul class="ml-menu">
-                <li [routerLinkActive]="''" [ngClass]="activeLI === 13 ? 'active' : ''">
-                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 13">
+                <li [routerLinkActive]="''" [ngClass]="activeLI === 14 ? 'active' : ''">
+                  <a [routerLink]="" [ngClass]="''" class="" (click)="activeLI = 14">
                     <i class="fa-solid fa-ticket"></i>&nbsp;
                     <span class="hide-menu">Cupones
                     </span>

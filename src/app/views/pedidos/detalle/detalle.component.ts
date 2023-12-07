@@ -18,7 +18,7 @@ import { RiesgoCrediticio } from 'app/models/combo';
 import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
 import { ListaAbonadosComponent } from './lista-abonados/lista-abonados.component';
 import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
-import { Abonado } from 'app/models/mantenimiento/abonado';
+import { Abonado, Precio } from 'app/models/mantenimiento/abonado';
 
 interface Idioma {
   value: string;
@@ -56,7 +56,7 @@ export class DetalleComponent implements OnInit {
   }
 
   idContinent = 0
-
+  precio = 0
   countryAbonado : Pais = {
     id : 0,
     valor : "",
@@ -66,16 +66,23 @@ export class DetalleComponent implements OnInit {
 
   //DATOS GENERALES
   informePara = "E"
-  tipoTramite = ""
+  tipoTramite : Precio = {
+    name : "",
+    price : 0,
+    days : 0
+  }
   fechaIngreso = ""
   fechaIngresoDate : Date = new Date()
   fechaVencimiento = ""
-  fechaVencimientoDate : Date = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+3)
+  fechaVencimientoDate : Date = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+6)
   fechaVencimientoReal = ""
-  fechaVencimientoRealDate : Date | null = new Date()
+  fechaVencimientoRealDate : Date | null = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+5)
   fechaInforme = ""
   fechaInformeDate : Date | null = new Date()
+
+  listaPrecio : Precio[] = []
   //FORM ABONADO
+  idAbonado = 0
   abonadoNoEncontrado = ""
   nombreAbonado = ""
   isChecked = true;
@@ -191,25 +198,6 @@ export class DetalleComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.pedidoService.getContinente().subscribe(response => {
-      if(response.isSuccess == true){
-        console.log(response)
-        this.continentes = response.data;
-      }
-    });
-    this.paisService.getPaises().subscribe(response => {
-      if(response.isSuccess == true){
-        this.paisesAbonado = response.data;
-        this.paisesPersona = response.data;
-      }else{
-        this.snackBar.open('Ha ocurrido un problema en la conexión', '', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right',
-          panelClass: 'snackbar-danger',
-        });
-      }
-    });
     this.filterPaisAbonado = this.controlPaisesAbonado.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -221,7 +209,7 @@ export class DetalleComponent implements OnInit {
       startWith(''),
       map(value => {
         const name = typeof value === 'string' ? value : value?.valor
-        return name ? this._filterPaisEmpresa(name as string) : this.paisesEmpresa.slice()
+        return name ? this._filterPaisEmpresa(name as string) : this.paisesEmpresa?.slice()
       }),
     )
     this.filterPaisPersona = this.controlPaisesPersona.valueChanges.pipe(
@@ -288,25 +276,23 @@ export class DetalleComponent implements OnInit {
         {
           title: 'Nuevo Cupón',
           items: ['Producción', 'Pedidos'],
-          active: (this.pedidoService.getLastNumCupon() + 1) + '',
+          active: 'Nuevo',
         },
       ];
-      this.nmrCupon = (this.pedidoService.getLastNumCupon() + 1) + ''
+      this.nmrCupon = 'NUEVO'
     }
 
     this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
   }
   selectContinente(idContinent : number){
-    this.comboService.getPaisesPorContinente(this.idContinent).subscribe(
+    this.abonadoService.getPaises(this.idAbonado, this.idContinent).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
           this.paisesEmpresa = []
           this.paisesEmpresa = response.data
-          console.log(response.data)
           this.limpiarSeleccionPais()
         }
-      }
-    )
+      })
   }
   cambioPais(pais: Pais) {
     console.log(pais)
@@ -316,8 +302,17 @@ export class DetalleComponent implements OnInit {
     } else {
       this.iconoSeleccionado = pais.bandera
       this.idCountry = pais.id
+      this.abonadoService.getPreciosPorPais(this.idAbonado,this.idContinent,this.idCountry).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            this.listaPrecio = response.data
+          }
+        }
+      )
     }
-    console.log(this.idCountry)
+  }
+  tipotramite(){
+    this.precio = this.tipoTramite.price
   }
   limpiarSeleccionPais() {
     this.controlPaisesEmpresa.reset();
@@ -350,20 +345,15 @@ export class DetalleComponent implements OnInit {
       this.nombre_abonado = "SI"
     }else{
       this.nombre_abonado = "NO"
+      this.nombreAbonado = ""
     }
   }
   TipoFormulario(tipo: string) {
     this.tipo_formulario = tipo;
   }
-
   getTipoFormulario(): string {
     return this.tipo_formulario || '';
   }
-
-  getNmrCupon() {
-    return this.nmrCupon;
-  }
-
   buscarAbonado() {
     const dialogRef = this.dialog.open(ListaAbonadosComponent, {
     data: {
@@ -377,6 +367,7 @@ export class DetalleComponent implements OnInit {
         if(response.isSuccess === true && response.isWarning === false){
           const abonado : Abonado = response.data
           if(abonado){
+            this.idAbonado = data.id
             this.codAbonado = abonado.code
             this.isChecked = abonado.revealName
             this.estado = abonado.enable;
@@ -388,15 +379,29 @@ export class DetalleComponent implements OnInit {
       }
      ).add(
       () => {
-        
+        this.abonadoService.getContinentes(this.idAbonado).subscribe(response => {
+          if(response.isSuccess == true){
+            console.log(response)
+            this.continentes = response.data;
+            this.idContinent = 0
+            this.limpiarSeleccionPais()
+            this.listaPrecio = []
+            this.idCountry = 0
+            this.precio = 0
+          }
+        })
       }
      )
     });
   }
   buscarEmpresaPersona() {
-    const dialogRef1 = this.dialog.open(ListaEmpresasComponent);
+    const dialogRef1 = this.dialog.open(ListaEmpresasComponent, {
+      data: {
+      },
+    });
     dialogRef1.afterClosed().subscribe((data) => {
       console.log(data.idCompany)
+      if(data.idCompany > 0){
       this.datosEmpresaService.getDatosEmpresaPorId(data.idCompany).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
@@ -413,7 +418,7 @@ export class DetalleComponent implements OnInit {
               if(datosEmpresa.lastSearched !== "" && datosEmpresa.lastSearched !== null){
                 const lastSearched = datosEmpresa.lastSearched.split("/")
                 if(lastSearched.length > 0){
-                  this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[1]),parseInt(lastSearched[0]))
+                  this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[1])-1,parseInt(lastSearched[0]))
                 }else{
                   this.fechaInformeDate = null
                 }
@@ -423,6 +428,7 @@ export class DetalleComponent implements OnInit {
           }
         }
       )
+      }
     });
   }
   volver(){
@@ -460,6 +466,37 @@ export class DetalleComponent implements OnInit {
   // }
   filtrar(event : any){
     if(event.code == 'Enter'){
+      if(this.codAbonado.length > 3){
+        this.abonadoService.getAbonadoPorCode(this.codAbonado).subscribe(
+          (response) => {
+            console.log(response)
+            if(response.isSuccess === true && response.isWarning === false){
+              const abonado : Abonado = response.data
+              if(abonado){
+                this.idAbonado = abonado.id
+                this.codAbonado = abonado.code
+                this.isChecked = abonado.revealName
+                if(abonado.revealName === true){
+                  this.nombreAbonado = abonado.name
+                }
+                this.estado = abonado.enable;
+                this.indicacionesAbonado = abonado.indications;
+                this.datosAdicionales = abonado.observations;
+                this.language = abonado.language
+              }
+            }
+          }
+        ).add(
+          () => {
+            this.abonadoService.getContinentes(this.idAbonado).subscribe(response => {
+              if(response.isSuccess == true){
+                console.log(response)
+                this.continentes = response.data;
+              }
+            })
+          }
+         )
+      }
     }
   }
 }

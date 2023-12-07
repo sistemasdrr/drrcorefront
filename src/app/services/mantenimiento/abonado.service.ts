@@ -19,40 +19,43 @@ export class AbonadoService {
   constructor(private http : HttpClient) { }
 
   getAbonados(code : string, name : string, enable : string): Observable<Response<AbonadoT[]>>{
-    return this.http.get<Response<AbonadoT[]>>('https://localhost:7234/api' + this.controllerAbonado + '/get?code='+code+'&name='+name+'&enable='+enable);
+    return this.http.get<Response<AbonadoT[]>>(this.url + this.controllerAbonado + '/get?code='+code+'&name='+name+'&enable='+enable);
   }
   getAbonadoPorId(idAbonado : number): Observable<Response<Abonado>>{
-    return this.http.get<Response<Abonado>>('https://localhost:7234/api' + this.controllerAbonado + '/getById?id='+idAbonado);
+    return this.http.get<Response<Abonado>>(this.url + this.controllerAbonado + '/getById?id='+idAbonado);
+  }
+  getAbonadoPorCode(code : string): Observable<Response<Abonado>>{
+    return this.http.get<Response<Abonado>>(this.url + this.controllerAbonado + '/getByCode?code='+code);
   }
   getPreciosPorIdAbonado(idAbonado : number): Observable<Response<PrecioAbonadoT[]>>{
-    return this.http.get<Response<PrecioAbonadoT[]>>('https://localhost:7234/api' +  this.controllerAbonado + '/getPrices?idSubscriber='+idAbonado);
+    return this.http.get<Response<PrecioAbonadoT[]>>(this.url +  this.controllerAbonado + '/getPrices?idSubscriber='+idAbonado);
   }
   getPrecioPorId(idPrecio : number): Observable<Response<PrecioAbonado>>{
-    return this.http.get<Response<PrecioAbonado>>('https://localhost:7234/api' + this.controllerAbonado + '/getPrice?id='+idPrecio);
+    return this.http.get<Response<PrecioAbonado>>(this.url + this.controllerAbonado + '/getPrice?id='+idPrecio);
   }
   addPrecio(precio : PrecioAbonado): Observable<Response<boolean>>{
-    return this.http.post<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/addPrice',precio);
+    return this.http.post<Response<boolean>>(this.url + this.controllerAbonado + '/addPrice',precio);
   }
   addAbonado(abonado : Abonado): Observable<Response<number>>{
-    return this.http.post<Response<number>>('https://localhost:7234/api' + this.controllerAbonado + '/add',abonado);
+    return this.http.post<Response<number>>(this.url + this.controllerAbonado + '/add',abonado);
   }
   deleteAbonado(id : number): Observable<Response<boolean>>{
-    return this.http.post<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/delete?id='+id,'');
+    return this.http.post<Response<boolean>>(this.url + this.controllerAbonado + '/delete?id='+id,'');
   }
   activeAbonado(id : number): Observable<Response<boolean>>{
-    return this.http.post<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/active?id='+id,'');
+    return this.http.post<Response<boolean>>(this.url + this.controllerAbonado + '/active?id='+id,'');
   }
   deletePrecio(idPrecio : number): Observable<Response<boolean>>{
-    return this.http.get<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/deletePrice?id='+idPrecio);
+    return this.http.get<Response<boolean>>(this.url + this.controllerAbonado + '/deletePrice?id='+idPrecio);
   }
   getContinentes(idAbonado : number): Observable<Response<ComboData[]>>{
-    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api' + this.controllerAbonado + '/getContinents?id='+idAbonado);
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerAbonado + '/getContinents?id='+idAbonado);
   }
   getPaises(idAbonado : number, idContinent : number): Observable<Response<Pais[]>>{
-    return this.http.get<Response<Pais[]>>('https://localhost:7234/api' + this.controllerAbonado + '/getCountries?idSubscriber='+idAbonado+'&idContinent='+idContinent);
+    return this.http.get<Response<Pais[]>>(this.url + this.controllerAbonado + '/getCountries?idSubscriber='+idAbonado+'&idContinent='+idContinent);
   }
   getPreciosPorPais(idAbonado : number, idContinent : number, idPais : number): Observable<Response<Precio[]>>{
-    return this.http.get<Response<Precio[]>>('https://localhost:7234/api' + this.controllerAbonado + '/getPriceByIds?idSubscriber='+idAbonado+'&idContinent='+idContinent+'&idCountry='+idPais);
+    return this.http.get<Response<Precio[]>>(this.url + this.controllerAbonado + '/getPriceByIds?idSubscriber='+idAbonado+'&idContinent='+idContinent+'&idCountry='+idPais);
   }
 
 

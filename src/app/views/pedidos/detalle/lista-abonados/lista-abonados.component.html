@@ -78,7 +78,9 @@
         <ng-container matColumnDef="acciones" >
           <th mat-header-cell *matHeaderCellDef  class="text-center" style="min-width: 10rem;"> Acciones </th>
           <td mat-cell *matCellDef="let abonado" class="text-center ">
-            <button class="btn bg-green btn-sm btn-block waves-effect"  (click)="seleccionarAbonado(abonado.id)" style="width: 7rem;" type="button" ><i class="fa-solid fa-circle-check"></i> Seleccionar </button>
+            <button  mat-mini-fab class="bg-white" matTooltip="Seleccionar"  (click)="seleccionarAbonado(abonado.id)">
+              <app-feather-icons [icon]="'check-circle'" class="tbl-fav-web"></app-feather-icons>
+            </button>
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>

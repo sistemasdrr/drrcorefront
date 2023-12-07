@@ -75,3 +75,9 @@ export interface PrecioAbonadoT{
   priceT3 : string //precio / dias => 75 / 5
   priceB : string //precio => 75
 }
+
+export interface Precio{
+  name : string
+  price : number
+  days : number
+}

@@ -7,7 +7,7 @@ export interface Agente{
   email : string
   telephone : string
   fax : string
-  inCharge : string
+  supervisor : string
   language : string
   idCountry : number
   observations : string
@@ -29,7 +29,7 @@ export interface AgenteT{
 }
 export interface PrecioAgente{
   id : number
-  idAgente : number
+  idAgent : number
   date : string
   idContinent : number
   idCountry : number
@@ -52,6 +52,7 @@ export interface PrecioAgente{
 }
 export interface PrecioAgenteT{
   id : number
+  idAgent : number
   date : string
   country : string
   flagCountry : string

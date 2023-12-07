@@ -7,6 +7,7 @@ import { Pais } from 'app/models/pais';
 import { ComboService } from 'app/services/combo.service';
 import { AgenteService } from 'app/services/mantenimiento/agente.service';
 import { Observable, map, startWith } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-datos-generales-agente',
@@ -25,7 +26,7 @@ export class DatosGeneralesAgenteComponent implements OnInit {
   email = ""
   telephone = ""
   fax = ""
-  inCharge = ""
+  supervisor = ""
   language = ""
   idCountry = 0
   countryAgente : Pais = {
@@ -71,6 +72,7 @@ export class DatosGeneralesAgenteComponent implements OnInit {
         () =>{
           this.agenteService.getAgentePorId(this.id).subscribe(
             (response) => {
+              console.log(response)
               if(response.isSuccess === true && response.isWarning === false){
                 const agente = response.data
                 if(agente){
@@ -89,7 +91,7 @@ export class DatosGeneralesAgenteComponent implements OnInit {
                   this.email = agente.email
                   this.telephone = agente.telephone
                   this.fax = agente.fax
-                  this.inCharge = agente.inCharge
+                  this.supervisor = agente.supervisor
                   this.language = agente.language
                   this.idCountry = agente.idCountry
                   this.observations = agente.observations
@@ -128,18 +130,24 @@ export class DatosGeneralesAgenteComponent implements OnInit {
 
   cambioPais(pais: Pais) {
     console.log(pais)
-    if (typeof pais === 'string' || pais === null || this.countryAgente.id === 0) {
+    if(pais != null){
+      if (typeof pais === 'string' || pais === null || this.countryAgente.id === 0) {
+        this.msgPais = "Seleccione una opción."
+        this.colorMsgPais = "red"
+        this.iconoSeleccionado = ""
+        this.idCountry = 0
+      } else {
+        this.msgPais = "Opción Seleccionada"
+        this.colorMsgPais = "green"
+        this.iconoSeleccionado = pais.bandera
+        this.idCountry = pais.id
+      }
+    }else {
+      this.idCountry = 0
+      console.log(this.idCountry)
       this.msgPais = "Seleccione una opción."
       this.colorMsgPais = "red"
-      this.iconoSeleccionado = ""
-      this.idCountry = 0
-    } else {
-      this.msgPais = "Opción Seleccionada"
-      this.colorMsgPais = "green"
-      this.iconoSeleccionado = pais.bandera
-      this.idCountry = pais.id
     }
-    console.log(this.idCountry)
   }
   limpiarSeleccionPais() {
     this.controlPaises.reset();
@@ -178,7 +186,7 @@ export class DatosGeneralesAgenteComponent implements OnInit {
       email : this.email,
       telephone : this.telephone,
       fax : this.fax,
-      inCharge : this.inCharge,
+      supervisor : this.supervisor,
       language : this.language,
       idCountry : this.idCountry,
       observations : this.observations,
@@ -197,7 +205,7 @@ export class DatosGeneralesAgenteComponent implements OnInit {
       email : this.email,
       telephone : this.telephone,
       fax : this.fax,
-      inCharge : this.inCharge,
+      supervisor : this.supervisor,
       language : this.language,
       idCountry : this.idCountry,
       observations : this.observations,
@@ -208,10 +216,96 @@ export class DatosGeneralesAgenteComponent implements OnInit {
   }
   guardar(){
     this.armarAgenteModificado()
-    console.log(this.agenteModificado[0])
+    if(this.id > 0){
+      Swal.fire({
+        title: '¿Está seguro de guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          const paginaDetalleAbonado = document.getElementById('pagina-detalle-abonado') as HTMLElement | null;
+          if(paginaDetalleAbonado){
+            paginaDetalleAbonado.classList.add('hide-loader');
+          }
+          this.agenteService.addAgente(this.agenteModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'Se guardaron los cambios correctamente',
+                  text: "",
+                  icon: 'success',
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6',
+                  confirmButtonText: 'Ok',
+                  width: '30rem',
+                  heightAuto: true
+                })
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleAbonado){
+                paginaDetalleAbonado.classList.remove('hide-loader');
+              }
+            }
+          )
+        }
+      })
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          const paginaDetalleAbonado = document.getElementById('pagina-detalle-abonado') as HTMLElement | null;
+          if(paginaDetalleAbonado){
+            paginaDetalleAbonado.classList.add('hide-loader');
+          }
+          this.agenteService.addAgente(this.agenteModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                this.id = response.data
+                Swal.fire({
+                  title: 'Se agrego el registro correctamente',
+                  text: "",
+                  icon: 'success',
+                  confirmButtonColor: '#d33',
+                  cancelButtonColor: '#3085d6',
+                  confirmButtonText: 'Ok',
+                  width: '30rem',
+                  heightAuto: true
+                })
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleAbonado){
+                paginaDetalleAbonado.classList.remove('hide-loader');
+              }
+              this.router.navigate(['mantenimiento/agente/detalle/'+this.id])
+            }
+          )
+        }
+      })
+    }
   }
   salir(){
-
+    this.router.navigate(['mantenimiento/agente/lista'])
   }
 
 }

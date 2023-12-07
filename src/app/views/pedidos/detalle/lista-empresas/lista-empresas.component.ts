@@ -63,21 +63,21 @@ export class ListaEmpresasComponent implements OnInit {
         this.paises = response.data;
       }
     }).add(() => {
-      if(localStorage.getItem('busquedaEmpresas')){
-        const busqueda = JSON.parse(localStorage.getItem('busquedaEmpresas')+'')
-        this.razonSocial = busqueda.razonSocial
-        this.filtroRB = busqueda.filtro
-        if(busqueda.idCountry > 0){
-          this.idPais = busqueda.idCountry
-          this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idCountry)[0]
-          this.iconoSeleccionado = this.paisSeleccionado.bandera
-        }else{
-          this.limpiarSeleccionPais()
-        }
-        this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idPais)[0]
-        this.chkConInforme = busqueda.conInforme
-        this.filtrarEmpresas()
-      }
+      // if(localStorage.getItem('busquedaEmpresas')){
+      //   const busqueda = JSON.parse(localStorage.getItem('busquedaEmpresas')+'')
+      //   this.razonSocial = busqueda.razonSocial
+      //   this.filtroRB = busqueda.filtro
+      //   if(busqueda.idCountry > 0){
+      //     this.idPais = busqueda.idCountry
+      //     this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idCountry)[0]
+      //     this.iconoSeleccionado = this.paisSeleccionado.bandera
+      //   }else{
+      //     this.limpiarSeleccionPais()
+      //   }
+      //   this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idPais)[0]
+      //   this.chkConInforme = busqueda.conInforme
+      //   this.filtrarEmpresas()
+      // }
     })
 
     this.filterPais = this.controlPaises.valueChanges.pipe(
