@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { EmpresaPersonaService } from 'app/services/empresa-persona.service';
 import { PaisService } from './../../../services/pais.service';
 import { OnInit, Component } from '@angular/core';
@@ -418,7 +419,15 @@ export class DetalleComponent implements OnInit {
               if(datosEmpresa.lastSearched !== "" && datosEmpresa.lastSearched !== null){
                 const lastSearched = datosEmpresa.lastSearched.split("/")
                 if(lastSearched.length > 0){
-                  this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[1])-1,parseInt(lastSearched[0]))
+                  console.log(datosEmpresa.lastSearched)
+                  this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[0])-1,parseInt(lastSearched[1]))
+                  const now = new Date()
+                  if(this.fechaInformeDate > new Date(now.getFullYear(), now.getMonth()-3, now.getDate())){
+                    this.tipoInforme = "EF"
+                    console.log(new Date(now.getFullYear(), now.getMonth()-3, now.getDate()))
+                  }else{
+                    this.tipoInforme = "RV"
+                  }
                 }else{
                   this.fechaInformeDate = null
                 }
@@ -430,6 +439,12 @@ export class DetalleComponent implements OnInit {
       )
       }
     });
+  }
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${month}/${day}/${year}`;
   }
   volver(){
     this.router.navigate(['pedidos/lista']);

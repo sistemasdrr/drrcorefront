@@ -1,0 +1,54 @@
+<div class="container-fluid"  style="width: 100%; margin: 0; padding: 0;">
+  <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
+    <div class="col-md-12 mb-2">
+      <div class="row counter-box shadow ">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+          <h4>Datos Generales</h4>
+          <div>
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
+              <mat-icon class="col-white">arrow_back</mat-icon>
+            </button>
+            <button id="btn-guardar-datos-empresa" mat-mini-fab class="bg-cyan shadow" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
+              <mat-icon class="col-white">save</mat-icon>
+            </button>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field color="primary" style="width: 100%;" >
+              <mat-label >Fecha </mat-label>
+              <input matInput [matDatepicker]="fecha_ingreso_abonado" #fechaInput [ngModel]="dateD" [readonly]="true" (dateChange)="selectFecha($event)">
+              <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso_abonado"></mat-datepicker-toggle>
+              <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field color="primary" style="width: 100%;" >
+              <mat-label >Nro de Cupones </mat-label>
+              <input matInput [ngModel]="nroCupones">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field color="primary" style="width: 100%;" >
+              <mat-label >Precio </mat-label>
+              <input matInput [ngModel]="precio">
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field color="primary" style="width: 100%;" >
+              <mat-label >Total </mat-label>
+              <input matInput [ngModel]="total">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row counter-box shadow ">
+        <h4>Historial</h4>
+        <div class="col-md-12">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

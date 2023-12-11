@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { AuthService } from '@core';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { Aniversario } from 'app/models/login/aniversario';
+import { FechasImportantesService } from 'app/services/login/fechas-importantes.service';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -18,21 +20,22 @@ export class SigninComponent
   implements OnInit
 {
   arrayImg = [
-    'https://www.tooltyp.com/wp-content/uploads/2014/10/1900x920-8-beneficios-de-usar-imagenes-en-nuestros-sitios-web.jpg',
-    'https://www.salesforce.com/content/dam/web/es_mx/blog/reporte-de-ventas.jpg',
-    'https://itop.academy/wp-content/uploads/2022/10/gestion-informes-reportes-sap-business-one-itop-academy.jpg',
-    'https://static5.depositphotos.com/1009762/449/i/950/depositphotos_4499086-stock-illustration-annual-report-graph-diagram-chart.jpg',
-
+    'assets/images/fondo-1.jpg',
+    'assets/images/fondo-2.jpg',
+    'assets/images/fondo-3.jpg',
+    'assets/images/fondo-4.jpg',
   ]
   url = ""
   loginForm!: UntypedFormGroup;
   submitted = false;
   error = '';
   hide = true;
+  fechasImportantes : Aniversario[] = []
   constructor(
     private formBuilder: UntypedFormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private aniversarioService : FechasImportantesService
   ) {
     super();
   }
@@ -46,9 +49,18 @@ export class SigninComponent
       password: ['admin', Validators.required],
     });
     this.url = this.arrayImg[this.getRandomNumber()]
+
+      this.aniversarioService.getFechasImportantes().subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            this.fechasImportantes = response.data
+          }
+        }
+      )
+
   }
   getRandomNumber() : number {
-    return Math.floor(Math.random() * (0 - 3) + 4);
+    return Math.floor(Math.random() * (0 - 4) + 4);
   }
 
   get form(): { [key: string]: AbstractControl } {

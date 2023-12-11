@@ -25,6 +25,8 @@ import { ListaAgenteComponent } from './agente/lista/lista.component';
 import { PreciosAgenteComponent } from './agente/detalle/precios/precios.component';
 import { DatosGeneralesAgenteComponent } from './agente/detalle/datos-generales/datos-generales.component';
 import { AgregarEditarAgenteComponent } from './agente/detalle/precios/agregar-editar/agregar-editar.component';
+import { FacturacionWebComponent } from './abonado/detalle/facturacion-web/facturacion-web.component';
+import { FacturacionPorCuponComponent } from './abonado/detalle/facturacion-por-cupon/facturacion-por-cupon.component';
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import { AgregarEditarAgenteComponent } from './agente/detalle/precios/agregar-e
     AgregarEditarAgenteComponent,
     DetalleAgenteComponent,
     ListaAgenteComponent,
+    FacturacionWebComponent,
+    FacturacionPorCuponComponent,
   ],
   imports: [
     CommonModule,

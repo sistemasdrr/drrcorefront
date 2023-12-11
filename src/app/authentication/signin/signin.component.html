@@ -1,21 +1,22 @@
   <div class="container-fluid p-0">
     <div class="row g-0">
-      <div class="col-lg-4 shadow">
-        <div class="auth-content p-4 d-flex align-items-center min-vh-100">
+
+      <div class="col-lg-8" style="background-image: url('{{url}}'); background-position: center; background-size: 1150px 850px; background-repeat: no-repeat; background-color: white;">
+        <div class="offset-md-7 col-md-4" style="margin-top: 35rem;">
+          <div class="shadow" style="border: 2px solid #fad721;">
+              <div style="font-size: 11px; color:white; margin: 10px;" *ngFor="let item of fechasImportantes"><b style="color: #fad721; font-size: 14px;">{{item.shortDate}} → </b> {{item.name}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 " style="background-color: #1572b7 !important;">
+        <div class=" p-4 d-flex align-items-center min-vh-100">
           <div class="w-100">
             <div class="row justify-content-center">
               <div class="col-lg-9">
                 <div>
-                  <div class="text-center">
-                    <div>
-                      <a routerLink="" class="logo-full"><img src="assets/images/logo-full.png" alt="logo-full"></a>
-                    </div>
-                    <h4 class="font-20 mt-4">DRR</h4>
-                    <p class="text-muted">Login</p>
-                  </div>
 
-                  <div class="p-2 mt-5">
-                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div class="p-2 mt-5" style="border: 1px solid #fad721; border-radius: 5%; ">
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="margin: 10px">
                       <div *ngIf="error" class="alert alert-danger mb-3 mt-0">{{error}}</div>
                       <div class="form-group auth-form-group mb-4">
                         <mat-icon matSuffix class="auth-page-icon">person</mat-icon>
@@ -39,17 +40,13 @@
 
                       <div class="flex-sb-m w-full p-t-15 p-b-20">
                         <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value=""> Recordar Usuario
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
+                            <mat-checkbox class="example-margin" ><b style="color: #fad721;">Recordar Usuario</b></mat-checkbox>
+
                         </div>
                       </div>
 
                       <div class="container-login100-form-btn">
-                        <button mat-raised-button color="primary" class="login100-form-btn" type="submit">
+                        <button mat-raised-button style="background-color: #fad721;" class="login100-form-btn" type="submit">
                           Ingresar
                         </button>
                       </div>
@@ -57,19 +54,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-8" style="background-image: url('{{url}}'); background-size: cover;">
-        <div class="offset-md-6 col-md-6" style="margin-top: 5rem;">
-          <div class="card" style="background-color: rgba(255, 255, 255, 0.6); transition: .3s ease all;">
-            <div class="card-body">
-                <h2 class="m-0 d-flex justify-content-center">Fechas Importantes</h2>
-            </div>
-            <div class="card-body">
-              <h3>+ </h3>
-              <h3>+ </h3>
             </div>
           </div>
         </div>

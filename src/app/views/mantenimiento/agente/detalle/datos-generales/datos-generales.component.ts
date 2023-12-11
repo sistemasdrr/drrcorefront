@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -43,14 +43,14 @@ export class DatosGeneralesAgenteComponent implements OnInit {
   controlPaises = new FormControl<string | Pais>('')
   paises: Pais[] = []
   filterPais: Observable<Pais[]>
-  msgPais = ""
-  colorMsgPais = ""
-  iconoSeleccionado = ""
+  msgPais = "a"
+  colorMsgPais = "red"
+  iconoSeleccionado = "a"
 
   agenteActual : Agente[] = []
   agenteModificado : Agente[] = []
 
-  constructor(private router : Router, private activatedRoute: ActivatedRoute, private comboService : ComboService, private agenteService : AgenteService){
+  constructor(private cdr: ChangeDetectorRef,private router : Router, private activatedRoute: ActivatedRoute, private comboService : ComboService, private agenteService : AgenteService){
     this.filterPais = new Observable<Pais[]>()
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
@@ -106,6 +106,8 @@ export class DatosGeneralesAgenteComponent implements OnInit {
               this.countryAgente = this.paises.filter(x => x.id === this.idCountry)[0]
               this.armarAgenteActual()
               this.armarAgenteModificado()
+              this.cdr.detectChanges();
+
             }
           )
         }

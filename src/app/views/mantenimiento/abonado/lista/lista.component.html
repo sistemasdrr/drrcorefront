@@ -84,7 +84,12 @@
               <div *ngIf="abonado.facturationType === 'CC'">
                 <i class="fa-solid fa-ticket"></i>
                 Con Cupones
-              </div></td>
+              </div>
+              <div *ngIf="abonado.facturationType === 'OL'">
+                <i class="fa-solid fa-globe"></i>
+                OnLine
+              </div>
+            </td>
           </ng-container>
           <ng-container matColumnDef="pais" >
             <th mat-header-cell *matHeaderCellDef class="text-center"> País</th>

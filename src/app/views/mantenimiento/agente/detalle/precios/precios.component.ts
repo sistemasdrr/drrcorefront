@@ -37,6 +37,7 @@ export class PreciosAgenteComponent implements OnInit{
       this.agenteService.getPreciosPorIdAgente(this.id).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
+            console.log(response)
             this.dataSource = new MatTableDataSource(response.data)
           }
         }

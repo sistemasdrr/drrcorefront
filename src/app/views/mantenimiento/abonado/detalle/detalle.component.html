@@ -12,7 +12,7 @@
       <mat-tab-group [preserveContent]="true">
         <mat-tab>
           <ng-template mat-tab-label >
-            <i id="tab-datos-generales" class="fa-solid fa-circle-info" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Empresa"></i>
+            <i id="tab-datos-generales" class="fa-solid fa-circle-info" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Información General"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Info. General</b></div>
           </ng-template>
           <ng-template matTabContent>
@@ -22,7 +22,7 @@
         <!--mat-tab [ngClass]="{'tab-completo': false}" [disabled]="id === 0"-->
         <mat-tab [ngClass]="{'tab-completo': false}">
           <ng-template mat-tab-label>
-            <i id="tab-precios" class="fa-solid fa-circle-dollar-to-slot" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Antecedentes"></i>
+            <i id="tab-precios" class="fa-solid fa-circle-dollar-to-slot" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Precios"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Precios</b></div>
           </ng-template>
           <ng-template matTabContent>
@@ -32,14 +32,22 @@
         <!--mat-tab  [disabled]="id === 0"-->
         <mat-tab>
           <ng-template mat-tab-label>
-            <i id="tab-cuponera" class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Ramo de Negocio"></i>
-            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Cuponera</b></div>
+            <i id="tab-facturacion-web" class="fa-solid fa-globe" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Facturación Web"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Facturación Web</b></div>
           </ng-template>
           <ng-template matTabContent>
-            <app-cuponera></app-cuponera>
+            <app-facturacion-web></app-facturacion-web>
           </ng-template>
         </mat-tab>
-
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <i id="tab-facturacion-cupones" class="fa-solid fa-ticket" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Facturación Por Cupones"></i>
+            <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Facturación Cupones</b></div>
+          </ng-template>
+          <ng-template matTabContent>
+            <app-facturacion-por-cupon></app-facturacion-por-cupon>
+          </ng-template>
+        </mat-tab>
       </mat-tab-group>
     </div>
   </div>
