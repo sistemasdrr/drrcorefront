@@ -81,3 +81,23 @@ export interface Precio{
   price : number
   days : number
 }
+
+export interface FacturacionPorCupones{
+  id : number
+  idSubscriber : number
+  numCoupon : number
+  priceT1 : number
+  priceT2 : number
+  priceT3 : number
+  priceT0 : number
+}
+export interface HistorialFacturacionPorCupones{
+  id : number
+  idCouponBilling : number
+  idEmployee : number
+  purchaseDate : string
+  couponAmount : number
+  couponUnitPrice : number
+  totalPrice : number
+}
+

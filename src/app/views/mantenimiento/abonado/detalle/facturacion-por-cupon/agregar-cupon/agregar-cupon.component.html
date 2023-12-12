@@ -1,0 +1,69 @@
+<div class="container" style="max-width: 60rem;" >
+  <div class="row m-0 p-0"  >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <div class="materialTableHeader mt-3">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h5 style="font-size: 24px;">Agregar Cupones</h5>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10">
+                    <button mat-icon-button  class="btn bg-red "  (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
+                      <mat-icon>logout</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Guardar">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <mat-dialog-content class="mat-typography p-0 m-0">
+          <div class="body m-0 p-0">
+            <div class="row p-0 m-0">
+              <div class="col-md-3">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Fecha</mat-label>
+                  <input matInput [matDatepicker]="fecha" #fechaInput [ngModel]="dateD" [readonly]="true" (dateChange)="selectFecha($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100">
+                  <mat-label>Cantidad de Cupones</mat-label>
+                  <input matInput [(ngModel)]="couponAmount" type="number" [min]="0">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100">
+                  <mat-label>Precio Unitario</mat-label>
+                  <input matInput [(ngModel)]="unitPrice" type="number" [min]="0">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100">
+                  <mat-label>Monto Total</mat-label>
+                  <input matInput [(ngModel)]="couponAmount * unitPrice" type="number" [min]="0" readonly="">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-dialog-content>
+      </div>
+    </div>
+  </div>
+</div>

@@ -27,6 +27,7 @@ import { DatosGeneralesAgenteComponent } from './agente/detalle/datos-generales/
 import { AgregarEditarAgenteComponent } from './agente/detalle/precios/agregar-editar/agregar-editar.component';
 import { FacturacionWebComponent } from './abonado/detalle/facturacion-web/facturacion-web.component';
 import { FacturacionPorCuponComponent } from './abonado/detalle/facturacion-por-cupon/facturacion-por-cupon.component';
+import { AgregarCuponComponent } from './abonado/detalle/facturacion-por-cupon/agregar-cupon/agregar-cupon.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { FacturacionPorCuponComponent } from './abonado/detalle/facturacion-por-
     ListaAgenteComponent,
     FacturacionWebComponent,
     FacturacionPorCuponComponent,
+    AgregarCuponComponent,
   ],
   imports: [
     CommonModule,

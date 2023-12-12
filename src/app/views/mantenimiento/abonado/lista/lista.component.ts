@@ -22,7 +22,7 @@ export class ListaAbonadoComponent implements OnInit{
     },
   ];
 
-  loading : boolean = true
+  loading : boolean = false
 
   //FILTROS
   codigo = ""
@@ -48,17 +48,19 @@ export class ListaAbonadoComponent implements OnInit{
       this.estado = busqueda.estado
     }
 
-    this.abonadoService.getAbonados(this.codigo, this.nombre, this.estado).subscribe(
-      (response) => {
-        if(response.isSuccess === true && response.isWarning === false){
-          this.dataSource.data = response.data
-        }
-      }
-    ).add(
-      () => {
-        this.loading = false
-      }
-    )
+    // this.abonadoService.getAbonados(this.codigo, this.nombre, this.estado).subscribe(
+    //   (response) => {
+    //     this.loading = true
+    //     if(response.isSuccess === true && response.isWarning === false){
+    //       this.dataSource.data = response.data
+    //       this.dataSource.paginator = this.paginator
+    //     }
+    //   }
+    // ).add(
+    //   () => {
+    //     this.loading = false
+    //   }
+    // )
   }
 
   filtrarAbonados(){
@@ -98,6 +100,11 @@ export class ListaAbonadoComponent implements OnInit{
           listaAbonados.classList.add('hide-loader');
         }
       })
+  }
+  enter(event : KeyboardEvent){
+    if(event.code == 'Enter'){
+      this.filtrarAbonados()
+    }
   }
   limpiar(){
     this.codigo = ""

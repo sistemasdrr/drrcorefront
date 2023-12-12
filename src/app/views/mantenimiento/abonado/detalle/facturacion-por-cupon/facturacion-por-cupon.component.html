@@ -3,62 +3,90 @@
     <div class="col-md-12 mb-2">
       <div class="row counter-box shadow ">
         <div class="w-100 d-flex justify-content-between align-items-center">
-          <h4>Datos Generales</h4>
+          <h4>Facturación por Cupón</h4>
           <div>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
               <mat-icon class="col-white">arrow_back</mat-icon>
             </button>
-            <button id="btn-guardar-datos-empresa" mat-mini-fab class="bg-cyan shadow" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
+            <button mat-mini-fab class="bg-cyan shadow" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
               <mat-icon class="col-white">save</mat-icon>
             </button>
           </div>
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-3">
+          <!--div class="col-md-3">
             <mat-form-field color="primary" style="width: 100%;" >
               <mat-label >Fecha </mat-label>
               <input matInput [matDatepicker]="fecha_ingreso_abonado" #fechaInput [ngModel]="dateD" [readonly]="true" (dateChange)="selectFecha($event)">
               <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso_abonado"></mat-datepicker-toggle>
               <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
             </mat-form-field>
-          </div>
-          <div class="col-md-3">
-            <mat-form-field color="primary" style="width: 100%;" >
-              <mat-label >Nro de Cupones </mat-label>
-              <input matInput [ngModel]="nroCupones">
+          </!--div-->
+          <div class="col-md-4 d-flex">
+            <mat-form-field color="primary" style="width: 80%;" >
+              <mat-label >Nro de Cupones Restantes</mat-label>
+              <input matInput readonly="true" [ngModel]="nroCupones">
             </mat-form-field>
+            <button  mat-mini-fab color="primary" class=" shadow" style=" margin: .7rem 1rem 0 1rem;" (click)="agregarCupones()" #tooltip="matTooltip" matTooltip="Agregar Cupones">
+              <mat-icon class="col-white">add</mat-icon>
+            </button>
           </div>
-          <div class="col-md-6"></div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <mat-form-field color="primary" style="width: 100%;" >
               <mat-label >Precio T1</mat-label>
-              <input matInput [ngModel]="precioT1">
+              <input matInput [(ngModel)]="precioT1" type="number">
             </mat-form-field>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <mat-form-field color="primary" style="width: 100%;" >
               <mat-label >Precio T2</mat-label>
-              <input matInput [ngModel]="precioT2">
+              <input matInput [(ngModel)]="precioT2" type="number">
             </mat-form-field>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <mat-form-field color="primary" style="width: 100%;" >
               <mat-label >Precio T3</mat-label>
-              <input matInput [ngModel]="precioT3">
+              <input matInput [(ngModel)]="precioT3" type="number">
             </mat-form-field>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <mat-form-field color="primary" style="width: 100%;" >
               <mat-label >Precio T0</mat-label>
-              <input matInput [ngModel]="precioT0">
+              <input matInput [(ngModel)]="precioT0" type="number">
             </mat-form-field>
           </div>
         </div>
       </div>
       <div class="row counter-box shadow ">
         <h4>Historial</h4>
-        <div class="col-md-12"></div>
+        <div class="col-md-12">
+          <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="fecha" >
+            <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Compra</th>
+            <td mat-cell *matCellDef="let historial" class="text-center">{{historial.purchaseDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="monto" >
+              <th mat-header-cell *matHeaderCellDef  class="text-center"> Monto de Cupones</th>
+              <td mat-cell *matCellDef="let historial" class="text-center">
+                {{historial.couponAmount}}&nbsp;<i class="fa-solid fa-ticket"></i>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="precioUnidad" >
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Precio por Unidad</th>
+              <td mat-cell *matCellDef="let historial" class="text-center">{{historial.couponUnitPrice}} USD</td>
+            </ng-container>
+            <ng-container matColumnDef="precioTotal" >
+              <th mat-header-cell *matHeaderCellDef class="text-center"> Precio Total</th>
+              <td mat-cell *matCellDef="let historial" class="text-center">{{historial.totalPrice}} USD</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let empresa; columns: columnsToDisplay;"
+              class=""></tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Seleccionar" class="w-100"></mat-paginator>
+        </div>
       </div>
     </div>
   </div>

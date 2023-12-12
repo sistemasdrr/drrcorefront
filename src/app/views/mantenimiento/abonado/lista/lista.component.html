@@ -15,7 +15,7 @@
             <div class="col-md-2">
               <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
                 <mat-label>Código</mat-label>
-                <input matInput placeholder="Ej. 1234" [(ngModel)]="codigo" >
+                <input matInput [(ngModel)]="codigo" (keypress)="enter($event)">
                 <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" *ngIf="codigo !== ''" (click)="codigo = ''" #tooltip="matTooltip" matTooltip="Limpiar">
                   <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
                 </button>
@@ -24,7 +24,7 @@
             <div class="col-md-4">
               <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
                 <mat-label>Nombre</mat-label>
-                <input matInput placeholder="Ej. ALICORP SA" [(ngModel)]="nombre" >
+                <input matInput  [(ngModel)]="nombre" (keypress)="enter($event)">
                 <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" *ngIf="nombre !== ''" (click)="nombre = ''" #tooltip="matTooltip" matTooltip="Limpiar">
                   <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
                 </button>

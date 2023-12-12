@@ -147,7 +147,7 @@
           <div class="col-md-3">
             <mat-form-field class="w-100">
               <mat-label>País</mat-label>
-              <input type="text" matInput [formControl]="controlPaises" [ngClass]="colorMsgPais === 'red' ? 'error': ''" [matAutocomplete]="auto6" [(ngModel)]="countryAbonado" (ngModelChange)="cambioPais(countryAbonado)">
+              <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto6" [(ngModel)]="countryAbonado" (ngModelChange)="cambioPais(countryAbonado)">
               <mat-hint [ngClass]="colorMsgPais === 'red' ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="colorMsgPais === 'red'"></i><i class="fa-solid fa-circle-check" *ngIf="colorMsgPais === 'green'"></i>&nbsp;{{msgPais}}</mat-hint>
               <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
                 <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>

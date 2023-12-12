@@ -1,5 +1,5 @@
 import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -76,7 +76,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
   abonadoActual : Abonado[] = []
   abonadoModificado : Abonado[] = []
 
-  constructor(private router : Router, private activatedRoute: ActivatedRoute, private paisService : PaisService, private comboService : ComboService, private abonadoService : AbonadoService){
+  constructor(private cdr: ChangeDetectorRef,private router : Router, private activatedRoute: ActivatedRoute, private paisService : PaisService, private comboService : ComboService, private abonadoService : AbonadoService){
     this.filterPais = new Observable<Pais[]>()
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
@@ -239,7 +239,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear().toString();
-    return `${month}/${day}/${year}`;
+    return `${day}/${month}/${year}`;
   }
   armarModeloActual(){
     this.abonadoActual[0] = {
@@ -421,7 +421,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
               // busqueda.idPais = this.idCountry;
               // localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
 
-              this.router.navigate(['informes/empresa/detalle/'+response.data]);
+              this.router.navigate(['mantenimiento/abonado/detalle/'+response.data]);
               this.armarModeloActual()
             }else{
               if(paginaDetalleEmpresa){
@@ -460,13 +460,6 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
         }
       });
     }
-    this.abonadoService.addAbonado(this.abonadoModificado[0]).subscribe(
-      (response) => {
-        if(response.isSuccess === true && response.isWarning === false){
-          console.log(response)
-        }
-      }
-    )
     console.log(this.abonadoModificado)
   }
   salir(){

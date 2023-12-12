@@ -24,6 +24,7 @@ export class SigninComponent
     'assets/images/fondo-2.jpg',
     'assets/images/fondo-3.jpg',
     'assets/images/fondo-4.jpg',
+    'assets/images/fondo-5.jpg',
   ]
   url = ""
   loginForm!: UntypedFormGroup;
@@ -60,7 +61,7 @@ export class SigninComponent
 
   }
   getRandomNumber() : number {
-    return Math.floor(Math.random() * (0 - 4) + 4);
+    return Math.floor(Math.random() * (0 - 5) + 5);
   }
 
   get form(): { [key: string]: AbstractControl } {

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ComboData } from 'app/models/combo';
-import { Abonado, AbonadoT, PrecioAbonado, PrecioAbonadoT } from 'app/models/mantenimiento/abonado';
+import { Abonado, AbonadoT, FacturacionPorCupones, HistorialFacturacionPorCupones, PrecioAbonado, PrecioAbonadoT } from 'app/models/mantenimiento/abonado';
 import { Pais } from 'app/models/pais';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
@@ -34,10 +34,10 @@ export class AbonadoService {
     return this.http.get<Response<PrecioAbonado>>(this.url + this.controllerAbonado + '/getPrice?id='+idPrecio);
   }
   addPrecio(precio : PrecioAbonado): Observable<Response<boolean>>{
-    return this.http.post<Response<boolean>>(this.url + this.controllerAbonado + '/addPrice',precio);
+    return this.http.post<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/addPrice',precio);
   }
   addAbonado(abonado : Abonado): Observable<Response<number>>{
-    return this.http.post<Response<number>>(this.url + this.controllerAbonado + '/add',abonado);
+    return this.http.post<Response<number>>('https://localhost:7234/api' + this.controllerAbonado + '/add',abonado);
   }
   deleteAbonado(id : number): Observable<Response<boolean>>{
     return this.http.post<Response<boolean>>(this.url + this.controllerAbonado + '/delete?id='+id,'');
@@ -57,8 +57,18 @@ export class AbonadoService {
   getPreciosPorPais(idAbonado : number, idContinent : number, idPais : number): Observable<Response<Precio[]>>{
     return this.http.get<Response<Precio[]>>(this.url + this.controllerAbonado + '/getPriceByIds?idSubscriber='+idAbonado+'&idContinent='+idContinent+'&idCountry='+idPais);
   }
-
-
+  getFacturacionPorCupones(idAbonado : number): Observable<Response<FacturacionPorCupones>>{
+    return this.http.get<Response<FacturacionPorCupones>>('https://localhost:7234/api' + this.controllerAbonado + '/getCouponBilling?idSubscriber='+idAbonado);
+  }
+  addFacturacionPorCupones(obj : FacturacionPorCupones) : Observable<Response<boolean>>{
+    return this.http.post<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/addCouponBilling',obj);
+  }
+  getHistorialFacturacionPorCupones(idAbonado : number): Observable<Response<HistorialFacturacionPorCupones[]>>{
+    return this.http.get<Response<HistorialFacturacionPorCupones[]>>('https://localhost:7234/api' + this.controllerAbonado + '/getCouponBillingHistory?idSubscriber='+idAbonado);
+  }
+  addHistorialFacturacionPorCupones(obj : HistorialFacturacionPorCupones) : Observable<Response<boolean>>{
+    return this.http.post<Response<boolean>>('https://localhost:7234/api' + this.controllerAbonado + '/addCouponBillingHistory',obj);
+  }
 }
 export interface Precio{
   name : string
