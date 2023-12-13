@@ -60,6 +60,10 @@ export class DatosGeneralesAgenteComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    const paginaDetalleAbonado = document.getElementById('pagina-detalle-abonado') as HTMLElement | null;
+    if(paginaDetalleAbonado){
+      paginaDetalleAbonado.classList.add('hide-loader');
+    }
 
     if(this.id > 0){
       this.comboService.getPaises().subscribe(
@@ -128,6 +132,9 @@ export class DatosGeneralesAgenteComponent implements OnInit {
         return name ? this._filterPais(name as string) : this.paises.slice()
       }),
     )
+    if(paginaDetalleAbonado){
+      paginaDetalleAbonado.classList.remove('hide-loader');
+    }
   }
 
   cambioPais(pais: Pais) {

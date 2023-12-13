@@ -195,7 +195,7 @@
             <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null" *ngIf="!sidebarItem.groupTitle;"
               [ngClass]="[sidebarItem.class]" (click)="callToggleMenu($event, sidebarItem.submenu.length)"
               class="menu-top">
-              <i-feather [name]="sidebarItem.icon" class="sidebarIcon"></i-feather>
+              <i class="{{sidebarItem.icon}}"></i>&nbsp;
               <span class="hide-menu">{{sidebarItem.title | translate}}
               </span>
             </a>
@@ -205,7 +205,7 @@
                 [routerLinkActive]="sidebarSubItem1.submenu.length > 0 ? '' : 'active'">
                 <a [routerLink]="sidebarSubItem1.submenu.length > 0 ? null : [sidebarSubItem1.path]"
                   (click)="callToggleMenu($event,sidebarSubItem1.submenu.length)" [ngClass]="[sidebarSubItem1.class]">
-                  <i [ngClass]=""></i>
+                  <i class="{{sidebarSubItem1.icon}}"></i>&nbsp;
                   {{sidebarSubItem1.title | translate}}
                 </a>
                 <!-- Second level menu -->

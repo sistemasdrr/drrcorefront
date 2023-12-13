@@ -104,7 +104,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '',
     title: '-- ADMINISTRACIÓN',
-    icon: 'fa-brands fa-product-hunt',
+    icon: 'fa-solid fa-a',
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [

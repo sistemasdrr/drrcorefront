@@ -65,6 +65,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
   normalPrice = false
 
   continentes : ComboData[] = []
+  rubros : ComboData[] = []
 
   controlPaises = new FormControl<string | Pais>('')
   paises: Pais[] = []
@@ -95,75 +96,85 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
         }
       ).add(
         () => {
-          this.abonadoService.getAbonadoPorId(this.id).subscribe(
+          this.comboService.getRubros().subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
-                console.log(response.data)
-                const abonado = response.data
-                if(abonado){
-                  this.code = abonado.code
-                  this.idContinent = abonado.idContinent
-                  this.comboService.getPaisesPorContinente(this.idContinent).subscribe(
-                    (response) => {
-                      if(response.isSuccess === true && response.isWarning === false){
-                        this.paises = []
-                        this.paises = response.data
+                this.rubros = response.data
+              }
+            }
+          ).add(
+            () => {
+              this.abonadoService.getAbonadoPorId(this.id).subscribe(
+                (response) => {
+                  if(response.isSuccess === true && response.isWarning === false){
+                    console.log(response.data)
+                    const abonado = response.data
+                    if(abonado){
+                      this.code = abonado.code
+                      this.idContinent = abonado.idContinent
+                      this.comboService.getPaisesPorContinente(this.idContinent).subscribe(
+                        (response) => {
+                          if(response.isSuccess === true && response.isWarning === false){
+                            this.paises = []
+                            this.paises = response.data
+                          }
+                        }
+                      ).add(
+                        () => {
+                          if(abonado.idCountry > 0 || abonado.idCountry !== null){
+                            this.idCountry = abonado.idCountry
+                            console.log(this.paises)
+                            this.countryAbonado = this.paises.filter(x => x.id === abonado.idCountry)[0]
+                          }else{
+                            this.idCountry = 0
+                          }
+                        }
+                      )
+                      this.city = abonado.city
+                      this.incomeDate = abonado.startDate
+                      if(this.incomeDate !== "" && this.incomeDate !== null){
+                        const fecha = this.incomeDate.split("/")
+                        if(fecha.length > 0){
+                          this.incomeDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1]),parseInt(fecha[0]))
+                        }else{
+                          this.incomeDateD = null
+                        }
                       }
-                    }
-                  ).add(
-                    () => {
-                      if(abonado.idCountry > 0 || abonado.idCountry !== null){
-                        this.idCountry = abonado.idCountry
-                        console.log(this.paises)
-                        this.countryAbonado = this.paises.filter(x => x.id === abonado.idCountry)[0]
-                      }else{
-                        this.idCountry = 0
-                      }
-                    }
-                  )
-                  this.city = abonado.city
-                  this.incomeDate = abonado.startDate
-                  if(this.incomeDate !== "" && this.incomeDate !== null){
-                    const fecha = this.incomeDate.split("/")
-                    if(fecha.length > 0){
-                      this.incomeDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1]),parseInt(fecha[0]))
-                    }else{
-                      this.incomeDateD = null
+                      this.name = abonado.name
+                      this.acronym = abonado.acronym
+                      this.address = abonado.address
+                      this.language = abonado.language
+                      this.telephone = abonado.telephone
+                      this.fax = abonado.fax
+                      this.email = abonado.email
+                      this.webPage = abonado.webPage
+                      this.principalContact = abonado.principalContact
+                      this.idRubro = abonado.idSubscriberCategory
+                      console.log(abonado)
+                      this.taxRegistration = abonado.taxRegistration
+                      this.sendReportToName = abonado.sendInvoiceToName
+                      this.sendReportToTelephone = abonado.sendReportToTelephone
+                      this.sendReportToEmail = abonado.sendReportToEmail
+                      this.sendInvoiceToName = abonado.sendInvoiceToName
+                      this.sendInvoiceToTelephone = abonado.sendInvoiceToTelephone
+                      this.sendInvoiceToEmail = abonado.sendInvoiceToEmail
+                      this.additionalContactName = abonado.additionalContactName
+                      this.additionalContactTelephone = abonado.additionalContactTelephone
+                      this.additionalContactEmail = abonado.additionalContactEmail
+                      this.observations = abonado.observations
+                      this.indications = abonado.indications
+                      this.maximumCredit = abonado.maximumCredit
+                      this.revealName = abonado.revealName
+                      this.subscriberType = abonado.subscriberType
+                      this.idCurrency = abonado.idCurrency
+                      this.facturationType = abonado.facturationType
+                      this.normalPrice = abonado.normalPrice
+                      this.armarModeloActual()
+                      this.armarModeloModificado()
                     }
                   }
-                  this.name = abonado.name
-                  this.acronym = abonado.acronym
-                  this.address = abonado.address
-                  this.language = abonado.language
-                  this.telephone = abonado.telephone
-                  this.fax = abonado.fax
-                  this.email = abonado.email
-                  this.webPage = abonado.webPage
-                  this.principalContact = abonado.principalContact
-                  this.idRubro = abonado.idRubro
-
-                  this.taxRegistration = abonado.taxRegistration
-                  this.sendReportToName = abonado.sendInvoiceToName
-                  this.sendReportToTelephone = abonado.sendReportToTelephone
-                  this.sendReportToEmail = abonado.sendReportToEmail
-                  this.sendInvoiceToName = abonado.sendInvoiceToName
-                  this.sendInvoiceToTelephone = abonado.sendInvoiceToTelephone
-                  this.sendInvoiceToEmail = abonado.sendInvoiceToEmail
-                  this.additionalContactName = abonado.additionalContactName
-                  this.additionalContactTelephone = abonado.additionalContactTelephone
-                  this.additionalContactEmail = abonado.additionalContactEmail
-                  this.observations = abonado.observations
-                  this.indications = abonado.indications
-                  this.maximumCredit = abonado.maximumCredit
-                  this.revealName = abonado.revealName
-                  this.subscriberType = abonado.subscriberType
-                  this.idCurrency = abonado.idCurrency
-                  this.facturationType = abonado.facturationType
-                  this.normalPrice = abonado.normalPrice
-                  this.armarModeloActual()
-                  this.armarModeloModificado()
                 }
-              }
+              )
             }
           )
         }
@@ -174,6 +185,16 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
           if(response.isSuccess === true && response.isWarning === false){
             this.continentes = response.data
           }
+        }
+      ).add(
+        () => {
+          this.comboService.getRubros().subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                this.rubros = response.data
+              }
+            }
+          )
         }
       )
     }
@@ -258,7 +279,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       email : this.email,
       webPage : this.webPage,
       principalContact : this.principalContact,
-      idRubro : this.idRubro,
+      idSubscriberCategory : this.idRubro,
       taxRegistration : this.taxRegistration,
       sendReportToName : this.sendReportToName,
       sendReportToTelephone : this.sendReportToTelephone,
@@ -297,7 +318,7 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       email : this.email,
       webPage : this.webPage,
       principalContact : this.principalContact,
-      idRubro : this.idRubro,
+      idSubscriberCategory : this.idRubro,
       taxRegistration : this.taxRegistration,
       sendReportToName : this.sendReportToName,
       sendReportToTelephone : this.sendReportToTelephone,

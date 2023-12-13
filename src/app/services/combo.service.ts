@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ComboData, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
+import { ComboData, ComboData2, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
 import { Pais } from 'app/models/pais';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
@@ -60,5 +60,14 @@ export class ComboService {
   }
   getPaisesPorContinente(idContinent : number) : Observable<Response<Pais[]>>{
     return this.http.get<Response<Pais[]>>(this.url + this.controllerCombo + '/countrybycontinent?continent='+idContinent);
+  }
+  getRubros() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api'+ this.controllerCombo + '/subscriberCategories');
+  }
+  getGradoColaboracion() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api'+ this.controllerCombo + '/collaborationDegree');
+  }
+  getSituacionFinanciera() : Observable<Response<ComboData2[]>>{
+    return this.http.get<Response<ComboData2[]>>('https://localhost:7234/api'+ this.controllerCombo + '/financialSituation');
   }
 }

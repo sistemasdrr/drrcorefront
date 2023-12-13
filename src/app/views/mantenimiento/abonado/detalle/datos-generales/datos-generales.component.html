@@ -84,7 +84,9 @@
           <div class="col-md-3">
             <mat-form-field class="w-100">
               <mat-label>Rubro</mat-label>
-              <input matInput placeholder="" [(ngModel)]="idRubro">
+              <mat-select [(ngModel)]="idRubro">
+                <mat-option [value]="rubro.id" *ngFor="let rubro of rubros">{{rubro.valor}}</mat-option>
+            </mat-select>
             </mat-form-field>
           </div>
           <div class="col-md-3">

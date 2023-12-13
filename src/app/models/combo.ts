@@ -2,6 +2,12 @@ export interface ComboData{
   id : number
   valor : string
 }
+export interface ComboData2{
+  id : number
+  valor : string
+  reportCommentWithBalance : string
+  reportCommentWithoutBalance : string
+}
 
 export interface RiesgoCrediticio{
   id : number

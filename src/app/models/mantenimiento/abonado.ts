@@ -26,7 +26,7 @@ export interface Abonado{
   email : string
   webPage : string
   principalContact : string
-  idRubro : number
+  idSubscriberCategory : number
   taxRegistration : string
   sendReportToName : string
   sendReportToTelephone : string

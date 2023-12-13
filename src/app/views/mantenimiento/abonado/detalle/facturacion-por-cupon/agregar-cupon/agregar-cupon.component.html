@@ -1,4 +1,4 @@
-<div class="container" style="max-width: 60rem;" >
+<div class="container" style="max-width: 30rem;" >
   <div class="row m-0 p-0"  >
     <div class="col-md-12">
       <div class="card">
@@ -34,7 +34,7 @@
         <mat-dialog-content class="mat-typography p-0 m-0">
           <div class="body m-0 p-0">
             <div class="row p-0 m-0">
-              <div class="col-md-3">
+              <div class="col-md-12">
                 <mat-form-field color="primary" style="width: 100%;" >
                   <mat-label >Fecha</mat-label>
                   <input matInput [matDatepicker]="fecha" #fechaInput [ngModel]="dateD" [readonly]="true" (dateChange)="selectFecha($event)">
@@ -42,19 +42,19 @@
                   <mat-datepicker #fecha color="primary"></mat-datepicker>
                 </mat-form-field>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>Cantidad de Cupones</mat-label>
                   <input matInput [(ngModel)]="couponAmount" type="number" [min]="0">
                 </mat-form-field>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>Precio Unitario</mat-label>
                   <input matInput [(ngModel)]="unitPrice" type="number" [min]="0">
                 </mat-form-field>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>Monto Total</mat-label>
                   <input matInput [(ngModel)]="couponAmount * unitPrice" type="number" [min]="0" readonly="">

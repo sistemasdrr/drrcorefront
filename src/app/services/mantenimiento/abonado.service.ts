@@ -19,10 +19,10 @@ export class AbonadoService {
   constructor(private http : HttpClient) { }
 
   getAbonados(code : string, name : string, enable : string): Observable<Response<AbonadoT[]>>{
-    return this.http.get<Response<AbonadoT[]>>(this.url + this.controllerAbonado + '/get?code='+code+'&name='+name+'&enable='+enable);
+    return this.http.get<Response<AbonadoT[]>>('https://localhost:7234/api' + this.controllerAbonado + '/get?code='+code+'&name='+name+'&enable='+enable);
   }
   getAbonadoPorId(idAbonado : number): Observable<Response<Abonado>>{
-    return this.http.get<Response<Abonado>>(this.url + this.controllerAbonado + '/getById?id='+idAbonado);
+    return this.http.get<Response<Abonado>>('https://localhost:7234/api' + this.controllerAbonado + '/getById?id='+idAbonado);
   }
   getAbonadoPorCode(code : string): Observable<Response<Abonado>>{
     return this.http.get<Response<Abonado>>(this.url + this.controllerAbonado + '/getByCode?code='+code);
