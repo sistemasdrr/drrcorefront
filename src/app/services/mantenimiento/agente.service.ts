@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AgenteService {
-  url = 'https://localhost:7234/api'//environment.apiUrl
+  url = environment.apiUrl
   controllerCombo = "/Combo"
   controllerMaster = "/Master"
   controllerAbonado = "/"

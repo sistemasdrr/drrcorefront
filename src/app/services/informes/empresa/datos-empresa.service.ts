@@ -17,7 +17,7 @@ export class DatosEmpresaService {
   }
   getDatosEmpresas(razonSocial : string, tipoFiltro : string, idPais : number, conInforme : boolean): Observable<Response<TCompany[]>>{
     console.log(idPais)
-    return this.http.post<Response<TCompany[]>>('https://localhost:7234/api' + this.controllerCompany + '/getbyname?name='+razonSocial+'&form='+tipoFiltro+'&idCountry='+idPais,'')
+    return this.http.post<Response<TCompany[]>>(this.url + this.controllerCompany + '/getbyname?name='+razonSocial+'&form='+tipoFiltro+'&idCountry='+idPais,'')
     .pipe(catchError(this.handleErrorGet));
   }
   activarWebEmpresa(id : number) :Observable<Response<boolean>>{

@@ -44,7 +44,7 @@ export class ListaEmpresasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
-  columnsToDisplay = ['rc', 'idioma', 'rucInit', 'razonSocial', 'datosAl', 'pais', 'traduccion', 'calificacion','ejecPrincipal','acciones' ];
+  columnsToDisplay = ['idioma', 'rucInit', 'razonSocial','nombreBuscado', 'datosAl', 'pais','calificacion','acciones' ];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService,public dialogRef: MatDialogRef<ListaEmpresasComponent>,){
     this.dataSource = new MatTableDataSource()
@@ -216,27 +216,10 @@ export class ListaEmpresasComponent implements OnInit {
   }
 
   seleccionarEmpresa(idCompany : number){
-
-    console.log(idCompany)
-    Swal.fire({
-      title: '¿Está seguro de seleccionar esta empresa?',
-      text: "",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonText : 'No',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí',
-      width: '20rem',
-      heightAuto : true
-    }).then((result) => {
-      if (result.value) {
-        this.dialogRef.close(
-          {
-            idCompany : idCompany
-          }
-        )
+    this.dialogRef.close(
+      {
+        idCompany : idCompany
       }
-    });
+    );
   }
 }

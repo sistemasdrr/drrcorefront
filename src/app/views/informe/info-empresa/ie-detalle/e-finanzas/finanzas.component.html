@@ -3,22 +3,27 @@
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Información Financiera - Nombre de empresa</h4>
-        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
-          <mat-icon class="col-white">save</mat-icon>
-        </button>
+        <div>
+          <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
+            <mat-icon class="col-white">arrow_back</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar" (click)="guardar()">
+            <mat-icon class="col-white">save</mat-icon>
+          </button>
+        </div>
       </div>
       <hr>
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Entrevistado(s)</mat-label>
-          <input matInput placeholder="" [(ngModel)]="entrevistado">
+          <input matInput placeholder="" [(ngModel)]="interviewed">
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Cargo(s)</mat-label>
-          <input matInput placeholder="" [(ngModel)]="cargos">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="cargosIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCargo,'',cargos,cargosIng,'cargos')">
+          <input matInput placeholder="" [(ngModel)]="workPosition">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="workPositionEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCargo,'',workPosition,workPositionEng,'cargos')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -26,10 +31,10 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Grado de Colaboración</mat-label>
-          <button matSuffix mat-mini-fab color="primary" *ngIf="gradoColaboracion !== ''" style="background-color: rgba(0,0,0,0);" (click)="gradoColaboracion = ''"  #tooltip="matTooltip" matTooltip="Limpiar">
+          <button matSuffix mat-mini-fab color="primary" *ngIf="idCollaborationDegree !== 0" style="background-color: rgba(0,0,0,0);" (click)="idCollaborationDegree = 0"  #tooltip="matTooltip" matTooltip="Limpiar">
             <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
           </button>
-          <mat-select [(ngModel)]="gradoColaboracion">
+          <mat-select [(ngModel)]="idCollaborationDegree">
             <mat-option *ngFor="let item of listaGradoColaboracion" [value]="item.id">{{item.valor}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -43,31 +48,28 @@
               <div class="shadow m-1" style="overflow-x: auto;">
                 <div class="table-container">
                   <table mat-table [dataSource]="dataSourceHistoricoVentas" class="mat-elevation-z8 w-100">
-                    <ng-container matColumnDef="{{columnToDisplayHistoricoVentas[0]}}">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> N° </th>
-                      <td mat-cell *matCellDef="let historicoVentas" class="text-center">{{historicoVentas[columnToDisplayHistoricoVentas[0]]}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="{{columnToDisplayHistoricoVentas[1]}}">
+
+                    <ng-container matColumnDef="fecha">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fecha </th>
-                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas[columnToDisplayHistoricoVentas[1]]}} </td>
+                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas.date}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnToDisplayHistoricoVentas[2]}}">
+                    <ng-container matColumnDef="moneda">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Moneda </th>
-                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas[columnToDisplayHistoricoVentas[2]]}} </td>
+                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas.currency}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnToDisplayHistoricoVentas[3]}}">
+                    <ng-container matColumnDef="ventasMN">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Ventas (MN)</th>
-                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas[columnToDisplayHistoricoVentas[3]]}} </td>
+                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas.amount}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnToDisplayHistoricoVentas[4]}}">
+                    <ng-container matColumnDef="TC">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> T/C </th>
-                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas[columnToDisplayHistoricoVentas[4]]}} </td>
+                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas.exchangeRate}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnToDisplayHistoricoVentas[5]}}">
+                    <ng-container matColumnDef="equivaleDolar">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Equivale US$ Dolar </th>
-                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas[columnToDisplayHistoricoVentas[5]]}} </td>
+                      <td mat-cell *matCellDef="let historicoVentas" class="text-center"> {{historicoVentas.equivalentToDollars}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnToDisplayHistoricoVentas[6]}}">
+                    <ng-container matColumnDef="accion">
                       <th mat-header-cell *matHeaderCellDef class="text-center">
                         <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarHistoricoVentas()">
                           <mat-icon class="col-white">add</mat-icon>
@@ -75,11 +77,11 @@
                       </th>
                       <td mat-cell *matCellDef="let historicoVentas" class="text-center d-flex">
                         <button mat-icon-button class="tbl-action-btn " #tooltip="matTooltip" matTooltip="Editar"
-                          style="margin-top: 1rem;" (click)="editarHistoricoVentas(historicoVentas[columnToDisplayHistoricoVentas[0]])">
+                          style="margin-top: 1rem;" (click)="editarHistoricoVentas(historicoVentas.id)">
                           <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                         </button>
                         <button mat-icon-button class="tbl-action-btn" #tooltip="matTooltip" matTooltip="Quitar"
-                          style="margin-top: 1rem;">
+                          style="margin-top: 1rem;" (click)="eliminarHistoricoVentas(historicoVentas.id)">
                           <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
                         </button>
                       </td>
@@ -93,15 +95,15 @@
             <div class="col-md-4">
               <mat-form-field class="w-100 mb-4">
                 <mat-label>Comentario de la Entrevista.</mat-label>
-                <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioEntrevista"></textarea>
-                <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioEntrevistaIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioEntrevista,'',comentarioEntrevista,comentarioEntrevistaIng, 'comentarioEntrevista')">
+                <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="interviewCommentary"></textarea>
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="interviewCommentaryEng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioEntrevista,'',interviewCommentary,interviewCommentaryEng, 'comentarioEntrevista')">
                   <span class="fi fi-us" style="font-size: 24px;"></span>
                 </button>
                 <mat-hint>Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes</mat-hint>
               </mat-form-field>
               <mat-form-field class="w-100">
                 <mat-label>Auditor(es)</mat-label>
-                <input matInput placeholder="" [(ngModel)]="auditores">
+                <input matInput placeholder="" [(ngModel)]="auditors">
               </mat-form-field>
             </div>
         </div>
@@ -116,7 +118,7 @@
       <div class="col-md-7">
         <mat-form-field style="width: 100%;">
           <mat-label>Situación Financiera</mat-label>
-          <mat-select [(ngModel)]="idSituacionFinanciera" (selectionChange)="selectSituacionFinanciera($event.value)">
+          <mat-select [(ngModel)]="idFinancialSituacion" (selectionChange)="selectSituacionFinanciera($event.value)">
             <mat-option *ngFor="let item of listaSituacionFinanciera" [value]="item.id">
               {{item.valor}}
             </mat-option>
@@ -124,7 +126,7 @@
         </mat-form-field>
       </div>
       <div class="col-md-5 d-flex justify-content-end">
-        <button mat-mini-fab class="bg-blue" style="margin: .7rem;" [class]="principalesActivos === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloActivos,subtituloActivos,principalesActivos,principalesActivosIng,'principalesActivos')" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
+        <button mat-mini-fab class="bg-blue" style="margin: .7rem;" [class]="mainFixedAssets === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloActivos,subtituloActivos,mainFixedAssets,mainFixedAssetsEng,'principalesActivos')" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
           <mat-icon class="col-white">real_estate_agent</mat-icon>
         </button>
         <button mat-mini-fab class="bg-blue" style="margin: .7rem;" (click)="balanceSituacional(1)" #tooltip="matTooltip" matTooltip="Balance Situacional">
@@ -134,7 +136,7 @@
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Comentario de Informe con Balance</mat-label>
-          <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="comentarioConBalance"></textarea>
+          <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="reportCommentWithBalance"></textarea>
         </mat-form-field>
         <mat-slide-toggle [(ngModel)]="checkComentarioConBalance" (click)="elegirComentarioConBalance()" class="mb-3"  style="width:15rem; margin-left: 1rem;">
           Copiar Texto Con Balance
@@ -145,7 +147,7 @@
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Comentario de Informe sin Balance</mat-label>
-          <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="comentarioSinBalance"></textarea>
+          <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="reportCommentWithoutBalance"></textarea>
         </mat-form-field>
         <mat-slide-toggle [(ngModel)]="checkComentarioSinBalance" (click)="elegirComentarioSinBalance()" class="mb-3"  style="width:15rem; margin-left: 1rem;">
           Copiar Texto Sin Balance
@@ -156,8 +158,8 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Comentario Financiero Elegido</mat-label>
-          <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="comentarioElegido"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioElegidoIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioFinanciero,'',comentarioElegido,comentarioElegidoIng, 'comentarioElegido')">
+          <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="financialCommentarySelected"></textarea>
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="financialCommentarySelectedEng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioFinanciero,'',financialCommentarySelected,financialCommentarySelectedEng , 'comentarioElegido')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
           <mat-hint>Según opciones de arriba y Ud. puede adicionar o editarlo manualmente</mat-hint>
@@ -171,8 +173,8 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Comentario del Analista</mat-label>
-          <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="comentarioAnalista"></textarea>
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioAnalistaIng === '' ? 'sin-traduccion' : ''"  (click)="agregarComentario(tituloComentarioAnalista,'',comentarioAnalista,comentarioAnalistaIng,'comentarioAnalista')">
+          <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="analystCommentary"></textarea>
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="analystCommentaryEng === '' ? 'sin-traduccion' : ''"  (click)="agregarComentario(tituloComentarioAnalista,'',analystCommentary,analystCommentaryEng,'comentarioAnalista')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -180,7 +182,7 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Riesgo Crediticio</mat-label>
-          <input matInput placeholder="" [(ngModel)]="riesgoCrediticio">
+          <input matInput placeholder="" >
         </mat-form-field>
       </div>
     </div>

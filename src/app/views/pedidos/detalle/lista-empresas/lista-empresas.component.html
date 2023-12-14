@@ -1,126 +1,107 @@
-  <mat-dialog-content  g-content class="m-0 p-0" style="min-width: 90rem; min-height: 50rem; overflow-y: auto; overflow-x: none;">
-    <div class="row p-2">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card shadow " style="border-radius: 0; background-color: #dae1f3;">
-          <div class="row">
-            <div class="col-md-4">
-              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
-                <mat-label>Razón Social</mat-label>
-                <input matInput placeholder="Ej. ALICORP SA" [(ngModel)]="razonSocial" (keypress)="filtrar($event);">
-                <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" *ngIf="razonSocial !== ''" (click)="razonSocial = ''" #tooltip="matTooltip" matTooltip="Limpiar">
-                  <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
-                </button>
-              </mat-form-field>
+<mat-dialog-content  g-content class="m-0 p-0" style="min-width: 90rem; min-height: 50rem; overflow-y: auto; overflow-x: none;">
+  <div class="row">
+    <div class="col-md-12 p-0">
+      <div class="card shadow " style="border-radius: 0; background-color: #dae1f3;">
+        <div class="row">
+          <div class="col-md-4 p-0">
+            <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
+              <mat-label>Razón Social</mat-label>
+              <input matInput placeholder="Ej. ALICORP SA" [(ngModel)]="razonSocial" (keypress)="filtrar($event);">
+              <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" *ngIf="razonSocial !== ''" (click)="razonSocial = ''" #tooltip="matTooltip" matTooltip="Limpiar">
+                <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 p-0 d-flex align-items-center">
+            <mat-radio-group class="d-flex" [(ngModel)]="filtroRB" aria-label="Seleccionar">
+              <mat-radio-button value="C">Que Contenga</mat-radio-button>
+              <mat-radio-button value="I">Que Inicie</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="col-md-3 p-0">
+            <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;">
+              <mat-label>País</mat-label>
+              <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto6" [(ngModel)]="paisSeleccionado" (ngModelChange)="cambioPais(paisSeleccionado)">
+              <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+              </button>
+              <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPais" >
+                <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                  <span class="fi fi-{{pais.bandera}}"></span>
+                  {{pais.valor}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-md-1 p-0 d-flex align-items-center">
+            <mat-checkbox class="example-margin" [(ngModel)]="chkConInforme">Con Informe</mat-checkbox>
+          </div>
+          <div class="col-md-2 p-0 d-flex align-items-center justify-content-center">
+            <div class="" matTooltip="BUSCAR" style="margin: 0 .5rem 0 .5rem">
+              <button mat-mini-fab class="bg-blue" (click)="filtrarEmpresas()">
+                <mat-icon class="col-white">search</mat-icon>
+              </button>
             </div>
-            <div class="col-md-2 d-flex align-items-center">
-              <mat-radio-group class="d-flex" [(ngModel)]="filtroRB" aria-label="Seleccionar">
-                <mat-radio-button value="C">Que Contenga</mat-radio-button>
-                <mat-radio-button value="I">Que Inicie</mat-radio-button>
-              </mat-radio-group>
-            </div>
-            <div class="col-md-3">
-              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;">
-                <mat-label>País</mat-label>
-                <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto6" [(ngModel)]="paisSeleccionado" (ngModelChange)="cambioPais(paisSeleccionado)">
-                <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
-                  <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
-                </button>
-                <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPais" >
-                  <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
-                    <span class="fi fi-{{pais.bandera}}"></span>
-                    {{pais.valor}}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            </div>
-            <div class="col-md-1 d-flex align-items-center">
-              <mat-checkbox class="example-margin" [(ngModel)]="chkConInforme">Con Informe</mat-checkbox>
-            </div>
-            <div class="col-md-2 d-flex align-items-center justify-content-center">
-              <div class="" matTooltip="BUSCAR" style="margin: 0 .5rem 0 .5rem">
-                <button mat-mini-fab class="bg-blue" (click)="filtrarEmpresas()">
-                  <mat-icon class="col-white">search</mat-icon>
-                </button>
-              </div>
-              <div class="" matTooltip="LIMPIAR" style="margin: 0 .5rem 0 .5rem">
-                <button mat-mini-fab class="bg-red" (click)="limpiar()">
-                  <mat-icon class="col-white">cleaning_services</mat-icon>
-                </button>
-              </div>
-              <div class="" matTooltip="NUEVO INFORME (OR)" style="margin: 0 .5rem 0 .5rem">
-                <a mat-mini-fab color="primary" [routerLink]="'informes/empresa/detalle/nuevo/relacionar/'+idCompanyRelacion" [target]="'_blank'">
-                  <mat-icon class="col-white">add</mat-icon>
-                </a>
-              </div>
+            <div class="" matTooltip="LIMPIAR" style="margin: 0 .5rem 0 .5rem">
+              <button mat-mini-fab class="bg-red" (click)="limpiar()">
+                <mat-icon class="col-white">cleaning_services</mat-icon>
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-md-12" style="overflow-x: auto;">
-        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
-          <ng-container matColumnDef="rc" >
-          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RC </th>
-          <td mat-cell *matCellDef="let empresa" class="text-center" style="border-radius: 10px;" [class]="empresa.creditRisk ==='A+' ? 'bg-green' : empresa.creditRisk === 'A-' ? 'l-bg-green' : empresa.creditRisk === 'B' ? 'bg-yellow' : empresa.creditRisk === 'C' ? 'bg-orange' : empresa.creditRisk === 'D' ? 'bg-red' : empresa.creditRisk === 'E' ? 'bg-black col-white' : empresa.creditRisk === 'NN' ? 'bg-grey' : '' ">
-            <b style="font-size: 20px;">{{empresa.creditRisk}}</b>
-          </td>
-          </ng-container>
-          <ng-container matColumnDef="idioma" >
-          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Idioma</th>
-          <td mat-cell *matCellDef="let empresa" class="text-center">
-            <span class="fi fi-es" style="font-size: 24px;" *ngIf="empresa.language === 'E'"></span>
-            <span class="fi fi-us" style="font-size: 24px;" *ngIf="empresa.language === 'I'"></span>
-            <span class="fi fi-us" style="font-size: 24px; background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="empresa.language === 'A'"></span>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="rucInit" >
-            <th mat-header-cell *matHeaderCellDef  class="text-center"> RUC</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.taxNumber}}</td>
-          </ng-container>
-          <ng-container matColumnDef="razonSocial" >
-          <th mat-header-cell *matHeaderCellDef class="text-center"> Razón Social</th>
-          <td mat-cell *matCellDef="let empresa" class="" style="min-width: 15rem;">{{empresa.name}}</td>
-          </ng-container>
-          <ng-container matColumnDef="datosAl" >
-            <th mat-header-cell *matHeaderCellDef  class="text-center"> Datos Al</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.lastReportDate}}</td>
-          </ng-container>
-          <ng-container matColumnDef="pais" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> País</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">
-              {{empresa.isoCountry}} <span class="fi fi-{{empresa.flagCountry}}" style="font-size: 20px;"></span>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="traduccion" >
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Traducción</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">
-              {{empresa.traductionPercentage}}%
-              <mat-progress-bar mode="determinate" value="{{empresa.traductionPercentage}}" *ngIf="empresa.traductionPercentage > 40"></mat-progress-bar>
-              <mat-progress-bar mode="determinate" value="{{empresa.traductionPercentage}}" color="warn" *ngIf="empresa.traductionPercentage <= 40"></mat-progress-bar>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="calificacion" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.quality}}</td>
-          </ng-container>
-          <ng-container matColumnDef="ejecPrincipal" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ejec. Principal</th>
-            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.manager}}</td>
-          </ng-container>
-          <ng-container matColumnDef="acciones" >
-            <th mat-header-cell *matHeaderCellDef  class="text-center" style="min-width: 14rem;"> Acciones </th>
-            <td mat-cell *matCellDef="let empresa" class="text-center ">
-              <button  mat-mini-fab class="bg-white" matTooltip="Seleccionar" (click)="seleccionarEmpresa(empresa.id)">
-                <app-feather-icons [icon]="'check-circle'" class="tbl-fav-web"></app-feather-icons>
-              </button>
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-          <tr mat-row *matRowDef="let empresa; columns: columnsToDisplay;"
-            class=""></tr>
-          <!--[ngClass]="empresa.rc === 'NN' ? 'bg-cyan' : ''"-->
-        </table>
-        <mat-paginator [pageSizeOptions]="[25, 50, 100]" aria-label="Seleccionar página de Pedidos" class="w-100"></mat-paginator>
-      </div>
     </div>
-  </mat-dialog-content>
+    <div class="col-md-12 p-0" style="overflow-x: auto;">
+      <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="idioma" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Idioma</th>
+        <td mat-cell *matCellDef="let empresa" class="text-center">
+          <span class="fi fi-es" style="font-size: 24px;" *ngIf="empresa.language === 'E'"></span>
+          <span class="fi fi-us" style="font-size: 24px;" *ngIf="empresa.language === 'I'"></span>
+          <span class="fi fi-us" style="font-size: 24px; background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="empresa.language === 'A'"></span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="rucInit" >
+          <th mat-header-cell *matHeaderCellDef  class="text-center"> RUC</th>
+          <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.taxNumber}}</td>
+        </ng-container>
+        <ng-container matColumnDef="razonSocial" >
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Razón Social</th>
+        <td mat-cell *matCellDef="let empresa" class="" style="min-width: 12rem;">{{empresa.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="nombreBuscado" >
+          <th mat-header-cell *matHeaderCellDef class="text-center"> NombreBuscado</th>
+          <td mat-cell *matCellDef="let empresa" class="" style="min-width: 12rem;">{{empresa.name}}</td>
+          </ng-container>
+        <ng-container matColumnDef="datosAl" >
+          <th mat-header-cell *matHeaderCellDef  class="text-center"> Datos Al</th>
+          <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.lastReportDate}}</td>
+        </ng-container>
+        <ng-container matColumnDef="pais" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> País</th>
+          <td mat-cell *matCellDef="let empresa" class="text-center">
+            {{empresa.isoCountry}} <span class="fi fi-{{empresa.flagCountry}}" style="font-size: 20px;"></span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="calificacion" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
+          <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.quality}}</td>
+        </ng-container>
+        <ng-container matColumnDef="acciones" >
+          <th mat-header-cell *matHeaderCellDef  class="text-center" style="min-width: 14rem;"> Acciones </th>
+          <td mat-cell *matCellDef="let empresa" class="text-center ">
+            <button  mat-mini-fab class="bg-white" matTooltip="Seleccionar" (click)="seleccionarEmpresa(empresa.id)">
+              <app-feather-icons [icon]="'check-circle'" class="tbl-fav-web"></app-feather-icons>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let empresa; columns: columnsToDisplay;"
+          class=""></tr>
+        <!--[ngClass]="empresa.rc === 'NN' ? 'bg-cyan' : ''"-->
+      </table>
+      <mat-paginator [pageSizeOptions]="[25, 50, 100]" aria-label="Seleccionar página de Pedidos" class="w-100"></mat-paginator>
+    </div>
+  </div>
+</mat-dialog-content>
 

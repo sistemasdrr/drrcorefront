@@ -119,16 +119,6 @@
               </div>
             </div>
           </div>
-
-
-
-
-
-
-
-
-
-
         </div>
         <!-- DATOS GENERALES Y DE LA EMPRESA -->
         <div class="row">
@@ -197,7 +187,7 @@
                   <mat-hint *ngIf="idCountry !== 0" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;País Seleccionado</mat-hint>
                   </mat-form-field>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <mat-form-field class="w-100">
                     <mat-label>Tipo de Informe </mat-label>
                     <mat-select [(ngModel)]="tipoInforme">
@@ -208,7 +198,7 @@
                     </mat-select>
                   </mat-form-field>
                 </div>
-                <div class="col-md-6 d-flex justify-content-center">
+                <div class="col-md-4 d-flex justify-content-center">
                   <mat-form-field color="primary" style="width: 100%;">
                     <mat-label>A la Fecha</mat-label>
                     <input matInput [matDatepicker]="fecha_informe" [(ngModel)]="fechaInformeDate">
@@ -216,7 +206,7 @@
                     <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
                   </mat-form-field>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <mat-form-field class="w-100">
                     <mat-label>Tipo de Trámite </mat-label>
                     <mat-select [(ngModel)]="tipoTramite" (selectionChange)="tipotramite()">
@@ -260,6 +250,12 @@
                       <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                   </div>
+                </div>
+                <div class="col-md-12">
+                  <mat-form-field class="w-100">
+                    <mat-label>Tal Cual fue Solicitado</mat-label>
+                    <input matInput [(ngModel)]="talCualfueSolicitadoInforme">
+                  </mat-form-field>
                 </div>
                 <div class="row">
                   <div class="col-md-6">

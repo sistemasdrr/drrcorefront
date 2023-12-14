@@ -22,10 +22,7 @@
                 </li>
                 <li class="tbl-header-btn">
                   <div class="m-l-10" >
-                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="accion === 'AGREGAR'">
-                      <mat-icon>save</mat-icon>
-                    </button>
-                    <button mat-icon-button  class="btn btn-primary" (click)="editar()" #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="accion === 'EDITAR'"  >
+                    <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Guardar">
                       <mat-icon>save</mat-icon>
                     </button>
                   </div>
@@ -38,40 +35,38 @@
 
           <div class="body m-0 p-0">
             <div class="row p-0 m-0">
-              <div class="col-md-12" *ngIf="accion === 'EDITAR'">
-                <mat-form-field class="w-100" >
-                  <mat-label>ID</mat-label>
-                  <input matInput [(ngModel)]="id" readonly="true">
+              <div class="col-md-12">
+                <mat-form-field class="w-100">
+                  <mat-label>Moneda </mat-label>
+                  <mat-select [(ngModel)]="idMoneda" placeholder="">
+                      <mat-option *ngFor="let item of listaMonedas" [value]="item.id">{{item.valor}}</mat-option>
+                  </mat-select>
                 </mat-form-field>
               </div>
               <div class="col-md-12">
-                <mat-form-field class="w-100">
-                  <mat-label>Moneda Ventas</mat-label>
-                  <input matInput [(ngModel)]="moneda" >
-                </mat-form-field>
-              </div>
-              <div class="col-md-12">
-                <mat-form-field class="w-100">
-                  <mat-label>Fecha</mat-label>
-                  <input matInput [(ngModel)]="fecha" >
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Fecha</mat-label>
+                  <input matInput [matDatepicker]="fecha" #fechaInput [ngModel]="fechaD" [readonly]="true" (dateChange)="selectFecha($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha color="primary"></mat-datepicker>
                 </mat-form-field>
               </div>
               <div class="col-md-12">
                 <mat-form-field class="w-100" >
                   <mat-label>Ventas</mat-label>
-                  <input matInput [(ngModel)]="ventas" >
+                  <input matInput [(ngModel)]="ventas" type="number">
                 </mat-form-field>
               </div>
               <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>T.C. x US$</mat-label>
-                  <input matInput [(ngModel)]="tc" >
+                  <input matInput [(ngModel)]="tc" type="number">
                 </mat-form-field>
               </div>
               <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>Equivalente en Dolares</mat-label>
-                  <input matInput [(ngModel)]="equivaleDolar" >
+                  <input matInput [(ngModel)]="equivaleDolar" type="number">
                 </mat-form-field>
               </div>
             </div>

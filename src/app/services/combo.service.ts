@@ -62,12 +62,12 @@ export class ComboService {
     return this.http.get<Response<Pais[]>>(this.url + this.controllerCombo + '/countrybycontinent?continent='+idContinent);
   }
   getRubros() : Observable<Response<ComboData[]>>{
-    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api'+ this.controllerCombo + '/subscriberCategories');
+    return this.http.get<Response<ComboData[]>>(this.url+ this.controllerCombo + '/subscriberCategories');
   }
   getGradoColaboracion() : Observable<Response<ComboData[]>>{
-    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api'+ this.controllerCombo + '/collaborationDegree');
+    return this.http.get<Response<ComboData[]>>(this.url+ this.controllerCombo + '/collaborationDegree');
   }
   getSituacionFinanciera() : Observable<Response<ComboData2[]>>{
-    return this.http.get<Response<ComboData2[]>>('https://localhost:7234/api'+ this.controllerCombo + '/financialSituation');
+    return this.http.get<Response<ComboData2[]>>(this.url+ this.controllerCombo + '/financialSituation');
   }
 }

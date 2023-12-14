@@ -98,6 +98,7 @@ export class DetalleComponent implements OnInit {
   //FORM EMPRESA
   razonSocialInforme = ""
   nombreComercialInforme = ""
+  talCualfueSolicitadoInforme = ""
   tipoRT = ""
   codigoRT = ""
   ruc = ""
@@ -166,7 +167,7 @@ export class DetalleComponent implements OnInit {
 
   idiomaSeleccionado = ""
   idCountryEmpresa = 0
-  tipoInforme = ""
+  tipoInforme = "OR"
 
   codAbonado = ''
   nombre_abonado = "SI"
@@ -479,8 +480,8 @@ export class DetalleComponent implements OnInit {
   //     this.abonadoNoEncontrado = "No se encontró el abonado"
   //   }
   // }
-  filtrar(event : any){
-    if(event.code == 'Enter'){
+  filtrar(event : KeyboardEvent){
+    if(event.code === 'Enter' || event.code === 'NumpadEnter'){
       if(this.codAbonado.length > 3){
         this.abonadoService.getAbonadoPorCode(this.codAbonado).subscribe(
           (response) => {
