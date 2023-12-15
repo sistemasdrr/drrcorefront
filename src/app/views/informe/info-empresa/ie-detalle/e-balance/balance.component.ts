@@ -1,6 +1,11 @@
 import { Component, OnInit,   } from '@angular/core';
-import { Balance, BalanceInforme,  } from 'app/models/informes/balance';
-import { BalanceService } from 'app/services/informes/balance.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { ActivatedRoute } from '@angular/router';
+import { ComboData } from 'app/models/combo';
+import { Balance } from 'app/models/informes/empresa/balance';
+import { ComboService } from 'app/services/combo.service';
+import { BalanceFinancieroService } from 'app/services/informes/empresa/balance-financiero.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-balance',
@@ -9,195 +14,168 @@ import { BalanceService } from 'app/services/informes/balance.service';
 })
 export class BalanceComponent implements OnInit {
 
-  // options: data[] = [
-  //   {
-  //     name: 'PEN - Nuevos Soles (S/.)'
-  //   },
-  //   {
-  //     name: 'USD - Dolár EstadoUnidense ($)'
-  //   },
-  //   {
-  //     name: 'EUR - Euro (€)'
-  //   },
-  //   {
-  //     name: 'JPY - Yen Japonés (¥)'
-  //   },
-  //   {
-  //     name: 'MXN - Peso Mexicano ($)'
-  //   },
-  //   {
-  //     name: 'CLP - Peso Chileno ($)'
-  //   },
-  //   {
-  //     name: 'INR -Rupia India (₹)'
-  //   },
-  //   {
-  //     name: 'RUB - Rublo Ruso (₽)'
-  //   }];
+  agregar = false
+  editar = false;
+  balanceSeleccionado = 0
+  listaBalances : ComboData[] = []
+  listaMonedas : ComboData[] = []
+  separator = ','
+  modeloModificado : Balance[] = []
 
-  balanceSeleccionado : number = 0
+  //BALANCE
+  id = 0
+  idCompany = 0
+  date = ""
+  dateD : Date | null = null
+  balanceType = "G"
+  duration = ""
+  idCurrency = 0
+  exchangeRate = 0
+  sales = 0
+  utilities = 0
+  //ACTIVOS
+  totalAssets = 0
+  //ACTIVOS CORRIENTES
+  totalCurrentAssets = 0
+  aCashBoxBank = 0
+  aToCollect = 0
+  aInventory = 0
+  aOtherCurrentAssets = 0
+  //ACTIVOS NO CORRIENTES
+  totalNonCurrentAssets = 0
+  aFixed = 0
+  aOtherNonCurrentAssets = 0
+  //PASIVOS
+  totalLliabilities = 0
+  //PASIVOS CORRIENTES
+  totalCurrentLiabilities = 0
+  lCashBoxBank = 0
+  lOtherCurrentLiabilities = 0
+  //PASIVOS NO CORRIENTES
+  totalNonCurrentLiabilities = 0
+  lLongTerm = 0
+  lOtherNonCurrentLiabilities = 0
+  //PATRIMONIO
+  totalPatrimony = 0
+  pCapital = 0
+  pStockPile = 0
+  pUtilities = 0
+  pOther = 0
 
-  agregar : boolean = false
+  totalLiabilitiesPatrimony = 0
+  //RATIOS
+  liquidityRatio = 0
+  debtRatio = 0
+  profitabilityRatio = 0
+  workingCapital = 0
 
-  fechaBalance : Date = new Date()
-  tipoBalance : string = ""
-  tiempoBalance : string = ""
-
-  balanceInforme : BalanceInforme = {
-    id : 0,
-    idInforme : 0,
-    balanceGeneral : [],
-    balanceSituacional : []
+  constructor(private activatedRoute : ActivatedRoute, private balanceService : BalanceFinancieroService, private comboService : ComboService){
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+      if (id?.includes('nuevo')) {
+        this.idCompany = 0
+      } else {
+        this.idCompany = parseInt(id + '')
+      }
   }
 
-  separator = ","
-
-  tipoMoneda : string = ""
-  tipoCambio : number = 0
-  utilidades : number = 0
-  ventas : number = 0
-
-  activoCorriente1 : number = 0
-  activoCorriente2 : number = 0
-  activoCorriente3 : number = 0
-  activoCorriente4 : number = 0
-  activosCorrientes : number = 0
-
-  activoNoCorriente1 : number = 0
-  activoNoCorriente2 : number = 0
-  activosNoCorrientes : number = 0
-
-  activos : number = 0
-
-  pasivoCorriente1 : number = 0
-  pasivoCorriente2 : number = 0
-  pasivosCorrientes : number = 0
-
-  pasivoNoCorriente1 : number = 0
-  pasivoNoCorriente2 : number = 0
-  pasivosNoCorrientes : number = 0
-
-  pasivos : number = 0
-
-  patrimonio1 : number = 0
-  patrimonio2 : number = 0
-  patrimonio3 : number = 0
-  patrimonio4 : number = 0
-
-  patrimonios : number = 0
-
-  totalPasivoPatrimonio : number = 0
-
-  indiceLiquidez : number = this.activosCorrientes / this.pasivosCorrientes
-  ratioEndeudamiento : number = this.patrimonios / this.pasivosCorrientes * 100
-  ratioRentabilidad : number = this.utilidades / this.ventas * 100
-  capitalTrabajo : number = this.activosCorrientes - this.pasivosCorrientes
-
+  ngOnInit(): void {
+    this.comboService.getTipoMoneda().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning == false){
+          this.listaMonedas = response.data
+        }
+      }
+    ).add(
+      () => {
+        this.balanceService.getBalances(this.idCompany, 'G').subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.listaBalances = response.data
+            }
+          }
+        )
+      }
+    )
+  }
+  armarModelo(){
+    this.modeloModificado[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      date : this.date,
+      balanceType : this.balanceType,
+      duration : this.duration,
+      idCurrency : this.idCurrency,
+      exchangeRate : this.exchangeRate,
+      sales : this.sales,
+      utilities : this.utilities,
+      totalAssets : this.totalAssets,
+      totalCurrentAssets: this.totalCurrentAssets,
+      aCashBoxBank: this.aCashBoxBank,
+      aToCollect: this.aToCollect,
+      aInventory: this.aInventory,
+      aOtherCurrentAssets: this.aOtherCurrentAssets,
+      totalNonCurrentAssets: this.totalNonCurrentAssets,
+      aFixed: this.aFixed,
+      aOtherNonCurrentAssets: this.aOtherNonCurrentAssets,
+      totalLliabilities: this.totalLliabilities,
+      totalCurrentLiabilities: this.totalCurrentLiabilities,
+      lCashBoxBank: this.lCashBoxBank,
+      lOtherCurrentLiabilities: this.lOtherCurrentLiabilities,
+      totalNonCurrentLiabilities: this.totalNonCurrentLiabilities,
+      lLongTerm: this.lLongTerm,
+      lOtherNonCurrentLiabilities: this.lOtherNonCurrentLiabilities,
+      totalPatrimony: this.totalPatrimony,
+      pCapital: this.pCapital,
+      pStockPile: this.pStockPile,
+      pOther: this.pOther,
+      totalLiabilitiesPatrimony: this.totalLiabilitiesPatrimony,
+      liquidityRatio: this.liquidityRatio,
+      debtRatio: this.debtRatio,
+      pUtilities: this.pUtilities,
+      profitabilityRatio: this.profitabilityRatio,
+      workingCapital: this.workingCapital,
+    }
+  }
   updActivoCorriente(){
-    console.log(this.activoCorriente1)
-    this.activosCorrientes = this.activoCorriente1 + this.activoCorriente2 + this.activoCorriente3 + this.activoCorriente4
-    this.activos = this.activosCorrientes + this.activosNoCorrientes
+    console.log(this.totalCurrentAssets)
+    this.totalCurrentAssets = this.aCashBoxBank + this.aToCollect + this.aInventory + this.aOtherCurrentAssets
+    this.totalAssets = this.totalCurrentAssets + this.totalNonCurrentAssets
     this.updRatios()
   }
   updActivoNoCorriente(){
-    this.activosNoCorrientes = this.activoNoCorriente1 + this.activoNoCorriente2
-    this.activos = this.activosCorrientes + this.activosNoCorrientes
+    this.totalNonCurrentAssets = this.aFixed + this.aOtherNonCurrentAssets
+    this.totalAssets = this.totalCurrentAssets + this.totalNonCurrentAssets
     this.updRatios()
   }
 
   updPasivoCorriente(){
-    this.pasivosCorrientes = this.pasivoCorriente1 + this.pasivoCorriente2
-    this.pasivos = this.pasivosCorrientes + this.pasivosNoCorrientes
-    this.totalPasivoPatrimonio = this.patrimonios + this.pasivos
+    this.totalCurrentLiabilities = this.lCashBoxBank + this.lOtherCurrentLiabilities
+    this.totalLliabilities = this.totalCurrentLiabilities + this.totalNonCurrentLiabilities
+    this.totalLiabilitiesPatrimony = this.totalPatrimony + this.totalLliabilities
     this.updRatios()
   }
   updPasivoNoCorriente(){
-    this.pasivosNoCorrientes = this.pasivoNoCorriente1 + this.pasivoNoCorriente2
-    this.pasivos = this.pasivosCorrientes + this.pasivosNoCorrientes
-    this.totalPasivoPatrimonio = this.patrimonios + this.pasivos
+    this.totalNonCurrentLiabilities = this.lLongTerm + this.lOtherNonCurrentLiabilities
+    this.totalLliabilities = this.totalCurrentLiabilities + this.totalNonCurrentLiabilities
+    this.totalLiabilitiesPatrimony = this.totalPatrimony + this.totalLliabilities
     this.updRatios()
   }
 
   updPatrimonio(){
-    this.patrimonios = this.patrimonio1 + this.patrimonio2 + this.patrimonio3 + this.patrimonio4
-    this.totalPasivoPatrimonio = this.patrimonios + this.pasivos
+    this.totalPatrimony = this.pCapital + this.pStockPile + this.pOther + this.pUtilities
+    this.totalLiabilitiesPatrimony = this.totalPatrimony + this.totalLliabilities
     this.updRatios()
   }
 
   updRatios(){
-    this.indiceLiquidez = parseFloat((this.activosCorrientes / this.pasivosCorrientes).toFixed(2));
-    this.ratioEndeudamiento = parseFloat((this.patrimonios / this.pasivosCorrientes * 100).toFixed(2));
-    this.ratioRentabilidad = parseFloat((this.utilidades / this.ventas * 100).toFixed(2));
-    this.capitalTrabajo = parseFloat((this.activosCorrientes - this.pasivosCorrientes).toFixed(2));
+    this.liquidityRatio = parseFloat((this.totalCurrentAssets / this.totalCurrentLiabilities).toFixed(2));
+    this.debtRatio = parseFloat((this.totalPatrimony / this.totalCurrentLiabilities * 100).toFixed(2));
+    this.profitabilityRatio = parseFloat((this.utilities / this.sales * 100).toFixed(2));
+    this.workingCapital = parseFloat((this.totalCurrentAssets - this.totalCurrentLiabilities).toFixed(2));
   }
 
-  imprimirValor(){
-    let val = this.activoCorriente1.toLocaleString();
-    val = val.replaceAll(",","-")
-    val = val.replaceAll(".",",")
-    val = val.replaceAll("-",".")
-    console.log(val);
-  }
 
-  constructor(private balanceService : BalanceService,
-   ){
-  }
-
-  ngOnInit(): void {
-    console.log("balance general")
-    this.balanceInforme = this.balanceService.GeTbalanceInformeByIdInforme(1)
-    this.actualizarBalance(this.balanceSeleccionado)
-  }
-
-  actualizarBalance(numBalance : number){
-    this.agregar = false
-    this.balanceSeleccionado = numBalance
-
-    const fecha = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].fechaBalance.split("/");
-    console.log(fecha)
-    this.fechaBalance = new Date(parseInt(fecha[2]), parseInt(fecha[1])-1,parseInt(fecha[0]))
-
-    this.tipoBalance = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tipoBalance
-    this.tiempoBalance = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tiempoBalance
-
-    this.tipoMoneda = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tipoMoneda
-    this.tipoCambio = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].tipoCambioDolar
-    this.utilidades = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].utilidades
-    this.ventas = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].ventas
-
-    this.activoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].cajaBanco
-    this.activoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].porCobrar
-    this.activoCorriente3 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].inventario
-    this.activoCorriente4 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosActivosCorrientes
-    this.activosCorrientes = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].activoCorriente
-
-    this.activoNoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].fijo
-    this.activoNoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosActivosNoCorrientes
-    this.activosNoCorrientes = this.activoNoCorriente1 + this.activoNoCorriente2
-
-    this.activos = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalActivo
-
-    this.pasivoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].bancoProv
-    this.pasivoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosPasivosCorrientes
-    this.pasivosCorrientes = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].pasivoCorriente
-
-    this.pasivoNoCorriente1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].largoPlazo
-    this.pasivoNoCorriente2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otrosActivosNoCorrientes
-    this.pasivosNoCorrientes = this.pasivoNoCorriente1 + this.pasivoNoCorriente2
-
-    this.pasivos = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalPasivo
-
-    this.patrimonio1 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].capital
-    this.patrimonio2 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].reservas
-    this.patrimonio3 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].utilidades
-    this.patrimonio4 = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].otros
-    this.patrimonios = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalPatrimonio
-
-    this.totalPasivoPatrimonio = this.balanceInforme.balanceGeneral[this.balanceSeleccionado].totalPasivoPatrimonio
-    this.updRatios()
-
-  }
-
+//(selectionChange)="actualizarBalance($event.value)"
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -207,120 +185,203 @@ export class BalanceComponent implements OnInit {
   }
 
   agregarBalance(){
-    if(this.agregar == false){
-      this.agregar = true
-      this.fechaBalance = new Date()
-      this.tipoBalance = ""
-      this.tiempoBalance = ""
-      this.tipoMoneda = ""
-      this.tipoCambio = 0
-      this.utilidades = 0
-      this.ventas = 0
-      this.activoCorriente1 = 0
-      this.activoCorriente2 = 0
-      this.activoCorriente3 = 0
-      this.activoCorriente4 = 0
-      this.activosCorrientes = 0
-      this.activoNoCorriente1 = 0
-      this.activoNoCorriente2 = 0
-      this.activosNoCorrientes = 0
-      this.activos = 0
-      this.pasivoCorriente1 = 0
-      this.pasivoCorriente2 = 0
-      this.pasivosCorrientes = 0
-      this.pasivoNoCorriente1 = 0
-      this.pasivoNoCorriente2 = 0
-      this.pasivosNoCorrientes = 0
-      this.pasivos = 0
-      this.patrimonio1 = 0
-      this.patrimonio2 = 0
-      this.patrimonio3 = 0
-      this.patrimonio4 = 0
-      this.patrimonios = 0
-      this.totalPasivoPatrimonio = 0
-      this.indiceLiquidez = 0
-      this.ratioEndeudamiento = 0
-      this.ratioRentabilidad = 0
-      this.capitalTrabajo = 0
-      this.updRatios()
+    this.agregar = true
+    this.id = 0
+    this.date = ""
+    this.dateD = null
+    this.balanceType = "G"
+    this.duration = ""
+    this.idCurrency = 0
+    this.exchangeRate = 0
+    this.sales = 0
+    this.utilities = 0
+    //ACTIVOS
+    this.totalAssets = 0
+    //ACTIVOS CORRIENTES
+    this.totalCurrentAssets = 0
+    this.aCashBoxBank = 0
+    this.aToCollect = 0
+    this.aInventory = 0
+    this.aOtherCurrentAssets = 0
+    //ACTIVOS NO CORRIENTES
+    this.totalNonCurrentAssets = 0
+    this.aFixed = 0
+    this.aOtherNonCurrentAssets = 0
+    //PASIVOS
+    this.totalLliabilities = 0
+    //PASIVOS CORRIENTES
+    this.totalCurrentLiabilities = 0
+    this.lCashBoxBank = 0
+    this.lOtherCurrentLiabilities = 0
+    //PASIVOS NO CORRIENTES
+    this.totalNonCurrentLiabilities = 0
+    this.lLongTerm = 0
+    this.lOtherNonCurrentLiabilities = 0
+    //PATRIMONIO
+    this.totalPatrimony = 0
+    this.pCapital = 0
+    this.pStockPile = 0
+    this.pUtilities = 0
+    this.pOther = 0
 
-    }else{
-      const nuevoBalance : Balance = {
-        id : this.ultimoIdBalance(),
-        num : this.ultimoNumBalance(),
-        nombreBalance : "Balance " + (this.ultimoNumBalance()+1),
-        fechaBalance : this.formatDate(this.fechaBalance),
-        tipoBalance : this.tipoBalance,
-        tipoBalanceIng : this.tipoBalance + " ing",
-        tiempoBalance : this.tiempoBalance,
-        tiempoBalanceIng : this.tiempoBalance + " ing",
-        //CABECERA
-        tipoMoneda : this.tipoMoneda,
-        tipoCambioDolar : this.tipoCambio,
-        ventas : this.ventas,
-        utilidadesNetas : this.utilidades,
-        //ACTIVO
-        cajaBanco : this.activoCorriente1,
-        porCobrar : this.activoCorriente2,
-        inventario : this.activoCorriente3,
-        otrosActivosCorrientes: this.activoCorriente4,
-        activoCorriente : this.activosCorrientes,
-        fijo : this.activoNoCorriente1,
-        otrosActivosNoCorrientes : this.activoNoCorriente2,
-        activoNoCorriente : this.activosNoCorrientes,
-        totalActivo : this.activos,
-        //PASIVO
-        bancoProv : this.pasivoCorriente1,
-        otrosPasivosCorrientes : this.pasivoCorriente2,
-        pasivoCorriente : this.pasivosCorrientes,
-        largoPlazo : this.pasivoNoCorriente1,
-        otrosPasivosNoCorrientes : this.pasivoNoCorriente2,
-        totalPasivo : this.pasivos,
-        //PATRIMONIO
-        capital : this.patrimonio1,
-        reservas : this.patrimonio2,
-        utilidades : this.patrimonio3,
-        otros : this.patrimonio4,
-        totalPatrimonio : this.patrimonios,
-        totalPasivoPatrimonio : this.totalPasivoPatrimonio,
-        //RATIOS
-        indiceLiquidez : this.indiceLiquidez,
-        ratioEndeudamiento : this.ratioEndeudamiento,
-        ratioRentabilidad : this.ratioRentabilidad,
-        capitalTrabajo : this.capitalTrabajo
-      }
-      this.balanceInforme.balanceGeneral.push(nuevoBalance)
-      console.log(nuevoBalance)
-      this.agregar = false
-      this.updRatios()
-
+    this.totalLiabilitiesPatrimony = 0
+    //RATIOS
+    this.liquidityRatio = 0
+    this.debtRatio = 0
+    this.profitabilityRatio = 0
+    this.workingCapital = 0
+    this.editar = false
+  }
+  selectFecha(event: MatDatepickerInputEvent<Date>) {
+    this.dateD = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.date = this.formatDate(selectedDate);
     }
+  }
+  editarBalance(){
+    this.agregar = true
+  }
+  confirmarAgregar(){
+    this.armarModelo()
+    console.log(this.modeloModificado[0])
+    if(this.id === 0){
+      Swal.fire({
+        title: '¿Está seguro de agregar este balance?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.balanceService.addOrUpdateBalance(this.modeloModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title :'¡Se agregó el balance correctamente!',
+                  text : '',
+                  icon : 'success',
+                  width: '20rem',
+                  heightAuto : true
+                }).then(() => {
+                  this.balanceService.getBalances(this.idCompany, 'G').subscribe(
+                    (response) => {
+                      if(response.isSuccess === true && response.isWarning === false){
+                        this.listaBalances = response.data
+                        this.agregar = false
+                      }
+                    }
+                  )
+                });
+              }
+            }
+          )
+        }
+      });
+    }else if(this.id > 0){
+      Swal.fire({
+        title: '¿Está seguro de modificar este balance?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.balanceService.addOrUpdateBalance(this.modeloModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title :'¡Se modificó el balance correctamente!',
+                  text : '',
+                  icon : 'success',
+                  width: '20rem',
+                  heightAuto : true
+                }).then(() => {
+                  this.balanceService.getBalances(this.idCompany, 'G').subscribe(
+                    (response) => {
+                      if(response.isSuccess === true && response.isWarning === false){
+                        this.listaBalances = response.data
+                        this.agregar = false
+                      }
+                    }
+                  )
+                });
+              }
+            }
+          )
+        }
+      });
+    }
+
   }
   cancelarAgregarBalance(){
     this.agregar = false
     this.balanceSeleccionado = 0
-    this.actualizarBalance(0)
+    this.id = 0
   }
-
-  ultimoNumBalance() : number{
-    let num = 0
-    this.balanceInforme.balanceGeneral.forEach(balance => {
-      if(num < balance.num){
-        num = balance.num
+  actualizarBalance(id : number){
+    this.balanceService.getBalanceById(id).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          const balance = response.data
+          console.log(response.data)
+          if(balance){
+            this.id = balance.id
+            if(balance.date !== null && balance.date !== ""){
+              const fecha = balance.date.split("/")
+              if(fecha.length > 0){
+                this.dateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                this.date = balance.date
+              }else{
+                this.dateD = null
+              }
+            }
+            this.balanceType = balance.balanceType
+            this.duration = balance.duration
+            this.idCurrency = balance.idCurrency
+            this.exchangeRate = balance.exchangeRate
+            this.sales = balance.sales
+            this.utilities = balance.utilities
+            this.totalAssets = balance.totalAssets
+            this.totalCurrentAssets = balance.totalCurrentAssets
+            this.aCashBoxBank = balance.aCashBoxBank
+            this.aToCollect = balance.aToCollect
+            this.aInventory = balance.aInventory
+            this.aOtherCurrentAssets = balance.aOtherCurrentAssets
+            this.totalNonCurrentAssets = balance.totalNonCurrentAssets
+            this.aFixed = balance.aFixed
+            this.aOtherNonCurrentAssets = balance.aOtherNonCurrentAssets
+            this.totalLliabilities = balance.totalLliabilities
+            this.totalCurrentLiabilities = balance.totalCurrentLiabilities
+            this.lCashBoxBank = balance.lCashBoxBank
+            this.lOtherCurrentLiabilities = balance.lOtherCurrentLiabilities
+            this.totalNonCurrentLiabilities = balance.totalNonCurrentLiabilities
+            this.lLongTerm = balance.lLongTerm
+            this.lOtherNonCurrentLiabilities = balance.lOtherNonCurrentLiabilities
+            this.totalPatrimony = balance.totalPatrimony
+            this.pCapital = balance.pCapital
+            this.pStockPile = balance.pStockPile
+            this.pUtilities = balance.pUtilities
+            this.pOther = balance.pOther
+            this.totalLiabilitiesPatrimony = balance.totalLiabilitiesPatrimony
+            this.liquidityRatio = balance.liquidityRatio
+            this.debtRatio = balance.debtRatio
+            this.profitabilityRatio = balance.profitabilityRatio
+            this.workingCapital = balance.workingCapital
+          }
+        }
       }
-    });
-    num += 1
-    return num
-  }
-  ultimoIdBalance(){
-    let id = 0
-    this.balanceInforme.balanceGeneral.forEach(balance => {
-      if(id < balance.id){
-        id = balance.id
-      }
-    });
-    id += 1
-    return id
+    )
   }
 
   enter(event : any){

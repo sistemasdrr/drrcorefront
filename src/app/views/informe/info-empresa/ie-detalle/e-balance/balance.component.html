@@ -4,12 +4,17 @@
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Balance General</h4>
         <div>
-          <button mat-mini-fab class="bg-green" style="margin: 0 .5rem .5rem .5rem;" (click)="agregarBalance()" #tooltip="matTooltip" [matTooltip]="agregar === true ? 'Agregar' : 'Nuevo Balance'">
-            <mat-icon class="col-white" *ngIf="!agregar">add</mat-icon>
-            <mat-icon class="col-white" *ngIf="agregar">check</mat-icon>
+          <button mat-mini-fab class="bg-green" *ngIf="agregar === true" style="margin: 0 .5rem .5rem .5rem;" (click)="confirmarAgregar()" #tooltip="matTooltip" [matTooltip]="'Agregar'">
+            <mat-icon class="col-white" >check</mat-icon>
           </button>
-          <button mat-mini-fab class="bg-red" *ngIf="agregar" style="margin: 0 2rem .5rem .5rem; " (click)="cancelarAgregarBalance()" #tooltip="matTooltip" matTooltip="Cancelar">
+          <button mat-mini-fab class="bg-red" *ngIf="agregar === true" style="margin: 0 2rem .5rem .5rem; " (click)="cancelarAgregarBalance()" #tooltip="matTooltip" matTooltip="Cancelar">
             <mat-icon class="col-white">cancel</mat-icon>
+          </button>
+          <button mat-mini-fab class="bg-green" *ngIf="agregar === false" style="margin: 0 2rem .5rem .5rem; " (click)="agregarBalance()" #tooltip="matTooltip" matTooltip="Nuevo Balance">
+            <mat-icon class="col-white">add</mat-icon>
+          </button>
+          <button mat-mini-fab  [ngClass]="id === 0 ? 'bg-gray' : 'bg-blue'" *ngIf="agregar === false" style="margin: 0 2rem .5rem .5rem; " (click)="editarBalance()" #tooltip="matTooltip" matTooltip="Editar Balance" [disabled]="id === 0">
+            <mat-icon class="col-white">edit</mat-icon>
           </button>
           <button mat-mini-fab class="bg-purple" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Adjuntos">
             <mat-icon class="col-white">attach_file</mat-icon>
@@ -24,16 +29,16 @@
         <mat-form-field style="width: 100%;" >
           <mat-label>Balance</mat-label>
           <mat-select (selectionChange)="actualizarBalance($event.value)" [(ngModel)]="balanceSeleccionado">
-            <mat-option *ngFor="let balance of balanceInforme.balanceGeneral" [value]="balance.num">
-              {{balance.nombreBalance}} al {{balance.fechaBalance}}
+            <mat-option *ngFor="let balance of listaBalances" [value]="balance.id">
+              {{balance.valor}}
             </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-md-3" [ngClass]="{'col-md-4': agregar === true}">
+      <div [ngClass]="agregar === true ? 'col-md-4' : 'col-md-3'">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Balance</mat-label>
-          <input matInput [matDatepicker]="fecha_balance" [(ngModel)]="fechaBalance" [readonly]="!agregar">
+          <input matInput [matDatepicker]="fecha_balance" [(ngModel)]="dateD" (dateChange)="selectFecha($event)" [readonly]="!agregar">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_balance" [disabled]="!agregar"></mat-datepicker-toggle>
           <mat-datepicker #fecha_balance color="primary"></mat-datepicker>
         </mat-form-field>
@@ -41,13 +46,20 @@
       <div class="col-md-3" [ngClass]="{'col-md-4': agregar === true}">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Tipo de Balance</mat-label>
-          <input matInput [(ngModel)]="tipoBalance" [readonly]="!agregar">
+          <mat-select [(ngModel)]="balanceType">
+            <mat-option [value]="'G'">
+              GENERAL
+            </mat-option>
+            <mat-option [value]="'S'">
+              SITUACIONAL
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-3" [ngClass]="{'col-md-4': agregar === true}">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Duración de Balance</mat-label>
-          <input matInput [(ngModel)]="tiempoBalance" [readonly]="!agregar">
+          <input matInput [(ngModel)]="duration" [readonly]="!agregar">
         </mat-form-field>
       </div>
       <h5>Cabecera de Balance</h5>
@@ -58,7 +70,11 @@
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-hourglass-start"></i>
           </span>
-          <input matInput placeholder="" [(ngModel)]="tipoMoneda">
+          <mat-select [(ngModel)]="idCurrency">
+            <mat-option *ngFor="let item of listaMonedas" [value]="item.id">
+              {{item.valor}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -66,7 +82,7 @@
           <mat-label>Tipo de C. x US$ Dólar</mat-label>
           <span matSuffix style="margin-right: .5rem; color:gray;">
           </span>
-          <input matInput placeholder="" [(ngModel)]="tipoCambio">
+          <input matInput placeholder="" [(ngModel)]="exchangeRate">
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -74,7 +90,7 @@
           <mat-label>Ventas</mat-label>
           <span matSuffix style="margin-right: .5rem; color:gray;">
           </span>
-          <input matInput mask="separator" thousandSeparator="{{separator}}"  [(ngModel)]="ventas" (ngModelChange)="updRatios()">
+          <input matInput mask="separator" thousandSeparator="{{separator}}"  [(ngModel)]="sales" (ngModelChange)="updRatios()">
         </mat-form-field>
       </div>
       <div class="col-md-3">
@@ -82,7 +98,7 @@
           <mat-label>Utilidades (Pérdidas) Netas</mat-label>
           <span matSuffix style="margin-right: .5rem; color:gray;">
           </span>
-          <input matInput mask="separator" thousandSeparator="{{separator}}" [(ngModel)]="utilidades" (ngModelChange)="updRatios()">
+          <input matInput mask="separator" thousandSeparator="{{separator}}" [(ngModel)]="utilities" (ngModelChange)="updRatios()">
         </mat-form-field>
       </div>
     </div>
@@ -104,7 +120,7 @@
                     <b>Activos</b>
                   </mat-panel-title>
                   <mat-panel-description>
-                    <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activos" (keyup.enter)="enter($event)" (ngModelChange)="updRatios()">
+                    <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalAssets" (keyup.enter)="enter($event)" (ngModelChange)="updRatios()">
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-accordion class="w-100">
@@ -114,7 +130,7 @@
                         <b>Activos Corrientes</b>
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true"[(ngModel)]="activosCorrientes" (ngModelChange)="updRatios()" >
+                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true"[(ngModel)]="totalCurrentAssets" (ngModelChange)="updRatios()" >
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -123,25 +139,25 @@
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Caja / Banco
                         </div>
                         <!--input type="text" class="form-control" mask="separator" thousandSeparator=","  [(ngModel)]="activoCorriente1" (ngModelChange)="updActivoCorriente()" style="direction: rtl;"-->
-                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente1" (ngModelChange)="updActivoCorriente()">
+                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="aCashBoxBank" (ngModelChange)="updActivoCorriente()">
                       </div>
                       <div class="col-md-12 d-flex mb-1">
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Por Cobrar
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente2" (ngModelChange)="updActivoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="aToCollect" (ngModelChange)="updActivoCorriente()">
                       </div>
                       <div class="col-md-12 d-flex mb-1">
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Inventario
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente3" (ngModelChange)="updActivoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="aInventory" (ngModelChange)="updActivoCorriente()">
                       </div>
                       <div class="col-md-12 d-flex mb-1">
                         <div class="w-100 d-flex align-items-center">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Activos Corrientes
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="activoCorriente4" (ngModelChange)="updActivoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="aOtherCurrentAssets" (ngModelChange)="updActivoCorriente()">
                       </div>
                     </div>
                   </mat-expansion-panel>
@@ -153,7 +169,7 @@
                         <b>Activos No Corrientes</b>
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="activosNoCorrientes" (ngModelChange)="updRatios()" >
+                        <input class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalNonCurrentAssets" (ngModelChange)="updRatios()" >
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -161,13 +177,13 @@
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Fijo
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true"  [(ngModel)]="activoNoCorriente1" (ngModelChange)="updActivoNoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true"  [(ngModel)]="aFixed" (ngModelChange)="updActivoNoCorriente()">
                       </div>
                       <div class="col-md-12 d-flex mb-1">
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Activos No Corrientes
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="activoNoCorriente2" (ngModelChange)="updActivoNoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="aOtherNonCurrentAssets" (ngModelChange)="updActivoNoCorriente()">
                       </div>
                     </div>
                   </mat-expansion-panel>
@@ -189,7 +205,7 @@
                     Pasivos
                   </mat-panel-title>
                   <mat-panel-description>
-                    <input  type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivos" (ngModelChange)="updRatios()" >
+                    <input  type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalLliabilities" (ngModelChange)="updRatios()" >
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <mat-accordion class="w-100">
@@ -199,7 +215,7 @@
                         Pasivos Corrientes
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosCorrientes" (ngModelChange)="updRatios()">
+                        <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalCurrentLiabilities" (ngModelChange)="updRatios()">
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -207,13 +223,13 @@
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Bancos / Prov
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivoCorriente1" (ngModelChange)="updPasivoCorriente()" >
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="lCashBoxBank" (ngModelChange)="updPasivoCorriente()" >
                       </div>
                       <div class="col-md-12 d-flex mb-1">
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Pasivos Corrientes
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="pasivoCorriente2" (ngModelChange)="updPasivoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="lOtherCurrentLiabilities" (ngModelChange)="updPasivoCorriente()">
                       </div>
                     </div>
                   </mat-expansion-panel>
@@ -225,7 +241,7 @@
                         Pasivos No Corrientes
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivosNoCorrientes"  >
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalNonCurrentLiabilities"  >
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                     <div class="row">
@@ -233,13 +249,13 @@
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Largo Plazo
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="pasivoNoCorriente1" (ngModelChange)="updPasivoNoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="lLongTerm" (ngModelChange)="updPasivoNoCorriente()">
                       </div>
                       <div class="col-md-12 d-flex mb-1">
                         <div class="w-100 d-flex align-items-center ">
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros Pasivos No Corrientes
                         </div>
-                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="pasivoNoCorriente2" (ngModelChange)="updPasivoNoCorriente()">
+                        <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="lOtherNonCurrentLiabilities" (ngModelChange)="updPasivoNoCorriente()">
                       </div>
                     </div>
                   </mat-expansion-panel>
@@ -258,7 +274,7 @@
                     Patrimonio
                   </mat-panel-title>
                   <mat-panel-description>
-                    <input  type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="patrimonios" (ngModelChange)="updRatios()">
+                    <input  type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalPatrimony" (ngModelChange)="updRatios()">
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="row">
@@ -266,25 +282,25 @@
                     <div class="w-100 d-flex align-items-center ">
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Capital
                     </div>
-                    <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="patrimonio1" (ngModelChange)="updPatrimonio()" >
+                    <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="pCapital" (ngModelChange)="updPatrimonio()" >
                   </div>
                   <div class="col-md-12 d-flex mb-1">
                     <div class="w-100 d-flex align-items-center ">
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Reservas
                     </div>
-                    <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="patrimonio2" (ngModelChange)="updPatrimonio()" >
+                    <input type="text" class="form-control"  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="pStockPile" (ngModelChange)="updPatrimonio()" >
                   </div>
                   <div class="col-md-12 d-flex mb-1">
                     <div class="w-100 d-flex align-items-center ">
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Utilidades
                     </div>
-                    <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="patrimonio3" (ngModelChange)="updPatrimonio()" >
+                    <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="pUtilities" (ngModelChange)="updPatrimonio()" >
                   </div>
                   <div class="col-md-12 d-flex mb-1">
                     <div class="w-100 d-flex align-items-center ">
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Otros
                     </div>
-                    <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true"[(ngModel)]="patrimonio4" (ngModelChange)="updPatrimonio()" >
+                    <input type="text" class="form-control" mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true"[(ngModel)]="pOther" (ngModelChange)="updPatrimonio()" >
                   </div>
                 </div>
                 <mat-accordion class="w-100">
@@ -294,7 +310,7 @@
                         Total Pasivo / Patrimonio
                       </mat-panel-title>
                       <mat-panel-description>
-                        <input type="text" class="form-control"   mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalPasivoPatrimonio" (ngModelChange)="updRatios()">
+                        <input type="text" class="form-control"   mask="separator.2" thousandSeparator="{{separator}}" [allowNegativeNumbers]="true" [(ngModel)]="totalLiabilitiesPatrimony" (ngModelChange)="updRatios()">
                       </mat-panel-description>
                     </mat-expansion-panel-header>
                   </mat-expansion-panel>
@@ -307,7 +323,7 @@
           <div class="alert alert-dark m-2 rounded-2">
             <div class="w-100 d-flex justify-content-between font-15">
               <strong>Total Activos: </strong>
-              $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="activos" >
+              $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="totalAssets" >
 
             </div>
           </div>
@@ -316,7 +332,7 @@
           <div class="alert alert-dark m-2 rounded-2">
             <div class="w-100 d-flex justify-content-between font-15">
               <strong>Total Pasivos + Patrimonio: </strong>
-              $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="totalPasivoPatrimonio" >
+              $<input mask="separator.2" thousandSeparator="{{separator}}" style="border: 0; background-color: rgba(0,0,0,0);" [(ngModel)]="totalLiabilitiesPatrimony" >
             </div>
           </div>
         </div>
@@ -331,28 +347,28 @@
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>Indice de Liquidez</mat-label>
-          <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="indiceLiquidez" [readOnly]="true">
+          <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="liquidityRatio" [readOnly]="true">
           <mat-hint><em>(Activo Corriente / Pasivo Corriente)</em></mat-hint>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>Ratio de Endeudamiento (<i class="fa-solid fa-percent"></i>)</mat-label>
-          <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="ratioEndeudamiento"  [readOnly]="true">
+          <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="debtRatio"  [readOnly]="true">
           <mat-hint><em>(Patrimonio / Pasivo Corriente %)</em></mat-hint>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>Ratio de Rentabilidad (<i class="fa-solid fa-percent"></i>)</mat-label>
-          <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="ratioRentabilidad" [readOnly]="true">
+          <input matInput mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="profitabilityRatio" [readOnly]="true">
           <mat-hint><em>(Utilidad / Ventas %)</em></mat-hint>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>Capital de Trabajo</mat-label>
-          <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="capitalTrabajo"  [readOnly]="true">
+          <input matInput  mask="separator.2" thousandSeparator="{{separator}}"  [allowNegativeNumbers]="true" [(ngModel)]="workingCapital"  [readOnly]="true">
           <mat-hint><em>(Activo Corriente - Pasivo Corriente)</em></mat-hint>
         </mat-form-field>
       </div>

@@ -136,6 +136,8 @@ export class HistoricoVentasComponent implements OnInit {
               confirmButtonText: 'Ok',
               width: '30rem',
               heightAuto: true
+            }).then(() => {
+              this.dialogRef.close()
             })
           }else{
             if(paginaDetalleEmpresa){
@@ -150,6 +152,7 @@ export class HistoricoVentasComponent implements OnInit {
               width: '30rem',
               heightAuto : true
             }).then(() => {
+              this.dialogRef.close()
             })
           }
           if(paginaDetalleEmpresa){
@@ -191,6 +194,8 @@ export class HistoricoVentasComponent implements OnInit {
                 confirmButtonText: 'Ok',
                 width: '30rem',
                 heightAuto: true
+              }).then(() => {
+                this.dialogRef.close()
               })
             }else{
               if(paginaDetalleEmpresa){
@@ -205,6 +210,7 @@ export class HistoricoVentasComponent implements OnInit {
                 width: '30rem',
                 heightAuto : true
               }).then(() => {
+                this.dialogRef.close()
               })
             }
             if(paginaDetalleEmpresa){
@@ -224,12 +230,14 @@ export class HistoricoVentasComponent implements OnInit {
               width: '30rem',
               heightAuto : true
             }).then(() => {
+              this.dialogRef.close()
             })
           })
         }
       });
-    }
+
     this.dialogRef.close()
+    }
   }
   salir(){
     this.dialogRef.close()
