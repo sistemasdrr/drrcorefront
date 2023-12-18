@@ -21,7 +21,7 @@ export class SbsRiesgoComponent {
   dataSourceProveedor: MatTableDataSource<Proveedor>
   dataSourceMorosidadComercial: MatTableDataSource<MorosidadComercial>
   dataSourceDeudaBancaria: MatTableDataSource<DeudaBancaria>
-  columnsToDisplayProveedor = ['id', 'proveedor', 'telefono', 'pais', 'credMaximo', 'plazos', 'cumplimiento', 'clientesDesde','articulos', 'atendio','accion'];
+  columnsToDisplayProveedor = ['proveedor', 'telefono', 'pais', 'credMaximo', 'plazos', 'cumplimiento', 'clientesDesde','articulos', 'atendio','accion'];
   columnsToDisplayMorosidadComercial = ['id', 'acreProv', 'tipoDocumento', 'fecha', 'montoMN', 'montoME', 'fechaPago', 'diasAtraso', 'accion'];
   columnsToDisplayDeudaBancaria = ['id', 'banco', 'calificacion', 'deudaMN', 'deudaME', 'memo', 'accion'];
 
