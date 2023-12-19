@@ -1,5 +1,5 @@
 <div class="container"  >
-  <div class="row "  >
+  <div class="row m-0 p-0"  >
     <div class="col-md-12">
       <div class="card">
         <div class="header">
@@ -22,10 +22,7 @@
                 </li>
                 <li class="tbl-header-btn">
                   <div class="m-l-10" >
-                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="accion === 'AGREGAR'">
-                      <mat-icon>save</mat-icon>
-                    </button>
-                    <button mat-icon-button  class="btn btn-primary" (click)="editar()"  #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="accion === 'EDITAR'"  >
+                    <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Guardar">
                       <mat-icon>save</mat-icon>
                     </button>
                   </div>
@@ -34,127 +31,140 @@
             </div>
           </div>
         </div>
-        <mat-dialog-content class="mat-typography">
+        <mat-dialog-content class="mat-typography m-0 p-0">
 
         <div class="body">
-          <div class="row">
+          <div class="row m-0 p-0">
             <h5 style="font-size: 20px;">Datos del Proveedor</h5>
-            <div class="col-md-2" *ngIf="accion !== 'AGREGAR'">
-              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                <mat-label>ID</mat-label>
-                <input matInput [(ngModel)]="id" readonly="true">
-              </mat-form-field>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Proveedor</mat-label>
-                <input matInput placeholder="" [(ngModel)]="proveedor">
+                <input matInput placeholder="" [(ngModel)]="name">
               </mat-form-field>
             </div>
-            <div class="col-md-3">
-              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                <mat-label>Pais</mat-label>
-                <input matInput placeholder="" [(ngModel)]="pais">
+            <div class="col-md-3 m-0">
+              <mat-form-field class="w-100">
+                <mat-label>País</mat-label>
+                <input type="text" matInput [formControl]="controlPaises" [ngClass]="colorMsgPais === 'red' ? 'error': ''" [matAutocomplete]="auto6" [(ngModel)]="paisSeleccionado" (ngModelChange)="cambioPais(paisSeleccionado)">
+                <mat-hint [ngClass]="colorMsgPais === 'red' ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="colorMsgPais === 'red'"></i><i class="fa-solid fa-circle-check" *ngIf="colorMsgPais === 'green'"></i>&nbsp;{{msgPais}}</mat-hint>
+                <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                  <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+                </button>
+                <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPais" >
+                  <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                    <span class="fi fi-{{pais.bandera}}"></span>
+                    {{pais.valor}}
+                  </mat-option>
+                </mat-autocomplete>
               </mat-form-field>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Calificación</mat-label>
-                <input matInput placeholder="" [(ngModel)]="calificacion">
+                <mat-select [(ngModel)]="qualification" placeholder="">
+                    <mat-option [value]=""></mat-option>
+                    <mat-option [value]="'Dió referencia'">Dió referencia</mat-option>
+                    <mat-option [value]="'Postergó referencia'">Postergó referencia</mat-option>
+                    <mat-option [value]="'No dió referencia'">No dió referencia</mat-option>
+                    <mat-option [value]="'No localizada'">No localizada</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-md-2" *ngIf="accion === 'AGREGAR'"></div>
             <h5 style="font-size: 20px;">Referencia</h5>
-            <div class="col-md-3">
+            <div class="col-md-3 m-0">
               <mat-form-field color="primary" style="width: 100%; margin: 0 .5rem 0 .5rem;">
                 <mat-label>Fecha</mat-label>
-                <input matInput [matDatepicker]="fecha_informe" [(ngModel)]="fecha">
+                <input matInput [matDatepicker]="fecha_informe" [(ngModel)]="dateD" (dateChange)="selectFecha($event)">
                 <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
                 <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
               </mat-form-field>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-5 m-0">
             <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
               <mat-label>Teléfono(s)</mat-label>
-              <input matInput placeholder="" [(ngModel)]="telefono">
+              <input matInput placeholder="" [(ngModel)]="telephone">
             </mat-form-field>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 m-0">
             <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
               <mat-label>Atendió</mat-label>
-              <input matInput placeholder="" [(ngModel)]="atendio">
+              <input matInput placeholder="" [(ngModel)]="attendedBy">
             </mat-form-field>
           </div>
           <h5 style="font-size: 20px;">Crédito Máximo Otorgado</h5>
-            <div class="col-md-3">
+            <div class="col-md-3 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Moneda</mat-label>
-                <input matInput placeholder="" [(ngModel)]="moneda">
-              </mat-form-field>
-            </div>
-            <div class="col-md-2">
-              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                <mat-label>Monto Máximo</mat-label>
-                <input matInput placeholder="" [(ngModel)]="montoMaximo">
-                <button class="btn-traduccion" matSuffix mat-icon-button [class]="montoMaximoIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Monto Máximo','', montoMaximo, montoMaximoIng,'montoMaximo')">
-                  <span class="fi fi-us" style="font-size: 24px;"></span>
-                </button>
-              </mat-form-field>
-            </div>
-            <div class="col-md-2">
-              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                <mat-label>Plazos</mat-label>
-                <input matInput placeholder="" [(ngModel)]="plazos">
-                <button class="btn-traduccion" matSuffix mat-icon-button [class]="plazosIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Plazos','', plazos, plazosIng,'plazos')">
-                  <span class="fi fi-us" style="font-size: 24px;"></span>
-                </button>
-              </mat-form-field>
-            </div>
-            <div class="col-md-3">
-              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                <mat-label>Cumplimiento</mat-label>
-                <mat-select [(ngModel)]="cumplimiento">
-                  <mat-option [value]="''"></mat-option>
-                  <mat-option [value]="'Lento Eventual'">Lento Eventual</mat-option>
-                  <mat-option [value]="'Lento Siempre'">Lento Siempre</mat-option>
-                  <mat-option [value]="'Moroso'">Moroso</mat-option>
-                  <mat-option [value]="'Puntual'">Puntual</mat-option>
-                  <mat-option [value]="'Sin Experiencia'">Sin Experiencia</mat-option>
+                <mat-select [(ngModel)]="idCurrency">
+                  <mat-option [value]="moneda.id" *ngFor="let moneda of monedas">
+                    {{moneda.valor}}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                <mat-label>Cliente desde</mat-label>
-                <input matInput placeholder="" [(ngModel)]="clienteDesde">
-                <button class="btn-traduccion" matSuffix mat-icon-button [class]="clienteDesdeIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Cliente Desde','', clienteDesde, clienteDesdeIng,'clienteDesde')">
+                <mat-label>Monto Máximo</mat-label>
+                <input matInput placeholder="" [(ngModel)]="maximumAmount">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="maximumAmountEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Monto Máximo','', maximumAmount, maximumAmountEng,'montoMaximo')">
                   <span class="fi fi-us" style="font-size: 24px;"></span>
                 </button>
               </mat-form-field>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 m-0">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Plazos</mat-label>
+                <input matInput placeholder="" [(ngModel)]="timeLimit">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="timeLimitEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Plazos','', timeLimit, timeLimitEng,'plazos')">
+                  <span class="fi fi-us" style="font-size: 24px;"></span>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3 m-0">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Cumplimiento</mat-label>
+                <mat-select [(ngModel)]="compliance">
+                  <mat-option [value]="''"></mat-option>
+                  <mat-option [value]="'LEEV'">Lento Eventual</mat-option>
+                  <mat-option [value]="'LESI'">Lento Siempre</mat-option>
+                  <mat-option [value]="'MORO'">Moroso</mat-option>
+                  <mat-option [value]="'PUNT'">Puntual</mat-option>
+                  <mat-option [value]="'SIEX'">Sin Experiencia</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3 m-0">
+              <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                <mat-label>Cliente desde</mat-label>
+                <input matInput placeholder="" [(ngModel)]="clientSince">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="clientSinceEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Cliente Desde','', clientSince, clientSinceEng,'clienteDesde')">
+                  <span class="fi fi-us" style="font-size: 24px;"></span>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Artículos (¿Que le venden?)</mat-label>
-                <input matInput placeholder="" [(ngModel)]="articulos">
-                <button class="btn-traduccion" matSuffix mat-icon-button [class]="articulosIng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Articulos','', articulos, articulosIng,'articulos')">
+                <input matInput placeholder="" [(ngModel)]="productsTheySell">
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="productsTheySellEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion('Articulos','', productsTheySell, productsTheySellEng,'articulos')">
                   <span class="fi fi-us" style="font-size: 24px;"></span>
                 </button>
               </mat-form-field>
             </div>
             <h5 style="font-size: 20px;">Comentarios</h5>
-            <div class="col-md-12">
+            <div class="col-md-12 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Comentario Adicional del Proveedor o del Referencista</mat-label>
-                <textarea matInput placeholder="" [(ngModel)]="comentario" style="min-height: 5rem;"></textarea>
-                <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioAdicionalIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario('Comentario Adicional del Proveedor o Referencista','', comentarioAdicional, comentarioAdicionalIng,'comentarioAdicional')">
+                <textarea matInput placeholder="" [(ngModel)]="additionalCommentary" style="min-height: 5rem;"></textarea>
+                <button class="btn-traduccion" matSuffix mat-icon-button [class]="additionalCommentaryEng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario('Comentario Adicional del Proveedor o Referencista','', additionalCommentary, additionalCommentaryEng,'comentarioAdicional')">
                   <span class="fi fi-us" style="font-size: 24px;"></span>
                 </button>
               </mat-form-field>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Comentario del Referencista (No se imprime)</mat-label>
-                <textarea matInput placeholder="" [(ngModel)]="comentarioAdicional" style="min-height: 5rem;"></textarea>
+                <textarea matInput placeholder="" [(ngModel)]="referentCommentary" style="min-height: 5rem;"></textarea>
               </mat-form-field>
             </div>
           </div>

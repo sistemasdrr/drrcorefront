@@ -70,4 +70,7 @@ export class ComboService {
   getSituacionFinanciera() : Observable<Response<ComboData2[]>>{
     return this.http.get<Response<ComboData2[]>>(this.url+ this.controllerCombo + '/financialSituation');
   }
+  getComentarioOpcionalSbs() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api'+ this.controllerCombo + '/opcionalCommentarySbs');
+  }
 }

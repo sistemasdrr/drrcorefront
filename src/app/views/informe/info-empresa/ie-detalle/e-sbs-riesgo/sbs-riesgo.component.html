@@ -9,87 +9,107 @@
         </ng-template>
         <ng-template matTabContent>
           <div class="card card-body">
-            <div class="col-md-12 ">
-              <h5>Proveedores Nacionales y/o Extranjeros</h5>
-              <hr>
-              <div class="shadow m-1" style="overflow-x: auto; max-height: 20rem;">
-                <div class="table-container">
-                  <table mat-table [dataSource]="dataSourceProveedor" class="mat-elevation-z8 w-100">
-                    <ng-container matColumnDef="proveedor">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Proveedor </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[1]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="telefono">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Teléfono </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[2]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="pais">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Pais</th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[3]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="credMaximo">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cred. Máximo </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[4]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="plazos">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Plazos </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[5]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="cumplimiento">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cumplimiento </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[6]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="clientesDesde">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Desde </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[7]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="articulos">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Articulos </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[8]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="atendio">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Atendio </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor[columnsToDisplayProveedor[9]]}} </td>
-                    </ng-container>
-                    <ng-container matColumnDef="accion">
-                      <th mat-header-cell *matHeaderCellDef class="text-center">
-                        <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarProveedor()">
-                          <mat-icon class="col-white">add</mat-icon>
-                        </button>
-                      </th>
-                      <td mat-cell *matCellDef="let proveedor" class="text-center d-flex">
-                        <button mat-icon-button class="tbl-action-btn " #tooltip="matTooltip" matTooltip="Editar"
-                          style="margin-top: 1rem;"  (click)="editarProveedor(proveedor[columnsToDisplayProveedor[0]])">
-                          <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
-                        </button>
-                        <button mat-icon-button class="tbl-action-btn" #tooltip="matTooltip" matTooltip="Quitar"
-                          style="margin-top: 1rem;" (click)="eliminarProveedor(proveedor[columnsToDisplayProveedor[0]])">
-                          <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
-                        </button>
-                      </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="columnsToDisplayProveedor"></tr>
-                    <tr mat-row *matRowDef="let row; columns: columnsToDisplayProveedor;"></tr>
-                  </table>
+            <div class="row">
+              <div class="col-md-12 ">
+                <h5>Proveedores Nacionales y/o Extranjeros</h5>
+                <hr>
+                <div class="shadow m-1" style="overflow-x: auto; max-height: 20rem;">
+                  <div class="table-container">
+                    <table mat-table [dataSource]="dataSourceProveedor" class="mat-elevation-z8 w-100">
+                      <ng-container matColumnDef="proveedor">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Proveedor </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor.name}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="telefono">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Teléfono </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor.telephone}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="pais">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Pais</th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center">
+                           {{proveedor.country}}
+                          </td>
+                      </ng-container>
+                      <ng-container matColumnDef="credMaximo">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cred. Máximo </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor.maximumAmount}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="plazos">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Plazos </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor.timeLimit}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="cumplimiento">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cumplimiento </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center">
+                          <div *ngIf="proveedor.compliance === ''"></div>
+                          <div *ngIf="proveedor.compliance === 'LEEV'">Lento Eventual</div>
+                          <div *ngIf="proveedor.compliance === 'LESI'">Lento Siempre</div>
+                          <div *ngIf="proveedor.compliance === 'MORO'">Moroso</div>
+                          <div *ngIf="proveedor.compliance === 'PUNT'">Puntual</div>
+                          <div *ngIf="proveedor.compliance === 'SIEX'">Sin Experiencia</div>
+                          </td>
+                      </ng-container>
+                      <ng-container matColumnDef="clientesDesde">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Desde </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor.date}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="articulos">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Articulos </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor.productsTheySell}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="atendio">
+                        <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Atendio </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center"> {{proveedor.attendedBy}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="accion">
+                        <th mat-header-cell *matHeaderCellDef class="text-center">
+                          <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarProveedor()">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </th>
+                        <td mat-cell *matCellDef="let proveedor" class="text-center d-flex">
+                          <button mat-icon-button class="tbl-action-btn " #tooltip="matTooltip" matTooltip="Editar"
+                            style="margin-top: 1rem;"  (click)="editarProveedor(proveedor.id)">
+                            <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                          </button>
+                          <button mat-icon-button class="tbl-action-btn" #tooltip="matTooltip" matTooltip="Quitar"
+                            style="margin-top: 1rem;" (click)="eliminarProveedor(proveedor.id)">
+                            <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                          </button>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="columnsToDisplayProveedor"></tr>
+                      <tr mat-row *matRowDef="let row; columns: columnsToDisplayProveedor;"></tr>
+                    </table>
+                  </div>
                 </div>
               </div>
+
               <div class="col-md-12 mt-2">
                 <mat-form-field style="width: 100%; margin-top: 1rem;">
                   <mat-label>Agregar Comentario (Opcional)</mat-label>
-                  <mat-select>
-                    <mat-option [value]="'PERSONA JURIDICA'">
-                      Comentario 1
+                  <mat-select [(ngModel)]="idOpcionalCommentarySbs">
+                    <mat-option *ngFor="let item of listaOpcionalCommentary" [value]="item.id">
+                      {{item.valor}}
                     </mat-option>
-                    <mat-option [value]="'PERSONA CON NEGOCIO'">
-                      Comentario 2
-                    </mat-option>
-                    <mat-option [value]="'PERSONA CON NEGOCIO'">
-                      Comentario 3
-                    </mat-option>
+
                   </mat-select>
                 </mat-form-field>
               </div>
+              <div class="col-md-5">
+                <mat-form-field style="width: 100%; margin-top: 1rem;">
+                  <mat-label>Referencista o Analista que lo realizó</mat-label>
+                  <input matInput type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field style="width: 100%; margin-top: 1rem;">
+                  <mat-label>Fecha</mat-label>
+                  <input matInput type="text">
+                </mat-form-field>
+              </div>
             </div>
+
           </div>
         </ng-template>
       </mat-tab>
@@ -116,39 +136,35 @@
               <div class="shadow m-1" style="overflow-x: auto; max-height: 20rem;">
                 <div class="table-container">
                   <table mat-table [dataSource]="dataSourceMorosidadComercial" class="mat-elevation-z8 w-100">
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[0]}}">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> N° </th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center">{{morosidadComercial[columnsToDisplayMorosidadComercial[0]]}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[1]}}">
+                    <ng-container matColumnDef="acreProv">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Acreedor o Proveedor </th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[1]]}} </td>
+                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial.creditorOrSupplier}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[2]}}">
+                    <ng-container matColumnDef="tipoDocumento">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Tipo Doc. </th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[2]]}} </td>
+                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial.documentType}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[3]}}">
+                    <ng-container matColumnDef="fecha">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fecha</th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[3]]}} </td>
+                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial.date}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[4]}}">
+                    <ng-container matColumnDef="montoMN">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Monto MN </th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[4]]}} </td>
+                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial.amountNc}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[5]}}">
+                    <ng-container matColumnDef="montoME">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Monto ME </th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[5]]}} </td>
+                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial.amountFc}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[6]}}">
+                    <ng-container matColumnDef="fechaPago">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fecha Pago </th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[6]]}} </td>
+                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial.pendingPaymentDate}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[7]}}">
+                    <ng-container matColumnDef="diasAtraso">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Días de Atraso </th>
-                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial[columnsToDisplayMorosidadComercial[7]]}} </td>
+                      <td mat-cell *matCellDef="let morosidadComercial" class="text-center"> {{morosidadComercial.daysLate}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayMorosidadComercial[8]}}">
+                    <ng-container matColumnDef="accion">
                       <th mat-header-cell *matHeaderCellDef class="text-center">
                         <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarMorosidadComercial()">
                           <mat-icon class="col-white">add</mat-icon>
@@ -156,11 +172,11 @@
                       </th>
                       <td mat-cell *matCellDef="let morosidadComercial" class="text-center d-flex">
                         <button mat-icon-button class="tbl-action-btn " #tooltip="matTooltip" matTooltip="Editar"
-                          style="margin-top: 1rem;"  (click)="editarMorosidadComercial(morosidadComercial[columnsToDisplayMorosidadComercial[0]])">
+                          style="margin-top: 1rem;"  (click)="editarMorosidadComercial(morosidadComercial.id)">
                           <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                         </button>
-                        <button mat-icon-button class="tbl-action-btn" #tooltip="matTooltip" matTooltip="Quitar"
-                          style="margin-top: 1rem;" (click)="eliminarProveedor(morosidadComercial[columnsToDisplayMorosidadComercial[0]])">
+                        <button mat-icon-button class="tbl-action-btn" #tooltip="matTooltip" matTooltip="Eliminar"
+                          style="margin-top: 1rem;" (click)="eliminarProveedor(morosidadComercial.id)">
                           <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
                         </button>
                       </td>
@@ -203,32 +219,39 @@
               <div class="shadow m-1" style="overflow-x: auto;">
                 <div class="table-container">
                   <table mat-table [dataSource]="dataSourceDeudaBancaria" class="mat-elevation-z8 w-100">
-                    <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[0]}}">
-                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> N° </th>
-                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center">{{deudaBancaria[columnsToDisplayDeudaBancaria[0]]}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[1]}}">
+                    <ng-container matColumnDef="banco">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Banco </th>
-                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria[columnsToDisplayDeudaBancaria[1]]}} </td>
+                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria.bankName}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[2]}}">
+                    <ng-container matColumnDef="calificacion">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Calificación </th>
-                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria[columnsToDisplayDeudaBancaria[2]]}} </td>
+                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center">
+                        <div *ngIf="deudaBancaria.qualification === ''"></div>
+                        <div *ngIf="deudaBancaria.qualification === 'NORM'">NORMAL</div>
+                        <div *ngIf="deudaBancaria.qualification === 'PRPO'">PROBLEMA POTENCIAL</div>
+                        <div *ngIf="deudaBancaria.qualification === 'DEFI'">DEFICIENTE</div>
+                        <div *ngIf="deudaBancaria.qualification === 'DUDO'">DUDOSO</div>
+                        <div *ngIf="deudaBancaria.qualification === 'PERD'">PERDIDA</div>
+                      </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[3]}}">
+                    <ng-container matColumnDef="fecha">
+                      <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fecha </th>
+                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria.debtDate}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="deudaMN">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Deuda MN </th>
-                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria[columnsToDisplayDeudaBancaria[3]]}} </td>
+                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria.debtNc}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[4]}}">
+                    <ng-container matColumnDef="deudaME">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Deuda ME</th>
-                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria[columnsToDisplayDeudaBancaria[4]]}} </td>
+                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria.debtFc}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[5]}}">
+                    <ng-container matColumnDef="memo">
                       <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Memo </th>
-                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria[columnsToDisplayDeudaBancaria[5]]}} </td>
+                      <td mat-cell *matCellDef="let deudaBancaria" class="text-center"> {{deudaBancaria.memo}} </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="{{columnsToDisplayDeudaBancaria[6]}}">
+                    <ng-container matColumnDef="accion">
                       <th mat-header-cell *matHeaderCellDef class="text-center">
                         <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarDeudaBancaria()">
                           <mat-icon class="col-white">add</mat-icon>
@@ -236,11 +259,11 @@
                       </th>
                       <td mat-cell *matCellDef="let morosidadComercial" class="text-center">
                         <button mat-icon-button class="tbl-action-btn " #tooltip="matTooltip" matTooltip="Editar"
-                          style="margin-top: 1rem;"  (click)="editarDeudaBancaria(morosidadComercial[columnsToDisplayDeudaBancaria[0]])">
+                          style="margin-top: 1rem;"  (click)="editarDeudaBancaria(morosidadComercial.id)">
                           <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
                         </button>
                         <button mat-icon-button class="tbl-action-btn" #tooltip="matTooltip" matTooltip="Quitar"
-                          style="margin-top: 1rem;" (click)="eliminarProveedor(morosidadComercial[columnsToDisplayDeudaBancaria[0]])">
+                          style="margin-top: 1rem;" (click)="eliminarProveedor(morosidadComercial.id)">
                           <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
                         </button>
                       </td>
@@ -314,8 +337,72 @@
             Litigios y Antecedentes Crediticios
           </div>
         </ng-template>
-
-        Content 3
+        <ng-template matTabContent>
+          <div class="card card-body">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-between w-100">
+                <h5>Litigios (Notificaciones, Demandas, Juicios, Fiscalía, Deudas Coactivas, Omisiones Tributarias, etc.)</h5>
+                <div class="">
+                  <button mat-mini-fab class="bg-cyan m-0" #tooltip="matTooltip" matTooltip="Guardar">
+                    <mat-icon class="col-white">save</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>(Español)</mat-label>
+                    <textarea matInput placeholder="" style="min-height: 10rem;"></textarea>
+                    <span matSuffix  class="fi fi-es" style="font-size: 24px;"></span>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>
+                      (Inglés)
+                      <span matSuffix class="fi fi-us" style="font-size: 24px;">
+                      </span>
+                    </mat-label>
+                    <textarea matInput placeholder="" style="min-height: 10rem;" ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card card-body">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-between w-100">
+                <h5>Antecedentes Crediticios de Informes Anteriores (Histórico de Pagos)</h5>
+                <div class="">
+                  <button mat-mini-fab class="bg-cyan m-0" #tooltip="matTooltip" matTooltip="Guardar">
+                    <mat-icon class="col-white">save</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>(Español)</mat-label>
+                    <textarea matInput placeholder="" style="min-height: 10rem;"></textarea>
+                    <span matSuffix  class="fi fi-es" style="font-size: 24px;"></span>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w-100">
+                    <mat-label>
+                      (Inglés)
+                      <span matSuffix class="fi fi-us" style="font-size: 24px;">
+                      </span>
+                    </mat-label>
+                    <textarea matInput placeholder="" style="min-height: 10rem;" ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   </div>

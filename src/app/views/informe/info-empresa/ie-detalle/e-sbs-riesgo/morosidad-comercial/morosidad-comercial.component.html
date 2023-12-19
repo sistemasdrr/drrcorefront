@@ -22,10 +22,7 @@
                 </li>
                 <li class="tbl-header-btn">
                   <div class="m-l-10" >
-                    <button mat-icon-button  class="btn btn-primary" (click)="agregar()"  #tooltip="matTooltip" matTooltip="Guardar" *ngIf="accion === 'AGREGAR'">
-                      <mat-icon>save</mat-icon>
-                    </button>
-                    <button mat-icon-button  class="btn btn-primary" (click)="editar()"  #tooltip="matTooltip" matTooltip="Guardar"  *ngIf="accion === 'EDITAR'"  >
+                    <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Guardar">
                       <mat-icon>save</mat-icon>
                     </button>
                   </div>
@@ -34,28 +31,22 @@
             </div>
           </div>
         </div>
-        <mat-dialog-content class="mat-typography">
+        <mat-dialog-content class="mat-typography m-0 p-0">
           <div class="body">
-            <div class="row">
+            <div class="row m-0 p-0">
               <h5 style="font-size: 20px;">Datos de la Morosidad Comercial</h5>
-              <div class="col-md-2" *ngIf="accion !== 'AGREGAR'">
-                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                  <mat-label>ID</mat-label>
-                  <input matInput [(ngModel)]="id" readonly="true">
-                </mat-form-field>
-              </div>
-              <div class="col-md-3">
+
+              <div class="col-md-6 m-0">
                 <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                   <mat-label>Acreedor o Proveedor</mat-label>
-                  <input matInput [(ngModel)]="acreProv">
+                  <input matInput [(ngModel)]="creditorOrSupplier">
                 </mat-form-field>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 m-0">
                 <mat-form-field class="w-100" >
                   <mat-label>Tipo de Documento</mat-label>
-                  <mat-select [(ngModel)]="tipoDoc">
+                  <mat-select [(ngModel)]="documentType">
                     <mat-option  [value]="''">
-
                     </mat-option>
                     <mat-option  [value]="'Letra Protestada'">
                       Letra Protestada
@@ -81,43 +72,41 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 m-0">
                 <mat-form-field color="primary" class="w-100" >
                   <mat-label>Fecha</mat-label>
-                  <input matInput [matDatepicker]="fecha" [ngModel]="fechaSeleccionada" (dateChange)="onDateChange1($event)">
+                  <input matInput [matDatepicker]="fecha" [ngModel]="dateD" (dateChange)="selectFecha1($event)">
                   <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
                   <mat-datepicker #fecha color="primary"></mat-datepicker>
                 </mat-form-field>
               </div>
-              <div class="col-md-3" *ngIf="accion === 'AGREGAR'"></div>
-              <div class="col-md-1" *ngIf="accion === 'EDITAR'"></div>
-              <div class="col-md-3">
+
+              <div class="col-md-3 m-0">
                 <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                  <mat-label>Monto MN</mat-label>
-                  <input matInput [(ngModel)]="montoMN">
+                  <mat-label>Monto en Moneda Nacional</mat-label>
+                  <input matInput [(ngModel)]="amountNc" type="number">
                 </mat-form-field>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 m-0">
                 <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
-                  <mat-label>Monto ME</mat-label>
-                  <input matInput [(ngModel)]="montoME">
+                  <mat-label>Monto en Moneda Extranjera</mat-label>
+                  <input matInput [(ngModel)]="amountFc" type="number">
                 </mat-form-field>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 m-0">
                 <mat-form-field color="primary" class="w-100" >
-                  <mat-label>Fecha de Pago o Pendiente</mat-label>
-                  <input matInput [matDatepicker]="fecha_pago" [ngModel]="fechaPagoSeleccionada" (dateChange)="onDateChange2($event)">
+                  <mat-label>Fecha de Pago Pendiente</mat-label>
+                  <input matInput [matDatepicker]="fecha_pago" [ngModel]="pendingPaymentDateD" (dateChange)="selectFecha2($event)">
                   <mat-datepicker-toggle matIconSuffix [for]="fecha_pago"></mat-datepicker-toggle>
                   <mat-datepicker #fecha_pago color="primary"></mat-datepicker>
                 </mat-form-field>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-2 m-0">
                 <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                   <mat-label>Días de Atraso</mat-label>
-                  <input matInput [(ngModel)]="diasAtraso">
+                  <input matInput [(ngModel)]="daysLate" type="number">
                 </mat-form-field>
               </div>
-
             </div>
           </div>
         </mat-dialog-content>
