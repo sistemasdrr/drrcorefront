@@ -1,3 +1,5 @@
+import { Traduction } from "./datos-empresa"
+
 export interface CompanySbs{
   id : number
   idCompany : number
@@ -11,6 +13,9 @@ export interface CompanySbs{
   date : string
   litigationsCommentary : string
   creditHistoryCommentary : string
+  guaranteesOfferedNc : number
+  guaranteesOfferedFc : number
+  traductions : Traduction[]
 }
 
 export interface ProveedorT{
@@ -100,4 +105,14 @@ export interface DeudaBancaria{
   debtFc : number
   memo : string
   memoEng : string
+}
+export interface Avales{
+  id : number
+  idCompany : number
+  endorsementName : string
+  ruc : string
+  amountUs : number
+  amountNc : number
+  date : string
+  receivingEntity : string
 }

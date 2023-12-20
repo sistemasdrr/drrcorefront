@@ -29,3 +29,10 @@ mat-form-field{
 :host ::ng-deep .mat-mdc-tab-group {
   flex-direction: column !important;
 }
+.btn-traduccion{
+  background-color: rgba(0,0,0,0);
+  border: 0px solid white;
+}
+.sin-traduccion{
+  filter: contrast(.3);
+}

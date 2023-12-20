@@ -1,34 +1,84 @@
-<div class="container m-0 p-0">
-  <mat-dialog-content class="m-0 p-0" style="min-width: 70rem; min-height: 50rem; overflow: auto;">
-    <div class="row m-0 p-0"  >
-      <div class="col-md-12">
-        <div class="card">
-          <div class="header">
-            <div class="materialTableHeader mt-3">
-              <div class="left">
-                <ul class="header-buttons-left ms-0">
-                  <li class="tbl-title">
-                    <h5 style="font-size: 30px;">Seleccionar Calidad del Informe</h5>
-                  </li>
-                </ul>
+<div class="container"  >
+  <div class="row "  >
+    <div class="col-md-12">
+      <div class="card">
+        <div class="header">
+          <div class="materialTableHeader mt-3">
+            <div class="left">
+              <ul class="header-buttons-left ms-0">
+                <li class="tbl-title">
+                  <h5 style="font-size: 30px;">{{titulo}}</h5>
+                </li>
+              </ul>
+            </div>
+            <div class="right">
+              <ul class="tbl-export-btn">
+                <li class="tbl-header-btn">
+                  <div class="m-l-10">
+                    <button mat-icon-button  class="btn bg-red " (click)="volver()" #tooltip="matTooltip" matTooltip="Volver">
+                      <mat-icon>logout</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Guardar">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <mat-dialog-content class="mat-typography m-0 p-0">
+          <div class="body">
+            <div class="row m-0 p-0">
+              <h5 style="font-size: 20px;">La siguiente es información del avalista de la empresa</h5>
+
+              <div class="col-md-6 m-0">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Avalista</mat-label>
+                  <input matInput [(ngModel)]="endorsementName">
+                </mat-form-field>
               </div>
-              <div class="right">
-                <ul class="tbl-export-btn">
-                  <li class="tbl-header-btn">
-                    <div class="m-l-10">
-                      <button mat-icon-button  class="btn bg-red " (click)="volver()" #tooltip="matTooltip" matTooltip="Volver">
-                        <mat-icon>logout</mat-icon>
-                      </button>
-                    </div>
-                  </li>
-                </ul>
+              <div class="col-md-3 m-0">
+                <mat-form-field class="w-100" >
+                  <mat-label>RUC</mat-label>
+                  <input matInput [(ngModel)]="ruc">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3 m-0">
+                <mat-form-field color="primary" class="w-100" >
+                  <mat-label>Fecha</mat-label>
+                  <input matInput [matDatepicker]="fecha" [ngModel]="dateD" (dateChange)="selectFecha($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-3 m-0">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Monto en Moneda Nacional</mat-label>
+                  <input matInput [(ngModel)]="amountNc" type="number">
+                </mat-form-field>
+              </div>
+              <div class="col-md-3 m-0">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Monto en Moneda Extranjera</mat-label>
+                  <input matInput [(ngModel)]="amountUs" type="number">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 m-0">
+                <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
+                  <mat-label>Entidad Receptora</mat-label>
+                  <input matInput [(ngModel)]="receivingEntity">
+                </mat-form-field>
               </div>
             </div>
           </div>
-          <div class="body">
-          </div>
-        </div>
+        </mat-dialog-content>
       </div>
     </div>
-  </mat-dialog-content>
+  </div>
 </div>

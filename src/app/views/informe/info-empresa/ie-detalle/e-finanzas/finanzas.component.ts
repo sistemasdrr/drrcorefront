@@ -332,9 +332,9 @@ export class FinanzasComponent implements OnInit, OnDestroy{
       }
     });
   }
-  balanceSituacional(idInforme : number) {
+  balanceSituacional(idCompany : number) {
     const dialogRef = this.dialog.open(BalanceSituacionalComponent, {
-      data : idInforme,
+      data : this.idCompany,
     });
   }
   selectSituacionFinanciera(idSituacionFinanciera : number){

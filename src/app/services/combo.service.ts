@@ -71,6 +71,6 @@ export class ComboService {
     return this.http.get<Response<ComboData2[]>>(this.url+ this.controllerCombo + '/financialSituation');
   }
   getComentarioOpcionalSbs() : Observable<Response<ComboData[]>>{
-    return this.http.get<Response<ComboData[]>>('https://localhost:7234/api'+ this.controllerCombo + '/opcionalCommentarySbs');
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/opcionalCommentarySbs');
   }
 }

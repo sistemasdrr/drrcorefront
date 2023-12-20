@@ -33,11 +33,4 @@ export class InformacionGeneralComponent implements OnInit {
         },
       });
   }
-  probarApi(){
-    this.api.probarApi().subscribe(data =>{
-      if(data){
-        console.log(data)
-      }
-    });
-  }
 }

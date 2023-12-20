@@ -792,6 +792,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             busqueda.idPais = this.idCountry;
             localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
             this.router.navigate(['informes/empresa/detalle/'+this.id]);
+
             this.armarModeloActual();
           }else{
             if(paginaDetalleEmpresa){
