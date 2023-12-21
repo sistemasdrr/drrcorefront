@@ -3,9 +3,7 @@
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Imágenes de la Empresa</h4>
-        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
-          <mat-icon class="col-white">save</mat-icon>
-        </button>
+
       </div>
       <hr>
       <div class="col-md-8" >
@@ -25,8 +23,8 @@
             {{tituloSeleccion}}
           </div>
           <div class="w-100 d-flex justify-content-end">
-            <button mat-mini-fab color="primary" (click)="agregarImagen(cardSeleccionada)" [disabled]="cardSeleccionada === 0">
-              <mat-icon class="col-white">task_alt</mat-icon>
+            <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar" (click)="guardar(cardSeleccionada, desc, descIng)" [disabled]="cardSeleccionada === 0">
+              <mat-icon class="col-white">save</mat-icon>
             </button>
           </div>
         </div>
@@ -53,10 +51,10 @@
   </div>
   <div class="col-md-4">
     <mat-card>
-      <img mat-card-image style="background-size: cover; width: 100%; height: 100%" src="{{img1}}" >
+      <img mat-card-image src="{{img1}}" >
       <mat-card-content>
         <p><b>Descripción : </b>{{imgDesc1}}</p>
-        <p><b>Descripción Inglés: </b>{{imgDescIng1}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescEng1}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
@@ -64,6 +62,9 @@
           <div class="w-100 d-flex justify-content-end">
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(1)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(1)" #tooltip="matTooltip" matTooltip="Subir Imagen"[disabled]="img1 === ''">
+              <mat-icon class="col-white">upload</mat-icon>
             </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(1)" [disabled]="!(imgDesc1 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
@@ -78,7 +79,7 @@
       <img mat-card-image src="{{img2}}">
       <mat-card-content>
        <p><b>Descripción : </b>{{imgDesc2}}</p>
-       <p><b>Descripción Inglés: </b>{{imgDescIng2}}</p>
+       <p><b>Descripción Inglés: </b>{{imgDescEng2}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
@@ -86,6 +87,9 @@
           <div class="w-100 d-flex justify-content-end">
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(2)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(2)" #tooltip="matTooltip" matTooltip="Subir Imagen"[disabled]="img2 === ''">
+              <mat-icon class="col-white">upload</mat-icon>
             </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(2)" [disabled]="!(imgDesc2 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
@@ -100,7 +104,7 @@
       <img mat-card-image src="{{img3}}">
       <mat-card-content>
         <p><b>Descripción : </b>{{imgDesc3}}</p>
-        <p><b>Descripción Inglés: </b>{{imgDescIng3}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescEng3}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
@@ -108,6 +112,9 @@
           <div class="w-100 d-flex justify-content-end">
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(3)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(3)" #tooltip="matTooltip" matTooltip="Subir Imagen"[disabled]="img3 === ''">
+              <mat-icon class="col-white">upload</mat-icon>
             </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(3)" [disabled]="!(imgDesc3 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
@@ -122,7 +129,7 @@
       <img mat-card-image src="{{img4}}">
       <mat-card-content>
         <p><b>Descripción : </b>{{imgDesc4}}</p>
-        <p><b>Descripción Inglés: </b>{{imgDescIng4}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescEng4}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
@@ -130,6 +137,9 @@
           <div class="w-100 d-flex justify-content-end">
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(4)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(4)" #tooltip="matTooltip" matTooltip="Subir Imagen" [disabled]="img4 === ''">
+              <mat-icon class="col-white">upload</mat-icon>
             </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(4)" [disabled]="!(imgDesc4 !== '')">
               <mat-icon class="col-white">delete</mat-icon>

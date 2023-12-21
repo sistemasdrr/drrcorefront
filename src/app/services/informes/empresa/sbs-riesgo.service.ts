@@ -17,7 +17,7 @@ export class SbsRiesgoService {
     return this.http.post<Response<number>>(this.url + this.controllerCompany + '/addOrUpdateCompanySbs',obj)
   }
   getCompanySbsById(id : number): Observable<Response<CompanySbs>>{
-    return this.http.get<Response<CompanySbs>>(this.url + this.controllerCompany + '/getCompanySbsById?id='+id)
+    return this.http.get<Response<CompanySbs>>(this.url + this.controllerCompany + '/getCompanySbsByIdCompany?idCompany='+id)
   }
   addProvider(obj : Proveedor): Observable<Response<boolean>>{
     return this.http.post<Response<boolean>>(this.url  + this.controllerCompany + '/addOrUpdateProvider',obj)

@@ -1,6 +1,10 @@
+import { OpinionCreditoService } from './../../../../../services/informes/empresa/opinion-credito.service';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
+import { OpinionCredito } from 'app/models/informes/empresa/opinion-credito';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-opinion-credito',
@@ -8,23 +12,106 @@ import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/
   styleUrls: ['./opinion-credito.component.scss']
 })
 export class OpinionCreditoComponent implements OnInit {
-  checkSolicitudCredito : boolean = false
-  creditoConsultado = ""
-  creditoConsultadoIng = ""
-  creditoSugerido = ""
-  creditoSugeridoIng = ""
-  comentarioAnotado = ""
-  comentarioAnotadoIng = ""
-  comentarioAnterior = ""
 
-  constructor(
-    private dialog : MatDialog
-  ){
+  id = 0
+  idCompany = 0
+  creditRequest = false
+  consultedCredit = ""
+  consultedCreditEng = ""
+  suggestedCredit = ""
+  suggestedCreditEng = ""
+  currentCommentary = ""
+  currentCommentaryEng = ""
+  previousCommentary = ""
 
+  modeloNuevo : OpinionCredito[] = []
+  modeloModificado : OpinionCredito[] = []
+
+  constructor(private opinionCreditoService : OpinionCreditoService ,private dialog : MatDialog, private activatedRoute : ActivatedRoute){
+      const id = this.activatedRoute.snapshot.paramMap.get('id');
+      if (id?.includes('nuevo')) {
+        this.idCompany = 0
+      } else {
+        this.idCompany = parseInt(id + '')
+      }
   }
 
   ngOnInit(): void {
-
+    if(this.idCompany !== 0){
+      this.opinionCreditoService.getCreditOpinionByIdCompany(this.idCompany).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const opinionCredito = response.data
+            if(opinionCredito){
+              this.id = opinionCredito.id
+              this.creditRequest = opinionCredito.creditRequest
+              this.consultedCredit = opinionCredito.consultedCredit
+              this.suggestedCredit = opinionCredito.suggestedCredit
+              this.currentCommentary = opinionCredito.currentCommentary
+              this.previousCommentary = opinionCredito.previousCommentary
+              if(opinionCredito.traductions.length === 3){
+                console.log(opinionCredito.traductions)
+                this.consultedCreditEng = opinionCredito.traductions[0].value
+                this.suggestedCreditEng = opinionCredito.traductions[1].value
+                this.currentCommentaryEng = opinionCredito.traductions[2].value
+              }
+            }
+            this.armarModeloNuevo()
+            this.armarModeloModificado()
+          }
+        }
+      )
+    }
+  }
+  armarModeloNuevo(){
+    this.modeloNuevo[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      creditRequest : this.creditRequest,
+      consultedCredit : this.consultedCredit,
+      suggestedCredit : this.suggestedCredit,
+      currentCommentary : this.currentCommentary,
+      previousCommentary : this.previousCommentary,
+      traductions : [
+        {
+          key : 'S_O_QUERYCREDIT',
+          value : this.consultedCreditEng
+        },
+        {
+          key : 'S_O_SUGCREDIT',
+          value : this.suggestedCreditEng
+        },
+        {
+          key : 'L_O_COMENTARY',
+          value : this.currentCommentaryEng
+        },
+      ]
+    }
+  }
+  armarModeloModificado(){
+    this.modeloModificado[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      creditRequest : this.creditRequest,
+      consultedCredit : this.consultedCredit,
+      suggestedCredit : this.suggestedCredit,
+      currentCommentary : this.currentCommentary,
+      previousCommentary : this.previousCommentary,
+      traductions : [
+        {
+          key : 'S_O_QUERYCREDIT',
+          value : this.consultedCreditEng
+        },
+        {
+          key : 'S_O_SUGCREDIT',
+          value : this.suggestedCreditEng
+        },
+        {
+          key : 'L_O_COMENTARY',
+          value : this.currentCommentaryEng
+        },
+      ]
+    }
   }
 
   agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
@@ -43,12 +130,12 @@ export class OpinionCreditoComponent implements OnInit {
         console.log(data)
         switch(input){
           case 'creditoConsultado':
-          this.creditoConsultado = data.comentario_es;
-          this.creditoConsultadoIng = data.comentario_en;
+          this.consultedCredit = data.comentario_es;
+          this.consultedCreditEng = data.comentario_en;
           break
           case 'creditoSugerido':
-          this.creditoSugerido = data.comentario_es;
-          this.creditoSugeridoIng = data.comentario_en;
+          this.suggestedCredit = data.comentario_es;
+          this.suggestedCreditEng = data.comentario_en;
           break
         }
       }
@@ -69,8 +156,8 @@ export class OpinionCreditoComponent implements OnInit {
         console.log(data)
         switch(input){
           case 'comentarioAnotado':
-          this.comentarioAnotado = data.comentario_es;
-          this.comentarioAnotadoIng = data.comentario_en;
+          this.currentCommentary = data.comentario_es;
+          this.currentCommentaryEng = data.comentario_en;
           break
 
         }
@@ -81,4 +168,78 @@ export class OpinionCreditoComponent implements OnInit {
   tituloCreditoConsultado = 'Crédito Consultado'
   tituloCreditoSugerido = 'Crédito Sugerido'
   tituloComentario = 'Comentario Acorde a lo Anotado '
+
+  guardar(){
+    if(this.id === 0){
+      this.armarModeloNuevo()
+      console.log(this.modeloNuevo[0])
+      Swal.fire({
+        title: '¿Está seguro de guardar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.opinionCreditoService.addCreditOpinion(this.modeloNuevo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.armarModeloNuevo()
+                  this.armarModeloModificado()
+                })
+                this.id = response.data
+              }
+            }
+          )
+        }
+      });
+    }else{
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.opinionCreditoService.addCreditOpinion(this.modeloModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.armarModeloNuevo()
+                  this.armarModeloModificado()
+                })
+                this.id = response.data
+              }
+            }
+          )
+        }
+      });
+    }
+  }
 }
