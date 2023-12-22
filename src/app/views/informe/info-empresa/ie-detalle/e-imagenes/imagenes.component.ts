@@ -1,3 +1,4 @@
+import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -258,9 +259,9 @@ export class ImagenesComponent implements OnInit{
     const reader = new FileReader();
     reader.onload = (event) => {
     const base64String = event.target?.result as string;
+    this.imgSeleccionada = base64String
       console.log('Base64 de la imagen:', base64String);
       if(card == 1){
-
         this.img1 = base64String;
         this.imgDesc1 = this.desc
         this.imgDescEng1 = this.descIng
@@ -292,25 +293,29 @@ export class ImagenesComponent implements OnInit{
     this.imgSeleccionadaCheck = true
     if(card == 1){
       this.tituloSeleccion = "Imagén 1"
-      this.imgSeleccionada = this.img1
       this.desc = this.imgDesc1
       this.descIng = this.imgDescEng1
+      this.files[0] = new File([this.dataURItoBlob(this.img1)], this.idCompany + "_"+card+".png", { type: 'image/png' });
+
     }else if(card == 2){
       this.tituloSeleccion = "Imagén 2"
-      this.imgSeleccionada = this.img2
       this.desc = this.imgDesc2
       this.descIng = this.imgDescEng2
+      this.files[0] = new File([this.dataURItoBlob(this.img2)], this.idCompany + "_"+card+".png", { type: 'image/png' });
+
     }else if(card == 3){
       this.tituloSeleccion = "Imagén 3"
-      this.imgSeleccionada = this.img3
       this.desc = this.imgDesc3
       this.descIng = this.imgDescEng3
+      this.files[0] = new File([this.dataURItoBlob(this.img3)], this.idCompany + "_"+card+".png", { type: 'image/png' });
     }else if(card == 4){
       this.tituloSeleccion = "Imagén 4"
-      this.imgSeleccionada = this.img4
       this.desc = this.imgDesc4
       this.descIng = this.imgDescEng4
+      this.files[0] = new File([this.dataURItoBlob(this.img4)], this.idCompany + "_"+card+".png", { type: 'image/png' });
     }
+    console.log(this.files[0])
+
   }
   borrarImagen(card : number){
     if(card == 1){
@@ -332,23 +337,9 @@ export class ImagenesComponent implements OnInit{
     }
   }
   subirImagen(num: number) {
-    let blob : any = null
-
-    if(num === 1){
-      blob = this.dataURItoBlob(this.img1);
-    }
-    if(num === 2){
-      blob = this.dataURItoBlob(this.img2);
-    }
-    if(num === 3){
-      blob = this.dataURItoBlob(this.img3);
-    }
-    if(num === 4){
-      blob = this.dataURItoBlob(this.img4);
-    }
 
     // Crea un nuevo archivo a partir del Blob
-    const imagen: File = new File([blob], this.idCompany + "_"+num+".png", { type: 'image/png' });
+    const imagen: File = new File([this.files[0]], this.idCompany + "_"+num+".png", { type: 'image/png' });
 
     const formData = new FormData();
     formData.append('request', imagen);
@@ -384,6 +375,7 @@ export class ImagenesComponent implements OnInit{
   }
 
   guardar(card : number, desc : string, descIng : string){
+    console.log(card)
     if(this.id === 0){
       this.armarModeloNuevo()
       console.log(this.modeloNuevo[0])
@@ -433,86 +425,52 @@ export class ImagenesComponent implements OnInit{
         heightAuto : true
       }).then((result) => {
         if (result.value) {
-          const reader = new FileReader();
-
-          let blob : any = null
-          reader.onload = (event) => {
-          const base64String = event.target?.result as string;
-            if(card == 1){
-              this.img1 = base64String;
+            if(card === 1){
               this.imgDesc1 = desc
               this.imgDescEng1 = descIng
-              blob = this.dataURItoBlob(base64String);
-            }else if(card == 2){
-              this.img2 = base64String;
+            }else if(card === 2){
               this.imgDesc2 = desc
               this.imgDescEng2 = descIng
-              blob = this.dataURItoBlob(base64String);
-            }else if(card == 3){
-              this.img3 = base64String;
+            }else if(card === 3){
               this.imgDesc3 = desc
               this.imgDescEng3 = descIng
-              blob = this.dataURItoBlob(base64String);
-            }else if(card == 4){
-              this.img4 = base64String;
+            }else if(card === 4){
               this.imgDesc4 = desc
               this.imgDescEng4 = descIng
-              blob = this.dataURItoBlob(base64String);
             }
-            console.log(blob)
-            const imagen: File = new File([blob], this.idCompany + "_"+card+".png", { type: 'image/png' });
-            const formData = new FormData();
-            formData.append('request', imagen);
-
-            console.log(imagen);
-
-            this.imagenesService.uploadImages(formData).subscribe(
+            this.agregarImagen(card)
+            this.armarModeloModificado()
+            this.imagenesService.addCompanyImg(this.modeloModificado[0]).subscribe(
               (response) => {
-                if (response.isSuccess === true && response.isWarning === false) {
-                  Swal.fire({
-                    title: '¡Se subió la imagen con éxito!',
-                    text: '',
-                    icon: 'success',
-                    width: '40rem',
-                    heightAuto: true
-                  }).then(() => {
+                if(response.isSuccess === true && response.isWarning === false){
 
-                  this.cardSeleccionada = 0
-                  this.files = []
-                  this.tituloSeleccion = ""
-                  this.desc = ""
-                  this.descIng = ""
-                  });
-                }
+                } 
               }
-            );
-          };
-          this.armarModeloModificado()
-          console.log(this.modeloModificado[0])
-
-          this.imagenesService.addCompanyImg(this.modeloModificado[0]).subscribe(
-            (response) => {
-              if(response.isSuccess === true && response.isWarning === false){
-                Swal.fire({
-                  title: 'El registro se guardo correctamente.',
-                  text: '',
-                  icon: 'success',
-                  width: '30rem',
-                  heightAuto: true
-                }).then(() => {
-
-                  this.armarModeloNuevo()
-                  this.armarModeloModificado()
-                })
-                this.id = response.data
+            ).add(
+              () => {
+                this.subirImagen(card)
               }
-            }
-          )
-        }
-      })
+            )
+          }
+        })
+          // this.imagenesService.addCompanyImg(this.modeloModificado[0]).subscribe(
+          //   (response) => {
+          //     if(response.isSuccess === true && response.isWarning === false){
+          //       Swal.fire({
+          //         title: 'El registro se guardo correctamente.',
+          //         text: '',
+          //         icon: 'success',
+          //         width: '30rem',
+          //         heightAuto: true
+          //       }).then(() => {
 
-
-
+          //         this.armarModeloNuevo()
+          //         this.armarModeloModificado()
+          //       })
+          //       this.id = response.data
+          //     }
+          //   }
+          // )
     }
   }
 }

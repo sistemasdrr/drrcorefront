@@ -9,9 +9,8 @@
       <div class="col-md-8" >
         <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" style="height: 20rem;" [accept]="'image/*'" (change)="onSelect($event)"   [disabled]="cardSeleccionada === 0">
           <div class="d-flex justify-content-center" style="background-size: cover; width: 100%; height: 100%" *ngIf="imgSeleccionadaCheck === true">
-            <img mat-card-image src="{{imgSeleccionada}}" style="width: auto; height: 100%;">
           </div>
-          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100" *ngFor="let file of files" [file]="file" >
+          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100 d-flex justify-content-center" *ngFor="let file of files" [file]="file" >
 
 
           </ngx-dropzone-image-preview>
@@ -63,9 +62,6 @@
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(1)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(1)" #tooltip="matTooltip" matTooltip="Subir Imagen"[disabled]="img1 === ''">
-              <mat-icon class="col-white">upload</mat-icon>
-            </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(1)" [disabled]="!(imgDesc1 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
             </button>
@@ -87,9 +83,6 @@
           <div class="w-100 d-flex justify-content-end">
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(2)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
-            </button>
-            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(2)" #tooltip="matTooltip" matTooltip="Subir Imagen"[disabled]="img2 === ''">
-              <mat-icon class="col-white">upload</mat-icon>
             </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(2)" [disabled]="!(imgDesc2 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
@@ -113,9 +106,6 @@
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(3)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(3)" #tooltip="matTooltip" matTooltip="Subir Imagen"[disabled]="img3 === ''">
-              <mat-icon class="col-white">upload</mat-icon>
-            </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(3)" [disabled]="!(imgDesc3 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
             </button>
@@ -137,9 +127,6 @@
           <div class="w-100 d-flex justify-content-end">
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(4)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
-            </button>
-            <button mat-mini-fab class="bg-green" style="margin: 0 .5rem 0 .5rem;" (click)="subirImagen(4)" #tooltip="matTooltip" matTooltip="Subir Imagen" [disabled]="img4 === ''">
-              <mat-icon class="col-white">upload</mat-icon>
             </button>
             <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(4)" [disabled]="!(imgDesc4 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
