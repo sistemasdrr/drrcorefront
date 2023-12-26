@@ -12,8 +12,7 @@
         <mat-form-field class="w-100">
           <mat-label>Sector (Principal)</mat-label>
           <mat-select [(ngModel)]="sectorPrincipalInforme">
-            <mat-option [value]="'1'">1</mat-option>
-            <mat-option [value]="'12'">12</mat-option>
+            <mat-option [value]="item.id" *ngFor="let item of listaSectorPrincipal">{{item.valor}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

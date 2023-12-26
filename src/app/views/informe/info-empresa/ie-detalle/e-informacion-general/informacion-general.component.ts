@@ -32,6 +32,10 @@ export class InformacionGeneralComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(paginaDetalleEmpresa){
+      paginaDetalleEmpresa.classList.remove('hide-loader');
+    }
     if(this.idCompany !== 0){
       this.informacionGeneralService.getGeneralInformationByIdCompany(this.idCompany).subscribe(
         (response) => {
@@ -46,7 +50,17 @@ export class InformacionGeneralComponent implements OnInit {
             }
           }
         }
+      ).add(
+        () => {
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.add('hide-loader');
+          }
+        }
       )
+    }else{
+      if(paginaDetalleEmpresa){
+        paginaDetalleEmpresa.classList.add('hide-loader');
+      }
     }
   }
   armarModeloNuevo(){
@@ -77,6 +91,7 @@ export class InformacionGeneralComponent implements OnInit {
   }
 
   guardar(){
+
     if(this.id === 0){
       this.armarModeloNuevo()
       console.log(this.modeloNuevo[0])
@@ -93,6 +108,10 @@ export class InformacionGeneralComponent implements OnInit {
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.informacionGeneralService.addGeneralInformation(this.modeloNuevo[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
@@ -107,6 +126,12 @@ export class InformacionGeneralComponent implements OnInit {
                   this.armarModeloModificado()
                 })
                 this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
               }
             }
           )
@@ -128,6 +153,10 @@ export class InformacionGeneralComponent implements OnInit {
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.informacionGeneralService.addGeneralInformation(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
@@ -142,6 +171,12 @@ export class InformacionGeneralComponent implements OnInit {
                   this.armarModeloModificado()
                 })
                 this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
               }
             }
           )

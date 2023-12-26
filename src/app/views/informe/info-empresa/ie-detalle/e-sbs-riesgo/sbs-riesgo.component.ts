@@ -74,6 +74,10 @@ export class SbsRiesgoComponent implements OnInit{
     }
   }
   ngOnInit(): void {
+    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(paginaDetalleEmpresa){
+      paginaDetalleEmpresa.classList.remove('hide-loader');
+    }
     this.comboService.getComentarioOpcionalSbs().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
@@ -140,6 +144,9 @@ export class SbsRiesgoComponent implements OnInit{
             }
           ).add(() => {
             this.armarModeloModificado()
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
           })
           this.sbsService.getProviderByIdCompany(this.idCompany).subscribe(
             (response) => {
@@ -654,6 +661,10 @@ export class SbsRiesgoComponent implements OnInit{
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.sbsService.addCompanySbs(this.modeloNuevo[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
@@ -668,6 +679,12 @@ export class SbsRiesgoComponent implements OnInit{
                   this.armarModeloModificado()
                 })
                 this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
               }
             }
           )
@@ -689,6 +706,10 @@ export class SbsRiesgoComponent implements OnInit{
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.sbsService.addCompanySbs(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
@@ -703,6 +724,12 @@ export class SbsRiesgoComponent implements OnInit{
                   this.armarModeloModificado()
                 })
                 this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
               }
             }
           )

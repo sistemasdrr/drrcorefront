@@ -32,15 +32,12 @@
     <div class="col-md-5 mb-3">
       <mat-form-field class="w-100">
         <mat-label>Moneda del País</mat-label>
-        <input type="text" matInput [formControl]="ctrlMoneda" [matAutocomplete]="auto" [(ngModel)]="currentPaidCapitalCurrencyInforme" (ngModelChange)="selectMoneda(currentPaidCapitalCurrencyInforme)">
         <span matSuffix style="margin-right: .5rem; color:gray;">
           <i class="fa-solid fa-coins"></i>
         </span>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredMoneda | async" [value]="option">
-            {{option.valor}}
-          </mat-option>
-        </mat-autocomplete>
+        <mat-select [(ngModel)]="idCurrency">
+            <mat-option [value]="item.id" *ngFor="let item of listaMonedas">{{item.valor}}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <div class="col-md-7 mb-3">

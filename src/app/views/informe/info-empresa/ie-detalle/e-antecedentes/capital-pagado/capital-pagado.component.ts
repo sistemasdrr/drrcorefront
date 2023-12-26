@@ -1,16 +1,10 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ComboService } from 'app/services/combo.service';
 import { ComboData } from 'app/models/combo';
 
-export interface CapitalPagadoData{
-  moneda : string
-  monto : string
-  observacion : string
-  observacionIng : string
-}
 @Component({
   selector: 'app-capital-pagado',
   templateUrl: './capital-pagado.component.html',
@@ -32,9 +26,6 @@ export class CapitalPagadoComponent implements OnInit {
   listaMonedas : ComboData[] = []
   filteredMoneda: Observable<ComboData[]>;
 
-  @Output()
-  eventCapitalPagado = new EventEmitter<CapitalPagadoData>();
-
   selectMoneda(data : ComboData){
     if (data !== null) {
       if (typeof data === 'string' || data === null) {
@@ -49,8 +40,15 @@ export class CapitalPagadoComponent implements OnInit {
   }
 
   constructor(public dialogRef: MatDialogRef<CapitalPagadoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CapitalPagadoData, private comboService : ComboService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private comboService : ComboService) {
     this.filteredMoneda = new Observable<ComboData[]>()
+    if(data){
+      console.log(data)
+      this.idCurrency = data.moneda
+      this.capital = data.monto
+      this.commentary = data.observacion
+      this.commentaryEng = data.observacionIng
+    }
   }
 
   ngOnInit() {
@@ -59,7 +57,12 @@ export class CapitalPagadoComponent implements OnInit {
         if(response.isSuccess === true && response.isWarning === false){
           this.listaMonedas = response.data
         }
-      });
+      }).add(
+        () => {
+          console.log(this.listaMonedas)
+          this.currentPaidCapitalCurrencyInforme = this.listaMonedas.filter(x => x.id === this.idCurrency)[0]
+        }
+      );
     this.filteredMoneda = this.ctrlMoneda.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -85,7 +88,6 @@ export class CapitalPagadoComponent implements OnInit {
     this.dialogRef.close(
     {
       idMoneda : this.idCurrency,
-      moneda : this.currentPaidCapitalCurrencyInforme.valor,
       monto : this.capital,
       observacion :this.commentary,
       observacionIng : this.commentaryEng

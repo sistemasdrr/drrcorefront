@@ -73,4 +73,7 @@ export class ComboService {
   getComentarioOpcionalSbs() : Observable<Response<ComboData[]>>{
     return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/opcionalCommentarySbs');
   }
+  getSectorPrincipal() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/branchSector');
+  }
 }

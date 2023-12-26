@@ -79,6 +79,10 @@ export class BalanceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(paginaDetalleEmpresa){
+      paginaDetalleEmpresa.classList.remove('hide-loader');
+    }
     this.comboService.getTipoMoneda().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning == false){
@@ -91,6 +95,12 @@ export class BalanceComponent implements OnInit {
           (response) => {
             if(response.isSuccess === true && response.isWarning === false){
               this.listaBalances = response.data
+            }
+          }
+        ).add(
+          () => {
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
             }
           }
         )

@@ -72,7 +72,10 @@ export class FinanzasComponent implements OnInit, OnDestroy{
   compararModelosF: any
 
   ngOnInit() {
-
+    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(paginaDetalleEmpresa){
+      paginaDetalleEmpresa.classList.remove('hide-loader');
+    }
     this.comboService.getGradoColaboracion().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
@@ -122,6 +125,13 @@ export class FinanzasComponent implements OnInit, OnDestroy{
                   (response) => {
                     if(response.isSuccess === true && response.isWarning === false){
                       this.dataSourceHistoricoVentas.data = response.data
+                    }
+                  }
+                ).add(
+                  () => {
+                    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+                    if(paginaDetalleEmpresa){
+                      paginaDetalleEmpresa.classList.add('hide-loader');
                     }
                   }
                 )

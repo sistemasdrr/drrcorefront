@@ -37,6 +37,10 @@ export class OpinionCreditoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(paginaDetalleEmpresa){
+      paginaDetalleEmpresa.classList.remove('hide-loader');
+    }
     if(this.idCompany !== 0){
       this.opinionCreditoService.getCreditOpinionByIdCompany(this.idCompany).subscribe(
         (response) => {
@@ -60,7 +64,17 @@ export class OpinionCreditoComponent implements OnInit {
             this.armarModeloModificado()
           }
         }
+      ).add(
+        () => {
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.add('hide-loader');
+          }
+        }
       )
+    }else{
+      if(paginaDetalleEmpresa){
+        paginaDetalleEmpresa.classList.add('hide-loader');
+      }
     }
   }
   armarModeloNuevo(){
@@ -186,6 +200,10 @@ export class OpinionCreditoComponent implements OnInit {
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.opinionCreditoService.addCreditOpinion(this.modeloNuevo[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
@@ -200,6 +218,12 @@ export class OpinionCreditoComponent implements OnInit {
                   this.armarModeloModificado()
                 })
                 this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
               }
             }
           )
@@ -221,6 +245,10 @@ export class OpinionCreditoComponent implements OnInit {
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.opinionCreditoService.addCreditOpinion(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
@@ -235,6 +263,12 @@ export class OpinionCreditoComponent implements OnInit {
                   this.armarModeloModificado()
                 })
                 this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
               }
             }
           )

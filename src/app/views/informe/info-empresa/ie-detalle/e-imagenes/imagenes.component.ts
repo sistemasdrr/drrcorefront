@@ -1,4 +1,3 @@
-import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -68,7 +67,12 @@ export class ImagenesComponent implements OnInit{
     this.path4 = this.idCompany+'_4.png'
   }
   ngOnInit(): void {
+
     if(this.idCompany !== 0){
+      const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+      if(paginaDetalleEmpresa){
+        paginaDetalleEmpresa.classList.remove('hide-loader');
+      }
       this.imagenesService.getCompanyImgByIdCompany(this.idCompany).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
@@ -79,7 +83,6 @@ export class ImagenesComponent implements OnInit{
               this.imgDesc2 = companyImg.imgDesc2
               this.imgDesc3 = companyImg.imgDesc3
               this.imgDesc4 = companyImg.imgDesc4
-
               this.path1 = companyImg.path1
               this.path2 = companyImg.path2
               this.path3 = companyImg.path3
@@ -102,10 +105,8 @@ export class ImagenesComponent implements OnInit{
               if (response instanceof HttpResponse && response.ok) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  // Guardar la imagen base64 en this.img1
                   this.img1 = reader.result as string;
                 };
-                // Convertir el blob en base64
                 reader.readAsDataURL(response.body as Blob);
               }
             }
@@ -115,10 +116,8 @@ export class ImagenesComponent implements OnInit{
               if (response instanceof HttpResponse && response.ok) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  // Guardar la imagen base64 en this.img1
                   this.img2 = reader.result as string;
                 };
-                // Convertir el blob en base64
                 reader.readAsDataURL(response.body as Blob);
               }
             }
@@ -128,10 +127,8 @@ export class ImagenesComponent implements OnInit{
               if (response instanceof HttpResponse && response.ok) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  // Guardar la imagen base64 en this.img1
                   this.img3 = reader.result as string;
                 };
-                // Convertir el blob en base64
                 reader.readAsDataURL(response.body as Blob);
               }
             }
@@ -141,11 +138,15 @@ export class ImagenesComponent implements OnInit{
               if (response instanceof HttpResponse && response.ok) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  // Guardar la imagen base64 en this.img1
                   this.img4 = reader.result as string;
                 };
-                // Convertir el blob en base64
                 reader.readAsDataURL(response.body as Blob);
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
               }
             }
           );
@@ -296,13 +297,11 @@ export class ImagenesComponent implements OnInit{
       this.desc = this.imgDesc1
       this.descIng = this.imgDescEng1
       this.files[0] = new File([this.dataURItoBlob(this.img1)], this.idCompany + "_"+card+".png", { type: 'image/png' });
-
     }else if(card == 2){
       this.tituloSeleccion = "Imagén 2"
       this.desc = this.imgDesc2
       this.descIng = this.imgDescEng2
       this.files[0] = new File([this.dataURItoBlob(this.img2)], this.idCompany + "_"+card+".png", { type: 'image/png' });
-
     }else if(card == 3){
       this.tituloSeleccion = "Imagén 3"
       this.desc = this.imgDesc3
@@ -314,8 +313,6 @@ export class ImagenesComponent implements OnInit{
       this.descIng = this.imgDescEng4
       this.files[0] = new File([this.dataURItoBlob(this.img4)], this.idCompany + "_"+card+".png", { type: 'image/png' });
     }
-    console.log(this.files[0])
-
   }
   borrarImagen(card : number){
     if(card == 1){
@@ -337,20 +334,25 @@ export class ImagenesComponent implements OnInit{
     }
   }
   subirImagen(num: number) {
-
     // Crea un nuevo archivo a partir del Blob
-    const imagen: File = new File([this.files[0]], this.idCompany + "_"+num+".png", { type: 'image/png' });
-
+    let imagen : any = null
+    if(num === 1){
+      imagen = new File([this.dataURItoBlob(this.img1)], this.idCompany + "_"+num+".png", { type: 'image/png' });
+    }if(num === 2){
+      imagen = new File([this.dataURItoBlob(this.img2)], this.idCompany + "_"+num+".png", { type: 'image/png' });
+    }if(num === 3){
+      imagen = new File([this.dataURItoBlob(this.img3)], this.idCompany + "_"+num+".png", { type: 'image/png' });
+    }if(num === 4){
+      imagen = new File([this.dataURItoBlob(this.img4)], this.idCompany + "_"+num+".png", { type: 'image/png' });
+    }
     const formData = new FormData();
     formData.append('request', imagen);
-
-    console.log(imagen);
 
     this.imagenesService.uploadImages(formData).subscribe(
       (response) => {
         if (response.isSuccess === true && response.isWarning === false) {
           Swal.fire({
-            title: '¡Se subió la imagen con éxito!',
+            title: '¡Se guardaron los datos con éxito!',
             text: '',
             icon: 'success',
             width: '40rem',
@@ -359,19 +361,29 @@ export class ImagenesComponent implements OnInit{
           });
         }
       }
+    ).add(
+      () => {
+        const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.add('hide-loader');
+          }
+      }
     );
   }
 
   dataURItoBlob(dataURI: string): Blob {
-    const byteString = atob(dataURI.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
+    if(dataURI !== "" && dataURI !== null){
+      const byteString = atob(dataURI.split(',')[1]);
+      const ab = new ArrayBuffer(byteString.length);
+      const ia = new Uint8Array(ab);
 
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
+      for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([ab], { type: 'image/png' });
+    }else{
+      return new Blob([])
     }
-
-    return new Blob([ab], { type: 'image/png' });
   }
 
   guardar(card : number, desc : string, descIng : string){
@@ -425,6 +437,10 @@ export class ImagenesComponent implements OnInit{
         heightAuto : true
       }).then((result) => {
         if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
             if(card === 1){
               this.imgDesc1 = desc
               this.imgDescEng1 = descIng
@@ -443,8 +459,7 @@ export class ImagenesComponent implements OnInit{
             this.imagenesService.addCompanyImg(this.modeloModificado[0]).subscribe(
               (response) => {
                 if(response.isSuccess === true && response.isWarning === false){
-
-                } 
+                }
               }
             ).add(
               () => {
@@ -453,24 +468,6 @@ export class ImagenesComponent implements OnInit{
             )
           }
         })
-          // this.imagenesService.addCompanyImg(this.modeloModificado[0]).subscribe(
-          //   (response) => {
-          //     if(response.isSuccess === true && response.isWarning === false){
-          //       Swal.fire({
-          //         title: 'El registro se guardo correctamente.',
-          //         text: '',
-          //         icon: 'success',
-          //         width: '30rem',
-          //         heightAuto: true
-          //       }).then(() => {
-
-          //         this.armarModeloNuevo()
-          //         this.armarModeloModificado()
-          //       })
-          //       this.id = response.data
-          //     }
-          //   }
-          // )
     }
   }
 }

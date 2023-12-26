@@ -14,7 +14,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Pais } from 'app/models/pais';
 import { PaisService } from 'app/services/pais.service';
 import { DialogComercioComponent } from './dialog-comercio/dialog-comercio.component';
-import * as cheerio from 'cheerio';
+import { ComboService } from 'app/services/combo.service';
+import { ComboData } from 'app/models/combo';
 
 export interface data {
   name: string;
@@ -32,7 +33,7 @@ export class RamoComponent implements OnInit{
 
   numeroPaisesImpo = [1,2,3,4]
   numeroPaisesExpo = [5,6,7,8]
-
+  listaSectorPrincipal : ComboData[] = []
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   controlPaisesImpo = new FormControl<string | Pais>('')
@@ -70,13 +71,20 @@ export class RamoComponent implements OnInit{
   data = '<figure class="table"><table><tbody><tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure>'
 
   constructor(private dialog : MatDialog,
-    private paisService : PaisService){
+    private paisService : PaisService, private comboService : ComboService){
 
     this.filteredOptions = new Observable<data[]>();
     this.filterPaisImpo = new Observable<Pais[]>()
     this.filterPaisExpo = new Observable<Pais[]>()
   }
   ngOnInit() {
+    this.comboService.getSectorPrincipal().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.listaSectorPrincipal = response.data
+        }
+      }
+    )
     this.paisService.getPaises().subscribe(data => {
       if(data.isSuccess == true){
         this.paisesImpo = data.data;

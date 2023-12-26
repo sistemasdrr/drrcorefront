@@ -17,7 +17,7 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
-          <input matInput [matDatepicker]="fecha_contitucion_informe" [(ngModel)]="constitutionDateD" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
+          <input id="input_fecha_constitucion" matInput [matDatepicker]="fecha_contitucion_informe" [(ngModel)]="constitutionDateD" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_contitucion_informe"></mat-datepicker-toggle>
           <mat-datepicker #fecha_contitucion_informe color="primary"></mat-datepicker>
         </mat-form-field>
@@ -151,7 +151,7 @@
       <div class="col-md-3 d-flex">
         <mat-form-field class="w-100">
           <mat-label>Actual T.C. X 1 US$</mat-label>
-          <input matInput placeholder="" [(ngModel)]="currentExchangeRate" mask="9.99">
+          <input matInput placeholder="" [(ngModel)]="currentExchangeRate">
           <button class="btn-traduccion" matSuffix mat-icon-button [class]="currentExchangeRateEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloActualTC,'', currentExchangeRate+'', currentExchangeRateEng, 'actualTC')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
@@ -160,7 +160,7 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Ultima Consulta a RR.PP.</mat-label>
-          <input matInput [matDatepicker]="fecha_ultima_consulta" [(ngModel)]="lastQueryRrppD" (dateChange)="selectFechaUltimaConsulta($event)">
+          <input matInput [matDatepicker]="fecha_ultima_consulta" [(ngModel)]="lastQueryRrppD" (dateChange)="selectFechaUltimaConsulta($event)" readonly="true">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_ultima_consulta"></mat-datepicker-toggle>
           <mat-datepicker #fecha_ultima_consulta color="primary"></mat-datepicker>
         </mat-form-field>

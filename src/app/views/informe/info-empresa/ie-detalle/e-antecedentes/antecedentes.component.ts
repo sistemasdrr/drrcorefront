@@ -36,7 +36,7 @@ export class AntecedentesComponent implements OnInit, OnDestroy{
   id = 0
   idCompany = 0
   constitutionDate = ""
-  constitutionDateD : Date | null = new Date()
+  constitutionDateD : Date | null = null
   startFunctionYear = ""
   operationDuration = ""
   operationDurationEng = ""
@@ -66,7 +66,7 @@ export class AntecedentesComponent implements OnInit, OnDestroy{
   currentExchangeRate = 0
   currentExchangeRateEng = ""
   lastQueryRrpp = ""
-  lastQueryRrppD : Date | null = new Date()
+  lastQueryRrppD : Date | null = null
   lastQueryRrppBy = ""
   background = ""
   backgroundEng = ""
@@ -110,6 +110,10 @@ constructor(
   }
   compararModelosF : any
   ngOnInit() {
+    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(paginaDetalleEmpresa){
+      paginaDetalleEmpresa.classList.remove('hide-loader');
+    }
     this.comboService.getTipoMoneda().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
@@ -127,13 +131,19 @@ constructor(
             if(antecedentesLegales.constitutionDate !== '' && antecedentesLegales.constitutionDate !== null){
               this.constitutionDate = antecedentesLegales.constitutionDate
               const fecha1 = this.constitutionDate.split("/")
-              this.constitutionDateD = fecha1.length > 0 ? new Date(parseInt(fecha1[2]), parseInt(fecha1[0]) - 1, parseInt(fecha1[1])) : null;
+              this.constitutionDateD = fecha1.length > 0 ? new Date(parseInt(fecha1[2]), parseInt(fecha1[1]) - 1, parseInt(fecha1[0])) : null;
             }else{
               this.constitutionDateD = null
             }
             console.log(antecedentesLegales)
             this.startFunctionYear = antecedentesLegales.startFunctionYear
             this.operationDuration = antecedentesLegales.operationDuration
+
+            this.registerPlace = antecedentesLegales.registerPlace
+            this.notaryRegister = antecedentesLegales.notaryRegister
+            this.publicRegister = antecedentesLegales.publicRegister
+            this.currentPaidCapital = antecedentesLegales.currentPaidCapital
+            this.currentPaidCapitalComentary = antecedentesLegales.currentPaidCapitalComentary
             if(antecedentesLegales.traductions.length > 0){
               this.operationDurationEng = antecedentesLegales.traductions[0].value
               this.registerPlaceEng = antecedentesLegales.traductions[1].value
@@ -144,18 +154,14 @@ constructor(
               this.backgroundEng = antecedentesLegales.traductions[6].value
               this.historyEng = antecedentesLegales.traductions[7].value
             }
-            this.registerPlace = antecedentesLegales.registerPlace
-            this.notaryRegister = antecedentesLegales.notaryRegister
-            this.publicRegister = antecedentesLegales.publicRegister
-            this.currentPaidCapital = antecedentesLegales.currentPaidCapital
             if(antecedentesLegales.currentPaidCapitalCurrency > 0 && antecedentesLegales.currentPaidCapitalCurrency !== null){
               this.currentPaidCapitalCurrency = antecedentesLegales.currentPaidCapitalCurrency
               this.currentPaidCapitalCurrencyInforme = this.listaMonedas.filter(x => x.id === this.currentPaidCapitalCurrency)[0]
-              this.capitalPagadoActualInforme = this.currentPaidCapitalCurrencyInforme.valor + ' | ' + this.currentPaidCapital
+              this.capitalPagadoActualInforme = this.currentPaidCapitalCurrencyInforme.valor + ' | ' + this.currentPaidCapital + ' | ' + this.currentPaidCapitalComentary
 
             }else{
               this.currentPaidCapitalCurrency = 0
-              this.capitalPagadoActualInforme = ' | ' + this.currentPaidCapital
+              this.capitalPagadoActualInforme = ' | ' + this.currentPaidCapital + ' | ' + this.currentPaidCapitalComentary
 
             }
             if(antecedentesLegales.currency > 0 && antecedentesLegales.currency !== null){
@@ -168,7 +174,6 @@ constructor(
               id : 0,
               valor  : '',
             }
-            this.currentPaidCapitalComentary = antecedentesLegales.currentPaidCapitalComentary
             this.origin = antecedentesLegales.origin
             this.increaceDateCapital = antecedentesLegales.increaceDateCapital
             if(antecedentesLegales.currency > 0 && antecedentesLegales.currency !== null){
@@ -180,7 +185,13 @@ constructor(
             this.traded = antecedentesLegales.traded
             this.tradedBy = antecedentesLegales.tradedBy
             this.currentExchangeRate = antecedentesLegales.currentExchangeRate
-            this.lastQueryRrpp = antecedentesLegales.lastQueryRrpp
+            if(antecedentesLegales.lastQueryRrpp !== '' && antecedentesLegales.lastQueryRrpp !== null){
+              this.lastQueryRrpp = antecedentesLegales.lastQueryRrpp
+              const fecha1 = this.lastQueryRrpp.split("/")
+              this.lastQueryRrppD = fecha1.length > 0 ? new Date(parseInt(fecha1[2]), parseInt(fecha1[1]) - 1, parseInt(fecha1[0])) : null;
+            }else{
+              this.lastQueryRrppD = null
+            }
             this.lastQueryRrppBy = antecedentesLegales.lastQueryRrppBy
             this.background = antecedentesLegales.background
             this.history = antecedentesLegales.history
@@ -200,6 +211,13 @@ constructor(
           this.currentPaidCapitalCurrencyInforme = this.listaMonedas.filter(x => x.id === this.currentPaidCapitalCurrency)[0]
           this.currencyInforme = this.listaMonedas.filter(x => x.id === this.currency)[0]
           this.armarModeloActual()
+          const input = document.getElementById('input_fecha_constitucion') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.add('hide-loader');
+          }
+          if(input){
+            input.focus()
+          }
         });
     });
 
@@ -354,15 +372,21 @@ constructor(
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         console.log(data)
-        const moneda = typeof data.moneda !=='undefined' ? data.moneda : ''
-        this.capitalPagadoActualInforme = moneda + ' | ' + data.monto + ' | ' + data.observacion
         this.currentPaidCapitalCurrency = data.idMoneda
-        console.log(typeof(data.moneda))
         this.currentPaidCapital = data.monto
         this.currentPaidCapitalComentary = data.observacion
         this.currentPaidCapitalComentaryEng = data.observacionIng
       }
-    });
+    }).add(
+      () => {
+        const moneda = this.listaMonedas.filter(x => x.id === this.currentPaidCapitalCurrency)[0]
+        this.capitalPagadoActualInforme = moneda.valor + ' | ' + this.currentPaidCapital + ' | ' + this.currentPaidCapitalComentary
+        const input = document.getElementById('input_fecha_constitucion') as HTMLElement | null;
+        if(input){
+          input.focus()
+        }
+      }
+    );
   }
 
   selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
