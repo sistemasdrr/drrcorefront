@@ -24,6 +24,7 @@ import { AntecedentesComponent } from './info-empresa/ie-detalle/e-antecedentes/
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTableModule } from '@angular/material/table';
 import { RamoComponent } from './info-empresa/ie-detalle/e-ramo/ramo.component';
+import { RamoActividadDialogComponent } from './info-empresa/ie-detalle/e-ramo/ramo-actividad/ramo-actividad.component';
 import { MatListModule } from '@angular/material/list';
 import { FinanzasComponent } from './info-empresa/ie-detalle/e-finanzas/finanzas.component';
 import { OpinionCreditoComponent } from './info-empresa/ie-detalle/e-opinion-credito/opinion-credito.component';
@@ -60,6 +61,7 @@ import { SeleccionarCalidadComponent } from './info-empresa/ie-detalle/e-datos-e
 import { AvalesComponent } from './info-empresa/ie-detalle/e-sbs-riesgo/avales/avales.component';
 import { DialogComercioComponent } from './info-empresa/ie-detalle/e-ramo/dialog-comercio/dialog-comercio.component';
 import { ListaEmpresasComponent } from './info-empresa/ie-detalle/e-antecedentes/lista-empresas/lista-empresas.component';
+import { AgregarEditarRamoNegocioComponent } from './info-empresa/ie-detalle/e-ramo/ramo-actividad/agregar-editar/agregar-editar.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +102,9 @@ import { ListaEmpresasComponent } from './info-empresa/ie-detalle/e-antecedentes
     AvalesComponent,
     DialogComercioComponent,
     ListaEmpresasComponent,
+    RamoComponent,
+    RamoActividadDialogComponent,
+    AgregarEditarRamoNegocioComponent
   ],
   imports: [
     CommonModule,

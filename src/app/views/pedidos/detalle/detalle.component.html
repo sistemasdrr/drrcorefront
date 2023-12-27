@@ -14,7 +14,7 @@
               <div class=" bg-c-green order-info-box7 w-100 shadow" style="border-radius: .5rem; padding: .5rem; margin-bottom: .8rem; ">
                 <div class="d-flex justify-content-between">
                   <h3 class=" text-end m-b-5 " style="margin-top: .5rem;"><i class="fas fa-ticket-alt float-start" style="margin-top: .2rem; margin-right: .5rem;"> </i> Nro. del Cupón</h3>
-                  <h2 class="text-end" style="margin-top: .5rem;">{{ nmrCupon }}</h2>
+                  <h2 class="text-end" style="margin-top: .5rem;">{{ cupon }}</h2>
                 </div>
               </div>
             </div>
@@ -35,8 +35,8 @@
               <button class="btn-traduccion" matSuffix mat-icon-button (click)="buscarAbonado()">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
-              <mat-hint *ngIf="idAbonado === 0" style="color: red;"><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Seleccione un Abonado</mat-hint>
-              <mat-hint *ngIf="idAbonado !== 0" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;Abonado Seleccionado</mat-hint>
+              <mat-hint *ngIf="idSubscriber === 0" style="color: red;"><i class="fa-solid fa-circle-exclamation"></i> &nbsp;Seleccione un Abonado</mat-hint>
+              <mat-hint *ngIf="idSubscriber !== 0" style="color: green;"><i class="fa-solid fa-circle-check"></i>&nbsp;Abonado Seleccionado</mat-hint>
             </mat-form-field>
 
             <mat-slide-toggle [(ngModel)]="isChecked" class="mb-3" (click)="revelarNombre()" style="width:10rem; margin-left: 1rem;">Revelar Nombre: {{nombre_abonado}}</mat-slide-toggle>
@@ -190,12 +190,7 @@
                 <div class="col-md-4">
                   <mat-form-field class="w-100">
                     <mat-label>Tipo de Informe </mat-label>
-                    <mat-select [(ngModel)]="tipoInforme">
-                      <mat-option [value]="''"></mat-option>
-                      <mat-option [value]="'RV'">RV</mat-option>
-                      <mat-option [value]="'OR'">OR</mat-option>
-                      <mat-option [value]="'EF'">EF</mat-option>
-                    </mat-select>
+                    <input matInput type="text" [(ngModel)]="tipoInforme" readonly="true">
                   </mat-form-field>
                 </div>
                 <div class="col-md-4 d-flex justify-content-center">
@@ -414,88 +409,46 @@
                 <ng-container matColumnDef="{{columnsToDisplay[0]}}">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Tipo </th>
                   <td mat-cell *matCellDef="let report" class="text-center" >
-                    <div *ngIf="report[columnsToDisplay[0]] === 'OR'">
-                      <div class="badge badge-solid-orange" style="font-size: 16px;">{{report[columnsToDisplay[0]]}}</div>
+                    <div *ngIf="report.typeReport === 'OR'">
+                      <div class="badge badge-solid-orange" style="font-size: 16px;">{{report.typeReport}}</div>
                     </div>
-                    <div *ngIf="report[columnsToDisplay[0]] === 'RV'">
-                      <div class="badge badge-solid-green" style="font-size: 16px;">{{report[columnsToDisplay[0]]}}</div>
+                    <div *ngIf="report.typeReport === 'RV'">
+                      <div class="badge badge-solid-green" style="font-size: 16px;">{{report.typeReport}}</div>
                     </div>
                   </td>
                 </ng-container>
 
                 <ng-container matColumnDef="{{columnsToDisplay[1]}}">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cupón </th>
-                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[1]]}} </td>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report.ticketNumber}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="{{columnsToDisplay[2]}}">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Nombre Solicitado </th>
-                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[2]]}} </td>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report.requestedName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="{{columnsToDisplay[3]}}">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Despacho </th>
-                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[3]]}} </td>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report.dispatch}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="{{columnsToDisplay[4]}}">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Abonado </th>
-                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[4]]}} </td>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report.subscriber}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="{{columnsToDisplay[5]}}">
                   <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> Trámite </th>
                   <td mat-cell *matCellDef="let report" class="text-center" >
-                    <div *ngIf="report[columnsToDisplay[5]] === 'T1'">
-                      <div class="badge badge-solid-blue">{{report[columnsToDisplay[5]]}}</div>
+                    <div *ngIf="report.procedure === 'T1'">
+                      <div class="badge badge-solid-blue">{{report.procedure}}</div>
                     </div>
-                    <div *ngIf="report[columnsToDisplay[5]] === 'T2'">
-                      <div class="badge badge-solid-purple">{{report[columnsToDisplay[5]]}}</div>
+                    <div *ngIf="report.procedure === 'T2'">
+                      <div class="badge badge-solid-purple">{{report.procedure}}</div>
                     </div>
-                    <div *ngIf="report[columnsToDisplay[5]] === 'T3'">
-                      <div class="badge badge-solid-cyan">{{report[columnsToDisplay[5]]}}</div>
-                    </div>
-                  </td>
-                </ng-container>
-
-                <ng-container matColumnDef="{{columnsToDisplay[6]}}">
-                  <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> País </th>
-                  <td mat-cell *matCellDef="let report" class="text-center" > {{report.pais.nombre}} <span class="fi fi-{{report.pais['icono']}}" style="font-size: 20px;"></span></td>
-                </ng-container>
-
-                <ng-container matColumnDef="{{columnsToDisplay[7]}}">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Balance </th>
-                  <td mat-cell *matCellDef="let report" class="text-center" >
-                    <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'SI'" class="example-margin" [checked]="true" [disabled]="true"></mat-checkbox>
-                    <mat-checkbox *ngIf="report[columnsToDisplay[7]] === 'NO'" class="example-margin" [checked]="false"  [disabled]="true"></mat-checkbox>
-                  </td>
-                </ng-container>
-                <ng-container matColumnDef="{{columnsToDisplay[8]}}">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Calidad </th>
-                  <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[8]]}} </td>
-                </ng-container>
-                <ng-container matColumnDef="{{columnsToDisplay[9]}}">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Estado </th>
-                  <td mat-cell *matCellDef="let report" class="text-center">
-                    <div *ngIf="report[columnsToDisplay[9]]==='PEND. VENCIDO'" >
-                      <span class="float-end progress-percent label label-danger shadow" style="width: 170px;">
-                        {{report[columnsToDisplay[9]]}}
-                      </span>
-                    </div>
-                    <div *ngIf="report[columnsToDisplay[9]]==='PENDIENTE'" >
-                      <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 170px;">
-                        {{report[columnsToDisplay[9]]}}
-                      </span>
-                    </div>
-                    <div *ngIf="report[columnsToDisplay[9]]==='ENVIADO'" >
-                      <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 170px;">
-                        {{report[columnsToDisplay[9]]}}
-                      </span>
-                    </div>
-                    <div *ngIf="report.estado==='ENV. VENCIDO'" >
-                      <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 170px;">
-                        {{report[columnsToDisplay[9]]}}
-                      </span>
+                    <div *ngIf="report.procedure === 'T3'">
+                      <div class="badge badge-solid-cyan">{{report.procedure}}</div>
                     </div>
                   </td>
                 </ng-container>

@@ -11,7 +11,7 @@
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Sector (Principal)</mat-label>
-          <mat-select [(ngModel)]="sectorPrincipalInforme">
+          <mat-select [(ngModel)]="idBranchSector">
             <mat-option [value]="item.id" *ngFor="let item of listaSectorPrincipal">{{item.valor}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -19,7 +19,9 @@
       <div class="col-md-6 d-flex">
         <mat-form-field class="w-100">
           <mat-label>Ramo de Negocios (Principal)</mat-label>
-          <input matInput placeholder="" [(ngModel)]="ramoNegociosInforme" [readonly]="true">
+          <mat-select [(ngModel)]="idBusinessBranch" placeholder="">
+              <mat-option *ngFor="let item of listaRamoNegocio" [value]="item.id" readonly="true">{{item.valor}}</mat-option>
+          </mat-select>
         </mat-form-field>
         <div class="d-flex justify-content-center" >
           <button mat-mini-fab class="bg-blue" style="margin: .7rem 1rem 0 1rem;" (click)="ramoActividadDialog()" #tooltip="matTooltip" matTooltip="Seleccionar Ramo y Actividad">
@@ -30,7 +32,7 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Actividad Específica</mat-label>
-          <input matInput placeholder="" [(ngModel)]="actividadEspecificaInforme" [readonly]="true">
+          <input matInput placeholder="" [(ngModel)]="specificActivities" [readonly]="true">
         </mat-form-field>
 
       </div>
@@ -39,13 +41,13 @@
       <div class="col-md-2">
         <mat-form-field style="width: 100%;">
           <mat-label>¿Importan?</mat-label>
-          <mat-select [(ngModel)]="checkImportacion" (selectionChange)="selectImportan($event.value)">
-            <mat-option [value]="''">
+          <mat-select [(ngModel)]="import">
+            <mat-option [value]="null">
             </mat-option>
-            <mat-option [value]="'SI'">
+            <mat-option [value]="true">
               SÍ
             </mat-option>
-            <mat-option [value]="'NO'">
+            <mat-option [value]="false">
               NO
             </mat-option>
           </mat-select>
@@ -55,7 +57,7 @@
         <form class="w-100">
           <mat-form-field class="example-chip-list w-100">
             <mat-label>Paises </mat-label>
-            <mat-chip-grid #chipGrid1 aria-label="Country selection" [disabled]="checkImportacion !=='SI'">
+            <mat-chip-grid #chipGrid1 aria-label="Country selection" [disabled]="import === false || import === null">
                 <mat-chip-row *ngFor="let pais of paisesSeleccionadosImpo;" (removed)="removeImpo(pais.valor)">
                   {{pais.valor}} &nbsp;<span class="fi fi-{{pais.bandera}}"></span>
                   <button matChipRemove [attr.aria-label]="'remove ' + pais.valor">
@@ -63,7 +65,7 @@
                   </button>
                 </mat-chip-row>
             </mat-chip-grid>
-            <input placeholder="Seleccionar Pais" #paisExpoInput [formControl]="controlPaisesImpo" [disabled]="checkImportacion !=='SI'"
+            <input placeholder="Seleccionar Pais" #paisExpoInput [formControl]="controlPaisesImpo" [disabled]="import === false || import === null"
               [matChipInputFor]="chipGrid1" [matAutocomplete]="auto1"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
               (matChipInputTokenEnd)="addImpo($event)"/>
@@ -84,13 +86,13 @@
       <div class="col-md-2">
         <mat-form-field style="width: 100%;">
           <mat-label>¿Exportan?</mat-label>
-          <mat-select [(ngModel)]="checkExportacion" (selectionChange)="selectExportan($event.value)">
-            <mat-option [value]="''">
+          <mat-select [(ngModel)]="export">
+            <mat-option [value]="null">
             </mat-option>
-            <mat-option [value]="'SI'">
+            <mat-option [value]="true">
               SÍ
             </mat-option>
-            <mat-option [value]="'NO'">
+            <mat-option [value]="false">
               NO
             </mat-option>
           </mat-select>
@@ -100,7 +102,7 @@
         <form class="w-100">
           <mat-form-field class="example-chip-list w-100">
             <mat-label>Paises </mat-label>
-            <mat-chip-grid #chipGrid2 aria-label="Country selection" [disabled]="checkExportacion !=='SI'">
+            <mat-chip-grid #chipGrid2 aria-label="Country selection" [disabled]="export === false || export === null">
                 <mat-chip-row *ngFor="let pais of paisesSeleccionadosExpo;" (removed)="removeExpo(pais.valor)">
                   {{pais.valor}} &nbsp;<span class="fi fi-{{pais.bandera}}"></span>
                   <button matChipRemove [attr.aria-label]="'remove ' + pais.valor">
@@ -108,7 +110,7 @@
                   </button>
                 </mat-chip-row>
             </mat-chip-grid>
-            <input placeholder="Seleccionar Pais" #paisExpoInput [formControl]="controlPaisesExpo" [disabled]="checkExportacion !=='SI'"
+            <input placeholder="Seleccionar Pais" #paisExpoInput [formControl]="controlPaisesExpo" [disabled]="export === false || export === null"
               [matChipInputFor]="chipGrid2" [matAutocomplete]="auto2"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
               (matChipInputTokenEnd)="addExpo($event)"/>
@@ -129,62 +131,67 @@
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>% Venta Contado/Forma</mat-label>
-          <input matInput placeholder="" [(ngModel)]="ventaContadoInforme">
-          <button matSuffix mat-mini-fab color="primary" (click)="comercioExteriorDialog('% Venta Contado / Forma')"  #tooltip="matTooltip" matTooltip="Editar">
+          <input matInput placeholder="" [(ngModel)]="cashSale">
+          <button matSuffix mat-mini-fab color="primary" (click)="comercioDialog('% Venta Contado / Forma', cashSalePercentage, cashSaleComentary, cashSaleComentaryEng, 'cashSale')"  #tooltip="matTooltip" matTooltip="Editar">
             <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
-            <span class="fi fi-us" [class]="ventaContadoIngInforme === '' ? 'sin-traduccion' : ''"></span>
+            <span class="fi fi-us" [class]="cashSaleComentaryEng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>% Crédito/Términos</mat-label>
-          <input matInput placeholder="" [(ngModel)]="creditoTerminosInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="creditoTerminosIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloCreditoTerminos, '', creditoTerminosInforme, creditoTerminosIngInforme,'creditoTermino')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
+          <input matInput placeholder="" [(ngModel)]="creditSale">
+          <button matSuffix mat-mini-fab color="primary" (click)="comercioDialog('% Venta Crédito / Forma', creditSalePercentage, creditSaleComentary, creditSaleComentaryEng, 'creditSale')"  #tooltip="matTooltip" matTooltip="Editar">
+            <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
+            <span class="fi fi-us" [class]="creditSaleComentaryEng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>Territorio de Ventas</mat-label>
-          <input matInput placeholder="" [(ngModel)]="territorioVentasInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="territorioVentasIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloTerritorioVentas, '', territorioVentasInforme, territorioVentasIngInforme,'territorioVentas')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
+          <input matInput placeholder="" [(ngModel)]="territorySale">
+          <button matSuffix mat-mini-fab color="primary" (click)="comercioDialog('Territorios de Ventas', territorySalePercentage, territorySaleComentary, territorySaleComentaryEng, 'territorySale')"  #tooltip="matTooltip" matTooltip="Editar">
+            <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
+            <span class="fi fi-us" [class]="territorySaleComentaryEng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>% Ventas al Exterior</mat-label>
-          <input matInput placeholder="" [(ngModel)]="ventasExteriorInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="ventasExteriorIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloVentaExterior, '', ventasExteriorInforme, ventasExteriorIngInforme,'ventaExterior')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
+          <input matInput placeholder="" [(ngModel)]="abroadSale">
+          <button matSuffix mat-mini-fab color="primary" (click)="comercioDialog('Ventas al Exterior', abroadSalePercentage, abroadSaleComentary, abroadSaleComentaryEng, 'abroadSale')"  #tooltip="matTooltip" matTooltip="Editar">
+            <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
+            <span class="fi fi-us" [class]="abroadSaleComentaryEng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>% Compras Nacionales</mat-label>
-          <input matInput placeholder="" [(ngModel)]="comprasNacionalesInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comprasNacionalesIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloComprasNacionales, '', comprasNacionalesInforme, comprasNacionalesIngInforme,'comprasNacionales')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
+          <input matInput placeholder="" [(ngModel)]="nationalPurchase">
+          <button matSuffix mat-mini-fab color="primary" (click)="comercioDialog('% Compras Nacionales', nationalPurchasesPercentage, nationalPurchasesComentary, nationalPurchasesComentaryEng, 'nationalPurchase')"  #tooltip="matTooltip" matTooltip="Editar">
+            <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
+            <span class="fi fi-us" [class]="nationalPurchasesComentaryEng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>% Del Exterior</mat-label>
-          <input matInput placeholder="" [(ngModel)]="comprasDelExteriorInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="comprasDelExteriorIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloExterior, '', comprasDelExteriorInforme, comprasDelExteriorIngInforme,'comprasExterior')">
-            <span class="fi fi-us" style="font-size: 24px;"></span>
+          <input matInput placeholder="" [(ngModel)]="internationPurchase">
+          <button matSuffix mat-mini-fab color="primary" (click)="comercioDialog('% del Exterior', internationalPurchasesPercentage, internationalPurchasesComentary, internationalPurchasesComentaryEng, 'internationPurchase')"  #tooltip="matTooltip" matTooltip="Editar">
+            <i class="fa-solid fa-pen-to-square" style="color: white;"></i>
+            <span class="fi fi-us" [class]="internationalPurchasesComentaryEng === '' ? 'sin-traduccion' : ''"></span>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>Núm. Trabajadores</mat-label>
-          <input matInput placeholder="" type="number" [(ngModel)]="numTrabajadoresInforme">
+          <input matInput placeholder="" type="number" [(ngModel)]="workerNumber">
         </mat-form-field>
       </div>
       <div class="col-md-2"></div>
@@ -197,19 +204,16 @@
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Titularidad</mat-label>
-          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto3" [(ngModel)]="titularidadInforme">
-          <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option.name}}
-            </mat-option>
-          </mat-autocomplete>
+          <mat-select [(ngModel)]="idLandOwnership">
+              <mat-option *ngFor="let item of listaTitularidad" [value]="item.id">{{item.valor}}</mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Area Total</mat-label>
-          <input matInput placeholder="" [(ngModel)]="areaTotalInforme">
-          <button class="btn-traduccion" matSuffix mat-icon-button [class]="areaTotalIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloAreaTotal, '', areaTotalInforme, areaTotalIngInforme,'areaTotal')">
+          <input matInput placeholder="" [(ngModel)]="totalArea">
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="totalAreaEng === '' ? 'sin-traduccion' : ''" (click)="agregarTraduccion(tituloAreaTotal, '', totalArea, totalAreaEng,'areaTotal')">
             <span class="fi fi-us" style="font-size: 24px;"></span>
           </button>
         </mat-form-field>
@@ -217,14 +221,14 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Domicilio Anterior</mat-label>
-          <input matInput placeholder=""[(ngModel)]="domicilioAnteriorInforme">
+          <input matInput placeholder=""[(ngModel)]="previousAddress">
         </mat-form-field>
       </div>
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Otros Locales (Plantas, Almacenes, Depósitos, Sucursales)</mat-label>
-          <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="otrosLocalesInforme"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button [class]="otrosLocalesIngInforme === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloOtrosLocales,subtituloOtrosLocales, otrosLocalesInforme, otrosLocalesIngInforme,'otrosLocales')">
+          <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="otherLocations"></textarea>
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="otherLocationsEng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloOtrosLocales,subtituloOtrosLocales, otherLocations, otherLocationsEng,'otrosLocales')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>
@@ -239,8 +243,8 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Detalle de Actividad Principal u Objetivo Social</mat-label>
-          <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="comentarioActividadPrincipal"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioActividadPrincipalIng === '' ? 'sin-traduccion' : ''"  (click)="agregarComentario('Detalle de Actividad Principal u Objetivo Social','', comentarioActividadPrincipal, comentarioActividadPrincipalIng,'comentarioActividadPrincipal')">
+          <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="activityDetailCommentary"></textarea>
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="activityDetailCommentaryEng === '' ? 'sin-traduccion' : ''"  (click)="agregarComentario('Detalle de Actividad Principal u Objetivo Social','', activityDetailCommentary, activityDetailCommentaryEng,'comentarioActividadPrincipal')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>
@@ -248,8 +252,8 @@
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Comentario Adicional de Negocio</mat-label>
-          <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="comentarioNegocio"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button [class]="comentarioNegocioIng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario('Comentario Adicional de Negocio','', comentarioNegocio, comentarioNegocioIng,'comentarioNegocio')">
+          <textarea matInput placeholder="" style="min-height: 5.8rem;" [(ngModel)]="aditionalCommentary"></textarea>
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="aditionalCommentaryEng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario('Comentario Adicional de Negocio','', aditionalCommentary, aditionalCommentaryEng,'comentarioNegocio')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
         </mat-form-field>
@@ -261,7 +265,7 @@
     <div class="row counter-box shadow mb-2" style="min-height: 10rem;">
       <h4>Comentario de Negocios (Cuadro Tabulado)</h4>
       <div class="col-md-12">
-        <ckeditor [editor]="Editor" style="min-height: 12rem; " data="data" [(ngModel)]="data" ></ckeditor>
+        <ckeditor [editor]="Editor" style="min-height: 12rem; " data="data" [(ngModel)]="tabCommentary" ></ckeditor>
       </div>
     </div>
   </div>

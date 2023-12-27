@@ -13,17 +13,8 @@
           <ul class="tbl-export-btn">
             <li class="tbl-header-btn">
               <div class="m-l-10" >
-                <button class="btn bg-red d-flex"  type="button" (click)="cerrarDialog()">
-                  <i class="fa-solid fa-right-from-bracket" style="font-size: 16px; margin-top: .2rem;"></i>
-                  <div style="font-size: 16px;">&nbsp;Salir</div>
-                </button>
-              </div>
-            </li>
-            <li class="tbl-header-btn">
-              <div class="m-l-10" >
-                <button class="btn btn-primary d-flex"  type="button" (click)="agregar()">
-                  <i class="fa-solid fa-square-plus" style="font-size: 16px; margin-top: .2rem;"></i>
-                  <div style="font-size: 16px;">&nbsp;Agregar</div>
+                <button mat-mini-fab color="warn" style="margin: .5rem .5rem .5rem .5rem;" (click)="cerrarDialog()" #tooltip="matTooltip" matTooltip="Volver">
+                  <mat-icon class="col-white">arrow_back</mat-icon>
                 </button>
               </div>
             </li>
@@ -39,19 +30,23 @@
       <mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
         <ng-container matColumnDef="año">
           <mat-header-cell *matHeaderCellDef class="text-center" style="width: 3rem; justify-content: center;"> Año </mat-header-cell>
-          <mat-cell *matCellDef="let cuadro" class="text-center w-100 justify-content-center">{{ cuadro.anio }}</mat-cell>
+          <mat-cell *matCellDef="let impoExpo" class="text-center w-100 justify-content-center">{{ impoExpo.year }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="monto">
           <mat-header-cell *matHeaderCellDef class="text-center" style="width: 10rem; justify-content: center;"> Monto </mat-header-cell>
-          <mat-cell *matCellDef="let cuadro" class="text-center w-100 justify-content-center">{{ cuadro.monto }}</mat-cell>
+          <mat-cell *matCellDef="let impoExpo" class="text-center w-100 justify-content-center">{{ impoExpo.amount }}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="accion">
-          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;"> </mat-header-cell>
-          <mat-cell *matCellDef="let cuadro" class="text-center w-100 justify-content-center">
-            <button mat-icon-button  class="tbl-action-btn " (click)="editar(cuadro.id, cuadro.anio, cuadro.monto)">
+          <mat-header-cell *matHeaderCellDef class="text-center" style="width: 8rem; justify-content: center;">
+            <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregar()">
+              <mat-icon class="col-white">add</mat-icon>
+            </button>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let impoExpo" class="text-center w-100 justify-content-center">
+            <button mat-icon-button  class="tbl-action-btn " (click)="editar(impoExpo.id)">
               <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
             </button>
-            <button mat-icon-button class="tbl-action-btn" (click)="eliminar(cuadro.anio,cuadro.monto)">
+            <button mat-icon-button class="tbl-action-btn" (click)="eliminar(impoExpo.id)">
               <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
             </button>
           </mat-cell>

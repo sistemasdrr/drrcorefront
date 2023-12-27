@@ -76,4 +76,13 @@ export class ComboService {
   getSectorPrincipal() : Observable<Response<ComboData[]>>{
     return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/branchSector');
   }
+  getRamoNegocio() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/businessBranch');
+  }
+  getActividadesEspecificas(idBusinessBranch : number) : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/businessActivity?idBusinessBranch='+idBusinessBranch);
+  }
+  getTitularidad() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/landOwnership');
+  }
 }

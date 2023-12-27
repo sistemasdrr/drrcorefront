@@ -1,8 +1,9 @@
+import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { CuadroImpoExpoComponent } from '@shared/components/cuadro-impo-expo/cuadro-impo-expo.component';
-import { RamoActividadDialogComponent } from '@shared/components/ramo-actividad/ramo-actividad.component';
+import { RamoActividadDialogComponent } from './ramo-actividad/ramo-actividad.component';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { Observable, map, startWith } from 'rxjs';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -16,6 +17,10 @@ import { PaisService } from 'app/services/pais.service';
 import { DialogComercioComponent } from './dialog-comercio/dialog-comercio.component';
 import { ComboService } from 'app/services/combo.service';
 import { ComboData } from 'app/models/combo';
+import { ActivatedRoute } from '@angular/router';
+import { RamoNegociosService } from 'app/services/informes/empresa/ramo-negocios.service';
+import { CompanyBranch } from 'app/models/informes/empresa/ramo-negocios';
+import Swal from 'sweetalert2';
 
 export interface data {
   name: string;
@@ -28,12 +33,68 @@ export interface data {
 })
 
 export class RamoComponent implements OnInit{
-  importacion = "NO"
-  exportacion = "NO"
 
-  numeroPaisesImpo = [1,2,3,4]
-  numeroPaisesExpo = [5,6,7,8]
+  id = 0
+  idCompany = 0
+  idBranchSector = 0
+  idBusinessBranch = 0
+  idBusinessBranchN = ""
+  import = false
+  export = false
+
+  cashSale = ""
+  cashSalePercentage = 0
+  cashSaleComentary = ""
+  cashSaleComentaryEng = ""
+
+  creditSale = ""
+  creditSalePercentage = 0
+  creditSaleComentary = ""
+  creditSaleComentaryEng = ""
+
+  territorySale = ""
+  territorySalePercentage = 0
+  territorySaleComentary = ""
+  territorySaleComentaryEng = ""
+
+  abroadSale = ""
+  abroadSalePercentage = 0
+  abroadSaleComentary = ""
+  abroadSaleComentaryEng = ""
+
+  nationalPurchase = ""
+  nationalPurchasesPercentage = 0
+  nationalPurchasesComentary = ""
+  nationalPurchasesComentaryEng = ""
+
+  internationPurchase = ""
+  internationalPurchasesPercentage = 0
+  internationalPurchasesComentary = ""
+  internationalPurchasesComentaryEng = ""
+
+  workerNumber = 0
+  idLandOwnership = 0
+  totalArea = ""
+  totalAreaEng = ""
+  previousAddress = ""
+  otherLocations = ""
+  otherLocationsEng = ""
+  activityDetailCommentary = ""
+  activityDetailCommentaryEng = ""
+  aditionalCommentary = ""
+  aditionalCommentaryEng = ""
+  tabCommentary = ""
+  countriesExport = ""
+  countriesImport = ""
+  specificActivities = ""
+
+  modeloNuevo : CompanyBranch[] = []
+  modeloModificado : CompanyBranch[] = []
+
   listaSectorPrincipal : ComboData[] = []
+  listaRamoNegocio : ComboData[] = []
+  listaActividadEspecifica : ComboData[] = []
+  listaTitularidad : ComboData[] = []
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   controlPaisesImpo = new FormControl<string | Pais>('')
@@ -56,55 +117,170 @@ export class RamoComponent implements OnInit{
     bandera : ''
   }
 
-  fruitCtrl = new FormControl('');
-
-
-  fruits: string[] = ['Lemon'];
-
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-
-
   @ViewChild('paisExpoInput') paisExpoInput!: ElementRef<HTMLInputElement>;
   announcer = inject(LiveAnnouncer);
 
   public Editor: any = ClassicEditor;
-  data = '<figure class="table"><table><tbody><tr><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td>f</td><td>g</td><td>h</td><td>i</td><td>j</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></figure>'
 
-  constructor(private dialog : MatDialog,
-    private paisService : PaisService, private comboService : ComboService){
+  constructor(private dialog : MatDialog, private activatedRoute : ActivatedRoute,
+    private paisService : PaisService, private comboService : ComboService, private ramoNegocioService : RamoNegociosService){
 
-    this.filteredOptions = new Observable<data[]>();
+    this.filteredOptions = new Observable<data[]>()
     this.filterPaisImpo = new Observable<Pais[]>()
     this.filterPaisExpo = new Observable<Pais[]>()
+
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id?.includes('nuevo')) {
+      this.idCompany = 0
+    } else {
+      this.idCompany = parseInt(id + '')
+    }
   }
   ngOnInit() {
+    const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(paginaDetalleEmpresa){
+      paginaDetalleEmpresa.classList.remove('hide-loader');
+    }
+    this.paisService.getPaises().subscribe(data => {
+      if(data.isSuccess == true){
+        this.paisesImpo = data.data;
+        this.paisesExpo = data.data;
+      }
+    }
+    )
+    this.comboService.getTitularidad().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.listaTitularidad = response.data
+        }
+      }
+    )
+
+    if(this.idCompany !== 0){
+      this.ramoNegocioService.getRamoNegocioByIdCompany(this.idCompany).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const ramoNegocio = response.data
+            if(ramoNegocio){
+              this.id = ramoNegocio.id
+              this.idBranchSector = ramoNegocio.idBranchSector
+              this.idBusinessBranch = ramoNegocio.idBusinessBranch
+              this.specificActivities = ramoNegocio.specificActivities
+              this.import = ramoNegocio.import
+              this.export = ramoNegocio.export
+              this.cashSale = ramoNegocio.cashSalePercentage + '% | ' + ramoNegocio.cashSaleComentary
+              this.cashSalePercentage = ramoNegocio.cashSalePercentage
+              this.cashSaleComentary = ramoNegocio.cashSaleComentary
+
+              this.creditSale = ramoNegocio.creditSalePercentage + '% | ' + ramoNegocio.creditSaleComentary
+              this.creditSalePercentage = ramoNegocio.creditSalePercentage
+              this.creditSaleComentary = ramoNegocio.creditSaleComentary
+
+              this.territorySale = ramoNegocio.territorySalePercentage + '% | ' + ramoNegocio.territorySaleComentary
+              this.territorySalePercentage = ramoNegocio.territorySalePercentage
+              this.territorySaleComentary = ramoNegocio.territorySaleComentary
+
+              this.abroadSale = ramoNegocio.abroadSalePercentage + '% | ' + ramoNegocio.abroadSaleComentary
+              this.abroadSalePercentage = ramoNegocio.abroadSalePercentage
+              this.abroadSaleComentary = ramoNegocio.abroadSaleComentary
+
+              this.nationalPurchase = ramoNegocio.nationalPurchasesPercentage + '% | ' + ramoNegocio.nationalPurchasesComentary
+              this.nationalPurchasesPercentage = ramoNegocio.nationalPurchasesPercentage
+              this.nationalPurchasesComentary = ramoNegocio.nationalPurchasesComentary
+
+              this.internationPurchase = ramoNegocio.internationalPurchasesPercentage + '% | ' + ramoNegocio.internationalPurchasesComentary
+              this.internationalPurchasesPercentage = ramoNegocio.internationalPurchasesPercentage
+              this.internationalPurchasesComentary = ramoNegocio.internationalPurchasesComentary
+
+              this.workerNumber = ramoNegocio.workerNumber
+              this.idLandOwnership = ramoNegocio.idLandOwnership
+              this.totalArea = ramoNegocio.totalArea
+              this.previousAddress = ramoNegocio.previousAddress
+              this.otherLocations = ramoNegocio.otherLocations
+              this.activityDetailCommentary = ramoNegocio.activityDetailCommentary
+              this.aditionalCommentary = ramoNegocio.aditionalCommentary
+              this.tabCommentary = ramoNegocio.tabCommentary
+
+              if(ramoNegocio.traductions.length > 0){
+                this.cashSaleComentaryEng = ramoNegocio.traductions[0].value
+                this.creditSaleComentaryEng = ramoNegocio.traductions[1].value
+                this.territorySaleComentaryEng = ramoNegocio.traductions[2].value
+                this.abroadSaleComentaryEng = ramoNegocio.traductions[3].value
+                this.nationalPurchasesComentaryEng = ramoNegocio.traductions[4].value
+                this.internationalPurchasesComentaryEng = ramoNegocio.traductions[5].value
+                this.totalAreaEng = ramoNegocio.traductions[6].value
+                this.otherLocationsEng = ramoNegocio.traductions[7].value
+                this.activityDetailCommentaryEng = ramoNegocio.traductions[8].value
+                this.aditionalCommentaryEng = ramoNegocio.traductions[9].value
+              }
+              if(ramoNegocio.countriesImport !== '' && ramoNegocio.countriesImport !== null){
+                this.countriesImport = ramoNegocio.countriesImport
+                const paises = ramoNegocio.countriesImport.split(',')
+                if(paises.length > 0){
+                  paises.forEach(idPais => {
+                    const pais = this.paisesImpo.filter(x => x.id === parseInt(idPais))[0]
+                    if(pais){
+                      this.paisesSeleccionadosImpo.push(pais)
+                    }
+                  });
+                }
+              }
+
+              if(ramoNegocio.countriesExport.length > 0 && ramoNegocio.countriesExport !== null){
+                this.countriesExport = ramoNegocio.countriesExport
+                const paises = ramoNegocio.countriesExport.split(',')
+                if(paises.length > 0){
+                  paises.forEach(idPais => {
+                    const pais = this.paisesExpo.filter(x => x.id === parseInt(idPais))[0]
+                    if(pais){
+                      this.paisesSeleccionadosExpo.push(pais)
+                    }
+                  });
+                }
+              }
+            }
+          }
+        }
+      ).add(
+        () => {
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.add('hide-loader');
+          }
+        }
+      )
+    }else{
+      if(paginaDetalleEmpresa){
+        paginaDetalleEmpresa.classList.add('hide-loader');
+      }
+    }
     this.comboService.getSectorPrincipal().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
           this.listaSectorPrincipal = response.data
         }
       }
-    )
-    this.paisService.getPaises().subscribe(data => {
-      if(data.isSuccess == true){
-        this.paisesImpo = data.data;
-        this.paisesExpo = data.data;
-        this.numeroPaisesImpo.forEach(num => {
-          const p = this.paisesImpo.filter(x => x.id === num)[0]
-          if(p){
-            this.paisesSeleccionadosImpo.push(p)
+    ).add(
+      () => {
+        this.comboService.getRamoNegocio().subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.listaRamoNegocio = response.data
+            }
           }
-        });
-        this.numeroPaisesExpo.forEach(num => {
-          const p = this.paisesExpo.filter(x => x.id === num)[0]
-          if(p){
-            this.paisesSeleccionadosExpo.push(p)
+        ).add(
+          () => {
+            this.comboService.getActividadesEspecificas(this.idBusinessBranch).subscribe(
+              (response) => {
+                if(response.isSuccess === true && response.isWarning === false){
+                  this.listaActividadEspecifica = response.data
+                }
+              }
+            )
           }
-        });
-        console.log(this.paisesSeleccionadosImpo)
-        console.log(this.paisesSeleccionadosExpo)
+        )
       }
-    });
+    )
+
     this.filterPaisImpo = this.controlPaisesImpo.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -127,6 +303,158 @@ export class RamoComponent implements OnInit{
       }),
     );
   }
+
+  armarModeloNuevo(){
+    this.modeloNuevo[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      idBranchSector : this.idBranchSector,
+      idBusinessBranch : this.idBusinessBranch,
+      import : this.import,
+      export : this.export,
+      cashSalePercentage : this.cashSalePercentage,
+      cashSaleComentary : this.cashSaleComentary,
+      creditSalePercentage : this.creditSalePercentage,
+      creditSaleComentary : this.creditSaleComentary,
+      territorySalePercentage : this.territorySalePercentage,
+      territorySaleComentary : this.territorySaleComentary,
+      abroadSalePercentage : this.abroadSalePercentage,
+      abroadSaleComentary : this.abroadSaleComentary,
+      nationalPurchasesPercentage : this.nationalPurchasesPercentage,
+      nationalPurchasesComentary : this.nationalPurchasesComentary,
+      internationalPurchasesPercentage : this.internationalPurchasesPercentage,
+      internationalPurchasesComentary : this.internationalPurchasesComentary,
+      workerNumber : this.workerNumber,
+      idLandOwnership : this.idLandOwnership,
+      totalArea : this.totalArea,
+      previousAddress : this.previousAddress,
+      otherLocations : this.otherLocations,
+      activityDetailCommentary : this.activityDetailCommentary,
+      aditionalCommentary : this.aditionalCommentary,
+      tabCommentary : this.tabCommentary,
+      countriesExport : this.countriesExport,
+      countriesImport : this.countriesImport,
+      specificActivities : this.specificActivities,
+      traductions : [
+        {
+          key : 'S_R_SALEPER',
+          value : this.cashSaleComentaryEng
+        },
+        {
+          key : 'S_R_CREDITPER',
+          value : this.creditSaleComentaryEng
+        },
+        {
+          key : 'S_R_TERRITORY',
+          value : this.territorySaleComentaryEng
+        },
+        {
+          key : 'S_R_EXTSALES',
+          value : this.abroadSaleComentaryEng
+        },
+        {
+          key : 'S_R_NATIBUY',
+          value : this.nationalPurchasesComentaryEng
+        },
+        {
+          key : 'S_R_INTERBUY',
+          value : this.internationalPurchasesComentaryEng
+        },
+        {
+          key : 'S_R_TOTALAREA',
+          value : this.totalAreaEng
+        },
+        {
+          key : 'L_R_OTRHERLOCALS',
+          value : this.otherLocationsEng
+        },
+        {
+          key : 'L_R_PRINCACT',
+          value : this.activityDetailCommentaryEng
+        },
+        {
+          key : 'L_R_ADIBUS',
+          value : this.aditionalCommentaryEng
+        },
+      ]
+    }
+  }
+  armarModeloModificado(){
+    this.modeloModificado[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      idBranchSector : this.idBranchSector,
+      idBusinessBranch : this.idBusinessBranch,
+      import : this.import,
+      export : this.export,
+      cashSalePercentage : this.cashSalePercentage,
+      cashSaleComentary : this.cashSaleComentary,
+      creditSalePercentage : this.creditSalePercentage,
+      creditSaleComentary : this.creditSaleComentary,
+      territorySalePercentage : this.territorySalePercentage,
+      territorySaleComentary : this.territorySaleComentary,
+      abroadSalePercentage : this.abroadSalePercentage,
+      abroadSaleComentary : this.abroadSaleComentary,
+      nationalPurchasesPercentage : this.nationalPurchasesPercentage,
+      nationalPurchasesComentary : this.nationalPurchasesComentary,
+      internationalPurchasesPercentage : this.internationalPurchasesPercentage,
+      internationalPurchasesComentary : this.internationalPurchasesComentary,
+      workerNumber : this.workerNumber,
+      idLandOwnership : this.idLandOwnership,
+      totalArea : this.totalArea,
+      previousAddress : this.previousAddress,
+      otherLocations : this.otherLocations,
+      activityDetailCommentary : this.activityDetailCommentary,
+      aditionalCommentary : this.aditionalCommentary,
+      tabCommentary : this.tabCommentary,
+      countriesExport : this.countriesExport,
+      countriesImport : this.countriesImport,
+      specificActivities : this.specificActivities,
+      traductions : [
+        {
+          key : 'S_R_SALEPER',
+          value : this.cashSaleComentaryEng
+        },
+        {
+          key : 'S_R_CREDITPER',
+          value : this.creditSaleComentaryEng
+        },
+        {
+          key : 'S_R_TERRITORY',
+          value : this.territorySaleComentaryEng
+        },
+        {
+          key : 'S_R_EXTSALES',
+          value : this.abroadSaleComentaryEng
+        },
+        {
+          key : 'S_R_NATIBUY',
+          value : this.nationalPurchasesComentaryEng
+        },
+        {
+          key : 'S_R_INTERBUY',
+          value : this.internationalPurchasesComentaryEng
+        },
+        {
+          key : 'S_R_TOTALAREA',
+          value : this.totalAreaEng
+        },
+        {
+          key : 'L_R_OTRHERLOCALS',
+          value : this.otherLocationsEng
+        },
+        {
+          key : 'L_R_PRINCACT',
+          value : this.activityDetailCommentaryEng
+        },
+        {
+          key : 'L_R_ADIBUS',
+          value : this.aditionalCommentaryEng
+        },
+      ]
+    }
+  }
+
   private _filterPaisImpo(description: string): Pais[] {
     const filterValue = description.toLowerCase();
     return this.paisesImpo.filter(pais => pais.valor.toLowerCase().includes(filterValue));
@@ -148,19 +476,14 @@ export class RamoComponent implements OnInit{
 
   addImpo(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value) {
-      this.fruits.push(value);
-    }
     event.chipInput!.clear();
     this.controlPaisesImpo.setValue(null);
   }
 
   removeImpo(pais: string): void {
     const deletePais = this.paisesSeleccionadosImpo.filter(x => x.valor === pais)
-
     if (deletePais.length > 0) {
       this.paisesSeleccionadosImpo = this.paisesSeleccionadosImpo.filter(x => x.valor !== pais)
-
       this.announcer.announce(`Se Removio  ${pais}`);
     }
   }
@@ -180,19 +503,14 @@ export class RamoComponent implements OnInit{
   }
   addExpo(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value) {
-      this.fruits.push(value);
-    }
     event.chipInput!.clear();
     this.controlPaisesExpo.setValue(null);
   }
 
   removeExpo(pais: string): void {
     const deletePais = this.paisesSeleccionadosExpo.filter(x => x.valor === pais)
-
     if (deletePais.length > 0) {
       this.paisesSeleccionadosExpo = this.paisesSeleccionadosExpo.filter(x => x.valor !== pais)
-
       this.announcer.announce(`Se Removio  ${pais}`);
     }
   }
@@ -210,47 +528,24 @@ export class RamoComponent implements OnInit{
     this.paisExpoInput.nativeElement.value = '';
     this.controlPaisesExpo.setValue(null);
   }
-  importan(){
-    if(this.checkImportacion){
-      this.importacion = "SI"
-
-    }else{
-      this.importacion = "NO"
-    }
-  }
-  exportan(){
-    if(this.checkExportacion){
-      this.exportacion = "SI"
-    }else{
-      this.exportacion = "NO"
-    }
-  }
-  selectImportan(importan : string){
-    this.checkImportacion = importan
-    console.log(importan)
-  }
-  selectExportan(exportan : string){
-    this.checkExportacion = exportan
-    console.log(exportan)
-  }
 
   ramoActividadDialog() {
     const dialogRef1 = this.dialog.open(RamoActividadDialogComponent, {
       data: {
-        ramoNegocio : this.ramoNegociosInforme,
-        actividadEspecifica : this.actividadEspecificaInforme
+        idBusinessBranch : this.idBusinessBranch,
+        specificActivities : this.specificActivities
         },
       });
     dialogRef1.afterClosed().subscribe((data) => {
       if (data) {
         console.log(data)
-        this.ramoNegociosInforme = data.ramoNegocio
-        this.actividadEspecificaInforme = ''
-        data.actividades.forEach((actividad : Actividad)  => {
-          if(data.actividades[data.actividades.length-1] == actividad){
-            this.actividadEspecificaInforme += actividad.nombre
+        this.idBusinessBranch = data.idBusinessBranch
+        this.specificActivities = ''
+        data.specificActivities.forEach((actividad : ComboData)  => {
+          if(data.specificActivities[data.specificActivities.length-1] == actividad){
+            this.specificActivities += actividad.valor
           }else{
-            this.actividadEspecificaInforme += actividad.nombre + ' - '
+            this.specificActivities += actividad.valor + ' - '
           }
         });
       }
@@ -260,7 +555,8 @@ export class RamoComponent implements OnInit{
     let dialogRef2 = this.dialog.open(CuadroImpoExpoComponent, {
       data: {
         titulo : "Importaciones",
-        codigoEmpresa : "codigo"
+        idCompany : this.idCompany,
+        tipo : "I"
       },
     });
   }
@@ -268,35 +564,59 @@ export class RamoComponent implements OnInit{
     const dialogRef3 = this.dialog.open(CuadroImpoExpoComponent, {
       data: {
         titulo : "Exportaciones",
-        codigoEmpresa : "codigo"
+        idCompany : this.idCompany,
+        tipo : "E"
       },
   });
   }
-  comercioExteriorDialog(input : string){
+  comercioDialog(titulo : string, porcentaje : number, comentario : string, comentarioEng : string, input : string){
     const dialogRef1 = this.dialog.open(DialogComercioComponent, {
       data: {
-        titulo : input,
-        monto : this.ramoNegociosInforme,
-        plazos : this.actividadEspecificaInforme,
-        observacion : this.actividadEspecificaInforme,
-        observacionIng : this.actividadEspecificaInforme
+        titulo : titulo,
+        porcentaje : porcentaje,
+        comentario : comentario,
+        comentarioEng : comentarioEng,
         },
       });
     dialogRef1.afterClosed().subscribe(
       (data) => {
         if(data){
           switch(input){
-            case '':
+            case 'cashSale':
+              this.cashSalePercentage = data.porcentaje
+              this.cashSaleComentary = data.comentario
+              this.cashSaleComentaryEng = data.comentarioEng
+              this.cashSale = this.cashSalePercentage + '% | ' + this.cashSaleComentary
               break
-            case '':
+            case 'creditSale':
+              this.creditSalePercentage = data.porcentaje
+              this.creditSaleComentary = data.comentario
+              this.creditSaleComentaryEng = data.comentarioEng
+              this.creditSale = this.creditSalePercentage + '% | ' + this.creditSaleComentary
               break
-            case '':
+            case 'territorySale':
+              this.territorySalePercentage = data.porcentaje
+              this.territorySaleComentary = data.comentario
+              this.territorySaleComentaryEng = data.comentarioEng
+              this.territorySale = this.territorySalePercentage + '% | ' + this.territorySaleComentary
               break
-            case '':
+            case 'abroadSale':
+              this.abroadSalePercentage = data.porcentaje
+              this.abroadSaleComentary = data.comentario
+              this.abroadSaleComentaryEng = data.comentarioEng
+              this.abroadSale = this.abroadSalePercentage + '% | ' + this.abroadSaleComentary
               break
-            case '':
+            case 'nationalPurchase':
+              this.nationalPurchasesPercentage = data.porcentaje
+              this.nationalPurchasesComentary = data.comentario
+              this.nationalPurchasesComentaryEng = data.comentarioEng
+              this.nationalPurchase = this.nationalPurchasesPercentage + '% | ' + this.nationalPurchasesComentary
               break
-            case '':
+            case 'internationPurchase':
+              this.internationalPurchasesPercentage = data.porcentaje
+              this.internationalPurchasesComentary = data.comentario
+              this.internationalPurchasesComentaryEng = data.comentarioEng
+              this.internationPurchase = this.internationalPurchasesPercentage + '% | ' + this.internationalPurchasesComentary
               break
           }
         }
@@ -325,16 +645,16 @@ export class RamoComponent implements OnInit{
       console.log(data)
       switch(input){
         case 'otrosLocales':
-        this.otrosLocalesInforme = data.comentario_es;
-        this.otrosLocalesIngInforme = data.comentario_en;
+        this.otherLocations = data.comentario_es;
+        this.otherLocationsEng = data.comentario_en;
         break
         case 'comentarioActividadPrincipal':
-        this.comentarioActividadPrincipal = data.comentario_es;
-        this.comentarioActividadPrincipalIng = data.comentario_en;
+        this.activityDetailCommentary = data.comentario_es;
+        this.activityDetailCommentaryEng = data.comentario_en;
         break
         case 'comentarioNegocio':
-        this.comentarioNegocio = data.comentario_es;
-        this.comentarioNegocioIng = data.comentario_en;
+        this.aditionalCommentary = data.comentario_es;
+        this.aditionalCommentaryEng = data.comentario_en;
         break
 
       }
@@ -355,41 +675,10 @@ export class RamoComponent implements OnInit{
     if (data) {
       console.log(data)
       switch(input){
-        case 'paisesImportan':
-        this.paisesImportacionInforme = data.comentario_es;
-        this.paisesImportacionIngInforme = data.comentario_en;
-        break
-        case 'paisesExportan':
-        this.paisesExportacionInforme = data.comentario_es;
-        this.paisesExportacionIngInforme = data.comentario_en;
-        break
-        case 'ventaContado':
-        this.ventaContadoInforme = data.comentario_es;
-        this.ventaContadoIngInforme = data.comentario_en;
-        break
-        case 'creditoTermino':
-        this.creditoTerminosInforme = data.comentario_es;
-        this.creditoTerminosIngInforme = data.comentario_en;
-        break
-        case 'territorioVentas':
-        this.territorioVentasInforme = data.comentario_es;
-        this.territorioVentasIngInforme = data.comentario_en;
-        break
-        case 'ventaExterior':
-        this.ventasExteriorInforme = data.comentario_es;
-        this.ventasExteriorIngInforme = data.comentario_en;
-        break
-        case 'comprasNacionales':
-        this.comprasNacionalesInforme = data.comentario_es;
-        this.comprasNacionalesIngInforme = data.comentario_en;
-        break
-        case 'comprasExterior':
-        this.comprasDelExteriorInforme = data.comentario_es;
-        this.comprasDelExteriorIngInforme = data.comentario_en;
-        break
+
         case 'areaTotal':
-        this.areaTotalInforme = data.comentario_es;
-        this.areaTotalIngInforme = data.comentario_en;
+        this.totalArea = data.comentario_es;
+        this.totalAreaEng = data.comentario_en;
         break
 
       }
@@ -412,62 +701,130 @@ export class RamoComponent implements OnInit{
   tituloOtrosLocales : string = 'Otros Locales '
   subtituloOtrosLocales: string = 'Plantas, Almacenes, Depósitos y Sucursales'
 
-
-  //RAMO NEGOCIO
-  sectorPrincipalInforme : string = ""
-  ramoNegociosInforme : string = ""
-  actividadEspecificaInforme : string = ""
-  checkImportacion : string = ""
-  checkExportacion : string = ""
-  paisesExportacionInforme : string = ""
-  paisesExportacionIngInforme : string = ""
-  paisesImportacionInforme : string = ""
-  paisesImportacionIngInforme : string = ""
-  ventaContadoInforme : string = ""
-  ventaContadoIngInforme : string = ""
-  creditoTerminosInforme : string = ""
-  creditoTerminosIngInforme : string = ""
-  territorioVentasInforme : string = ""
-  territorioVentasIngInforme : string = ""
-  ventasExteriorInforme : string = ""
-  ventasExteriorIngInforme : string = ""
-  comprasNacionalesInforme : string = ""
-  comprasNacionalesIngInforme : string = ""
-  comprasDelExteriorInforme : string = ""
-  comprasDelExteriorIngInforme : string = ""
-  numTrabajadoresInforme : string = ""
-  titularidadInforme : string = ""
-  areaTotalInforme : string = ""
-  areaTotalIngInforme : string = ""
-  domicilioAnteriorInforme : string = ""
-  otrosLocalesInforme : string = ""
-  otrosLocalesIngInforme : string = ""
-
-  comentarioActividadPrincipal : string = ""
-  comentarioActividadPrincipalIng : string = ""
-  comentarioNegocio : string = ""
-  comentarioNegocioIng : string = ""
-  comentarioNegocioTabulado : string = ""
-
   guardar(){
-    console.log(this.sectorPrincipalInforme)
-    console.log(this.ramoNegociosInforme)
-    console.log(this.actividadEspecificaInforme)
-    console.log(this.checkImportacion)
-    console.log(this.checkExportacion)
-    console.log(this.paisesExportacionInforme)
-    console.log(this.paisesImportacionInforme)
-    console.log(this.ventaContadoInforme)
-    console.log(this.creditoTerminosInforme)
-    console.log(this.territorioVentasInforme)
-    console.log(this.ventasExteriorInforme)
-    console.log(this.comprasNacionalesInforme)
-    console.log(this.comprasDelExteriorInforme)
-    console.log(this.numTrabajadoresInforme)
-    console.log(this.titularidadInforme)
-    console.log(this.areaTotalInforme)
-    console.log(this.domicilioAnteriorInforme)
-    console.log(this.otrosLocalesInforme)
-    console.log(this.comentarioNegocioTabulado)
+    if(this.id === 0){
+      this.countriesImport = ""
+      this.countriesExport = ""
+      this.paisesSeleccionadosImpo.forEach(pais => {
+        if(this.paisesSeleccionadosImpo[this.paisesSeleccionadosImpo.length-1] == pais){
+          this.countriesImport += pais.id
+        }else{
+          this.countriesImport += pais.id + ','
+        }
+      });
+      this.paisesSeleccionadosExpo.forEach(pais => {
+        if(this.paisesSeleccionadosExpo[this.paisesSeleccionadosExpo.length-1] == pais){
+          this.countriesExport += pais.id
+        }else{
+          this.countriesExport += pais.id + ','
+        }
+      });
+      this.armarModeloNuevo()
+      console.log(this.modeloNuevo[0])
+      Swal.fire({
+        title: '¿Está seguro de guardar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
+          this.ramoNegocioService.addRamoNegocio(this.modeloNuevo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.armarModeloNuevo()
+                  this.armarModeloModificado()
+                })
+                this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
+              }
+            }
+          )
+        }
+      });
+    }else{
+      this.countriesImport = ""
+      this.countriesExport = ""
+      this.paisesSeleccionadosImpo.forEach(pais => {
+        if(this.paisesSeleccionadosImpo[this.paisesSeleccionadosImpo.length-1] == pais){
+          this.countriesImport += pais.id
+        }else{
+          this.countriesImport += pais.id + ','
+        }
+      });
+      this.paisesSeleccionadosExpo.forEach(pais => {
+        if(this.paisesSeleccionadosExpo[this.paisesSeleccionadosExpo.length-1] == pais){
+          this.countriesExport += pais.id
+        }else{
+          this.countriesExport += pais.id + ','
+        }
+      });
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
+          this.ramoNegocioService.addRamoNegocio(this.modeloModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.armarModeloNuevo()
+                  this.armarModeloModificado()
+                })
+                this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
+              }
+            }
+          )
+        }
+      });
+    }
+
   }
 }

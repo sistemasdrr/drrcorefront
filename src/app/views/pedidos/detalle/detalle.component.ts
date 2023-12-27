@@ -5,8 +5,6 @@ import { OnInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource} from '@angular/material/table';
-import { ReportesSolicitados } from 'app/models/informes/reportes-solicitados';
-import { RequestedReportsService } from 'app/services/pedidos/reportes-solicitados.service';
 import { Pais } from 'app/models/pais';
 import { PedidoService } from 'app/services/pedido.service';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
@@ -20,15 +18,10 @@ import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.componen
 import { ListaAbonadosComponent } from './lista-abonados/lista-abonados.component';
 import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
 import { Abonado, Precio } from 'app/models/mantenimiento/abonado';
+import { TicketService } from 'app/services/pedidos/ticket.service';
+import { HistorialPedido } from 'app/models/pedidos/ticket';
 
-interface Idioma {
-  value: string;
-  viewValue: string;
-}
-interface TipoInforme {
-  id: number;
-  value: string;
-}
+
 
 @Component({
   selector: 'app-detalle',
@@ -36,7 +29,42 @@ interface TipoInforme {
   styleUrls: ['./detalle.component.scss'],
 })
 export class DetalleComponent implements OnInit {
+
+  tipo = ""
+  cupon = ""
+
+  id = 0
+  number = 0
+  idSubscriber = 0
+  revealName = false
+  nameRevealed = ""
+  referenceNumber = ""
   language = ""
+  queryCredit = ""
+  timeLimit = ""
+  aditionalData = ""
+  about = ""
+  orderDate = ""
+  expireDate = ""
+  realExpireDate = ""
+  idContinent = 0
+  idCountry = 0
+  reportType = ""
+  procedureType = ""
+  idCompany = 0
+  idPerson = 0
+  busineesName = ""
+  comercialName = ""
+  taxType = ""
+  taxCode = ""
+  email = ""
+  address = ""
+  city = ""
+  telephone = ""
+  creditrisk = 0
+  enable = true
+  requestedName = ""
+
 
   /**/
   paisSeleccionado = 0
@@ -55,15 +83,12 @@ export class DetalleComponent implements OnInit {
       this.telefono = informe[0].telefono
     }
   }
-
-  idContinent = 0
   precio = 0
   countryAbonado : Pais = {
     id : 0,
     valor : "",
     bandera : ""
   }
-  idCountry = 0
 
   //DATOS GENERALES
   informePara = "E"
@@ -83,7 +108,6 @@ export class DetalleComponent implements OnInit {
 
   listaPrecio : Precio[] = []
   //FORM ABONADO
-  idAbonado = 0
   abonadoNoEncontrado = ""
   nombreAbonado = ""
   isChecked = true;
@@ -147,19 +171,11 @@ export class DetalleComponent implements OnInit {
     valor : '',
     bandera : ''
   }
-  /**/
-  idiomas: Idioma[] = [
-    {value: 'SPANISH', viewValue: 'Español'},
-    {value: 'ENGLISH', viewValue: 'Inglés'}
-  ];
-  continentes: data[] = [];
-  tipoInformes: TipoInforme[] = [
-    {id: 1, value: 'RV'},
-    {id: 2, value: 'OR'}
-  ];
 
-  columnsToDisplay = ['tipo', 'cupon', 'nombreSolicitado', 'despacho', 'abonado', 'tramite', 'pais', 'balance', 'calidad', 'estado' ];
-  dataSource: MatTableDataSource<ReportesSolicitados>;
+  continentes: data[] = [];
+
+  columnsToDisplay = ['tipo', 'cupon', 'nombreSolicitado', 'despacho', 'abonado', 'tramite'];
+  dataSource: MatTableDataSource<HistorialPedido>;
 
   public tipo_formulario: string | null = '';
   public formulario: string = '';
@@ -167,7 +183,7 @@ export class DetalleComponent implements OnInit {
 
   idiomaSeleccionado = ""
   idCountryEmpresa = 0
-  tipoInforme = "OR"
+  tipoInforme = ""
 
   codAbonado = ''
   nombre_abonado = "SI"
@@ -181,7 +197,6 @@ export class DetalleComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private requestedReportsService : RequestedReportsService,
     private router : Router,
     private abonadoService : AbonadoService,
     private paisService : PaisService,
@@ -189,8 +204,15 @@ export class DetalleComponent implements OnInit {
     private pedidoService : PedidoService,
     private datosEmpresaService : DatosEmpresaService,
     private comboService : ComboService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar, private ticketService : TicketService
   ) {
+    const tipo = this.activatedRoute.snapshot.paramMap.get('tipo');
+    if (tipo?.includes('agregar')) {
+      this.id = 0
+    } else {
+      const cupon = this.activatedRoute.snapshot.paramMap.get('cupon');
+      this.id = parseInt(cupon + '')
+    }
     this.dataSource = new MatTableDataSource()
     this.filterPaisAbonado = new Observable<Pais[]>()
     this.filterPaisEmpresa = new Observable<Pais[]>()
@@ -221,10 +243,20 @@ export class DetalleComponent implements OnInit {
         return name ? this._filterPaisPersona(name as string) : this.paisesPersona.slice()
       }),
     )
+    if(this.id !== 0){
+
+    }else{
+      this.ticketService.getTicketActual().subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            this.number = response.data.intValue
+            this.cupon = response.data.strValue
+          }
+        }
+      )
+    }
     this.selectContinente(this.idContinent)
 
-    this.tipo_formulario = this.activatedRoute.snapshot.paramMap.get('tipo');
-    this.nmrCupon = this.activatedRoute.snapshot.paramMap.get('cupon');
     this.comboService.getRiesgoCrediticio().subscribe((response) =>{
       if(response.isSuccess === true && response.isWarning === false){
         this.calificacionCrediticia = response.data
@@ -239,39 +271,6 @@ export class DetalleComponent implements OnInit {
           active: 'Editar',
         },
       ];
-      const pedido = this.pedidoService.getPedidosPorCupon(this.nmrCupon+'')[0]
-      if(pedido){
-        this.codAbonado = pedido.codigo
-        this.informePara = pedido.informeEP
-        this.fechaIngreso = pedido.fechaIngreso
-        const fechaIngreso = pedido.fechaIngreso.split('/')
-        this.fechaIngresoDate = new Date(parseInt(fechaIngreso[2]),(parseInt(fechaIngreso[1])-1),parseInt(fechaIngreso[0]))
-        if(this.informePara === 'E'){
-          // const datosEmpresa = this.datosEmpresaService.getDatosEmpresaPorCodigo(pedido.codigoInforme)
-          // console.log(datosEmpresa)
-          // if(datosEmpresa){
-          //   this.razonSocialInforme = datosEmpresa[0].razonSocial
-          //   this.nombreComercialInforme = datosEmpresa[0].nombreComercial
-          //   this.tipoRT = datosEmpresa[0].tipoRuc
-          //   this.codigoRT = datosEmpresa[0].codigoRuc
-          //   this.correo = datosEmpresa[0].emailCorporativo
-          //   this.paisEmpresa = datosEmpresa[0].pais
-          //   this.ciudad = datosEmpresa[0].dptoEstado
-          //   this.telefono = datosEmpresa[0].numeroTelefono
-          //   this.direccion = datosEmpresa[0].direccionCompleta
-          //   this.riesgoCrediticioInforme = datosEmpresa[0].riesgoCrediticio
-          //   this.tipoInforme = pedido.tipoInforme
-          //   this.tipoTramite = pedido.tipoTramite
-          //   this.fechaInforme = datosEmpresa[0].informeInvestigadoEl
-          //   const fechaInforme = datosEmpresa[0].informeInvestigadoEl.split('/')
-          //   if(fechaInforme){
-          //     this.fechaInformeDate = new Date(parseInt(fechaInforme[2]),(parseInt(fechaInforme[1])-1),parseInt(fechaInforme[0]))
-          //   }
-          // }
-        }else if(this.informePara === 'P'){
-        }
-
-      }
 
     } else if (this.tipo_formulario == 'agregar') {
       this.breadscrums = [
@@ -284,10 +283,10 @@ export class DetalleComponent implements OnInit {
       this.nmrCupon = 'NUEVO'
     }
 
-    this.dataSource = new MatTableDataSource(this.requestedReportsService.getRequestedReports());
+    this.dataSource = new MatTableDataSource();
   }
   selectContinente(idContinent : number){
-    this.abonadoService.getPaises(this.idAbonado, this.idContinent).subscribe(
+    this.abonadoService.getPaises(this.idSubscriber, this.idContinent).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
           this.paisesEmpresa = []
@@ -304,7 +303,7 @@ export class DetalleComponent implements OnInit {
     } else {
       this.iconoSeleccionado = pais.bandera
       this.idCountry = pais.id
-      this.abonadoService.getPreciosPorPais(this.idAbonado,this.idContinent,this.idCountry).subscribe(
+      this.abonadoService.getPreciosPorPais(this.idSubscriber,this.idContinent,this.idCountry).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
             this.listaPrecio = response.data
@@ -366,10 +365,11 @@ export class DetalleComponent implements OnInit {
      console.log(data)
      this.abonadoService.getAbonadoPorId(data.id).subscribe(
       (response) => {
+        console.log(response)
         if(response.isSuccess === true && response.isWarning === false){
           const abonado : Abonado = response.data
           if(abonado){
-            this.idAbonado = data.id
+            this.idSubscriber = data.id
             this.codAbonado = abonado.code
             this.isChecked = abonado.revealName
             this.estado = abonado.enable;
@@ -381,7 +381,7 @@ export class DetalleComponent implements OnInit {
       }
      ).add(
       () => {
-        this.abonadoService.getContinentes(this.idAbonado).subscribe(response => {
+        this.abonadoService.getContinentes(this.idSubscriber).subscribe(response => {
           if(response.isSuccess == true){
             console.log(response)
             this.continentes = response.data;
@@ -417,25 +417,33 @@ export class DetalleComponent implements OnInit {
               this.ciudad = datosEmpresa.place
               this.direccion = datosEmpresa.address
               this.telefono = datosEmpresa.telephone
-              if(datosEmpresa.lastSearched !== "" && datosEmpresa.lastSearched !== null){
-                const lastSearched = datosEmpresa.lastSearched.split("/")
-                if(lastSearched.length > 0){
-                  console.log(datosEmpresa.lastSearched)
-                  this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[0])-1,parseInt(lastSearched[1]))
-                  const now = new Date()
-                  if(this.fechaInformeDate > new Date(now.getFullYear(), now.getMonth()-3, now.getDate())){
-                    this.tipoInforme = "EF"
-                    console.log(new Date(now.getFullYear(), now.getMonth()-3, now.getDate()))
-                  }else{
-                    this.tipoInforme = "RV"
-                  }
-                }else{
-                  this.fechaInformeDate = null
-                }
-              }
+
               this.idCreditRisk = datosEmpresa.idCreditRisk
             }
           }
+        }
+      ).add(
+        () => {
+          this.ticketService.getTipoReporte(data.idCompany, 'E').subscribe(
+            (response) => {
+              console.log(response)
+              if(response.isSuccess === true && response.isWarning === false){
+                const tipoReporte = response.data
+                if(tipoReporte){
+                  this.tipoInforme = tipoReporte.typeReport
+                  if(tipoReporte.lastSearchedDate !== "" && tipoReporte.lastSearchedDate !== null){
+                    const lastSearched = tipoReporte.lastSearchedDate.split("/")
+                    if(lastSearched.length > 0){
+                      this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[0])-1,parseInt(lastSearched[1]))
+                    }else{
+                      this.fechaInformeDate = null
+                    }
+                  }
+                  this.dataSource.data = tipoReporte.listSameSearched
+                }
+              }
+            }
+          )
         }
       )
       }
@@ -489,7 +497,7 @@ export class DetalleComponent implements OnInit {
             if(response.isSuccess === true && response.isWarning === false){
               const abonado : Abonado = response.data
               if(abonado){
-                this.idAbonado = abonado.id
+                this.idSubscriber = abonado.id
                 this.codAbonado = abonado.code
                 this.isChecked = abonado.revealName
                 if(abonado.revealName === true){
@@ -504,7 +512,7 @@ export class DetalleComponent implements OnInit {
           }
         ).add(
           () => {
-            this.abonadoService.getContinentes(this.idAbonado).subscribe(response => {
+            this.abonadoService.getContinentes(this.idSubscriber).subscribe(response => {
               if(response.isSuccess == true){
                 console.log(response)
                 this.continentes = response.data;

@@ -91,14 +91,14 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
-      {
-        path: '#',
-        title: 'Plantillas',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
+      // {
+      //   path: '#',
+      //   title: 'Plantillas',
+      //   icon: '',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   submenu: []
+      // },
     ],
   },
   {
@@ -108,14 +108,14 @@ export const ROUTES: RouteInfo[] = [
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [
-      {
-        path: '#',
-        title: 'Facturación',
-        icon: 'fa-solid fa-file-invoice-dollar',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
+      // {
+      //   path: '#',
+      //   title: 'Facturación',
+      //   icon: 'fa-solid fa-file-invoice-dollar',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   submenu: []
+      // },
       {
         path: '#',
         title: 'Reportes',

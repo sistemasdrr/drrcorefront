@@ -7,19 +7,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./dialog-comercio.component.scss']
 })
 export class DialogComercioComponent implements OnInit{
-  title = ""
-  monto = ""
-  plazos = ""
-  observacion = ""
-  observacionIng = ""
+  titulo = ""
+  porcentaje = ""
+  comentario = ""
+  comentarioEng = ""
 
   constructor(public dialogRef: MatDialogRef<DialogComercioComponent>, @Inject(MAT_DIALOG_DATA) public data : any) {
     if(data){
-      this.title = data.titulo
-      this.monto = data.monto
-      this.plazos = data.plazos
-      this.observacion = data.observacion
-      this.observacionIng = data.observacionIng
+      this.titulo = data.titulo
+      this.porcentaje = data.porcentaje
+      this.comentario = data.comentario
+      this.comentarioEng = data.comentarioEng
     }
   }
   ngOnInit(): void {
@@ -30,10 +28,9 @@ export class DialogComercioComponent implements OnInit{
   }
   guardar(){
     this.dialogRef.close({
-      monto : this.monto,
-      plazos : this.plazos,
-      observacion : this.observacion,
-      observacionIng : this.observacionIng
+      porcentaje : this.porcentaje,
+      comentario : this.comentario,
+      comentarioEng : this.comentarioEng
     })
   }
 }

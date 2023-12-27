@@ -1,5 +1,5 @@
 <div class="container" >
-  <mat-dialog-content class="mat-typography container-scrollable" style="min-height: 40rem;">
+  <mat-dialog-content class="mat-typography container-scrollable" style="min-height: 50rem;">
     <div class="row " >
       <div class="col-md-12 d-flex justify-content-between" style="background-color: #dae1f3;">
         <div style="font-size: 24px;" class="d-flex align-items-center">
@@ -38,9 +38,9 @@
             <div class="col-md-12">
               <div class="table-container ">
                 <mat-list >
-                  <mat-list-item *ngFor="let ramo of filtrarRamo" [ngClass]="{'select': seleccionado === ramo.id}" (click)="selectRamo(ramo.id, ramo.nombre)" >
+                  <mat-list-item  *ngFor="let ramo of listaRamoNegocio" [ngClass]="{'select': seleccionado === ramo.id}" (click)="selectRamo(ramo.id)" >
                     <div class="w-100 d-flex justify-content-between">
-                      {{ ramo.id }} - {{ ramo.nombre}}
+                      {{ ramo.id }} - {{ ramo.valor}}
                       <mat-icon *ngIf="seleccionado === ramo.id" class="material-icons-two-tone color-icon" matSuffix>check</mat-icon>
                     </div>
                   </mat-list-item>
@@ -59,11 +59,11 @@
               </div>
             </div>
             <div class="col-md-12">
-              <div style="height: 300px;">
+              <div class="table-container ">
                 <mat-list >
-                  <mat-list-item [class]="verificar(actividad) ? 'select' : ''" *ngFor="let actividad of filtrarActividad" (click)="selectActividad(actividad)" >
+                  <mat-list-item [class]="verificar(actividad) ? 'select' : ''" *ngFor="let actividad of listaActividades" (click)="selectActividad(actividad)" >
                     <div class="w-100 d-flex justify-content-between">
-                      {{actividad.nombre}}
+                      {{actividad.valor}}
                       <mat-icon *ngIf="verificar(actividad)" class="material-icons-two-tone color-icon" matSuffix>check</mat-icon>
                     </div>
                   </mat-list-item>

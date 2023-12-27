@@ -12,10 +12,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { TraduccionDialogComponent } from './traduccion-dialog/traduccion-dialog.component';
 import { MatSelectModule } from "@angular/material/select";
 import { MatListModule } from "@angular/material/list";
-import { RamoActividadDialogComponent } from "./ramo-actividad/ramo-actividad.component";
 import { CuadroImpoExpoComponent } from './cuadro-impo-expo/cuadro-impo-expo.component';
 import { AgregarEditarComponent } from './cuadro-impo-expo/agregar-editar/agregar-editar.component';
-import { AgregarEditarRamoNegocioComponent } from './ramo-actividad/agregar-editar/agregar-editar.component';
 import { NgScrollbarModule } from "ngx-scrollbar";
 import { FeatherIconsModule } from "./feather-icons/feather-icons.module";
 
@@ -28,10 +26,8 @@ import { FeatherIconsModule } from "./feather-icons/feather-icons.module";
     AdjuntarArchivosComponent,
     ComentarioComponent,
     TraduccionDialogComponent,
-    RamoActividadDialogComponent,
     CuadroImpoExpoComponent,
     AgregarEditarComponent,
-    AgregarEditarRamoNegocioComponent,
   ],
   imports: [
     SharedModule,
@@ -50,10 +46,8 @@ import { FeatherIconsModule } from "./feather-icons/feather-icons.module";
     BuscarAbonadoDialogComponent,
     BuscarEmpresaDialogComponent,
     ComentarioComponent,
-    RamoActividadDialogComponent,
     CuadroImpoExpoComponent,
     TraduccionDialogComponent,
-    AgregarEditarRamoNegocioComponent,
     AgregarEditarComponent,
 
   ],

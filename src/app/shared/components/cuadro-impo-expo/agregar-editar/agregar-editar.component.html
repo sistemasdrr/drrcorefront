@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="max-width: 30rem;">
   <div class="row p-3 ">
     <div class="card">
       <div class="materialTableHeader mt-3" >
@@ -12,26 +12,12 @@
         <div class="right">
           <ul class="tbl-export-btn">
             <li class="tbl-header-btn">
-            <div class="m-l-10" >
-              <button class="btn bg-red d-flex"  type="button" (click)="cerrarDialog()">
-                <i class="fa-solid fa-right-from-bracket" style="font-size: 16px; margin-top: .2rem;"></i>
-                <div style="font-size: 16px;">&nbsp;Salir</div>
-              </button>
-            </div>
-          </li>
-            <li class="tbl-header-btn" *ngIf="accion === 'AGREGAR'">
               <div class="m-l-10" >
-                <button class="btn btn-primary d-flex"  type="button" (click)="agregarEditar(anio, monto)">
-                  <i class="fa-solid fa-square-plus" style="font-size: 16px; margin-top: .2rem;"></i>
-                  <div style="font-size: 16px;">&nbsp;Agregar</div>
+                <button mat-mini-fab color="warn" style="margin: .5rem .5rem .5rem .5rem;" (click)="cerrarDialog()" #tooltip="matTooltip" matTooltip="Volver">
+                  <mat-icon class="col-white">arrow_back</mat-icon>
                 </button>
-              </div>
-            </li>
-            <li class="tbl-header-btn" *ngIf="accion === 'EDITAR'" (click)="agregarEditar(anio, monto)">
-              <div class="m-l-10" >
-                <button class="btn btn-primary d-flex"  type="button">
-                  <i class="fa-solid fa-square-plus" style="font-size: 16px; margin-top: .2rem;"></i>
-                  <div style="font-size: 16px;">&nbsp;Editar</div>
+                <button mat-mini-fab class="bg-cyan" style="margin: .5rem .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
+                  <mat-icon class="col-white">save</mat-icon>
                 </button>
               </div>
             </li>
@@ -39,16 +25,40 @@
         </div>
       </div>
     </div>
-    <div class="mat-elevation-z8 pt-3">
+    <div class="pt-3">
       <div class="row">
-        <div class="col-md-4"><mat-form-field class="w-100">
-          <mat-label>Año</mat-label>
-          <input matInput placeholder="" value="" [(ngModel)]="anio">
-        </mat-form-field></div>
-        <div class="col-md-8"><mat-form-field class="w-100">
-          <mat-label>Monto</mat-label>
-          <input matInput placeholder="" value="" [(ngModel)]="monto">
-        </mat-form-field></div>
+        <div class="col-md-12">
+          <mat-form-field class="w-100">
+            <mat-label>Año</mat-label>
+            <input matInput placeholder="" value="" [(ngModel)]="year">
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="w-100">
+            <mat-label>Monto</mat-label>
+            <input matInput placeholder="" value="" [(ngModel)]="amount">
+          </mat-form-field>
+        </div>
+        <h4>Observaciones</h4>
+        <hr>
+        <div class="col-md-12 mb-3">
+          <mat-form-field class="w-100">
+            <mat-label>(Español)</mat-label>
+            <textarea matInput placeholder="" style="min-height: 6rem;" [(ngModel)]="observation"></textarea>
+            <button class="btn-traduccion" matSuffix mat-icon-button>
+              <span class="fi fi-es" style="font-size: 24px; "></span>
+            </button>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 mb-3">
+          <mat-form-field class="w-100">
+            <mat-label>(Inglés)</mat-label>
+            <textarea matInput placeholder=""  style="min-height: 6rem;" [(ngModel)]="observationEng"></textarea>
+            <button class="btn-traduccion" matSuffix mat-icon-button>
+              <span class="fi fi-us" style="font-size: 24px;"></span>
+            </button>
+          </mat-form-field>
+        </div>
       </div>
     </div>
   </div>

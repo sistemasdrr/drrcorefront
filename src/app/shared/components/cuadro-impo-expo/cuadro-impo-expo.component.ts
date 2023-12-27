@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { ImpoExpoDialogData } from 'app/models/dialog-data';
-import { ImpoExpoService } from 'app/services/informes/impo-expo.service';
 import { AgregarEditarComponent } from './agregar-editar/agregar-editar.component';
 import Swal from 'sweetalert2';
+import { ImportAndExport } from 'app/models/informes/empresa/ramo-negocios';
+import { RamoNegociosService } from 'app/services/informes/empresa/ramo-negocios.service';
 
 export interface ImpoExpoData{
   id : string
@@ -17,79 +17,80 @@ export interface ImpoExpoData{
   templateUrl: './cuadro-impo-expo.component.html',
   styleUrls: ['./cuadro-impo-expo.component.scss']
 })
-export class CuadroImpoExpoComponent{
-  codigoSeleccionado : string = ""
+export class CuadroImpoExpoComponent implements OnInit{
+
+  idCompany = 0
+  titulo = ""
+  tipo = ""
 
   columnsToDisplay = ['año', 'monto', 'accion'];
 
-  dataSource: MatTableDataSource<ImpoExpoData>;
+  dataSource: MatTableDataSource<ImportAndExport>;
+
   botonDeshabilitado: boolean = true;
-  codigoAbonado : string = ""
 
-  @Output()
-  eventSelectAbonado = new EventEmitter<string>();
-
-  titulo : string
-  codEmpresa : string
-
-  constructor(private dialog : MatDialog,
-    public dialogRef: MatDialogRef<CuadroImpoExpoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ImpoExpoDialogData,
-    private impoExpoService : ImpoExpoService) {
+  constructor(private dialog : MatDialog, public dialogRef: MatDialogRef<CuadroImpoExpoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, private ramoNegocioService : RamoNegociosService) {
     this.titulo = data.titulo
-    this.codEmpresa = data.codigoEmpresa
-    if(this.titulo == "Importaciones"){
-      this.dataSource = new MatTableDataSource(this.impoExpoService.getImpoData())
-    }else{
-      this.dataSource = new MatTableDataSource(this.impoExpoService.getExpoData())
-    }
-
+    this.tipo = data.tipo
+    this.idCompany = data.idCompany
+    this.dataSource = new MatTableDataSource()
   }
 
-  realizarEnvioCodigo(codigo : string) {
-    this.codigoAbonado = codigo
-    this.dialogRef.close({ codigoAbonado: this.codigoAbonado });
+  ngOnInit(): void {
+    this.ramoNegocioService.getListImportExport(this.idCompany, this.tipo).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.dataSource.data = response.data
+        }
+      }
+    )
   }
+
 
   agregar(){
     const dialogRef1 = this.dialog.open(AgregarEditarComponent, {
       data: {
-        accion : "AGREGAR",
+        titulo : "Agregar",
+        id : 0,
+        idCompany : this.idCompany,
+        type : this.tipo
       },
     });
-    dialogRef1.afterClosed().subscribe((ImpoExpoData : ImpoExpoData) => {
-      if (ImpoExpoData) {
-        const nuevoElemento: ImpoExpoData = {
-          id : "",
-          anio: ImpoExpoData.anio,
-          monto: ImpoExpoData.monto,
-        };
-        this.dataSource.data.push(nuevoElemento);
-        this.dataSource._updateChangeSubscription();
+    dialogRef1.afterClosed().subscribe(
+      () => {
+        this.ramoNegocioService.getListImportExport(this.idCompany, this.tipo).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.dataSource.data = response.data
+            }
+          }
+        )
       }
-    });
+    )
   }
-  editar(id : string, año : string, monto : string){
+  editar(id : number){
     const dialogRef2 = this.dialog.open(AgregarEditarComponent, {
       data: {
-        accion : "EDITAR",
-        anio : año,
-        monto : monto
+        titulo : "Editar",
+        id : id,
+        idCompany : this.idCompany,
+        type : this.tipo
       },
     });
-    dialogRef2.afterClosed().subscribe((ImpoExpoData : ImpoExpoData) => {
-      if (ImpoExpoData) {
-        const elementoAEditar = this.dataSource.data.find(item => item.id === id);
-
-        if (elementoAEditar) {
-          elementoAEditar.anio = ImpoExpoData.anio;
-          elementoAEditar.monto = ImpoExpoData.monto;
-          this.dataSource._updateChangeSubscription();
-        }
+    dialogRef2.afterClosed().subscribe(
+      () => {
+        this.ramoNegocioService.getListImportExport(this.idCompany, this.tipo).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.dataSource.data = response.data
+            }
+          }
+        )
       }
-    });
+    )
   }
-  eliminar(año : string, monto : string){
+  eliminar(id : number){
       Swal.fire({
         title: '¿Está seguro de eliminar este registro?',
         text: "",
@@ -99,25 +100,23 @@ export class CuadroImpoExpoComponent{
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sí',
-        width: '20rem',
+        width: '30rem',
         heightAuto : true
       }).then((result) => {
         if (result.value) {
-          Swal.fire({
-            title :'¡Eliminado!',
-            text : 'El registro se elimino correctamente.',
-            icon : 'success',
-            width: '20rem',
-            heightAuto : true
-          });
-          for (let i = 0; i < this.dataSource.data.length; i++) {
-            const elemento = this.dataSource.data[i];
-            if (elemento.anio === año && elemento.monto === monto) {
-              this.dataSource.data.splice(i, 1);
-              this.dataSource._updateChangeSubscription();
-              break;
+          this.ramoNegocioService.deleteImportExport(id).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title :'¡Eliminado!',
+                  text : 'El registro se eliminó correctamente.',
+                  icon : 'success',
+                  width: '30rem',
+                  heightAuto : true
+                });
+              }
             }
-          }
+          )
         }
       });
   }

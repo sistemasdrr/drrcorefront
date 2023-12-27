@@ -1,0 +1,53 @@
+export interface CurrentTicket{
+  intValue : number
+  strValue : string
+}
+export interface Ticket{
+  id : number
+  number : number
+  idSubscriber : number
+  revealName : boolean
+  nameRevealed : string
+  referenceNumber : string
+  language : string
+  queryCredit : string
+  timeLimit : string
+  aditionalData : string
+  about : string
+  orderDate : string
+  expireDate : string
+  realExpireDate : string
+  idContinent : number
+  idCountry : number
+  reportType : string
+  procedureType : string
+  idCompany : number
+  idPerson : number
+  busineesName : string
+  comercialName : string
+  taxType : string
+  taxCode : string
+  email : string
+  address : string
+  city : string
+  telephone : string
+  creditrisk : number
+  enable : boolean
+  requestedName : string
+}
+export interface ReportType{
+  typeReport : string
+  lastSearchedDate : string
+  listSameSearched : HistorialPedido[]
+}
+export interface HistorialPedido{
+  isPending : boolean
+  dispatchtDate : string
+  typeReport : string
+  ticketNumber : string
+  requestedName : string
+  dispatch : string
+  subscriber : string
+  procedure : string
+  status : string
+}
