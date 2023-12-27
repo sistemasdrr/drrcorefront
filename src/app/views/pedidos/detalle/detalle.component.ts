@@ -208,9 +208,11 @@ export class DetalleComponent implements OnInit {
   ) {
     const tipo = this.activatedRoute.snapshot.paramMap.get('tipo');
     if (tipo?.includes('agregar')) {
+      this.tipo_formulario = 'agregar'
       this.id = 0
     } else {
       const cupon = this.activatedRoute.snapshot.paramMap.get('cupon');
+      this.tipo_formulario = 'editar'
       this.id = parseInt(cupon + '')
     }
     this.dataSource = new MatTableDataSource()

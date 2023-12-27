@@ -406,10 +406,10 @@
             <div class="counter-box shadow" style="overflow-x: auto;">
               <h4>Abonados que Pidieron este Informe</h4>
               <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
-                <ng-container matColumnDef="{{columnsToDisplay[0]}}">
+                <ng-container matColumnDef="tipo">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Tipo </th>
                   <td mat-cell *matCellDef="let report" class="text-center" >
-                    <div *ngIf="report.typeReport === 'OR'">
+                    <div *ngIf="report.typeReport === 'EF'">
                       <div class="badge badge-solid-orange" style="font-size: 16px;">{{report.typeReport}}</div>
                     </div>
                     <div *ngIf="report.typeReport === 'RV'">
@@ -418,27 +418,27 @@
                   </td>
                 </ng-container>
 
-                <ng-container matColumnDef="{{columnsToDisplay[1]}}">
+                <ng-container matColumnDef="cupon">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cupón </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.ticketNumber}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="{{columnsToDisplay[2]}}">
+                <ng-container matColumnDef="nombreSolicitado">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Nombre Solicitado </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.requestedName}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="{{columnsToDisplay[3]}}">
+                <ng-container matColumnDef="despacho">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Despacho </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.dispatch}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="{{columnsToDisplay[4]}}">
+                <ng-container matColumnDef="abonado">
                   <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Abonado </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.subscriber}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="{{columnsToDisplay[5]}}">
+                <ng-container matColumnDef="tramite">
                   <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> Trámite </th>
                   <td mat-cell *matCellDef="let report" class="text-center" >
                     <div *ngIf="report.procedure === 'T1'">
