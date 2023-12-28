@@ -1,4 +1,8 @@
 <section class="content">
+  <div id="loader-lista-cupon" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+    <span class="loader"></span><br>
+    <h2 style="color: white;">&nbsp;Cargando...</h2>
+  </div>
   <div class="container-fluid" style="overflow: auto; width: 100%;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
       <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [codigoInforme]="''" [active_item]="breadscrum.active">
@@ -86,15 +90,15 @@
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
           <ng-container matColumnDef="cupon" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
-          <td mat-cell *matCellDef="let order" class="text-center"> {{order.cupon}} </td>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order.number}} </td>
           </ng-container>
           <ng-container matColumnDef="informe" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
-          <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 14rem;"> {{order.nombreRealEmpresa}} </td>
+          <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 14rem;"> {{order.busineesName}} </td>
           </ng-container>
           <ng-container matColumnDef="abonado" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Abonado </th>
-          <td mat-cell *matCellDef="let order" class="text-left" > {{order.codigo}} </td>
+          <td mat-cell *matCellDef="let order" class="text-left" > {{order.subscriberCode}} </td>
           </ng-container>
           <ng-container matColumnDef="estado" >
           <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
@@ -124,54 +128,63 @@
           <ng-container matColumnDef="tipoInforme" >
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
             <td mat-cell *matCellDef="let order" class="text-center">
-              <div *ngIf="order.tipoInforme === 'OR'">
+              <div *ngIf="order.reportType === 'OR'">
                 <div class="badge badge-solid-orange" style="font-size: 16px;">OR</div>
               </div>
-              <div *ngIf="order.tipoInforme === 'RV'">
+              <div *ngIf="order.reportType === 'RV'">
                 <div class="badge badge-solid-green" style="font-size: 16px;">RV</div>
+              </div>
+              <div *ngIf="order.reportType === 'EF'">
+                <div class="badge badge-solid-cyan" style="font-size: 16px;">EF</div>
+              </div>
+              <div *ngIf="order.reportType === 'DF'">
+                <div class="badge badge-solid-blue" style="font-size: 16px;">DF</div>
               </div>
             </td>
           </ng-container>
           <ng-container matColumnDef="tipoTramite" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Trámite</th>
             <td mat-cell *matCellDef="let order" class="text-center">
-              <div *ngIf="order.tipoTramite === 'T1'">
+              <div *ngIf="order.procedureType === 'T1'">
                 <div class="badge badge-solid-blue">T1</div>
               </div>
-              <div *ngIf="order.tipoTramite === 'T2'">
+              <div *ngIf="order.procedureType === 'T2'">
                 <div class="badge badge-solid-purple">T2</div>
               </div>
-              <div *ngIf="order.tipoTramite === 'T3'">
+              <div *ngIf="order.procedureType === 'T3'">
                 <div class="badge badge-solid-cyan">T3</div>
+              </div>
+              <div *ngIf="order.procedureType === 'TB'">
+                <div class="badge badge-solid-brown">TB</div>
               </div>
             </td>
           </ng-container>
           <ng-container matColumnDef="calidad" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
-            <td mat-cell *matCellDef="let order" class="text-center"> {{order.calidad}} </td>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.quality}} </td>
           </ng-container>
           <ng-container matColumnDef="fechaIngreso" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
-            <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaIngreso}} </td>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.orderDate}} </td>
           </ng-container>
           <ng-container matColumnDef="fechaVencimiento" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
-            <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaVencimiento}} </td>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.expireDate}} </td>
           </ng-container>
           <ng-container matColumnDef="fechaDescarga" >
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Descarga </th>
-            <td mat-cell *matCellDef="let order" class="text-center"> {{order.fechaDescarga}} </td>
+            <td mat-cell *matCellDef="let order" class="text-center"> {{order.dispatchDate}} </td>
           </ng-container>
           <ng-container matColumnDef="Acciones" >
             <th mat-header-cell *matHeaderCellDef  class="text-center" style="width: 10rem;"> Acciones </th>
             <td mat-cell *matCellDef="let order" class="text-center" style="min-width: 12rem;">
-              <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.cupon)" class="tbl-action-btn " matTooltip="Editar">
+              <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.id)" class="tbl-action-btn " matTooltip="Editar">
                 <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
               </button>
               <button mat-icon-button class="tbl-action-btn" matTooltip="Consultar" (click)=" $event.stopPropagation(); consultar()">
                 <app-feather-icons [icon]="'help-circle'" [class]="'tbl-fav-question'"></app-feather-icons>
               </button>
-              <button mat-icon-button class="tbl-action-btn" matTooltip="Eliminar">
+              <button mat-icon-button class="tbl-action-btn" matTooltip="Eliminar" (click)="$event.stopPropagation(); deleteOrder(order.id);">
                 <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
               </button>
             </td>
@@ -198,17 +211,17 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-4">
-                        <label><b>Abonado: </b>{{ order.codigo }} - {{ order.nombre }}</label><br>
-                        <label><b>País: </b>{{ order.pais.valor }} <span class="fi fi-{{order.pais.bandera}}"></span></label><br>
-                        <label><b>Crédito Consultado:</b>  {{order.creditoConsultado}}</label><br>
+                        <label><b>Abonado: </b>{{ order.subscriberCode }} - {{ order.subscriberName }}</label><br>
+                        <label><b>País: </b>{{ order.subscriberCountry }} <span class="fi fi-{{order.subscriberFlag}}"></span></label><br>
+                        <label><b>Crédito Consultado:</b>  {{order.queryCredit}}</label><br>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Revelar Nombre:</b><span *ngIf="order.revelarNombre === true"> SI</span><span *ngIf="order.revelarNombre === false"> NO</span></label><br>
-                        <label><b>Nro. de Referencia: </b> {{order.nroReferencia}}</label>
+                        <label><b>Revelar Nombre:</b><span *ngIf="order.revealName === true"> SI</span><span *ngIf="order.revealName === false"> NO</span></label><br>
+                        <label><b>Nro. de Referencia: </b> {{order.referenceNumber}}</label>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Indicaciones del Abonado: </b> {{order.indicaciones}}</label>
-                        <label><b>Datos Adicionales: </b> {{order.dtsAdicionales}}</label>
+                        <label><b>Indicaciones del Abonado: </b> {{order.subscriberIndications}}</label><br>
+                        <label><b>Datos Adicionales: </b> {{order.aditionalData}}</label>
                       </div>
                     </div>
                     <br>
@@ -219,19 +232,19 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-4">
-                        <label><b>Nombre Real de la Empresa: </b>  {{order.nombreRealEmpresa}}</label><br>
-                        <label><b>Nombre Solicitado de la Empresa: </b>  {{order.nombreSolicitadoEmpresa}}</label><br>
-                        <label><b>Registro Tributario: </b>  {{order.tipoRT}} - {{order.codigoRT}}</label>
+                        <label><b>Nombre Real de la Empresa: </b>  {{order.busineesName}}</label><br>
+                        <label><b>Nombre Solicitado de la Empresa: </b>  {{order.requestedName}}</label><br>
+                        <label><b>Registro Tributario: </b>  {{order.taxType}} - {{order.taxCode}}</label>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Continente: </b>  {{order.continenteEmpresa}}</label><br>
-                        <label><b>País: </b>  {{order.paisEmpresa.valor}} <span class="fi fi-{{order.paisEmpresa.bandera}}"></span></label><br>
-                        <label><b>Ciudad: </b>  {{order.ciudadEmpresa}}</label><br>
+                        <label><b>Continente: </b>  {{order.investigatedContinent}}</label><br>
+                        <label><b>País: </b>  {{order.investigatedCountry}} <span class="fi fi-{{order.investigatedFlag}}"></span></label><br>
+                        <label><b>Ciudad: </b>  {{order.city}}</label><br>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Dirección: </b>  {{order.direccionEmpresa}}</label><br>
-                        <label><b>Correo: </b> {{order.correoEmpresa}}</label><br>
-                        <label><b>Telefono: </b>  {{order.telefonoEmpresa}}</label><br>
+                        <label><b>Dirección: </b>  {{order.address}}</label><br>
+                        <label><b>Correo: </b> {{order.email}}</label><br>
+                        <label><b>Telefono: </b>  {{order.telephone}}</label><br>
                       </div>
                       <br>
                     </div>
@@ -242,16 +255,16 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-4">
-                        <label><b>Tipo de Trámite: </b>  {{order.tipoTramite}}</label><br>
-                        <label><b>Fecha de Ingreso: </b>  {{order.fechaIngreso}}</label><br>
+                        <label><b>Tipo de Trámite: </b>  {{order.procedureType}}</label><br>
+                        <label><b>Fecha de Ingreso: </b>  {{order.orderDate}}</label><br>
                       </div>
                       <div class="col-md-4">
-                        <label><b>Tipo de Informe: </b> {{order.tipoInforme}}</label><br>
-                        <label><b>Fecha de Vencimiento: </b> {{order.fechaVencimiento}}</label><br>
+                        <label><b>Tipo de Informe: </b> {{order.reportType}}</label><br>
+                        <label><b>Fecha de Vencimiento: </b> {{order.expireDate}}</label><br>
                       </div>
                       <div class="col-md-4">
                         <label><b>Precio de Informe: </b>  {{order.precioInforme}}</label><br>
-                        <label><b>Fecha de Vencimiento Real: </b>  {{order.fechaVencimientoReal}}</label><br>
+                        <label><b>Fecha de Vencimiento Real: </b>  {{order.realExpireDate}}</label><br>
                       </div>
                       <br>
                     </div>

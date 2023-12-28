@@ -1,5 +1,5 @@
 
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource} from '@angular/material/table';
 
@@ -14,6 +14,9 @@ import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa
 import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
 import { MatDialog } from '@angular/material/dialog';
 import { ConsultarComponent } from './consultar/consultar.component';
+import { ListTicket } from 'app/models/pedidos/ticket';
+import { TicketService } from 'app/services/pedidos/ticket.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista',
@@ -27,7 +30,7 @@ import { ConsultarComponent } from './consultar/consultar.component';
     ]),
   ],
 })
-export class ListaComponent implements AfterViewInit {
+export class ListaComponent implements OnInit {
   tipoInforme = ""
   tipoTramite = ""
   breadscrums = [
@@ -41,7 +44,9 @@ export class ListaComponent implements AfterViewInit {
   buscarInforme = ""
   buscarAbonado = ""
 
-  dataSource: MatTableDataSource<Pedido>;
+  loading = false;
+
+  dataSource: MatTableDataSource<ListTicket>;
   columnsToDisplay = ['cupon', 'informe','abonado', 'estado', 'tipoInforme', 'tipoTramite', 'calidad', 'fechaIngreso', 'fechaVencimiento', 'fechaDescarga', 'Acciones' ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedOrder: Pedido | null = null;
@@ -51,26 +56,34 @@ export class ListaComponent implements AfterViewInit {
 
   constructor(private pedidoService : PedidoService,
     private router : Router,
-    private datosEmpresaService : DatosEmpresaService,
+    private datosEmpresaService : DatosEmpresaService, private ticketService : TicketService,
     public dialog : MatDialog) {
-    this.dataSource = new MatTableDataSource(this.pedidoService.getPedidos());
+    this.dataSource = new MatTableDataSource();
   }
-  loadData() {
-    this.dataSource = new MatTableDataSource(this.pedidoService.getPedidos());
+  ngOnInit() {
+    this.loading = true
+    this.ticketService.getList().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.dataSource.data = response.data
+          this.dataSource.paginator = this.paginator
+        }
+      }
+    ).add(
+      () => {
+        this.loading = false
+      }
+    )
   }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-  refresh() {
-    this.loadData();
-    this.dataSource.paginator = this.paginator;
-  }
-
-  aplicarFiltro() {
-      this.dataSource.data = this.pedidoService.getPedidos()
-      .filter(x => x.cupon.includes(this.buscarCupon) && x.codigoInforme.includes(this.buscarInforme) && x.codigo.includes(this.buscarAbonado) && x.tipoTramite === this.tipoTramite && x.tipoInforme === this.tipoInforme)
-      console.log(this.dataSource.data)
+  refresh(){
+    this.ticketService.getList().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.dataSource.data = response.data
+          this.dataSource.paginator = this.paginator
+        }
+      }
+    )
   }
 
   addOrder(){
@@ -80,10 +93,53 @@ export class ListaComponent implements AfterViewInit {
   editOrder(cupon : string){
     this.router.navigate(['pedidos/detalle/editar/' + cupon]);
   }
+  deleteOrder(id : number){
+    console.log(id)
+    Swal.fire({
+      title: '¿Está seguro de eliminar este registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '30rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        const loader = document.getElementById('loader-lista-cupon') as HTMLElement | null;
+        if(loader){
+          loader.classList.remove('hide-loader');
+        }
+        this.ticketService.deleteTicket(id).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              Swal.fire({
+                title: 'El registro se eliminó correctamente.',
+                text: '',
+                icon: 'success',
+                width: '30rem',
+                heightAuto: true
+              }).then(() => {
+                this.refresh()
+              })
+            }
+          }
+        ).add(
+          () => {
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+          }
+        )
+      }
+    });
+  }
   consultar(){
     const dialogRef = this.dialog.open(ConsultarComponent, {
       data : {
-       
+
       },
     });
   }

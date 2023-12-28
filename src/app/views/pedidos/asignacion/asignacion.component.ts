@@ -13,6 +13,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ComentarioComponent } from '@shared/components/comentario/comentario.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AdjuntarArchivosComponent } from '@shared/components/adjuntar-archivos/adjuntar-archivos.component';
+import { ComboData } from 'app/models/combo';
 
 interface Agentes{
   codigo : string
@@ -33,6 +34,37 @@ export class AsignacionComponent implements AfterViewInit {
       active: 'Asignación',
     },
   ];
+
+  lista : ComboData[] = [
+    {
+      id : 5,
+      valor : "KATIA BUSTAMANTE"
+    },
+    {
+      id : 42,
+      valor : "MARIELA ACOSTA"
+    },
+    {
+      id : 50,
+      valor : "MONICA YEPEZ"
+    },
+    {
+      id : 51,
+      valor : "RAFAEL DEL RISCO"
+    },
+    {
+      id : 55,
+      valor : "CECILIA RODRIGUEZ"
+    },
+    {
+      id : 64,
+      valor : "JESSICA LIAU"
+    },
+    {
+      id : 8,
+      valor : "CECILIA SAYAS"
+    },
+  ]
 
   //TABLA
   dataSource: MatTableDataSource<Pedido>;

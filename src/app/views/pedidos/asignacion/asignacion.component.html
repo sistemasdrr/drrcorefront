@@ -112,8 +112,8 @@
             <mat-form-field style="width: 12rem; margin: .5rem 1rem 0 0;">
               <mat-label>Destinatario</mat-label>
               <mat-select >
-                <mat-option *ngFor="let agente of agentes" [value]="agente.codigo">
-                  {{agente.codigo + " - " + agente.nombre}}
+                <mat-option *ngFor="let item of lista" [value]="item.id">
+                  {{item.id + " - " + item.valor}}
                 </mat-option>
               </mat-select>
             </mat-form-field>

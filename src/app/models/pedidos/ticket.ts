@@ -34,6 +34,7 @@ export interface Ticket{
   creditrisk : number
   enable : boolean
   requestedName : string
+  price : number
 }
 export interface ReportType{
   typeReport : string
@@ -50,4 +51,49 @@ export interface HistorialPedido{
   subscriber : string
   procedure : string
   status : string
+}
+
+export interface ListTicket{
+  id : number
+  number : string
+  idSubscriber : number
+  language : string
+  about : string
+  idContinent : number
+  idCountry : number
+  idCompany : number
+  idPerson : number
+  creditrisk : number
+  enable : boolean
+  subscriberCode : string
+  subscriberName : string
+  subscriberCountry : string
+  subscriberFlag : string
+  queryCredit : string
+  timeLimit : string
+  revealName : boolean
+  nameRevealed : string
+  referenceNumber : string
+  aditionalData : string
+  subscriberIndications : string
+  busineesName : string
+  comercialName : string
+  requestedName : string
+  taxType : string
+  taxCode : string
+  investigatedContinent : string
+  investigatedCountry : string
+  investigatedFlag : string
+  city : string
+  email : string
+  address : string
+  telephone : string
+  reportType : string
+  procedureType : string
+  price : number
+  orderDate : string
+  expireDate : string
+  realExpireDate : string
+  dispatchDate : string
+  quality : string
 }

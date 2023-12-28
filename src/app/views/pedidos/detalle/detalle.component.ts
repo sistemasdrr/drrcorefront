@@ -1,25 +1,22 @@
-import { formatDate } from '@angular/common';
-import { EmpresaPersonaService } from 'app/services/empresa-persona.service';
-import { PaisService } from './../../../services/pais.service';
+import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 import { OnInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource} from '@angular/material/table';
 import { Pais } from 'app/models/pais';
-import { PedidoService } from 'app/services/pedido.service';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { data } from 'app/services/mantenimiento/personal.service';
 import { ComboService } from 'app/services/combo.service';
-import { RiesgoCrediticio } from 'app/models/combo';
 import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
 import { ListaAbonadosComponent } from './lista-abonados/lista-abonados.component';
 import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
 import { Abonado, Precio } from 'app/models/mantenimiento/abonado';
 import { TicketService } from 'app/services/pedidos/ticket.service';
-import { HistorialPedido } from 'app/models/pedidos/ticket';
+import { HistorialPedido, Ticket } from 'app/models/pedidos/ticket';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import Swal from 'sweetalert2';
 
 
 
@@ -29,6 +26,7 @@ import { HistorialPedido } from 'app/models/pedidos/ticket';
   styleUrls: ['./detalle.component.scss'],
 })
 export class DetalleComponent implements OnInit {
+  loading: boolean = false;
 
   tipo = ""
   cupon = ""
@@ -43,10 +41,13 @@ export class DetalleComponent implements OnInit {
   queryCredit = ""
   timeLimit = ""
   aditionalData = ""
-  about = ""
+  about = "E"
   orderDate = ""
+  orderDateD : Date | null = null
   expireDate = ""
+  expireDateD : Date | null = null
   realExpireDate = ""
+  realExpireDateD : Date | null = null
   idContinent = 0
   idCountry = 0
   reportType = ""
@@ -69,20 +70,7 @@ export class DetalleComponent implements OnInit {
   /**/
   paisSeleccionado = 0
   iconoSeleccionado = ""
-  buscarPorNombreInforme = ""
-  buscarPorNombre(nombreInforme : string){
-    let informe = this.empresaPersonaService.getEmpresasPersonas()
-    informe = informe.filter(x => x.nombreSolicitado === nombreInforme)
-    if(informe){
-      this.paisSeleccionado = informe[0].pais
-      this.ruc = informe[0].ruc
-      this.continente = informe[0].continente
-      this.ciudad = informe[0].ciudad
-      this.direccion = informe[0].direccion
-      this.correo = informe[0].correo
-      this.telefono = informe[0].telefono
-    }
-  }
+
   precio = 0
   countryAbonado : Pais = {
     id : 0,
@@ -97,12 +85,7 @@ export class DetalleComponent implements OnInit {
     price : 0,
     days : 0
   }
-  fechaIngreso = ""
-  fechaIngresoDate : Date = new Date()
-  fechaVencimiento = ""
-  fechaVencimientoDate : Date = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+6)
-  fechaVencimientoReal = ""
-  fechaVencimientoRealDate : Date | null = new Date(this.fechaIngresoDate.getFullYear(),this.fechaIngresoDate.getMonth(),this.fechaIngresoDate.getDate()+5)
+
   fechaInforme = ""
   fechaInformeDate : Date | null = new Date()
 
@@ -119,58 +102,13 @@ export class DetalleComponent implements OnInit {
   indicacionesAbonado = ""
   datosAdicionales = ""
 
-  //FORM EMPRESA
-  razonSocialInforme = ""
-  nombreComercialInforme = ""
-  talCualfueSolicitadoInforme = ""
-  tipoRT = ""
-  codigoRT = ""
-  ruc = ""
-  continente = ""
-  paisEmp = ""
-  ciudad = ""
-  direccion = ""
-  correo = ""
-  telefono = ""
 
-  //FORM PERSONA
-  apellidosNombresInforme = ""
-  tipoDI = ""
-  codigoDI = ""
-  codigoRuc = ""
-  situacionRuc = ""
-  estadoCivil = ""
-  ciudadPersona = ""
-  telefonoPersona = ""
-  direccionPersona = ""
   idCreditRisk = 0
 
-  calificacionCrediticia : RiesgoCrediticio[] = []
+  //calificacionCrediticia : RiesgoCrediticio[] = []
 
-  filterPaisAbonado : Observable<Pais[]>
-  filterPaisEmpresa : Observable<Pais[]>
-  filterPaisPersona : Observable<Pais[]>
-  controlPaisesAbonado = new FormControl<string | Pais>('')
-  controlPaisesEmpresa = new FormControl<string | Pais>('')
-  controlPaisesPersona = new FormControl<string | Pais>('')
   paisesAbonado : Pais[] = []
-  paisesEmpresa : Pais[] = []
-  paisesPersona : Pais[] = []
-  paisAbonado : Pais = {
-    id : 0,
-    valor : '',
-    bandera : ''
-  }
-  paisEmpresa : Pais = {
-    id : 0,
-    valor : '',
-    bandera : ''
-  }
-  paisPersona : Pais = {
-    id : 0,
-    valor : '',
-    bandera : ''
-  }
+
 
   continentes: data[] = [];
 
@@ -183,7 +121,6 @@ export class DetalleComponent implements OnInit {
 
   idiomaSeleccionado = ""
   idCountryEmpresa = 0
-  tipoInforme = ""
 
   codAbonado = ''
   nombre_abonado = "SI"
@@ -194,18 +131,13 @@ export class DetalleComponent implements OnInit {
       active: '',
     },
   ];
-  constructor(
-    public dialog: MatDialog,
-    private activatedRoute: ActivatedRoute,
-    private router : Router,
-    private abonadoService : AbonadoService,
-    private paisService : PaisService,
-    private empresaPersonaService : EmpresaPersonaService,
-    private pedidoService : PedidoService,
-    private datosEmpresaService : DatosEmpresaService,
-    private comboService : ComboService,
-    private snackBar: MatSnackBar, private ticketService : TicketService
-  ) {
+
+  modeloNuevo : Ticket[] = []
+  modeloModificado : Ticket[] = []
+
+  constructor(public dialog: MatDialog,private activatedRoute: ActivatedRoute,private router : Router,
+    private abonadoService : AbonadoService,private datosEmpresaService : DatosEmpresaService,
+    private comboService : ComboService,private ticketService : TicketService) {
     const tipo = this.activatedRoute.snapshot.paramMap.get('tipo');
     if (tipo?.includes('agregar')) {
       this.tipo_formulario = 'agregar'
@@ -216,38 +148,150 @@ export class DetalleComponent implements OnInit {
       this.id = parseInt(cupon + '')
     }
     this.dataSource = new MatTableDataSource()
-    this.filterPaisAbonado = new Observable<Pais[]>()
-    this.filterPaisEmpresa = new Observable<Pais[]>()
-    this.filterPaisPersona = new Observable<Pais[]>()
-
-
-
   }
   ngOnInit() {
-    this.filterPaisAbonado = this.controlPaisesAbonado.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.valor
-        return name ? this._filterPaisAbonado(name as string) : this.paisesAbonado.slice()
-      }),
-    )
-    this.filterPaisEmpresa = this.controlPaisesEmpresa.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.valor
-        return name ? this._filterPaisEmpresa(name as string) : this.paisesEmpresa?.slice()
-      }),
-    )
-    this.filterPaisPersona = this.controlPaisesPersona.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.valor
-        return name ? this._filterPaisPersona(name as string) : this.paisesPersona.slice()
-      }),
-    )
+    this.loading = true
     if(this.id !== 0){
+      this.ticketService.getById(this.id).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const ticket = response.data
+            if(ticket){
+              this.number = ticket.number
+              this.cupon = ticket.number.toString().padStart(6, '0')
+              this.idSubscriber = ticket.idSubscriber
+              this.revealName = ticket.revealName
+              this.nameRevealed = ticket.nameRevealed
+              this.referenceNumber = ticket.referenceNumber
+              this.language = ticket.language
+              this.queryCredit = ticket.queryCredit
+              this.timeLimit = ticket.timeLimit
+              this.aditionalData = ticket.aditionalData
+              this.about = ticket.about
+              this.idContinent = ticket.idContinent
+              this.idCountry = ticket.idCountry
+              this.reportType = ticket.reportType
+              this.procedureType = ticket.procedureType
+              this.idCompany = ticket.idCompany
+              this.idPerson = ticket.idPerson
+              this.busineesName = ticket.busineesName
+              this.comercialName = ticket.comercialName
+              this.taxType = ticket.taxType
+              this.taxCode = ticket.taxCode
+              this.email = ticket.email
+              this.address = ticket.address
+              this.city = ticket.city
+              this.telephone = ticket.telephone
+              this.creditrisk = 0
+              this.enable = ticket.enable
+              this.requestedName = ticket.requestedName
+              this.precio = ticket.price
+              if(ticket.orderDate !== null && ticket.orderDate !== ""){
+                const fecha = ticket.orderDate.split("/")
+                if(fecha.length > 0){
+                  this.orderDate = ticket.orderDate
+                  this.orderDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                }else{
+                  this.orderDate = ""
+                }
+              }
 
+              if(ticket.expireDate !== null && ticket.expireDate !== ""){
+                const fecha = ticket.expireDate.split("/")
+                if(fecha.length > 0){
+                  this.expireDate = ticket.expireDate
+                  this.expireDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                }else{
+                  this.expireDate = ""
+                }
+              }
+
+              if(ticket.realExpireDate !== null && ticket.realExpireDate !== ""){
+                const fecha = ticket.realExpireDate.split("/")
+                if(fecha.length > 0){
+                  this.realExpireDate = ticket.realExpireDate
+                  this.realExpireDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                }else{
+                  this.realExpireDate = ""
+                }
+              }
+            }
+          }
+        }
+      ).add(
+        () => {
+          console.log(this.idContinent)
+          this.abonadoService.getAbonadoPorId(this.idSubscriber).subscribe(
+            (response) => {
+              console.log(response)
+              if(response.isSuccess === true && response.isWarning === false){
+                const abonado : Abonado = response.data
+                if(abonado){
+                  this.codAbonado = abonado.code
+                  this.revealName = abonado.revealName
+                  this.nameRevealed = abonado.name
+                  this.estado = abonado.enable;
+                  this.indicacionesAbonado = abonado.indications;
+                  this.aditionalData = abonado.observations;
+                  this.language = abonado.language
+                }
+              }
+            }
+          ).add(
+            () => {
+              console.log(this.idSubscriber)
+              this.abonadoService.getContinentes(this.idSubscriber).subscribe(
+                (response) => {
+                if(response.isSuccess == true){
+                  this.continentes = response.data
+                }
+              }).add(
+                () => {
+                  this.abonadoService.getPaises(this.idSubscriber, this.idContinent).subscribe(
+                    (response) => {
+                      if(response.isSuccess === true && response.isWarning === false){
+                        console.log(response.data)
+                        this.paisesAbonado = []
+                        this.paisesAbonado = response.data
+                      }
+                    }).add(
+                      () => {
+                        this.mostrarBandera()
+                        this.ticketService.getTipoReporte(this.idCompany, this.about).subscribe(
+                          (response) => {
+                            console.log(response)
+                            if(response.isSuccess === true && response.isWarning === false){
+                              const tipoReporte = response.data
+                              if(tipoReporte){
+                                this.reportType = tipoReporte.typeReport
+                                if(tipoReporte.lastSearchedDate !== "" && tipoReporte.lastSearchedDate !== null){
+                                  const lastSearched = tipoReporte.lastSearchedDate.split("/")
+                                  if(lastSearched.length > 0){
+                                    this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[1])-1,parseInt(lastSearched[0]))
+                                  }else{
+                                    this.fechaInformeDate = null
+                                  }
+                                }
+                                this.dataSource.data = tipoReporte.listSameSearched
+                              }
+                            }
+                          }
+                        ).add(
+                          () => {
+                          }
+                        )
+                      }
+                    )
+                }
+              )
+            }
+          )
+        }
+      )
+
+      this.loading = false
     }else{
+
       this.ticketService.getTicketActual().subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
@@ -256,14 +300,14 @@ export class DetalleComponent implements OnInit {
           }
         }
       )
+      this.loading = false
     }
-    this.selectContinente(this.idContinent)
 
-    this.comboService.getRiesgoCrediticio().subscribe((response) =>{
-      if(response.isSuccess === true && response.isWarning === false){
-        this.calificacionCrediticia = response.data
-      }
-    })
+    // this.comboService.getRiesgoCrediticio().subscribe((response) =>{
+    //   if(response.isSuccess === true && response.isWarning === false){
+    //     this.calificacionCrediticia = response.data
+    //   }
+    // })
 
     if (this.tipo_formulario == 'editar') {
       this.breadscrums = [
@@ -287,75 +331,150 @@ export class DetalleComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource();
   }
-  selectContinente(idContinent : number){
+  armarModeloNuevo(){
+    this.modeloNuevo[0] = {
+      id : this.id,
+      number : this.number,
+      idSubscriber : this.idSubscriber,
+      revealName : this.revealName,
+      nameRevealed : this.revealName === true ? this.nameRevealed : "",
+      referenceNumber : this.referenceNumber,
+      language : this.language,
+      queryCredit : this.queryCredit,
+      timeLimit : this.timeLimit,
+      aditionalData : this.aditionalData,
+      about : this.about,
+      orderDate : this.orderDate,
+      expireDate : this.expireDate,
+      realExpireDate : this.realExpireDate,
+      idContinent : this.idContinent,
+      idCountry : this.idCountry,
+      reportType : this.reportType,
+      procedureType : this.procedureType,
+      idCompany : this.idCompany,
+      idPerson : 0,
+      busineesName : this.busineesName === null ? "" : this.busineesName,
+      comercialName : this.comercialName === null ? "" : this.comercialName,
+      taxType : this.taxType === null ? "" : this.taxType,
+      taxCode : this.taxCode === null ? "" : this.taxCode,
+      email : this.email === null ? "" : this.email,
+      address :  this.address === null ? "" : this.address,
+      city : this.city === null ? "" : this.city,
+      telephone : this.telephone === null ? "" : this.telephone,
+      creditrisk : 0,
+      enable : true,
+      requestedName : this.requestedName,
+      price : this.precio
+    }
+  }
+  armarModeloModificado(){
+    this.modeloModificado[0] = {
+      id : this.id,
+      number : this.number,
+      idSubscriber : this.idSubscriber,
+      revealName : this.revealName,
+      nameRevealed : this.revealName === true ? this.nameRevealed : "",
+      referenceNumber : this.referenceNumber,
+      language : this.language,
+      queryCredit : this.queryCredit,
+      timeLimit : this.timeLimit,
+      aditionalData : this.aditionalData,
+      about : this.about,
+      orderDate : this.orderDate,
+      expireDate : this.expireDate,
+      realExpireDate : this.realExpireDate,
+      idContinent : this.idContinent,
+      idCountry : this.idCountry,
+      reportType : this.reportType,
+      procedureType : this.procedureType,
+      idCompany : this.idCompany,
+      idPerson : 0,
+      busineesName : this.busineesName === null ? "" : this.busineesName,
+      comercialName : this.comercialName === null ? "" : this.comercialName,
+      taxType : this.taxType === null ? "" : this.taxType,
+      taxCode : this.taxCode === null ? "" : this.taxCode,
+      email : this.email === null ? "" : this.email,
+      address :  this.address === null ? "" : this.address,
+      city : this.city === null ? "" : this.city,
+      telephone : this.telephone === null ? "" : this.telephone,
+      creditrisk : 0,
+      enable : true,
+      requestedName : this.requestedName,
+      price : this.precio
+    }
+  }
+  selectContinente(){
     this.abonadoService.getPaises(this.idSubscriber, this.idContinent).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
-          this.paisesEmpresa = []
-          this.paisesEmpresa = response.data
+          console.log(response.data)
+          this.paisesAbonado = []
+          this.paisesAbonado = response.data
           this.limpiarSeleccionPais()
         }
       })
   }
-  cambioPais(pais: Pais) {
-    console.log(pais)
-    if (typeof pais === 'string' || pais === null || this.countryAbonado.id === 0) {
-      this.iconoSeleccionado = ""
-      this.idCountry = 0
-    } else {
-      this.iconoSeleccionado = pais.bandera
-      this.idCountry = pais.id
-      this.abonadoService.getPreciosPorPais(this.idSubscriber,this.idContinent,this.idCountry).subscribe(
+  mostrarBandera(){
+    this.iconoSeleccionado = this.paisesAbonado.filter(x => x.id === this.idCountry)[0].bandera
+    this.abonadoService.getPreciosPorPais(this.idSubscriber,this.idContinent,this.idCountry).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
             this.listaPrecio = response.data
           }
         }
       )
+  }
+  selectFecha1(event: MatDatepickerInputEvent<Date>) {
+    this.orderDateD = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.orderDate = this.formatDate(selectedDate);
     }
   }
+  selectFecha2(event: MatDatepickerInputEvent<Date>) {
+    this.expireDateD = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.expireDate = this.formatDate(selectedDate);
+    }
+  }
+  selectFecha3(event: MatDatepickerInputEvent<Date>) {
+    this.realExpireDateD = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.realExpireDate = this.formatDate(selectedDate);
+    }
+  }
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${day}/${month}/${year}`;
+  }
   tipotramite(){
+    this.tipoTramite = this.listaPrecio.filter(x => x.name === this.procedureType)[0]
     this.precio = this.tipoTramite.price
+    if(this.tipoTramite.price === 0){
+      Swal.fire({
+        title: 'El tipo de trámite seleccionado no tiene un precio asignado.',
+        text: '',
+        icon: 'warning',
+        width: '30rem',
+        heightAuto: true
+      })
+    }
   }
   limpiarSeleccionPais() {
-    this.controlPaisesEmpresa.reset();
     this.idCountry = 0
     this.iconoSeleccionado = ""
   }
-  private _filterPaisAbonado(description: string): Pais[] {
-    const filterValue = description.toLowerCase();
-    return this.paisesAbonado.filter(pais => pais.valor.toLowerCase().includes(filterValue));
-  }
-  displayPaisAbonado(pais : Pais): string {
-    return pais && pais.valor ? pais.valor : '';
-  }
-  private _filterPaisEmpresa(description: string): Pais[] {
-    const filterValue = description.toLowerCase();
-    return this.paisesEmpresa.filter(pais => pais.valor.toLowerCase().includes(filterValue));
-  }
-  displayPaisEmpresa(pais : Pais): string {
-    return pais && pais.valor ? pais.valor : '';
-  }
-  private _filterPaisPersona(description: string): Pais[] {
-    const filterValue = description.toLowerCase();
-    return this.paisesPersona.filter(pais => pais.valor.toLowerCase().includes(filterValue));
-  }
-  displayPaisPersona(pais : Pais): string {
-    return pais && pais.valor ? pais.valor : '';
-  }
   revelarNombre(){
-    if(this.isChecked){
+    if(this.revealName){
       this.nombre_abonado = "SI"
     }else{
       this.nombre_abonado = "NO"
       this.nombreAbonado = ""
     }
-  }
-  TipoFormulario(tipo: string) {
-    this.tipo_formulario = tipo;
-  }
-  getTipoFormulario(): string {
-    return this.tipo_formulario || '';
   }
   buscarAbonado() {
     const dialogRef = this.dialog.open(ListaAbonadosComponent, {
@@ -373,22 +492,23 @@ export class DetalleComponent implements OnInit {
           if(abonado){
             this.idSubscriber = data.id
             this.codAbonado = abonado.code
-            this.isChecked = abonado.revealName
+            this.revealName = abonado.revealName
+            this.nameRevealed = abonado.name
             this.estado = abonado.enable;
             this.indicacionesAbonado = abonado.indications;
-            this.datosAdicionales = abonado.observations;
+            this.aditionalData = abonado.observations;
             this.language = abonado.language
           }
         }
       }
      ).add(
       () => {
-        this.abonadoService.getContinentes(this.idSubscriber).subscribe(response => {
+        this.abonadoService.getContinentes(this.idSubscriber).subscribe(
+          (response) => {
           if(response.isSuccess == true){
             console.log(response)
             this.continentes = response.data;
             this.idContinent = 0
-            this.limpiarSeleccionPais()
             this.listaPrecio = []
             this.idCountry = 0
             this.precio = 0
@@ -411,16 +531,15 @@ export class DetalleComponent implements OnInit {
           if(response.isSuccess === true && response.isWarning === false){
             const datosEmpresa = response.data
             if(datosEmpresa){
-              this.razonSocialInforme = datosEmpresa.name
-              this.nombreComercialInforme = datosEmpresa.socialName
-              this.tipoRT = datosEmpresa.taxTypeName
-              this.codigoRT = datosEmpresa.taxTypeCode
-              this.correo = datosEmpresa.email
-              this.ciudad = datosEmpresa.place
-              this.direccion = datosEmpresa.address
-              this.telefono = datosEmpresa.telephone
-
-              this.idCreditRisk = datosEmpresa.idCreditRisk
+              this.idCompany = datosEmpresa.id
+              this.busineesName = datosEmpresa.name
+              this.comercialName = datosEmpresa.socialName
+              this.taxType = datosEmpresa.taxTypeName
+              this.taxCode = datosEmpresa.taxTypeCode
+              this.email = datosEmpresa.email
+              this.city = datosEmpresa.place
+              this.address = datosEmpresa.address
+              this.telephone = datosEmpresa.telephone
             }
           }
         }
@@ -432,11 +551,11 @@ export class DetalleComponent implements OnInit {
               if(response.isSuccess === true && response.isWarning === false){
                 const tipoReporte = response.data
                 if(tipoReporte){
-                  this.tipoInforme = tipoReporte.typeReport
+                  this.reportType = tipoReporte.typeReport
                   if(tipoReporte.lastSearchedDate !== "" && tipoReporte.lastSearchedDate !== null){
                     const lastSearched = tipoReporte.lastSearchedDate.split("/")
                     if(lastSearched.length > 0){
-                      this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[0])-1,parseInt(lastSearched[1]))
+                      this.fechaInformeDate = new Date(parseInt(lastSearched[2]),parseInt(lastSearched[1])-1,parseInt(lastSearched[0]))
                     }else{
                       this.fechaInformeDate = null
                     }
@@ -451,45 +570,10 @@ export class DetalleComponent implements OnInit {
       }
     });
   }
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
-  }
   volver(){
     this.router.navigate(['pedidos/lista']);
   }
 
-  // asignarDatosAbonado() {
-  //   const abonado: Abonado | null = this.abonadoService.getAbonadoPorCodigo(this.codAbonado);
-  //   console.log(abonado)
-  //   if (abonado !== null) {
-  //     this.nombreAbonado = abonado.codigo + ' - ' + abonado.nombre;
-  //     this.isChecked = abonado.revelarNombre;
-  //     this.paisAbonado = abonado.pais
-  //     this.estado = abonado.estado;
-  //     this.nmrReferencia = abonado.nroReferencia;
-  //     this.creditoConsultado = abonado.creditoConsultado;
-  //     this.indicacionesAbonado = abonado.indicaciones;
-  //     this.datosAdicionales = abonado.dtsAdicionales;
-  //     this.abonadoNoEncontrado = "Abonado Encontrado"
-  //   } else {
-  //     this.nombreAbonado = ""
-  //     this.isChecked = false
-  //     this.paisAbonado = {
-  //       id : 0,
-  //       valor : '',
-  //       bandera : ''
-  //     }
-  //     this.estado = ""
-  //     this.nmrReferencia = ""
-  //     this.creditoConsultado = ""
-  //     this.indicacionesAbonado = ""
-  //     this.datosAdicionales = ""
-  //     this.abonadoNoEncontrado = "No se encontró el abonado"
-  //   }
-  // }
   filtrar(event : KeyboardEvent){
     if(event.code === 'Enter' || event.code === 'NumpadEnter'){
       if(this.codAbonado.length > 3){
@@ -501,15 +585,22 @@ export class DetalleComponent implements OnInit {
               if(abonado){
                 this.idSubscriber = abonado.id
                 this.codAbonado = abonado.code
-                this.isChecked = abonado.revealName
-                if(abonado.revealName === true){
-                  this.nombreAbonado = abonado.name
-                }
+                this.revealName = abonado.revealName
+                this.nameRevealed = abonado.name
                 this.estado = abonado.enable;
                 this.indicacionesAbonado = abonado.indications;
-                this.datosAdicionales = abonado.observations;
+                this.aditionalData = abonado.observations;
                 this.language = abonado.language
               }
+            }else{
+              this.idSubscriber = 0
+              this.codAbonado = ""
+              this.revealName = false
+              this.nameRevealed = ""
+              this.estado = false
+              this.indicacionesAbonado = ""
+              this.aditionalData = ""
+              this.language = ""
             }
           }
         ).add(
@@ -524,5 +615,98 @@ export class DetalleComponent implements OnInit {
          )
       }
     }
+  }
+
+  guardar(){
+    if(this.id === 0){
+      this.armarModeloNuevo()
+      console.log(this.modeloNuevo[0])
+      Swal.fire({
+        title: '¿Está seguro de guardar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          const loader = document.getElementById('loader-detalle-cupon') as HTMLElement | null;
+          if(loader){
+            loader.classList.remove('hide-loader');
+          }
+          this.ticketService.addTicket(this.modeloNuevo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.router.navigate(['pedidos/lista']);
+                })
+                //this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(loader){
+                loader.classList.add('hide-loader');
+              }
+            }
+          )
+        }
+      });
+    }else{
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          const loader = document.getElementById('loader-detalle-cupon') as HTMLElement | null;
+          if(loader){
+            loader.classList.remove('hide-loader');
+          }
+          this.ticketService.addTicket(this.modeloModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.router.navigate(['pedidos/lista']);
+                })
+                //this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(loader){
+                loader.classList.add('hide-loader');
+              }
+            }
+          )
+        }
+      });
+    }
+
   }
 }
