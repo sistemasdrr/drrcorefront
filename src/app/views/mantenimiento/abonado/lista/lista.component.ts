@@ -33,7 +33,7 @@ export class ListaAbonadoComponent implements OnInit{
   dataSource : MatTableDataSource<AbonadoT>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnsToDisplay = ['codigo','nombre','siglas','direccion','pais','tipoFacturacion','acciones']
+  columnsToDisplay = ['code','name','acronym','address','pais','facturationType','acciones']
 
   constructor(private abonadoService : AbonadoService, private router : Router){
     this.dataSource = new MatTableDataSource()

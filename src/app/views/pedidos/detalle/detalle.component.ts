@@ -1,12 +1,9 @@
-import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 import { OnInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource} from '@angular/material/table';
 import { Pais } from 'app/models/pais';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
-import { Observable, map, startWith } from 'rxjs';
-import { FormControl } from '@angular/forms';
 import { data } from 'app/services/mantenimiento/personal.service';
 import { ComboService } from 'app/services/combo.service';
 import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
@@ -50,7 +47,7 @@ export class DetalleComponent implements OnInit {
   realExpireDateD : Date | null = null
   idContinent = 0
   idCountry = 0
-  reportType = ""
+  reportType = "OR"
   procedureType = ""
   idCompany = 0
   idPerson = 0

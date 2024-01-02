@@ -96,4 +96,21 @@ export interface ListTicket{
   realExpireDate : string
   dispatchDate : string
   quality : string
+  status : string
+  statusColor : string
+  statusFinalOwner : string
+}
+export interface TicketListPending{
+  id : number
+  number : string
+  name : string
+  reportType : string
+  procedureType : string
+  orderDate : string
+  realExpireDate : string
+  expireDate : string
+  receptor : number
+  commentary : string
+  hasFiles : boolean
+  files : any[]
 }

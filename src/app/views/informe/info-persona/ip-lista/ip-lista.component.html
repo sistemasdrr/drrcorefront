@@ -1,1 +1,79 @@
-<p>ie-lista works!</p>
+<section class="content">
+  <div id="loader-lista-empresas" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+    <span class="loader"></span><br>
+    <h2 style="color: white;">&nbsp;Cargando...</h2>
+  </div>
+  <div class="container-fluid" [ngClass]="{'show-form': loading}" style="width: 100%; margin: 0; padding: 0;">
+    <div class="block-header" *ngFor="let breadscrum of breadscrums">
+      <app-breadcrumb [title]="breadscrum.title" [subtitle]="breadscrum.subtitle" [codigoInforme]="''" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      </app-breadcrumb>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card shadow " style="border-radius: 0; background-color: #dae1f3;">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
+                <mat-label>Nombres y Apellidos</mat-label>
+                <input matInput placeholder="" [(ngModel)]="nombreCompleto" (keypress)="filtrar($event);">
+                <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" *ngIf="nombreCompleto !== ''" (click)="nombreCompleto = ''" #tooltip="matTooltip" matTooltip="Limpiar">
+                  <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2 d-flex align-items-center">
+              <mat-radio-group class="d-flex" [(ngModel)]="filtroRB" aria-label="Seleccionar">
+                <mat-radio-button value="C">Que Contenga</mat-radio-button>
+                <mat-radio-button value="I">Que Inicie</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;">
+                <mat-label>País</mat-label>
+                <input type="text" matInput [formControl]="controlPaises" [matAutocomplete]="auto6" [(ngModel)]="paisSeleccionado" (ngModelChange)="cambioPais(paisSeleccionado)">
+                <button class="btn-traduccion" matSuffix mat-icon-button (click)="limpiarSeleccionPais()">
+                  <span class="fi fi-{{iconoSeleccionado}}" style="font-size: 20px;"></span>
+                </button>
+                <mat-autocomplete #auto6="matAutocomplete" [displayWith]="displayPais" >
+                  <mat-option *ngFor="let pais of filterPais | async" [value]="pais">
+                    <span class="fi fi-{{pais.bandera}}"></span>
+                    {{pais.valor}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="col-md-1 d-flex align-items-center">
+              <mat-checkbox class="example-margin" [(ngModel)]="chkConInforme">Con Informe</mat-checkbox>
+            </div>
+            <div class="col-md-2 d-flex align-items-center justify-content-center">
+              <div class="" matTooltip="BUSCAR" style="margin: 0 .5rem 0 .5rem">
+                <button mat-mini-fab class="bg-blue" (click)="filtrarPersonas()">
+                  <mat-icon class="col-white">search</mat-icon>
+                </button>
+              </div>
+              <div class="" matTooltip="LIMPIAR" style="margin: 0 .5rem 0 .5rem">
+                <button mat-mini-fab class="bg-red" (click)="limpiar()">
+                  <mat-icon class="col-white">cleaning_services</mat-icon>
+                </button>
+              </div>
+              <div class="" matTooltip="NUEVO INFORME (OR)" style="margin: 0 .5rem 0 .5rem">
+                <button mat-mini-fab color="primary" (click)="agregarPersona()">
+                  <mat-icon class="col-white">add</mat-icon>
+                </button>
+
+              <!--li>
+                <div class="m-l-10" matTooltip="ENVIAR INFORME FINAL">
+                  <button mat-mini-fab class="bg-cyan" >
+                    <mat-icon class="col-white">send</mat-icon>
+                  </button>
+                </div>
+              </!--li-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

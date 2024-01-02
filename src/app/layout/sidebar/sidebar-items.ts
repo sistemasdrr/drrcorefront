@@ -84,7 +84,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
-        path: '/informes/persona/detalle',
+        path: '/informes/persona/lista',
         title: 'Personas',
         icon: 'fa-solid fa-user-tie',
         class: 'ml-menu',

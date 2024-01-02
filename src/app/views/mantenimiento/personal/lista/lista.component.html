@@ -36,37 +36,37 @@
       <div class="col-md-12">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
 
-          <ng-container matColumnDef="codigo" >
-          <th mat-header-cell *matHeaderCellDef class="text-center"> Cód. </th>
+          <ng-container matColumnDef="code" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Cód. </th>
           <td mat-cell *matCellDef="let personal" class="text-center"> {{personal.code}} </td>
           </ng-container>
-          <ng-container matColumnDef="nombres" >
-          <th mat-header-cell *matHeaderCellDef class="text-center"> Nombres y Apellidos</th>
+          <ng-container matColumnDef="shortName" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Nombres y Apellidos</th>
           <td mat-cell *matCellDef="let personal" class="text-left">
            {{personal.shortName}}
            </td>
           </ng-container>
-          <ng-container matColumnDef="departamento" >
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Departamento </th>
+          <ng-container matColumnDef="department" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Departamento </th>
             <td mat-cell *matCellDef="let personal" class="text-center"> {{personal.department}} </td>
           </ng-container>
-          <ng-container matColumnDef="cargo" >
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Cargo </th>
+          <ng-container matColumnDef="job" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Cargo </th>
             <td mat-cell *matCellDef="let personal" class="text-center"> {{personal.job}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="fechaIngreso" >
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Ingreso </th>
+          <ng-container matColumnDef="startDate" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Ingreso </th>
             <td mat-cell *matCellDef="let personal" class="text-center"> {{personal.startDate}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="fechaNacimiento" >
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Fecha de Nacimiento</th>
+          <ng-container matColumnDef="birthday" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Nacimiento</th>
             <td mat-cell *matCellDef="let personal" class="text-center"> {{personal.birthday}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="estado" >
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
+          <ng-container matColumnDef="enable" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Estado</th>
             <td mat-cell *matCellDef="let personal" class="text-center">
               <div *ngIf="personal.enable === true">
                 <div class="badge badge-solid-green">Activo</div>

@@ -11,8 +11,8 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card shadow" style="border-radius: 0; background-color: #dae1f3;">
-          <div class="row">
-            <div class="col-md-2">
+          <div class="row m-0 p-0">
+            <div class="col-md-2 m-0 p-0">
               <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
                 <mat-label>Cupón</mat-label>
                 <input matInput [(ngModel)]="buscarCupon" >
@@ -21,7 +21,7 @@
                 </button>
               </mat-form-field>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 m-0 p-0">
               <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
                 <mat-label>Informe</mat-label>
                 <input matInput [(ngModel)]="buscarInforme" >
@@ -30,7 +30,7 @@
                 </button>
               </mat-form-field>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 m-0 p-0">
               <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
                 <mat-label>Código de Abonado</mat-label>
                 <input matInput [(ngModel)]="buscarAbonado" >
@@ -39,8 +39,8 @@
                 </button>
               </mat-form-field>
             </div>
-            <div class="col-md-2">
-              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
+            <div class="col-md-3 m-0 p-0">
+              <mat-form-field class="w-50" style="padding-top: 1rem; padding-left: 1rem;" >
                 <mat-label>Tipo de Informe</mat-label>
                 <mat-select [(ngModel)]="tipoInforme">
                     <mat-option [value]="''"></mat-option>
@@ -49,9 +49,7 @@
                     <mat-option [value]="'EF'">EF</mat-option>
                 </mat-select>
               </mat-form-field>
-            </div>
-            <div class="col-md-2">
-              <mat-form-field class="w-100" style="padding-top: 1rem; padding-left: 1rem;" >
+              <mat-form-field class="w-50" style="padding-top: 1rem; padding-left: 1rem;" >
                 <mat-label>Tipo de Trámite</mat-label>
                 <mat-select [(ngModel)]="tipoTramite">
                   <mat-option [value]="''"></mat-option>
@@ -61,7 +59,12 @@
               </mat-select>
               </mat-form-field>
             </div>
-            <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <div class="col-md-3 d-flex align-items-center justify-content-center">
+              <div class="" matTooltip="BUSCAR" style="margin: 0 .3rem 0 .3rem">
+                <button mat-mini-fab color="primary" (click)="buscar()">
+                  <mat-icon class="col-white">search</mat-icon>
+                </button>
+              </div>
               <div class="" matTooltip="NUEVO" style="margin: 0 .3rem 0 .3rem">
                 <button mat-mini-fab color="primary" (click)="addOrder()">
                   <mat-icon class="col-white">add</mat-icon>
@@ -88,44 +91,28 @@
       </div>
       <div class="col-md-12" style="overflow-x: auto;">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
-          <ng-container matColumnDef="cupon" >
+          <ng-container matColumnDef="number" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
           <td mat-cell *matCellDef="let order" class="text-center"> {{order.number}} </td>
           </ng-container>
-          <ng-container matColumnDef="informe" >
+          <ng-container matColumnDef="busineesName" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
           <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 14rem;"> {{order.busineesName}} </td>
           </ng-container>
-          <ng-container matColumnDef="abonado" >
+          <ng-container matColumnDef="subscriberCode" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Abonado </th>
           <td mat-cell *matCellDef="let order" class="text-left" > {{order.subscriberCode}} </td>
           </ng-container>
-          <ng-container matColumnDef="estado" >
-          <th mat-header-cell *matHeaderCellDef class="text-center"> Estado</th>
+          <ng-container matColumnDef="status" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class=""> Estado</th>
           <td mat-cell *matCellDef="let order" class="text-center">
-            <div *ngIf="order.estadoPedido==='PEND. VENCIDO'" >
-              <span class="float-end progress-percent label label-danger shadow" style="width: 150px;">
-                {{order.estadoPedido}}
+              <span class="float-end progress-percent label {{order.statusColor}}  shadow" style="width: 150px;{{order.statusColor === 'label' ? 'color : black;' : ''}}" >
+                {{order.status}}
               </span>
-            </div>
-            <div *ngIf="order.estadoPedido==='PENDIENTE'" >
-              <span class="float-end progress-percent label label-info m-b-5 shadow" style="width: 150px;">
-                {{order.estadoPedido}}
-              </span>
-            </div>
-            <div *ngIf="order.estadoPedido==='ENVIADO'" >
-              <span class="float-end progress-percent label label-success m-b-5 shadow" style="width: 150px;">
-                {{order.estadoPedido}}
-              </span>
-            </div>
-            <div *ngIf="order.estadoPedido==='ENV. VENCIDO'" >
-              <span class="float-end progress-percent label label-warning m-b-5 shadow" style="width: 150px;">
-                {{order.estadoPedido}}
-              </span>
-            </div>
+
           </td>
           </ng-container>
-          <ng-container matColumnDef="tipoInforme" >
+          <ng-container matColumnDef="reportType" >
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
             <td mat-cell *matCellDef="let order" class="text-center">
               <div *ngIf="order.reportType === 'OR'">
@@ -142,7 +129,7 @@
               </div>
             </td>
           </ng-container>
-          <ng-container matColumnDef="tipoTramite" >
+          <ng-container matColumnDef="procedureType" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Trámite</th>
             <td mat-cell *matCellDef="let order" class="text-center">
               <div *ngIf="order.procedureType === 'T1'">
@@ -159,19 +146,19 @@
               </div>
             </td>
           </ng-container>
-          <ng-container matColumnDef="calidad" >
+          <ng-container matColumnDef="quality" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
             <td mat-cell *matCellDef="let order" class="text-center"> {{order.quality}} </td>
           </ng-container>
-          <ng-container matColumnDef="fechaIngreso" >
+          <ng-container matColumnDef="orderDate" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
             <td mat-cell *matCellDef="let order" class="text-center"> {{order.orderDate}} </td>
           </ng-container>
-          <ng-container matColumnDef="fechaVencimiento" >
+          <ng-container matColumnDef="expireDate" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
             <td mat-cell *matCellDef="let order" class="text-center"> {{order.expireDate}} </td>
           </ng-container>
-          <ng-container matColumnDef="fechaDescarga" >
+          <ng-container matColumnDef="dispatchDate" >
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Descarga </th>
             <td mat-cell *matCellDef="let order" class="text-center"> {{order.dispatchDate}} </td>
           </ng-container>

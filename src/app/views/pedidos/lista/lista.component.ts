@@ -47,7 +47,7 @@ export class ListaComponent implements OnInit {
   loading = false;
 
   dataSource: MatTableDataSource<ListTicket>;
-  columnsToDisplay = ['cupon', 'informe','abonado', 'estado', 'tipoInforme', 'tipoTramite', 'calidad', 'fechaIngreso', 'fechaVencimiento', 'fechaDescarga', 'Acciones' ];
+  columnsToDisplay = ['number', 'busineesName','subscriberCode', 'status', 'reportType', 'procedureType', 'quality', 'orderDate', 'expireDate', 'dispatchDate', 'Acciones' ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedOrder: Pedido | null = null;
   datosEmpresa : DatosEmpresa[] = []
@@ -67,6 +67,7 @@ export class ListaComponent implements OnInit {
         if(response.isSuccess === true && response.isWarning === false){
           this.dataSource.data = response.data
           this.dataSource.paginator = this.paginator
+          this.dataSource.sort = this.sort
         }
       }
     ).add(
@@ -146,5 +147,21 @@ export class ListaComponent implements OnInit {
 
   assignOrder(){
     this.router.navigate(['pedidos/asignacion']);
+  }
+  buscar(){
+    this.loading = true
+    this.ticketService.getListBy(this.buscarCupon,this.buscarInforme,this.buscarAbonado,this.tipoInforme,this.tipoTramite).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+
+          this.dataSource.data = response.data
+          this.dataSource.paginator = this.paginator
+        }
+      }
+    ).add(
+      () => {
+        this.loading = false
+      }
+    )
   }
 }

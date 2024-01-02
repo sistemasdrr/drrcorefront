@@ -1,31 +1,25 @@
 
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { MatTableDataSource} from '@angular/material/table';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-
-import { Pedido } from 'app/models/pedidos/pedido';
-import { PedidoService } from 'app/services/pedido.service';
-
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ComentarioComponent } from '@shared/components/comentario/comentario.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AdjuntarArchivosComponent } from '@shared/components/adjuntar-archivos/adjuntar-archivos.component';
 import { ComboData } from 'app/models/combo';
+import { TicketListPending } from 'app/models/pedidos/ticket';
+import { TicketService } from 'app/services/pedidos/ticket.service';
 
-interface Agentes{
-  codigo : string
-  nombre : string
-}
 
 @Component({
   selector: 'app-asignacion',
   templateUrl: './asignacion.component.html',
   styleUrls: ['./asignacion.component.scss']
 })
-export class AsignacionComponent implements AfterViewInit {
+export class AsignacionComponent implements OnInit {
   //BREADCRUMB
   breadscrums = [
     {
@@ -34,7 +28,6 @@ export class AsignacionComponent implements AfterViewInit {
       active: 'Asignación',
     },
   ];
-
   lista : ComboData[] = [
     {
       id : 5,
@@ -67,52 +60,29 @@ export class AsignacionComponent implements AfterViewInit {
   ]
 
   //TABLA
-  dataSource: MatTableDataSource<Pedido>;
-  columnsToDisplay = ['position','cupon', 'informe', 'tipoInforme', 'tipoTramite', 'fechaIngreso', 'fechaVencimiento', 'Acciones' ];
-  selection = new SelectionModel<Pedido>(true, []);
+  dataSource: MatTableDataSource<TicketListPending>;
+  columnsToDisplay = ['position','number', 'name', 'reportType', 'procedureType', 'orderDate', 'expireDate', 'Acciones' ];
+  selection = new SelectionModel<TicketListPending>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('filter') filter!: ElementRef;
 
-  constructor(private pedidoService : PedidoService,
-    private router : Router,
-    public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource(this.pedidoService.getPedidos());
+  constructor(private ticketService : TicketService, private router : Router, public dialog: MatDialog) {
+    this.dataSource = new MatTableDataSource();
     console.log(this.dataSource)
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  ngOnInit(): void {
+    this.ticketService.getListPending().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.dataSource.data = response.data
+          this.dataSource.paginator = this.paginator
+          this.dataSource.sort = this.sort
+        }
+      }
+    )
   }
-
-
-  //FUNCION DE LOS BOTONES
-  agenteSeleccionado : string = ""
-
-  agentes : Agentes[] = [
-    {
-      codigo : "98765",
-      nombre : "agente 1"
-    },
-    {
-      codigo : "98485",
-      nombre : "agente 2"
-    },
-    {
-      codigo : "98331",
-      nombre : "agente 3"
-    },
-    {
-      codigo : "98983",
-      nombre : "agente 4"
-    },
-    {
-      codigo : "98744",
-      nombre : "agente 5"
-    },
-  ]
 
   //CHECKBOX
 
@@ -129,7 +99,7 @@ export class AsignacionComponent implements AfterViewInit {
 
     this.selection.select(...this.dataSource.data);
   }
-  checkboxLabel(row?: Pedido): string {
+  checkboxLabel(row?: TicketListPending): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -170,4 +140,6 @@ export class AsignacionComponent implements AfterViewInit {
     //   }
     // });
   }
+
+
 }

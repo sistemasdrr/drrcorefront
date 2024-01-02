@@ -33,7 +33,7 @@ export class ListaPersonalComponent implements OnInit, AfterViewInit {
   dataSource : MatTableDataSource<Personal>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  columnas = ['codigo','nombres','departamento','cargo','fechaIngreso','fechaNacimiento','estado','accion']
+  columnas = ['code','shortName','department','job','startDate','birthday','enable','accion']
 
 
   constructor(private personalService : PersonalService, private comboService : ComboService, private router : Router){
@@ -50,6 +50,7 @@ export class ListaPersonalComponent implements OnInit, AfterViewInit {
       (response) => {
       if(response.isSuccess == true){
         this.dataSource.data = response.data;
+        this.dataSource.sort = this.sort;
         console.log(response.data)
         this.loading = false
       }

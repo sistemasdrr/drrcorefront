@@ -75,13 +75,13 @@
       </div>
       <div class="col-md-12" style="overflow-x: auto;">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
-          <ng-container matColumnDef="rc" >
-          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> RC </th>
-          <td mat-cell *matCellDef="let empresa" class="text-center" style="border-radius: 10px;" [class]="empresa.creditRisk ==='A+' ? 'bg-green' : empresa.creditRisk === 'A-' ? 'l-bg-green' : empresa.creditRisk === 'B' ? 'bg-yellow' : empresa.creditRisk === 'C' ? 'bg-orange' : empresa.creditRisk === 'D' ? 'bg-red' : empresa.creditRisk === 'E' ? 'bg-black col-white' : empresa.creditRisk === 'NN' ? 'bg-grey' : '' ">
-            <b style="font-size: 20px;">{{empresa.creditRisk}}</b>
-          </td>
+          <ng-container matColumnDef="creditRisk" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> RC </th>
+            <td mat-cell *matCellDef="let empresa" class="text-center" style="border-radius: 10px;" [class]="empresa.creditRisk ==='A+' ? 'bg-green' : empresa.creditRisk === 'A-' ? 'l-bg-green' : empresa.creditRisk === 'B' ? 'bg-yellow' : empresa.creditRisk === 'C' ? 'bg-orange' : empresa.creditRisk === 'D' ? 'bg-red' : empresa.creditRisk === 'E' ? 'bg-black col-white' : empresa.creditRisk === 'NN' ? 'bg-grey' : '' ">
+              <b style="font-size: 20px;">{{empresa.creditRisk}}</b>
+            </td>
           </ng-container>
-          <ng-container matColumnDef="idioma" >
+          <ng-container matColumnDef="language" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Idioma</th>
           <td mat-cell *matCellDef="let empresa" class="text-center">
             <span class="fi fi-es" style="font-size: 24px;" *ngIf="empresa.language === 'E'"></span>
@@ -89,38 +89,38 @@
             <span class="fi fi-us" style="font-size: 24px; background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="empresa.language === 'A'"></span>
             </td>
           </ng-container>
-          <ng-container matColumnDef="rucInit" >
-            <th mat-header-cell *matHeaderCellDef  class="text-center"> RUC</th>
+          <ng-container matColumnDef="name" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Razón Social</th>
+          <td mat-cell *matCellDef="let empresa" class="" style="min-width: 15rem;"><b>{{empresa.name}}</b></td>
+          </ng-container>
+          <ng-container matColumnDef="taxNumber" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> RUC</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.taxNumber}}</td>
           </ng-container>
-          <ng-container matColumnDef="razonSocial" >
-          <th mat-header-cell *matHeaderCellDef class="text-center"> Razón Social</th>
-          <td mat-cell *matCellDef="let empresa" class="" style="min-width: 15rem;">{{empresa.name}}</td>
-          </ng-container>
-          <ng-container matColumnDef="datosAl" >
-            <th mat-header-cell *matHeaderCellDef  class="text-center"> Datos Al</th>
+          <ng-container matColumnDef="lastReportDate" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Datos Al</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.lastReportDate}}</td>
           </ng-container>
-          <ng-container matColumnDef="pais" >
+          <ng-container matColumnDef="isoCountry" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> País</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">
               {{empresa.isoCountry}} <span class="fi fi-{{empresa.flagCountry}}" style="font-size: 20px;"></span>
             </td>
           </ng-container>
-          <ng-container matColumnDef="traduccion" >
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Traducción</th>
+          <ng-container matColumnDef="traductionPercentage" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Traducción</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">
               {{empresa.traductionPercentage}}%
               <mat-progress-bar mode="determinate" value="{{empresa.traductionPercentage}}" *ngIf="empresa.traductionPercentage > 40"></mat-progress-bar>
               <mat-progress-bar mode="determinate" value="{{empresa.traductionPercentage}}" color="warn" *ngIf="empresa.traductionPercentage <= 40"></mat-progress-bar>
             </td>
           </ng-container>
-          <ng-container matColumnDef="calificacion" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
+          <ng-container matColumnDef="quality" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header mat-sort-header class="text-center"> Calidad</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.quality}}</td>
           </ng-container>
-          <ng-container matColumnDef="ejecPrincipal" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Ejec. Principal</th>
+          <ng-container matColumnDef="manager" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header mat-sort-header class="text-center"> Ejec. Principal</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.manager}}</td>
           </ng-container>
           <ng-container matColumnDef="acciones" >

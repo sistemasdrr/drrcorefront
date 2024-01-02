@@ -58,77 +58,79 @@
                           (change)="$event ? selection.toggle(order) : null"
                           [checked]="selection.isSelected(order)"
                           [aria-label]="checkboxLabel(order)"
-                          value="{{order[columnsToDisplay[1]]}}">
+                          value="{{order.cupon}}">
             </mat-checkbox>
           </td>
         </ng-container>
-        <ng-container matColumnDef="{{columnsToDisplay[1]}}" >
+        <ng-container matColumnDef="number" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
-        <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[1]]}} </td>
+        <td mat-cell *matCellDef="let order" class="text-center"> {{order.number}} </td>
         </ng-container>
-        <ng-container matColumnDef="{{columnsToDisplay[2]}}" >
+        <ng-container matColumnDef="name" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
         <td mat-cell *matCellDef="let order" class="text-left">
-          {{order[columnsToDisplay[2]]}}
+          {{order.name}}
          </td>
         </ng-container>
-
-        <ng-container matColumnDef="{{columnsToDisplay[3]}}" >
+        <ng-container matColumnDef="reportType" >
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
           <td mat-cell *matCellDef="let order" class="text-center">
-             <div *ngIf="order[columnsToDisplay[3]] === 'OR'">
-              <div class="badge badge-solid-orange" style="font-size: 16px;">{{order[columnsToDisplay[3]]}}</div>
+            <div *ngIf="order.reportType === 'OR'">
+              <div class="badge badge-solid-orange" style="font-size: 16px;">OR</div>
             </div>
-            <div *ngIf="order[columnsToDisplay[3]] === 'RV'">
-              <div class="badge badge-solid-green" style="font-size: 16px;">{{order[columnsToDisplay[3]]}}</div>
+            <div *ngIf="order.reportType === 'RV'">
+              <div class="badge badge-solid-green" style="font-size: 16px;">RV</div>
             </div>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="{{columnsToDisplay[4]}}" >
-          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Tramite</th>
-          <td mat-cell *matCellDef="let order" class="text-center">
-             <div *ngIf="order[columnsToDisplay[4]] === 'T1'">
-              <div class="badge badge-solid-blue">{{order[columnsToDisplay[4]]}}</div>
+            <div *ngIf="order.reportType === 'EF'">
+              <div class="badge badge-solid-cyan" style="font-size: 16px;">EF</div>
             </div>
-            <div *ngIf="order[columnsToDisplay[4]] === 'T2'">
-              <div class="badge badge-solid-purple">{{order[columnsToDisplay[4]]}}</div>
-            </div>
-            <div *ngIf="order[columnsToDisplay[4]] === 'T3'">
-              <div class="badge badge-solid-cyan">{{order[columnsToDisplay[4]]}}</div>
+            <div *ngIf="order.reportType === 'DF'">
+              <div class="badge badge-solid-blue" style="font-size: 16px;">DF</div>
             </div>
           </td>
         </ng-container>
-        <ng-container matColumnDef="{{columnsToDisplay[5]}}" >
+        <ng-container matColumnDef="procedureType" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Tipo de Trámite</th>
+          <td mat-cell *matCellDef="let order" class="text-center">
+            <div *ngIf="order.procedureType === 'T1'">
+              <div class="badge badge-solid-blue">T1</div>
+            </div>
+            <div *ngIf="order.procedureType === 'T2'">
+              <div class="badge badge-solid-purple">T2</div>
+            </div>
+            <div *ngIf="order.procedureType === 'T3'">
+              <div class="badge badge-solid-cyan">T3</div>
+            </div>
+            <div *ngIf="order.procedureType === 'TB'">
+              <div class="badge badge-solid-brown">TB</div>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="orderDate" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
-          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[5]]}} </td>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order.orderDate}} </td>
         </ng-container>
-        <ng-container matColumnDef="{{columnsToDisplay[6]}}" >
+        <ng-container matColumnDef="expireDate" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
-          <td mat-cell *matCellDef="let order" class="text-center"> {{order[columnsToDisplay[6]]}} </td>
+          <td mat-cell *matCellDef="let order" class="text-center"> {{order.expireDate}} </td>
         </ng-container>
-        <ng-container matColumnDef="{{columnsToDisplay[7]}}" >
+        <ng-container matColumnDef="Acciones" >
           <th mat-header-cell *matHeaderCellDef  class="text-center"> Acciones </th>
           <td mat-cell *matCellDef="let order" class="text-center d-flex">
             <mat-form-field style="width: 12rem; margin: .5rem 1rem 0 0;">
               <mat-label>Destinatario</mat-label>
-              <mat-select >
+              <mat-select [(ngModel)]="order.receptor">
                 <mat-option *ngFor="let item of lista" [value]="item.id">
-                  {{item.id + " - " + item.valor}}
+                  {{item.valor}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
-              <mat-icon style="color: red;">attach_file</mat-icon>
-            </button>
-            <button mat-icon-button (click)="agregarAdjuntos(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Adjuntos">
-              <mat-icon style="color: gray;">attach_file</mat-icon>
+            <button mat-icon-button (click)="agregarAdjuntos(order.id)" #tooltip="matTooltip" matTooltip="Adjuntos">
+              <mat-icon style="{{order.hasFiles === true ? 'color: red;' : 'color: gray;'}}">attach_file</mat-icon>
 
             </button>
-            <button mat-icon-button *ngIf="order.comment !== ''" (click)="agregarComentario(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Comentario">
-              <i class="fa-solid fa-circle-info" style="font-size: 24px; color: red;"></i>
-            </button>
-            <button mat-icon-button *ngIf="order.comment === ''" (click)="agregarComentario(order[columnsToDisplay[1]])" #tooltip="matTooltip" matTooltip="Comentario">
-              <i class="fa-solid fa-circle-info" style="font-size: 24px; color: gray;"></i>
+            <button mat-icon-button *ngIf="order.comment !== ''" (click)="agregarComentario(order.id)" #tooltip="matTooltip" matTooltip="Comentario">
+              <i class="fa-solid fa-circle-info" style="font-size: 24px; {{order.commentary !== '' ? 'color: red;' : ' color: gray;'}}"></i>
             </button>
 
           </td>

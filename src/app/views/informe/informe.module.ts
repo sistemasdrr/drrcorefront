@@ -62,6 +62,7 @@ import { AvalesComponent } from './info-empresa/ie-detalle/e-sbs-riesgo/avales/a
 import { DialogComercioComponent } from './info-empresa/ie-detalle/e-ramo/dialog-comercio/dialog-comercio.component';
 import { ListaEmpresasComponent } from './info-empresa/ie-detalle/e-antecedentes/lista-empresas/lista-empresas.component';
 import { AgregarEditarRamoNegocioComponent } from './info-empresa/ie-detalle/e-ramo/ramo-actividad/agregar-editar/agregar-editar.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -130,7 +131,8 @@ import { AgregarEditarRamoNegocioComponent } from './info-empresa/ie-detalle/e-r
     NgxMaskDirective,
     NgxMaskPipe,
     NgxGaugeModule,
-    CKEditorModule
+    CKEditorModule,
+    MatSortModule
   ],
   exports: [
     ListaEmpresasComponent

@@ -40,26 +40,26 @@ export class IEListaComponent implements OnInit{
   }
   msgPais = ""
   colorMsgPais = ""
+
   //FILTROS
   razonSocial = ""
   filtroRB = "C"
   idPais = 0
   chkConInforme = true
 
-
   dataSource: MatTableDataSource<TCompany>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
-  columnsToDisplay = ['rc', 'idioma', 'rucInit', 'razonSocial', 'datosAl', 'pais', 'traduccion', 'calificacion','ejecPrincipal','acciones' ];
+  columnsToDisplay = ['creditRisk', 'language', 'name', 'taxNumber', 'lastReportDate', 'isoCountry', 'traductionPercentage', 'quality','manager','acciones' ];
 
   constructor(private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService){
     this.dataSource = new MatTableDataSource()
     this.filterPais = new Observable<Pais[]>()
+    this.dataSource.sort = this.sort
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource()
 
     this.paisService.getPaises().subscribe((response) => {
       if (response.isSuccess == true) {
@@ -80,7 +80,9 @@ export class IEListaComponent implements OnInit{
         this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idPais)[0]
         this.chkConInforme = busqueda.conInforme
         this.loading = false
-
+        if(this.razonSocial!= null && this.razonSocial !== ''){
+          this.filtrarEmpresas()
+        }
       }
     })
 
@@ -157,7 +159,8 @@ export class IEListaComponent implements OnInit{
     this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
-          this.dataSource = new MatTableDataSource(response.data)
+          this.dataSource = new MatTableDataSource<TCompany>(response.data);
+
           this.dataSource.sort = this.sort
           this.dataSource.paginator = this.paginator
         }

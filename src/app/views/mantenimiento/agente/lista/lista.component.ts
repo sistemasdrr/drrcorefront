@@ -33,7 +33,7 @@ export class ListaAgenteComponent implements OnInit{
    dataSource : MatTableDataSource<AgenteT>;
    @ViewChild(MatPaginator) paginator!: MatPaginator;
    @ViewChild(MatSort) sort!: MatSort;
-   columnsToDisplay = ['codigo','nombre','direccion','email','telefono','pais','acciones']
+   columnsToDisplay = ['code','name','address','email','telephone','country','acciones']
 
   constructor(private agenteService : AgenteService, private router : Router){
     this.dataSource = new MatTableDataSource()

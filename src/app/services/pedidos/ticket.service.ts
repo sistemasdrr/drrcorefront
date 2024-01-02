@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CurrentTicket, ListTicket, ReportType, Ticket } from 'app/models/pedidos/ticket';
+import { CurrentTicket, ListTicket, ReportType, Ticket, TicketListPending } from 'app/models/pedidos/ticket';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -26,6 +26,12 @@ export class TicketService {
   }
   getList() : Observable<Response<ListTicket[]>>{
     return this.http.get<Response<ListTicket[]>>(this.url + this.controllerTicket + '/getList');
+  }
+  getListBy(ticket : string, name : string, subscriber : string, type : string, procedure : string) : Observable<Response<ListTicket[]>>{
+    return this.http.get<Response<ListTicket[]>>(this.url + this.controllerTicket + '/getListby?ticket='+ticket+'&name='+name+'&subscriber='+subscriber+'&type='+type+'&procedure='+procedure);
+  }
+  getListPending() : Observable<Response<TicketListPending[]>>{
+    return this.http.get<Response<TicketListPending[]>>(this.url + this.controllerTicket + '/getListPending');
   }
   getById(id : number) : Observable<Response<Ticket>>{
     return this.http.get<Response<Ticket>>(this.url + this.controllerTicket + '/getTicketById?id='+id);
