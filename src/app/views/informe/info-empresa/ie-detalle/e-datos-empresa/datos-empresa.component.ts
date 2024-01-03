@@ -24,8 +24,7 @@ import { ComboData, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/mode
 })
 export class DatosEmpresaComponent implements OnInit, OnDestroy {
 
-  controlReputacion = new FormControl<string | Reputacion>('');
-  filterReputacion: Observable<Reputacion[]>
+
   reputaciones: Reputacion[] = []
 
   controlSituacionRUC = new FormControl<string | ComboData>('');
@@ -148,7 +147,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     private datosEmpresaService: DatosEmpresaService,
     private comboService: ComboService
   ) {
-    this.filterReputacion = new Observable<Reputacion[]>()
     this.filterSituacionRuc = new Observable<ComboData[]>()
     this.filterPersoneriaJuridica = new Observable<ComboData[]>()
     this.filterDuracion = new Observable<string[]>()
@@ -184,13 +182,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
         return name ? this._filterPais(name as string) : this.paises.slice()
       }),
     )
-    this.filterReputacion = this.controlReputacion.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.valor
-        return name ? this._filterReputacion(name as string) : this.reputaciones.slice()
-      }),
-    )
+
     this.filterPersoneriaJuridica = this.controlPersoneriaJuridica.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -587,9 +579,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
       this.msgPais = "Seleccione una opción."
       this.colorMsgPais = "red"
     }
-  }
-  limpiarSeleccionReputacion() {
-    this.controlReputacion.reset();
   }
   limpiarSeleccionSituacionRUC() {
     this.controlSituacionRUC.reset();

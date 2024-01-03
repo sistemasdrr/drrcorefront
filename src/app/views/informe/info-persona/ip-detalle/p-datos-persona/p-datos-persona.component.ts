@@ -3,28 +3,15 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { Pais } from 'app/models/pais';
-import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
 import { HistoricoPedidosComponent } from 'app/views/informe/info-empresa/ie-detalle/e-datos-empresa/historico-pedidos/historico-pedidos.component';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
-
-export interface data {
-  name: string;
-}
-export interface SituacionRuc {
-  id : number
-  description : string
-}
-export interface PersoneriaJuridica {
-  id : number
-  description : string
-}
-export interface Reputacion {
-  id : number
-  description : string
-}
-
+import { ComboData, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
+import { ComboService } from 'app/services/combo.service';
+import { DatosGeneralesService } from 'app/services/informes/persona/datos-generales.service';
+import { ActivatedRoute } from '@angular/router';
+import { Persona } from 'app/models/informes/persona/datos-generales';
 
 @Component({
   selector: 'app-p-datos-persona',
@@ -32,268 +19,463 @@ export interface Reputacion {
   styleUrls: ['./p-datos-persona.component.scss']
 })
 export class PDatosPersonaComponent implements OnInit{
-  calificacionCrediticia : string[] = [
-    "",
-    "A+: SIN RIESGO (Solventes, Situación Financiera Muy Buena)",
-    "A-: RIESGO MINIMO (Solventes, Situación Financiera Satisfactoria)",
-    "B: RIESGO MODERADO (Situación Financiera Levemente Extendida)",
-    "C: RIESGO ALTO (Situación Extendida, Se recomienda Garantía Colateral)",
-    "D: RIESGO MUY ALTO (Situación Financiera Pesada. Pérdidas)",
-    "E: RIESGO MUY ALTO (Inoperativa o Liquidad o Quebrada)",
-    "NN: RIESGO INDETERMINADO (Información Insuficiente o Inexistente)"
-  ]
-  politicaPagos : string[] = [
-    "",
-    "1. EXCELENTES PAGADORES (Pagan siempre a tiempo o antes)",
-    "2. PUNTUALES (Pagan siempre a tiempo, varios años)",
-    "3. IRREGULARES (Pagos puntuales y a veces demorados)",
-    "4. MOROSOS (Demoras constantes, Incumplidos, Protestos)",
-    "5. ND (No se pudo determinar Política de Pagos al momento. Nuevos)",
-    "6. NC (No se le reporta Notas en Contra. Se presume buen cumplimiento)",
-    "7. NN (Carece de información crediticia. No son conocidos por consultados)"
-  ]
 
-  controlReputacion = new FormControl<string | Reputacion>('');
-  reputaciones : Reputacion[] = [
-    {
-      id : 0,
-      description : ""
-    },
-    {
-      id : 1,
-      description : "NADA EN SU CONTRA FUE LOCALIZADO."
-    },
-    {
-      id : 2,
-      description : "Buena Solvencia Económica y Moral."
-    },
-    {
-      id : 3,
-      description : "Referidos como Buenos Contribuyentes (SUNAT)."
-    },
-    {
-      id : 4,
-      description : "Empresa de buen prestigio."
-    },
-    {
-      id : 5,
-      description : "Aparecen en Lista Clinton."
-    },
-    {
-      id : 6,
-      description : "Faltaron el Respeto a nuesto Analista. Mala conducta."
-    },
-    {
-      id : 7,
-      description : "No reportan a los verdaderos accionistas (OFFSHORE)"
-    },
-    {
-      id : 8,
-      description : "Registra Cta. Cte. Cerrada x girar cheques sin fondo."
-    },
-    {
-      id : 9,
-      description : "Empresa poco transparente. Cuidado."
-    },
-    {
-      id : 10,
-      description : "Reputación discutible (Publicaciones)"
-    },
-  ]
-  filterReputacion: Observable<Reputacion[]>
+  //LISTAS
 
-  controlSituacionRUC = new FormControl<string | SituacionRuc>('');
-  controlPersoneriaJuridica = new FormControl<string | PersoneriaJuridica>('');
+  reputaciones: Reputacion[] = []
+  situacionPersona : ComboData[] = []
+  tipoDocumento : ComboData[] = []
+  estadoCivil : ComboData[] = []
+  profesion : ComboData[] = []
 
-  situacionRuc : SituacionRuc[] = [
-    {
-      id : 1,
-      description : "Activa"
-    },
-    {
-      id : 2,
-      description : "Baja de Oficio"
-    },
-    {
-      id : 3,
-      description : "Baja Definitiva"
-    },
-    {
-      id : 4,
-      description : "Baja Provisional"
-    },
-    {
-      id : 5,
-      description : "Cambio de Razón Social"
-    },
-    {
-      id : 6,
-      description : "Declarada en Quiebra"
-    },
-    {
-      id : 7,
-      description : "Disuelta"
-    },
-    {
-      id : 8,
-      description : "En Liquidación"
-    },
-    {
-      id : 9,
-      description : "Fusionada"
-    },
-    {
-      id : 10,
-      description : "Inactiva"
-    },
-    {
-      id : 11,
-      description : "Informe de Prueba"
-    },
-    {
-      id : 12,
-      description : "Inmovilizada Judicialmente"
-    },
-    {
-      id : 13,
-      description : "No Localizada con ese Nombre"
-    },
-    {
-      id : 14,
-      description : "Solo para Lectura"
-    },
-    {
-      id : 15,
-      description : "Suspensión Definitiva"
-    },
-    {
-      id : 16,
-      description : "Suspensión Temporal"
-    },
-  ]
-  filterSituacionRuc: Observable<SituacionRuc[]>
+  controlSituacionRUC = new FormControl<string | ComboData>('');
+  filterSituacionRuc: Observable<ComboData[]>
+  situacionRuc: ComboData[] = []
 
-  personeriaJuridica : PersoneriaJuridica[] = [
-    {
-      id : 1,
-      description : "Sociedad de Hecho"
-    },
-    {
-      id : 2,
-      description : "Sociedad de Producción Rural"
-    },
-    {
-      id : 3,
-      description : "Sociedad de Producción Rural de Resp. Ltda. de Cap. Variable"
-    },
-    {
-      id : 4,
-      description : "Sociedad de Producción Rural de Resp. Ilimitada"
-    },
-    {
-      id : 5,
-      description : "Sociedad de Producción Rural de Resp. Limitada"
-    },
-    {
-      id : 6,
-      description : "Sociedad de Responsabilidad Limitada"
-    },
-    {
-      id : 7,
-      description : "Sociedad de Responsabilidad Limitada de Cap. Variable"
-    },
-    {
-      id : 8,
-      description : "Sociedad de Responsabilidad Limitada Microindustrial"
-    },
-    {
-      id : 9,
-      description : "Sociedad del Estado"
-    },
-  ]
-  filterPersoneriaJuridica : Observable<PersoneriaJuridica[]>
+  controlPaises = new FormControl<string | Pais>('')
+  paises: Pais[] = []
+  filterPais: Observable<Pais[]>
 
-constructor(
-  private dialog : MatDialog,
-  private paisService : PaisService,
-) {
-  this.filterReputacion = new Observable<Reputacion[]>()
-  this.filterSituacionRuc = new Observable<SituacionRuc[]>()
-  this.filterPersoneriaJuridica = new Observable<PersoneriaJuridica[]>()
-  this.paisService.getPaises().subscribe(response => {
-    if(response.isSuccess == true && response.isWarning == false){
-      this.paises = response.data;
+  politicaPagos: PoliticaPagos[] = []
+  calificacionCrediticia: RiesgoCrediticio[] = []
+
+  personeriaJuridicaInforme: ComboData = {
+    id: 0,
+    valor: ''
+  }
+  situacionRucInforme: ComboData = {
+    id: 0,
+    valor: ''
+  }
+  paisSeleccionado: Pais = {
+    id: 0,
+    valor: '',
+    bandera: ''
+  }
+
+  //DATOS DE LA PERSONA
+
+  id = 0
+  oldCode = ""
+  fullname = ""
+  lastSearched = ""
+  lastSearchedD : Date | null = null
+  language = ""
+  nationality = ""
+  nationalityEng = ""
+  birthDate = ""
+  birthDateD : Date | null = null
+  birthPlace = ""
+  birthPlaceEng = ""
+  idDocumentType = 0
+  codeDocumentType = ""
+  taxTypeName = ""
+  taxTypeCode = ""
+  idLegalRegisterSituation = 0
+  address = ""
+  cp = ""
+  city = ""
+  otherDirecctions = ""
+  tradeName = ""
+  idCountry = 0
+  codePhone = ""
+  numberPhone = ""
+  idCivilStatus = 0
+  relationshipWith = ""
+  relationshipWithEng = ""
+  relationshipDocumentType = 0
+  relationshipCodeDocument = ""
+  fatherName = ""
+  motherName = ""
+  email = ""
+  cellphone = ""
+  idProfession = 0
+  professionEng = ""
+  clubMember = ""
+  insurance = ""
+  newsCommentary = ""
+  newsCommentaryEng = ""
+  printNewsCommentary = true
+  privateCommentary = ""
+  reputationCommentary = ""
+  reputationCommentaryEng = ""
+  idCreditRisk = 0
+  riesgoCrediticioSeleccionado: RiesgoCrediticio = {
+    id: 0,
+    abreviation: '',
+    color: '',
+    identifier: '',
+    rate: 0,
+    valor: ''
+  }
+  idPaymentPolicy = 0
+  politicaPagoSeleccionada: PoliticaPagos = {
+    id: 0,
+    color: '',
+    valor: ''
+  }
+  idReputation = 0
+  reputacionSeleccionada: Reputacion = {
+    id: 0,
+    color: '',
+    valor: ''
+  }
+  idPersonSituation = 0
+
+  //MSG
+
+  colorMsgPersonaJuridica = ""
+  msgPais = ""
+  colorMsgPais = ""
+  msgSituacionRuc = ""
+  colorMsgSituacionRuc = ""
+
+  //MODELOS
+  modeloNuevo : Persona[] = []
+  modeloModificado : Persona[] = []
+
+constructor(private dialog : MatDialog, private comboService : ComboService,
+  private personaService : DatosGeneralesService,private activatedRoute: ActivatedRoute) {
+  this.filterSituacionRuc = new Observable<ComboData[]>()
+  this.filterPais = new Observable<Pais[]>()
+
+  const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id?.includes('nuevo')) {
+      this.id = 0
+    } else {
+      this.id = parseInt(id + '')
     }
-  });
+    console.log(this.id)
 }
   ngOnInit() {
-    this.filterReputacion = this.controlReputacion.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.description
-        return name ? this._filterReputacion(name as string) : this.reputaciones.slice()
-      }),
+    this.comboService.getPaises().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.paises = response.data
+        }
+      }
+    ).add(
+      () => {
+        this.comboService.getSituacionPersona().subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.situacionPersona = response.data
+            }
+          }
+        )
+        this.comboService.getSituacionRUC().subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.situacionRuc = response.data
+            }
+          }
+        )
+        this.comboService.getTipoDocumento().subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.tipoDocumento = response.data
+            }
+          }
+        )
+        this.comboService.getEstadoCivil().subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.estadoCivil = response.data
+            }
+          }
+        )
+        this.comboService.getProfesion().subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.profesion = response.data
+            }
+          }
+        )
+        this.comboService.getRiesgoCrediticio().subscribe((response) => {
+          if (response.isSuccess === true) {
+            this.calificacionCrediticia = response.data
+          }
+        })
+        this.comboService.getPoliticaPagos().subscribe((response) => {
+          if (response.isSuccess === true) {
+            this.politicaPagos = response.data
+          }
+        })
+        this.comboService.getReputacion().subscribe((response) => {
+          if (response.isSuccess === true) {
+            this.reputaciones = response.data
+          }
+        })
+        if(this.id > 0){
+          this.personaService.getPersonaById(this.id).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                const persona = response.data
+                if(persona){
+                  this.oldCode = persona.oldCode
+                  this.fullname = persona.fullname
+                  this.language = persona.language
+                  this.nationality = persona.nationality
+                  this.birthDate = persona.birthDate
+                  this.birthPlace = persona.birthPlace
+                  this.idDocumentType = persona.idDocumentType
+                  this.codeDocumentType = persona.codeDocumentType
+                  this.taxTypeName = persona.taxTypeName
+                  this.taxTypeCode = persona.taxTypeCode
+                  this.idLegalRegisterSituation = persona.idLegalRegisterSituation
+                  this.address = persona.address
+                  this.cp = persona.cp
+                  this.city = persona.city
+                  this.otherDirecctions = persona.otherDirecctions
+                  this.tradeName = persona.tradeName
+                  this.idCountry = persona.idCountry
+                  this.codePhone = persona.codePhone
+                  this.numberPhone = persona.numberPhone
+                  this.idCivilStatus = persona.idCivilStatus
+                  this.relationshipWith = persona.relationshipWith
+                  this.relationshipDocumentType = persona.relationshipDocumentType
+                  this.relationshipCodeDocument = persona.relationshipCodeDocument
+                  this.fatherName = persona.fatherName
+                  this.motherName = persona.motherName
+                  this.email = persona.email
+                  this.cellphone = persona.cellphone
+                  this.idProfession = persona.idProfession
+                  this.professionEng
+                  this.clubMember = persona.clubMember
+                  this.insurance = persona.insurance
+                  this.newsCommentary = persona.newsCommentary
+                  this.newsCommentaryEng
+                  this.printNewsCommentary = persona.printNewsCommentary
+                  this.privateCommentary = persona.privateCommentary
+                  this.reputationCommentary = persona.reputationCommentary
+                  this.reputationCommentaryEng
+                  this.idCreditRisk = persona.idCreditRisk
+                  this.idPaymentPolicy = persona.idPaymentPolicy
+                  this.idReputation = persona.idReputation
+                  this.idPersonSituation = persona.idPersonSituation
+                  if(persona.traductions !== null && persona.traductions.length > 0){
+                    this.nationalityEng = persona.traductions[0].value
+                    this.birthPlaceEng = persona.traductions[1].value
+                    this.relationshipWithEng = persona.traductions[2].value
+                    this.professionEng = persona.traductions[3].value
+                    this.newsCommentaryEng = persona.traductions[4].value
+                    this.reputationCommentaryEng = persona.traductions[5].value
+                  }
+                  if(persona.lastSearched !== null && persona.lastSearched !== ""){
+
+                    this.lastSearched = persona.lastSearched
+                    const fecha = persona.lastSearched.split("/")
+                    if(fecha.length > 0){
+                      this.lastSearchedD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                    }
+                    console.log(this.lastSearchedD)
+                  }
+                  if(persona.birthDate !== null && persona.birthDate !== ""){
+                    this.birthDate = persona.birthDate
+                    const fecha = persona.birthDate.split("/")
+                    if(fecha.length > 0){
+                      this.birthDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                    }
+                  }
+                }
+              }
+            }
+          ).add(
+            () => {
+              this.situacionRucInforme = this.situacionRuc.filter(x => x.id === this.idLegalRegisterSituation)[0]
+              this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
+              this.riesgoCrediticioSeleccionado = this.calificacionCrediticia.filter(x => x.id === this.idCreditRisk)[0]
+              this.politicaPagoSeleccionada = this.politicaPagos.filter(x => x.id === this.idPaymentPolicy)[0]
+              this.reputacionSeleccionada = this.reputaciones.filter(x => x.id === this.idReputation)[0]
+            }
+          )
+        }
+      }
     )
-    this.filterPersoneriaJuridica = this.controlPersoneriaJuridica.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.description
-        return name ? this._filterPersoneriaJuridica(name as string) : this.personeriaJuridica.slice()
-      }),
-    )
+
     this.filterSituacionRuc = this.controlSituacionRUC.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const name = typeof value === 'string' ? value : value?.description
+        const name = typeof value === 'string' ? value : value?.valor
         return name ? this._filterSituacionRuc(name as string) : this.situacionRuc.slice()
       }),
     )
-  }
-  private _filterReputacion(description: string): Reputacion[] {
-    const filterValue = description.toLowerCase();
-    return this.reputaciones.filter(reputacion => reputacion.description.toLowerCase().includes(filterValue));
-  }
-  private _filterSituacionRuc(description: string): SituacionRuc[] {
-    const filterValue = description.toLowerCase();
-    return this.situacionRuc.filter(situacionRuc => situacionRuc.description.toLowerCase().includes(filterValue));
-  }
-  private _filterPersoneriaJuridica(description: string): PersoneriaJuridica[] {
-    const filterValue = description.toLowerCase();
-    return this.personeriaJuridica.filter(personeriaJuridica => personeriaJuridica.description.toLowerCase().includes(filterValue));
-  }
-  displayReputacion(reputacion : Reputacion): string {
-    return reputacion && reputacion.description ? reputacion.description : '';
-  }
-  displaySituacionRuc(situacionRuc : SituacionRuc): string {
-    return situacionRuc && situacionRuc.description ? situacionRuc.description : '';
-  }
-  displayPersoneriaJuridica(personeriaJuridica : PersoneriaJuridica): string {
-    return personeriaJuridica && personeriaJuridica.description ? personeriaJuridica.description : '';
+    this.filterPais = this.controlPaises.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.valor
+        return name ? this._filterPais(name as string) : this.paises.slice()
+      }),
+    )
   }
 
-
-
-  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string) {
-    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      data: {
-        titulo : titulo,
-        subtitulo : subtitulo,
-        comentario_es : comentario_es,
-        comentario_en : comentario_en,
+  armarModeloNuevo(){
+    this.modeloNuevo[0] = {
+      id : this.id,
+      oldCode : this.oldCode,
+      fullname : this.fullname,
+      lastSearched : this.lastSearched,
+      language : this.language,
+      nationality : this.nationality,
+      birthDate : this.birthDate,
+      birthPlace : this.birthPlace,
+      idDocumentType : this.idDocumentType,
+      codeDocumentType : this.codeDocumentType,
+      taxTypeName : this.taxTypeName,
+      taxTypeCode : this.taxTypeCode,
+      idLegalRegisterSituation : this.idLegalRegisterSituation,
+      address : this.address,
+      cp : this.cp,
+      city : this.city,
+      otherDirecctions : this.otherDirecctions,
+      tradeName : this.tradeName,
+      idCountry : this.idCountry,
+      codePhone : this.codePhone,
+      numberPhone : this.numberPhone,
+      idCivilStatus : this.idCivilStatus,
+      relationshipWith : this.relationshipWith,
+      relationshipDocumentType : this.relationshipDocumentType,
+      relationshipCodeDocument : this.relationshipCodeDocument,
+      fatherName : this.fatherName,
+      motherName : this.motherName,
+      email : this.email,
+      cellphone : this.cellphone,
+      idProfession : this.idProfession,
+      clubMember : this.clubMember,
+      insurance : this.insurance,
+      newsCommentary : this.newsCommentary,
+      printNewsCommentary : this.printNewsCommentary,
+      privateCommentary : this.privateCommentary,
+      reputationCommentary : this.reputationCommentary,
+      idCreditRisk : this.idCreditRisk,
+      idPaymentPolicy : this.idPaymentPolicy,
+      idReputation : this.idReputation,
+      idPersonSituation : this.idPersonSituation,
+      traductions : [
+        {
+          key : "S_P_NACIONALITY",
+          value : this.nationalityEng
         },
-      });
+        {
+          key : "S_P_BIRTHDATE",
+          value : this.birthPlaceEng
+        },
+        {
+          key : "S_P_MARRIEDTO",
+          value : this.relationshipWithEng
+        },
+        {
+          key : "S_P_PROFESSION",
+          value : this.professionEng
+        },
+        {
+          key : "L_P_NEWSCOMM",
+          value : this.newsCommentaryEng
+        },
+        {
+          key : "L_P_REPUTATION",
+          value : this.reputationCommentaryEng
+        },
+      ]
+    }
+  }
+  armarModeloModificado(){
+    this.modeloModificado[0] = {
+      id : this.id,
+      oldCode : this.oldCode,
+      fullname : this.fullname,
+      lastSearched : this.lastSearched,
+      language : this.language,
+      nationality : this.nationality,
+      birthDate : this.birthDate,
+      birthPlace : this.birthPlace,
+      idDocumentType : this.idDocumentType,
+      codeDocumentType : this.codeDocumentType,
+      taxTypeName : this.taxTypeName,
+      taxTypeCode : this.taxTypeCode,
+      idLegalRegisterSituation : this.idLegalRegisterSituation,
+      address : this.address,
+      cp : this.cp,
+      city : this.city,
+      otherDirecctions : this.otherDirecctions,
+      tradeName : this.tradeName,
+      idCountry : this.idCountry,
+      codePhone : this.codePhone,
+      numberPhone : this.numberPhone,
+      idCivilStatus : this.idCivilStatus,
+      relationshipWith : this.relationshipWith,
+      relationshipDocumentType : this.relationshipDocumentType,
+      relationshipCodeDocument : this.relationshipCodeDocument,
+      fatherName : this.fatherName,
+      motherName : this.motherName,
+      email : this.email,
+      cellphone : this.cellphone,
+      idProfession : this.idProfession,
+      clubMember : this.clubMember,
+      insurance : this.insurance,
+      newsCommentary : this.newsCommentary,
+      printNewsCommentary : this.printNewsCommentary,
+      privateCommentary : this.privateCommentary,
+      reputationCommentary : this.reputationCommentary,
+      idCreditRisk : this.idCreditRisk,
+      idPaymentPolicy : this.idPaymentPolicy,
+      idReputation : this.idReputation,
+      idPersonSituation : this.idPersonSituation,
+      traductions : [
+        {
+          key : "S_P_NACIONALITY",
+          value : this.nationalityEng
+        },
+        {
+          key : "S_P_BIRTHDATE",
+          value : this.birthPlaceEng
+        },
+        {
+          key : "S_P_MARRIEDTO",
+          value : this.relationshipWithEng
+        },
+        {
+          key : "S_P_PROFESSION",
+          value : this.professionEng
+        },
+        {
+          key : "L_P_NEWSCOMM",
+          value : this.newsCommentaryEng
+        },
+        {
+          key : "L_P_REPUTATION",
+          value : this.reputationCommentaryEng
+        },
+      ]
+    }
+  }
+  private _filterPais(description: string): Pais[] {
+    const filterValue = description.toLowerCase();
+    return this.paises.filter(pais => pais.valor.toLowerCase().includes(filterValue));
+  }
+  private _filterSituacionRuc(description: string): ComboData[] {
+    const filterValue = description.toLowerCase();
+    return this.situacionRuc.filter(situacionRuc => situacionRuc.valor.toLowerCase().includes(filterValue));
   }
 
+  displaySituacionRuc(situacionRuc : ComboData): string {
+    return situacionRuc && situacionRuc.valor ? situacionRuc.valor : '';
+  }
+  displayPais(pais: Pais): string {
+    return pais && pais.valor ? pais.valor : '';
+  }
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
     if (selectedDate) {
-      this.fechaInformeInvestigado = this.formatDate(selectedDate);
+      this.lastSearched = this.formatDate(selectedDate);
     }
   }
-  selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
-
+  selectFechaNacimiento(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.birthDate = this.formatDate(selectedDate);
+    }
   }
-
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -301,8 +483,6 @@ constructor(
 
     return `${day}/${month}/${year}`;
   }
-
-
   historicoPedidos(){
     const dialog = this.dialog.open(HistoricoPedidosComponent,{
       data : {
@@ -317,163 +497,147 @@ constructor(
   tituloComentarioReputacion : string = 'Comentario de Reputación'
   tituloComentarioPrensa : string = 'Comentario de Prensa'
 
-  selectIdioma(idioma : string){
-    this.idiomaInforme = idioma
-  }
-  selectInstitucionInforme(intitucionInforme : string){
-    this.tipoIntitucionInforme = intitucionInforme
-  }
-  selectPersoneriaJuridica(personeriaJuridica : string){
-  }
-  selectSituacionRuc(situacionRuc : string){
-  }
-  selectRiesgoCrediticio(riesgoCrediticio : string){
-    this.riesgoCrediticioInforme = riesgoCrediticio
-    console.log(riesgoCrediticio)
+  selectRiesgoCrediticio(event: MatSelectChange) {
+    this.riesgoCrediticioSeleccionado = event.value;
+    this.idCreditRisk = event.value.id;
 
-    if(riesgoCrediticio == ""){
-      this.gaugeRiesgoCrediticio = 0
-      this.colorRiesgoCrediticio = "white"
-      this.calificacionRiesgoCrediticio = ""
-      this.descripcionRiesgoCrediticio = ""
-    }else if(riesgoCrediticio.includes("A+:")){
-      this.gaugeRiesgoCrediticio = 600
-      this.colorRiesgoCrediticio = "green"
-      this.calificacionRiesgoCrediticio = "A+"
-      this.descripcionRiesgoCrediticio = "Sin Riesgo"
-    }else if(riesgoCrediticio.includes("A-:")){
-      this.gaugeRiesgoCrediticio = 500
-      this.colorRiesgoCrediticio = "#64f584"
-      this.descripcionRiesgoCrediticio = "Riesgo Mínimo"
-      this.calificacionRiesgoCrediticio = "A-"
-    }else if(riesgoCrediticio.includes("B:")){
-      this.gaugeRiesgoCrediticio = 400
-      this.colorRiesgoCrediticio = "yellow"
-      this.descripcionRiesgoCrediticio = "Riesgo Moderado"
-      this.calificacionRiesgoCrediticio = "B"
-    }else if(riesgoCrediticio.includes("C:")){
-      this.gaugeRiesgoCrediticio = 300
-      this.colorRiesgoCrediticio = "orange"
-      this.descripcionRiesgoCrediticio = "Riesgo Alto"
-      this.calificacionRiesgoCrediticio = "C"
-    }else if(riesgoCrediticio.includes("D:")){
-      this.gaugeRiesgoCrediticio = 200
-      this.colorRiesgoCrediticio = "red"
-      this.descripcionRiesgoCrediticio = "Riesgo Muy Alto"
-      this.calificacionRiesgoCrediticio = "D"
-    }else if(riesgoCrediticio.includes("E:")){
-      this.gaugeRiesgoCrediticio = 100
-      this.colorRiesgoCrediticio = "black"
-      this.descripcionRiesgoCrediticio = "Riesgo Muy Alto"
-      this.calificacionRiesgoCrediticio = "E"
-    }else if(riesgoCrediticio.includes("NN:")){
-      this.gaugeRiesgoCrediticio = 0
-      this.colorRiesgoCrediticio = "gray"
-      this.descripcionRiesgoCrediticio = "Riesgo Indeterminado"
-      this.calificacionRiesgoCrediticio = "NN"
-    }
+    this.gaugeRiesgoCrediticio = event.value.rate;
+    this.descripcionRiesgoCrediticio = event.value.abreviation;
+    this.colorRiesgoCrediticio = event.value.color;
+    this.calificacionRiesgoCrediticio = event.value.identifier;
   }
-  selectPoliticaPagos(politicaPagos : string){
-    this.politicaPagosInforme = politicaPagos
-
-    if(politicaPagos == ""){
-      this.colorPoliticaPagos = "white"
-    }else if(politicaPagos.includes("1")){
-      this.colorPoliticaPagos = "green"
-    }else if(politicaPagos.includes("2")){
-      this.colorPoliticaPagos = "green"
-    }else if(politicaPagos.includes("3")){
-      this.colorPoliticaPagos = "orange"
-    }else if(politicaPagos.includes("4")){
-      this.colorPoliticaPagos = "red"
-    }else if(politicaPagos.includes("5")){
-      this.colorPoliticaPagos = "black"
-    }else if(politicaPagos.includes("6")){
-      this.colorPoliticaPagos = "skyblue"
-    }else if(politicaPagos.includes("7")){
-      this.colorPoliticaPagos = "gray"
-    }
+  selectPoliticaPagos(event: MatSelectChange) {
+    this.politicaPagoSeleccionada = event.value;
+    this.idPaymentPolicy = event.value.id;
+    this.colorPoliticaPagos = event.value.color;
+    console.log(event.value)
   }
   selectReputacion(event: MatSelectChange) {
-    const selectedReputacion = event.value;
-    this.reputacionInforme = selectedReputacion
-    if(selectedReputacion.id == 0){
-      this.colorReputacion = "white"
-      this.booleanExplicarDatosMalaReputacion = false
-    }else if(selectedReputacion.id > 0 && selectedReputacion.id <= 4){
-      this.colorReputacion = "green"
-      this.booleanExplicarDatosMalaReputacion = false
-    }else if(selectedReputacion.id > 4){
-      this.colorReputacion = "red"
-      this.booleanExplicarDatosMalaReputacion = true
-    }
+    this.reputacionSeleccionada = event.value;
+    this.idReputation = event.value.id;
+    this.colorReputacion = event.value.color;
   }
-
-
-  paises : Pais[] = []
-
+  cambioSituacionRuc(situacionRuc: ComboData) {
+    if (typeof situacionRuc === 'string' || situacionRuc === null) {
+      this.msgSituacionRuc = "Seleccione una opción."
+      this.idLegalRegisterSituation = 0
+      this.colorMsgSituacionRuc = "red"
+    } else {
+      this.msgSituacionRuc = "Opción Seleccionada."
+      this.idLegalRegisterSituation = situacionRuc.id
+      this.colorMsgSituacionRuc = "green"
+    }
+    console.log(this.idLegalRegisterSituation)
+  }
+  limpiarSeleccionSituacionRUC() {
+    this.controlSituacionRUC.reset();
+    this.idLegalRegisterSituation = 0
+  }
   iconoSeleccionado: string = ""
-  actualizarSeleccionPais(id: number) {
-    const paisSeleccionadoObj = this.paises.find((pais) => pais.id === id);
-    if (paisSeleccionadoObj) {
-      this.paisInforme = paisSeleccionadoObj.id;
-      this.iconoSeleccionado = paisSeleccionadoObj.bandera;
+  cambioPais(pais: Pais) {
+    if (pais !== null) {
+      if (typeof pais === 'string' || pais === null || this.paisSeleccionado.id === 0) {
+        this.msgPais = "Seleccione una opción."
+        this.colorMsgPais = "red"
+        this.iconoSeleccionado = ""
+        this.idCountry = 0
+      } else {
+        this.msgPais = "Opción Seleccionada"
+        this.colorMsgPais = "green"
+        this.iconoSeleccionado =pais.bandera
+        this.idCountry = pais.id
+      }
+    } else {
+      this.idCountry = 0
+      console.log(this.idCountry)
+      this.msgPais = "Seleccione una opción."
+      this.colorMsgPais = "red"
     }
   }
-  //DATOS DE EMPRESA
-  fechaInformeInvestigado : string = ""
-  idiomaInforme : string = ""
-  tipoIntitucionInforme : string = ""
-  fechaInforme : string = ""
-  apellidosNombresInforme : string = ""
-  nacionalidadInforme : string = ""
-  nacionalidadIngInforme : string = ""
-  nacidoElInforme : string = ""
-  nacidoElIngInforme : string = ""
-  nacidoEnInforme : string = ""
-  tipoDocumentoInforme : string = ""
-  codigoDocumentoInforme : string = ""
-  registroTributarioInforme : string = ""
-  situacionInforme : string = ""
-
-  direccionCompletaInforme : string = ""
-  CPInforme : string = ""
-  DptoEstadoInforme : string = ""
-  otrasDireccionesInforme : string = ""
-  nombreComercialInforme : string = ""
-  paisInforme : number = 0
-  codigoTelefonoInforme : string = ""
-  telefonoInforme : string = ""
-
-  estadoCivilInforme : string = ""
-  relacionCivilConInforme : string = ""
-  relacionCivilConIngInforme : string = ""
-  dniInforme : string = ""
-  nombrePadreInforme : string = ""
-  nombreMadreInforme : string = ""
-  emailInforme : string = ""
-  celularInforme : string = ""
-  profesionInforme : string = ""
-  profesionIngInforme : string = ""
-  socioClubInforme : string = ""
-  segurosInforme : string = ""
-
-  riesgoCrediticioInforme : string = ""
-  politicaPagosInforme : string = ""
-  reputacionInforme : string = ""
-  explicarDatosMalaReputacion : string = ""
-  booleanExplicarDatosMalaReputacion : boolean = false
-  comentarioReputacionInforme : string = ""
-
-  comentarioReputacionIngInforme : string = ""
-  comentarioPrensaInforme : string = ""
-  comentarioPrensaIngInforme : string = ""
-
+  limpiarSeleccionPais() {
+    this.controlPaises.reset();
+    this.idCountry = 0
+    this.iconoSeleccionado = ""
+  }
   guardar(){
-    console.log(this.fechaInformeInvestigado)
-    console.log(this.idiomaInforme)
-    console.log(this.tipoIntitucionInforme)
-    console.log(this.direccionCompletaInforme)
+    this.armarModeloModificado()
+    console.log(this.modeloModificado[0])
+  }
+  selectIdioma(idioma: string) {
+    this.language = idioma;
+  }
+
+  agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+    data: {
+      titulo : titulo,
+      subtitulo : subtitulo,
+      tipo : 'textarea',
+      comentario_es : comentario_es,
+      comentario_en : comentario_en
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        switch(input){
+          case 'nacionalidad':
+            this.nationality = data.comentario_es;
+            this.nationalityEng = data.comentario_en;
+          break
+          case 'nacimiento':
+            this.birthPlace = data.comentario_es;
+            this.birthPlaceEng = data.comentario_en;
+          break
+          case 'relacion':
+            this.relationshipWith = data.comentario_es;
+            this.relationshipWithEng = data.comentario_en;
+          break
+          case 'profesion':
+            // this.profession = data.comentario_es;
+            // this.profesionEng = data.comentario_en;
+          break
+        }
+      }
+    });
+  }
+  agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        tipo : 'input',
+        comentario_es : comentario_es,
+        comentario_en : comentario_en
+      },
+    });
+    // dialogRef.afterClosed().subscribe((data) => {
+    //   if (data) {
+    //     console.log(data)
+    //     switch(input){
+    //       case 'duracion':
+    //         this.operationDuration = data.comentario_es
+    //         this.operationDurationEng = data.comentario_en
+    //       break
+    //       case 'registradaEn':
+    //         this.registerPlace = data.comentario_es
+    //         this.registerPlaceEng = data.comentario_en
+    //       break
+    //       case 'registrosPublicos':
+    //       this.publicRegister = data.comentario_es
+    //       this.publicRegisterEng = data.comentario_en
+    //       break
+    //       case 'fechaAumento':
+    //       this.increaceDateCapital = data.comentario_es
+    //       this.increaceDateCapitalEng = data.comentario_en
+    //       break
+    //       case 'actualTC':
+    //       this.currentExchangeRate = data.comentario_es
+    //       this.currentExchangeRateEng = data.comentario_en
+    //       break
+    //     }
+    //   }
+    // });
   }
 
   //GAUGE

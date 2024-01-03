@@ -85,4 +85,10 @@ export class ComboService {
   getTitularidad() : Observable<Response<ComboData[]>>{
     return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/landOwnership');
   }
+  getSituacionPersona() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/personSituation');
+  }
+  getProfesion() : Observable<Response<ComboData[]>>{
+    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/profession');
+  }
 }

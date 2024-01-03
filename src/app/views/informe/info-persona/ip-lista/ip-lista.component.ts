@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Pais } from 'app/models/pais';
 import { Observable, map, startWith } from 'rxjs';
 
@@ -43,7 +44,7 @@ export class IPListaComponent implements OnInit{
   columnsToDisplay = ['creditRisk', 'language', 'name', 'taxNumber', 'lastReportDate', 'isoCountry', 'traductionPercentage', 'quality','manager','acciones' ];
 
 
-  constructor(){
+  constructor(private router : Router){
     this.filterPais = new Observable<Pais[]>()
 
   }
@@ -91,7 +92,7 @@ export class IPListaComponent implements OnInit{
     }
   }
   agregarPersona(){
-
+    this.router.navigate(['informes/persona/detalle/nuevo']);
   }
   filtrar(event : any){
     if(event.code == 'Enter'){

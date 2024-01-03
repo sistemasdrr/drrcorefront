@@ -32,7 +32,7 @@ const routes: Routes = [
     data: { title: 'Lista de Personas - DRR Core V1' }
   },
   {
-    path: 'persona/detalle',
+    path: 'persona/detalle/:id',
     component: IPDetalleComponent,
     data: { title: 'Detalles de Persona - DRR Core V1' }
   },
