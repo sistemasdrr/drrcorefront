@@ -1,103 +1,18 @@
 <div class="row " style="margin: 0 0 2rem 0; padding: 0 0 2rem 0;">
-  <div class="col-md-12 mb-2">
+  <div class="col-md-12 mb-2"(paste)="onPaste($event)" >
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Imágenes de la Empresa</h4>
-        <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
-          <mat-icon class="col-white">save</mat-icon>
-        </button>
+
       </div>
       <hr>
-      <!--div class="col-md-4">
-        <mat-form-field class="w-100" *ngIf="img1 === ''">
-          <mat-label>Imagen 1</mat-label>
-          <input matInput placeholder="" [(ngModel)]="img1">
-        </mat-form-field>
-        <div class="w-100  d-flex justify-content-center align-content-center mat-elevation-z8">
-          <img class="" src="{{img1}}" style="background-size: cover; background-repeat: no-repeat; width: 100%; ">
-        </div>
-        <div class="col-md-12 d-flex justify-content-center" *ngIf="img1 !== ''">
-          <div class="m-2">
-            <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i></button>
+      <div class="col-md-8" >
+        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" style="height: 20rem;" [accept]="'image/*'" (change)="onSelect($event)"   [disabled]="cardSeleccionada === 0">
+          <div class="d-flex justify-content-center" style="background-size: cover; width: 100%; height: 100%" *ngIf="imgSeleccionadaCheck === true">
           </div>
-          <div class="m-2">
-            <button class="btn btn-danger" (click)="img1=''"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <mat-form-field class="w-100" *ngIf="img1 !== ''">
-            <mat-label>Descripción</mat-label>
-            <input matInput placeholder="" [(ngModel)]="descripcion1">
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Descripción - Traduccion','Descripción de Imagen 1','','')">
-              <span class="fi fi-us" style="font-size: 24px;"></span>
-            </button>
-          </mat-form-field>
-        </div>
-      </!--div>
-      <div class="col-md-4">
-        <mat-form-field class="w-100" *ngIf="img2 === ''">
-          <mat-label>Imagen 2</mat-label>
-          <input matInput placeholder="" [(ngModel)]="img2" >
-        </mat-form-field>
-        <div class="w-100  d-flex justify-content-center align-content-center mat-elevation-z8">
-          <img class="" src="{{img2}}" style="background-size: cover; background-repeat: no-repeat; width: 100%; ">
-        </div>
-        <div class="col-md-12 d-flex justify-content-center" *ngIf="img2 !== ''">
-          <div class="m-2">
-            <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i></button>
-          </div>
-          <div class="m-2">
-            <button class="btn btn-danger" (click)="img2=''"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <mat-form-field class="w-100" *ngIf="img2 !== ''">
-            <mat-label>Descripción</mat-label>
-            <input matInput placeholder="" [(ngModel)]="descripcion2" >
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Descripción - Traduccion','Descripción de Imagen 2','','')">
-              <span class="fi fi-us" style="font-size: 24px;"></span>
-            </button>
-          </mat-form-field>
-        </div>
-      </div>
-      <div-- class="col-md-4">
-        <mat-form-field class="w-100" *ngIf="img3 === ''">
-          <mat-label>Imagen 3</mat-label>
-          <input matInput placeholder="" [(ngModel)]="img3" >
-        </mat-form-field>
-        <div class="w-100  d-flex justify-content-center align-content-center mat-elevation-z8">
-          <img class="" src="{{img3}}" style="background-size: cover; background-repeat: no-repeat; width: 100%; ">
-        </div>
-        <div class="col-md-12 d-flex justify-content-center" *ngIf="img3 !== ''">
-          <div class="m-2">
-            <button class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i></button>
-          </div>
-          <div class="m-2">
-            <button class="btn btn-danger" (click)="img3=''"><i class="fa-solid fa-trash"></i></button>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <mat-form-field class="w-100" *ngIf="img3 !== ''">
-            <mat-label>Descripción</mat-label>
-            <input matInput placeholder="" [(ngModel)]="descripcion3">
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario('Descripción - Traduccion','Descripción de Imagen 3','','')">
-              <span class="fi fi-us" style="font-size: 24px;"></span>
-            </button>
-          </mat-form-field>
-        </div>
-      </div-->
+          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100 d-flex justify-content-center" *ngFor="let file of files" [file]="file" >
 
-      <div class="col-md-8">
-        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" style="height: 20rem;" [accept]="'image/*'" (change)="onSelect($event)" (paste)="onPaste($event)"  [disabled]="cardSeleccionada === 0">
-          <div class="" style="background-size: cover; width: 100%; height: 100%" *ngIf="imgSeleccionadaCheck === true">
-            <img mat-card-image src="{{imgSeleccionada}}" >
-          </div>
-          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100" *ngFor="let file of files" [file]="file" >
-            <ngx-dropzone-label>
-              <!--br>
-              <button class="btn bg-red" (click)="onRemove(file)"><i class="fa-solid fa-trash"></i></button>
-              <button-- class="btn btn-primary" (click)="onRemove(file)"><i class="fa-solid fa-pen-to-square"></i></button-->
-            </ngx-dropzone-label>
+
           </ngx-dropzone-image-preview>
         </div>
       </div>
@@ -107,24 +22,23 @@
             {{tituloSeleccion}}
           </div>
           <div class="w-100 d-flex justify-content-end">
-            <button mat-mini-fab color="primary" (click)="agregarImagen(cardSeleccionada)" [disabled]="cardSeleccionada === 0">
-              <mat-icon class="col-white">add</mat-icon>
+            <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar" (click)="guardar(cardSeleccionada, desc, descIng)" [disabled]="cardSeleccionada === 0">
+              <mat-icon class="col-white">save</mat-icon>
             </button>
           </div>
         </div>
-
         <hr>
-          <div class="col-md-12">
-            <mat-form-field class="w-100">
-              <mat-label>Descripción</mat-label>
-              <input matInput placeholder [(ngModel)]="desc"  [disabled]="cardSeleccionada === 0">
-            </mat-form-field>
-          </div>
-          <div class="col-md-12">
-            <mat-form-field class="w-100">
-              <mat-label>Descripción Inglés</mat-label>
-              <input matInput placeholder [(ngModel)]="descIng"  [disabled]="cardSeleccionada === 0">
-            </mat-form-field>
+        <div class="col-md-12">
+          <mat-form-field class="w-100">
+            <mat-label>Descripción</mat-label>
+            <input matInput [(ngModel)]="desc"  [disabled]="cardSeleccionada === 0">
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="w-100">
+            <mat-label>Descripción Inglés</mat-label>
+            <input matInput [(ngModel)]="descIng"  [disabled]="cardSeleccionada === 0">
+          </mat-form-field>
         </div>
       </div>
 
@@ -134,12 +48,12 @@
 
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6">
     <mat-card>
-      <img mat-card-image style="background-size: cover; width: 100%; height: 100%" src="{{img1}}" >
+      <img mat-card-image src="{{img1}}" >
       <mat-card-content>
         <p><b>Descripción : </b>{{imgDesc1}}</p>
-        <p><b>Descripción Inglés: </b>{{imgDescIng1}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescEng1}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
@@ -148,7 +62,7 @@
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(1)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 1)">
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(1)" [disabled]="!(imgDesc1 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
             </button>
           </div>
@@ -156,12 +70,12 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6">
     <mat-card>
       <img mat-card-image src="{{img2}}">
       <mat-card-content>
        <p><b>Descripción : </b>{{imgDesc2}}</p>
-       <p><b>Descripción Inglés: </b>{{imgDescIng2}}</p>
+       <p><b>Descripción Inglés: </b>{{imgDescEng2}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
@@ -170,29 +84,7 @@
             <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(2)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 2)">
-              <mat-icon class="col-white">delete</mat-icon>
-            </button>
-          </div>
-        </div>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-  <div class="col-md-4">
-    <mat-card>
-      <img mat-card-image src="{{img3}}">
-      <mat-card-content>
-        <p><b>Descripción : </b>{{imgDesc3}}</p>
-        <p><b>Descripción Inglés: </b>{{imgDescIng3}}</p>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <mat-card-actions class="w-100" style="display: unset;">
-        <div fxLayout="row">
-          <div class="w-100 d-flex justify-content-end">
-            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(3)" #tooltip="matTooltip" matTooltip="Seleccionar">
-              <mat-icon class="col-white">task_alt</mat-icon>
-            </button>
-            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 3)">
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(2)" [disabled]="!(imgDesc2 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
             </button>
           </div>
@@ -202,19 +94,19 @@
   </div>
   <div class="col-md-12 mt-2">
     <mat-card>
-      <img mat-card-image src="{{img4}}">
+      <img mat-card-image src="{{img3}}">
       <mat-card-content>
-        <p><b>Descripción : </b>{{imgDesc4}}</p>
-        <p><b>Descripción Inglés: </b>{{imgDescIng4}}</p>
+        <p><b>Descripción : </b>{{imgDesc3}}</p>
+        <p><b>Descripción Inglés: </b>{{imgDescEng3}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
         <div fxLayout="row">
           <div class="w-100 d-flex justify-content-end">
-            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(4)" #tooltip="matTooltip" matTooltip="Seleccionar">
+            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(3)" #tooltip="matTooltip" matTooltip="Seleccionar">
               <mat-icon class="col-white">task_alt</mat-icon>
             </button>
-            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" [disabled]="!(cardSeleccionada === 4)">
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(3)" [disabled]="!(imgDesc3 !== '')">
               <mat-icon class="col-white">delete</mat-icon>
             </button>
           </div>

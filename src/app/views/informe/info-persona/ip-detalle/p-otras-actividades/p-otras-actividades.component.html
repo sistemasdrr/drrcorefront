@@ -4,7 +4,7 @@
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Actividades y Recursos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
         <div>
-          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
             <mat-icon class="col-white">save</mat-icon>
           </button>
         </div>
@@ -13,13 +13,13 @@
       <div class="col-md-6">
         <mat-form-field class="w-100" >
           <mat-label>Otras Actividades y Recursos (Español)</mat-label>
-          <textarea matInput type="text" [(ngModel)]="actividadesRecursosInforme" style="min-height: 8rem;"></textarea>
+          <textarea matInput type="text" [(ngModel)]="activitiesCommentary" style="min-height: 8rem;"></textarea>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field class="w-100" >
           <mat-label>Others Activities and Resources (Inglés)</mat-label>
-          <textarea matInput type="text" [(ngModel)]="actividadesRecursosIngInforme" style="min-height: 8rem;"></textarea>
+          <textarea matInput type="text" [(ngModel)]="activitiesCommentaryEng" style="min-height: 8rem;"></textarea>
         </mat-form-field>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <section class="content">
-  <div id="loader-lista-empresas" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+  <div id="loader-lista-persona" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
     <span class="loader"></span><br>
     <h2 style="color: white;">&nbsp;Cargando...</h2>
   </div>
@@ -72,6 +72,90 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-md-12" style="overflow-x: auto;">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+          <ng-container matColumnDef="creditRisk" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> RC </th>
+            <td mat-cell *matCellDef="let persona" class="text-center" style="border-radius: 10px;" [class]="persona.creditRisk ==='A+' ? 'bg-green' : persona.creditRisk === 'A-' ? 'l-bg-green' : persona.creditRisk === 'B' ? 'bg-yellow' : persona.creditRisk === 'C' ? 'bg-orange' : persona.creditRisk === 'D' ? 'bg-red' : persona.creditRisk === 'E' ? 'bg-black col-white' : persona.creditRisk === 'NN' ? 'bg-grey' : '' ">
+              <b style="font-size: 20px;">{{persona.creditRisk}}</b>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="language" >
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Idioma</th>
+          <td mat-cell *matCellDef="let persona" class="text-center">
+            <span class="fi fi-es" style="font-size: 24px;" *ngIf="persona.language === 'E'"></span>
+            <span class="fi fi-us" style="font-size: 24px;" *ngIf="persona.language === 'I'"></span>
+            <span class="fi fi-us" style="font-size: 24px; background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="persona.language === 'A'"></span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="name" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Nombre Completo</th>
+          <td mat-cell *matCellDef="let persona" class="" style="min-width: 15rem;"><b>{{persona.fullname}}</b></td>
+          </ng-container>
+          <ng-container matColumnDef="taxNumber" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Doc. de Identidad</th>
+            <td mat-cell *matCellDef="let persona" class="text-center">{{persona.documentType}} - {{persona.codeDocumentType}}</td>
+          </ng-container>
+          <ng-container matColumnDef="lastReportDate" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Datos Al</th>
+            <td mat-cell *matCellDef="let persona" class="text-center">{{persona.lastSearched}}</td>
+          </ng-container>
+          <ng-container matColumnDef="country" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> País</th>
+            <td mat-cell *matCellDef="let persona" class="text-center">
+              {{persona.country}} <span class="fi fi-{{persona.flagCountry}}" style="font-size: 20px;"></span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="traductionPercentage" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Traducción</th>
+            <td mat-cell *matCellDef="let persona" class="text-center">
+              {{persona.traductionPercentage}}%
+              <mat-progress-bar mode="determinate" value="{{persona.traductionPercentage}}" *ngIf="persona.traductionPercentage > 40"></mat-progress-bar>
+              <mat-progress-bar mode="determinate" value="{{persona.traductionPercentage}}" color="warn" *ngIf="persona.traductionPercentage <= 40"></mat-progress-bar>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="quality" >
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header mat-sort-header class="text-center"> Calidad</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.quality}}</td>
+          </ng-container>
+          <ng-container matColumnDef="birthDate" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header mat-sort-header class="text-center"> Fecha de Nacimiento</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.birthDate}}</td>
+          </ng-container>
+          <ng-container matColumnDef="profession" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header mat-sort-header class="text-center"> Profesión</th>
+            <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.profession}}</td>
+          </ng-container>
+          <ng-container matColumnDef="acciones" >
+            <th mat-header-cell *matHeaderCellDef  class="text-center" style="min-width: 16rem;"> Acciones </th>
+            <td mat-cell *matCellDef="let persona" class="text-center ">
+              <a [routerLink]="'/informes/persona/detalle/'+persona.id" mat-mini-fab class="btn bg-white" matTooltip="Editar">
+                <app-feather-icons [icon]="'edit'" class="tbl-fav-edit"></app-feather-icons>
+              </a>
+              <button  mat-mini-fab class="bg-white" matTooltip="Socios">
+                <app-feather-icons [icon]="'users'" class="tbl-fav-socios"></app-feather-icons>
+              </button>
+              <button  mat-mini-fab class="bg-white" matTooltip="Generar PDF">
+                <app-feather-icons [icon]="'file-text'" class="tbl-fav-pdf"></app-feather-icons>
+              </button>
+              <button  mat-mini-fab class="bg-white" matTooltip="" *ngIf="persona.enable" (click)="desactivarWebPersona(persona.id)" matTooltip="Desactivar">
+                <app-feather-icons [icon]="'globe'" class="tbl-fav-web"></app-feather-icons>
+              </button>
+              <button  mat-mini-fab class="bg-white" matTooltip=""  *ngIf="!persona.enable" (click)="activarWebPersona(persona.id)" matTooltip="Activar">
+                <app-feather-icons [icon]="'globe'" class="tbl-fav-no-web"></app-feather-icons>
+              </button>
+              <button  mat-mini-fab class="bg-white" matTooltip="Eliminar" (click)="eliminarPersona(persona.id)">
+                <app-feather-icons [icon]="'trash-2'"   class="tbl-fav-delete"></app-feather-icons>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr mat-row *matRowDef="let empresa; columns: columnsToDisplay;"
+            class=""></tr>
+          <!--[ngClass]="empresa.rc === 'NN' ? 'bg-cyan' : ''"-->
+        </table>
+        <mat-paginator [pageSizeOptions]="[25, 50, 100]" aria-label="Seleccionar página de Pedidos" class="w-100"></mat-paginator>
       </div>
 
     </div>

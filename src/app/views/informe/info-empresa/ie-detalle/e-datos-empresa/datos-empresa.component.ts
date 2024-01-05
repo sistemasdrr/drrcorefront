@@ -910,8 +910,8 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   //GAUGE
   gaugeRiesgoCrediticio = 0
-  colorRiesgoCrediticio: string = "white"
-  colorPoliticaPagos: string = "white"
+  colorRiesgoCrediticio = "white"
+  colorPoliticaPagos = "white"
   calificacionRiesgoCrediticio = ""
   descripcionRiesgoCrediticio = ""
   colorReputacion = "white"

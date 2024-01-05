@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { TPersona } from 'app/models/informes/persona/datos-generales';
 import { Pais } from 'app/models/pais';
+import { ComboService } from 'app/services/combo.service';
+import { DatosGeneralesService } from 'app/services/informes/persona/datos-generales.service';
 import { Observable, map, startWith } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ip-lista',
@@ -41,16 +48,45 @@ export class IPListaComponent implements OnInit{
   msgPais = ""
   colorMsgPais = ""
 
-  columnsToDisplay = ['creditRisk', 'language', 'name', 'taxNumber', 'lastReportDate', 'isoCountry', 'traductionPercentage', 'quality','manager','acciones' ];
+  columnsToDisplay = ['creditRisk', 'language', 'name', 'taxNumber', 'lastReportDate', 'country', 'traductionPercentage', 'quality','birthDate','profession','acciones' ];
+  dataSource: MatTableDataSource<TPersona>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
-
-  constructor(private router : Router){
+  constructor(private router : Router, private comboService : ComboService, private personaService : DatosGeneralesService){
     this.filterPais = new Observable<Pais[]>()
+    this.dataSource = new MatTableDataSource()
 
   }
   ngOnInit(): void {
-
-
+    this.comboService.getPaises().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.paises = response.data;
+        }
+      }
+    ).add(
+      () => {
+        if(localStorage.getItem('busquedaPersonas')){
+          const busqueda = JSON.parse(localStorage.getItem('busquedaPersonas')+'')
+          this.nombreCompleto = busqueda.nombreCompleto
+          this.filtroRB = busqueda.filtro
+          if(busqueda.idCountry > 0){
+            this.idPais = busqueda.idCountry
+            this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idCountry)[0]
+            this.iconoSeleccionado = this.paisSeleccionado.bandera
+          }else{
+            this.limpiarSeleccionPais()
+          }
+          this.paisSeleccionado = this.paises.filter(x => x.id === busqueda.idPais)[0]
+          this.chkConInforme = busqueda.conInforme
+          this.loading = false
+          if(this.nombreCompleto!= null && this.nombreCompleto !== ''){
+            this.filtrarPersonas()
+          }
+        }
+      }
+    )
     this.filterPais = this.controlPaises.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -58,6 +94,7 @@ export class IPListaComponent implements OnInit{
         return name ? this._filterPais(name as string) : this.paises.slice()
       }),
     )
+
   }
   private _filterPais(description: string): Pais[] {
     const filterValue = description.toLowerCase();
@@ -112,7 +149,137 @@ export class IPListaComponent implements OnInit{
 
     this.filtrarPersonas()
   }
+  eliminarPersona(id : number){
+    Swal.fire({
+      title: '¿Está seguro de eliminar este registro?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se elimino correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+        this.personaService.deletePerson(id).subscribe(
+          (response) => {
+            console.log(response)
+          }
+        ).add(() => {
+          this.filtrarPersonas()
+        })
+      }
+    });
+  }
+  activarWebPersona(id : number){
+    Swal.fire({
+      title: '¿Está seguro de mostrar este registro en la web?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se actualizo correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+        this.personaService.activateWeb(id).subscribe(
+          (response) => {
+            console.log(response)
+          }
+        ).add(() => {
+          this.filtrarPersonas()
+        })
+      }
+    });
+  }
+  desactivarWebPersona(id : number){
+    Swal.fire({
+      title: '¿Está seguro de ocultar este registro en la web?',
+      text: "",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText : 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto : true
+    }).then((result) => {
+      if (result.value) {
+        Swal.fire({
+          title :'¡Eliminado!',
+          text : 'El registro se actualizo correctamente.',
+          icon : 'success',
+          width: '20rem',
+          heightAuto : true
+        });
+        this.personaService.desactivateWeb(id).subscribe(
+          (response) => {
+            console.log(response)
+          }
+        ).add(() => {
+          this.filtrarPersonas()
+        })
+      }
+    });
+  }
   filtrarPersonas(){
+    const listaPersonas = document.getElementById('loader-lista-persona') as HTMLElement | null;
+    if(listaPersonas){
+      listaPersonas.classList.remove('hide-loader');
+    }
+    const busqueda = {
+      nombreCompleto : this.nombreCompleto,
+      filtro : this.filtroRB,
+      idPais : this.idPais,
+      conInforme : this.chkConInforme
+    }
+    localStorage.setItem('busquedaPersonas', JSON.stringify(busqueda))
+    this.personaService.getList(this.nombreCompleto.trim(), this.filtroRB, this.idPais, this.chkConInforme).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.dataSource = new MatTableDataSource<TPersona>(response.data);
 
+          this.dataSource.sort = this.sort
+          this.dataSource.paginator = this.paginator
+        }
+      },(error) => {
+        if(listaPersonas){
+          listaPersonas.classList.add('hide-loader');
+        }
+        Swal.fire({
+          title: 'Ocurrió un problema. Comunicarse con Sistemas.',
+          text: error,
+          icon: 'warning',
+          confirmButtonColor: 'blue',
+          confirmButtonText: 'Ok',
+          width: '40rem',
+          heightAuto : true
+        }).then(() => {
+        })
+      }).add(() => {
+        if(listaPersonas){
+          listaPersonas.classList.add('hide-loader');
+        }
+      })
   }
 }

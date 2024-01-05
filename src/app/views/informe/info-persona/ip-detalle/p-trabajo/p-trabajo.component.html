@@ -4,7 +4,7 @@
       <div class="w-100 d-flex justify-content-between align-items-center">
         <h4>Centro de Trabajo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
         <div>
-          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar">
+          <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
             <mat-icon class="col-white">save</mat-icon>
           </button>
         </div>
@@ -14,30 +14,39 @@
       <div class="col-md-5">
         <mat-form-field class="w-100">
           <mat-label>Razón Social</mat-label>
-          <input matInput>
+          <input matInput [(ngModel)]="name">
         </mat-form-field>
       </div>
-      <div class="col-md-7">
+      <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Dirección</mat-label>
-          <input matInput>
+          <input matInput [(ngModel)]="address">
           <mat-hint>(Dirección Completa, Distrito, Colonia y Ciudad)</mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
-        <mat-form-field class="w-100">
-          <mat-label>RUC</mat-label>
-          <input matInput>
+      <div class="col-md-1">
+        <button mat-mini-fab class="bg-blue" style="margin: .8rem .5rem .5rem .5rem;" (click)="relacionarEmpresa()" #tooltip="matTooltip" matTooltip="Seleccionar Empresa">
+          <mat-icon class="col-white">done</mat-icon>
+        </button>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="" style="width: 30%;">
+          <mat-label>Tipo RT</mat-label>
+          <input matInput placeholder="" [(ngModel)]="taxTypeName" maxlength="10" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field class="" style="width: 70%;">
+          <mat-label>Código Registro Trib.</mat-label>
+          <input matInput placeholder="" [(ngModel)]="taxTypeCode" maxlength="30">
         </mat-form-field>
       </div>
-      <div class="col-md-9 d-flex">
-        <mat-form-field style="width: 30%;">
+      <div class="col-md-8 d-flex">
+        <mat-form-field style="width: 50%;">
           <mat-label>Código</mat-label>
-          <input matInput>
+          <input matInput placeholder="" [(ngModel)]="subTelephone" [readonly]="true">
         </mat-form-field>
-        <mat-form-field style="width: 70%;">
-          <mat-label>Teléfono</mat-label>
-          <input matInput>
+        <mat-form-field class="w-100">
+          <mat-label>Teléfonos Fijos</mat-label>
+          <input matInput placeholder="" [(ngModel)]="telephone">
         </mat-form-field>
       </div>
     </div>
@@ -47,46 +56,66 @@
     <div class="row counter-box shadow ">
       <h4>Datos para Completar <b>(IMPORTANTE: No se Graba en la EMPRESA)</b></h4>
       <hr>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Cargo Ocupado Actual</mat-label>
-          <input matInput>
+          <mat-select [(ngModel)]="currentJob" placeholder="">
+              <mat-option [value]="item.valor" *ngFor="let item of listaCargo">
+                {{item.valor}}
+              </mat-option>
+          </mat-select>
+          <button class="btn-traduccion" [class]="currentJobEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Cargo Actual','', currentJob, currentJobEng, 'trabajo')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
-        <mat-form-field class="w-100">
+      <div class="col-md-4">
+        <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Ingreso</mat-label>
-          <input matInput>
+          <input matInput [matDatepicker]="fecha_ingreso" [(ngModel)]="startDateD" [readonly]="true" (dateChange)="selectFechaIngreso($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_ingreso color="primary"></mat-datepicker>
+          <button class="btn-traduccion" [class]="startDateEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Fecha de Ingreso','', startDate, startDateEng, 'fechaIngreso')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
         </mat-form-field>
       </div>
-      <div class="col-md-3">
-        <mat-form-field class="w-100">
+      <div class="col-md-4">
+        <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Cese</mat-label>
-          <input matInput>
+          <input matInput [matDatepicker]="fecha_cese" [(ngModel)]="endDateD" [readonly]="true" (dateChange)="selectFechaCese($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_cese"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_cese color="primary"></mat-datepicker>
+          <button class="btn-traduccion" [class]="endDateEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Fecha de Cese','', endDate, endDateEng, 'fechaCese')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Ingreso Bruto Mensual en US$</mat-label>
-          <input matInput>
+          <input matInput [(ngModel)]="monthlyIncome">
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Ingreso Bruto Anual en US$</mat-label>
-          <input matInput>
+          <input matInput [(ngModel)]="annualIncome">
+          <button class="btn-traduccion" [class]="annualIncomeEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Ingreso Anual','', annualIncome, annualIncomeEng, 'ingreso')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Detalle del Centro de Trabajo, Fecha Establecida, SF, RC, etc.</mat-label>
-          <textarea matInput  style="min-height: 10rem;"></textarea>
+          <textarea matInput [(ngModel)]="jobDetails" style="min-height: 10rem;"></textarea>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field class="w-100">
           <mat-label>Line of Bussiness, Date of Incorporation, FS, CR, etc.</mat-label>
-          <textarea matInput  style="min-height: 10rem;"></textarea>
+          <textarea matInput [(ngModel)]="jobDetailsEng" style="min-height: 10rem;"></textarea>
         </mat-form-field>
       </div>
     </div>

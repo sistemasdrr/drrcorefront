@@ -10,8 +10,10 @@ import { MatSelectChange } from '@angular/material/select';
 import { ComboData, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { DatosGeneralesService } from 'app/services/informes/persona/datos-generales.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Persona } from 'app/models/informes/persona/datos-generales';
+import Swal from 'sweetalert2';
+import { SeleccionarCalidadComponent } from 'app/views/informe/info-empresa/ie-detalle/e-datos-empresa/seleccionar-calidad/seleccionar-calidad.component';
 
 @Component({
   selector: 'app-p-datos-persona',
@@ -89,7 +91,7 @@ export class PDatosPersonaComponent implements OnInit{
   motherName = ""
   email = ""
   cellphone = ""
-  idProfession = 0
+  profession = ""
   professionEng = ""
   clubMember = ""
   insurance = ""
@@ -121,6 +123,7 @@ export class PDatosPersonaComponent implements OnInit{
     valor: ''
   }
   idPersonSituation = 0
+  quality = ""
 
   //MSG
 
@@ -135,7 +138,7 @@ export class PDatosPersonaComponent implements OnInit{
   modeloModificado : Persona[] = []
 
 constructor(private dialog : MatDialog, private comboService : ComboService,
-  private personaService : DatosGeneralesService,private activatedRoute: ActivatedRoute) {
+  private personaService : DatosGeneralesService,private activatedRoute: ActivatedRoute, private router : Router) {
   this.filterSituacionRuc = new Observable<ComboData[]>()
   this.filterPais = new Observable<Pais[]>()
 
@@ -239,7 +242,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
                   this.motherName = persona.motherName
                   this.email = persona.email
                   this.cellphone = persona.cellphone
-                  this.idProfession = persona.idProfession
+                  this.profession = persona.profession
                   this.professionEng
                   this.clubMember = persona.clubMember
                   this.insurance = persona.insurance
@@ -253,6 +256,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
                   this.idPaymentPolicy = persona.idPaymentPolicy
                   this.idReputation = persona.idReputation
                   this.idPersonSituation = persona.idPersonSituation
+                  this.quality = persona.quality
                   if(persona.traductions !== null && persona.traductions.length > 0){
                     this.nationalityEng = persona.traductions[0].value
                     this.birthPlaceEng = persona.traductions[1].value
@@ -282,11 +286,27 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
             }
           ).add(
             () => {
-              this.situacionRucInforme = this.situacionRuc.filter(x => x.id === this.idLegalRegisterSituation)[0]
-              this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
-              this.riesgoCrediticioSeleccionado = this.calificacionCrediticia.filter(x => x.id === this.idCreditRisk)[0]
-              this.politicaPagoSeleccionada = this.politicaPagos.filter(x => x.id === this.idPaymentPolicy)[0]
-              this.reputacionSeleccionada = this.reputaciones.filter(x => x.id === this.idReputation)[0]
+              if(this.idLegalRegisterSituation !== 0){
+                this.situacionRucInforme = this.situacionRuc.filter(x => x.id === this.idLegalRegisterSituation)[0]
+              }
+              if(this.idCountry !== 0){
+                this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
+              }
+              if(this.idCreditRisk !== 0){
+                this.riesgoCrediticioSeleccionado = this.calificacionCrediticia.filter(x => x.id === this.idCreditRisk)[0]
+                this.gaugeRiesgoCrediticio = this.riesgoCrediticioSeleccionado.rate
+                this.descripcionRiesgoCrediticio = this.riesgoCrediticioSeleccionado.abreviation
+                this.colorRiesgoCrediticio = this.riesgoCrediticioSeleccionado.color
+                this.calificacionRiesgoCrediticio = this.riesgoCrediticioSeleccionado.identifier
+              }
+              if(this.idPaymentPolicy !== 0){
+                this.politicaPagoSeleccionada = this.politicaPagos.filter(x => x.id === this.idPaymentPolicy)[0]
+                this.colorPoliticaPagos = this.politicaPagoSeleccionada.color
+              }
+              if(this.idReputation !== 0){
+                this.reputacionSeleccionada = this.reputaciones.filter(x => x.id === this.idReputation)[0]
+                this.colorReputacion = this.reputacionSeleccionada.color
+              }
             }
           )
         }
@@ -340,7 +360,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
       motherName : this.motherName,
       email : this.email,
       cellphone : this.cellphone,
-      idProfession : this.idProfession,
+      profession : this.profession,
       clubMember : this.clubMember,
       insurance : this.insurance,
       newsCommentary : this.newsCommentary,
@@ -351,6 +371,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
       idPaymentPolicy : this.idPaymentPolicy,
       idReputation : this.idReputation,
       idPersonSituation : this.idPersonSituation,
+      quality : this.quality,
       traductions : [
         {
           key : "S_P_NACIONALITY",
@@ -410,7 +431,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
       motherName : this.motherName,
       email : this.email,
       cellphone : this.cellphone,
-      idProfession : this.idProfession,
+      profession : this.profession,
       clubMember : this.clubMember,
       insurance : this.insurance,
       newsCommentary : this.newsCommentary,
@@ -421,6 +442,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
       idPaymentPolicy : this.idPaymentPolicy,
       idReputation : this.idReputation,
       idPersonSituation : this.idPersonSituation,
+      quality : this.quality,
       traductions : [
         {
           key : "S_P_NACIONALITY",
@@ -559,10 +581,6 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
     this.idCountry = 0
     this.iconoSeleccionado = ""
   }
-  guardar(){
-    this.armarModeloModificado()
-    console.log(this.modeloModificado[0])
-  }
   selectIdioma(idioma: string) {
     this.language = idioma;
   }
@@ -575,6 +593,41 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
       tipo : 'textarea',
       comentario_es : comentario_es,
       comentario_en : comentario_en
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        switch(input){
+          case 'reputacion':
+            this.reputationCommentary = data.comentario_es
+            this.reputationCommentaryEng = data.comentario_en
+            break
+          case 'prensa':
+            this.newsCommentary = data.comentario_es
+            this.newsCommentaryEng = data.comentario_en
+            break
+        }
+      }
+    });
+  }
+  seleccionarCalidad() {
+    const dialogRef = this.dialog.open(SeleccionarCalidadComponent, {
+    })
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.quality = data.calidad
+      }
+    });
+  }
+  agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        tipo : 'input',
+        comentario_es : comentario_es,
+        comentario_en : comentario_en
       },
     });
     dialogRef.afterClosed().subscribe((data) => {
@@ -594,59 +647,138 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
             this.relationshipWithEng = data.comentario_en;
           break
           case 'profesion':
-            // this.profession = data.comentario_es;
-            // this.profesionEng = data.comentario_en;
+            this.profession = data.comentario_es;
+            this.professionEng = data.comentario_en;
           break
+
         }
       }
     });
   }
-  agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
-    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
-      data: {
-        titulo : titulo,
-        subtitulo : subtitulo,
-        tipo : 'input',
-        comentario_es : comentario_es,
-        comentario_en : comentario_en
-      },
-    });
-    // dialogRef.afterClosed().subscribe((data) => {
-    //   if (data) {
-    //     console.log(data)
-    //     switch(input){
-    //       case 'duracion':
-    //         this.operationDuration = data.comentario_es
-    //         this.operationDurationEng = data.comentario_en
-    //       break
-    //       case 'registradaEn':
-    //         this.registerPlace = data.comentario_es
-    //         this.registerPlaceEng = data.comentario_en
-    //       break
-    //       case 'registrosPublicos':
-    //       this.publicRegister = data.comentario_es
-    //       this.publicRegisterEng = data.comentario_en
-    //       break
-    //       case 'fechaAumento':
-    //       this.increaceDateCapital = data.comentario_es
-    //       this.increaceDateCapitalEng = data.comentario_en
-    //       break
-    //       case 'actualTC':
-    //       this.currentExchangeRate = data.comentario_es
-    //       this.currentExchangeRateEng = data.comentario_en
-    //       break
-    //     }
-    //   }
-    // });
-  }
-
   //GAUGE
   gaugeRiesgoCrediticio = 0
 
-  colorRiesgoCrediticio : string = "white"
-  colorPoliticaPagos : string = "white"
+  colorRiesgoCrediticio = "white"
+  colorPoliticaPagos = "white"
 
   calificacionRiesgoCrediticio = ""
   descripcionRiesgoCrediticio = ""
   colorReputacion = "white"
+  guardar(){
+    if(this.id === 0){
+      this.armarModeloNuevo()
+      console.log(this.modeloModificado[0])
+      Swal.fire({
+        title: '¿Está seguro de guardar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+          if(loader){
+            loader.classList.remove('hide-loader');
+          }
+          this.personaService.addPerson(this.modeloNuevo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.armarModeloNuevo()
+                  this.armarModeloModificado()
+                })
+                this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(loader){
+                loader.classList.add('hide-loader');
+              }
+            }
+          )
+        }
+      });
+    }else{
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+          if(loader){
+            loader.classList.remove('hide-loader');
+          }
+          this.personaService.addPerson(this.modeloModificado[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se guardo correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.armarModeloNuevo()
+                  this.armarModeloModificado()
+                })
+                this.id = response.data
+              }
+            }
+          ).add(
+            () => {
+              if(loader){
+                loader.classList.add('hide-loader');
+              }
+            }
+          )
+        }
+      });
+    }
+  }
+  salir(){
+    this.armarModeloModificado();
+
+    if(JSON.stringify(this.modeloNuevo) !== JSON.stringify(this.modeloModificado)){
+      Swal.fire({
+        title: '¿Está seguro de salir sin guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText : 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '20rem',
+        heightAuto : true
+      }).then((result) => {
+        if (result.value) {
+          this.router.navigate(['informes/persona/lista']);
+        }
+      });
+    }else{
+      this.router.navigate(['informes/persona/lista']);
+    }
+  }
 }

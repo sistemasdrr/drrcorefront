@@ -52,8 +52,6 @@ export class ImagenesComponent implements OnInit{
 
   tituloSeleccion : string = ""
 
-
-
   constructor( private activatedRoute: ActivatedRoute, private imagenesService : ImagenesService) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
@@ -322,15 +320,15 @@ export class ImagenesComponent implements OnInit{
     }else if(card == 2){
       this.img2 = ""
       this.imgDesc2 = ""
-      this.imgDescEng1 = ""
+      this.imgDescEng2 = ""
     }else if(card == 3){
       this.img3 = ""
       this.imgDesc3 = ""
-      this.imgDescEng1 = ""
+      this.imgDescEng3 = ""
     }else if(card == 4){
       this.img4 = ""
       this.imgDesc4 = ""
-      this.imgDescEng1 = ""
+      this.imgDescEng4 = ""
     }
   }
   subirImagen(num: number) {

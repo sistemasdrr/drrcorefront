@@ -4,7 +4,7 @@
         <div class="w-100 d-flex justify-content-between align-items-center">
           <h4>Datos Comerciales</h4>
           <div>
-            <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Volver">
+            <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;" (click)="salir()" #tooltip="matTooltip" matTooltip="Volver">
               <mat-icon class="col-white">arrow_back</mat-icon>
             </button>
             <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
@@ -13,82 +13,123 @@
           </div>
         </div>
         <hr>
-        <div class="col-md-3">
-          <mat-form-field color="primary" style="width: 100%;" >
-            <mat-label >Informe Investigado el</mat-label>
-            <input matInput [matDatepicker]="fecha__investigado_informe" #fechaInput [(ngModel)]="lastSearchedD" [readonly]="true" (dateChange)="selectFechaInforme($event)">
-            <mat-datepicker-toggle matIconSuffix [for]="fecha__investigado_informe"></mat-datepicker-toggle>
-            <mat-datepicker #fecha__investigado_informe color="primary"></mat-datepicker>
-          </mat-form-field>
+        <div class="row m-0 p-0">
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Informe Investigado el</mat-label>
+                  <input matInput [matDatepicker]="fecha__investigado_informe" #fechaInput [(ngModel)]="lastSearchedD" [readonly]="true" (dateChange)="selectFechaInforme($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha__investigado_informe"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha__investigado_informe color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 d-flex justify-content-center">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Idioma</mat-label>
+                  <mat-select [(ngModel)]="language" (selectionChange)="selectIdioma($event.value)">
+                    <mat-option [value]="'E'">
+                      <span class="fi fi-es"></span>
+                      ESPAÑOL
+                    </mat-option>
+                    <mat-option [value]="'I'">
+                      <span class="fi fi-us"></span>
+                      INGLÉS
+                    </mat-option>
+                    <mat-option [value]="'A'">
+                      <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
+                      ESPAÑOL - INGLÉS
+                    </mat-option>
+                  </mat-select>
+                  <button class="btn-traduccion" matSuffix mat-icon-button>
+                    <span class="fi fi-es" *ngIf="language === 'E'"></span>
+                    <span class="fi fi-us" *ngIf="language  === 'I'"></span>
+                    <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="language === 'A'"></span>
+                  </button>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 d-flex justify-content-center">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Situación</mat-label>
+                  <mat-select [(ngModel)]="idPersonSituation">
+                    <mat-option *ngFor="let item of situacionPersona" [value]="item.id">
+                      {{item.valor}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-8">
+                <mat-form-field class="w-100">
+                  <mat-label>Apellidos y Nombres</mat-label>
+                  <input matInput placeholder="" [(ngModel)]="fullname">
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="w-100">
+                  <mat-label>Nacionalidad</mat-label>
+                  <input matInput placeholder="" [(ngModel)]="nationality">
+                  <button class="btn-traduccion" [class]="nationalityEng === '' || nationalityEng === null ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Nacionalidad','', nationality, nationalityEng, 'nacionalidad')">
+                    <span class="fi fi-us" style="font-size: 24px;"></span>
+                  </button>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field color="primary" style="width: 100%;" >
+                  <mat-label >Nacido el</mat-label>
+                  <input matInput [matDatepicker]="fecha_nacimiento" #fechaInput [(ngModel)]="birthDateD" [readonly]="true" (dateChange)="selectFechaNacimiento($event)">
+                  <mat-datepicker-toggle matIconSuffix [for]="fecha_nacimiento"></mat-datepicker-toggle>
+                  <mat-datepicker #fecha_nacimiento color="primary"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-8">
+                <mat-form-field class="w-100">
+                  <mat-label>En</mat-label>
+                  <input matInput placeholder="" [(ngModel)]="birthPlace">
+                  <button class="btn-traduccion" [class]="birthPlaceEng === '' || birthPlaceEng === null ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Lugar de Nacimiento','', birthPlace,birthPlaceEng, 'nacimiento')">
+                    <span class="fi fi-us" style="font-size: 24px;"></span>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row m-0 p-0">
+              <div class="col-md-12">
+                <mat-card class="w-100">
+                  <img mat-card-image>
+                  <mat-card-content style="height: 10rem; border-radius: 10px 10px 0 0;" [ngClass]="quality === 'A' ? 'bg-green' : quality === 'B' ? 'bg-blue' : quality === 'C' ? 'bg-orange' : quality === 'D' ? 'bg-red' : ''">
+                    <div class="row h-100">
+                      <div class="col-md-12 h-100">
+                        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                          <p style="font-size: 60px;">{{quality}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                  <mat-divider></mat-divider>
+                  <mat-card-actions class="w-100" style="display: unset;">
+                    <div fxLayout="row">
+                      <div class="w-100 d-flex justify-content-between align-items-center">
+                        <h6 style="margin-top: .5rem;">Calidad del Informe</h6>
+                        <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCalidad()"  #tooltip="matTooltip" matTooltip="Seleccionar">
+                          <mat-icon class="col-white">task_alt</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-3 d-flex justify-content-center">
-          <mat-form-field style="width: 100%;">
-            <mat-label>Idioma</mat-label>
-            <mat-select [(ngModel)]="language" (selectionChange)="selectIdioma($event.value)">
-              <mat-option [value]="'E'">
-                <span class="fi fi-es"></span>
-                ESPAÑOL
-              </mat-option>
-              <mat-option [value]="'I'">
-                <span class="fi fi-us"></span>
-                INGLÉS
-              </mat-option>
-              <mat-option [value]="'A'">
-                <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
-                ESPAÑOL - INGLÉS
-              </mat-option>
-            </mat-select>
-            <button class="btn-traduccion" matSuffix mat-icon-button>
-              <span class="fi fi-es" *ngIf="language === 'E'"></span>
-              <span class="fi fi-us" *ngIf="language  === 'I'"></span>
-              <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="language === 'A'"></span>
-            </button>
-          </mat-form-field>
-        </div>
-        <div class="col-md-3 d-flex justify-content-center">
-          <mat-form-field style="width: 100%;">
-            <mat-label>Situación</mat-label>
-            <mat-select [(ngModel)]="idPersonSituation">
-              <mat-option *ngFor="let item of situacionPersona" [value]="item.id">
-                {{item.valor}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-md-3">
+        <!--div class="col-md-3">
           <mat-form-field color="primary" style="width: 100%;" >
             <mat-label >Fecha</mat-label>
             <input matInput [matDatepicker]="fecha_informe" #fechaInput  [readonly]="true" (dateChange)="selectFechaInforme($event)">
             <mat-datepicker-toggle matIconSuffix [for]="fecha_informe"></mat-datepicker-toggle>
             <mat-datepicker #fecha_informe color="primary"></mat-datepicker>
           </mat-form-field>
-        </div>
-        <div class="col-md-8">
-          <mat-form-field class="w-100">
-            <mat-label>Apellidos y Nombres</mat-label>
-            <input matInput placeholder="" [(ngModel)]="fullname">
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-          <mat-form-field class="w-100">
-            <mat-label>Nacionalidad</mat-label>
-            <input matInput placeholder="" [(ngModel)]="nationality">
-          </mat-form-field>
-        </div>
-        <div class="col-md-4">
-          <mat-form-field color="primary" style="width: 100%;" >
-            <mat-label >Nacido el</mat-label>
-            <input matInput [matDatepicker]="fecha_nacimiento" #fechaInput [(ngModel)]="birthDateD" [readonly]="true" (dateChange)="selectFechaNacimiento($event)">
-            <mat-datepicker-toggle matIconSuffix [for]="fecha_nacimiento"></mat-datepicker-toggle>
-            <mat-datepicker #fecha_nacimiento color="primary"></mat-datepicker>
-          </mat-form-field>
-        </div>
-        <div class="col-md-8">
-          <mat-form-field class="w-100">
-            <mat-label>En</mat-label>
-            <input matInput placeholder="" [(ngModel)]="birthPlace">
-          </mat-form-field>
-        </div>
+        </!--div-->
         <div class="col-md-4 d-flex">
           <mat-form-field class="">
             <mat-label>Tipo de Doc.</mat-label>
@@ -212,6 +253,9 @@
           <mat-form-field class="w-100">
             <mat-label>Con</mat-label>
             <input matInput placeholder  [(ngModel)]="relationshipWith">
+            <button class="btn-traduccion" [class]="relationshipWithEng === '' || relationshipWithEng === null ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Relación Con','', relationshipWith,relationshipWithEng, 'relacion')">
+              <span class="fi fi-us" style="font-size: 24px;"></span>
+            </button>
           </mat-form-field>
         </div>
         <div class="col-md-6">
@@ -243,11 +287,14 @@
         <div class="col-md-4">
           <mat-form-field class="w-100">
             <mat-label>Profesión</mat-label>
-            <mat-select [(ngModel)]="idProfession" placeholder="">
-                <mat-option [value]="item.id" *ngFor="let item of profesion">
+            <mat-select [(ngModel)]="profession" placeholder="">
+                <mat-option [value]="item.valor" *ngFor="let item of profesion">
                   {{item.valor}}
                 </mat-option>
             </mat-select>
+            <button class="btn-traduccion" [class]="professionEng === '' || professionEng === null ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Traducción de Profesión','', profession,professionEng, 'profesion')">
+              <span class="fi fi-us" style="font-size: 24px;"></span>
+            </button>
           </mat-form-field>
         </div>
         <div class="col-md-4">
@@ -347,7 +394,7 @@
             <mat-label>Comentario de Reputación</mat-label>
             <textarea matInput type="text" [(ngModel)]="reputationCommentary" style="min-height: 8rem;"></textarea>
             <mat-hint *ngIf="idReputation >= 8" class="col-red"><i class="fa-solid fa-circle-exclamation" *ngIf="colorMsgPais === 'red'"></i>&nbsp;Explicar mala reputación</mat-hint>
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioPrensa,'', 'español','ingles','')">
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="reputationCommentaryEng === '' || reputationCommentaryEng === null ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioPrensa,'', reputationCommentary, reputationCommentaryEng,'reputacion')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
           </mat-form-field>
@@ -356,18 +403,16 @@
           <mat-form-field class="w-100 mt-2">
             <mat-label>Comentarios Diversos / Prensa</mat-label>
             <textarea matInput type="text" [(ngModel)]="newsCommentary" style="min-height: 8rem;"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioPrensa,'', 'español','ingles','')">
+            <button class="btn-traduccion" matSuffix mat-icon-button [class]="newsCommentaryEng === '' || newsCommentaryEng === null ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioPrensa,'', newsCommentary,newsCommentaryEng,'prensa')">
               <span class="fi fi-us" style="font-size: 24px;"></span>
             </button>
           </mat-form-field>
+          <mat-slide-toggle [(ngModel)]="printNewsCommentary" class="mb-3" (click)="!printNewsCommentary" style="margin-left: 1rem;">¿Imprimir Comentario de Prensa? <div *ngIf="printNewsCommentary === true">SÍ</div><div *ngIf="printNewsCommentary === false">NO</div></mat-slide-toggle>
         </div>
         <div class="col-md-6">
           <mat-form-field class="w-100 mt-2">
             <mat-label>Comentario Privado (No se Imprime)</mat-label>
             <textarea matInput type="text" [(ngModel)]="privateCommentary" style="min-height: 8rem;"></textarea>
-            <button class="btn-traduccion" matSuffix mat-icon-button (click)="agregarComentario(tituloComentarioPrensa,'', 'español','ingles','')">
-              <span class="fi fi-us" style="font-size: 24px;"></span>
-            </button>
           </mat-form-field>
         </div>
       </div>

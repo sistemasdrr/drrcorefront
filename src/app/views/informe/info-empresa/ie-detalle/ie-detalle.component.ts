@@ -17,7 +17,7 @@ export class IEDetalleComponent implements OnInit {
   usr = 'Julio del Risco Lizarzaburu'
   breadscrums = [
     {
-      title: '',
+      title: 'Nuevo',
       subtitle: '',
       codigoInforme : '',
       usuario : 'Julio del Risco Lizarzaburu',
@@ -34,12 +34,9 @@ export class IEDetalleComponent implements OnInit {
 
   loading: boolean = true;
   id = 0
-  
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router : Router,
-    private datosEmpresaService : DatosEmpresaService){
-      const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+  constructor(private activatedRoute: ActivatedRoute,private router : Router, private datosEmpresaService : DatosEmpresaService){
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
       this.id = 0
     } else {

@@ -31,7 +31,7 @@ export interface Persona
   motherName : string
   email : string
   cellphone : string
-  idProfession : number
+  profession : string
   clubMember : string
   insurance : string
   newsCommentary : string
@@ -42,6 +42,7 @@ export interface Persona
   idPaymentPolicy : number
   idReputation : number
   idPersonSituation : number
+  quality : string
   traductions : Traduction[]
 }
 
@@ -64,4 +65,5 @@ export interface TPersona
   creditRisk : string
   onWeb : boolean
   enable : boolean
+  quality : string
 }
