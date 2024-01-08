@@ -135,7 +135,7 @@
               <div class="d-flex justify-content-between w-100">
                 <h5>Morosidad Comercial</h5>
                 <div class="">
-                  <button mat-mini-fab class="bg-cyan" #tooltip="matTooltip" matTooltip="Guardar">
+                  <button mat-mini-fab class="bg-cyan" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
                     <mat-icon class="col-white">save</mat-icon>
                   </button>
                 </div>
@@ -433,7 +433,7 @@
               <div class="d-flex justify-content-between w-100">
                 <h5>Litigios (Notificaciones, Demandas, Juicios, Fiscalía, Deudas Coactivas, Omisiones Tributarias, etc.)</h5>
                 <div class="">
-                  <button mat-mini-fab class="bg-cyan m-0" #tooltip="matTooltip" matTooltip="Guardar">
+                  <button mat-mini-fab class="bg-cyan m-0" (click)="guardar()" #tooltip="matTooltip" matTooltip="Guardar">
                     <mat-icon class="col-white">save</mat-icon>
                   </button>
                 </div>

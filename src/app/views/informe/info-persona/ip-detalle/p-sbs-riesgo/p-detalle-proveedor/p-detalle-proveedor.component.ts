@@ -1,3 +1,4 @@
+import { PersonSbsService } from 'app/services/informes/persona/person-sbs.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -7,8 +8,6 @@ import { ComboData } from 'app/models/combo';
 import { Proveedor } from 'app/models/informes/empresa/sbs-riesgo';
 import { Pais } from 'app/models/pais';
 import { ComboService } from 'app/services/combo.service';
-import { SbsRiesgoService } from 'app/services/informes/empresa/sbs-riesgo.service';
-import { ProveedorService } from 'app/services/informes/proveedor.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -61,9 +60,9 @@ export class PDetalleProveedorComponent implements OnInit{
     bandera: ''
   }
   iconoSeleccionado = ""
-
   constructor(private comboService : ComboService, public dialogRef: MatDialogRef<PDetalleProveedorComponent>, private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any, private sbsService : SbsRiesgoService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private PersonSbsService : PersonSbsService
+  ) {
 
     this.filterPais = new Observable<Pais[]>()
     if (data.accion == "AGREGAR") {
@@ -97,7 +96,7 @@ export class PDetalleProveedorComponent implements OnInit{
         ).add(
           () => {
             if(this.id !== 0){
-              this.sbsService.getProviderById(this.id).subscribe(
+              this.PersonSbsService.getProviderById(this.id).subscribe(
                 (response) => {
                   if(response.isSuccess === true && response.isWarning === false){
                     const proveedor = response.data
@@ -155,7 +154,6 @@ export class PDetalleProveedorComponent implements OnInit{
       }),
     )
   }
-
   selectFecha(event: MatDatepickerInputEvent<Date>) {
     this.dateD = event.value!
     const selectedDate = event.value;
@@ -196,6 +194,7 @@ export class PDetalleProveedorComponent implements OnInit{
       qualificationEng : this.qualificationEng
     }
   }
+
   agregarTraduccion(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
       disableClose: true,
@@ -302,7 +301,7 @@ export class PDetalleProveedorComponent implements OnInit{
         heightAuto: true
       }).then((result) => {
         if (result.value) {
-          this.sbsService.addProvider(this.modelo[0]).subscribe(
+          this.PersonSbsService.addProvider(this.modelo[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
                 Swal.fire({
@@ -333,7 +332,7 @@ export class PDetalleProveedorComponent implements OnInit{
         heightAuto: true
       }).then((result) => {
         if (result.value) {
-          this.sbsService.addProvider(this.modelo[0]).subscribe(
+          this.PersonSbsService.addProvider(this.modelo[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
                 Swal.fire({

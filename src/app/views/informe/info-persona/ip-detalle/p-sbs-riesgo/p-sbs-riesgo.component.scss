@@ -22,3 +22,17 @@ mat-form-field{
     border-bottom: 3px solid rgb(200, 233, 200);
   }
 }
+
+:host ::ng-deep .mat-mdc-tab-labels {
+  flex-direction: unset !important;
+}
+:host ::ng-deep .mat-mdc-tab-group {
+  flex-direction: column !important;
+}
+.btn-traduccion{
+  background-color: rgba(0,0,0,0);
+  border: 0px solid white;
+}
+.sin-traduccion{
+  filter: contrast(.3);
+}

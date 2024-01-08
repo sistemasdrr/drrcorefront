@@ -1,8 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MorosidadComercial } from 'app/models/informes/morosidad-comercial';
-import { MorosidadComercialService } from 'app/services/informes/morosidad-comercial.service';
+import { MorosidadComercial } from 'app/models/informes/empresa/sbs-riesgo';
+import { PersonSbsService } from 'app/services/informes/persona/person-sbs.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,52 +10,93 @@ import Swal from 'sweetalert2';
   templateUrl: './p-morosidad-comercial.component.html',
   styleUrls: ['./p-morosidad-comercial.component.scss']
 })
-export class PMorosidadComercialComponent {
+export class PMorosidadComercialComponent implements OnInit{
   accion = ""
   titulo = ""
+
   id = 0
+  idCompany = 0
+  idPerson = 0
+  creditorOrSupplier = ""
+  documentType = ""
+  documentTypeEng = ""
+  date = ""
+  dateD : Date | null = null
+  amountNc = 0
+  amountFc = 0
+  pendingPaymentDate = ""
+  pendingPaymentDateD : Date | null = null
+  daysLate = 0
 
-  acreProv = ""
-  tipoDoc = ""
-  fecha = ""
-  montoMN = ""
-  montoME = ""
-  fechaPago = ""
-  diasAtraso = ""
+  modelo : MorosidadComercial[] = []
 
-  fechaSeleccionada : Date = new Date()
-  fechaPagoSeleccionada : Date = new Date()
-  constructor(
-    public dialogRef: MatDialogRef<PMorosidadComercialComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private morosidadComercialService : MorosidadComercialService
-  ){
+  constructor(private personSbsService : PersonSbsService, public dialogRef: MatDialogRef<PMorosidadComercialComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any){
     if(data.accion == "AGREGAR"){
       this.accion = data.accion
       this.titulo = "Agregar Morosidad Comercial"
-      this.id = data.id
+      this.id = 0
+      this.idPerson = data.idPerson
     }else if(data.accion == "EDITAR"){
       this.accion = data.accion
       this.titulo = "Editar Morosidad Comercial"
       this.id = data.id
-      const morCom : MorosidadComercial = this.morosidadComercialService.GetMorosidadComercialById(data.id)
-      this.id = morCom.id
-      this.acreProv = morCom.acreProv
-      this.tipoDoc = morCom.tipoDocumento
-      this.fecha = morCom.fecha
-      const fecha = this.fecha.split("/");
-      console.log(fecha)
-      this.fechaSeleccionada = new Date(parseInt(fecha[2]), parseInt(fecha[1])-1,parseInt(fecha[0]))
-      this.montoMN = morCom.montoMN
-      this.montoME = morCom.montoME
-      this.fechaPago = morCom.fechaPago
-      const fechaPago = this.fechaPago.split("/");
-      console.log(fechaPago)
-      this.fechaPagoSeleccionada = new Date(parseInt(fechaPago[2]), parseInt(fechaPago[1])-1,parseInt(fechaPago[0]))
-      this.diasAtraso = morCom.diasAtraso
+      this.idPerson = data.idPerson
     }
   }
-
+  ngOnInit(): void {
+    if(this.id !== 0 ){
+      this.personSbsService.getLatePaymentById(this.id).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const morosidad = response.data
+            if(morosidad){
+              this.creditorOrSupplier = morosidad.creditorOrSupplier
+              this.documentType = morosidad.documentType
+              this.documentTypeEng = morosidad.documentTypeEng
+              this.creditorOrSupplier = morosidad.creditorOrSupplier
+              this.amountNc = morosidad.amountNc
+              this.amountFc = morosidad.amountFc
+              this.daysLate = morosidad.daysLate
+              if(morosidad.date !== null && morosidad.date !== ''){
+                const fecha = morosidad.date.split("/")
+                if(fecha.length > 0){
+                  this.dateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                  this.date = morosidad.date
+                }else{
+                  this.dateD = null
+                }
+              }
+              if(morosidad.pendingPaymentDate !== null && morosidad.pendingPaymentDate !== ''){
+                const fecha = morosidad.pendingPaymentDate.split("/")
+                if(fecha.length > 0){
+                  this.pendingPaymentDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                  this.pendingPaymentDate = morosidad.pendingPaymentDate
+                }else{
+                  this.pendingPaymentDateD = null
+                }
+              }
+            }
+          }
+        }
+      )
+    }
+  }
+  armarModelo(){
+    this.modelo[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      idPerson : this.idPerson,
+      creditorOrSupplier : this.creditorOrSupplier,
+      documentType : this.documentType,
+      documentTypeEng : this.documentTypeEng,
+      date : this.date,
+      amountNc : this.amountNc,
+      amountFc : this.amountFc,
+      pendingPaymentDate : this.pendingPaymentDate,
+      daysLate : this.daysLate
+    }
+  }
 
   volver(){
     Swal.fire({
@@ -67,7 +108,7 @@ export class PMorosidadComercialComponent {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí',
-      width: '20rem',
+      width: '30rem',
       heightAuto : true
     }).then((result) => {
       if (result.value) {
@@ -75,80 +116,86 @@ export class PMorosidadComercialComponent {
       }
     })
   }
-  agregar(){
-    const obj : MorosidadComercial = {
-      id : 0,
-      acreProv : this.acreProv,
-      tipoDocumento : this.tipoDoc,
-      fecha : this.fecha,
-      montoMN : this.montoMN,
-      montoME : this.montoME,
-      fechaPago : this.fechaPago,
-      diasAtraso : this.diasAtraso
-    }
-    this.morosidadComercialService.AddMorosidadComercial(obj)
-    Swal.fire({
-      title :'¡Registrado!',
-      text : 'El registro se guardo correctamente.',
-      icon : 'success',
-      width: '20rem',
-      heightAuto : true
-    }).then((result) => {
-      if (result.value) {
-        this.dialogRef.close()
-      }
-    })
-  }
-  editar(){
-    Swal.fire({
-      title: '¿Está seguro de editar este registro?',
-      text: "",
-      icon: 'info',
-      showCancelButton: true,
-      cancelButtonText : 'No',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí',
-      width: '20rem',
-      heightAuto : true
-    }).then((result) => {
-      if (result.value) {
-        const obj : MorosidadComercial = {
-          id : this.id,
-          acreProv : this.acreProv,
-          tipoDocumento : this.tipoDoc,
-          fecha : this.fecha,
-          montoMN : this.montoMN,
-          montoME : this.montoME,
-          fechaPago : this.fechaPago,
-          diasAtraso : this.diasAtraso
+  guardar(){
+    this.armarModelo()
+    console.log(this.modelo[0])
+    if(this.id === 0){
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          this.personSbsService.addLatePayment(this.modelo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se agregó correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.dialogRef.close()
+                })
+              }
+            }
+          )
         }
-        this.morosidadComercialService.UpdateMorosidadComercial(obj)
-        Swal.fire({
-          title :'¡Actualizado!',
-          text : 'El registro se edito correctamente.',
-          icon : 'success',
-          width: '20rem',
-          heightAuto : true
-        }).then((result) => {
-          if (result.value) {
-            this.dialogRef.close()
-          }
-        })
-      }
-    })
+      })
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          this.personSbsService.addLatePayment(this.modelo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se modificó correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.dialogRef.close()
+                })
+              }
+            }
+          )
+        }
+      })
+    }
   }
 
-  onDateChange1(event: MatDatepickerInputEvent<Date>) {
+  selectFecha1(event: MatDatepickerInputEvent<Date>) {
+    this.dateD = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
-      this.fecha = this.formatDate(selectedDate)
+      this.date = this.formatDate(selectedDate);
     }
   }
-  onDateChange2(event: MatDatepickerInputEvent<Date>) {
+  selectFecha2(event: MatDatepickerInputEvent<Date>) {
+    this.pendingPaymentDateD = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
-      this.fechaPago = this.formatDate(selectedDate)
+      this.pendingPaymentDate = this.formatDate(selectedDate);
     }
   }
 

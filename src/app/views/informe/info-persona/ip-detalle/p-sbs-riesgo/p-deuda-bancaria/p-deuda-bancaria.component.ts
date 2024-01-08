@@ -1,7 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DeudaBancaria } from 'app/models/informes/deuda-bancaria';
-import { DeudaBancariaService } from 'app/services/informes/deuda-bancaria.service';
+import { DeudaBancaria } from 'app/models/informes/empresa/sbs-riesgo';
+import { PersonSbsService } from 'app/services/informes/persona/person-sbs.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,40 +10,161 @@ import Swal from 'sweetalert2';
   templateUrl: './p-deuda-bancaria.component.html',
   styleUrls: ['./p-deuda-bancaria.component.scss']
 })
-export class PDeudaBancariaComponent {
+export class PDeudaBancariaComponent implements OnInit {
+
   accion = ""
   titulo = ""
+
   id = 0
-
-  banco = ""
-  calificacion = ""
-  deudaMN = ""
-  deudaME = ""
+  idCompany = 0
+  idPerson = 0
+  bankName = ""
+  qualification = ""
+  debtDate = ""
+  debtDateD : Date | null = null
+  debtNc = 0
+  debtFc = 0
   memo = ""
-  memoIng = ""
+  memoEng = ""
 
-  constructor(
-    public dialogRef: MatDialogRef<PDeudaBancariaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private deudaBancariaService : DeudaBancariaService
+  modelo : DeudaBancaria[] = []
+
+  constructor(public dialogRef: MatDialogRef<PDeudaBancariaComponent>,@Inject(MAT_DIALOG_DATA) public data: any,
+    private personSbsService : PersonSbsService
   ){
     if(data.accion == "AGREGAR"){
       this.accion = data.accion
       this.titulo = "Agregar Deuda Bancaria"
       this.id = data.id
+      this.idPerson= data.idPerson
     }else if(data.accion == "EDITAR"){
       this.titulo = "Editar Deuda Bancaria"
-      const deuBanc : DeudaBancaria = this.deudaBancariaService.getDeudaBancariaById(data.id)
-      this.id = deuBanc.id
-      this.banco = deuBanc.banco
-      this.calificacion = deuBanc.calificacion
-      this.deudaMN = deuBanc.deudaMN
-      this.deudaME = deuBanc.deudaME
-      this.memo = deuBanc.memo
-      this.memoIng = deuBanc.memoIng
+      this.id = data.id
+      this.idPerson= data.idPerson
+    }
+  }
+  ngOnInit(): void {
+    if(this.id !== 0){
+      this.personSbsService.getBankDebtById(this.id).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const deudaBancaria = response.data
+            if(deudaBancaria){
+              this.bankName = deudaBancaria.bankName
+              this.qualification = deudaBancaria.qualification
+              this.debtNc = deudaBancaria.debtNc
+              this.debtFc = deudaBancaria.debtFc
+              this.memo = deudaBancaria.memo
+              this.memoEng = deudaBancaria.memoEng
+              if(deudaBancaria.debtDate !== null && deudaBancaria.debtDate !== ''){
+                const fecha = deudaBancaria.debtDate.split("/")
+                if(fecha.length > 0){
+                  this.debtDate = deudaBancaria.debtDate
+                  this.debtDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                }
+              }
+            }
+          }
+        }
+      )
+    }
+  }
+  armarModelo(){
+    this.modelo[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      idPerson : this.idPerson,
+      bankName : this.bankName,
+      qualification : this.qualification,
+      debtDate : this.debtDate,
+      debtNc : this.debtNc,
+      debtFc : this.debtFc,
+      memo : this.memo,
+      memoEng : this.memoEng
+    }
+  }
+  selectFecha1(event: MatDatepickerInputEvent<Date>) {
+    this.debtDateD = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.debtDate = this.formatDate(selectedDate);
     }
   }
 
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+
+    return `${day}/${month}/${year}`;
+  }
+  guardar(){
+    this.armarModelo()
+    console.log(this.modelo[0])
+    if(this.id === 0){
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          this.personSbsService.addBankDebt(this.modelo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se agregó correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.dialogRef.close()
+                })
+              }
+            }
+          )
+        }
+      })
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          this.personSbsService.addBankDebt(this.modelo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se modificó correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.dialogRef.close()
+                })
+              }
+            }
+          )
+        }
+      })
+    }
+  }
   volver(){
     Swal.fire({
       title: '¿Está seguro de salir?',
@@ -60,67 +182,5 @@ export class PDeudaBancariaComponent {
         this.dialogRef.close()
       }
     })
-  }
-  agregar(){
-    const obj : DeudaBancaria = {
-      id : 0,
-      banco : this.banco,
-      calificacion : this.calificacion,
-      deudaMN : this.deudaMN,
-      deudaME : this.deudaME,
-      memo : this.memo,
-      memoIng : this.memoIng
-    }
-    this.deudaBancariaService.AddDeudaBancaria(obj)
-    Swal.fire({
-      title :'¡Registrado!',
-      text : 'El registro se guardo correctamente.',
-      icon : 'success',
-      width: '20rem',
-      heightAuto : true
-    }).then((result) => {
-      if (result.value) {
-        this.dialogRef.close()
-      }
-    })
-  }
-  editar(){
-    Swal.fire({
-      title: '¿Está seguro de editar este registro?',
-      text: "",
-      icon: 'info',
-      showCancelButton: true,
-      cancelButtonText : 'No',
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí',
-      width: '20rem',
-      heightAuto : true
-    }).then((result) => {
-      if (result.value) {
-        const obj : DeudaBancaria = {
-          id : this.id,
-          banco : this.banco,
-          calificacion : this.calificacion,
-          deudaMN : this.deudaMN,
-          deudaME : this.deudaME,
-          memo : this.memo,
-          memoIng : this.memoIng
-        }
-        this.deudaBancariaService.UpdateDeudaBancaria(obj)
-        Swal.fire({
-          title :'¡Actualizado!',
-          text : 'El registro se edito correctamente.',
-          icon : 'success',
-          width: '20rem',
-          heightAuto : true
-        }).then((result) => {
-          if (result.value) {
-            this.dialogRef.close()
-          }
-        })
-      }
-    })
-
   }
 }

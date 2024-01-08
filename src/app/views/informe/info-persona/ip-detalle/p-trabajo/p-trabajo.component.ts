@@ -257,7 +257,15 @@ export class PTrabajoComponent implements OnInit{
     ]
    }
   }
-
+  quitarSeleccion(){
+    this.idCompany = 0
+    this.name = ""
+    this.address = ""
+    this.taxTypeCode = ""
+    this.taxTypeName = ""
+    this.subTelephone = ""
+    this.telephone = ""
+  }
   relacionarEmpresa(){
     const dialogRef = this.dialog.open(ListaEmpresasComponent, {
       data : {
