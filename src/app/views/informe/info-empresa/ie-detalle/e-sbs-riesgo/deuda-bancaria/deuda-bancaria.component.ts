@@ -17,6 +17,7 @@ export class DeudaBancariaComponent implements OnInit{
 
   id = 0
   idCompany = 0
+  idPerson = 0
   bankName = ""
   qualification = ""
   debtDate = ""
@@ -72,6 +73,7 @@ export class DeudaBancariaComponent implements OnInit{
     this.modelo[0] = {
       id : this.id,
       idCompany : this.idCompany,
+      idPerson : this.idPerson,
       bankName : this.bankName,
       qualification : this.qualification,
       debtDate : this.debtDate,

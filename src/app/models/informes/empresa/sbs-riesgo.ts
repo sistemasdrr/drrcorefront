@@ -21,6 +21,7 @@ export interface CompanySbs{
 export interface ProveedorT{
   id : number
   idCompany : number
+  idPerson : number
   name : string
   telephone : string
   country : string
@@ -36,6 +37,7 @@ export interface ProveedorT{
 export interface Proveedor{
   id : number
   idCompany : number
+  idPerson : number
   name : string
   idCountry : number
   qualification : string
@@ -61,6 +63,7 @@ export interface Proveedor{
 export interface MorosidadComercialT{
   id : number
   idCompany : number
+  idPerson : number
   creditorOrSupplier : string
   documentType : string
   date : string
@@ -74,6 +77,7 @@ export interface MorosidadComercialT{
 export interface MorosidadComercial{
   id : number
   idCompany : number
+  idPerson : number
   creditorOrSupplier : string
   documentType : string
   documentTypeEng : string
@@ -87,6 +91,7 @@ export interface MorosidadComercial{
 export interface DeudaBancariaT{
   id : number
   idCompany : number
+  idPerson : number
   bankName : string
   qualification : string
   debtDate : string
@@ -98,6 +103,7 @@ export interface DeudaBancariaT{
 export interface DeudaBancaria{
   id : number
   idCompany : number
+  idPerson : number
   bankName : string
   qualification : string
   debtDate : string

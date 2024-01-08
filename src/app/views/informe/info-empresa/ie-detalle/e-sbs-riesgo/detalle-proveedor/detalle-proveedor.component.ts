@@ -25,6 +25,7 @@ export class DetalleProveedorComponent implements OnInit {
   //DATOS DEL FORM
   id = 0
   idCompany = 0
+  idPerson = 0
   name = ""
   idCountry = 0
   qualification = ""
@@ -172,6 +173,7 @@ export class DetalleProveedorComponent implements OnInit {
     this.modelo[0] = {
       id : this.id,
       idCompany : this.idCompany,
+      idPerson : this.idPerson,
       name : this.name,
       idCountry : this.idCountry,
       qualification : this.qualification,

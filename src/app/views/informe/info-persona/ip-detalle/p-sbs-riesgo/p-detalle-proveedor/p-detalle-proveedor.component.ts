@@ -1,7 +1,15 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Proveedor } from 'app/models/informes/proveedor';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
+import { ComboData } from 'app/models/combo';
+import { Proveedor } from 'app/models/informes/empresa/sbs-riesgo';
+import { Pais } from 'app/models/pais';
+import { ComboService } from 'app/services/combo.service';
+import { SbsRiesgoService } from 'app/services/informes/empresa/sbs-riesgo.service';
 import { ProveedorService } from 'app/services/informes/proveedor.service';
+import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -9,170 +17,360 @@ import Swal from 'sweetalert2';
   templateUrl: './p-detalle-proveedor.component.html',
   styleUrls: ['./p-detalle-proveedor.component.scss']
 })
-export class PDetalleProveedorComponent {
-  titulo : string = ''
-  accion : string = ''
+export class PDetalleProveedorComponent implements OnInit{
+  titulo: string = ''
+  accion: string = ''
+
   //DATOS DEL FORM
   id = 0
-  proveedor = ''
-  pais = 0
-  calificacion = ''
-  fecha = '29/9/2023'
-  telefono = ''
-  atendio = ''
-  moneda = 0
-  montoMaximo = ''
-  montoMaximoIng = ''
-  plazos = ''
-  plazosIng = ''
-  cumplimiento = ''
-  clienteDesde = ''
-  clienteDesdeIng = ''
-  articulos = ''
-  articulosIng = ''
-  comentarioAdicional = ''
-  comentarioAdicionalIng = ''
-  comentario = ''
+  idCompany = 0
+  idPerson = 0
+  name = ""
+  idCountry = 0
+  qualification = ""
+  qualificationEng = ""
+  date = ""
+  dateD: Date | null = null
+  telephone = ""
+  attendedBy = ""
+  idCurrency = 0
+  maximumAmount = ""
+  maximumAmountEng = ""
+  timeLimit = ""
+  timeLimitEng = ""
+  compliance = ""
+  clientSince = ""
+  clientSinceEng = ""
+  productsTheySell = ""
+  productsTheySellEng = ""
+  additionalCommentary = ""
+  additionalCommentaryEng = ""
+  referentCommentary = ""
 
-  constructor(
-    public dialogRef: MatDialogRef<PDetalleProveedorComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private proveedorService : ProveedorService
-    ){
-      if(data.accion == "AGREGAR"){
-        this.accion = data.accion
-        this.titulo = "Agregar Proveedor"
-        console.log(data)
-        this.id = data.id
-      }else if(data.accion == "EDITAR"){
-        this.accion = data.accion
-        this.titulo = "Editar Proveedor"
-        this.id = data.id
-        const prov : Proveedor = this.proveedorService.getProveedorById(data.id)
+  modelo: Proveedor[] = []
 
-        this.proveedor = prov.proveedor
-        this.pais = prov.pais
-        this.calificacion = prov.calificacion
-        this.fecha = prov.fecha
-        this.telefono = prov.telefono
-        this.atendio = prov.atendio
-        this.moneda = prov.moneda
-        this.montoMaximo = prov.credMaximo
-        this.plazos = prov.plazos
-        this.cumplimiento = prov.cumplimiento
-        this.clienteDesde = prov.clientesDesde
-        this.articulos = prov.articulos
-        this.comentario = prov.comentario
-        this.comentarioAdicional = prov.comentarioAdicional
-      }
+  msgPais = ""
+  colorMsgPais = ""
+  controlPaises = new FormControl<string | Pais>('')
+  filterPais: Observable<Pais[]>
+  paises: Pais[] = []
+  monedas : ComboData[] = []
+  paisSeleccionado: Pais = {
+    id: 0,
+    valor: '',
+    bandera: ''
+  }
+  iconoSeleccionado = ""
+
+  constructor(private comboService : ComboService, public dialogRef: MatDialogRef<PDetalleProveedorComponent>, private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any, private sbsService : SbsRiesgoService) {
+
+    this.filterPais = new Observable<Pais[]>()
+    if (data.accion == "AGREGAR") {
+      this.accion = data.accion
+      this.titulo = "Agregar Proveedor"
+      console.log(data)
+      this.id = data.id
+      this.idPerson = data.idPerson
+    } else if (data.accion == "EDITAR") {
+      this.accion = data.accion
+      this.titulo = "Editar Proveedor"
+      this.id = data.id
+      this.idPerson = data.idPerson
     }
-
-    agregar(){
-      const obj : Proveedor = {
-        id : 0,
-        proveedor : this.proveedor,
-        telefono : this.telefono,
-        pais : this.pais,
-        calificacion : this.calificacion,
-        fecha : this.fecha,
-        moneda : this.moneda,
-        credMaximo : this.montoMaximo,
-        credMaximoIng : this.montoMaximo,
-        plazos : this.plazos,
-        plazosIng : this.plazos,
-        cumplimiento : this.cumplimiento,
-        clientesDesde : this.clienteDesde,
-        clientesDesdeIng : this.clienteDesde,
-        articulos : this.articulos,
-        articulosIng : this.articulos,
-        atendio : this.atendio,
-        comentarioAdicional : this.comentarioAdicional,
-        comentarioAdicionalIng : this.comentarioAdicionalIng,
-        comentario : this.comentario,
-      }
-      this.proveedorService.AddProveedor(obj)
-      Swal.fire({
-        title :'¡Registrado!',
-        text : 'El registro se guardo correctamente.',
-        icon : 'success',
-        width: '20rem',
-        heightAuto : true
-      }).then((result) => {
-        if (result.value) {
-          this.dialogRef.close()
+  }
+  ngOnInit(): void {
+    this.comboService.getPaises().subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.paises = response.data
         }
-      })
-    }
-    editar(){
-      Swal.fire({
-        title: '¿Está seguro de editar este registro?',
-        text: "",
-        icon: 'info',
-        showCancelButton: true,
-        cancelButtonText : 'No',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí',
-        width: '20rem',
-        heightAuto : true
-      }).then((result) => {
-        if (result.value) {
-          const obj : Proveedor = {
-            id : this.id,
-            proveedor : this.proveedor,
-            telefono : this.telefono,
-            pais : this.pais,
-            calificacion : this.calificacion,
-            fecha : this.fecha,
-            moneda : this.moneda,
-            credMaximo : this.montoMaximo,
-            credMaximoIng : this.montoMaximo,
-            plazos : this.plazos,
-            plazosIng : this.plazos,
-            cumplimiento : this.cumplimiento,
-            clientesDesde : this.clienteDesde,
-            clientesDesdeIng : this.clienteDesde,
-            articulos : this.articulos,
-            articulosIng : this.articulos,
-            atendio : this.atendio,
-            comentarioAdicional : this.comentarioAdicional,
-            comentarioAdicionalIng : this.comentarioAdicionalIng,
-            comentario : this.comentario,
-          }
-          this.proveedorService.UpdateProveedor(obj)
-          Swal.fire({
-            title :'¡Actualizado!',
-            text : 'El registro se edito correctamente.',
-            icon : 'success',
-            width: '20rem',
-            heightAuto : true
-          }).then((result) => {
-            if (result.value) {
-              this.dialogRef.close()
+      }
+    ).add(
+      () => {
+        this.comboService.getTipoMoneda().subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.monedas = response.data
             }
-          })
-        }
-      })
-    }
+          }
+        ).add(
+          () => {
+            if(this.id !== 0){
+              this.sbsService.getProviderById(this.id).subscribe(
+                (response) => {
+                  if(response.isSuccess === true && response.isWarning === false){
+                    const proveedor = response.data
+                    console.log(response)
+                    if(proveedor){
+                      this.name = proveedor.name
+                      this.idCountry = proveedor.idCountry
+                      this.qualification = proveedor.qualification
+                      this.qualificationEng = proveedor.qualificationEng
+                      this.telephone = proveedor.telephone
+                      this.attendedBy = proveedor.attendedBy
+                      this.idCurrency = proveedor.idCurrency
+                      this.maximumAmount = proveedor.maximumAmount
+                      this.maximumAmountEng = proveedor.maximumAmountEng
+                      this.timeLimit = proveedor.timeLimit
+                      this.timeLimitEng = proveedor.timeLimitEng
+                      this.compliance = proveedor.compliance
+                      this.clientSince = proveedor.clientSince
+                      this.clientSinceEng = proveedor.clientSinceEng
+                      this.productsTheySell = proveedor.productsTheySell
+                      this.productsTheySellEng = proveedor.productsTheySellEng
+                      this.additionalCommentary = proveedor.additionalCommentary
+                      this.additionalCommentaryEng = proveedor.additionalCommentaryEng
+                      this.referentCommentary = proveedor.referentCommentary
+                      if(proveedor.date !== null && proveedor.date !== ''){
+                        const fecha = proveedor.date.split("/")
+                        if(fecha.length > 0){
+                          this.date = proveedor.date
+                          this.dateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                        }else{
+                          this.date = ""
+                          this.dateD = null
+                        }
+                      }
+                    }
+                  }
+                }
+              ).add(
+                () => {
+                  if(this.idCountry !== 0){
+                    this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
+                  }
+                }
+              )
+            }
+          }
+        )
+      }
+    )
+    this.filterPais = this.controlPaises.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.valor
+        return name ? this._filterPais(name as string) : this.paises.slice()
+      }),
+    )
+  }
 
-    volver(){
+  selectFecha(event: MatDatepickerInputEvent<Date>) {
+    this.dateD = event.value!
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.date = this.formatDate(selectedDate);
+    }
+  }
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    return `${day}/${month}/${year}`;
+  }
+  armarModelo() {
+    this.modelo[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      idPerson : this.idPerson,
+      name : this.name,
+      idCountry : this.idCountry,
+      qualification : this.qualification,
+      date : this.date,
+      telephone : this.telephone,
+      attendedBy : this.attendedBy,
+      idCurrency : this.idCurrency,
+      maximumAmount : this.maximumAmount,
+      maximumAmountEng : this.maximumAmountEng,
+      timeLimit : this.timeLimit,
+      timeLimitEng : this.timeLimitEng,
+      compliance : this.compliance,
+      clientSince : this.clientSince,
+      clientSinceEng : this.clientSinceEng,
+      productsTheySell : this.productsTheySell,
+      productsTheySellEng : this.productsTheySellEng,
+      additionalCommentary : this.additionalCommentary,
+      additionalCommentaryEng : this.additionalCommentaryEng,
+      referentCommentary : this.referentCommentary,
+      qualificationEng : this.qualificationEng
+    }
+  }
+  agregarTraduccion(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      disableClose: true,
+      data: {
+        titulo: titulo,
+        subtitulo: subtitulo,
+        tipo: 'input',
+        comentario_es: comentario_es,
+        comentario_en: comentario_en,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      console.log(data)
+      if (data) {
+        switch (input) {
+          case 'montoMaximo':
+            this.maximumAmount = data.comentario_es;
+            this.maximumAmountEng = data.comentario_en;
+            break
+          case 'plazos':
+            this.timeLimit = data.comentario_es;
+            this.timeLimitEng = data.comentario_en;
+            break
+          case 'clienteDesde':
+            this.clientSince = data.comentario_es;
+            this.clientSinceEng = data.comentario_en;
+            break
+          case 'articulos':
+            this.productsTheySell = data.comentario_es;
+            this.productsTheySellEng = data.comentario_en;
+            break
+        }
+      }
+    });
+  }
+  agregarComentario(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      disableClose: true,
+      data: {
+        titulo: titulo,
+        subtitulo: subtitulo,
+        tipo: 'textarea',
+        comentario_es: comentario_es,
+        comentario_en: comentario_en,
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        switch (input) {
+          case 'comentarioAdicional':
+            this.additionalCommentary = data.comentario_es;
+            this.additionalCommentaryEng = data.comentario_en;
+            break
+        }
+      }
+    });
+  }
+  private _filterPais(description: string): Pais[] {
+    const filterValue = description.toLowerCase();
+    return this.paises.filter(pais => pais.valor.toLowerCase().includes(filterValue));
+  }
+  limpiarSeleccionPais() {
+    this.controlPaises.reset();
+    this.idCountry = 0
+    this.iconoSeleccionado = ""
+  }
+  displayPais(pais: Pais): string {
+    return pais && pais.valor ? pais.valor : '';
+  }
+  cambioPais(pais: Pais) {
+    if (pais !== null) {
+      if (typeof pais === 'string' || pais === null || this.paisSeleccionado.id === 0) {
+        this.msgPais = "Seleccione una opción."
+        this.colorMsgPais = "red"
+        this.iconoSeleccionado = ""
+        this.idCountry = 0
+      } else {
+        this.msgPais = "Opción Seleccionada"
+        this.colorMsgPais = "green"
+        this.iconoSeleccionado = pais.bandera
+        this.idCountry = pais.id
+      }
+    } else {
+      this.idCountry = 0
+      console.log(this.idCountry)
+      this.msgPais = "Seleccione una opción."
+      this.colorMsgPais = "red"
+    }
+  }
+  guardar() {
+    this.armarModelo()
+    console.log(this.modelo[0])
+    if(this.id === 0){
       Swal.fire({
-        title: '¿Está seguro de salir?',
-        text: "Los datos ingresados no se guardaran",
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
         icon: 'warning',
         showCancelButton: true,
-        cancelButtonText : 'No',
+        cancelButtonText: 'No',
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sí',
-        width: '20rem',
-        heightAuto : true
+        width: '30rem',
+        heightAuto: true
       }).then((result) => {
         if (result.value) {
-          this.dialogRef.close()
+          this.sbsService.addProvider(this.modelo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se agregó correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.dialogRef.close()
+                })
+              }
+            }
+          )
+        }
+      })
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de modificar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'No',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          this.sbsService.addProvider(this.modelo[0]).subscribe(
+            (response) => {
+              if(response.isSuccess === true && response.isWarning === false){
+                Swal.fire({
+                  title: 'El registro se modificó correctamente.',
+                  text: '',
+                  icon: 'success',
+                  width: '30rem',
+                  heightAuto: true
+                }).then(() => {
+                  this.dialogRef.close()
+                })
+              }
+            }
+          )
         }
       })
     }
+  }
+
+  volver() {
+    Swal.fire({
+      title: '¿Está seguro de salir?',
+      text: "Los datos ingresados no se guardaran",
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'No',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      width: '20rem',
+      heightAuto: true
+    }).then((result) => {
+      if (result.value) {
+        this.dialogRef.close()
+      }
+    })
+  }
 
 
 }

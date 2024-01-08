@@ -16,6 +16,7 @@ export class MorosidadComercialComponent implements OnInit{
 
   id = 0
   idCompany = 0
+  idPerson = 0
   creditorOrSupplier = ""
   documentType = ""
   documentTypeEng = ""
@@ -85,6 +86,7 @@ export class MorosidadComercialComponent implements OnInit{
     this.modelo[0] = {
       id : this.id,
       idCompany : this.idCompany,
+      idPerson : this.idPerson,
       creditorOrSupplier : this.creditorOrSupplier,
       documentType : this.documentType,
       documentTypeEng : this.documentTypeEng,

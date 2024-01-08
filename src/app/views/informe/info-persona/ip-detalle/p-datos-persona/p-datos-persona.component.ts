@@ -214,6 +214,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
                 const persona = response.data
+                console.log(response.data)
                 if(persona){
                   this.oldCode = persona.oldCode
                   this.fullname = persona.fullname
@@ -221,20 +222,28 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
                   this.nationality = persona.nationality
                   this.birthDate = persona.birthDate
                   this.birthPlace = persona.birthPlace
-                  this.idDocumentType = persona.idDocumentType
+                  if(persona.idDocumentType !== null && persona.idDocumentType !== 0){
+                    this.idDocumentType = persona.idDocumentType
+                  }
                   this.codeDocumentType = persona.codeDocumentType
                   this.taxTypeName = persona.taxTypeName
                   this.taxTypeCode = persona.taxTypeCode
-                  this.idLegalRegisterSituation = persona.idLegalRegisterSituation
+                  if(persona.idLegalRegisterSituation !== null && persona.idLegalRegisterSituation !== 0){
+                    this.idLegalRegisterSituation = persona.idLegalRegisterSituation
+                  }
                   this.address = persona.address
                   this.cp = persona.cp
                   this.city = persona.city
                   this.otherDirecctions = persona.otherDirecctions
                   this.tradeName = persona.tradeName
-                  this.idCountry = persona.idCountry
+                  if(persona.idCountry !== null && persona.idCountry !== 0){
+                    this.idCountry = persona.idCountry
+                  }
                   this.codePhone = persona.codePhone
                   this.numberPhone = persona.numberPhone
-                  this.idCivilStatus = persona.idCivilStatus
+                  if(persona.idCivilStatus !== null && persona.idCivilStatus !== 0){
+                    this.idCivilStatus = persona.idCivilStatus
+                  }
                   this.relationshipWith = persona.relationshipWith
                   this.relationshipDocumentType = persona.relationshipDocumentType
                   this.relationshipCodeDocument = persona.relationshipCodeDocument
@@ -243,19 +252,24 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
                   this.email = persona.email
                   this.cellphone = persona.cellphone
                   this.profession = persona.profession
-                  this.professionEng
                   this.clubMember = persona.clubMember
                   this.insurance = persona.insurance
                   this.newsCommentary = persona.newsCommentary
-                  this.newsCommentaryEng
                   this.printNewsCommentary = persona.printNewsCommentary
                   this.privateCommentary = persona.privateCommentary
                   this.reputationCommentary = persona.reputationCommentary
-                  this.reputationCommentaryEng
-                  this.idCreditRisk = persona.idCreditRisk
-                  this.idPaymentPolicy = persona.idPaymentPolicy
-                  this.idReputation = persona.idReputation
-                  this.idPersonSituation = persona.idPersonSituation
+                  if(persona.idCreditRisk !== null && persona.idCreditRisk !== 0){
+                    this.idCreditRisk = persona.idCreditRisk
+                  }
+                  if(persona.idPaymentPolicy !== null && persona.idPaymentPolicy !== 0){
+                    this.idPaymentPolicy = persona.idPaymentPolicy
+                  }
+                  if(persona.idReputation !== null && persona.idReputation !== 0){
+                    this.idReputation = persona.idReputation
+                  }
+                  if(persona.idPersonSituation !== null && persona.idPersonSituation !== 0){
+                    this.idPersonSituation = persona.idPersonSituation
+                  }
                   this.quality = persona.quality
                   if(persona.traductions !== null && persona.traductions.length > 0){
                     this.nationalityEng = persona.traductions[0].value
@@ -289,21 +303,21 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
               if(this.idLegalRegisterSituation !== 0){
                 this.situacionRucInforme = this.situacionRuc.filter(x => x.id === this.idLegalRegisterSituation)[0]
               }
-              if(this.idCountry !== 0){
+              if(this.idCountry !== 0 && this.idCountry !== null){
                 this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
               }
-              if(this.idCreditRisk !== 0){
+              if(this.idCreditRisk !== 0 && this.idCreditRisk !== null){
                 this.riesgoCrediticioSeleccionado = this.calificacionCrediticia.filter(x => x.id === this.idCreditRisk)[0]
                 this.gaugeRiesgoCrediticio = this.riesgoCrediticioSeleccionado.rate
                 this.descripcionRiesgoCrediticio = this.riesgoCrediticioSeleccionado.abreviation
                 this.colorRiesgoCrediticio = this.riesgoCrediticioSeleccionado.color
                 this.calificacionRiesgoCrediticio = this.riesgoCrediticioSeleccionado.identifier
               }
-              if(this.idPaymentPolicy !== 0){
+              if(this.idPaymentPolicy !== 0 && this.idPaymentPolicy !== null){
                 this.politicaPagoSeleccionada = this.politicaPagos.filter(x => x.id === this.idPaymentPolicy)[0]
                 this.colorPoliticaPagos = this.politicaPagoSeleccionada.color
               }
-              if(this.idReputation !== 0){
+              if(this.idReputation !== 0 && this.idReputation !== null){
                 this.reputacionSeleccionada = this.reputaciones.filter(x => x.id === this.idReputation)[0]
                 this.colorReputacion = this.reputacionSeleccionada.color
               }
@@ -664,98 +678,140 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
   calificacionRiesgoCrediticio = ""
   descripcionRiesgoCrediticio = ""
   colorReputacion = "white"
-  guardar(){
-    if(this.id === 0){
-      this.armarModeloNuevo()
+  guardar() {
+    this.armarModeloModificado()
+    if(this.id > 0){
       console.log(this.modeloModificado[0])
       Swal.fire({
-        title: '¿Está seguro de guardar este registro?',
+        title: '¿Está seguro de guardar los cambios?',
         text: "",
         icon: 'warning',
         showCancelButton: true,
-        cancelButtonText : 'No',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
         confirmButtonText: 'Sí',
-        width: '20rem',
-        heightAuto : true
+        width: '30rem',
+        heightAuto: true
       }).then((result) => {
         if (result.value) {
           const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.personaService.addPerson(this.modeloNuevo[0]).subscribe(
-            (response) => {
-              if(response.isSuccess === true && response.isWarning === false){
-                Swal.fire({
-                  title: 'El registro se guardo correctamente.',
-                  text: '',
-                  icon: 'success',
-                  width: '30rem',
-                  heightAuto: true
-                }).then(() => {
-                  this.armarModeloNuevo()
-                  this.armarModeloModificado()
-                })
-                this.id = response.data
-              }
+          this.personaService.addPerson(this.modeloModificado[0]).subscribe((response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            if(loader){
+              loader.classList.add('hide-loader');
             }
-          ).add(
-            () => {
-              if(loader){
-                loader.classList.add('hide-loader');
-              }
+            Swal.fire({
+              title: 'Se guardaron los cambios correctamente',
+              text: "",
+              icon: 'success',
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto: true
+            })
+            this.router.navigate(['informes/persona/detalle/'+this.id]);
+
+            this.armarModeloNuevo();
+          }else{
+            if(loader){
+              loader.classList.add('hide-loader');
             }
-          )
+            Swal.fire({
+              title: 'Ocurrió un problema.',
+              text: 'Comunicarse con Sistemas',
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
+          }
+          if(loader){
+            loader.classList.add('hide-loader');
+          }
+        })
         }
       });
     }else{
-      this.armarModeloModificado()
       console.log(this.modeloModificado[0])
       Swal.fire({
-        title: '¿Está seguro de modificar este registro?',
+        title: '¿Está seguro de agregar este registro?',
         text: "",
         icon: 'warning',
         showCancelButton: true,
-        cancelButtonText : 'No',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
         confirmButtonText: 'Sí',
-        width: '20rem',
-        heightAuto : true
+        width: '30rem',
+        heightAuto: true
       }).then((result) => {
         if (result.value) {
+
           const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
-          if(loader){
-            loader.classList.remove('hide-loader');
-          }
-          this.personaService.addPerson(this.modeloModificado[0]).subscribe(
-            (response) => {
-              if(response.isSuccess === true && response.isWarning === false){
-                Swal.fire({
-                  title: 'El registro se guardo correctamente.',
-                  text: '',
-                  icon: 'success',
-                  width: '30rem',
-                  heightAuto: true
-                }).then(() => {
-                  this.armarModeloNuevo()
-                  this.armarModeloModificado()
-                })
-                this.id = response.data
-              }
+          this.personaService.addPerson(this.modeloModificado[0]).subscribe((response) => {
+            if(loader){
+              loader.classList.remove('hide-loader');
             }
-          ).add(
-            () => {
+            if(response.isSuccess === true && response.isWarning === false){
               if(loader){
                 loader.classList.add('hide-loader');
               }
+              Swal.fire({
+                title: 'Se agregó el registro correctamente',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto: true
+              })
+              this.armarModeloNuevo()
+            }else{
+              if(loader){
+                loader.classList.add('hide-loader');
+              }
+              Swal.fire({
+                title: 'Ocurrió un problema.',
+                text: 'Comunicarse con Sistemas',
+                icon: 'warning',
+                confirmButtonColor: 'blue',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto : true
+              }).then(() => {
+              })
             }
-          )
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+            console.log(response)
+          }, (error) => {
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Ocurrió un problema. Comunicarse con Sistemas',
+              text: error,
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
+          })
         }
       });
     }
+
   }
   salir(){
     this.armarModeloModificado();
