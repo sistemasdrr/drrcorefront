@@ -11,7 +11,7 @@
       </div>
       <hr>
       <h5>Datos de Empresa</h5>
-      <div class="col-md-5">
+      <div class="col-md-4">
         <mat-form-field class="w-100">
           <mat-label>Razón Social</mat-label>
           <input matInput [(ngModel)]="name">
@@ -24,7 +24,7 @@
           <mat-hint>(Dirección Completa, Distrito, Colonia y Ciudad)</mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-md-1">
+      <div class="col-md-2 d-flex justify-content-center">
         <button mat-mini-fab class="bg-blue" style="margin: .8rem .5rem .5rem 0rem;" (click)="relacionarEmpresa()" #tooltip="matTooltip" matTooltip="Seleccionar Empresa">
           <mat-icon class="col-white">done</mat-icon>
         </button>

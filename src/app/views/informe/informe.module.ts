@@ -63,6 +63,9 @@ import { DialogComercioComponent } from './info-empresa/ie-detalle/e-ramo/dialog
 import { ListaEmpresasComponent } from './info-empresa/ie-detalle/e-antecedentes/lista-empresas/lista-empresas.component';
 import { AgregarEditarRamoNegocioComponent } from './info-empresa/ie-detalle/e-ramo/ramo-actividad/agregar-editar/agregar-editar.component';
 import { MatSortModule } from '@angular/material/sort';
+import { SociosEmpresaComponent } from './info-empresa/ie-lista/socios-empresa/socios-empresa.component';
+import { AgregarSocioComponent } from './info-empresa/ie-lista/socios-empresa/agregar-socio/agregar-socio.component';
+import { SeleccionarPersonaComponent } from './info-empresa/ie-lista/socios-empresa/agregar-socio/seleccionar-persona/seleccionar-persona.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +108,10 @@ import { MatSortModule } from '@angular/material/sort';
     ListaEmpresasComponent,
     RamoComponent,
     RamoActividadDialogComponent,
-    AgregarEditarRamoNegocioComponent
+    AgregarEditarRamoNegocioComponent,
+    SociosEmpresaComponent,
+    AgregarSocioComponent,
+    SeleccionarPersonaComponent
   ],
   imports: [
     CommonModule,

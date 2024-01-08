@@ -1,0 +1,162 @@
+<div mat-dialog-content class="row" style="min-width: 50rem; min-height: 35rem; overflow-y: auto; overflow-x: none;">
+  <div class="col-md-12" style="background-color: #dae1f3;">
+    <div class="d-flex justify-content-between">
+      <h4 class="p-2">{{titulo}}</h4>
+      <div>
+        <button mat-mini-fab class="bg-cyan" matTooltip="Agregar" >
+          <mat-icon class="col-white">save</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" matTooltip="Cerrar" >
+          <mat-icon class="col-white">logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="row">
+      <h5 class="mt-2">Datos del Socio</h5>
+      <hr>
+      <div class="col-md-2">
+        <mat-form-field color="primary" style="width: 100%;" >
+          <mat-label >Informe Investigado el</mat-label>
+          <input matInput [matDatepicker]="fecha__investigado_informe" #fechaInput [(ngModel)]="lastSearchedD" [readonly]="true" (dateChange)="selectFechaInforme($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha__investigado_informe"></mat-datepicker-toggle>
+          <mat-datepicker #fecha__investigado_informe color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3 d-flex justify-content-center">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Idioma</mat-label>
+          <mat-select [(ngModel)]="language" (selectionChange)="selectIdioma($event.value)">
+            <mat-option [value]="'E'">
+              <span class="fi fi-es"></span>
+              ESPAÑOL
+            </mat-option>
+            <mat-option [value]="'I'">
+              <span class="fi fi-us"></span>
+              INGLÉS
+            </mat-option>
+            <mat-option [value]="'A'">
+              <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);"></span>
+              ESPAÑOL - INGLÉS
+            </mat-option>
+          </mat-select>
+          <button class="btn-traduccion" matSuffix mat-icon-button>
+            <span class="fi fi-es" *ngIf="language === 'E'"></span>
+            <span class="fi fi-us" *ngIf="language  === 'I'"></span>
+            <span class="fi fi-us" style="background-image: url(./../../../../../../assets/images/us-es.png);" *ngIf="language === 'A'"></span>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3 d-flex justify-content-center">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Situación</mat-label>
+          <mat-select [(ngModel)]="idPersonSituation">
+            <mat-option *ngFor="let item of situacionPersona" [value]="item.id">
+              {{item.valor}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field color="primary" style="width: 100%;" >
+          <mat-label >Nacido el</mat-label>
+          <input matInput [matDatepicker]="fecha_nacimiento" #fechaInput [(ngModel)]="birthDateD" [readonly]="true" (dateChange)="selectFechaNacimiento($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_nacimiento"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_nacimiento color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2 d-flex justify-content-center">
+        <button mat-mini-fab class="bg-cyan" (click)="seleccionarPersona()" matTooltip="Buscar" style="margin: 0 .5rem 0 .5rem" >
+          <mat-icon class="col-white">search</mat-icon>
+        </button>
+        <button mat-mini-fab class="bg-red" (click)="borrarSeleccion()" matTooltip="Limpiar Selección" style="margin: 0 .5rem 0 .5rem">
+          <mat-icon class="col-white">close</mat-icon>
+        </button>
+      </div>
+      <div class="col-md-8">
+        <mat-form-field class="w-100">
+          <mat-label>Apellidos y Nombres</mat-label>
+          <input matInput placeholder="" [(ngModel)]="fullname">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="w-100">
+          <mat-label>Nacionalidad</mat-label>
+          <input matInput placeholder="" [(ngModel)]="nationality">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4 d-flex">
+        <mat-form-field class="">
+          <mat-label>Tipo de Doc.</mat-label>
+          <mat-select [(ngModel)]="idDocumentType" >
+              <mat-option [value]="item.id" *ngFor="let item of tipoDocumento">
+                {{item.valor}}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-100">
+          <mat-label>Código de Documento</mat-label>
+          <input matInput placeholder="" [(ngModel)]="codeDocumentType">
+        </mat-form-field>
+      </div>
+      <div class="col-md-5">
+        <mat-form-field class="" style="width: 40%;">
+          <mat-label>Registro Tributario (Tipo)</mat-label>
+          <input matInput placeholder="" [(ngModel)]="taxTypeName">
+        </mat-form-field>
+        <mat-form-field class="" style="width: 60%;">
+          <mat-label>Registro Tributario (Código)</mat-label>
+          <input matInput placeholder="" [(ngModel)]="taxTypeCode">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w-100">
+          <mat-label>Situación RUC</mat-label>
+          <input type="text" matInput [formControl]="controlSituacionRUC"  [matAutocomplete]="auto2" [(ngModel)]="situacionRucInforme" (ngModelChange)="cambioSituacionRuc(situacionRucInforme)">
+          <mat-hint [ngClass]="idLegalRegisterSituation === 0 ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="idLegalRegisterSituation === 0"></i><i class="fa-solid fa-circle-check" *ngIf="idLegalRegisterSituation !== 0"></i>&nbsp;{{msgSituacionRuc}}</mat-hint>
+          <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" (click)="limpiarSeleccionSituacionRUC()" #tooltip="matTooltip" matTooltip="Limpiar">
+            <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+          </button>
+          <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displaySituacionRuc">
+            <mat-option *ngFor="let situacionRUC of filterSituacionRuc | async" [value]="situacionRUC">
+              {{situacionRUC.valor}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <h5 class="mt-2">Datos de la Participación</h5>
+      <hr>
+      <div class="col-md-4">
+        <mat-form-field class="w-100">
+          <mat-label>Cargo</mat-label>
+          <input type="text" matInput [formControl]="controlProfesion"  [matAutocomplete]="auto3" [(ngModel)]="profesion" (ngModelChange)="cambioProfesion(profesion)">
+          <mat-hint [ngClass]="idProfession === 0 ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="idProfession === 0"></i><i class="fa-solid fa-circle-check" *ngIf="idProfession !== 0"></i>&nbsp;{{msgSituacionRuc}}</mat-hint>
+          <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" (click)="limpiarSeleccionProfesion()" #tooltip="matTooltip" matTooltip="Limpiar">
+            <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
+          </button>
+          <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayProfesion">
+            <mat-option *ngFor="let profesion of filterProfesion | async" [value]="profesion">
+              {{profesion.valor}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="w-100">
+          <mat-label>Participación</mat-label>
+          <input matInput placeholder="" [(ngModel)]="participation" type="number">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field color="primary" style="width: 100%;" >
+          <mat-label >Desde</mat-label>
+          <input matInput [matDatepicker]="fecha_desde" #fechaInput [(ngModel)]="startDateD" [readonly]="true" (dateChange)="selectFechaInicio($event)">
+          <mat-datepicker-toggle matIconSuffix [for]="fecha_desde"></mat-datepicker-toggle>
+          <mat-datepicker #fecha_desde color="primary"></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

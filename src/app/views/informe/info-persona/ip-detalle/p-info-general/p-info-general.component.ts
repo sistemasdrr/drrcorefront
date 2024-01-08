@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { InfoGeneralP } from 'app/models/informes/persona/info-general';
 import { InfoGeneralPService } from 'app/services/informes/persona/info-general-p.service';
@@ -30,6 +29,10 @@ export class PInfoGeneralComponent implements OnInit{
     console.log(this.idPerson)
   }
   ngOnInit(): void {
+    const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+    if(loader){
+      loader.classList.remove('hide-loader');
+    }
     if(this.idPerson > 0){
       this.infoGeneralService.getInfoGeneral(this.idPerson).subscribe(
         (response) => {
@@ -44,7 +47,17 @@ export class PInfoGeneralComponent implements OnInit{
             }
           }
         }
+      ).add(
+        () => {
+          if(loader){
+            loader.classList.add('hide-loader');
+          }
+        }
       )
+    }else{
+      if(loader){
+        loader.classList.add('hide-loader');
+      }
     }
   }
   armarModeloNuevo(){

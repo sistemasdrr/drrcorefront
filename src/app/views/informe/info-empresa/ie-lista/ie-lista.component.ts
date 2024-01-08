@@ -1,6 +1,7 @@
 import { PaisService } from './../../../../services/pais.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,6 +11,7 @@ import { Pais } from 'app/models/pais';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
+import { SociosEmpresaComponent } from './socios-empresa/socios-empresa.component';
 
 @Component({
   selector: 'app-ie-lista',
@@ -53,7 +55,7 @@ export class IEListaComponent implements OnInit{
   @ViewChild('filter') filter!: ElementRef;
   columnsToDisplay = ['creditRisk', 'language', 'name', 'taxNumber', 'lastReportDate', 'isoCountry', 'traductionPercentage', 'quality','manager','acciones' ];
 
-  constructor(private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService){
+  constructor(private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService, private dialog : MatDialog){
     this.dataSource = new MatTableDataSource()
     this.filterPais = new Observable<Pais[]>()
     this.dataSource.sort = this.sort
@@ -187,7 +189,13 @@ export class IEListaComponent implements OnInit{
   agregarEmpresa(){
     this.router.navigate(['informes/empresa/detalle/nuevo']);
   }
-
+  sociosEmpresa(idCompany : number){
+    const dialogRef = this.dialog.open(SociosEmpresaComponent, {
+      data: {
+        idCompany : idCompany
+      },
+    });
+  }
   eliminarEmpresa(id : number){
     Swal.fire({
       title: '¿Está seguro de eliminar este registro?',

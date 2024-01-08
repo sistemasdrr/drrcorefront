@@ -116,7 +116,7 @@
             </td>
           </ng-container>
           <ng-container matColumnDef="quality" >
-            <th mat-header-cell *matHeaderCellDef  mat-sort-header mat-sort-header class="text-center"> Calidad</th>
+            <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Calidad</th>
             <td mat-cell *matCellDef="let empresa" class="text-center">{{empresa.quality}}</td>
           </ng-container>
           <ng-container matColumnDef="manager" >
@@ -129,7 +129,7 @@
               <a [routerLink]="'/informes/empresa/detalle/'+empresa.id" mat-mini-fab class="btn bg-white" matTooltip="Editar">
                 <app-feather-icons [icon]="'edit'" class="tbl-fav-edit"></app-feather-icons>
               </a>
-              <button  mat-mini-fab class="bg-white" matTooltip="Socios">
+              <button  mat-mini-fab class="bg-white" matTooltip="Socios" (click)="sociosEmpresa(empresa.id)">
                 <app-feather-icons [icon]="'users'" class="tbl-fav-socios"></app-feather-icons>
               </button>
               <button  mat-mini-fab class="bg-white" matTooltip="Generar PDF">

@@ -29,6 +29,10 @@ export class PPropiedadesComponent implements OnInit{
     console.log(this.idPerson)
   }
   ngOnInit(): void {
+    const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+    if(loader){
+      loader.classList.remove('hide-loader');
+    }
     if(this.idPerson > 0){
       this.propiedadService.getPropiedad(this.idPerson).subscribe(
         (response) => {
@@ -43,7 +47,17 @@ export class PPropiedadesComponent implements OnInit{
             }
           }
         }
+      ).add(
+        () => {
+          if(loader){
+            loader.classList.add('hide-loader');
+          }
+        }
       )
+    }else{
+      if(loader){
+        loader.classList.add('hide-loader');
+      }
     }
   }
   armarModeloNuevo(){

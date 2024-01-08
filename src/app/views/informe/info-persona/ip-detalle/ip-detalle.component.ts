@@ -38,7 +38,7 @@ export class IPDetalleComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-
+    
     if(this.id > 0){
       this.personaService.getPersonaById(this.id).subscribe(
         (response) => {

@@ -57,6 +57,10 @@ export class PTrabajoComponent implements OnInit{
     console.log(this.idPerson)
   }
   ngOnInit(): void {
+    const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+    if(loader){
+      loader.classList.remove('hide-loader');
+    }
     this.comboService.getProfesion().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
@@ -107,7 +111,19 @@ export class PTrabajoComponent implements OnInit{
 
           }
         }
+      ).add(
+        () => {
+          const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+          if(loader){
+            loader.classList.add('hide-loader');
+          }
+        }
       )
+    }else{
+      const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+      if(loader){
+        loader.classList.add('hide-loader');
+      }
     }
   }
 
