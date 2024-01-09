@@ -117,7 +117,7 @@
         <ng-container matColumnDef="Acciones" >
           <th mat-header-cell *matHeaderCellDef  class="text-center"> Acciones </th>
           <td mat-cell *matCellDef="let order" class="text-center d-flex">
-            <mat-form-field style="width: 12rem; margin: .5rem 1rem 0 0;">
+            <mat-form-field style="width: 15rem; margin: .5rem 1rem 0 0;">
               <mat-label>Destinatario</mat-label>
               <mat-select [(ngModel)]="order.receptor">
                 <mat-option *ngFor="let item of lista" [value]="item.id">
@@ -125,11 +125,11 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button (click)="agregarAdjuntos(order.id)" #tooltip="matTooltip" matTooltip="Adjuntos">
+            <button mat-icon-button (click)="agregarAdjuntos(order.id, order.number)" #tooltip="matTooltip" matTooltip="Adjuntos">
               <mat-icon style="{{order.hasFiles === true ? 'color: red;' : 'color: gray;'}}">attach_file</mat-icon>
 
             </button>
-            <button mat-icon-button *ngIf="order.comment !== ''" (click)="agregarComentario(order.id)" #tooltip="matTooltip" matTooltip="Comentario">
+            <button mat-icon-button *ngIf="order.comment !== ''" (click)="agregarComentario(order.id, order.number, order.commentary)" #tooltip="matTooltip" matTooltip="Comentario">
               <i class="fa-solid fa-circle-info" style="font-size: 24px; {{order.commentary !== '' ? 'color: red;' : ' color: gray;'}}"></i>
             </button>
 

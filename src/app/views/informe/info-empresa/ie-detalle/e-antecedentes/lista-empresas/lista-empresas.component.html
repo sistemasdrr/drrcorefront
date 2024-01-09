@@ -111,7 +111,7 @@
               <a [routerLink]="'/informes/empresa/detalle/'+empresa.id" [target]="'_blank'" mat-mini-fab class="btn bg-white" matTooltip="Editar">
                 <app-feather-icons [icon]="'edit'" class="tbl-fav-edit"></app-feather-icons>
               </a>
-              <button  mat-mini-fab class="bg-white" matTooltip="Seleccionar" (click)="seleccionarEmpresa(empresa.id)">
+              <button *ngIf="idCompanyRelacion !== empresa.id" mat-mini-fab class="bg-white" matTooltip="Seleccionar" (click)="seleccionarEmpresa(empresa.id)">
                 <app-feather-icons [icon]="'check-circle'" class="tbl-fav-web"></app-feather-icons>
               </button>
             </td>

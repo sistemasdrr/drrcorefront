@@ -12,16 +12,19 @@ import Swal from 'sweetalert2';
 })
 export class AdjuntarArchivosComponent {
 
-  cupon: string = "";
+  id = 0
+  cupon = ""
+
   attachments : Adjunto[] = []
 
   constructor(public dialogRef: MatDialogRef<AdjuntarArchivosComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private pedidoService : PedidoService
   ) {
-    console.log(dialogData);
-    this.cupon = dialogData.data;
-    this.attachments = this.pedidoService.getAttachmentsByCupon(this.cupon)
+    if(data){
+      this.id = data.id;
+      this.cupon = data.cupon;
+    }
   }
 
   borrarAttachment(id : number){

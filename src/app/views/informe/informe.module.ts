@@ -66,6 +66,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { SociosEmpresaComponent } from './info-empresa/ie-lista/socios-empresa/socios-empresa.component';
 import { AgregarSocioComponent } from './info-empresa/ie-lista/socios-empresa/agregar-socio/agregar-socio.component';
 import { SeleccionarPersonaComponent } from './info-empresa/ie-lista/socios-empresa/agregar-socio/seleccionar-persona/seleccionar-persona.component';
+import { AgregarAccionistaComponent } from './info-empresa/ie-lista/socios-empresa/agregar-accionista/agregar-accionista.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { SeleccionarPersonaComponent } from './info-empresa/ie-lista/socios-empr
     AgregarEditarRamoNegocioComponent,
     SociosEmpresaComponent,
     AgregarSocioComponent,
-    SeleccionarPersonaComponent
+    SeleccionarPersonaComponent,
+    AgregarAccionistaComponent
   ],
   imports: [
     CommonModule,

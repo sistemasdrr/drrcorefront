@@ -53,6 +53,7 @@ export class ListaEmpresasComponent implements OnInit {
     if(data){
       this.idCompanyRelacion = data.idCompany
     }
+    console.log(this.idCompanyRelacion)
   }
 
   ngOnInit(): void {

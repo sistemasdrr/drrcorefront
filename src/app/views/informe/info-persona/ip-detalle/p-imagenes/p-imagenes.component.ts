@@ -90,6 +90,11 @@ export class PImagenesComponent implements OnInit {
               this.armarModeloModificado()
               this.armarModeloNuevo()
             }
+          }else{
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+            console.log("no se encontraron las imagenes")
           }
         }
       ).add(

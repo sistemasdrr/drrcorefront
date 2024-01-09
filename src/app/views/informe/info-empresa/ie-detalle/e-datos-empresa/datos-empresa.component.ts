@@ -275,7 +275,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             if(DatosEmpresa.lastSearched !== '' && DatosEmpresa.lastSearched !== null){
               const fecha1 = this.lastSearched.split("/");
               if (fecha1) {
-                this.lastSearchedD = new Date(parseInt(fecha1[2]), parseInt(fecha1[0]) - 1, parseInt(fecha1[1]))
+                this.lastSearchedD = new Date(parseInt(fecha1[2]), parseInt(fecha1[1]) - 1, parseInt(fecha1[0]))
               }
             }else{
               this.lastSearchedD = null
@@ -287,7 +287,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             if(DatosEmpresa.constitutionDate !== '' && DatosEmpresa.constitutionDate !== null){
               const fecha2 = this.constitutionDate.split("/");
               if (fecha2) {
-                this.constitutionDateD = new Date(parseInt(fecha2[2]), parseInt(fecha2[0]) - 1, parseInt(fecha2[1]))
+                this.constitutionDateD = new Date(parseInt(fecha2[2]), parseInt(fecha2[1]) - 1, parseInt(fecha2[0]))
               }
             }else{
               this.constitutionDateD = null
@@ -585,7 +585,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     this.idLegalRegisterSituation = 0
   }
   cambioSituacionRuc(situacionRuc: ComboData) {
-    if (typeof situacionRuc === 'string' || situacionRuc === null || this.idLegalRegisterSituation === 0) {
+    if (typeof situacionRuc === 'string' || situacionRuc === null) {
       this.msgSituacionRuc = "Seleccione una opción."
       this.idLegalRegisterSituation = 0
       this.colorMsgSituacionRuc = "red"
@@ -882,7 +882,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
         }
       });
     }
-
   }
   salir() {
     this.armarModeloModificado();

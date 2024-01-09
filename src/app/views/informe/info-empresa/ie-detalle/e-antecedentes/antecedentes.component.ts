@@ -74,8 +74,8 @@ export class AntecedentesComponent implements OnInit, OnDestroy{
   historyEng = ""
 
 
-  BackgroundsActual : Background[] = []
-  BackgroundsModificado : Background[] = []
+  modeloActual : Background[] = []
+  modeloModificado : Background[] = []
 
   ctrlMoneda = new FormControl<string | ComboData>('');
   listaMonedas : ComboData[] = []
@@ -264,7 +264,7 @@ constructor(
 
   compararModelos(){
     this.armarModeloModificado()
-    if(JSON.stringify(this.BackgroundsActual) !== JSON.stringify(this.BackgroundsModificado)){
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
       const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
       if (tabAntecedentes) {
         tabAntecedentes.classList.add('tab-cambios')
@@ -433,7 +433,7 @@ constructor(
 
 
   armarModeloActual(){
-    this.BackgroundsActual[0] = {
+    this.modeloActual[0] = {
       id : this.id,
       idCompany : this.idCompany,
       constitutionDate : this.constitutionDate,
@@ -492,7 +492,7 @@ constructor(
     }
   }
   armarModeloModificado(){
-    this.BackgroundsModificado[0] = {
+    this.modeloModificado[0] = {
       id : this.id,
       idCompany : this.idCompany,
       constitutionDate : this.constitutionDate,
@@ -550,35 +550,90 @@ constructor(
       ]
     }
   }
-  guardar(){
+  guardar() {
     this.armarModeloModificado()
-    console.log(this.BackgroundsModificado)
-    Swal.fire({
-      title: '¿Está seguro de guardar los cambios?',
-      text: "",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí',
-      width: '30rem',
-      heightAuto: true
-    }).then((result) => {
-      if (result.value) {
-        const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+    if(this.id > 0){
+      Swal.fire({
+        title: '¿Está seguro de guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.remove('hide-loader');
           }
-        this.antecedentesLegalesService.updateAntecedentesLegales(this.BackgroundsModificado[0]).subscribe(
-          (response) => {
-            console.log(response)
+          this.antecedentesLegalesService.updateAntecedentesLegales(this.modeloModificado[0]).subscribe((response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Se guardaron los cambios correctamente',
+              text: "",
+              icon: 'success',
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto: true
+            })
+
+            this.armarModeloActual();
+          }else{
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Ocurrió un problema.',
+              text: 'Comunicarse con Sistemas',
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
+          }
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.add('hide-loader');
+          }
+        })
+        }
+      });
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          this.antecedentesLegalesService.updateAntecedentesLegales(this.modeloModificado[0]).subscribe((response) => {
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.remove('hide-loader');
+            }
             if(response.isSuccess === true && response.isWarning === false){
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');
               }
               Swal.fire({
-                title: 'Se guardaron los cambios correctamente',
+                title: 'Se agregó el registro correctamente',
                 text: "",
                 icon: 'success',
                 confirmButtonColor: '#d33',
@@ -588,14 +643,13 @@ constructor(
                 heightAuto: true
               })
               this.armarModeloActual()
-
             }else{
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');
               }
               Swal.fire({
-                title: 'Ocurrió un problema. Comunicarse con Sistemas.',
-                text: '',
+                title: 'Ocurrió un problema.',
+                text: 'Comunicarse con Sistemas',
                 icon: 'warning',
                 confirmButtonColor: 'blue',
                 confirmButtonText: 'Ok',
@@ -604,33 +658,28 @@ constructor(
               }).then(() => {
               })
             }
-        },(error) => {
-          if(paginaDetalleEmpresa){
-            paginaDetalleEmpresa.classList.add('hide-loader');
-          }
-          Swal.fire({
-            title: 'Ocurrió un problema. Comunicarse con Sistemas.',
-            text: error.message,
-            icon: 'warning',
-            confirmButtonColor: 'blue',
-            confirmButtonText: 'Ok',
-            width: '30rem',
-            heightAuto : true
-          }).then(() => {
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            console.log(response)
+          }, (error) => {
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Ocurrió un problema. Comunicarse con Sistemas',
+              text: error,
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
           })
-        }).add(
-          () =>{
-            if(this.id === 0){
-              this.antecedentesLegalesService.getAntecedentesLegalesPorId(this.idCompany).subscribe(
-                (response) => {
-                  if(response.isSuccess === true && response.isWarning === false){
-                    this.id = response.data.id
-                  }
-            });
-          }
-        })
-      }
-    });
+        }
+      });
+    }
   }
   salir(){
   }

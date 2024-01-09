@@ -13,20 +13,30 @@ import { Pedido } from 'app/models/pedidos/pedido';
 export class ComentarioComponent {
   public Editor: any = ClassicEditor;
 
+  id = 0
   cupon: string = "";
-  order : Pedido[]
+  comentario = ""
 
   constructor(
     public dialogRef: MatDialogRef<ComentarioComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private pedidoService : PedidoService
   ) {
-    console.log(dialogData);
-    this.cupon = dialogData.data;
-    this.order = this.pedidoService.getCommentByCupon(dialogData.data)
+    if(data){
+      this.id = data.id
+      this.cupon = data.cupon
+      this.comentario = data.comentario
+    }
   }
 
   cerrarDialog(){
     this.dialogRef.close()
+  }
+  guardar(){
+    this.dialogRef.close(
+      {
+      comentario : this.comentario
+      }
+    )
   }
 }

@@ -112,27 +112,29 @@ export class AsignacionComponent implements OnInit {
   }
 
   //ACCIONES
-  agregarComentario(cod : string) {
+  agregarComentario(id : number, cupon : string, comentario : string) {
     const dialogRef = this.dialog.open(ComentarioComponent, {
     data: {
-      data: cod,
+      id: id,
+      cupon: cupon,
+      comentario : comentario
     },
   });
   console.log(dialogRef)
-    // dialogRef.afterClosed().subscribe((codAbonado) => {
-    //   if (codAbonado) {
-    //     this.codAbonado = codAbonado.codigoAbonado
-    //     this.asignarDatosAbonado()
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe((data) => {
+      console.log(data)
+      if (data) {
+        this.dataSource.data.filter(x => x.id === id)[0].commentary = data.comentario
+      }
+    });
   }
-  agregarAdjuntos(cod : string) {
+  agregarAdjuntos(id : number, cupon : string) {
     const dialogRef = this.dialog.open(AdjuntarArchivosComponent, {
     data: {
-      data: cod,
+      id: id,
+      cupon: cupon
     },
   });
-  console.log(dialogRef)
     // dialogRef.afterClosed().subscribe((codAbonado) => {
     //   if (codAbonado) {
     //     this.codAbonado = codAbonado.codigoAbonado

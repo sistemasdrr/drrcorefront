@@ -20,3 +20,24 @@ export interface SociosEmpresaT{
   participation : number
   startDate : string
 }
+export interface AccionistasEmpresa{
+  id : number
+  idCompany : number
+  idCompanyShareHolder : number
+  relation : string
+  participation : number
+  startDate : string
+}
+export interface AccionistasEmpresaT{
+  id : number
+  idCompany : number
+  idCompanyShareHolder : number
+  name : string
+  country : string
+  flagCountry : string
+  taxTypeName : string
+  taxtTypeCode : string
+  relation : string
+  participation : number
+  startDate : string
+}

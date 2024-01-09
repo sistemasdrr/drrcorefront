@@ -1,13 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboData } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { SociosEmpresaService } from 'app/services/informes/empresa/socios-empresa.service';
 import { Observable, map, startWith } from 'rxjs';
 import { SeleccionarPersonaComponent } from './seleccionar-persona/seleccionar-persona.component';
 import { DatosGeneralesService } from 'app/services/informes/persona/datos-generales.service';
+import { SociosEmpresa } from 'app/models/informes/empresa/socios-empresa';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agregar-socio',
@@ -64,9 +66,12 @@ export class AgregarSocioComponent implements OnInit {
   msgProfesion = ""
   colorMsgProfesion = ""
 
+  modeloNuevo : SociosEmpresa[] = []
+
   constructor(private comboService : ComboService,
     private sociosEmpresaService : SociosEmpresaService,
     @Inject(MAT_DIALOG_DATA) public data: any, private dialog : MatDialog,
+    public dialogRef: MatDialogRef<AgregarSocioComponent>,
     private datosGeneralesService : DatosGeneralesService){
     if(data.id !== 0){
       this.id = data.id
@@ -108,6 +113,7 @@ export class AgregarSocioComponent implements OnInit {
       this.titulo = "Editar Socio"
       this.sociosEmpresaService.getCompanyPartner(this.id).subscribe(
         (response) => {
+          console.log(response.data)
           if(response.isSuccess === true && response.isWarning === false){
             const socio = response.data
             if(socio){
@@ -123,6 +129,52 @@ export class AgregarSocioComponent implements OnInit {
                 }
               }
             }
+          }
+        }
+      ).add(
+        () => {
+          if(this.idProfession !== null && this.idProfession !== 0){
+            this.profesion = this.listaProfesion.filter(x => x.id === this.idProfession)[0]
+          }
+          if(this.idPerson !== null && this.idPerson !== 0){
+            this.datosGeneralesService.getPersonaById(this.idPerson).subscribe(
+              (response) => {
+                if(response.isSuccess === true && response.isWarning === false){
+                  const persona = response.data
+                  if(persona){
+                    this.fullname = persona.fullname
+                    this.language = persona.language
+                    this.idPersonSituation = persona.idPersonSituation
+                    this.nationality = persona.nationality
+                    this.idDocumentType = persona.idDocumentType
+                    this.codeDocumentType = persona.codeDocumentType
+                    this.taxTypeName = persona.taxTypeName
+                    this.taxTypeCode = persona.taxTypeCode
+                    this.idLegalRegisterSituation = persona.idLegalRegisterSituation
+                    if(persona.lastSearched !== null && persona.lastSearched !== ""){
+                      const fecha = persona.lastSearched.split("/")
+                      if(fecha.length > 0){
+                        this.lastSearchedD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                        this.lastSearched = persona.lastSearched
+                      }
+                    }
+                    if(persona.birthDate !== null && persona.birthDate !== ""){
+                      const fecha = persona.birthDate.split("/")
+                      if(fecha.length > 0){
+                        this.birthDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
+                        this.birthDate = persona.birthDate
+                      }
+                    }
+                  }
+                }
+              }
+            ).add(
+              () => {
+                if(this.idLegalRegisterSituation !== null && this.idLegalRegisterSituation !== 0){
+                  this.situacionRucInforme = this.situacionRuc.filter(x => x.id === this.idLegalRegisterSituation)[0]
+                }
+              }
+            )
           }
         }
       )
@@ -143,6 +195,17 @@ export class AgregarSocioComponent implements OnInit {
         return name ? this._filterProfesion(name as string) : this.listaProfesion.slice()
       }),
     )
+  }
+  armarModelo(){
+    this.modeloNuevo[0] = {
+      id : this.id,
+      idCompany : this.idCompany,
+      idPerson : this.idPerson,
+      mainExecutive : this.mainExecutive,
+      idProfession : this.idProfession,
+      participation : this.participation,
+      startDate : this.startDate
+    }
   }
   selectIdioma(idioma: string) {
     this.language = idioma;
@@ -286,6 +349,142 @@ export class AgregarSocioComponent implements OnInit {
     this.situacionRucInforme = {
       id: 0,
       valor: ''
+    }
+  }
+  salir(){
+    this.dialogRef.close()
+  }
+  guardar(){
+    this.armarModelo()
+    if(this.id > 0){
+      console.log(this.modeloNuevo[0])
+      Swal.fire({
+        title: '¿Está seguro de guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
+          if(loader){
+            loader.classList.remove('hide-loader');
+          }
+          this.sociosEmpresaService.addCompanyPartner(this.modeloNuevo[0]).subscribe((response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Se guardaron los cambios correctamente',
+              text: "",
+              icon: 'success',
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto: true
+            })
+          }else{
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Ocurrió un problema.',
+              text: 'Comunicarse con Sistemas',
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
+          }
+          if(loader){
+            loader.classList.add('hide-loader');
+          }
+        })
+        }
+      });
+    }else{
+      console.log(this.modeloNuevo[0])
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          const loader = document.getElementById('loader-lista-empresas') as HTMLElement | null;
+          this.sociosEmpresaService.addCompanyPartner(this.modeloNuevo[0]).subscribe((response) => {
+            if(loader){
+              loader.classList.remove('hide-loader');
+            }
+            if(response.isSuccess === true && response.isWarning === false){
+              if(loader){
+                loader.classList.add('hide-loader');
+              }
+              Swal.fire({
+                title: 'Se agregó el registro correctamente',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto: true
+              }).then(() => {
+                this.dialogRef.close({
+                  success : true
+                })
+              })
+            }else{
+              if(loader){
+                loader.classList.add('hide-loader');
+              }
+              Swal.fire({
+                title: 'Ocurrió un problema.',
+                text: 'Comunicarse con Sistemas',
+                icon: 'warning',
+                confirmButtonColor: 'blue',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto : true
+              }).then(() => {
+              })
+            }
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+            console.log(response)
+          }, (error) => {
+            if(loader){
+              loader.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Ocurrió un problema. Comunicarse con Sistemas',
+              text: error,
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
+          })
+        }
+      });
     }
   }
 }
