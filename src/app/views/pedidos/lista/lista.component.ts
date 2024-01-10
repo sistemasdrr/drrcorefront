@@ -31,6 +31,7 @@ import Swal from 'sweetalert2';
   ],
 })
 export class ListaComponent implements OnInit {
+
   tipoInforme = ""
   tipoTramite = ""
   breadscrums = [
@@ -43,6 +44,7 @@ export class ListaComponent implements OnInit {
   buscarCupon = ""
   buscarInforme = ""
   buscarAbonado = ""
+
 
   loading = false;
 
@@ -68,6 +70,7 @@ export class ListaComponent implements OnInit {
           this.dataSource.data = response.data
           this.dataSource.paginator = this.paginator
           this.dataSource.sort = this.sort
+
         }
       }
     ).add(
@@ -76,6 +79,17 @@ export class ListaComponent implements OnInit {
       }
     )
   }
+  getColor(arg0: boolean,arg1: number): string {
+       if(arg0){
+        if(arg1==1){
+          return 'orange';
+        }else{
+          return 'green';
+        }
+       }else{
+        return 'black';
+       }
+    }
   refresh(){
     this.ticketService.getList().subscribe(
       (response) => {
@@ -137,10 +151,10 @@ export class ListaComponent implements OnInit {
       }
     });
   }
-  consultar(){
+  consultar(myticket:unknown){
     const dialogRef = this.dialog.open(ConsultarComponent, {
       data : {
-
+          ticket:myticket
       },
     });
   }

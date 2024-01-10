@@ -67,6 +67,7 @@ import { SociosEmpresaComponent } from './info-empresa/ie-lista/socios-empresa/s
 import { AgregarSocioComponent } from './info-empresa/ie-lista/socios-empresa/agregar-socio/agregar-socio.component';
 import { SeleccionarPersonaComponent } from './info-empresa/ie-lista/socios-empresa/agregar-socio/seleccionar-persona/seleccionar-persona.component';
 import { AgregarAccionistaComponent } from './info-empresa/ie-lista/socios-empresa/agregar-accionista/agregar-accionista.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import { AgregarAccionistaComponent } from './info-empresa/ie-lista/socios-empre
     NgxMaskPipe,
     NgxGaugeModule,
     CKEditorModule,
-    MatSortModule
+    MatSortModule,
+    NgApexchartsModule,
   ],
   exports: [
     ListaEmpresasComponent

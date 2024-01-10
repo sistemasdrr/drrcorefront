@@ -47,6 +47,7 @@
                     <mat-option [value]="'RV'">RV</mat-option>
                     <mat-option [value]="'OR'">OR</mat-option>
                     <mat-option [value]="'EF'">EF</mat-option>
+                    <mat-option [value]="'DF'">DF</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field class="w-50" style="padding-top: 1rem; padding-left: 1rem;" >
@@ -56,6 +57,7 @@
                   <mat-option [value]="'T1'">T1</mat-option>
                   <mat-option [value]="'T2'">T2</mat-option>
                   <mat-option [value]="'T3'">T3</mat-option>
+                  <mat-option [value]="'T3'">BC</mat-option>
               </mat-select>
               </mat-form-field>
             </div>
@@ -141,8 +143,8 @@
               <div *ngIf="order.procedureType === 'T3'">
                 <div class="badge badge-solid-cyan">T3</div>
               </div>
-              <div *ngIf="order.procedureType === 'TB'">
-                <div class="badge badge-solid-brown">TB</div>
+              <div *ngIf="order.procedureType === 'BC'">
+                <div class="badge badge-solid-brown">BC</div>
               </div>
             </td>
           </ng-container>
@@ -168,8 +170,8 @@
               <button mat-icon-button (click)="$event.stopPropagation()" (click)="editOrder(order.id)" class="tbl-action-btn " matTooltip="Editar">
                 <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
               </button>
-              <button mat-icon-button class="tbl-action-btn" matTooltip="Consultar" (click)=" $event.stopPropagation(); consultar()">
-                <app-feather-icons [icon]="'help-circle'" [class]="'tbl-fav-question'"></app-feather-icons>
+              <button  mat-icon-button class="tbl-action-btn" matTooltip="Consultar" (click)=" $event.stopPropagation(); consultar(order)">
+                <app-feather-icons [icon]="'help-circle'" [ngStyle]="{'color':getColor(order.hasQuery,order.statusQuery)}" ></app-feather-icons>
               </button>
               <button mat-icon-button class="tbl-action-btn" matTooltip="Eliminar" (click)="$event.stopPropagation(); deleteOrder(order.id);">
                 <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>

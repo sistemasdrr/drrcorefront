@@ -168,7 +168,7 @@
           </button>
         </mat-form-field>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>% Compras Nacionales</mat-label>
           <input matInput placeholder="" [(ngModel)]="nationalPurchase">
@@ -178,7 +178,7 @@
           </button>
         </mat-form-field>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>% Del Exterior</mat-label>
           <input matInput placeholder="" [(ngModel)]="internationPurchase">
@@ -194,7 +194,41 @@
           <input matInput placeholder="" type="number" [(ngModel)]="workerNumber">
         </mat-form-field>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-3"></div>
+
+      <!--Historial de NUm de Empleados-->
+      <h5>Historial de Núm. de Trabajadores</h5>
+      <div class="col-md-5">
+
+      </div>
+      <div class="col-md-7">
+        <div class="header">
+          <h2>Client Survay</h2>
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>add_circle_outline</mat-icon>
+              <span>Add</span>
+            </button>
+            <button mat-menu-item disabled>
+              <mat-icon>delete_outline</mat-icon>
+              <span>Delete</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>refresh</mat-icon>
+              <span>Refresh</span>
+            </button>
+          </mat-menu>
+        </div>
+        <div class="body">
+          <apx-chart [series]="areaChartOptions.series!" [chart]="areaChartOptions.chart!"
+            [xaxis]="areaChartOptions.xaxis!" [yaxis]="areaChartOptions.yaxis!" [colors]="areaChartOptions.colors!"
+            [stroke]="areaChartOptions.stroke!" [legend]="areaChartOptions.legend!" [grid]="areaChartOptions.grid!"
+            [tooltip]="areaChartOptions.tooltip!" [dataLabels]="areaChartOptions.dataLabels!"></apx-chart>
+        </div>
+      </div>
     </div>
   </div>
   <!--LOCAL PRINCIPAL-->

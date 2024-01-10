@@ -19,18 +19,53 @@ import { ComboService } from 'app/services/combo.service';
 import { ComboData } from 'app/models/combo';
 import { ActivatedRoute } from '@angular/router';
 import { RamoNegociosService } from 'app/services/informes/empresa/ramo-negocios.service';
-import { CompanyBranch } from 'app/models/informes/empresa/ramo-negocios';
+import { CompanyBranch, WorkerHistory } from 'app/models/informes/empresa/ramo-negocios';
 import Swal from 'sweetalert2';
+import { MatTableDataSource } from '@angular/material/table';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexTooltip,
+  ApexPlotOptions,
+  ApexDataLabels,
+  ApexYAxis,
+  ApexXAxis,
+  ApexLegend,
+  ApexResponsive,
+  ApexFill,
+  ApexStroke,
+  ApexGrid,
+  ApexTitleSubtitle,
+  ApexStates,
+} from 'ng-apexcharts';
 
 export interface data {
   name: string;
 }
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  plotOptions: ApexPlotOptions;
+  tooltip: ApexTooltip;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  dataLabels: ApexDataLabels;
+  responsive: ApexResponsive[];
+  colors: string[];
+  legend: ApexLegend;
+  grid: ApexGrid;
+  stroke: ApexStroke;
+  title: ApexTitleSubtitle;
+  states: ApexStates;
+  fill: ApexFill;
+};
 
 @Component({
   selector: 'app-ramo',
   templateUrl: './ramo.component.html',
   styleUrls: ['./ramo.component.scss']
 })
+
 
 export class RamoComponent implements OnInit{
 
@@ -117,6 +152,10 @@ export class RamoComponent implements OnInit{
     bandera : ''
   }
 
+  columnsWorkerHistory : string[] = ['numberYear', 'numberWorker','acciones']
+  dataSourceWorkerHistory : MatTableDataSource<WorkerHistory>
+  public areaChartOptions!: Partial<ChartOptions>;
+
   @ViewChild('paisExpoInput') paisExpoInput!: ElementRef<HTMLInputElement>;
   announcer = inject(LiveAnnouncer);
 
@@ -128,7 +167,7 @@ export class RamoComponent implements OnInit{
     this.filteredOptions = new Observable<data[]>()
     this.filterPaisImpo = new Observable<Pais[]>()
     this.filterPaisExpo = new Observable<Pais[]>()
-
+    this.dataSourceWorkerHistory = new MatTableDataSource
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
       this.idCompany = 0
@@ -157,6 +196,13 @@ export class RamoComponent implements OnInit{
     )
 
     if(this.idCompany !== 0){
+      this.ramoNegocioService.getListWorkerHistory(this.idCompany).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            this.dataSourceWorkerHistory.data = response.data
+          }
+        }
+      )
       this.ramoNegocioService.getRamoNegocioByIdCompany(this.idCompany).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
@@ -281,6 +327,7 @@ export class RamoComponent implements OnInit{
       }
     )
 
+    this.chart1();
     this.filterPaisImpo = this.controlPaisesImpo.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -303,7 +350,68 @@ export class RamoComponent implements OnInit{
       }),
     );
   }
-
+  private chart1() {
+    this.areaChartOptions = {
+      series: [
+        {
+          name: 'New Clients',
+          data: [31, 40, 28, 51, 42, 85, 77],
+        },
+        {
+          name: 'Old Clients',
+          data: [11, 32, 45, 32, 34, 52, 41],
+        },
+      ],
+      chart: {
+        height: 350,
+        type: 'area',
+        toolbar: {
+          show: false,
+        },
+        foreColor: '#9aa0ac',
+      },
+      colors: ['#FC8380', '#6973C6'],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [
+          '2018-09-19',
+          '2018-09-20',
+          '2018-09-21',
+          '2018-09-22',
+          '2018-09-23',
+          '2018-09-24',
+          '2018-09-25',
+        ],
+      },
+      legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 0,
+        offsetY: 0,
+      },
+      grid: {
+        show: true,
+        borderColor: '#9aa0ac',
+        strokeDashArray: 1,
+      },
+      tooltip: {
+        theme: 'dark',
+        marker: {
+          show: true,
+        },
+        x: {
+          show: true,
+        },
+      },
+    };
+  }
   armarModeloNuevo(){
     this.modeloNuevo[0] = {
       id : this.id,

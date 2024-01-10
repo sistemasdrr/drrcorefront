@@ -37,7 +37,7 @@
               <div class="col-md-6 m-0">
                 <mat-form-field color="primary" style="width: 100%;" >
                   <mat-label >Fecha de Consulta</mat-label>
-                  <input matInput [matDatepicker]="fecha_ingreso_abonado" #fechaInput>
+                  <input  [(ngModel)]="dateQuery" matInput [matDatepicker]="fecha_ingreso_abonado" >
                   <mat-datepicker-toggle matIconSuffix [for]="fecha_ingreso_abonado"></mat-datepicker-toggle>
                   <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
                 </mat-form-field>

@@ -83,3 +83,10 @@ export interface ImportAndExport{
   observation : string
   observationEng : string
 }
+
+export interface WorkerHistory{
+  id : number
+  idCompany : number
+  numberWorker : number
+  numberYear : number
+}
