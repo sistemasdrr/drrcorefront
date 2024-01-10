@@ -1,0 +1,64 @@
+<div mat-dialog-content class="row" style="min-width: 60rem; min-height: 30rem; overflow-y: auto; overflow-x: none;">
+  <div class="col-md-12" style="background-color: #dae1f3;">
+    <div class="d-flex justify-content-between">
+      <h4 class="p-2">Nuestra Base de Datos indica que participa o ha participado en las siguientes empresas</h4>
+      <button mat-mini-fab color="warn" matTooltip="Cerrar" >
+        <mat-icon class="col-white">logout</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="col-md-12" style="min-height: 20rem;">
+    <div class="shadow m-1" style="overflow-x: auto;">
+      <table mat-table [dataSource]="dataSourcePartners" class="mat-elevation-z8 w-100" matSort>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="text-center" style="font-size: 18px;"> Razón Social </th>
+          <td mat-cell *matCellDef="let partner" class="text-center" >{{partner.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="country">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="text-center" style="font-size: 18px;"> País </th>
+          <td mat-cell *matCellDef="let partner" class="text-center" > {{partner.country}} </td>
+        </ng-container>
+        <ng-container matColumnDef="taxTypeName">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="text-center" style="font-size: 18px;"> Registro Tributario </th>
+          <td mat-cell *matCellDef="let partner" class="text-center" > {{partner.taxTypeName}} - {{partner.taxTypeCode}} </td>
+        </ng-container>
+        <ng-container matColumnDef="situation">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="text-center" style="font-size: 18px;"> Situación </th>
+          <td mat-cell *matCellDef="let partner" class="text-center" > {{partner.situation}} </td>
+        </ng-container>
+        <ng-container matColumnDef="mainExecutive">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="text-center" style="font-size: 18px;"> Ejecutivo Principal </th>
+          <td mat-cell *matCellDef="let partner" class="text-center" >
+            <mat-checkbox class="example-margin" [(ngModel)]="partner.mainExecutive" [disabled]="true"></mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="profession">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cargo </th>
+          <td mat-cell *matCellDef="let partner" class="text-center" > {{partner.profession}} </td>
+        </ng-container>
+        <ng-container matColumnDef="constitutionDate">
+          <th mat-header-cell mat-sort-header *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fecha de Constitución </th>
+          <td mat-cell *matCellDef="let partner" class="text-center" > {{partner.constitutionDate}}</td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef class="text-center">
+              <button mat-mini-fab color="primary" (click)="agregarSociosPersona()" matTooltip="Agregar"  >
+                <mat-icon class="col-white">add</mat-icon>
+              </button>
+            </th>
+          <td mat-cell *matCellDef="let partner" class="text-center d-flex" >
+            <button mat-icon-button  class="tbl-action-btn " (click)="editarSociosPersona(partner.id)" matTooltip="Editar" style="margin-top: 1rem;">
+              <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+            </button>
+            <button mat-icon-button class="tbl-action-btn" (click)="eliminarSociosPersona(partner.id)" matTooltip="Quitar" style="margin-top: 1rem;">
+              <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnasPartners"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnasPartners;"></tr>
+      </table>
+    </div>
+  </div>
+
+</div>

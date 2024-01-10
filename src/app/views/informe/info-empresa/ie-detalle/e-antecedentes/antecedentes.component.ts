@@ -13,7 +13,7 @@ import { Observable, map, startWith } from 'rxjs';
 import { CapitalPagadoComponent } from './capital-pagado/capital-pagado.component';
 import { ActivatedRoute } from '@angular/router';
 import { AntecedentesLegalesService } from 'app/services/informes/empresa/antecedentes-legales.service';
-import { Background } from 'app/models/informes/empresa/antecendentes-legales';
+import { Background, CompanyRelationT } from 'app/models/informes/empresa/antecendentes-legales';
 import { ComboService } from 'app/services/combo.service';
 import { ComboData } from 'app/models/combo';
 import Swal from 'sweetalert2';
@@ -81,10 +81,10 @@ export class AntecedentesComponent implements OnInit, OnDestroy{
   listaMonedas : ComboData[] = []
   filteredMoneda: Observable<ComboData[]>;
   //TABLA
-  dataSource: MatTableDataSource<EmpresaRelacionada>;
+  dataSource: MatTableDataSource<CompanyRelationT>;
 
-  columnsToDisplay = ['razonSocial', 'registroTributario', 'pais', 'fechaEstablecimiento', 'estado', 'accion'];
-  selection = new SelectionModel<EmpresaRelacionada>(true, []);
+  columnsToDisplay = ['name', 'taxTypeName', 'country', 'constitutionDate', 'situation', 'accion'];
+  selection = new SelectionModel<CompanyRelationT>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -106,7 +106,7 @@ constructor(
     }
     console.log(this.idCompany)
     this.filteredMoneda = new Observable<ComboData[]>();
-    this.dataSource = new MatTableDataSource<EmpresaRelacionada>
+    this.dataSource = new MatTableDataSource<CompanyRelationT>
   }
   compararModelosF : any
   ngOnInit() {
@@ -121,6 +121,13 @@ constructor(
         }
       }
     ).add(() => {
+      this.antecedentesLegalesService.getListCompanyRelation(this.idCompany).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            this.dataSource.data = response.data
+          }
+        }
+      )
       this.antecedentesLegalesService.getAntecedentesLegalesPorId(this.idCompany).subscribe(
         (response) => {
           console.log(response)
@@ -221,7 +228,6 @@ constructor(
         });
     });
 
-    this.dataSource = new MatTableDataSource(this.empresaRelacionadaService.GetAllEmpresaRelacionada())
 
     this.filteredMoneda = this.ctrlMoneda.valueChanges.pipe(
       startWith(''),
@@ -317,10 +323,45 @@ constructor(
       }
     });
     dialogRef.afterClosed().subscribe((data) => {
-      if (data) {
-        console.log(data)
+      if (data && data.idCompany !== null && data.idCompany !== 0) {
+        console.log({
+          id : 0,
+          idCompany : this.idCompany,
+          idCompanyRelation : data.idCompany
+        });
+        this.antecedentesLegalesService.addCompanyRelation({
+          id : 0,
+          idCompany : this.idCompany,
+          idCompanyRelation : data.idCompany
+        }).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              Swal.fire({
+                title: 'Se agregó el registro correctamente',
+                text: "",
+                icon: 'success',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+                width: '30rem',
+                heightAuto: true
+              }).then(
+                () => {
+                  this.antecedentesLegalesService.getListCompanyRelation(this.idCompany).subscribe(
+                    (response) => {
+                      if(response.isSuccess === true && response.isWarning === false){
+                        this.dataSource.data = response.data
+                      }
+                    }
+                  )
+                }
+              )
+            }
+          }
+        )
       }
     });
+
   }
   agregarTraduccion(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {

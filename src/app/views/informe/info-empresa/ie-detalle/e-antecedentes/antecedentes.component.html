@@ -179,27 +179,29 @@
       <div class="col-md-12">
         <div class="shadow m-1" style="overflow-x: auto;">
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
-            <ng-container matColumnDef="{{columnsToDisplay[0]}}">
+            <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Razón Social </th>
-              <td mat-cell *matCellDef="let report" class="text-center" >{{report[columnsToDisplay[0]]}}</td>
+              <td mat-cell *matCellDef="let report" class="text-center" >{{report.name}}</td>
             </ng-container>
-            <ng-container matColumnDef="{{columnsToDisplay[1]}}">
+            <ng-container matColumnDef="taxTypeName">
               <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Registro Tributario </th>
-              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[1]]}} </td>
+              <td mat-cell *matCellDef="let report" class="text-center" > {{report.taxTypeName}} - {{report.taxTypeCode}} </td>
             </ng-container>
-            <ng-container matColumnDef="{{columnsToDisplay[2]}}">
+            <ng-container matColumnDef="country">
               <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> País </th>
-              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[2]]}} </td>
+              <td mat-cell *matCellDef="let report" class="text-center" >
+                {{report.country}}
+              </td>
             </ng-container>
-            <ng-container matColumnDef="{{columnsToDisplay[3]}}">
+            <ng-container matColumnDef="constitutionDate">
               <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Fec. de Estab. </th>
-              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[3]]}} </td>
+              <td mat-cell *matCellDef="let report" class="text-center" > {{report.constitutionDate}} </td>
             </ng-container>
-            <ng-container matColumnDef="{{columnsToDisplay[4]}}">
+            <ng-container matColumnDef="situation">
               <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Estado </th>
-              <td mat-cell *matCellDef="let report" class="text-center" > {{report[columnsToDisplay[4]]}} </td>
+              <td mat-cell *matCellDef="let report" class="text-center" > {{report.situation}} </td>
             </ng-container>
-            <ng-container matColumnDef="{{columnsToDisplay[5]}}">
+            <ng-container matColumnDef="accion">
               <th mat-header-cell *matHeaderCellDef class="text-center">
                   <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="empresasRelacionadas()">
                     <mat-icon class="col-white">add</mat-icon>

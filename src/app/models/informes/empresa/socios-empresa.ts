@@ -20,6 +20,20 @@ export interface SociosEmpresaT{
   participation : number
   startDate : string
 }
+export interface SociosPersonaT{
+  id : number
+  idCompany : number
+  idPerson : number
+  name : string
+  country : string
+  flagCountry : string
+  taxTypeName : string
+  taxTypeCode : string
+  situation : string
+  mainExecutive : boolean
+  profession : string
+  constitutionDate : string
+}
 export interface AccionistasEmpresa{
   id : number
   idCompany : number

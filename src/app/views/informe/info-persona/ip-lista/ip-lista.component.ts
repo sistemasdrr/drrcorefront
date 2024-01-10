@@ -10,6 +10,8 @@ import { ComboService } from 'app/services/combo.service';
 import { DatosGeneralesService } from 'app/services/informes/persona/datos-generales.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
+import { SociosPersonaComponent } from './socios-persona/socios-persona.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ip-lista',
@@ -53,7 +55,7 @@ export class IPListaComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort!: MatSort;
 
-  constructor(private router : Router, private comboService : ComboService, private personaService : DatosGeneralesService){
+  constructor(private dialog : MatDialog,private router : Router, private comboService : ComboService, private personaService : DatosGeneralesService){
     this.filterPais = new Observable<Pais[]>()
     this.dataSource = new MatTableDataSource()
 
@@ -281,5 +283,12 @@ export class IPListaComponent implements OnInit{
           listaPersonas.classList.add('hide-loader');
         }
       })
+  }
+  sociosPersona(idPerson : number){
+    const dialogRef = this.dialog.open(SociosPersonaComponent, {
+      data: {
+        idPerson : idPerson
+      },
+    });
   }
 }

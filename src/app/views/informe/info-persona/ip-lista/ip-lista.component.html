@@ -133,7 +133,7 @@
               <a [routerLink]="'/informes/persona/detalle/'+persona.id" mat-mini-fab class="btn bg-white" matTooltip="Editar">
                 <app-feather-icons [icon]="'edit'" class="tbl-fav-edit"></app-feather-icons>
               </a>
-              <button  mat-mini-fab class="bg-white" matTooltip="Socios">
+              <button  mat-mini-fab class="bg-white" matTooltip="Socios" (click)="sociosPersona(persona.id)">
                 <app-feather-icons [icon]="'users'" class="tbl-fav-socios"></app-feather-icons>
               </button>
               <button  mat-mini-fab class="bg-white" matTooltip="Generar PDF">

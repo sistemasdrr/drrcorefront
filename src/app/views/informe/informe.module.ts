@@ -68,6 +68,8 @@ import { AgregarSocioComponent } from './info-empresa/ie-lista/socios-empresa/ag
 import { SeleccionarPersonaComponent } from './info-empresa/ie-lista/socios-empresa/agregar-socio/seleccionar-persona/seleccionar-persona.component';
 import { AgregarAccionistaComponent } from './info-empresa/ie-lista/socios-empresa/agregar-accionista/agregar-accionista.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { SociosPersonaComponent } from './info-persona/ip-lista/socios-persona/socios-persona.component';
+import { AgregarSocioPersonaComponent } from './info-persona/ip-lista/socios-persona/agregar-socio/agregar-socio.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +116,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     SociosEmpresaComponent,
     AgregarSocioComponent,
     SeleccionarPersonaComponent,
-    AgregarAccionistaComponent
+    AgregarAccionistaComponent,
+    SociosPersonaComponent,
+    AgregarSocioPersonaComponent
   ],
   imports: [
     CommonModule,

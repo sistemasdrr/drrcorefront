@@ -23,38 +23,21 @@ export interface Background{
   background : string
   history : string
   traductions : Traduction[]
-
-
-  // codigoInforme : string
-  // fechaConstitucion : string
-  // inicioActividades : string
-  // duracion : string
-  // duracionIng : string
-  // registradaEn : string
-  // registradaEnIng : string
-  // notaria : string
-  // registrosPublicos : string
-  // registrosPublicosIng : string
-
-  // monedaPais : string
-  // monto : string
-  // observacion : string
-  // observacionIng : string
-
-  // origen : string
-  // fechaAumento : string
-  // fechaAumentoIng : string
-
-  // moneda : Moneda
-  // cotizada : string
-  // por : string
-  // actualTC : string
-  // actualTCIng : string
-  // fechaUltimaConsultaRRPP : string
-  // fechaUltimaConsultaPor : string
-
-  // comentarioAntecedentesLegales : string
-  // comentarioAntecedentesLegalesIng : string
-  // comentarioHistoriaAntecedentes : string
-  // comentarioHistoriaAntecedentesIng : string
+}
+export interface CompanyRelation{
+  id : number
+  idCompany : number
+  idCompanyRelation : number
+}
+export interface CompanyRelationT{
+  id : number
+  idCompany : number
+  idCompanyRelation : number
+  name : string
+  country : string
+  flagCountry : string
+  taxTypeName : string
+  taxTypeCode : string
+  constitutionDate : string
+  situation : string
 }
