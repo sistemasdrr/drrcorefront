@@ -63,6 +63,9 @@ export class ListaComponent implements OnInit {
     this.dataSource = new MatTableDataSource();
   }
   ngOnInit() {
+   this.init();
+  }
+  init(){
     this.loading = true
     this.ticketService.getList().subscribe(
       (response) => {
@@ -70,7 +73,6 @@ export class ListaComponent implements OnInit {
           this.dataSource.data = response.data
           this.dataSource.paginator = this.paginator
           this.dataSource.sort = this.sort
-
         }
       }
     ).add(
@@ -79,26 +81,24 @@ export class ListaComponent implements OnInit {
       }
     )
   }
-  getColor(arg0: boolean,arg1: number): string {
-       if(arg0){
-        if(arg1==1){
-          return 'orange';
-        }else{
-          return 'green';
-        }
-       }else{
-        return 'black';
-       }
+  getColor(arg0: boolean,arg1: number): string {      
+        return arg0?'black': arg1===1?'red':'green';   
     }
   refresh(){
+    this.loading=true;
     this.ticketService.getList().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
           this.dataSource.data = response.data
           this.dataSource.paginator = this.paginator
         }
-      }
-    )
+      })
+      .add(
+        () => {
+          this.loading=false;
+          }
+      )
+    
   }
 
   addOrder(){
@@ -157,11 +157,28 @@ export class ListaComponent implements OnInit {
           ticket:myticket
       },
     });
+    dialogRef.afterClosed().subscribe((data) => {
+     this.refresh();
+    });
   }
 
   assignOrder(){
     this.router.navigate(['pedidos/asignacion']);
   }
+  downloadReport(){
+    this.loading=true;
+    this.ticketService.downloadReport().subscribe(response=>{
+      let blob : Blob = response.body as Blob;
+      let a =document.createElement('a');
+      a.download="ReporteTicket_"+Date.now();
+      a.href=window.URL.createObjectURL(blob);
+      a.click();
+}).add(
+  () => {
+    this.loading = false
+  }
+);
+}
   buscar(){
     this.loading = true
     this.ticketService.getListBy(this.buscarCupon,this.buscarInforme,this.buscarAbonado,this.tipoInforme,this.tipoTramite).subscribe(

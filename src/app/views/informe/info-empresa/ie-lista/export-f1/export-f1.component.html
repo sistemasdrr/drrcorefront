@@ -1,0 +1,46 @@
+<div mat-dialog-content class="row" style="min-width: 40rem; min-height: 25rem; overflow-y: auto; overflow-x: none;">
+    <div class="col-md-12" style="background-color: #dae1f3;">
+        <div class="d-flex justify-content-between">
+            <h4 class="p-2">{{titulo}}</h4>
+            <div>
+                <button mat-mini-fab color="warn" (click)="cerrar()" matTooltip="Cerrar">
+                    <mat-icon class="col-white">logout</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <h5>Elegir Idioma</h5>
+    <hr>
+    <div class="col-md-12 d-flex justify-content-center">
+        <div>
+            <button [ngClass]="idioma === 'E' ? '' : 'unselect'" class="btn bg-grey"  (click)="idioma = 'E'">
+                <span class="fi fi-es" style="font-size: 50px;"></span>
+            </button>
+        </div>
+        <div style="min-width: 5rem;"></div>
+        <div>
+            <button [ngClass]="idioma === 'I' ? '' : 'unselect'" class="btn bg-grey" (click)="idioma = 'I'">
+                <span class="fi fi-us" style="font-size: 50px;"></span>
+            </button>
+        </div>
+    </div>
+    <h5>Elegir Formato</h5>
+    <hr>
+    <div class="col-md-12 d-flex justify-content-between">
+        <div>
+            <button class="btn shadow">
+                <img style="width: 55px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/267px-PDF_file_icon.svg.png" alt="">
+            </button>
+        </div>
+        <div>
+            <button class="btn shadow">
+                <img style="width: 60px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/1101px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png" alt="">
+            </button>
+        </div>
+        <div>
+            <button class="btn shadow">
+                <img style="width: 60px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Microsoft_Office_Word_%282019%E2%80%93present%29.svg/1200px-Microsoft_Office_Word_%282019%E2%80%93present%29.svg.png" alt="">
+            </button>
+        </div>
+    </div>
+</div>

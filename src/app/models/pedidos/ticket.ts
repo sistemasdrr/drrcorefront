@@ -114,3 +114,22 @@ export interface TicketListPending{
   hasFiles : boolean
   files : any[]
 }
+export interface TicketQuery{
+  idTicket: number,
+  queryDate: Date,
+  idSubscriber: number,
+  subscriberName: string,
+  language: string,  
+  email: string,
+  message: string, 
+  status: number,
+  report: string
+}
+export interface SendQuery{  
+    idTicket: number,
+    queryDate: Date,
+    idSubscriber: number,
+    language: string,
+    email: string,
+    message: string   
+}

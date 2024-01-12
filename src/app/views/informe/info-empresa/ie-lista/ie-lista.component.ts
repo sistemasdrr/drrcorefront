@@ -12,6 +12,7 @@ import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 import { SociosEmpresaComponent } from './socios-empresa/socios-empresa.component';
+import { ExportF1Component } from './export-f1/export-f1.component';
 
 @Component({
   selector: 'app-ie-lista',
@@ -191,6 +192,13 @@ export class IEListaComponent implements OnInit{
   }
   sociosEmpresa(idCompany : number){
     const dialogRef = this.dialog.open(SociosEmpresaComponent, {
+      data: {
+        idCompany : idCompany
+      },
+    });
+  }
+  generarDocumento(idCompany : number){
+    const dialogRef = this.dialog.open(ExportF1Component, {
       data: {
         idCompany : idCompany
       },

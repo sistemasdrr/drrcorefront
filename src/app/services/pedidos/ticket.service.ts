@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CurrentTicket, ListTicket, ReportType, Ticket, TicketListPending } from 'app/models/pedidos/ticket';
+import { CurrentTicket, ListTicket, ReportType, SendQuery, Ticket, TicketListPending, TicketQuery } from 'app/models/pedidos/ticket';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -38,5 +38,17 @@ export class TicketService {
   }
   deleteTicket(id : number) : Observable<Response<boolean>>{
     return this.http.post<Response<boolean>>(this.url + this.controllerTicket + '/deleteTicket?id='+id,'');
+  }
+  getTicketQuery(idTicket:number) : Observable<Response<TicketQuery>>{
+    return this.http.get<Response<TicketQuery>>(this.url + this.controllerTicket + '/getTicketQuery?idTicket='+idTicket);
+  }
+  sendQuery(obj : SendQuery) : Observable<Response<boolean>>{
+    return this.http.post<Response<boolean>>(this.url + this.controllerTicket + '/sendQuery',obj);
+  }
+  resolveQuery(idTicket:number) : Observable<Response<boolean>>{
+    return this.http.post<Response<boolean>>(this.url + this.controllerTicket + '/answeredTicketQuery?idTicket='+idTicket,'');
+  }
+  downloadReport(){
+    return this.http.get(this.url + this.controllerTicket + '/report',{observe:'response',responseType:'blob'});
   }
 }
