@@ -20,10 +20,17 @@
                     </button>
                   </div>
                 </li>
-                <li class="tbl-header-btn">
+                <li *ngIf="canWork && canSend" class="tbl-header-btn">
                   <div class="m-l-10" >
                     <button mat-icon-button  class="btn btn-primary" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Enviar">
                       <mat-icon>mail</mat-icon>
+                    </button>
+                  </div>
+                </li>
+                <li *ngIf="canWork && canCheck" class="tbl-header-btn">
+                  <div class="m-l-10" >
+                    <button mat-icon-button  class="btn bg-green" (click)="guardar()"  #tooltip="matTooltip" matTooltip="Consulta resuelta">
+                      <mat-icon style="color: white;">check</mat-icon>
                     </button>
                   </div>
                 </li>
@@ -34,7 +41,7 @@
         <mat-dialog-content class="mat-typography p-0 m-0">
           <div class="body m-0 p-0">
             <div class="row p-0 m-0 pt-3">
-              <div class="col-md-6 m-0">
+              <div class="col-md-4 m-0">
                 <mat-form-field color="primary" style="width: 100%;" >
                   <mat-label >Fecha de Consulta</mat-label>
                   <input  [(ngModel)]="dateQuery" matInput [matDatepicker]="fecha_ingreso_abonado" >
@@ -42,28 +49,48 @@
                   <mat-datepicker #fecha_ingreso_abonado color="primary"></mat-datepicker>
                 </mat-form-field>
               </div>
-              <div class="col-md-6 m-0">
+              <div class="col-md-4 d-flex justify-content-center">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Idioma</mat-label>
+                  <mat-select [(ngModel)]="language" (selectionChange)="selectIdioma($event.value)">
+                    <mat-option [value]="'E'">
+                      <span class="fi fi-es"></span>
+                      ESPAÑOL
+                    </mat-option>
+                    <mat-option [value]="'I'">
+                      <span class="fi fi-us"></span>
+                      INGLÉS
+                    </mat-option>                   
+                  </mat-select>
+                  <button class="btn-traduccion" matSuffix mat-icon-button>
+                    <span class="fi fi-es" *ngIf="language === 'E'"></span>
+                    <span class="fi fi-us" *ngIf="language  === 'I'"></span>
+                    
+                  </button>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 m-0">
                 <mat-form-field color="primary" style="width: 100%;" >
                   <mat-label >Abonado</mat-label>
-                  <input type="text" matInput >
+                  <input [(ngModel)]="subscriber" type="text" matInput >
                 </mat-form-field>
               </div>
               <div class="col-md-12 m-0">
                 <mat-form-field color="primary" style="width: 100%;" >
                   <mat-label >Correo</mat-label>
-                  <input type="text" matInput >
+                  <input [(ngModel)]="email" type="text" matInput >
                 </mat-form-field>
               </div>
               <div class="col-md-12 m-0">
                 <mat-form-field color="primary" style="width: 100%;" >
                   <mat-label >Informe</mat-label>
-                  <input type="text" matInput >
+                  <input [(ngModel)]="report" type="text" matInput >
                 </mat-form-field>
               </div>
               <div class="col-md-12 m-0">
                 <mat-form-field color="primary" style="width: 100%;" >
-                  <mat-label >Observación</mat-label>
-                  <textarea type="text" matInput  style="min-height: 8rem;"></textarea>
+                  <mat-label >Mensaje</mat-label>
+                  <textarea [(ngModel)]="message" type="text" matInput  style="min-height: 8rem;"></textarea>
                 </mat-form-field>
               </div>
             </div>

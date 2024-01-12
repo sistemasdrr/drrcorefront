@@ -81,8 +81,16 @@ export class ListaComponent implements OnInit {
       }
     )
   }
-  getColor(arg0: boolean,arg1: number): string {      
-        return arg0?'black': arg1===1?'red':'green';   
+  getColor(arg0: boolean,arg1: number): string { 
+    console.log(arg0);
+    if(!arg0){
+      return 'black';
+    } else if(arg1===1){
+       return'red';
+    }else{
+      return 'green';
+    }    
+        
     }
   refresh(){
     this.loading=true;
@@ -172,6 +180,7 @@ export class ListaComponent implements OnInit {
       let a =document.createElement('a');
       a.download="ReporteTicket_"+Date.now();
       a.href=window.URL.createObjectURL(blob);
+      a.target="_blank";
       a.click();
 }).add(
   () => {
