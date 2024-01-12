@@ -776,12 +776,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
               width: '30rem',
               heightAuto: true
             })
-            const busqueda = JSON.parse(localStorage.getItem('busquedaEmpresas')+'');
-            busqueda.razonSocial = this.name;
-            busqueda.idPais = this.idCountry;
-            localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
-            this.router.navigate(['informes/empresa/detalle/'+this.id]);
-
             this.armarModeloActual();
           }else{
             if(paginaDetalleEmpresa){
@@ -825,6 +819,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
               paginaDetalleEmpresa.classList.remove('hide-loader');
             }
             if(response.isSuccess === true && response.isWarning === false){
+              this.router.navigate(['informes/empresa/detalle/'+response.data]);
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');
               }
@@ -837,14 +832,9 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
                 confirmButtonText: 'Ok',
                 width: '30rem',
                 heightAuto: true
+              }).then(() => {
+                window.location.reload();
               })
-              const busqueda = JSON.parse(localStorage.getItem('busquedaEmpresas')+'');
-              busqueda.razonSocial = this.name;
-              busqueda.idPais = this.idCountry;
-              localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda));
-
-              this.router.navigate(['informes/empresa/detalle/'+response.data]);
-              this.armarModeloActual()
             }else{
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');

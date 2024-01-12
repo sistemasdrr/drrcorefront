@@ -15,9 +15,9 @@ export interface Background{
   origin : string
   increaceDateCapital : string
   currency : number
-  traded : boolean | null
+  traded : string
   tradedBy : string
-  currentExchangeRate : number
+  currentExchangeRate : string
   lastQueryRrpp : string
   lastQueryRrppBy : string
   background : string

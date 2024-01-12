@@ -483,6 +483,6 @@ export class AgregarAccionistaComponent implements OnInit{
   }
 
   salir(){
-
+    
   }
 }

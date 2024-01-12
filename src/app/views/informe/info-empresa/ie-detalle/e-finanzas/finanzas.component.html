@@ -39,11 +39,18 @@
           </mat-select>
         </mat-form-field>
       </div>
+
+      <div class="col-md-12">
+        <mat-form-field class="w-100">
+          <mat-label>Auditor(es)</mat-label>
+          <input matInput placeholder="" [(ngModel)]="auditors">
+        </mat-form-field>
+      </div>
       <div class="col-md-12">
         <h4>Historico de Ventas (Muy Importante)</h4>
         <hr>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
             <h6>Obtenida por terceras fuentes o declaración - <em>No incluir Ventas del Balance</em></h6>
               <div class="shadow m-1" style="overflow-x: auto;">
                 <div class="table-container">
@@ -92,19 +99,13 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
-              <mat-form-field class="w-100 mb-4">
-                <mat-label>Comentario de la Entrevista.</mat-label>
-                <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="interviewCommentary"></textarea>
-                <button class="btn-traduccion" matSuffix mat-icon-button [class]="interviewCommentaryEng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioEntrevista,'',interviewCommentary,interviewCommentaryEng, 'comentarioEntrevista')">
-                  <span class="fi fi-us" style="font-size: 24px;"></span>
-                </button>
-                <mat-hint>Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes</mat-hint>
-              </mat-form-field>
-              <mat-form-field class="w-100">
-                <mat-label>Auditor(es)</mat-label>
-                <input matInput placeholder="" [(ngModel)]="auditors">
-              </mat-form-field>
+            <div class="col-md-12 mt-3">
+              <div class="body">
+                <apx-chart [series]="areaChartOptions.series!" [chart]="areaChartOptions.chart!"
+                  [xaxis]="areaChartOptions.xaxis!" [yaxis]="areaChartOptions.yaxis!" [colors]="areaChartOptions.colors!"
+                  [stroke]="areaChartOptions.stroke!" [legend]="areaChartOptions.legend!" [grid]="areaChartOptions.grid!"
+                  [tooltip]="areaChartOptions.tooltip!" [dataLabels]="areaChartOptions.dataLabels!"></apx-chart>
+              </div>
             </div>
         </div>
 
@@ -170,6 +171,17 @@
 
   <div class="col-md-4">
     <div class="row counter-box shadow mb-2">
+      <h5>Comentarios</h5>
+      <div class="col-md-12">
+        <mat-form-field class="w-100 mb-4">
+          <mat-label>Comentario de la Entrevista.</mat-label>
+          <textarea matInput placeholder="" style="min-height: 5rem;" [(ngModel)]="interviewCommentary"></textarea>
+          <button class="btn-traduccion" matSuffix mat-icon-button [class]="interviewCommentaryEng === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloComentarioEntrevista,'',interviewCommentary,interviewCommentaryEng, 'comentarioEntrevista')">
+            <span class="fi fi-us" style="font-size: 24px;"></span>
+          </button>
+          <mat-hint>Datos y Cifras Proporcionadas u Obtenidas en Terceras Fuentes</mat-hint>
+        </mat-form-field>
+      </div>
       <div class="col-md-12">
         <mat-form-field class="w-100">
           <mat-label>Comentario del Analista</mat-label>

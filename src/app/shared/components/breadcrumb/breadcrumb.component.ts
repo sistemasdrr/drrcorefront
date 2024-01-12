@@ -14,7 +14,9 @@ export class BreadcrumbComponent {
   usuario!: string;
   @Input()
   codigoInforme!: string;
-  
+  @Input()
+  cupon!: string;
+
   fecha : Date = new Date()
   @Input()
   items!: string[];

@@ -17,7 +17,7 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Constitución</mat-label>
-          <input id="input_fecha_constitucion" matInput [matDatepicker]="fecha_contitucion_informe" [(ngModel)]="constitutionDateD" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
+          <input id="input_fecha_constitucion" matInput [matDatepicker]="fecha_contitucion_informe" [(ngModel)]="constitutionDateD" (dateChange)="selectFechaConstitucion($event)">
           <mat-datepicker-toggle matIconSuffix [for]="fecha_contitucion_informe"></mat-datepicker-toggle>
           <mat-datepicker #fecha_contitucion_informe color="primary"></mat-datepicker>
         </mat-form-field>
@@ -28,7 +28,7 @@
           <span matSuffix style="margin-right: .5rem; color:gray;">
             <i class="fa-solid fa-flag-checkered"></i>
           </span>
-          <input matInput placeholder="" [(ngModel)]="startFunctionYear"  mask="9999" type="number">
+          <input matInput placeholder="" [(ngModel)]="startFunctionYear">
         </mat-form-field>
       </div>
       <div class="col-md-4">
@@ -121,13 +121,13 @@
         <div class="d-flex">
           <mat-form-field style="width: 45%;">
             <mat-label>¿Cotizada en Bolsa?</mat-label>
-            <mat-select [(ngModel)]="traded" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
-              <mat-option [value]="null">
+            <mat-select [(ngModel)]="traded">
+              <mat-option [value]="''">
               </mat-option>
-              <mat-option [value]="true">
+              <mat-option [value]="'SÍ'">
                 SÍ
               </mat-option>
-              <mat-option [value]="false">
+              <mat-option [value]="'NO'">
                 NO
               </mat-option>
             </mat-select>
@@ -135,7 +135,7 @@
 
           <mat-form-field style="width: 55%;">
             <mat-label>Por</mat-label>
-            <mat-select [(ngModel)]="tradedBy" (selectionChange)="selectCotizadoEnBolsaPor($event.value)">
+            <mat-select [(ngModel)]="tradedBy" >
               <mat-option [value]="''">
               </mat-option>
               <mat-option [value]="'C'">
@@ -160,7 +160,7 @@
       <div class="col-md-4">
         <mat-form-field color="primary" style="width: 100%;">
           <mat-label>Fecha de Ultima Consulta a RR.PP.</mat-label>
-          <input matInput [matDatepicker]="fecha_ultima_consulta" [(ngModel)]="lastQueryRrppD" (dateChange)="selectFechaUltimaConsulta($event)" readonly="true">
+          <input matInput [matDatepicker]="fecha_ultima_consulta" [(ngModel)]="lastQueryRrppD" (dateChange)="selectFechaUltimaConsulta($event)" >
           <mat-datepicker-toggle matIconSuffix [for]="fecha_ultima_consulta"></mat-datepicker-toggle>
           <mat-datepicker #fecha_ultima_consulta color="primary"></mat-datepicker>
         </mat-form-field>

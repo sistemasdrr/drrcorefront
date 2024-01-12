@@ -101,6 +101,12 @@ export class HistoricoVentasComponent implements OnInit {
       equivalentToDollars : this.equivaleDolar
     }
   }
+  actualizarCampo(){
+    if(this.ventas !== 0 && this.tc !== 0){
+      this.equivaleDolar = this.ventas / this.tc
+      this.equivaleDolar = parseFloat(this.equivaleDolar.toFixed(2));
+    }
+  }
   guardar(){
     this.armarModelo()
     console.log(this.modelo[0])

@@ -12,19 +12,19 @@ const routes: Routes = [
     data: { title: 'Lista de Empresas - DRR Core V1' }
   },
   {
-    path: 'empresa/detalle/:id/:relacionar/:idCompany',
+    path: 'empresa/detalle/:id',
     component: IEDetalleComponent,
-    data: { title: 'Detalles de Empresa - DRR Core V1' }},
+    data: { title: 'Detalles de Empresa - DRR Core V1' }
+  },
   {
     path: 'empresa/detalle/:id',
     component: IEDetalleComponent,
     data: { title: 'Detalles de Empresa - DRR Core V1' },
-    children: [
-      {
-        path: ':relacionar/:idCompany',
-        component: IEDetalleComponent
-      },
-    ]
+  },
+  {
+    path: 'empresa/detalle/:id/:cupon',
+    component: IEDetalleComponent,
+    data: { title: 'Detalles de Empresa - DRR Core V1' },
   },
   {
     path: 'persona/lista',

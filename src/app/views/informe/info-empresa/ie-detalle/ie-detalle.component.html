@@ -5,7 +5,7 @@
   </div>
   <div class="container-fluid" [ngClass]="{'show-form': loading}" style="width: 100%; margin: 0; padding: 0;">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
-      <app-breadcrumb [title]="breadscrum.title" [subtitle]="' - '+subtitle" [codigoInforme]="codigoInforme+''" [usuario]="breadscrum.usuario" [items]="breadscrum.items" [active_item]="breadscrum.active">
+      <app-breadcrumb [title]="breadscrum.title" [subtitle]="' - '+subtitle" [codigoInforme]="codigoInforme+''" [usuario]="breadscrum.usuario" [cupon]="cupon" [items]="breadscrum.items" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
     <div class="" style="width:100%;">

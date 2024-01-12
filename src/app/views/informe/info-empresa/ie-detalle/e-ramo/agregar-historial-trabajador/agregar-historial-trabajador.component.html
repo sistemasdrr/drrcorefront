@@ -1,0 +1,50 @@
+<div class="container" style="max-width: 45rem;" >
+  <div class="row ">
+    <div class="card">
+      <div class="materialTableHeader mt-3" >
+        <div class="left">
+          <ul class="header-buttons-left ms-0">
+            <li class="tbl-title">
+              <h2>{{titulo}}</h2>
+            </li>
+          </ul>
+        </div>
+        <div class="right">
+          <ul class="tbl-export-btn">
+            <li class="tbl-header-btn">
+              <div class="m-l-10" >
+                <button mat-mini-fab class="bg-red" style="margin: 0 .5rem .5rem .5rem;"  matTooltip="Salir" (click)="cerrarDialog()">
+                  <mat-icon class="col-white">logout</mat-icon>
+                </button>
+              </div>
+            </li>
+            <li class="tbl-header-btn">
+              <div class="m-l-10" >
+                <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar" (click)="realizarEnvioCodigo()">
+                  <mat-icon class="col-white">save</mat-icon>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>Año</mat-label>
+        <span matSuffix style="margin-right: .5rem; color:gray;">
+          <i class="fa-solid fa-coins"></i>
+        </span>
+        <input matInput placeholder="" [(ngModel)]="numberYear" type="number">
+
+      </mat-form-field>
+    </div>
+    <div class="col-md-7 mb-3">
+      <mat-form-field class="w-100">
+        <mat-label>N° de Trabajadores</mat-label>
+        <input matInput placeholder="" [(ngModel)]="numberWorker" type="number">
+      </mat-form-field>
+    </div>
+
+  </div>
+</div>

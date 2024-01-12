@@ -61,9 +61,9 @@ export class AntecedentesComponent implements OnInit, OnDestroy{
     id : 0,
     valor  : '',
   }
-  traded : boolean | null = false
+  traded = ""
   tradedBy = ""
-  currentExchangeRate = 0
+  currentExchangeRate = ""
   currentExchangeRateEng = ""
   lastQueryRrpp = ""
   lastQueryRrppD : Date | null = null
@@ -593,6 +593,7 @@ constructor(
   }
   guardar() {
     this.armarModeloModificado()
+    console.log(this.modeloModificado)
     if(this.id > 0){
       Swal.fire({
         title: '¿Está seguro de guardar los cambios?',
@@ -702,6 +703,7 @@ constructor(
             if(paginaDetalleEmpresa){
               paginaDetalleEmpresa.classList.add('hide-loader');
             }
+            this.id = response.data
             console.log(response)
           }, (error) => {
             if(paginaDetalleEmpresa){

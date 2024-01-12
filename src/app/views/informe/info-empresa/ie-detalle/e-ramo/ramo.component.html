@@ -199,7 +199,38 @@
       <!--Historial de NUm de Empleados-->
       <h5>Historial de Núm. de Trabajadores</h5>
       <div class="col-md-5">
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSourceWorkerHistory" class="mat-elevation-z8 w-100" matSort>
 
+            <ng-container matColumnDef="numberYear">
+              <th mat-header-cell mat-sort-header="" *matHeaderCellDef class="text-center" style="font-size: 18px;"> Año </th>
+              <td mat-cell *matCellDef="let workerHistory" class="text-center"> {{workerHistory.numberYear}} </td>
+            </ng-container>
+            <ng-container matColumnDef="numberWorker">
+              <th mat-header-cell mat-sort-header="" *matHeaderCellDef class="text-center" style="font-size: 18px;"> N° Trabajadores </th>
+              <td mat-cell *matCellDef="let workerHistory" class="text-center"> {{workerHistory.numberWorker}} </td>
+            </ng-container>
+            <ng-container matColumnDef="acciones">
+              <th mat-header-cell *matHeaderCellDef class="text-center">
+                <button mat-mini-fab color="primary" style="margin-top: .7rem;" (click)="agregarHistorialTrabajador()">
+                  <mat-icon class="col-white">add</mat-icon>
+                </button>
+              </th>
+              <td mat-cell *matCellDef="let workerHistory" class="text-center d-flex">
+                <button mat-icon-button class="tbl-action-btn " #tooltip="matTooltip" matTooltip="Editar"
+                  style="margin-top: 1rem;" (click)="editarHistorialTrabajador(workerHistory.id)">
+                  <app-feather-icons [icon]="'edit'" [class]="'tbl-fav-edit'"></app-feather-icons>
+                </button>
+                <button mat-icon-button class="tbl-action-btn" #tooltip="matTooltip" matTooltip="Quitar"
+                  style="margin-top: 1rem;" (click)="eliminarHistorialTrabajador(workerHistory.id)">
+                  <app-feather-icons [icon]="'trash-2'" [class]="'tbl-fav-delete'"></app-feather-icons>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columnsWorkerHistory"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnsWorkerHistory;"></tr>
+          </table>
+        </div>
       </div>
       <div class="col-md-7">
         <div class="header">
@@ -226,7 +257,8 @@
           <apx-chart [series]="areaChartOptions.series!" [chart]="areaChartOptions.chart!"
             [xaxis]="areaChartOptions.xaxis!" [yaxis]="areaChartOptions.yaxis!" [colors]="areaChartOptions.colors!"
             [stroke]="areaChartOptions.stroke!" [legend]="areaChartOptions.legend!" [grid]="areaChartOptions.grid!"
-            [tooltip]="areaChartOptions.tooltip!" [dataLabels]="areaChartOptions.dataLabels!"></apx-chart>
+            [tooltip]="areaChartOptions.tooltip!" [dataLabels]="areaChartOptions.dataLabels!">
+          </apx-chart>
         </div>
       </div>
     </div>

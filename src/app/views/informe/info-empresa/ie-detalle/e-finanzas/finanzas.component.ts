@@ -12,10 +12,30 @@ import { FinancialInformation, HistoricoVentasT } from 'app/models/informes/empr
 import { FinanzasService } from 'app/services/informes/empresa/finanzas.service';
 import { Traduction } from 'app/models/informes/empresa/datos-empresa';
 import Swal from 'sweetalert2';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexPlotOptions, ApexResponsive, ApexStates, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
 
 export interface data {
   name: string;
 }
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  plotOptions: ApexPlotOptions;
+  tooltip: ApexTooltip;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  dataLabels: ApexDataLabels;
+  responsive: ApexResponsive[];
+  colors: string[];
+  legend: ApexLegend;
+  grid: ApexGrid;
+  stroke: ApexStroke;
+  title: ApexTitleSubtitle;
+  states: ApexStates;
+  fill: ApexFill;
+};
+
 
 @Component({
   selector: 'app-finanzas',
@@ -54,6 +74,9 @@ export class FinanzasComponent implements OnInit, OnDestroy{
   listaSituacionFinanciera : ComboData2[] = []
 
 
+  public areaChartOptions!: Partial<ChartOptions>;
+
+
   //TABLA HISTORICO VENTAS
   dataSourceHistoricoVentas = new MatTableDataSource<HistoricoVentasT>
   columnToDisplayHistoricoVentas : string[] = [
@@ -68,6 +91,7 @@ export class FinanzasComponent implements OnInit, OnDestroy{
       } else {
         this.idCompany = parseInt(id + '')
       }
+      this.chart1()
   }
   compararModelosF: any
 
@@ -129,6 +153,8 @@ export class FinanzasComponent implements OnInit, OnDestroy{
                   }
                 ).add(
                   () => {
+
+                    this.chart2()
                     const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
                     if(paginaDetalleEmpresa){
                       paginaDetalleEmpresa.classList.add('hide-loader');
@@ -146,6 +172,7 @@ export class FinanzasComponent implements OnInit, OnDestroy{
         )
       }
     );
+
   }
   compararModelos(): void {
     this.armarModeloModificado();
@@ -166,6 +193,137 @@ export class FinanzasComponent implements OnInit, OnDestroy{
     if (tabDatosEmpresa) {
       tabDatosEmpresa.classList.remove('tab-cambios')
     }
+  }
+  private chart1() {
+    this.areaChartOptions = {
+      series: [
+
+      ],
+      chart: {
+        height: 350,
+        type: 'area',
+        toolbar: {
+          show: false,
+        },
+        foreColor: '#9aa0ac',
+      },
+      colors: ['#FC8380', '#6973C6'],
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'datetime',
+        categories: [
+
+        ],
+      },
+      legend: {
+        show: true,
+        position: 'top',
+        horizontalAlign: 'center',
+        offsetX: 0,
+        offsetY: 0,
+      },
+      grid: {
+        show: true,
+        borderColor: '#9aa0ac',
+        strokeDashArray: 1,
+      },
+      tooltip: {
+        theme: 'dark',
+        marker: {
+          show: true,
+        },
+        x: {
+          show: true,
+        },
+      },
+    };
+  }
+  private chart2() {
+    if(this.dataSourceHistoricoVentas.data.length > 0 || this.idCompany !== 0){
+      const listaFechas : string[]  = []
+      const listaMN : number[] = []
+      const listaME : number[] = []
+      const listaER : number[] = []
+        console.log(this.dataSourceHistoricoVentas.data)
+        this.dataSourceHistoricoVentas.data.forEach(data => {
+          const fecha = data.date.split("/")
+          if(fecha){
+            const date : string = fecha[2]+'-'+fecha[1]+'-'+fecha[0]
+            listaFechas.push(date)
+          }
+          listaMN.push(parseInt(data.amount))
+          listaME.push(parseInt(data.equivalentToDollars))
+          listaER.push(parseFloat(data.exchangeRate))
+        });
+
+      this.areaChartOptions = {
+        series: [
+          {
+            name: 'Moneda Nacional',
+            data: listaMN
+          },
+          {
+            name: 'Moneda en USD',
+            data: listaME,
+          },
+          {
+            name: 'Tasa de Cambio',
+            data: listaER,
+          },
+        ],
+        chart: {
+          height: 300,
+          type: 'area',
+          toolbar: {
+            show: false,
+          },
+          foreColor: '#9aa0ac',
+        },
+        colors: ['#FC8380', '#6973C6', '#34eb80'],
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'smooth',
+        },
+        xaxis: {
+          type: 'datetime',
+          categories: listaFechas
+          ,
+        },
+        legend: {
+          show: true,
+          position: 'top',
+          horizontalAlign: 'center',
+          offsetX: 0,
+          offsetY: 0,
+        },
+        grid: {
+          show: true,
+          borderColor: '#9aa0ac',
+          strokeDashArray: 1,
+        },
+        tooltip: {
+          theme: 'dark',
+          marker: {
+            show: true,
+          },
+          x: {
+            show: false,
+          },
+        },
+      };
+      console.log(listaFechas)
+      console.log(listaMN)
+      console.log(listaME)
+      console.log(listaER)
+    }
+
   }
   elegirComentarioConBalance(){
     if(this.checkComentarioConBalance == true){
@@ -197,7 +355,12 @@ export class FinanzasComponent implements OnInit, OnDestroy{
           (response) => {
             if(response.isSuccess === true && response.isWarning === false){
               this.dataSourceHistoricoVentas.data = response.data
+
             }
+          }
+        ).add(
+          () => {
+            this.chart2()
           }
         )
       });
@@ -215,6 +378,10 @@ export class FinanzasComponent implements OnInit, OnDestroy{
             if(response.isSuccess === true && response.isWarning === false){
               this.dataSourceHistoricoVentas.data = response.data
             }
+          }
+        ).add(
+          () => {
+            this.chart2()
           }
         )
       });
@@ -259,6 +426,10 @@ export class FinanzasComponent implements OnInit, OnDestroy{
                   if(response.isSuccess === true && response.isWarning === false){
                     this.dataSourceHistoricoVentas.data = response.data
                   }
+                }
+              ).add(
+                () => {
+                  this.chart2()
                 }
               )
             }

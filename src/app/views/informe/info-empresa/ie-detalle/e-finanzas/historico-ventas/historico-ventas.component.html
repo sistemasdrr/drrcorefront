@@ -54,19 +54,19 @@
               <div class="col-md-12">
                 <mat-form-field class="w-100" >
                   <mat-label>Ventas</mat-label>
-                  <input matInput [(ngModel)]="ventas" type="number">
+                  <input matInput [(ngModel)]="ventas" [maxlength]="10" (ngModelChange)="actualizarCampo()" type="number">
                 </mat-form-field>
               </div>
               <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>T.C. x US$</mat-label>
-                  <input matInput [(ngModel)]="tc" type="number">
+                  <input matInput [(ngModel)]="tc" (ngModelChange)="actualizarCampo()" type="number">
                 </mat-form-field>
               </div>
               <div class="col-md-12">
                 <mat-form-field class="w-100">
                   <mat-label>Equivalente en Dolares</mat-label>
-                  <input matInput [(ngModel)]="equivaleDolar" type="number">
+                  <input matInput [(ngModel)]="equivaleDolar" [maxlength]="10" type="number" [step]="0.01">
                 </mat-form-field>
               </div>
             </div>

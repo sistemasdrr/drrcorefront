@@ -1,4 +1,3 @@
-import { add } from '@ckeditor/ckeditor5-utils/src/translation-service';
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +6,6 @@ import { RamoActividadDialogComponent } from './ramo-actividad/ramo-actividad.co
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { Observable, map, startWith } from 'rxjs';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { Actividad } from 'app/models/informes/ramo-negocio';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -38,6 +36,8 @@ import {
   ApexTitleSubtitle,
   ApexStates,
 } from 'ng-apexcharts';
+import { MatSort } from '@angular/material/sort';
+import { AgregarHistorialTrabajadorComponent } from './agregar-historial-trabajador/agregar-historial-trabajador.component';
 
 export interface data {
   name: string;
@@ -154,6 +154,7 @@ export class RamoComponent implements OnInit{
 
   columnsWorkerHistory : string[] = ['numberYear', 'numberWorker','acciones']
   dataSourceWorkerHistory : MatTableDataSource<WorkerHistory>
+  @ViewChild(MatSort, {static: true}) sort!: MatSort;
   public areaChartOptions!: Partial<ChartOptions>;
 
   @ViewChild('paisExpoInput') paisExpoInput!: ElementRef<HTMLInputElement>;
@@ -200,9 +201,11 @@ export class RamoComponent implements OnInit{
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
             this.dataSourceWorkerHistory.data = response.data
+            this.dataSourceWorkerHistory.sort = this.sort
           }
         }
       )
+      this.chart1()
       this.ramoNegocioService.getRamoNegocioByIdCompany(this.idCompany).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
@@ -261,10 +264,10 @@ export class RamoComponent implements OnInit{
               }
               if(ramoNegocio.countriesImport !== '' && ramoNegocio.countriesImport !== null){
                 this.countriesImport = ramoNegocio.countriesImport
-                const paises = ramoNegocio.countriesImport.split(',')
+                const paises = ramoNegocio.countriesImport.split(', ')
                 if(paises.length > 0){
-                  paises.forEach(idPais => {
-                    const pais = this.paisesImpo.filter(x => x.id === parseInt(idPais))[0]
+                  paises.forEach(p => {
+                    const pais = this.paisesImpo.filter(x => x.valor === p)[0]
                     if(pais){
                       this.paisesSeleccionadosImpo.push(pais)
                     }
@@ -315,13 +318,15 @@ export class RamoComponent implements OnInit{
           }
         ).add(
           () => {
-            this.comboService.getActividadesEspecificas(this.idBusinessBranch).subscribe(
-              (response) => {
-                if(response.isSuccess === true && response.isWarning === false){
-                  this.listaActividadEspecifica = response.data
+            if(this.idBusinessBranch !== 0 && this.idBusinessBranch !== null){
+              this.comboService.getActividadesEspecificas(this.idBusinessBranch).subscribe(
+                (response) => {
+                  if(response.isSuccess === true && response.isWarning === false){
+                    this.listaActividadEspecifica = response.data
+                  }
                 }
-              }
-            )
+              )
+            }
           }
         )
       }
@@ -380,7 +385,7 @@ export class RamoComponent implements OnInit{
       xaxis: {
         type: 'datetime',
         categories: [
-          '2018-09-19',
+          '2018-01-19',
           '2018-09-20',
           '2018-09-21',
           '2018-09-22',
@@ -411,6 +416,50 @@ export class RamoComponent implements OnInit{
         },
       },
     };
+  }
+  
+  agregarHistorialTrabajador(){
+    const dialogRef1 = this.dialog.open(AgregarHistorialTrabajadorComponent, {
+      data: {
+        id : 0,
+        idCompany : this.idCompany
+        },
+      });
+    dialogRef1.afterClosed().subscribe((data) => {
+      if (data) {
+        this.ramoNegocioService.getListWorkerHistory(this.idCompany).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.dataSourceWorkerHistory.data = response.data
+              this.dataSourceWorkerHistory.sort = this.sort
+            }
+          }
+        )
+      }
+    })
+  }
+  editarHistorialTrabajador(id : number){
+    const dialogRef1 = this.dialog.open(AgregarHistorialTrabajadorComponent, {
+      data: {
+        id : id,
+        idCompany : this.idCompany
+        },
+      });
+    dialogRef1.afterClosed().subscribe((data) => {
+      if (data) {
+        this.ramoNegocioService.getListWorkerHistory(this.idCompany).subscribe(
+          (response) => {
+            if(response.isSuccess === true && response.isWarning === false){
+              this.dataSourceWorkerHistory.data = response.data
+              this.dataSourceWorkerHistory.sort = this.sort
+            }
+          }
+        )
+      }
+    })
+  }
+  eliminarHistorialTrabajador(id : number){
+
   }
   armarModeloNuevo(){
     this.modeloNuevo[0] = {
@@ -815,16 +864,16 @@ export class RamoComponent implements OnInit{
       this.countriesExport = ""
       this.paisesSeleccionadosImpo.forEach(pais => {
         if(this.paisesSeleccionadosImpo[this.paisesSeleccionadosImpo.length-1] == pais){
-          this.countriesImport += pais.id
+          this.countriesImport += pais.valor
         }else{
-          this.countriesImport += pais.id + ','
+          this.countriesImport += pais.valor + ', '
         }
       });
       this.paisesSeleccionadosExpo.forEach(pais => {
         if(this.paisesSeleccionadosExpo[this.paisesSeleccionadosExpo.length-1] == pais){
-          this.countriesExport += pais.id
+          this.countriesExport += pais.valor
         }else{
-          this.countriesExport += pais.id + ','
+          this.countriesExport += pais.valor + ', '
         }
       });
       this.armarModeloNuevo()
@@ -876,16 +925,16 @@ export class RamoComponent implements OnInit{
       this.countriesExport = ""
       this.paisesSeleccionadosImpo.forEach(pais => {
         if(this.paisesSeleccionadosImpo[this.paisesSeleccionadosImpo.length-1] == pais){
-          this.countriesImport += pais.id
+          this.countriesImport += pais.valor
         }else{
-          this.countriesImport += pais.id + ','
+          this.countriesImport += pais.valor + ', '
         }
       });
       this.paisesSeleccionadosExpo.forEach(pais => {
         if(this.paisesSeleccionadosExpo[this.paisesSeleccionadosExpo.length-1] == pais){
-          this.countriesExport += pais.id
+          this.countriesExport += pais.valor
         }else{
-          this.countriesExport += pais.id + ','
+          this.countriesExport += pais.valor + ', '
         }
       });
       this.armarModeloModificado()

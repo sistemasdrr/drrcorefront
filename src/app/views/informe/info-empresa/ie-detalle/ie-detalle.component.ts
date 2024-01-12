@@ -34,13 +34,20 @@ export class IEDetalleComponent implements OnInit {
 
   loading: boolean = true;
   id = 0
+  cupon = ""
 
   constructor(private activatedRoute: ActivatedRoute,private router : Router, private datosEmpresaService : DatosEmpresaService){
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+    const cupon = this.activatedRoute.snapshot.paramMap.get('cupon');
+
     if (id?.includes('nuevo')) {
       this.id = 0
     } else {
       this.id = parseInt(id + '')
+    }
+    if(cupon !== null && cupon !== ""){
+      console.log('cupon: '+cupon)
+      this.cupon= cupon
     }
   }
 
