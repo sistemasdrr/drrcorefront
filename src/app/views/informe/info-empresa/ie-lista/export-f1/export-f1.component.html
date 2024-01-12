@@ -13,14 +13,14 @@
     <hr>
     <div class="col-md-12 d-flex justify-content-center">
         <div>
-            <button [ngClass]="idioma === 'E' ? '' : 'unselect'" class="btn bg-grey"  (click)="idioma = 'E'">
-                <span class="fi fi-es" style="font-size: 50px;"></span>
+            <button [ngClass]="idioma === 'E' ? 'bg-primary' : 'bg-white unselect'" class="btn  shadow"  (click)="idioma = 'E'" matTooltip="ESPAÑOL">
+                <span class="fi fi-es" style="font-size: 80px;"></span>
             </button>
         </div>
         <div style="min-width: 5rem;"></div>
         <div>
-            <button [ngClass]="idioma === 'I' ? '' : 'unselect'" class="btn bg-grey" (click)="idioma = 'I'">
-                <span class="fi fi-us" style="font-size: 50px;"></span>
+            <button [ngClass]="idioma === 'I' ? 'bg-primary' : 'bg-white unselect'" class="btn  shadow" (click)="idioma = 'I'" matTooltip="INGLÉS">
+                <span class="fi fi-us" style="font-size: 80px;"></span>
             </button>
         </div>
     </div>
@@ -28,17 +28,17 @@
     <hr>
     <div class="col-md-12 d-flex justify-content-between">
         <div>
-            <button class="btn shadow">
-                <img style="width: 55px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/267px-PDF_file_icon.svg.png" alt="">
+            <button class="btn shadow" (click)="descargarDocumento('pdf')">
+                <img style="width: 60px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/267px-PDF_file_icon.svg.png" alt="">
             </button>
         </div>
         <div>
-            <button class="btn shadow">
+            <button class="btn shadow" (click)="descargarDocumento('excel')">
                 <img style="width: 60px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/1101px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png" alt="">
             </button>
         </div>
         <div>
-            <button class="btn shadow">
+            <button class="btn shadow" (click)="descargarDocumento('word')" >
                 <img style="width: 60px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Microsoft_Office_Word_%282019%E2%80%93present%29.svg/1200px-Microsoft_Office_Word_%282019%E2%80%93present%29.svg.png" alt="">
             </button>
         </div>

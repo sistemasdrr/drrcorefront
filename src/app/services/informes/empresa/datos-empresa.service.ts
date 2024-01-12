@@ -47,4 +47,7 @@ export class DatosEmpresaService {
   private handleErrorDel(error: any) {
     return throwError('Ocurrió un error al eliminar el registro: ' + error);
   }
+  downloadReportF1(idCompany : number, language : string, format : string){
+    return this.http.get(this.url + this.controllerCompany + '/getf1?idCompany='+idCompany+'&language='+language+'&format='+format,{observe:'response',responseType:'blob'});
+  }
 }

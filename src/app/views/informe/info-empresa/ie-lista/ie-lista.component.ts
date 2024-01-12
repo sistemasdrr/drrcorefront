@@ -197,10 +197,11 @@ export class IEListaComponent implements OnInit{
       },
     });
   }
-  generarDocumento(idCompany : number){
+  generarDocumento(idCompany : number, oldCode : string){
     const dialogRef = this.dialog.open(ExportF1Component, {
       data: {
-        idCompany : idCompany
+        idCompany : idCompany,
+        oldCode : oldCode
       },
     });
   }
