@@ -98,56 +98,63 @@ export class ImagenesComponent implements OnInit{
         }
       ).add(
         () => {
-          this.imagenesService.downloadImage(this.path1).subscribe(
-            (response) => {
-              if (response instanceof HttpResponse && response.ok) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  this.img1 = reader.result as string;
-                };
-                reader.readAsDataURL(response.body as Blob);
+          if(this.id !== 0 && this.id !== null){
+            this.imagenesService.downloadImage(this.path1).subscribe(
+              (response) => {
+                if (response instanceof HttpResponse && response.ok) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    this.img1 = reader.result as string;
+                  };
+                  reader.readAsDataURL(response.body as Blob);
+                }
               }
-            }
-          );
-          this.imagenesService.downloadImage(this.path2).subscribe(
-            (response) => {
-              if (response instanceof HttpResponse && response.ok) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  this.img2 = reader.result as string;
-                };
-                reader.readAsDataURL(response.body as Blob);
+            );
+            this.imagenesService.downloadImage(this.path2).subscribe(
+              (response) => {
+                if (response instanceof HttpResponse && response.ok) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    this.img2 = reader.result as string;
+                  };
+                  reader.readAsDataURL(response.body as Blob);
+                }
               }
-            }
-          );
-          this.imagenesService.downloadImage(this.path3).subscribe(
-            (response) => {
-              if (response instanceof HttpResponse && response.ok) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  this.img3 = reader.result as string;
-                };
-                reader.readAsDataURL(response.body as Blob);
+            );
+            this.imagenesService.downloadImage(this.path3).subscribe(
+              (response) => {
+                if (response instanceof HttpResponse && response.ok) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    this.img3 = reader.result as string;
+                  };
+                  reader.readAsDataURL(response.body as Blob);
+                }
               }
-            }
-          );
-          this.imagenesService.downloadImage(this.path4).subscribe(
-            (response) => {
-              if (response instanceof HttpResponse && response.ok) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  this.img4 = reader.result as string;
-                };
-                reader.readAsDataURL(response.body as Blob);
+            );
+            this.imagenesService.downloadImage(this.path4).subscribe(
+              (response) => {
+                if (response instanceof HttpResponse && response.ok) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    this.img4 = reader.result as string;
+                  };
+                  reader.readAsDataURL(response.body as Blob);
+                }
               }
-            }
-          ).add(
-            () => {
-              if(paginaDetalleEmpresa){
-                paginaDetalleEmpresa.classList.add('hide-loader');
+            ).add(
+              () => {
+                if(paginaDetalleEmpresa){
+                  paginaDetalleEmpresa.classList.add('hide-loader');
+                }
               }
+            );
+          }else{
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
             }
-          );
+          }
+
         }
       )
     }
