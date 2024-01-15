@@ -17,6 +17,7 @@ export class AgregarHistorialTrabajadorComponent implements OnInit{
   idCompany = 0
   numberWorker = 0
   numberYear = 0
+  observations = ""
 
   modelo : WorkerHistory[] = []
   constructor(private ramoNegocioService : RamoNegociosService,@Inject(MAT_DIALOG_DATA) public data: any,private dialogRef : MatDialogRef<AgregarHistorialTrabajadorComponent>){
@@ -41,6 +42,7 @@ export class AgregarHistorialTrabajadorComponent implements OnInit{
               this.idCompany = workerHistory.idCompany
               this.numberWorker = workerHistory.numberWorker
               this.numberYear = workerHistory.numberYear
+              this.observations = workerHistory.observations
             }
           }
         }
@@ -52,7 +54,8 @@ export class AgregarHistorialTrabajadorComponent implements OnInit{
       id : this.id,
       idCompany : this.idCompany,
       numberWorker : this.numberWorker,
-      numberYear : this.numberYear
+      numberYear : this.numberYear,
+      observations : this.observations
     }
   }
   realizarEnvioCodigo(){

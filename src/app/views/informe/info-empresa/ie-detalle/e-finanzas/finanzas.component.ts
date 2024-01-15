@@ -244,28 +244,41 @@ export class FinanzasComponent implements OnInit, OnDestroy{
     };
   }
   private chart2() {
-    if(this.dataSourceHistoricoVentas.data.length > 0 || this.idCompany !== 0){
-      const listaFechas : string[]  = []
-      const listaMN : number[] = []
-      const listaME : number[] = []
-      const listaER : number[] = []
-        console.log(this.dataSourceHistoricoVentas.data)
-        this.dataSourceHistoricoVentas.data.forEach(data => {
-          const fecha = data.date.split("/")
-          if(fecha){
-            const date : string = fecha[2]+'-'+fecha[1]+'-'+fecha[0]
-            listaFechas.push(date)
-          }
-          listaMN.push(parseInt(data.amount))
-          listaME.push(parseInt(data.equivalentToDollars))
-          listaER.push(parseFloat(data.exchangeRate))
-        });
+    if (this.dataSourceHistoricoVentas.data.length > 0 || this.idCompany !== 0) {
+      const listaFechas: string[] = [];
+      const listaMN: number[] = [];
+      const listaME: number[] = [];
+      const listaER: number[] = [];
+
+      this.dataSourceHistoricoVentas.data.forEach(data => {
+        const fecha = data.date.split("/");
+        if (fecha) {
+          const date: string = fecha[2] + '-' + fecha[1] + '-' + fecha[0];
+          listaFechas.push(date);
+        }
+
+        const amount = parseInt(data.amount);
+        const equivalentToDollars = parseInt(data.equivalentToDollars);
+        const exchangeRate = parseFloat(data.exchangeRate);
+
+        if (!isNaN(amount)) {
+          listaMN.push(amount);
+        }
+
+        if (!isNaN(equivalentToDollars)) {
+          listaME.push(equivalentToDollars);
+        }
+
+        if (!isNaN(exchangeRate)) {
+          listaER.push(exchangeRate);
+        }
+      });
 
       this.areaChartOptions = {
         series: [
           {
             name: 'Moneda Nacional',
-            data: listaMN
+            data: listaMN,
           },
           {
             name: 'Moneda en USD',
@@ -293,8 +306,7 @@ export class FinanzasComponent implements OnInit, OnDestroy{
         },
         xaxis: {
           type: 'datetime',
-          categories: listaFechas
-          ,
+          categories: listaFechas,
         },
         legend: {
           show: true,
@@ -318,13 +330,14 @@ export class FinanzasComponent implements OnInit, OnDestroy{
           },
         },
       };
-      console.log(listaFechas)
-      console.log(listaMN)
-      console.log(listaME)
-      console.log(listaER)
-    }
 
+      console.log(listaFechas);
+      console.log(listaMN);
+      console.log(listaME);
+      console.log(listaER);
+    }
   }
+
   elegirComentarioConBalance(){
     if(this.checkComentarioConBalance == true){
       this.financialCommentarySelected = this.reportCommentWithBalance
