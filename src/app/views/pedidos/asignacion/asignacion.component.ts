@@ -12,12 +12,21 @@ import { AdjuntarArchivosComponent } from '@shared/components/adjuntar-archivos/
 import { ComboData } from 'app/models/combo';
 import { TicketListPending } from 'app/models/pedidos/ticket';
 import { TicketService } from 'app/services/pedidos/ticket.service';
+import { Pedido } from 'app/models/pedidos/pedido';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
   selector: 'app-asignacion',
   templateUrl: './asignacion.component.html',
-  styleUrls: ['./asignacion.component.scss']
+  styleUrls: ['./asignacion.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class AsignacionComponent implements OnInit {
   //BREADCRUMB
@@ -28,6 +37,7 @@ export class AsignacionComponent implements OnInit {
       active: 'Asignación',
     },
   ];
+ 
   lista : ComboData[] = [
     {
       id : 5,
@@ -61,9 +71,11 @@ export class AsignacionComponent implements OnInit {
 
   //TABLA
   dataSource: MatTableDataSource<TicketListPending>;
-  columnsToDisplay = ['position','number', 'name', 'reportType', 'procedureType', 'orderDate', 'expireDate', 'Acciones' ];
+  columnsToDisplay = ['position','number', 'busineesName','subscriberCode', 'reportType', 'procedureType', 'orderDate', 'expireDate', 'Acciones' ];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  expandedOrder: Pedido | null = null;
   selection = new SelectionModel<TicketListPending>(true, []);
-
+  loading = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -73,6 +85,7 @@ export class AsignacionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.ticketService.getListPending().subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
@@ -80,6 +93,10 @@ export class AsignacionComponent implements OnInit {
           this.dataSource.paginator = this.paginator
           this.dataSource.sort = this.sort
         }
+      }
+    ).add(
+      () => {
+        this.loading = false
       }
     )
   }
@@ -110,6 +127,14 @@ export class AsignacionComponent implements OnInit {
   volver(){
     this.router.navigate(['pedidos/lista']);
   }
+  guardar(){
+    this.selection.selected.forEach(element => {
+      
+    });
+    
+
+    console.log(this.selection.selected);
+  }
 
   //ACCIONES
   agregarComentario(id : number, cupon : string, comentario : string) {
@@ -119,8 +144,7 @@ export class AsignacionComponent implements OnInit {
       cupon: cupon,
       comentario : comentario
     },
-  });
-  console.log(dialogRef)
+  }); 
     dialogRef.afterClosed().subscribe((data) => {
       console.log(data)
       if (data) {

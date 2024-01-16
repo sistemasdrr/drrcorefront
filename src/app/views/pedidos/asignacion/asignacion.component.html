@@ -1,4 +1,8 @@
 <section class="content">
+  <div id="loader-lista-cupon" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+    <span class="loader"></span><br>
+    <h2 style="color: white;">&nbsp;Cargando...</h2>
+  </div>
   <div class="container-fluid">
     <div class="block-header" *ngFor="let breadscrum of breadscrums">
       <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [codigoInforme]="''" [active_item]="breadscrum.active">
@@ -24,7 +28,7 @@
             </li>
             <li class="tbl-header-btn">
               <div class="m-l-10" matTooltip="GUARDAR">
-                <button mat-mini-fab color="primary">
+                <button mat-mini-fab color="primary" (click)="guardar()">
                   <mat-icon class="col-white">save</mat-icon>
                 </button>
               </div>
@@ -43,7 +47,7 @@
 
 
     </div>
-    <div class="col-md-12">
+    <div class="col-md-12">     
       <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="position">
           <th mat-header-cell *matHeaderCellDef>
@@ -66,12 +70,14 @@
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
         <td mat-cell *matCellDef="let order" class="text-center"> {{order.number}} </td>
         </ng-container>
-        <ng-container matColumnDef="name" >
+        <ng-container matColumnDef="busineesName" >
         <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Nombre de Informe</th>
-        <td mat-cell *matCellDef="let order" class="text-left">
-          {{order.name}}
-         </td>
+        <td mat-cell *matCellDef="let order" class="text-left" style="min-width: 14rem;"> {{order.busineesName}} </td>
         </ng-container>
+        <ng-container matColumnDef="subscriberCode" >
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Abonado </th>
+        <td mat-cell *matCellDef="let order" class="text-left" > {{order.subscriberCode}} </td>
+        </ng-container>       
         <ng-container matColumnDef="reportType" >
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Tipo de Informe</th>
           <td mat-cell *matCellDef="let order" class="text-center">
@@ -101,11 +107,12 @@
             <div *ngIf="order.procedureType === 'T3'">
               <div class="badge badge-solid-cyan">T3</div>
             </div>
-            <div *ngIf="order.procedureType === 'TB'">
-              <div class="badge badge-solid-brown">TB</div>
+            <div *ngIf="order.procedureType === 'B'">
+              <div class="badge badge-solid-brown">BC</div>
             </div>
           </td>
         </ng-container>
+      
         <ng-container matColumnDef="orderDate" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Ingreso </th>
           <td mat-cell *matCellDef="let order" class="text-center"> {{order.orderDate}} </td>
@@ -113,34 +120,122 @@
         <ng-container matColumnDef="expireDate" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
           <td mat-cell *matCellDef="let order" class="text-center"> {{order.expireDate}} </td>
-        </ng-container>
+        </ng-container>       
+       
         <ng-container matColumnDef="Acciones" >
           <th mat-header-cell *matHeaderCellDef  class="text-center"> Acciones </th>
           <td mat-cell *matCellDef="let order" class="text-center d-flex">
             <mat-form-field style="width: 15rem; margin: .5rem 1rem 0 0;">
               <mat-label>Destinatario</mat-label>
-              <mat-select [(ngModel)]="order.receptor">
+              <mat-select [(ngModel)]="order.receptor" (click)="$event.stopPropagation();">
                 <mat-option *ngFor="let item of lista" [value]="item.id">
                   {{item.valor}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-icon-button (click)="agregarAdjuntos(order.id, order.number)" #tooltip="matTooltip" matTooltip="Adjuntos">
+            <button mat-icon-button (click)="$event.stopPropagation();agregarAdjuntos(order.id, order.number)" #tooltip="matTooltip" matTooltip="Adjuntos">
               <mat-icon style="{{order.hasFiles === true ? 'color: red;' : 'color: gray;'}}">attach_file</mat-icon>
 
             </button>
-            <button mat-icon-button *ngIf="order.comment !== ''" (click)="agregarComentario(order.id, order.number, order.commentary)" #tooltip="matTooltip" matTooltip="Comentario">
+            <button mat-icon-button *ngIf="order.comment !== ''" (click)="$event.stopPropagation();agregarComentario(order.id, order.number, order.commentary)" #tooltip="matTooltip" matTooltip="Comentario">
               <i class="fa-solid fa-circle-info" style="font-size: 24px; {{order.commentary !== '' ? 'color: red;' : ' color: gray;'}}"></i>
             </button>
 
           </td>
         </ng-container>
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let order">
+          <button mat-icon-button aria-label="expand row" (click)="(expandedOrder = expandedOrder === order ? null : order); $event.stopPropagation(); ">
+            <mat-icon *ngIf="expandedOrder !== order">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="expandedOrder === order">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+        </ng-container>
+       
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let order;" [attr.colspan]="columnsToDisplayWithExpand.length">
+            <div class="example-element-detail"
+                [@detailExpand]="order === expandedOrder ? 'expanded' : 'collapsed'">
+              <div class="card shadow m-4 w-100">
+                <div class="card-header " style="background-color: rgb(180, 204, 252);">
+                  <h5>Datos del Abonado</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label><b>Abonado: </b>{{ order.subscriberCode }} - {{ order.subscriberName }}</label><br>
+                      <label><b>País: </b>{{ order.subscriberCountry }} <span class="fi fi-{{order.subscriberFlag}}"></span></label><br>
+                      <label><b>Crédito Consultado:</b>  {{order.queryCredit}}</label><br>
+                    </div>
+                    <div class="col-md-4">
+                      <label><b>Revelar Nombre:</b><span *ngIf="order.revealName === true"> SI</span><span *ngIf="order.revealName === false"> NO</span></label><br>
+                      <label><b>Nro. de Referencia: </b> {{order.referenceNumber}}</label>
+                    </div>
+                    <div class="col-md-4">
+                      <label><b>Indicaciones del Abonado: </b> {{order.subscriberIndications}}</label><br>
+                      <label><b>Datos Adicionales: </b> {{order.aditionalData}}</label>
+                    </div>
+                  </div>
+                  <br>
+                </div>
+                <div class="card-header " style="background-color: rgb(180, 204, 252);">
+                  <h5>Datos de la Empresa</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label><b>Nombre Real de la Empresa: </b>  {{order.busineesName}}</label><br>
+                      <label><b>Nombre Solicitado de la Empresa: </b>  {{order.requestedName}}</label><br>
+                      <label><b>Registro Tributario: </b>  {{order.taxType}} - {{order.taxCode}}</label>
+                    </div>
+                    <div class="col-md-4">
+                      <label><b>Continente: </b>  {{order.investigatedContinent}}</label><br>
+                      <label><b>País: </b>  {{order.investigatedCountry}} <span class="fi fi-{{order.investigatedFlag}}"></span></label><br>
+                      <label><b>Ciudad: </b>  {{order.city}}</label><br>
+                    </div>
+                    <div class="col-md-4">
+                      <label><b>Dirección: </b>  {{order.address}}</label><br>
+                      <label><b>Correo: </b> {{order.email}}</label><br>
+                      <label><b>Telefono: </b>  {{order.telephone}}</label><br>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+                <div class="card-header " style="background-color: rgb(180, 204, 252);">
+                  <h5>Datos del Informe</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label><b>Tipo de Trámite: </b>  {{order.procedureType}}</label><br>
+                      <label><b>Fecha de Ingreso: </b>  {{order.orderDate}}</label><br>
+                    </div>
+                    <div class="col-md-4">
+                      <label><b>Tipo de Informe: </b> {{order.reportType}}</label><br>
+                      <label><b>Fecha de Vencimiento: </b> {{order.expireDate}}</label><br>
+                    </div>
+                    <div class="col-md-4">
+                      <label><b>Precio de Informe: </b>  {{order.precioInforme}}</label><br>
+                      <label><b>Fecha de Vencimiento Real: </b>  {{order.realExpireDate}}</label><br>
+                    </div>
+                    <br>
+                  </div>
+                </div>
+                <br>
+              </div>
+            </div>
+          </td>
+        </ng-container>
 
-
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let order; columns: columnsToDisplay;"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr mat-row *matRowDef="let order; columns: columnsToDisplayWithExpand;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedOrder === order"
+          (click)="expandedOrder = expandedOrder === order ? null : order">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
       </table>
-
       <mat-paginator [pageSizeOptions]="[ 20]" aria-label="Seleccionar página de Pedidos"></mat-paginator>
     </div>
   </div>
