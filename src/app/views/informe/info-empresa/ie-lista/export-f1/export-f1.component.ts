@@ -26,7 +26,10 @@ export class ExportF1Component implements OnInit {
   ngOnInit(): void {
   }
   descargarDocumento(formato : string){
-
+    const listaEmpresas = document.getElementById('loader-lista-empresas') as HTMLElement | null;
+    if(listaEmpresas){
+      listaEmpresas.classList.remove('hide-loader');
+    }
     this.datosEmpresaService.downloadReportF1(this.idCompany,this.idioma,formato).subscribe(response=>{
       let blob : Blob = response.body as Blob;
       let a =document.createElement('a');
@@ -37,6 +40,9 @@ export class ExportF1Component implements OnInit {
       a.click();
 }).add(
   () => {
+    if(listaEmpresas){
+      listaEmpresas.classList.add('hide-loader');
+    }
   }
 );
 }

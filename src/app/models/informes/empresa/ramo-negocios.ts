@@ -89,4 +89,5 @@ export interface WorkerHistory{
   idCompany : number
   numberWorker : number
   numberYear : number
+  observations : string
 }
