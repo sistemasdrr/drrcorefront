@@ -1,22 +1,33 @@
 <div class="container-fluid p-0" >
   <div class="row g-0">
     <div class="col-lg-8" style="background-image: url('{{url}}'); background-position: center; background-size: cover; background-repeat: no-repeat; background-color: white;">
-      <div class="offset-md-7 col-md-4" style="margin-top: 30rem;">
-        <div class="shadow" style="border: 2px solid #fad721; border-radius: 10px;">
-          <b style="color:white; font-size: 18px;" class="w-100 d-flex justify-content-center">Fechas Importantes </b>
-          <div style="font-size: 11px; color:white; margin: 10px;" *ngFor="let item of fechasImportantes">
-            <b style="color: #fad721; font-size: 14px;">{{item.shortDate}} → </b>
-            {{item.name}}
-          </div>
-        </div>
-      </div>
+  
     </div>
     <div class="col-lg-4 " style="background-color: #1572b7 !important;">
       <div class=" p-4 d-flex align-items-center min-vh-100">
         <div class="w-100">
           <div class="row justify-content-center">
-            <div class="col-lg-9">
-              <div>
+
+
+            <div class="col-lg-9">              
+                       <div>
+
+                        <div class="shadow" style="border: 2px solid #fad721; border-radius: 10px;">
+                          <b style="color:white; font-size: 18px;" class="w-100 d-flex justify-content-center">Fechas Importantes </b>
+                          <table style="margin: 3%;">
+                            <tr *ngFor="let item of fechasImportantes">
+                              <td style="color: #fad721; font-size: 14px;"><b>{{item.shortDate}}</b></td>
+                              <td style="color: #fad721; font-size: 14px;"><b>→</b> </td>
+                              <td style=" color: white; font-size: 12px;">{{item.name }}</td>
+                            </tr>
+                          </table>
+                          
+                          <div style="font-size: 11px; color:white; margin: 10px;" >
+                            <b style="color: #fad721; font-size: 12px;"> </b>
+                           
+                          </div>
+                        </div>
+
                 
                 <div class="p-2 mt-5" style="border: 1px solid #fad721; border-radius: 5%; ">
                     <div class="form-group auth-form-group mb-3">

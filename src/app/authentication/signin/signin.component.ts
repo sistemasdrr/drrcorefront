@@ -1,5 +1,4 @@
 import { PersonalService } from './../../services/mantenimiento/personal.service';
-import  jwt_decode  from 'jwt-decode';
 
 import { UsuarioService } from './../../services/usuario.service';
 import { Component, OnInit } from '@angular/core';
