@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ComboData } from 'app/models/combo';
 import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { PrecioAbonado } from 'app/models/mantenimiento/abonado';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';

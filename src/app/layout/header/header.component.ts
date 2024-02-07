@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ConfigService } from '@config';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { InConfiguration, AuthService, WINDOW, LanguageService } from '@core';
+import { PersonalService } from 'app/services/mantenimiento/personal.service';
 
 interface Notifications {
   message: string;
@@ -39,6 +40,11 @@ export class HeaderComponent
   isOpenSidebar?: boolean;
   docElement?: HTMLElement;
   isFullScreen = false;
+
+  nombre = ""
+  cargo = ""
+  foto = ""
+  idEmployee = ""
   constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(WINDOW) private window: Window,
@@ -47,7 +53,8 @@ export class HeaderComponent
     private configService: ConfigService,
     private authService: AuthService,
     private router: Router,
-    public languageService: LanguageService
+    public languageService: LanguageService,
+    private personalService : PersonalService
   ) {
     super();
   }
@@ -120,6 +127,22 @@ export class HeaderComponent
     // }
   }
   ngOnInit() {
+    const auth = JSON.parse(localStorage.getItem('authCache')+'')
+    console.log(auth)
+    this.personalService.getPersonalById(auth.idEmployee).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          const empleado = response.data
+          console.log(empleado)
+          if(empleado){
+            this.idEmployee = auth.idEmployee
+            this.nombre = empleado.shortName
+            this.cargo = empleado.department + " - " + empleado.job
+            this.foto = empleado.photoPath
+          }
+        }
+      }
+    )
     this.config = this.configService.configData;
     this.docElement = document.documentElement;
     this.langStoreValue = localStorage.getItem('lang') as string;

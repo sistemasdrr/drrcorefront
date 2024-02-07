@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboData } from 'app/models/combo';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { Observable, map, startWith } from 'rxjs';
@@ -25,6 +25,7 @@ export class AgregarAccionistaComponent implements OnInit{
   idCompany = 0
   idCompanyShareHolder = 0
   relation = ""
+  relationEng = ""
   participation = 0
   startDate = ""
   startDateD : Date | null = null
@@ -155,13 +156,6 @@ export class AgregarAccionistaComponent implements OnInit{
                         this.lastSearched = empresa.lastSearched
                       }
                     }
-                    if(empresa.constitutionDate !== null && empresa.constitutionDate !== ""){
-                      const fecha = empresa.constitutionDate.split("/")
-                      if(fecha.length > 0){
-                        this.constitutionDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                        this.constitutionDate = empresa.constitutionDate
-                      }
-                    }
 
                   }
                 }
@@ -181,6 +175,19 @@ export class AgregarAccionistaComponent implements OnInit{
       )
     }else{
 
+    }
+  }
+  relationIngles(relation : string){
+    if(relation === ''){
+      this.relationEng = ''
+    }else if(relation === 'Accionista Mayoritario'){
+      this.relationEng = 'Controlling Shareholder'
+    }else if(relation === 'Accionista Minoritario'){
+      this.relationEng = 'Minority Shareholder'
+    }else if(relation === 'Accionistas'){
+      this.relationEng = 'Shareholders'
+    }else if(relation === 'Socio'){
+      this.relationEng = 'Partner'
     }
   }
   private _filterPais(description: string): Pais[] {
@@ -298,13 +305,6 @@ export class AgregarAccionistaComponent implements OnInit{
                       this.lastSearched = empresa.lastSearched
                     }
                   }
-                  if(empresa.constitutionDate !== null && empresa.constitutionDate !== ""){
-                    const fecha = empresa.constitutionDate.split("/")
-                    if(fecha.length > 0){
-                      this.constitutionDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                      this.constitutionDate = empresa.constitutionDate
-                    }
-                  }
 
                 }
               }
@@ -338,6 +338,7 @@ export class AgregarAccionistaComponent implements OnInit{
       idCompany : this.idCompany,
       idCompanyShareHolder : this.idCompanyShareHolder,
       relation : this.relation,
+      relationEng : this.relationEng,
       participation : this.participation,
       startDate : this.startDate
     }
@@ -483,6 +484,6 @@ export class AgregarAccionistaComponent implements OnInit{
   }
 
   salir(){
-    
+
   }
 }

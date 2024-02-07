@@ -2,7 +2,7 @@ import { OnInit, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource} from '@angular/material/table';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { data } from 'app/services/mantenimiento/personal.service';
 import { ComboService } from 'app/services/combo.service';

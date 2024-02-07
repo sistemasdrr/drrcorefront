@@ -183,14 +183,11 @@ export class HistoricoVentasComponent implements OnInit {
         if (result.value) {
 
           const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
           this.finanzasService.addOrUpdateHistoricoVentas(this.modelo[0]).subscribe((response) => {
-            if(paginaDetalleEmpresa){
-              paginaDetalleEmpresa.classList.remove('hide-loader');
-            }
             if(response.isSuccess === true && response.isWarning === false){
-              if(paginaDetalleEmpresa){
-                paginaDetalleEmpresa.classList.add('hide-loader');
-              }
               Swal.fire({
                 title: 'Se agregó el registro correctamente',
                 text: "",
@@ -204,9 +201,6 @@ export class HistoricoVentasComponent implements OnInit {
                 this.dialogRef.close()
               })
             }else{
-              if(paginaDetalleEmpresa){
-                paginaDetalleEmpresa.classList.add('hide-loader');
-              }
               Swal.fire({
                 title: 'Ocurrió un problema.',
                 text: 'Comunicarse con Sistemas',
@@ -241,8 +235,6 @@ export class HistoricoVentasComponent implements OnInit {
           })
         }
       });
-
-    this.dialogRef.close()
     }
   }
   salir(){

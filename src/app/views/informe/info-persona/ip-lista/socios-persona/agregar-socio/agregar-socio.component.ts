@@ -4,7 +4,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ComboData } from 'app/models/combo';
 import { SociosEmpresa } from 'app/models/informes/empresa/socios-empresa';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { SocioPersonaService } from 'app/services/informes/persona/socio-persona.service';
@@ -34,8 +34,6 @@ export class AgregarSocioPersonaComponent implements OnInit {
   lastSearched = ""
   lastSearchedD : Date | null = null
   typeRegister = ""
-  constitutionDate = ""
-  constitutionDateD : Date | null = null
   language = ""
   place = ""
   taxTypeName = ""
@@ -184,13 +182,6 @@ export class AgregarSocioPersonaComponent implements OnInit {
                         this.lastSearched = empresa.lastSearched
                       }
                     }
-                    if(empresa.constitutionDate !== null && empresa.constitutionDate !== ""){
-                      const fecha = empresa.constitutionDate.split("/")
-                      if(fecha.length > 0){
-                        this.constitutionDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                        this.constitutionDate = empresa.constitutionDate
-                      }
-                    }
 
                   }
                 }
@@ -307,13 +298,6 @@ export class AgregarSocioPersonaComponent implements OnInit {
   selectInstitucionInforme(institucionInforme: string) {
     this.typeRegister = institucionInforme;
   }
-  selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
-    this.constitutionDateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.constitutionDate = this.formatDate(selectedDate);
-    }
-  }
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -356,13 +340,6 @@ export class AgregarSocioPersonaComponent implements OnInit {
                     if(fecha.length > 0){
                       this.lastSearchedD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
                       this.lastSearched = empresa.lastSearched
-                    }
-                  }
-                  if(empresa.constitutionDate !== null && empresa.constitutionDate !== ""){
-                    const fecha = empresa.constitutionDate.split("/")
-                    if(fecha.length > 0){
-                      this.constitutionDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                      this.constitutionDate = empresa.constitutionDate
                     }
                   }
 

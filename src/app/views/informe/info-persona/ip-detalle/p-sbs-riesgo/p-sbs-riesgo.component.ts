@@ -8,7 +8,6 @@ import { ComboData } from 'app/models/combo';
 import { DeudaBancariaT, MorosidadComercialT, ProveedorT } from 'app/models/informes/empresa/sbs-riesgo';
 import { PersonSBS } from 'app/models/informes/persona/sbs-riesgo';
 import { ComboService } from 'app/services/combo.service';
-import { SbsRiesgoService } from 'app/services/informes/empresa/sbs-riesgo.service';
 import { PersonSbsService } from 'app/services/informes/persona/person-sbs.service';
 import Swal from 'sweetalert2';
 import { PMorosidadComercialComponent } from './p-morosidad-comercial/p-morosidad-comercial.component';
@@ -23,7 +22,6 @@ import { PDeudaBancariaComponent } from './p-deuda-bancaria/p-deuda-bancaria.com
 export class PSbsRiesgoComponent implements OnInit{
   id = 0
   idPerson = 0
-  idOpcionalCommentarySbs = 0
   aditionalCommentaryRiskCenter = ""
   aditionalCommentaryRiskCenterEng = ""
   debtRecordedDate = ""
@@ -31,8 +29,6 @@ export class PSbsRiesgoComponent implements OnInit{
   exchangeRate = 0
   bankingCommentary = ""
   bankingCommentaryEng = ""
-  endorsementsObservations = ""
-  endorsementsObservationsEng = ""
   referentOrAnalyst = ""
   date = ""
   dateD : Date | null = null
@@ -40,6 +36,8 @@ export class PSbsRiesgoComponent implements OnInit{
   litigationsCommentaryEng = ""
   creditHistoryCommentary = ""
   creditHistoryCommentaryEng = ""
+  sbsCommentary = ""
+  sbsCommentaryEng = ""
   guaranteesOfferedNc = 0
   guaranteesOfferedFc = 0
 
@@ -86,50 +84,52 @@ export class PSbsRiesgoComponent implements OnInit{
           this.personSbsService.getPersonSBS(this.idPerson).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
-                const companySbs = response.data
+                const personSbs = response.data
                 console.log(response)
-                if(companySbs){
-                  this.id = companySbs.id
-                  this.idOpcionalCommentarySbs = companySbs.idOpcionalCommentarySbs
-                  this.aditionalCommentaryRiskCenter = companySbs.aditionalCommentaryRiskCenter
-                  this.exchangeRate = companySbs.exchangeRate
-                  this.bankingCommentary = companySbs.bankingCommentary
-                  this.endorsementsObservations = companySbs.endorsementsObservations
-                  this.referentOrAnalyst = companySbs.referentOrAnalyst
-                  this.litigationsCommentary = companySbs.litigationsCommentary
-                  this.creditHistoryCommentary = companySbs.creditHistoryCommentary
-                  this.guaranteesOfferedNc = companySbs.guaranteesOfferedNc
-                  this.guaranteesOfferedFc = companySbs.guaranteesOfferedFc
-                  if(companySbs.date !== null && companySbs.date !== ''){
-                    const fecha = companySbs.date.split("/")
+                if(personSbs){
+                  this.id = personSbs.id
+                  this.aditionalCommentaryRiskCenter = personSbs.aditionalCommentaryRiskCenter
+                  this.exchangeRate = personSbs.exchangeRate
+                  this.bankingCommentary = personSbs.bankingCommentary
+                  this.referentOrAnalyst = personSbs.referentOrAnalyst
+                  this.litigationsCommentary = personSbs.litigationsCommentary
+                  this.creditHistoryCommentary = personSbs.creditHistoryCommentary
+                  this.sbsCommentary = personSbs.sbsCommentary
+                  this.guaranteesOfferedNc = personSbs.guaranteesOfferedNc
+                  this.guaranteesOfferedFc = personSbs.guaranteesOfferedFc
+                  if(personSbs.date !== null && personSbs.date !== ''){
+                    const fecha = personSbs.date.split("/")
                     if(fecha.length > 0){
                       this.dateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                      this.date = companySbs.date
+                      this.date = personSbs.date
                     }else{
                       this.dateD = null
                     }
                   }
-                  if(companySbs.debtRecordedDate !== null && companySbs.debtRecordedDate !== ''){
-                    const fecha = companySbs.debtRecordedDate.split("/")
+                  if(personSbs.debtRecordedDate !== null && personSbs.debtRecordedDate !== ''){
+                    const fecha = personSbs.debtRecordedDate.split("/")
                     if(fecha.length > 0){
                       this.debtRecordedDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                      this.debtRecordedDate = companySbs.debtRecordedDate
+                      this.debtRecordedDate = personSbs.debtRecordedDate
                     }else{
                       this.debtRecordedDateD = null
                     }
                   }
-                  if(companySbs.traductions.length >= 3){
-                    if(companySbs.traductions[0].value !== null){
-                      this.creditHistoryCommentaryEng = companySbs.traductions[0].value
+                  if(personSbs.traductions.length >= 3){
+                    if(personSbs.traductions[0].value !== null){
+                      this.creditHistoryCommentaryEng = personSbs.traductions[0].value
                     }
-                    if(companySbs.traductions[1].value !== null){
-                      this.aditionalCommentaryRiskCenterEng = companySbs.traductions[1].value
+                    if(personSbs.traductions[1].value !== null){
+                      this.aditionalCommentaryRiskCenterEng = personSbs.traductions[1].value
                     }
-                    if(companySbs.traductions[2].value !== null){
-                      this.bankingCommentaryEng = companySbs.traductions[2].value
+                    if(personSbs.traductions[2].value !== null){
+                      this.bankingCommentaryEng = personSbs.traductions[2].value
                     }
-                    if(companySbs.traductions[3].value !== null){
-                      this.litigationsCommentaryEng = companySbs.traductions[3].value
+                    if(personSbs.traductions[3].value !== null){
+                      this.litigationsCommentaryEng = personSbs.traductions[3].value
+                    }
+                    if(personSbs.traductions[4].value !== null){
+                      this.sbsCommentaryEng = personSbs.traductions[4].value
                     }
                   }
                 }
@@ -180,16 +180,15 @@ export class PSbsRiesgoComponent implements OnInit{
     this.modeloNuevo[0] = {
       id : this.id,
       idPerson : this.idPerson,
-      idOpcionalCommentarySbs : this.idOpcionalCommentarySbs,
       aditionalCommentaryRiskCenter : this.aditionalCommentaryRiskCenter,
       debtRecordedDate : this.debtRecordedDate,
       exchangeRate : this.exchangeRate,
       bankingCommentary : this.bankingCommentary,
-      endorsementsObservations : this.endorsementsObservations,
       referentOrAnalyst : this.referentOrAnalyst,
       date : this.date,
       litigationsCommentary : this.litigationsCommentary,
       creditHistoryCommentary : this.creditHistoryCommentary,
+      sbsCommentary : this.sbsCommentary,
       guaranteesOfferedNc : this.guaranteesOfferedNc,
       guaranteesOfferedFc : this.guaranteesOfferedFc,
       traductions : [
@@ -216,16 +215,15 @@ export class PSbsRiesgoComponent implements OnInit{
     this.modeloModificado[0] = {
       id : this.id,
       idPerson : this.idPerson,
-      idOpcionalCommentarySbs : this.idOpcionalCommentarySbs,
       aditionalCommentaryRiskCenter : this.aditionalCommentaryRiskCenter,
       debtRecordedDate : this.debtRecordedDate,
       exchangeRate : this.exchangeRate,
       bankingCommentary : this.bankingCommentary,
-      endorsementsObservations : this.endorsementsObservations,
       referentOrAnalyst : this.referentOrAnalyst,
       date : this.date,
       litigationsCommentary : this.litigationsCommentary,
       creditHistoryCommentary : this.creditHistoryCommentary,
+      sbsCommentary : this.sbsCommentary,
       guaranteesOfferedNc : this.guaranteesOfferedNc,
       guaranteesOfferedFc : this.guaranteesOfferedFc,
       traductions : [

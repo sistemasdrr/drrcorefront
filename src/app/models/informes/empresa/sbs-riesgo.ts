@@ -50,6 +50,7 @@ export interface Proveedor{
   timeLimit : string
   timeLimitEng : string
   compliance : string
+  complianceEng : string
   clientSince : string
   clientSinceEng : string
   productsTheySell : string

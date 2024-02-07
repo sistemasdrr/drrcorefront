@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Agente } from 'app/models/mantenimiento/agente';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { AgenteService } from 'app/services/mantenimiento/agente.service';
 import { Observable, map, startWith } from 'rxjs';

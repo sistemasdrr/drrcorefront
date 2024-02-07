@@ -1,4 +1,4 @@
-import { Pais } from "../pais"
+import { Pais } from "../combo"
 
 export interface Abonado{
   id : string

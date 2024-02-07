@@ -25,7 +25,7 @@
           </button>
         </li>
         <!-- #END# Full Screen Button -->
-        <li class="nav-item">
+        <!--li class="nav-item">
           <button mat-button [matMenuTriggerFor]="languagemenu" class="lang-dropdown nav-notification-icons"> <img
               *ngIf="flagvalue !== undefined" src="{{flagvalue}}" height="16">
             <img *ngIf="flagvalue === undefined" src="{{defaultFlag}}" height="16"></button>
@@ -38,9 +38,9 @@
               </button>
             </div>
           </mat-menu>
-        </li>
+        </!--li-->
         <!-- #START# Notifications-->
-        <li class="nav-item" ngbDropdown>
+        <!--li class="nav-item" ngbDropdown>
           <button mat-button [matMenuTriggerFor]="notificationMenu" class="nav-notification-icons">
             <app-feather-icons [icon]="'bell'" [class]="'header-icon'"></app-feather-icons>
             <span class="label-count bg-orange"></span>
@@ -81,29 +81,29 @@
                 All Notifications</a>
             </div>
           </mat-menu>
-        </li>
+        </!--li-->
         <!-- #END# Notifications-->
         <li class="nav-item user_profile">
           <button mat-button [matMenuTriggerFor]="profilemenu">
             <div class="chip dropdown-toggle" ngbDropdownToggle class="">
-              <img src="assets/images/user.jpg" class="rounded-circle" width="32" height="32" alt="User">
+              <img [src]="foto" class="rounded-circle" width="32" height="32" alt="User">
             </div>
           </button>
           <mat-menu #profilemenu="matMenu" class="profile-menu">
             <div class="noti-list">
               <div class="menu ">
                 <div class="user_dw_menu">
-                  <button mat-menu-item class="user-item-list">
-                    <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Account
-                  </button>
-                  <button mat-menu-item class="user-item-list">
+                  <a mat-menu-item class="user-item-list"  [routerLink]="'mantenimiento/personal/detalle/'+idEmployee">
+                    <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Cuenta
+                  </a>
+                  <!--button mat-menu-item class="user-item-list">
                     <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Inbox
-                  </button>
-                  <button mat-menu-item class="user-item-list">
+                  </!--button>
+                  <button-- mat-menu-item class="user-item-list">
                     <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Settings
-                  </button>
+                  </button-->
                   <button mat-menu-item (click)="logout()" class="user-item-list">
-                    <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Logout
+                    <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Cerrar Sesión
                   </button>
                 </div>
               </div>

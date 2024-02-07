@@ -1,4 +1,3 @@
-import { Pais } from "app/models/pais"
 
 export interface Personal{
   address : string

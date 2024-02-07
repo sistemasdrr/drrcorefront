@@ -348,6 +348,11 @@
                 <span class="fi fi-us" style="font-size: 24px;"></span>
               </button>
             </mat-form-field>
+            Imprimir?
+            <mat-slide-toggle class="example-margin" [(ngModel)]="print">
+              <div *ngIf="print === true">Sí</div>
+              <div *ngIf="print === false">No</div>
+            </mat-slide-toggle>
           </div>
         </div>
       </div>

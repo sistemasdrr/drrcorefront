@@ -48,12 +48,7 @@
                       <ng-container matColumnDef="cumplimiento">
                         <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cumplimiento </th>
                         <td mat-cell *matCellDef="let proveedor" class="text-center">
-                          <div *ngIf="proveedor.compliance === ''"></div>
-                          <div *ngIf="proveedor.compliance === 'LEEV'">Lento Eventual</div>
-                          <div *ngIf="proveedor.compliance === 'LESI'">Lento Siempre</div>
-                          <div *ngIf="proveedor.compliance === 'MORO'">Moroso</div>
-                          <div *ngIf="proveedor.compliance === 'PUNT'">Puntual</div>
-                          <div *ngIf="proveedor.compliance === 'SIEX'">Sin Experiencia</div>
+                          {{proveedor.compliance}}
                           </td>
                       </ng-container>
                       <ng-container matColumnDef="clientesDesde">
@@ -92,17 +87,6 @@
                 </div>
               </div>
 
-              <div class="col-md-12 mt-2">
-                <mat-form-field style="width: 100%; margin-top: 1rem;">
-                  <mat-label>Agregar Comentario (Opcional)</mat-label>
-                  <mat-select [(ngModel)]="idOpcionalCommentarySbs">
-                    <mat-option *ngFor="let item of listaOpcionalCommentary" [value]="item.id">
-                      {{item.valor}}
-                    </mat-option>
-
-                  </mat-select>
-                </mat-form-field>
-              </div>
               <div class="col-md-5">
                 <mat-form-field style="width: 100%;">
                   <mat-label>Referencista o Analista que lo realizó</mat-label>
@@ -330,6 +314,15 @@
                   <mat-label>Comentarios Bancarios</mat-label>
                   <textarea matInput style="min-height: 10rem;" [(ngModel)]="bankingCommentary"></textarea>
                   <button class="btn-traduccion" [class]="bankingCommentaryEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Comentarios Bancarios de la Central de Riesgo','', bankingCommentary, bankingCommentaryEng, 'comentarioBancario')">
+                    <span class="fi fi-us" style="font-size: 24px;"></span>
+                  </button>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w-100" >
+                  <mat-label>Comentario de la SBS</mat-label>
+                  <textarea matInput style="min-height: 10rem;" [(ngModel)]="sbsCommentary"></textarea>
+                  <button class="btn-traduccion" [class]="sbsCommentaryEng === '' ? 'sin-traduccion' : ''" matSuffix mat-icon-button (click)="agregarTraduccion('Comentarios de la SBS','', sbsCommentary, sbsCommentaryEng, 'comentarioSBS')">
                     <span class="fi fi-us" style="font-size: 24px;"></span>
                   </button>
                 </mat-form-field>

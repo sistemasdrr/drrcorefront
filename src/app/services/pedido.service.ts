@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { Asignacion } from 'app/models/pedidos/asignacion/asignacion';
 import { Pedido } from 'app/models/pedidos/pedido';
 import { environment } from 'environments/environment';

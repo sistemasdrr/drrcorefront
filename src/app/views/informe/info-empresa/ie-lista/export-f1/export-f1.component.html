@@ -13,13 +13,13 @@
     <hr>
     <div class="col-md-12 d-flex justify-content-center">
         <div>
-            <button [ngClass]="idioma === 'E' ? 'bg-primary' : 'bg-white unselect'" class="btn  shadow"  (click)="idioma = 'E'" matTooltip="ESPAÑOL">
+            <button [ngClass]="idioma === 'E' ? '' : 'bg-white unselect'" class="btn  shadow"  (click)="idioma = 'E'" matTooltip="ESPAÑOL">
                 <span class="fi fi-es" style="font-size: 80px;"></span>
             </button>
         </div>
         <div style="min-width: 5rem;"></div>
         <div>
-            <button [ngClass]="idioma === 'I' ? 'bg-primary' : 'bg-white unselect'" class="btn  shadow" (click)="idioma = 'I'" matTooltip="INGLÉS">
+            <button [ngClass]="idioma === 'I' ? '' : 'bg-white unselect'" class="btn  shadow" (click)="idioma = 'I'" matTooltip="INGLÉS">
                 <span class="fi fi-us" style="font-size: 80px;"></span>
             </button>
         </div>

@@ -1,45 +1,5 @@
-import { Pais } from "app/models/pais"
+import { Pais } from 'app/models/combo';
 
-export interface DatosEmpresa{
-  idInforme : string
-  informeInvestigadoEl : string
-  idioma : string
-  tipoInstitucion : string
-  calidadInforme : string
-  yFundacion : number
-  razonSocial : string
-  nombreComercial : string
-  nombreSolicitado : string
-  fechaConstitucion : string
-  personeriaJuridica : PersoneriaJuridica
-
-  tipoRuc : string
-  codigoRuc : string
-  situacionRuc : SituacionRuc
-
-  comentarioIdentificacion : string
-  comentarioIdentificacionIng : string
-
-  direccionCompleta : string
-  duracion : string
-  dptoEstado : string
-  pais : Pais
-  codigoTelefono : string
-  numeroTelefono : string
-  numeroCelular : string
-  codPostal : string
-  whatsappEmpresarial : string
-  emailCorporativo : string
-  paginaWeb : string
-
-  riesgoCrediticio : string
-  politicaPagos : string
-  reputacion : string
-  comentarioReputacion : string
-  comentarioReputacionIng : string
-  comentarioPrensa : string
-  comentarioPrensaIng : string
-}
 export interface Company{
   id : number
   oldCode : string
@@ -49,7 +9,6 @@ export interface Company{
   language : string
   typeRegister : string
   yearFundation : string
-  constitutionDate : string
   quality : string
   idLegalPersonType : number
   taxTypeName : string
@@ -60,7 +19,6 @@ export interface Company{
   place : string
   idCountry : number
   subTelephone : string
-  tellphone : string
   cellphone : string
   telephone : string
   postalCode : string
@@ -76,6 +34,7 @@ export interface Company{
   identificacionCommentary : string
   enable : boolean
   traductions : Traduction[]
+  print : boolean
 }
 export interface TCompany{
   id : number

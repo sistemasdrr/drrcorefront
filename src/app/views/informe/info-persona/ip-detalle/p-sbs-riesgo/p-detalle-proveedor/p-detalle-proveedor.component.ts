@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { ComboData } from 'app/models/combo';
 import { Proveedor } from 'app/models/informes/empresa/sbs-riesgo';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -38,6 +38,7 @@ export class PDetalleProveedorComponent implements OnInit{
   timeLimit = ""
   timeLimitEng = ""
   compliance = ""
+  complianceEng = ""
   clientSince = ""
   clientSinceEng = ""
   productsTheySell = ""
@@ -114,6 +115,7 @@ export class PDetalleProveedorComponent implements OnInit{
                       this.timeLimit = proveedor.timeLimit
                       this.timeLimitEng = proveedor.timeLimitEng
                       this.compliance = proveedor.compliance
+                      this.complianceEng = proveedor.complianceEng
                       this.clientSince = proveedor.clientSince
                       this.clientSinceEng = proveedor.clientSinceEng
                       this.productsTheySell = proveedor.productsTheySell
@@ -184,6 +186,7 @@ export class PDetalleProveedorComponent implements OnInit{
       timeLimit : this.timeLimit,
       timeLimitEng : this.timeLimitEng,
       compliance : this.compliance,
+      complianceEng : this.complianceEng,
       clientSince : this.clientSince,
       clientSinceEng : this.clientSinceEng,
       productsTheySell : this.productsTheySell,

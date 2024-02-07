@@ -54,7 +54,11 @@
         </mat-form-field>
       </div>
       <div class="col-md-9">
-        <form class="w-100">
+        <mat-form-field class="w-100">
+          <mat-label>Paises </mat-label>
+          <input matInput placeholder="" [(ngModel)]="countriesImport" [disabled]="import === false || import === null">
+        </mat-form-field>
+        <!--form class="w-100">
           <mat-form-field class="example-chip-list w-100">
             <mat-label>Paises </mat-label>
             <mat-chip-grid #chipGrid1 aria-label="Country selection" [disabled]="import === false || import === null">
@@ -76,7 +80,7 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-        </form>
+        </!--form-->
       </div>
       <div class="col-md-1 d-flex justify-content-center">
         <button mat-mini-fab class="bg-brown" style="margin-top: .7rem;" #tooltip="matTooltip" matTooltip="Cuadro de Importación" (click)="ImportacionDialog()">
@@ -99,7 +103,11 @@
         </mat-form-field>
       </div>
       <div class="col-md-9">
-        <form class="w-100">
+        <mat-form-field class="w-100">
+          <mat-label>Paises </mat-label>
+          <input matInput placeholder="" [(ngModel)]="countriesExport" [disabled]="export === false || export === null">
+        </mat-form-field>
+        <!--form-- class="w-100">
           <mat-form-field class="example-chip-list w-100">
             <mat-label>Paises </mat-label>
             <mat-chip-grid #chipGrid2 aria-label="Country selection" [disabled]="export === false || export === null">
@@ -121,7 +129,7 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-        </form>
+        </!--form-->
       </div>
       <div class="col-md-1 d-flex justify-content-center">
         <button mat-mini-fab class="bg-brown" style="margin-top: .7rem;" #tooltip="matTooltip" matTooltip="Cuadro de Exportación" (click)="ExportacionDialog()">
@@ -233,32 +241,9 @@
         </div>
       </div>
       <div class="col-md-7">
-        <div class="header">
-          <h2>Client Survay</h2>
-          <button mat-icon-button [matMenuTriggerFor]="menu" class="header-dropdown">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-              <mat-icon>add_circle_outline</mat-icon>
-              <span>Add</span>
-            </button>
-            <button mat-menu-item disabled>
-              <mat-icon>delete_outline</mat-icon>
-              <span>Delete</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>refresh</mat-icon>
-              <span>Refresh</span>
-            </button>
-          </mat-menu>
-        </div>
-        <div class="body">
+        <div style="text-align:center">
           <apx-chart [series]="areaChartOptions.series!" [chart]="areaChartOptions.chart!"
-            [xaxis]="areaChartOptions.xaxis!" [yaxis]="areaChartOptions.yaxis!" [colors]="areaChartOptions.colors!"
-            [stroke]="areaChartOptions.stroke!" [legend]="areaChartOptions.legend!" [grid]="areaChartOptions.grid!"
-            [tooltip]="areaChartOptions.tooltip!" [dataLabels]="areaChartOptions.dataLabels!">
-          </apx-chart>
+            [xaxis]="areaChartOptions.xaxis!" [title]="areaChartOptions.title!"></apx-chart>
         </div>
       </div>
     </div>

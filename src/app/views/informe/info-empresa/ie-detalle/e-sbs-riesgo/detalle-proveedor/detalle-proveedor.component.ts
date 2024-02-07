@@ -2,14 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { ComboData } from 'app/models/combo';
 import { Proveedor } from 'app/models/informes/empresa/sbs-riesgo';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { SbsRiesgoService } from 'app/services/informes/empresa/sbs-riesgo.service';
-import { ProveedorService } from 'app/services/informes/proveedor.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -40,6 +38,7 @@ export class DetalleProveedorComponent implements OnInit {
   timeLimit = ""
   timeLimitEng = ""
   compliance = ""
+  complianceEng = ""
   clientSince = ""
   clientSinceEng = ""
   productsTheySell = ""
@@ -116,6 +115,7 @@ export class DetalleProveedorComponent implements OnInit {
                       this.timeLimit = proveedor.timeLimit
                       this.timeLimitEng = proveedor.timeLimitEng
                       this.compliance = proveedor.compliance
+                      this.complianceEng = proveedor.complianceEng
                       this.clientSince = proveedor.clientSince
                       this.clientSinceEng = proveedor.clientSinceEng
                       this.productsTheySell = proveedor.productsTheySell
@@ -186,6 +186,7 @@ export class DetalleProveedorComponent implements OnInit {
       timeLimit : this.timeLimit,
       timeLimitEng : this.timeLimitEng,
       compliance : this.compliance,
+      complianceEng : this.complianceEng,
       clientSince : this.clientSince,
       clientSinceEng : this.clientSinceEng,
       productsTheySell : this.productsTheySell,
@@ -196,7 +197,22 @@ export class DetalleProveedorComponent implements OnInit {
       qualificationEng : this.qualificationEng
     }
   }
-
+  cambiarCumplimiento(cumplimiento : string){
+    console.log(cumplimiento)
+    if(cumplimiento === ''){
+      this.complianceEng = ''
+    }else if(cumplimiento === 'Lento Eventual'){
+      this.complianceEng = 'Slow Eventual'
+    }else if(cumplimiento === 'Lento Siempre'){
+      this.complianceEng = 'Lento Siempre'
+    }else if(cumplimiento === 'Moroso'){
+      this.complianceEng = 'Defaulter'
+    }else if(cumplimiento === 'Puntual'){
+      this.complianceEng = 'Punctual'
+    }else if(cumplimiento === 'Sin Experiencia'){
+      this.complianceEng = 'Without experience'
+    }
+  }
   agregarTraduccion(titulo: string, subtitulo: string, comentario_es: string, comentario_en: string, input: string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
       disableClose: true,

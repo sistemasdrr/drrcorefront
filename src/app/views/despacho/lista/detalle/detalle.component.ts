@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { PedidoService } from 'app/services/pedido.service';
 import { PaisService } from 'app/services/pais.service';
 

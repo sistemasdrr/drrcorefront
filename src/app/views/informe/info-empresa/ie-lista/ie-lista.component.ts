@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TCompany } from 'app/models/informes/empresa/datos-empresa';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';

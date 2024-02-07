@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
 @Component({
   selector: 'app-root',
@@ -7,7 +7,7 @@ import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
   currentUrl!: string;
-  constructor(public _router: Router) {
+  constructor(public _router: Router, private renderer : Renderer2) {
     this._router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationStart) {
         this.currentUrl = routerEvent.url.substring(

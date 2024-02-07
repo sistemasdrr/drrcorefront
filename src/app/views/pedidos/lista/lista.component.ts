@@ -6,17 +6,16 @@ import { MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { PedidoService } from 'app/services/pedido.service';
 
 import { Router } from '@angular/router';
 import { Pedido } from 'app/models/pedidos/pedido';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
-import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
 import { MatDialog } from '@angular/material/dialog';
 import { ConsultarComponent } from './consultar/consultar.component';
 import { ListTicket } from 'app/models/pedidos/ticket';
 import { TicketService } from 'app/services/pedidos/ticket.service';
 import Swal from 'sweetalert2';
+import { PedidosService } from 'app/services/pedidos/pedidos.service';
 
 @Component({
   selector: 'app-lista',
@@ -52,11 +51,10 @@ export class ListaComponent implements OnInit {
   columnsToDisplay = ['number', 'busineesName','subscriberCode', 'status', 'reportType', 'procedureType', 'quality', 'orderDate', 'expireDate', 'dispatchDate', 'Acciones' ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedOrder: Pedido | null = null;
-  datosEmpresa : DatosEmpresa[] = []
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private pedidoService : PedidoService,
+  constructor(private pedidoService : PedidosService,
     private router : Router,
     private datosEmpresaService : DatosEmpresaService, private ticketService : TicketService,
     public dialog : MatDialog) {
@@ -81,7 +79,7 @@ export class ListaComponent implements OnInit {
       }
     )
   }
-  getColor(arg0: boolean,arg1: number): string { 
+  getColor(arg0: boolean,arg1: number): string {
     console.log(arg0);
     if(!arg0){
       return 'black';
@@ -89,8 +87,8 @@ export class ListaComponent implements OnInit {
        return'red';
     }else{
       return 'green';
-    }    
-        
+    }
+
     }
   refresh(){
     this.loading=true;
@@ -106,7 +104,7 @@ export class ListaComponent implements OnInit {
           this.loading=false;
           }
       )
-    
+
   }
 
   addOrder(){

@@ -62,14 +62,6 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div class="col-md-2">
-        <mat-form-field color="primary" style="width: 100%;">
-          <mat-label>Fecha Establecida</mat-label>
-          <input matInput [matDatepicker]="fecha_constitucion" #fechaInput [ngModel]="constitutionDateD" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
-          <mat-datepicker-toggle matIconSuffix [for]="fecha_constitucion"></mat-datepicker-toggle>
-          <mat-datepicker #fecha_constitucion color="primary"></mat-datepicker>
-        </mat-form-field>
-      </div>
       <div class="col-md-2 d-flex justify-content-center">
         <button mat-mini-fab class="bg-cyan" (click)="seleccionarEmpresa()" matTooltip="Buscar" style="margin: 0 .5rem 0 .5rem" >
           <mat-icon class="col-white">search</mat-icon>

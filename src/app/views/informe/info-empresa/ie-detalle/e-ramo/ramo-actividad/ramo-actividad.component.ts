@@ -4,7 +4,7 @@ import { Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@ang
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AgregarEditarRamoNegocioComponent } from './agregar-editar/agregar-editar.component';
 import { MatSelectionList } from '@angular/material/list';
-import { ComboData } from 'app/models/combo';
+import { ComboData, ComboData3 } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 
 @Component({
@@ -21,8 +21,8 @@ export class RamoActividadDialogComponent implements OnInit {
   specificActivities = ""
 
   listaRamoNegocio : ComboData[] = []
-  listaActividades: ComboData[] = []
-  actividadesSeleccionadas : ComboData[] = []
+  listaActividades: ComboData3[] = []
+  actividadesSeleccionadas : ComboData3[] = []
 
   @ViewChild('ramo') ramo! : MatSelectionList
 
@@ -102,7 +102,7 @@ export class RamoActividadDialogComponent implements OnInit {
   }
 
 
-  selectActividad(actividad : ComboData){
+  selectActividad(actividad : ComboData3){
     const index = this.actividadesSeleccionadas.findIndex(a => a.id === actividad.id);
     if (index !== -1) {
       this.actividadesSeleccionadas.splice(index, 1);

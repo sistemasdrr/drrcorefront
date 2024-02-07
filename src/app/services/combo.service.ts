@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ComboData, ComboData2, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
-import { Pais } from 'app/models/pais';
+import { ComboData, ComboData2, ComboData3, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
+import { Pais } from 'app/models/combo';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -79,8 +79,8 @@ export class ComboService {
   getRamoNegocio() : Observable<Response<ComboData[]>>{
     return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/businessBranch');
   }
-  getActividadesEspecificas(idBusinessBranch : number) : Observable<Response<ComboData[]>>{
-    return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/businessActivity?idBusinessBranch='+idBusinessBranch);
+  getActividadesEspecificas(idBusinessBranch : number) : Observable<Response<ComboData3[]>>{
+    return this.http.get<Response<ComboData3[]>>(this.url + this.controllerCombo + '/businessActivity?idBusinessBranch='+idBusinessBranch);
   }
   getTitularidad() : Observable<Response<ComboData[]>>{
     return this.http.get<Response<ComboData[]>>(this.url + this.controllerCombo + '/landOwnership');

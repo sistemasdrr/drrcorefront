@@ -137,10 +137,15 @@ export class FinanzasComponent implements OnInit, OnDestroy{
                     this.traductions = finanzas.traductions
                     finanzas.traductions[0].value === null ? this.workPositionEng = '' : this.workPositionEng = finanzas.traductions[0].value
                     finanzas.traductions[1].value === null ? this.interviewCommentaryEng = '' : this.interviewCommentaryEng = finanzas.traductions[1].value
-                    finanzas.traductions[3].value === null ? this.financialCommentarySelectedEng = '' : this.financialCommentarySelectedEng = finanzas.traductions[2].value
-                    finanzas.traductions[2].value === null ? this.mainFixedAssetsEng = '' : this.mainFixedAssetsEng = finanzas.traductions[3].value
+                    finanzas.traductions[3].value === null ? this.financialCommentarySelectedEng = '' : this.financialCommentarySelectedEng = finanzas.traductions[3].value
+                    finanzas.traductions[2].value === null ? this.mainFixedAssetsEng = '' : this.mainFixedAssetsEng = finanzas.traductions[2].value
                     finanzas.traductions[4].value === null ? this.analystCommentaryEng = '' : this.analystCommentaryEng = finanzas.traductions[4].value
                   }
+                }else{
+                  const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+                    if(paginaDetalleEmpresa){
+                      paginaDetalleEmpresa.classList.add('hide-loader');
+                    }
                 }
               }
             ).add(
@@ -287,13 +292,14 @@ export class FinanzasComponent implements OnInit, OnDestroy{
           {
             name: 'Tasa de Cambio',
             data: listaER,
+
           },
         ],
         chart: {
           height: 300,
           type: 'area',
           toolbar: {
-            show: false,
+            show: true,
           },
           foreColor: '#9aa0ac',
         },
@@ -305,7 +311,7 @@ export class FinanzasComponent implements OnInit, OnDestroy{
           curve: 'smooth',
         },
         xaxis: {
-          type: 'datetime',
+          type: 'category',
           categories: listaFechas,
         },
         legend: {
@@ -356,27 +362,25 @@ export class FinanzasComponent implements OnInit, OnDestroy{
   }
 
   agregarHistoricoVentas(){
-    const dialogR1 = this.dialog.open(HistoricoVentasComponent,
-      {
-        data: {
-          id : 0,
-          idCompany : this.idCompany
-        }
+    const dialogR1 = this.dialog.open(HistoricoVentasComponent, {
+      data: {
+        id : 0,
+        idCompany : this.idCompany
+      }
       });
-      dialogR1.afterClosed().subscribe(() => {
-        this.finanzasService.getListHistoricoVentas(this.idCompany).subscribe(
-          (response) => {
-            if(response.isSuccess === true && response.isWarning === false){
-              this.dataSourceHistoricoVentas.data = response.data
-
-            }
+    dialogR1.afterClosed().subscribe(() => {
+      this.finanzasService.getListHistoricoVentas(this.idCompany).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            console.log(response.data)
+            this.dataSourceHistoricoVentas.data = response.data
           }
-        ).add(
+        }).add(
           () => {
             this.chart2()
           }
         )
-      });
+    });
   }
   editarHistoricoVentas(id : number){
     const dialogR2 = this.dialog.open(HistoricoVentasComponent, {

@@ -1,3 +1,4 @@
+import { PersonalService } from './../../services/mantenimiento/personal.service';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router, NavigationEnd } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
@@ -34,12 +35,17 @@ export class SidebarComponent implements OnInit, OnDestroy {
   tooltip2 = "";
   tooltip3 = "";
 
+  nombre = ""
+  cargo = ""
+  foto = ""
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private personalService : PersonalService
   ) {
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -72,6 +78,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    const auth = JSON.parse(localStorage.getItem('authCache')+'')
+    console.log(auth)
+    this.personalService.getPersonalById(auth.idEmployee).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          const empleado = response.data
+          console.log(empleado)
+          if(empleado){
+            this.nombre = empleado.shortName
+            this.cargo = empleado.department + " - " + empleado.job
+            this.foto = empleado.photoPath
+          }
+        }
+      }
+    )
     if (this.authService.currentUserValue) {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
@@ -93,7 +114,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+
 
   ngOnDestroy() {
     this.routerObj.unsubscribe();

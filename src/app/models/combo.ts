@@ -8,7 +8,11 @@ export interface ComboData2{
   reportCommentWithBalance : string
   reportCommentWithoutBalance : string
 }
-
+export interface ComboData3{
+  id : number
+  valor : string
+  valorEng : string
+}
 export interface RiesgoCrediticio{
   id : number
   abreviation : string
@@ -27,4 +31,9 @@ export interface PoliticaPagos{
   id : number
   color : string
   valor : string
+}
+export interface Pais{
+  id : number
+  valor : string
+  bandera : string
 }

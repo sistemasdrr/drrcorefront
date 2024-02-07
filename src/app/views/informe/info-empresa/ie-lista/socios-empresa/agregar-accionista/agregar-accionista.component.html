@@ -161,7 +161,7 @@
       <div class="col-md-3">
         <mat-form-field class="w-100">
           <mat-label>Tipo de Relación</mat-label>
-          <mat-select [(ngModel)]="relation" placeholder="">
+          <mat-select [(ngModel)]="relation" (ngModelChange)="relationIngles(relation)">
               <mat-option [value]="''"></mat-option>
               <mat-option [value]="'Accionista Mayoritario'">Accionista Mayoritario</mat-option>
               <mat-option [value]="'Accionista Minoritario'">Accionista Minoritario</mat-option>

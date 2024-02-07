@@ -1,5 +1,5 @@
 import { Adjunto } from "../adjunto"
-import { Pais } from "../pais"
+import { Pais } from "../combo"
 import { Asignacion } from "./asignacion/asignacion"
 
 export interface Pedido {

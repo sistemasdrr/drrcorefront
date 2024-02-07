@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ESSALUD, Personal } from 'app/models/mantenimiento/personal';
 import { PersonalService } from 'app/services/mantenimiento/personal.service';
 import { AgregarEssaludComponent } from './agregar-essalud/agregar-essalud.component';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';

@@ -39,6 +39,7 @@ export interface AccionistasEmpresa{
   idCompany : number
   idCompanyShareHolder : number
   relation : string
+  relationEng : string
   participation : number
   startDate : string
 }

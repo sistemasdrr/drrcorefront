@@ -78,7 +78,7 @@
             <th mat-header-cell *matHeaderCellDef  class="text-center"> Teléfono</th>
             <td mat-cell *matCellDef="let agente" class="text-center">{{agente.telephone}}</td>
           </ng-container>
-          <ng-container matColumnDef="pais" >
+          <ng-container matColumnDef="country" >
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> País</th>
             <td mat-cell *matCellDef="let agente" class="text-center">
               {{agente.country}} <span class="fi fi-{{agente.flagCountry}}" style="font-size: 20px;"></span>

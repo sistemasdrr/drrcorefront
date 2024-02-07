@@ -10,11 +10,11 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { PaisService } from 'app/services/pais.service';
 import { DialogComercioComponent } from './dialog-comercio/dialog-comercio.component';
 import { ComboService } from 'app/services/combo.service';
-import { ComboData } from 'app/models/combo';
+import { ComboData, ComboData3 } from 'app/models/combo';
 import { ActivatedRoute } from '@angular/router';
 import { RamoNegociosService } from 'app/services/informes/empresa/ramo-negocios.service';
 import { CompanyBranch, WorkerHistory } from 'app/models/informes/empresa/ramo-negocios';
@@ -122,13 +122,14 @@ export class RamoComponent implements OnInit{
   countriesExport = ""
   countriesImport = ""
   specificActivities = ""
+  specificActivitiesEng = ""
 
   modeloNuevo : CompanyBranch[] = []
   modeloModificado : CompanyBranch[] = []
 
   listaSectorPrincipal : ComboData[] = []
   listaRamoNegocio : ComboData[] = []
-  listaActividadEspecifica : ComboData[] = []
+  listaActividadEspecifica : ComboData3[] = []
   listaTitularidad : ComboData[] = []
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -215,6 +216,7 @@ export class RamoComponent implements OnInit{
               this.idBranchSector = ramoNegocio.idBranchSector
               this.idBusinessBranch = ramoNegocio.idBusinessBranch
               this.specificActivities = ramoNegocio.specificActivities
+              this.specificActivitiesEng = ramoNegocio.specificActivitiesEng
               this.import = ramoNegocio.import
               this.export = ramoNegocio.export
               this.cashSale = ramoNegocio.cashSalePercentage + '% | ' + ramoNegocio.cashSaleComentary
@@ -295,6 +297,7 @@ export class RamoComponent implements OnInit{
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.add('hide-loader');
           }
+          this.chart2()
         }
       )
     }else{
@@ -417,7 +420,75 @@ export class RamoComponent implements OnInit{
       },
     };
   }
-  
+  private chart2() {
+    if (this.dataSourceWorkerHistory.data.length > 0 || this.idCompany !== 0) {
+      const listaFechas: string[] = [];
+      const listaNW: number[] = [];
+
+      this.dataSourceWorkerHistory.data.forEach(data => {
+        listaFechas.push(data.numberYear+"");
+
+        const amount = parseInt(data.numberWorker+"");
+
+        if (!isNaN(amount)) {
+          listaNW.push(amount);
+        }
+      });
+
+      this.areaChartOptions = {
+        series: [
+          {
+            name: 'Número de Trabajadores',
+            data: listaNW,
+          },
+        ],
+        chart: {
+          height: 200,
+          type: 'area',
+          toolbar: {
+            show: true,
+          },
+          foreColor: '#9aa0ac',
+        },
+        colors: ['#FC8380', '#6973C6', '#34eb80'],
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'smooth',
+        },
+        xaxis: {
+          type: 'category',
+          categories: listaFechas,
+        },
+        legend: {
+          show: true,
+          position: 'top',
+          horizontalAlign: 'center',
+          offsetX: 0,
+          offsetY: 0,
+        },
+        grid: {
+          show: true,
+          borderColor: '#9aa0ac',
+          strokeDashArray: 1,
+        },
+        tooltip: {
+          theme: 'dark',
+          marker: {
+            show: true,
+          },
+          x: {
+            show: false,
+          },
+        },
+      };
+
+      console.log(listaFechas);
+      console.log(listaNW);
+    }
+  }
+
   agregarHistorialTrabajador(){
     const dialogRef1 = this.dialog.open(AgregarHistorialTrabajadorComponent, {
       data: {
@@ -492,6 +563,7 @@ export class RamoComponent implements OnInit{
       countriesExport : this.countriesExport,
       countriesImport : this.countriesImport,
       specificActivities : this.specificActivities,
+      specificActivitiesEng : this.specificActivitiesEng,
       traductions : [
         {
           key : 'S_R_SALEPER',
@@ -567,6 +639,7 @@ export class RamoComponent implements OnInit{
       countriesExport : this.countriesExport,
       countriesImport : this.countriesImport,
       specificActivities : this.specificActivities,
+      specificActivitiesEng : this.specificActivitiesEng,
       traductions : [
         {
           key : 'S_R_SALEPER',
@@ -698,11 +771,14 @@ export class RamoComponent implements OnInit{
         console.log(data)
         this.idBusinessBranch = data.idBusinessBranch
         this.specificActivities = ''
-        data.specificActivities.forEach((actividad : ComboData)  => {
+        this.specificActivitiesEng = ''
+        data.specificActivities.forEach((actividad : ComboData3)  => {
           if(data.specificActivities[data.specificActivities.length-1] == actividad){
             this.specificActivities += actividad.valor
+            this.specificActivitiesEng += actividad.valorEng
           }else{
             this.specificActivities += actividad.valor + ' - '
+            this.specificActivitiesEng += actividad.valorEng + ' - '
           }
         });
       }

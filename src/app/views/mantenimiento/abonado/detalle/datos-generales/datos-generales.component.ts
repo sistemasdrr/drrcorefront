@@ -5,7 +5,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComboData } from 'app/models/combo';
 import { Abonado } from 'app/models/mantenimiento/abonado';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { AbonadoService } from 'app/services/mantenimiento/abonado.service';
 import { PaisService } from 'app/services/pais.service';

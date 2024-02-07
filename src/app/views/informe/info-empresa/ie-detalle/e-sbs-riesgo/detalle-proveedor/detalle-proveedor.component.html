@@ -123,13 +123,13 @@
             <div class="col-md-3 m-0">
               <mat-form-field class="w-100" style="margin: 0 .5rem 0 .5rem;">
                 <mat-label>Cumplimiento</mat-label>
-                <mat-select [(ngModel)]="compliance">
+                <mat-select [(ngModel)]="compliance" (ngModelChange)="cambiarCumplimiento(compliance)">
                   <mat-option [value]="''"></mat-option>
-                  <mat-option [value]="'LEEV'">Lento Eventual</mat-option>
-                  <mat-option [value]="'LESI'">Lento Siempre</mat-option>
-                  <mat-option [value]="'MORO'">Moroso</mat-option>
-                  <mat-option [value]="'PUNT'">Puntual</mat-option>
-                  <mat-option [value]="'SIEX'">Sin Experiencia</mat-option>
+                  <mat-option [value]="'Lento Eventual'">Lento Eventual</mat-option>
+                  <mat-option [value]="'Lento Siempre'">Lento Siempre</mat-option>
+                  <mat-option [value]="'Moroso'">Moroso</mat-option>
+                  <mat-option [value]="'Puntual'">Puntual</mat-option>
+                  <mat-option [value]="'Sin Experiencia'">Sin Experiencia</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>

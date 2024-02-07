@@ -5,7 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TPersona } from 'app/models/informes/persona/datos-generales';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { DatosGeneralesService } from 'app/services/informes/persona/datos-generales.service';
 import { Observable, map, startWith } from 'rxjs';

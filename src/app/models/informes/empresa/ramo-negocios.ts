@@ -71,6 +71,7 @@ export interface CompanyBranch{
   countriesExport : string
   countriesImport : string
   specificActivities : string
+  specificActivitiesEng : string
   traductions : Traduction[]
 }
 

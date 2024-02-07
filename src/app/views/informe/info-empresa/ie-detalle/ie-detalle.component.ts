@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatosEmpresa } from 'app/models/informes/empresa/datos-empresa';
 import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa.service';
 import Swal from 'sweetalert2';
 @Component({
@@ -26,7 +25,6 @@ export class IEDetalleComponent implements OnInit {
     },
   ]
 
-  private datosEmpresa : DatosEmpresa[] = []
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
 
   selectedIndex: number = 0;
@@ -36,7 +34,7 @@ export class IEDetalleComponent implements OnInit {
   id = 0
   cupon = ""
 
-  constructor(private activatedRoute: ActivatedRoute,private router : Router, private datosEmpresaService : DatosEmpresaService){
+  constructor(private renderer: Renderer2,private activatedRoute: ActivatedRoute,private router : Router, private datosEmpresaService : DatosEmpresaService){
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     const cupon = this.activatedRoute.snapshot.paramMap.get('cupon');
 
@@ -51,8 +49,8 @@ export class IEDetalleComponent implements OnInit {
     }
   }
 
-
   ngOnInit(): void {
+
     if(this.id > 0){
       this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe((response) => {
         if(response.isSuccess === true && response.isWarning === false){

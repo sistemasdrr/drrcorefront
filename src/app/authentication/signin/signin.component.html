@@ -1,72 +1,53 @@
-  <div class="container-fluid p-0">
-    <div class="row g-0">
-
-      <div class="col-lg-7" style="background-image: url('{{url}}'); background-position: center; background-size: cover; background-repeat: no-repeat; background-color: white;">
-        <div class="offset-md-8 col-md-4" style="margin-top: 30rem;">
-          
+<div class="container-fluid p-0" >
+  <div class="row g-0">
+    <div class="col-lg-8" style="background-image: url('{{url}}'); background-position: center; background-size: cover; background-repeat: no-repeat; background-color: white;">
+      <div class="offset-md-7 col-md-4" style="margin-top: 30rem;">
+        <div class="shadow" style="border: 2px solid #fad721; border-radius: 10px;">
+          <b style="color:white; font-size: 18px;" class="w-100 d-flex justify-content-center">Fechas Importantes </b>
+          <div style="font-size: 11px; color:white; margin: 10px;" *ngFor="let item of fechasImportantes">
+            <b style="color: #fad721; font-size: 14px;">{{item.shortDate}} → </b>
+            {{item.name}}
+          </div>
         </div>
       </div>
-      <div class="col-lg-5 " style="background-color: #1572b7 !important;">
-        <div class=" p-4 d-flex align-items-center min-vh-100">
-          <div class="w-100">
-            <div class="row justify-content-center">
-              <div class="col-lg-9">
-                <div>
-                  <div class="shadow" style="border: 2px solid #fad721; border-radius: 10px;">
-                    <b style="color:white; font-size: 18px;" class="w-100 d-flex justify-content-center">Fechas Importantes </b>
-                    <table style="margin: 3%;">
-                      <tr *ngFor="let item of fechasImportantes">
-                        <td style="color: #fad721; font-size: 14px;"><b>{{item.shortDate}}</b></td>
-                        <td style="color: #fad721; font-size: 14px;"><b>→</b> </td>
-                        <td style=" color: white; font-size: 12px;">{{item.name }}</td>
-                      </tr>
-                    </table>
-                    
-                    <div style="font-size: 11px; color:white; margin: 10px;" >
-                      <b style="color: #fad721; font-size: 12px;"> </b>
-                     
-                    </div>
-                  </div>
-                  <div class="p-2 mt-5" style="border: 1px solid #fad721; border-radius: 5%; ">
-                   
-                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="margin: 10px">
-                      <div *ngIf="error" class="alert alert-danger mb-3 mt-0">{{error}}</div>
-                      <div class="form-group auth-form-group mb-4">
-                        <mat-icon matSuffix class="auth-page-icon">person</mat-icon>
-                        <input type="text" formControlName="text" class="form-control auth-control" id="email"
-                          placeholder="Nombre de Usuario" [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
-                        <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
-                          <div *ngIf="form['email'].errors['required']">Complete el campo de Usuario</div>
-                          <div *ngIf="form['email'].errors['email']"></div>
-                        </div>
-                      </div>
-
-                      <div class="form-group auth-form-group mb-4">
-                        <mat-icon matSuffix class="auth-page-icon">vpn_key</mat-icon>
-                        <input type="password" formControlName="password" class="form-control auth-control"
-                          id="password" [ngClass]="{ 'is-invalid': submitted && form['password'].errors }"
-                          placeholder="Contraseña" />
-                        <div *ngIf="submitted && form['password'].errors" class="invalid-feedback">
-                          <div *ngIf="form['password'].errors['required']">Complete el campo de Contraseña</div>
-                        </div>
-                      </div>
-
-                      <div class="flex-sb-m w-full p-t-15 p-b-20">
-                        <div class="form-check">
-                            <mat-checkbox class="example-margin" ><b style="color: #fad721;">Recordar Usuario</b></mat-checkbox>
-
-                        </div>
-                      </div>
-
-                      <div class="container-login100-form-btn">
-                        <button mat-raised-button style="background-color: #fad721;" class="login100-form-btn" type="submit">
-                          Ingresar
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+    </div>
+    <div class="col-lg-4 " style="background-color: #1572b7 !important;">
+      <div class=" p-4 d-flex align-items-center min-vh-100">
+        <div class="w-100">
+          <div class="row justify-content-center">
+            <div class="col-lg-9">
+              <div>
                 
+                <div class="p-2 mt-5" style="border: 1px solid #fad721; border-radius: 5%; ">
+                    <div class="form-group auth-form-group mb-3">
+                      <mat-icon matSuffix class="auth-page-icon">person</mat-icon>
+                      <input type="text" class="form-control auth-control"  (keypress)="focusPassword($event);" [(ngModel)]="username"
+                        placeholder="Nombre de Usuario" >
+
+                    </div>
+
+                    <div class="form-group auth-form-group mb-2">
+                      <mat-icon matSuffix class="auth-page-icon">vpn_key</mat-icon>
+                      <input id="id_password" type="password" class="form-control auth-control" [(ngModel)]="password"
+                        placeholder="Contraseña"  (keypress)="enter($event);" />
+                    </div>
+                    <div *ngIf="msgError !== ''" style="color: rgb(96, 28, 28);">
+                      <i class="fa-solid fa-circle-exclamation"></i>&nbsp;<b>{{msgError}}</b></div>
+
+                    <div class="flex-sb-m w-full">
+                      <div class="form-check">
+                          <mat-checkbox class="example-margin" ><b style="color: #fad721;">Recordar Usuario</b></mat-checkbox>
+                      </div>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                      <button mat-raised-button style="background-color: #fad721;" class="login100-form-btn" type="button" (click)="onSubmit()">
+                        {{btnIngresar}}
+                        <span class="loader" *ngIf="btnIngresar === 'Validando...'"></span>
+                      </button>
+                    </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -74,3 +55,4 @@
       </div>
     </div>
   </div>
+</div>

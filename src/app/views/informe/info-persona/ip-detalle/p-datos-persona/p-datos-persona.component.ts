@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { Observable, map, startWith } from 'rxjs';
 import { HistoricoPedidosComponent } from 'app/views/informe/info-empresa/ie-detalle/e-datos-empresa/historico-pedidos/historico-pedidos.component';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';

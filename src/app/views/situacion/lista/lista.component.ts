@@ -6,13 +6,12 @@ import { MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { Pedido } from 'app/models/pedidos/pedido';
-import { PedidoService } from 'app/services/pedido.service';
 
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ListTicket } from 'app/models/pedidos/ticket';
 import { TicketService } from 'app/services/pedidos/ticket.service';
+import { PedidosService } from 'app/services/pedidos/pedidos.service';
 
 const today = new Date();
 const month = today.getMonth();
@@ -50,7 +49,7 @@ export class ListaSituacionComponent implements  OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private pedidoService : PedidoService, private router : Router, private fb: FormBuilder, private ticketService : TicketService) {
+  constructor(private pedidoService : PedidosService, private router : Router, private fb: FormBuilder, private ticketService : TicketService) {
     this.dataSource = new MatTableDataSource();
     this.range = this.fb.group({
       start: new FormControl(new Date(new Date().getFullYear(), 0, 1)),

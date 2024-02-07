@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pedido } from 'app/models/pedidos/pedido';
-import { PedidoService } from 'app/services/pedido.service';
+import { PedidosService } from 'app/services/pedidos/pedidos.service';
 
 @Component({
   selector: 'app-historial',
@@ -30,19 +30,16 @@ export class HistorialComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private pedidoService : PedidoService){
+  constructor(private pedidoService : PedidosService){
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
-    this.dataSource.data = this.pedidoService.getPedidos()
-    this.dataSource.paginator = this.paginator;
+
   }
 
   applyFilter(){
-    this.dataSource.data = this.pedidoService.getPedidos().filter(x => x.cupon.trim().toLocaleLowerCase().includes(this.nmrCupon) && x.nombre.trim().toLocaleLowerCase().includes(this.abonado.toLocaleLowerCase()))
-    this.dataSource.paginator = this.paginator;
-
+   
   }
 
 }

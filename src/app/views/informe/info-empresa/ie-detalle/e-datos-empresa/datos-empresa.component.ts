@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
-import { Pais } from 'app/models/pais';
+import { Pais } from 'app/models/combo';
 import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
 import { HistoricoPedidosComponent } from './historico-pedidos/historico-pedidos.component';
@@ -88,7 +88,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   place = ""
   idCountry = 0
   subTelephone = ""
-  tellphone = ""
   cellphone = ""
   telephone = ""
   postalCode = ""
@@ -96,6 +95,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   email = ""
   webPage = ""
   idCreditRisk = 0
+  print = false
   riesgoCrediticioSeleccionado: RiesgoCrediticio = {
     id: 0,
     abreviation: '',
@@ -283,15 +283,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             this.language = DatosEmpresa.language
             this.typeRegister = DatosEmpresa.typeRegister
             this.yearFundation = DatosEmpresa.yearFundation
-            this.constitutionDate = DatosEmpresa.constitutionDate
-            if(DatosEmpresa.constitutionDate !== '' && DatosEmpresa.constitutionDate !== null){
-              const fecha2 = this.constitutionDate.split("/");
-              if (fecha2) {
-                this.constitutionDateD = new Date(parseInt(fecha2[2]), parseInt(fecha2[1]) - 1, parseInt(fecha2[0]))
-              }
-            }else{
-              this.constitutionDateD = null
-            }
             this.quality = DatosEmpresa.quality
             if(DatosEmpresa.idLegalPersonType > 0 && DatosEmpresa.idLegalPersonType !== null){
               this.idLegalPersonType = DatosEmpresa.idLegalPersonType
@@ -317,7 +308,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
               this.limpiarSeleccionPais()
             }
             this.subTelephone = DatosEmpresa.subTelephone
-            this.tellphone = DatosEmpresa.tellphone
             this.cellphone = DatosEmpresa.cellphone
             this.telephone = DatosEmpresa.telephone
             this.postalCode = DatosEmpresa.postalCode
@@ -364,6 +354,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             }
           this.newsComentary = DatosEmpresa.newsComentary
           this.identificacionCommentary = DatosEmpresa.identificacionCommentary
+          this.print = DatosEmpresa.print
         }
       }).add(() => {
         this.armarModeloActual()
@@ -418,7 +409,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
       language: this.language,
       typeRegister: this.typeRegister,
       yearFundation: this.yearFundation,
-      constitutionDate: this.constitutionDate,
       quality: this.quality,
       idLegalPersonType: this.idLegalPersonType,
       taxTypeName: this.taxTypeName,
@@ -429,7 +419,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
       place: this.place,
       idCountry: this.idCountry,
       subTelephone: this.subTelephone,
-      tellphone: this.tellphone,
       cellphone: this.cellphone,
       telephone: this.telephone,
       postalCode: this.postalCode,
@@ -461,7 +450,8 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
           key : 'L_E_NEW',
           value : this.newsComentaryEng
         },
-      ]
+      ],
+      print : this.print
     }
   }
   armarModeloModificado() {
@@ -474,7 +464,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
       language: this.language,
       typeRegister: this.typeRegister,
       yearFundation: this.yearFundation,
-      constitutionDate: this.constitutionDate,
       quality: this.quality,
       idLegalPersonType: this.idLegalPersonType,
       taxTypeName: this.taxTypeName,
@@ -485,7 +474,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
       place: this.place,
       idCountry: this.idCountry,
       subTelephone: this.subTelephone,
-      tellphone: this.tellphone,
       cellphone: this.cellphone,
       telephone: this.telephone,
       postalCode: this.postalCode,
@@ -517,7 +505,8 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
           key : 'L_E_NEW',
           value : this.newsComentaryEng
         },
-      ]
+      ],
+      print : this.print
     }
   }
   private _filterPais(description: string): Pais[] {

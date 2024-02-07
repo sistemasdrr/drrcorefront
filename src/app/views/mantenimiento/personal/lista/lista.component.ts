@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +9,7 @@ import { Personal } from 'app/models/mantenimiento/personal';
 import { ComboService } from 'app/services/combo.service';
 import { PersonalService } from 'app/services/mantenimiento/personal.service';
 import Swal from 'sweetalert2';
+import { PermisosComponent } from './permisos/permisos.component';
 
 @Component({
   selector: 'app-lista',
@@ -36,7 +38,7 @@ export class ListaPersonalComponent implements OnInit, AfterViewInit {
   columnas = ['code','shortName','department','job','startDate','birthday','enable','accion']
 
 
-  constructor(private personalService : PersonalService, private comboService : ComboService, private router : Router){
+  constructor(private personalService : PersonalService, private comboService : ComboService, private router : Router,private dialog : MatDialog){
     this.dataSource = new MatTableDataSource()
   }
 
@@ -198,5 +200,12 @@ export class ListaPersonalComponent implements OnInit, AfterViewInit {
       this.actualizarTabla()
       this.loading = false
     }
+  }
+  editarPermisos(id : number){
+    const dialogRef = this.dialog.open(PermisosComponent, {
+      data : {
+        id : id
+      },
+    });
   }
 }

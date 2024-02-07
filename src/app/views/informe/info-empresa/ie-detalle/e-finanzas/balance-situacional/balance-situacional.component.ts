@@ -28,7 +28,7 @@ export class BalanceSituacionalComponent implements OnInit {
   idCompany = 0
   date = ""
   dateD : Date | null = null
-  balanceType = "S"
+  balanceType = "SITUACIONAL"
   duration = ""
   idCurrency = 0
   exchangeRate = 0
@@ -90,7 +90,7 @@ export class BalanceSituacionalComponent implements OnInit {
       }
     ).add(
       () => {
-        this.balanceService.getBalances(this.idCompany, 'S').subscribe(
+        this.balanceService.getBalances(this.idCompany, 'SITUACIONAL').subscribe(
           (response) => {
             if(response.isSuccess === true && response.isWarning === false){
               this.listaBalances = response.data
@@ -192,7 +192,7 @@ export class BalanceSituacionalComponent implements OnInit {
     this.id = 0
     this.date = ""
     this.dateD = null
-    this.balanceType = "G"
+    this.balanceType = "SITUACIONAL"
     this.duration = ""
     this.idCurrency = 0
     this.exchangeRate = 0
@@ -272,7 +272,7 @@ export class BalanceSituacionalComponent implements OnInit {
                   width: '20rem',
                   heightAuto : true
                 }).then(() => {
-                  this.balanceService.getBalances(this.idCompany, 'S').subscribe(
+                  this.balanceService.getBalances(this.idCompany, 'SITUACIONAL').subscribe(
                     (response) => {
                       if(response.isSuccess === true && response.isWarning === false){
                         this.listaBalances = response.data
@@ -310,7 +310,7 @@ export class BalanceSituacionalComponent implements OnInit {
                   width: '20rem',
                   heightAuto : true
                 }).then(() => {
-                  this.balanceService.getBalances(this.idCompany, 'S').subscribe(
+                  this.balanceService.getBalances(this.idCompany, 'SITUACIONAL').subscribe(
                     (response) => {
                       if(response.isSuccess === true && response.isWarning === false){
                         this.listaBalances = response.data

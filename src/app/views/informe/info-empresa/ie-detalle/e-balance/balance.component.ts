@@ -27,8 +27,10 @@ export class BalanceComponent implements OnInit {
   idCompany = 0
   date = ""
   dateD : Date | null = null
-  balanceType = "G"
+  balanceType = "GENERAL"
+  balanceTypeEng = ""
   duration = ""
+  durationEng = ""
   idCurrency = 0
   exchangeRate = 0
   sales = 0
@@ -91,7 +93,7 @@ export class BalanceComponent implements OnInit {
       }
     ).add(
       () => {
-        this.balanceService.getBalances(this.idCompany, 'G').subscribe(
+        this.balanceService.getBalances(this.idCompany, 'GENERAL').subscribe(
           (response) => {
             if(response.isSuccess === true && response.isWarning === false){
               this.listaBalances = response.data
@@ -199,7 +201,7 @@ export class BalanceComponent implements OnInit {
     this.id = 0
     this.date = ""
     this.dateD = null
-    this.balanceType = "G"
+    this.balanceType = "GENERAL"
     this.duration = ""
     this.idCurrency = 0
     this.exchangeRate = 0
@@ -279,7 +281,7 @@ export class BalanceComponent implements OnInit {
                   width: '20rem',
                   heightAuto : true
                 }).then(() => {
-                  this.balanceService.getBalances(this.idCompany, 'G').subscribe(
+                  this.balanceService.getBalances(this.idCompany, 'GENERAL').subscribe(
                     (response) => {
                       if(response.isSuccess === true && response.isWarning === false){
                         this.listaBalances = response.data
@@ -317,7 +319,7 @@ export class BalanceComponent implements OnInit {
                   width: '20rem',
                   heightAuto : true
                 }).then(() => {
-                  this.balanceService.getBalances(this.idCompany, 'G').subscribe(
+                  this.balanceService.getBalances(this.idCompany, 'GENERAL').subscribe(
                     (response) => {
                       if(response.isSuccess === true && response.isWarning === false){
                         this.listaBalances = response.data
