@@ -80,13 +80,13 @@
           <mat-select [(ngModel)]="origin" (selectionChange)="selectOrigen($event.value)">
             <mat-option [value]="''">
             </mat-option>
-            <mat-option [value]="'N'">
+            <mat-option [value]="'Nacional'">
               Nacional
             </mat-option>
-            <mat-option [value]="'E'">
+            <mat-option [value]="'Extranjero'">
               Extranjero
             </mat-option>
-            <mat-option [value]="'M'">
+            <mat-option [value]="'Mixto'">
               Mixto
             </mat-option>
           </mat-select>
@@ -124,10 +124,10 @@
             <mat-select [(ngModel)]="traded">
               <mat-option [value]="''">
               </mat-option>
-              <mat-option [value]="'SÍ'">
+              <mat-option [value]="'Si'">
                 SÍ
               </mat-option>
-              <mat-option [value]="'NO'">
+              <mat-option [value]="'No'">
                 NO
               </mat-option>
             </mat-select>
@@ -138,10 +138,10 @@
             <mat-select [(ngModel)]="tradedBy" >
               <mat-option [value]="''">
               </mat-option>
-              <mat-option [value]="'C'">
+              <mat-option [value]="'Por Capitalización'">
                 Capitalización
               </mat-option>
-              <mat-option [value]="'N'">
+              <mat-option [value]="'Por Nuevos Aportes'">
                 Nuevo Aportes
               </mat-option>
             </mat-select>
