@@ -14,11 +14,22 @@ import { ComboData } from 'app/models/combo';
 import { AvalesComponent } from './avales/avales.component';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-sbs-riesgo',
   templateUrl: './sbs-riesgo.component.html',
-  styleUrls: ['./sbs-riesgo.component.scss']
+  styleUrls: ['./sbs-riesgo.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class SbsRiesgoComponent implements OnInit{
 

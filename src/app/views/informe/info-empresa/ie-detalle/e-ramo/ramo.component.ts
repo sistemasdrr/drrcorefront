@@ -38,6 +38,8 @@ import {
 } from 'ng-apexcharts';
 import { MatSort } from '@angular/material/sort';
 import { AgregarHistorialTrabajadorComponent } from './agregar-historial-trabajador/agregar-historial-trabajador.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 export interface data {
   name: string;
@@ -63,7 +65,16 @@ export type ChartOptions = {
 @Component({
   selector: 'app-ramo',
   templateUrl: './ramo.component.html',
-  styleUrls: ['./ramo.component.scss']
+  styleUrls: ['./ramo.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 
 

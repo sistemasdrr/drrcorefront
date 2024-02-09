@@ -11,11 +11,22 @@ import { SocioPersonaService } from 'app/services/informes/persona/socio-persona
 import { ListaEmpresasComponent } from 'app/views/pedidos/detalle/lista-empresas/lista-empresas.component';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-agregar-socio',
   templateUrl: './agregar-socio.component.html',
-  styleUrls: ['./agregar-socio.component.scss']
+  styleUrls: ['./agregar-socio.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class AgregarSocioPersonaComponent implements OnInit {
   titulo = ""

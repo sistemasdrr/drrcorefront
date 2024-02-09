@@ -13,6 +13,8 @@ import { FinanzasService } from 'app/services/informes/empresa/finanzas.service'
 import { Traduction } from 'app/models/informes/empresa/datos-empresa';
 import Swal from 'sweetalert2';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexGrid, ApexLegend, ApexPlotOptions, ApexResponsive, ApexStates, ApexStroke, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis } from 'ng-apexcharts';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 export interface data {
   name: string;
@@ -40,7 +42,16 @@ export type ChartOptions = {
 @Component({
   selector: 'app-finanzas',
   templateUrl: './finanzas.component.html',
-  styleUrls: ['./finanzas.component.scss']
+  styleUrls: ['./finanzas.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class FinanzasComponent implements OnInit, OnDestroy{
 

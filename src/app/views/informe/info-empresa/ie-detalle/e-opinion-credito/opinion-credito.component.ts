@@ -1,5 +1,7 @@
 import { OpinionCreditoService } from './../../../../../services/informes/empresa/opinion-credito.service';
 import { Component, OnInit } from '@angular/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
@@ -9,7 +11,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-opinion-credito',
   templateUrl: './opinion-credito.component.html',
-  styleUrls: ['./opinion-credito.component.scss']
+  styleUrls: ['./opinion-credito.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class OpinionCreditoComponent implements OnInit {
 

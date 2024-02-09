@@ -16,11 +16,22 @@ import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa
 import { SeleccionarCalidadComponent } from './seleccionar-calidad/seleccionar-calidad.component';
 import { ComboService } from 'app/services/combo.service';
 import { ComboData, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-datos-empresa',
   templateUrl: './datos-empresa.component.html',
-  styleUrls: ['./datos-empresa.component.scss']
+  styleUrls: ['./datos-empresa.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class DatosEmpresaComponent implements OnInit, OnDestroy {
 
@@ -283,7 +294,8 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             this.language = DatosEmpresa.language
             this.typeRegister = DatosEmpresa.typeRegister
             this.yearFundation = DatosEmpresa.yearFundation
-            this.quality = DatosEmpresa.quality
+            this.quality = DatosEmpresa.quality.trim()          
+           
             if(DatosEmpresa.idLegalPersonType > 0 && DatosEmpresa.idLegalPersonType !== null){
               this.idLegalPersonType = DatosEmpresa.idLegalPersonType
               this.personeriaJuridicaInforme = this.personeriaJuridica.filter(x => x.id === this.idLegalPersonType)[0]

@@ -13,11 +13,23 @@ import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 import { SociosEmpresaComponent } from './socios-empresa/socios-empresa.component';
 import { ExportF1Component } from './export-f1/export-f1.component';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+
 
 @Component({
   selector: 'app-ie-lista',
   templateUrl: './ie-lista.component.html',
-  styleUrls: ['./ie-lista.component.scss']
+  styleUrls: ['./ie-lista.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class IEListaComponent implements OnInit{
   private readonly CACHE_KEY = 'authCache';

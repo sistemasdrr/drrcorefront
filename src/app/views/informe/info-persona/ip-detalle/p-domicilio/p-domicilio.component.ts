@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Domicilio } from 'app/models/informes/persona/domicilio';
@@ -8,7 +10,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-p-domicilio',
   templateUrl: './p-domicilio.component.html',
-  styleUrls: ['./p-domicilio.component.scss']
+  styleUrls: ['./p-domicilio.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class PDomicilioComponent implements OnInit {
 

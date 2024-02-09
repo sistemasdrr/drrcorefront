@@ -14,11 +14,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Persona } from 'app/models/informes/persona/datos-generales';
 import Swal from 'sweetalert2';
 import { SeleccionarCalidadComponent } from 'app/views/informe/info-empresa/ie-detalle/e-datos-empresa/seleccionar-calidad/seleccionar-calidad.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-p-datos-persona',
   templateUrl: './p-datos-persona.component.html',
-  styleUrls: ['./p-datos-persona.component.scss']
+  styleUrls: ['./p-datos-persona.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class PDatosPersonaComponent implements OnInit{
 

@@ -1,4 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MorosidadComercial } from 'app/models/informes/empresa/sbs-riesgo';
@@ -8,7 +10,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-morosidad-comercial',
   templateUrl: './morosidad-comercial.component.html',
-  styleUrls: ['./morosidad-comercial.component.scss']
+  styleUrls: ['./morosidad-comercial.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class MorosidadComercialComponent implements OnInit{
   accion = ""

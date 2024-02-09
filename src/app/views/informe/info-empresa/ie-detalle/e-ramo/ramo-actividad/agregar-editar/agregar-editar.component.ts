@@ -5,11 +5,22 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Actividad, RamoNegocio } from 'app/models/informes/ramo-negocio';
 import Swal from 'sweetalert2';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-agregar-editar-ramo-negocio',
   templateUrl: './agregar-editar.component.html',
-  styleUrls: ['./agregar-editar.component.scss']
+  styleUrls: ['./agregar-editar.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class AgregarEditarRamoNegocioComponent {
   titulo = ""

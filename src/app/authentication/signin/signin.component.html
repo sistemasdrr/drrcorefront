@@ -12,7 +12,7 @@
             <div class="col-lg-9">              
                        <div>
 
-                        <div class="shadow" style="border: 2px solid #fad721; border-radius: 10px;">
+                        <div *ngIf="fechasImportantes.length>0" class="shadow" style="border: 2px solid #fad721; border-radius: 10px;">
                           <b style="color:white; font-size: 18px;" class="w-100 d-flex justify-content-center">Fechas Importantes </b>
                           <table style="margin: 3%;">
                             <tr *ngFor="let item of fechasImportantes">

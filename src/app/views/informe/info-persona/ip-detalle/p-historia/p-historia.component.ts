@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HistorialP } from 'app/models/informes/persona/historial';
 import { HistorialPService } from 'app/services/informes/persona/historial-p.service';
@@ -7,7 +9,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-p-historia',
   templateUrl: './p-historia.component.html',
-  styleUrls: ['./p-historia.component.scss']
+  styleUrls: ['./p-historia.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class PHistoriaComponent implements OnInit {
 

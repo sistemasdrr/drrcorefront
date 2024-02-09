@@ -44,7 +44,7 @@ export class ListaEmpresasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
-  columnsToDisplay = ['idioma', 'rucInit', 'razonSocial','nombreBuscado', 'datosAl', 'pais','calificacion','acciones' ];
+  columnsToDisplay = ['idioma', 'rucInit', 'razonSocial', 'datosAl', 'pais','acciones' ];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService,public dialogRef: MatDialogRef<ListaEmpresasComponent>,){
     this.dataSource = new MatTableDataSource()
@@ -150,6 +150,7 @@ export class ListaEmpresasComponent implements OnInit {
       idPais : this.idPais,
       conInforme : this.chkConInforme
     }
+    this.loading=true;
     localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda))
     this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme).subscribe(
       (response) => {
@@ -157,6 +158,7 @@ export class ListaEmpresasComponent implements OnInit {
           this.dataSource = new MatTableDataSource(response.data)
           this.dataSource.sort = this.sort
           this.dataSource.paginator = this.paginator
+          this.loading=false;
         }
       },(error) => {
         if(listaEmpresas){
@@ -175,6 +177,7 @@ export class ListaEmpresasComponent implements OnInit {
       }).add(() => {
         if(listaEmpresas){
           listaEmpresas.classList.add('hide-loader');
+          this.loading=false;
         }
       })
 

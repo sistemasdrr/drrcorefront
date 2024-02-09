@@ -10,11 +10,22 @@ import { Pais } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-p-detalle-proveedor',
   templateUrl: './p-detalle-proveedor.component.html',
-  styleUrls: ['./p-detalle-proveedor.component.scss']
+  styleUrls: ['./p-detalle-proveedor.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class PDetalleProveedorComponent implements OnInit{
   titulo: string = ''

@@ -1,4 +1,6 @@
 import { Component, Inject } from '@angular/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EmpresaRelacionada } from 'app/models/informes/empresa-relacionada';
 import { EmpresaRelacionadaService } from 'app/services/informes/empresa-relacionada.service';
@@ -7,7 +9,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-empresas-relacionadas',
   templateUrl: './empresas-relacionadas.component.html',
-  styleUrls: ['./empresas-relacionadas.component.scss']
+  styleUrls: ['./empresas-relacionadas.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class EmpresasRelacionadasComponent {
   accion = ""

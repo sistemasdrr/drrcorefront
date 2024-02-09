@@ -4,11 +4,22 @@ import { SbsRiesgoService } from 'app/services/informes/empresa/sbs-riesgo.servi
 import Swal from 'sweetalert2';
 import { DeudaBancaria } from 'app/models/informes/empresa/sbs-riesgo';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-deuda-bancaria',
   templateUrl: './deuda-bancaria.component.html',
-  styleUrls: ['./deuda-bancaria.component.scss']
+  styleUrls: ['./deuda-bancaria.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class DeudaBancariaComponent implements OnInit{
 

@@ -13,11 +13,22 @@ import Swal from 'sweetalert2';
 import { PMorosidadComercialComponent } from './p-morosidad-comercial/p-morosidad-comercial.component';
 import { PDetalleProveedorComponent } from './p-detalle-proveedor/p-detalle-proveedor.component';
 import { PDeudaBancariaComponent } from './p-deuda-bancaria/p-deuda-bancaria.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-p-sbs-riesgo',
   templateUrl: './p-sbs-riesgo.component.html',
-  styleUrls: ['./p-sbs-riesgo.component.scss']
+  styleUrls: ['./p-sbs-riesgo.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class PSbsRiesgoComponent implements OnInit{
   id = 0

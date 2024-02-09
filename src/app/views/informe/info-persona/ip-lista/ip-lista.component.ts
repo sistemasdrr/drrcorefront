@@ -12,11 +12,23 @@ import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 import { SociosPersonaComponent } from './socios-persona/socios-persona.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+
 
 @Component({
   selector: 'app-ip-lista',
   templateUrl: './ip-lista.component.html',
-  styleUrls: ['./ip-lista.component.scss']
+  styleUrls: ['./ip-lista.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class IPListaComponent implements OnInit{
   loading = false

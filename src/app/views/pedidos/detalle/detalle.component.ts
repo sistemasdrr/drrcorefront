@@ -14,6 +14,9 @@ import { TicketService } from 'app/services/pedidos/ticket.service';
 import { HistorialPedido, Ticket } from 'app/models/pedidos/ticket';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import Swal from 'sweetalert2';
+import { formatDate } from '@angular/common';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 
 
@@ -21,6 +24,15 @@ import Swal from 'sweetalert2';
   selector: 'app-detalle',
   templateUrl: './detalle.component.html',
   styleUrls: ['./detalle.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class DetalleComponent implements OnInit {
   loading: boolean = false;
@@ -40,11 +52,12 @@ export class DetalleComponent implements OnInit {
   aditionalData = ""
   about = "E"
   orderDate = ""
-  orderDateD : Date | null = null
+  orderDateD : Date = new Date();
   expireDate = ""
-  expireDateD : Date | null = null
+  expireDateD : Date=new Date();
+ 
   realExpireDate = ""
-  realExpireDateD : Date | null = null
+  realExpireDateD : Date=new Date();
   idContinent = 0
   idCountry = 0
   reportType = "OR"
@@ -120,7 +133,7 @@ export class DetalleComponent implements OnInit {
   idCountryEmpresa = 0
 
   codAbonado = ''
-  nombre_abonado = "SI"
+  nombre_abonado = "NO"
   breadscrums = [
     {
       title: '',
@@ -146,7 +159,12 @@ export class DetalleComponent implements OnInit {
     }
     this.dataSource = new MatTableDataSource()
   }
+  
   ngOnInit() {
+    this.realExpireDateD = this.addDays(5,new Date(this.orderDateD));
+      this.expireDateD = this.addDays(6,new Date(this.orderDateD));
+      this.orderDateD = new Date;
+   
     this.loading = true
     if(this.id !== 0){
       this.ticketService.getById(this.id).subscribe(
@@ -216,8 +234,7 @@ export class DetalleComponent implements OnInit {
           }
         }
       ).add(
-        () => {
-          console.log(this.idContinent)
+        () => {          
           this.abonadoService.getAbonadoPorId(this.idSubscriber).subscribe(
             (response) => {
               console.log(response)
@@ -328,6 +345,17 @@ export class DetalleComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource();
   }
+  addDays(noOfDaysToAdd:number,orderDate:Date){     
+    var endDate : Date=new Date, count = 0;
+    while(count < noOfDaysToAdd){
+        endDate = new Date(orderDate.setDate(orderDate.getDate() + 1));
+        if(endDate.getDay() != 0 && endDate.getDay() != 6){           
+           count++;
+        }
+    }
+    return endDate;
+
+  }
   armarModeloNuevo(){
     this.modeloNuevo[0] = {
       id : this.id,
@@ -421,25 +449,29 @@ export class DetalleComponent implements OnInit {
         }
       )
   }
-  selectFecha1(event: MatDatepickerInputEvent<Date>) {
+  selectFecha1(event: MatDatepickerInputEvent<Date>) { 
+   
     this.orderDateD = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
-      this.orderDate = this.formatDate(selectedDate);
+      this.realExpireDateD = this.addDays(5,new Date(this.orderDateD));
+      this.expireDateD = this.addDays(6,new Date(this.orderDateD));
+      this.orderDate = this.formatDate(new Date(selectedDate));
     }
+   
   }
   selectFecha2(event: MatDatepickerInputEvent<Date>) {
     this.expireDateD = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
-      this.expireDate = this.formatDate(selectedDate);
+      this.expireDate = this.formatDate(new Date(selectedDate));
     }
   }
   selectFecha3(event: MatDatepickerInputEvent<Date>) {
     this.realExpireDateD = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
-      this.realExpireDate = this.formatDate(selectedDate);
+      this.realExpireDate = this.formatDate(new Date(selectedDate));
     }
   }
   formatDate(date: Date): string {
@@ -474,6 +506,8 @@ export class DetalleComponent implements OnInit {
     }
   }
   buscarAbonado() {
+    this.codAbonado = '';
+    this.idSubscriber=0;
     const dialogRef = this.dialog.open(ListaAbonadosComponent, {
     data: {
       mensaje: 'Abonado',
@@ -521,8 +555,9 @@ export class DetalleComponent implements OnInit {
       },
     });
     dialogRef1.afterClosed().subscribe((data) => {
-      console.log(data.idCompany)
+    
       if(data.idCompany > 0){
+      this.loading = true;
       this.datosEmpresaService.getDatosEmpresaPorId(data.idCompany).subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
@@ -558,6 +593,7 @@ export class DetalleComponent implements OnInit {
                     }
                   }
                   this.dataSource.data = tipoReporte.listSameSearched
+                  this.loading=false;
                 }
               }
             }

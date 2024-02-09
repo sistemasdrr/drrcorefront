@@ -1,4 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { WorkerHistory } from 'app/models/informes/empresa/ramo-negocios';
 import { RamoNegociosService } from 'app/services/informes/empresa/ramo-negocios.service';
@@ -7,7 +9,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-agregar-historial-trabajador',
   templateUrl: './agregar-historial-trabajador.component.html',
-  styleUrls: ['./agregar-historial-trabajador.component.scss']
+  styleUrls: ['./agregar-historial-trabajador.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class AgregarHistorialTrabajadorComponent implements OnInit{
 

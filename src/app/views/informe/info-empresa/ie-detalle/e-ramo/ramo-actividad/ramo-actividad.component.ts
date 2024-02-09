@@ -6,11 +6,22 @@ import { AgregarEditarRamoNegocioComponent } from './agregar-editar/agregar-edit
 import { MatSelectionList } from '@angular/material/list';
 import { ComboData, ComboData3 } from 'app/models/combo';
 import { ComboService } from 'app/services/combo.service';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-ramo-actividad-dialog',
   templateUrl: './ramo-actividad.component.html',
-  styleUrls: ['./ramo-actividad.component.scss']
+  styleUrls: ['./ramo-actividad.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class RamoActividadDialogComponent implements OnInit {
   buscar : string =''

@@ -1,5 +1,7 @@
 import { T } from '@angular/cdk/keycodes';
 import { Component, OnInit } from '@angular/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ActivatedRoute } from '@angular/router';
 import { InformacionGeneral } from 'app/models/informes/empresa/informacion-general';
 import { InformacionGeneralService } from 'app/services/informes/empresa/informacion-general.service';
@@ -8,7 +10,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-informacion-general',
   templateUrl: './informacion-general.component.html',
-  styleUrls: ['./informacion-general.component.scss']
+  styleUrls: ['./informacion-general.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class InformacionGeneralComponent implements OnInit {
   informacionGeneral = "";

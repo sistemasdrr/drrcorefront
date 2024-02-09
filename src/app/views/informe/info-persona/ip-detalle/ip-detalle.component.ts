@@ -1,5 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatosGeneralesService } from 'app/services/informes/persona/datos-generales.service';
 import Swal from 'sweetalert2';
@@ -7,7 +9,16 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-ip-detalle',
   templateUrl: './ip-detalle.component.html',
-  styleUrls: ['./ip-detalle.component.scss']
+  styleUrls: ['./ip-detalle.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class IPDetalleComponent implements OnInit {
   title : string = 'Detalles de Empresa'

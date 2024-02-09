@@ -18,6 +18,8 @@ import { ComboService } from 'app/services/combo.service';
 import { ComboData } from 'app/models/combo';
 import Swal from 'sweetalert2';
 import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 export interface data {
   name: string;
@@ -27,6 +29,15 @@ export interface data {
   selector: 'app-antecedentes',
   templateUrl: './antecedentes.component.html',
   styleUrls: ['./antecedentes.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AntecedentesComponent implements OnInit, OnDestroy{

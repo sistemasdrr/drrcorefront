@@ -11,11 +11,22 @@ import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa
 import { PaisService } from 'app/services/pais.service';
 import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-lista-empresas',
   templateUrl: './lista-empresas.component.html',
-  styleUrls: ['./lista-empresas.component.scss']
+  styleUrls: ['./lista-empresas.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class ListaEmpresasComponent implements OnInit {
 

@@ -11,11 +11,23 @@ import { ListaEmpresasComponent } from '../../../ie-detalle/e-antecedentes/lista
 import Swal from 'sweetalert2';
 import { AccionistasEmpresa } from 'app/models/informes/empresa/socios-empresa';
 import { SociosEmpresaService } from 'app/services/informes/empresa/socios-empresa.service';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+
 
 @Component({
   selector: 'app-agregar-accionista',
   templateUrl: './agregar-accionista.component.html',
-  styleUrls: ['./agregar-accionista.component.scss']
+  styleUrls: ['./agregar-accionista.component.scss'],
+  providers:[
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS}
+  ]
 })
 export class AgregarAccionistaComponent implements OnInit{
 
