@@ -7,6 +7,16 @@ export interface dataAbonado{
   code : string
   name : string
 }
+export interface dataPedido{
+  id : number
+  cupon : string
+  name : string
+  orderDate : string
+  dispatchDate : string
+  procedureType : string
+  country : string
+  price : number
+}
 
 @Component({
   selector: 'app-facturacion-mensual',
@@ -23,7 +33,9 @@ export class FacturacionMensualComponent implements OnInit {
   ];
 
   dataSource = new MatTableDataSource<dataAbonado>()
+  dataSourcePedido = new MatTableDataSource<dataPedido>()
   columnsDS : string[] = ['code','name']
+  columnsDSP : string[] = ['ticket','name','orderDate','dispatchDate','procedureType', 'country','price']
 
   fechaDesde : Date | null = new Date()
   fechaHasta : Date = new Date()
@@ -50,13 +62,24 @@ export class FacturacionMensualComponent implements OnInit {
   orderDate : Date | null = null
   dispatchDate : Date | null = null
   procedureType = ""
-  salesChech = false
+  salesCheck = false
   reportName = ""
 
+  //FILTRAR
+  //POR FACTURAR
   range = new FormGroup({
     start: new FormControl<Date | null>(null),
     end: new FormControl<Date | null>(null),
   });
+
+  //POR COBRAR
+  monthPC = 1
+  yearPC = 2024
+
+  //COBRADAS
+  monthC = 1
+  yearC = 2024
+
   constructor(){
 
   }

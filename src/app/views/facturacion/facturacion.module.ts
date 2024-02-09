@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatTableModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSelectModule
   ]
 })
 export class FacturacionModule { }

@@ -1,7 +1,15 @@
 <div class="container-fluid p-0" >
   <div class="row g-0">
     <div class="col-lg-8" style="background-image: url('{{url}}'); background-position: center; background-size: cover; background-repeat: no-repeat; background-color: white;">
-
+      <div class="offset-md-8 col-md-4" style="margin-top: 30rem;">
+        <div class="shadow" style="border: 2px solid #fad721; border-radius: 10px;">
+          <b style="color:white; font-size: 18px;" class="w-100 d-flex justify-content-center">Fechas Importantes </b>
+          <div style="font-size: 11px; color:white; margin: 10px;" *ngFor="let item of fechasImportantes">
+            <b style="color: #fad721; font-size: 14px;">{{item.shortDate}} → </b>
+            {{item.name}}
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-lg-4 " style="background-color: #1572b7 !important;">
       <div class=" p-4 d-flex align-items-center min-vh-100">
@@ -20,15 +28,22 @@
 
                     <div class="form-group auth-form-group mb-2">
                       <mat-icon matSuffix class="auth-page-icon">vpn_key</mat-icon>
-                      <input id="id_password" type="password" class="form-control auth-control" [(ngModel)]="password"
+                      <div class="d-flex">
+                        <input id="id_password" style="width: 85%;" [type]="typeInput" class="form-control auth-control" [(ngModel)]="password"
                         placeholder="Contraseña"  (keypress)="enter($event);" />
+                        <button class="form-control auth-control" style="width: 15%; padding-right: 5px; padding-left: 0;" (click)="togglePasswordVisibility()">
+                          <mat-icon >{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
                     </div>
+
+                    </div>
+
                     <div *ngIf="msgError !== ''" style="color: rgb(96, 28, 28);">
                       <i class="fa-solid fa-circle-exclamation"></i>&nbsp;<b>{{msgError}}</b></div>
 
                     <div class="flex-sb-m w-full">
                       <div class="form-check">
-                          <mat-checkbox    class="example-margin" ><b style="color: #fad721;">Recordar Usuario</b></mat-checkbox>
+                          <mat-checkbox class="example-margin" [(ngModel)]="recordarUsuario" ><b style="color: #fad721;">Recordar Usuario</b></mat-checkbox>
                       </div>
                     </div>
 

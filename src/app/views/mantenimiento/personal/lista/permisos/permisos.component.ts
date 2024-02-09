@@ -67,7 +67,7 @@ export class PermisosComponent implements OnInit{
     return this.listaGerencia[0].subLevel.filter(t => t.enable).length > 0 && !this.allComplete1;
   }
   updateAllCompleteGerencia() {
-    this.allComplete2 = this.listaGerencia[0].subLevel != null && this.listaGerencia[0].subLevel.every(t => t.enable);
+    this.allComplete1 = this.listaGerencia[0].subLevel != null && this.listaGerencia[0].subLevel.every(t => t.enable);
   }
   setAllProduccion(completed: boolean) {
     this.allComplete2 = completed;
@@ -102,11 +102,11 @@ export class PermisosComponent implements OnInit{
     this.allComplete3 = this.listaAdministracion[0].subLevel != null && this.listaAdministracion[0].subLevel.every(t => t.enable);
   }
   setAllFacturacion(completed: boolean) {
-    this.allComplete3 = completed;
+    this.allComplete4 = completed;
     if (this.listaFacturacion == null) {
       return;
     }
-    this.listaAdministracion[0].subLevel.forEach(t => (t.enable = completed));
+    this.listaFacturacion[0].subLevel.forEach(t => (t.enable = completed));
   }
   someCompleteFacturacion(): boolean {
     if (this.listaFacturacion[0].subLevel == null) {
@@ -115,7 +115,7 @@ export class PermisosComponent implements OnInit{
     return this.listaFacturacion[0].subLevel.filter(t => t.enable).length > 0 && !this.allComplete4;
   }
   updateAllCompleteFacturacion() {
-    this.allComplete3 = this.listaFacturacion[0].subLevel != null && this.listaFacturacion[0].subLevel.every(t => t.enable);
+    this.allComplete4 = this.listaFacturacion[0].subLevel != null && this.listaFacturacion[0].subLevel.every(t => t.enable);
   }
   salir(){
     this.dialogRef.close()
@@ -159,6 +159,7 @@ export class PermisosComponent implements OnInit{
     console.log(this.listaGerencia)
     console.log(this.listaProduccion)
     console.log(this.listaAdministracion)
+    console.log(this.listaFacturacion)
 
       Swal.fire({
         title: '¿Está seguro de guardar los cambios?',
