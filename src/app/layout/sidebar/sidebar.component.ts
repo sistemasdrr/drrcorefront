@@ -1,3 +1,4 @@
+import { UsuarioService } from 'app/services/usuario.service';
 import { PersonalService } from './../../services/mantenimiento/personal.service';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Router, NavigationEnd } from '@angular/router';
@@ -15,6 +16,7 @@ import { ROUTES } from './sidebar-items';
 import { AuthService } from '@core';
 import { RouteInfo } from './sidebar.metadata';
 import Swal from 'sweetalert2';
+import { UserProcess } from 'app/models/usuario';
 
 @Component({
   selector: 'app-sidebar',
@@ -39,13 +41,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
   cargo = ""
   foto = ""
 
+  listaGerencia : UserProcess[] = []
+  listaProduccion : UserProcess[] = []
+  listaAdministracion : UserProcess[] = []
+  listaFacturacion : UserProcess[] = []
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
     private authService: AuthService,
     private router: Router,
-    private personalService : PersonalService
+    private personalService : PersonalService,
+    private usuarioService : UsuarioService
   ) {
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -93,31 +101,28 @@ export class SidebarComponent implements OnInit, OnDestroy {
         }
       }
     )
+    this.usuarioService.getUserProcess(auth.idEmployee).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.listaGerencia = response.data.gerencia
+          this.listaProduccion = response.data.produccion
+          this.listaAdministracion = response.data.administracion
+          this.listaFacturacion = response.data.facturacion
+          console.log(response.data)
+        }
+      }
+    )
     if (this.authService.currentUserValue) {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
     this.initLeftSidebar();
     this.bodyTag = this.document.body;
-    const rtr = this.router.url
-    if(rtr.includes('informes/persona')){
-      this.activeLI = 8;
-    }else if(rtr.includes('informes/empresa')){
-      this.activeLI = 7;
-    }else if(rtr.includes('pedidos')){
-      this.activeLI = 6;
-    }else if(rtr.includes('despacho')){
-      this.activeLI = 5;
-    }else if(rtr.includes('situacion')){
-      this.activeLI = 4;
-    }else if(rtr.includes('mantenimiento')){
-      this.activeLI = 12;
-    }
+
   }
 
 
 
   ngOnDestroy() {
-    this.routerObj.unsubscribe();
   }
   initLeftSidebar() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -145,28 +150,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   mouseHover() {
     const body = this.elementRef.nativeElement.closest('body');
-    const gerencia = this.document.getElementById('gerencia');
-    const produccion = this.document.getElementById('produccion');
-    const administracion = this.document.getElementById('administracion');
     if (body.classList.contains('submenu-closed')) {
       this.renderer.addClass(this.document.body, 'side-closed-hover');
       this.renderer.removeClass(this.document.body, 'submenu-closed');
-      this.renderer.removeClass(gerencia, 'd-none');
-      this.renderer.removeClass(produccion, 'd-none');
-      this.renderer.removeClass(administracion, 'd-none');
     }
   }
   mouseOut() {
     const body = this.elementRef.nativeElement.closest('body');
-    const gerencia = this.document.getElementById('gerencia');
-    const produccion = this.document.getElementById('produccion');
-    const administracion = this.document.getElementById('administracion');
     if (body.classList.contains('side-closed-hover')) {
       this.renderer.removeClass(this.document.body, 'side-closed-hover');
       this.renderer.addClass(this.document.body, 'submenu-closed');
-      this.renderer.addClass(gerencia, 'd-none');
-      this.renderer.addClass(produccion, 'd-none');
-      this.renderer.addClass(administracion, 'd-none');
     }
   }
   goTo(num : number){

@@ -25,6 +25,7 @@ export class SigninComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
+  private readonly CACHE_KEY = 'saveUser';
   arrayImg = [
     'assets/images/fondo-1.jpg',
     'assets/images/fondo-2.jpg',
@@ -37,8 +38,17 @@ export class SigninComponent
   error = '';
   hide = true;
 
+  recordarUsuario = false
   username : string = ""
   password : string = ""
+
+  typeInput: string = 'password';
+  showPassword: boolean = false;
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+    // Cambiar el tipo de input según si la contraseña debe mostrarse o no
+    this.typeInput = this.showPassword ? 'text' : 'password';
+  }
 
   btnIngresar = "Ingresar"
   msgError = ""
@@ -55,7 +65,12 @@ export class SigninComponent
   ngOnInit(): void {
 
     console.log(this.getRandomNumber())
-
+    const savedUser = JSON.parse(localStorage.getItem(this.CACHE_KEY) || '{}')
+    if(savedUser.saveUser === true){
+      this.recordarUsuario = true
+      this.username = savedUser.username
+      this.password = savedUser.password
+    }
     this.url = this.arrayImg[this.getRandomNumber()]
 
       this.aniversarioService.getFechasImportantes().subscribe(
@@ -78,12 +93,19 @@ export class SigninComponent
       (response) => {
         if(response !== null){
           if(this.authService.getIsLoginValue()){
+            //recordar usuario
 
+              const cacheData = {
+                saveUser : this.recordarUsuario,
+                username : this.username,
+                password : this.password
+              };
+              localStorage.setItem(this.CACHE_KEY, JSON.stringify(cacheData));
+            
             this.router.navigate(['/dashboard/main']);
           }
         }else{
           this.msgError = "Usuario o Contraseña incorrecta"
-
         }
       }
     ).add(

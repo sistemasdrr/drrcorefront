@@ -23,195 +23,143 @@ export interface Task {
 })
 export class PermisosComponent implements OnInit{
   idEmployee = 0
-  listaGerencia : number[] = []
-  listaProduccion : number[] = []
-  listaAdministracion : number[] = []
-  task1: Task = {
-    id : 0,
-    idProcess : 0,
-    idUser : 0,
-    name: 'Gerencia',
-    completed: false,
-    color: 'primary',
-    subtasks: []
-  };
-  task2: Task = {
-    id : 0,
-    idProcess : 0,
-    idUser : 0,
-    name: 'Producción',
-    completed: false,
-    color: 'primary',
-    subtasks: [],
-  };
-  task3: Task = {
-    id : 0,
-    idProcess : 0,
-    idUser : 0,
-    name: 'Administración',
-    completed: false,
-    color: 'primary',
-    subtasks: [
-    ],
-  };
+  listaGerencia : UserProcess[] = []
+  listaProduccion : UserProcess[] = []
+  listaAdministracion : UserProcess[] = []
+  listaFacturacion : UserProcess[] = []
 
   allComplete1: boolean = false;
   allComplete2: boolean = false;
   allComplete3: boolean = false;
+  allComplete4: boolean = false;
   constructor(public dialogRef: MatDialogRef<PermisosComponent>,private usuarioService : UsuarioService,@Inject(MAT_DIALOG_DATA) public data: any,){
     if(data){
       this.idEmployee = data.id
     }
   }
   ngOnInit(): void {
-    this.usuarioService.getProcess().subscribe(
+    this.usuarioService.getUserProcess(this.idEmployee).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
-          response.data.filter(x => x.menu === "Gerencia").forEach(item => {
-            this.task1.subtasks?.push({
-              id : 0,idProcess : item.id,idUser : 0, name : item.name, completed : false,color : 'warn'
-            })
-          });
-          response.data.filter(x => x.menu === "Producción").forEach(item => {
-            this.task2.subtasks?.push({
-              id : 0,idProcess : item.id,idUser : 0, name : item.name, completed : false,color : 'warn'
-            })
-          });
-          response.data.filter(x => x.menu === "Administración").forEach(item => {
-            this.task3.subtasks?.push({
-              id : 0,idProcess : item.id,idUser : 0, name : item.name, completed : false,color : 'warn'
-            })
-          });
+          const permisos = response.data
+          if(permisos){
+            this.listaGerencia = permisos.gerencia
+            this.listaProduccion = permisos.produccion
+            this.listaAdministracion = permisos.administracion
+            this.listaFacturacion = permisos.facturacion
+          }
         }
       }
-    ).add(
-      () => {
-        this.usuarioService.getUserProcess(this.idEmployee).subscribe(
-          (response) => {
-            if(response.isSuccess === true && response.isWarning === false){
-              console.log(response.data)
-              response.data.gerencia.forEach(userProcess => {
-                this.task1.subtasks?.forEach(process => {
-                  if(process.idProcess === userProcess.idProcess){
-                    process.id = userProcess.id
-                    process.idUser = userProcess.idUser
-                    process.idProcess = userProcess.idProcess
-                    process.completed = userProcess.enable
-                  }
-                });
-              });
-              response.data.produccion.forEach(userProcess => {
-                this.task2.subtasks?.forEach(process => {
-                  if(process.idProcess === userProcess.idProcess){
-                    process.id = userProcess.id
-                    process.idUser = userProcess.idUser
-                    process.idProcess = userProcess.idProcess
-                    process.completed = userProcess.enable
-                  }
-                });
-              });
-              response.data.administracion.forEach(userProcess => {
-                this.task3.subtasks?.forEach(process => {
-                  if(process.idProcess === userProcess.idProcess){
-                    process.id = userProcess.id
-                    process.idUser = userProcess.idUser
-                    process.idProcess = userProcess.idProcess
-                    process.completed = userProcess.enable
-                  }
-                });
-              });
-            }
-          }
-        )
-      }
-    )
-  }
-  someComplete1(): boolean {
-    if (this.task1.subtasks == null) {
-      return false;
-    }
-    return this.task1.subtasks.filter(t => t.completed).length > 0 && !this.allComplete1;
+    );
   }
 
-  setAll1(completed: boolean) {
+  setAllGerencia(completed: boolean) {
     this.allComplete1 = completed;
-    if (this.task1.subtasks == null) {
+    if (this.listaGerencia == null) {
       return;
     }
-    this.task1.subtasks.forEach(t => (t.completed = completed));
+    this.listaGerencia[0].subLevel.forEach(t => (t.enable = completed));
   }
-  updateAllComplete1() {
-    this.allComplete2 = this.task2.subtasks != null && this.task2.subtasks.every(t => t.completed);
-  }
-  someComplete2(): boolean {
-    if (this.task2.subtasks == null) {
+  someCompleteGerencia(): boolean {
+    if (this.listaGerencia[0].subLevel == null) {
       return false;
     }
-    return this.task2.subtasks.filter(t => t.completed).length > 0 && !this.allComplete2;
+    return this.listaGerencia[0].subLevel.filter(t => t.enable).length > 0 && !this.allComplete1;
   }
-
-  setAll2(completed: boolean) {
+  updateAllCompleteGerencia() {
+    this.allComplete1 = this.listaGerencia[0].subLevel != null && this.listaGerencia[0].subLevel.every(t => t.enable);
+  }
+  setAllProduccion(completed: boolean) {
     this.allComplete2 = completed;
-    if (this.task2.subtasks == null) {
+    if (this.listaProduccion == null) {
       return;
     }
-    this.task2.subtasks.forEach(t => (t.completed = completed));
+    this.listaProduccion[0].subLevel.forEach(t => (t.enable = completed));
   }
-  updateAllComplete2() {
-    this.allComplete2 = this.task2.subtasks != null && this.task2.subtasks.every(t => t.completed);
-  }
-  someComplete3(): boolean {
-    if (this.task3.subtasks == null) {
+  someCompleteProduccion(): boolean {
+    if (this.listaProduccion[0].subLevel == null) {
       return false;
     }
-    return this.task3.subtasks.filter(t => t.completed).length > 0 && !this.allComplete3;
+    return this.listaProduccion[0].subLevel.filter(t => t.enable).length > 0 && !this.allComplete2;
   }
-
-  setAll3(completed: boolean) {
+  updateAllCompleteProduccion() {
+    this.allComplete2 = this.listaProduccion[0].subLevel != null && this.listaProduccion[0].subLevel.every(t => t.enable);
+  }
+  setAllAdministracion(completed: boolean) {
     this.allComplete3 = completed;
-    if (this.task3.subtasks == null) {
+    if (this.listaAdministracion == null) {
       return;
     }
-    this.task3.subtasks.forEach(t => (t.completed = completed));
+    this.listaAdministracion[0].subLevel.forEach(t => (t.enable = completed));
   }
-  updateAllComplete3() {
-    this.allComplete3 = this.task3.subtasks != null && this.task3.subtasks.every(t => t.completed);
+  someCompleteAdministracion(): boolean {
+    if (this.listaAdministracion[0].subLevel == null) {
+      return false;
+    }
+    return this.listaAdministracion[0].subLevel.filter(t => t.enable).length > 0 && !this.allComplete3;
+  }
+  updateAllCompleteAdministracion() {
+    this.allComplete3 = this.listaAdministracion[0].subLevel != null && this.listaAdministracion[0].subLevel.every(t => t.enable);
+  }
+  setAllFacturacion(completed: boolean) {
+    this.allComplete4 = completed;
+    if (this.listaFacturacion == null) {
+      return;
+    }
+    this.listaFacturacion[0].subLevel.forEach(t => (t.enable = completed));
+  }
+  someCompleteFacturacion(): boolean {
+    if (this.listaFacturacion[0].subLevel == null) {
+      return false;
+    }
+    return this.listaFacturacion[0].subLevel.filter(t => t.enable).length > 0 && !this.allComplete4;
+  }
+  updateAllCompleteFacturacion() {
+    this.allComplete4 = this.listaFacturacion[0].subLevel != null && this.listaFacturacion[0].subLevel.every(t => t.enable);
   }
   salir(){
     this.dialogRef.close()
   }
   guardar(){
-    console.log(this.task2.subtasks)
-    const permisos : UserPermission[] = [{ gerencia: [], produccion: [], administracion: [] }];
-    this.task1.subtasks?.forEach(element => {
-      const obj : UserProcess = {
-        id : element.id,
-        idProcess : element.idProcess,
-        idUser : element.idUser,
-        enable : element.completed
+    let enableGerencia = false
+    let enableProduccion = false
+    let enableAdministracion = false
+    let enableFacturacion = false
+    this.listaGerencia[0].subLevel.forEach(element => {
+      if(element.enable === true){
+        enableGerencia = true
       }
-      console.log(obj)
-      permisos[0].gerencia.push(obj)
     });
-    this.task2.subtasks?.forEach(element => {
-      const obj : UserProcess = {
-        id : element.id,
-        idProcess : element.idProcess,
-        idUser : element.idUser,
-        enable : element.completed
+    this.listaProduccion[0].subLevel.forEach(element => {
+      if(element.enable === true){
+        enableProduccion = true
       }
-      permisos[0].produccion.push(obj)
     });
-    this.task3.subtasks?.forEach(element => {
-      const obj : UserProcess = {
-        id : element.id,
-        idProcess : element.idProcess,
-        idUser : element.idUser,
-        enable : element.completed
+    this.listaAdministracion[0].subLevel.forEach(element => {
+      if(element.enable === true){
+        enableAdministracion = true
       }
-      permisos[0].administracion.push(obj)
     });
-    console.log(permisos)
+    this.listaFacturacion[0].subLevel.forEach(element => {
+      if(element.enable === true){
+        enableFacturacion = true
+      }
+    });
+    this.listaGerencia[0].enable = enableGerencia
+    this.listaProduccion[0].enable = enableProduccion
+    this.listaAdministracion[0].enable = enableAdministracion
+    this.listaFacturacion[0].enable = enableFacturacion
+    const permisos : UserPermission= {
+      gerencia: this.listaGerencia,
+      produccion: this.listaProduccion,
+      administracion: this.listaAdministracion,
+      facturacion: this.listaFacturacion
+    };
+
+    console.log(this.listaGerencia)
+    console.log(this.listaProduccion)
+    console.log(this.listaAdministracion)
+    console.log(this.listaFacturacion)
 
       Swal.fire({
         title: '¿Está seguro de guardar los cambios?',
@@ -230,7 +178,7 @@ export class PermisosComponent implements OnInit{
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.usuarioService.updateUserProcess(permisos[0]).subscribe((response) => {
+          this.usuarioService.updateUserProcess(permisos).subscribe((response) => {
           if(response.isSuccess === true && response.isWarning === false){
             if(loader){
               loader.classList.add('hide-loader');

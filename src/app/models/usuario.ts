@@ -17,10 +17,15 @@ export interface UserPermission{
   gerencia : UserProcess[]
   produccion : UserProcess[]
   administracion : UserProcess[]
+  facturacion : UserProcess[]
 }
 export interface UserProcess{
   id : number
   idProcess : number
   idUser : number
+  name : string
+  path : string
+  icon : string
   enable : boolean
+  subLevel : UserProcess[]
 }

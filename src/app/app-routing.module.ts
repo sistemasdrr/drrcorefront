@@ -1,3 +1,4 @@
+import { FacturacionModule } from './views/facturacion/facturacion.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Page404Component } from './authentication/page404/page404.component';
@@ -32,6 +33,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./order-reception/order-reception.module')
           .then((m) => m.OrderReceptionModule)
+          ,canActivate: [AuthGuard]
+      },
+      {
+        path: 'facturacion',
+        loadChildren: () =>
+          import('./views/facturacion/facturacion.module')
+          .then((m) => m.FacturacionModule)
           ,canActivate: [AuthGuard]
       },
       {
