@@ -41,7 +41,7 @@ export class ExportF1Component implements OnInit {
     if(listaEmpresas){
       listaEmpresas.classList.remove('hide-loader');
     }
-    this.datosEmpresaService.downloadReportF1(this.idCompany,this.idioma,formato).subscribe(response=>{
+    this.datosEmpresaService.downloadReportF8(this.idCompany,this.idioma,formato).subscribe(response=>{
       let blob : Blob = response.body as Blob;
       let a =document.createElement('a');
       const language = this.idioma === "I" ? "ENG" : "SPA"
