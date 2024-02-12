@@ -50,4 +50,7 @@ export class DatosEmpresaService {
   downloadReportF1(idCompany : number, language : string, format : string){
     return this.http.get(this.url + this.controllerCompany + '/getf1?idCompany='+idCompany+'&language='+language+'&format='+format,{observe:'response',responseType:'blob'});
   }
+  downloadReportF8(idCompany : number, language : string, format : string){
+    return this.http.get(this.url + this.controllerCompany + '/getf8?idCompany='+idCompany+'&language='+language+'&format='+format,{observe:'response',responseType:'blob'});
+  }
 }
