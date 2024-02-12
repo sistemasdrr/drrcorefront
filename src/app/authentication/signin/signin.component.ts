@@ -37,7 +37,7 @@ export class SigninComponent
   submitted = false;
   error = '';
   hide = true;
-
+   loading=false;
   recordarUsuario = false
   username : string = ""
   password : string = ""
@@ -72,15 +72,18 @@ export class SigninComponent
       this.password = savedUser.password
     }
     this.url = this.arrayImg[this.getRandomNumber()]
-
+   this.loading=true;
       this.aniversarioService.getFechasImportantes().subscribe(
         (response) => {
           if(response.isSuccess === true && response.isWarning === false){
             this.fechasImportantes = response.data
           }
         }
+      ).add(
+        () => {
+          this.loading = false;
+        }
       )
-
   }
   getRandomNumber() : number {
     return Math.floor(Math.random() * (0 - 5) + 5);
@@ -148,8 +151,7 @@ export class SigninComponent
 
     // }
   }
-  enter(event : any){
-    console.log("hola")
+  enter(event : any){    
     if(event.code == 'Enter'){
       this.onSubmit()
     }

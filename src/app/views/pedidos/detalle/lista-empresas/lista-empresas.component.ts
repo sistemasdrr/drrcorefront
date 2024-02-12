@@ -44,7 +44,7 @@ export class ListaEmpresasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
-  columnsToDisplay = ['idioma', 'rucInit', 'razonSocial', 'datosAl', 'pais','acciones' ];
+  columnsToDisplay = ['idioma', 'rucInit', 'razonSocial', 'pais','acciones' ];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService,public dialogRef: MatDialogRef<ListaEmpresasComponent>,){
     this.dataSource = new MatTableDataSource()

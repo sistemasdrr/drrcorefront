@@ -48,7 +48,7 @@ export class ListaComponent implements OnInit {
   loading = false;
 
   dataSource: MatTableDataSource<ListTicket>;
-  columnsToDisplay = ['number', 'busineesName','subscriberCode', 'status', 'reportType', 'procedureType', 'quality', 'orderDate', 'expireDate', 'dispatchDate', 'Acciones' ];
+  columnsToDisplay = ['number', 'busineesName','subscriberCode', 'status', 'reportType', 'procedureType', 'quality', 'orderDate', 'expireDate', 'Acciones' ];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedOrder: Pedido | null = null;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

@@ -1,4 +1,9 @@
 <div class="container-fluid p-0" >
+  <div id="loader-detalle-cupon" class="d-flex justify-content-center align-items-center loader-container" [ngClass]="{'hide-loader': !loading}">
+    <span class="loader"></span><br>
+    <h2 style="color: white;">&nbsp;Cargando...</h2>
+  </div>
+
   <div class="row g-0">
     <div class="col-lg-8" style="background-image: url('{{url}}'); background-position: center; background-size: cover; background-repeat: no-repeat; background-color: white;">
   

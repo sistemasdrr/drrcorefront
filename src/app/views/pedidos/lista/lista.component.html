@@ -91,8 +91,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12" style="overflow-x: auto;">
-        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+      <div class="col-md-12" >
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
           <ng-container matColumnDef="number" >
           <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Cupón </th>
           <td mat-cell *matCellDef="let order" class="text-center"> {{order.number}} </td>
@@ -160,10 +160,7 @@
             <th mat-header-cell *matHeaderCellDef  mat-sort-header class="text-center"> Fecha de Vencimiento </th>
             <td mat-cell *matCellDef="let order" class="text-center"> {{order.expireDate}} </td>
           </ng-container>
-          <ng-container matColumnDef="dispatchDate" >
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center"> Fecha de Descarga </th>
-            <td mat-cell *matCellDef="let order" class="text-center"> {{order.dispatchDate}} </td>
-          </ng-container>
+         
           <ng-container matColumnDef="Acciones" >
             <th mat-header-cell *matHeaderCellDef  class="text-center" style="width: 10rem;"> Acciones </th>
             <td mat-cell *matCellDef="let order"  style="min-width: 12rem;">
@@ -200,7 +197,7 @@
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-4">
-                        <label><b>Abonado: </b>{{ order.subscriberCode }} - {{ order.subscriberName }}</label><br>
+                        <label><b>Abonado: </b>{{ order.subscriberCode }} </label><br>
                         <label><b>País: </b>{{ order.subscriberCountry }} <span class="fi fi-{{order.subscriberFlag}}"></span></label><br>
                         <label><b>Crédito Consultado:</b>  {{order.queryCredit}}</label><br>
                       </div>
@@ -216,7 +213,7 @@
                     <br>
                   </div>
                   <div class="card-header " style="background-color: rgb(180, 204, 252);">
-                    <h5>Datos de la Empresa</h5>
+                    <h5>Datos de la Empresa a Investigar</h5>
                   </div>
                   <div class="card-body">
                     <div class="row">
@@ -250,11 +247,7 @@
                       <div class="col-md-4">
                         <label><b>Tipo de Informe: </b> {{order.reportType}}</label><br>
                         <label><b>Fecha de Vencimiento: </b> {{order.expireDate}}</label><br>
-                      </div>
-                      <div class="col-md-4">
-                        <label><b>Precio de Informe: </b>  {{order.precioInforme}}</label><br>
-                        <label><b>Fecha de Vencimiento Real: </b>  {{order.realExpireDate}}</label><br>
-                      </div>
+                      </div>                    
                       <br>
                     </div>
                   </div>

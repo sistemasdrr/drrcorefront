@@ -14,9 +14,9 @@ export interface Ticket{
   timeLimit : string
   aditionalData : string
   about : string
-  orderDate : string
-  expireDate : string
-  realExpireDate : string
+  orderDate : Date
+  expireDate : Date
+  realExpireDate : Date
   idContinent : number
   idCountry : number
   reportType : string

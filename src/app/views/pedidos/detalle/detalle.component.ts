@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 import { formatDate } from '@angular/common';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { tick } from '@angular/core/testing';
 
 
 
@@ -201,35 +202,9 @@ export class DetalleComponent implements OnInit {
               this.enable = ticket.enable
               this.requestedName = ticket.requestedName
               this.precio = ticket.price
-              if(ticket.orderDate !== null && ticket.orderDate !== ""){
-                const fecha = ticket.orderDate.split("/")
-                if(fecha.length > 0){
-                  this.orderDate = ticket.orderDate
-                  this.orderDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                }else{
-                  this.orderDate = ""
-                }
-              }
-
-              if(ticket.expireDate !== null && ticket.expireDate !== ""){
-                const fecha = ticket.expireDate.split("/")
-                if(fecha.length > 0){
-                  this.expireDate = ticket.expireDate
-                  this.expireDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                }else{
-                  this.expireDate = ""
-                }
-              }
-
-              if(ticket.realExpireDate !== null && ticket.realExpireDate !== ""){
-                const fecha = ticket.realExpireDate.split("/")
-                if(fecha.length > 0){
-                  this.realExpireDate = ticket.realExpireDate
-                  this.realExpireDateD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                }else{
-                  this.realExpireDate = ""
-                }
-              }
+              this.orderDateD=ticket.orderDate   
+              this.expireDateD=ticket.expireDate
+              this.realExpireDateD=ticket.realExpireDate
             }
           }
         }
@@ -369,9 +344,9 @@ export class DetalleComponent implements OnInit {
       timeLimit : this.timeLimit,
       aditionalData : this.aditionalData,
       about : this.about,
-      orderDate : this.orderDate,
-      expireDate : this.expireDate,
-      realExpireDate : this.realExpireDate,
+      orderDate : new Date(this.orderDateD),
+      expireDate : new Date(this.expireDateD),
+      realExpireDate : new Date(this.realExpireDateD),
       idContinent : this.idContinent,
       idCountry : this.idCountry,
       reportType : this.reportType,
@@ -405,9 +380,9 @@ export class DetalleComponent implements OnInit {
       timeLimit : this.timeLimit,
       aditionalData : this.aditionalData,
       about : this.about,
-      orderDate : this.orderDate,
-      expireDate : this.expireDate,
-      realExpireDate : this.realExpireDate,
+      orderDate : new Date(this.orderDateD),
+      expireDate : new Date(this.expireDateD),
+      realExpireDate : new Date(this.realExpireDateD),
       idContinent : this.idContinent,
       idCountry : this.idCountry,
       reportType : this.reportType,
