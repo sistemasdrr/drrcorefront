@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Persona, TPersona } from 'app/models/informes/persona/datos-generales';
+import { Persona, StatusPerson, TPersona } from 'app/models/informes/persona/datos-generales';
 import { Response } from 'app/models/response';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
@@ -15,6 +15,9 @@ export class DatosGeneralesService {
 
   getPersonaById(id : number): Observable<Response<Persona>>{
     return this.http.get<Response<Persona>>(this.url + this.controllerPersona + '/getPerson?id='+id)
+  }
+  getStatus(idPerson : number): Observable<Response<StatusPerson>>{
+    return this.http.get<Response<StatusPerson>>(this.url + this.controllerPersona + '/getStatus?idPerson='+idPerson);
   }
   getList(fullname : string, tipoFiltro : string, idCountry : number, haveReport : boolean): Observable<Response<TPersona[]>>{
     return this.http.get<Response<TPersona[]>>(this.url + this.controllerPersona + '/getListPerson?fullname='+fullname+'&form='+tipoFiltro+'&idCountry='+idCountry)

@@ -36,6 +36,7 @@ export interface FinancialInformation{
   financialCommentarySelected : string
   mainFixedAssets : string
   analystCommentary : string
+  tabCommentary : string
   traductions : Traduction[]
 }
 
@@ -43,7 +44,7 @@ export interface HistoricoVentas{
   id : number
   idCompany : number
   idCurrency : number
-  date : string
+  date : Date
   amount : number
   exchangeRate : number
   equivalentToDollars : number

@@ -45,6 +45,16 @@ export class IEDetalleComponent implements OnInit {
   id = 0
   cupon = ""
 
+  company = false
+  background = false
+  branch = false
+  financial = false
+  balance = false
+  sbs = false
+  opinion = false
+  infoGeneral = false
+  images = false
+
   constructor(private renderer: Renderer2,private activatedRoute: ActivatedRoute,private router : Router, private datosEmpresaService : DatosEmpresaService){
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     const cupon = this.activatedRoute.snapshot.paramMap.get('cupon');
@@ -61,8 +71,37 @@ export class IEDetalleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    const tabCompany = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+    const tabBackground = document.getElementById('tab-antecedentes') as HTMLElement | null;
+    const tabBranch = document.getElementById('tab-ramo-negocio') as HTMLElement | null;
+    const tabFinancial = document.getElementById('tab-finanzas') as HTMLElement | null;
+    const tabBalance = document.getElementById('tab-balance') as HTMLElement | null;
+    const tabSbs = document.getElementById('tab-sbs-riesgo') as HTMLElement | null;
+    const tabOpinion = document.getElementById('tab-opinion-credito') as HTMLElement | null;
+    const tabInfoGeneral = document.getElementById('tab-info-general') as HTMLElement | null;
+    const tabImages = document.getElementById('tab-imagenes') as HTMLElement | null;
+    if (tabCompany) {
+      tabCompany.classList.remove('tab-cambios')
+    }
     if(this.id > 0){
+      this.datosEmpresaService.getStatus(this.id).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            const status = response.data
+            if(status){
+              this.company = status.company
+              this.background = status.background
+              this.branch = status.branch
+              this.financial = status.financial
+              this.balance = status.balance
+              this.sbs = status.sbs
+              this.opinion = status.opinion
+              this.infoGeneral = status.infoGeneral
+              this.images = status.images
+            }
+          }
+        }
+      )
       this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe((response) => {
         if(response.isSuccess === true && response.isWarning === false){
           const DatosEmpresa = response.data

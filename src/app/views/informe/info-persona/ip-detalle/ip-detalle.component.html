@@ -10,45 +10,45 @@
     </div>
     <div class="" style="width:100%;">
       <mat-tab-group [preserveContent]="true" >
-        <mat-tab>
+        <mat-tab >
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-user-tie" style="font-size: 20px;"  [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Persona"></i>
+            <i id="tab-persona" class="fa-solid fa-user-tie" style="font-size: 20px;"  [ngClass]="person === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Persona"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Persona</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-p-datos-persona></app-p-datos-persona>
           </ng-template>
         </mat-tab>
-        <mat-tab [ngClass]="{'tab-completo': false}">
+        <mat-tab>
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-house" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Domicilio"></i>
+            <i id="tab-domicilio" class="fa-solid fa-house" style="font-size: 20px;"  [ngClass]="home === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Domicilio"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Domicilio</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-p-domicilio></app-p-domicilio>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab >
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-briefcase" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Centro de Trabajo"></i>
+            <i id="tab-trabajo" class="fa-solid fa-briefcase" style="font-size: 20px;" [ngClass]="job === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Centro de Trabajo"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Trabajo</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-p-trabajo></app-p-trabajo>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab >
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Otras Actividades y Recursos"></i>
+            <i id="tab-actividades" class="fa-solid fa-code-branch" style="font-size: 20px;" [ngClass]="activities === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Otras Actividades y Recursos"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Actividades</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-p-otras-actividades></app-p-otras-actividades>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab >
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-coins" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Propiedades"></i>
+            <i id="tab-propiedades" class="fa-solid fa-coins" style="font-size: 20px;" [ngClass]="properties === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Propiedades"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Propiedades</b></div>
           </ng-template>
           <ng-template matTabContent>
@@ -57,34 +57,34 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-gauge-high" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="SBS / C. Riesgo"></i>
+            <i id="tab-p-sbs" class="fa-solid fa-gauge-high" style="font-size: 20px;" [ngClass]="sbs === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="SBS / C. Riesgo"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>SBS / C. Riesgo</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-p-sbs-riesgo></app-p-sbs-riesgo>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab >
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-comment-dollar" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Opinión de Crédito"></i>
+            <i id="tab-historia" class="fa-solid fa-comment-dollar" style="font-size: 20px;" [ngClass]="history === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Opinión de Crédito"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Historia</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-p-historia></app-p-historia>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab >
           <ng-template mat-tab-label>
-            <i class="fa-solid fa-circle-info" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Información General"></i>
+            <i id="tab-p-info-general" class="fa-solid fa-circle-info" style="font-size: 20px;" [ngClass]="infoGeneral === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Información General"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Info. General</b></div>
           </ng-template>
           <ng-template matTabContent>
             <app-p-info-general></app-p-info-general>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab >
           <ng-template mat-tab-label >
-            <i class="fa-regular fa-image" style="font-size: 20px;" [ngClass]="{'tab-vacio': true}" #tooltip="matTooltip" matTooltip="Imágenes"></i>
+            <i id="tab-p-imagenes" class="fa-regular fa-image" style="font-size: 20px;" [ngClass]="images === true ? 'tab-con-datos' : 'tab-vacio'" #tooltip="matTooltip" matTooltip="Imágenes"></i>
             <div class="d-md-block d-none" style="font-size: 18px;">&nbsp;<b>Imágenes</b></div>
           </ng-template>
           <ng-template matTabContent>

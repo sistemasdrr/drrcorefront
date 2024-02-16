@@ -40,6 +40,16 @@ export class IPDetalleComponent implements OnInit {
   loading: boolean = false;
   id = 0
 
+  person = false
+  home = false
+  job = false
+  activities = false
+  properties = false
+  sbs = false
+  history = false
+  infoGeneral = false
+  images = false
+
   constructor(private activatedRoute: ActivatedRoute,private router : Router, private personaService : DatosGeneralesService){
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
@@ -49,7 +59,7 @@ export class IPDetalleComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    
+
     if(this.id > 0){
       this.personaService.getPersonaById(this.id).subscribe(
         (response) => {
@@ -84,6 +94,25 @@ export class IPDetalleComponent implements OnInit {
                 active: 'Persona',
               },
             ]
+          }
+        }
+      )
+      this.personaService.getStatus(this.id).subscribe(
+        (response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            console.log(response.data)
+            const status = response.data
+            if(status){
+              this.person = status.person
+              this.home = status.home
+              this.job = status.job
+              this.activities = status.activities
+              this.properties = status.properties
+              this.sbs = status.sbs
+              this.history = status.history
+              this.infoGeneral = status.infoGeneral
+              this.images = status.images
+            }
           }
         }
       )

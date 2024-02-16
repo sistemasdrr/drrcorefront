@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 import { SeleccionarCalidadComponent } from 'app/views/informe/info-empresa/ie-detalle/e-datos-empresa/seleccionar-calidad/seleccionar-calidad.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-p-datos-persona',
@@ -145,7 +146,7 @@ export class PDatosPersonaComponent implements OnInit{
   colorMsgSituacionRuc = ""
 
   //MODELOS
-  modeloNuevo : Persona[] = []
+  modeloActual : Persona[] = []
   modeloModificado : Persona[] = []
 
 constructor(private dialog : MatDialog, private comboService : ComboService,
@@ -160,7 +161,8 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
       this.id = parseInt(id + '')
     }
     console.log(this.id)
-}
+ }
+compararModelosF : any
   ngOnInit() {
     this.comboService.getPaises().subscribe(
       (response) => {
@@ -332,6 +334,9 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
                 this.reputacionSeleccionada = this.reputaciones.filter(x => x.id === this.idReputation)[0]
                 this.colorReputacion = this.reputacionSeleccionada.color
               }
+
+    this.armarModeloActual()
+    this.armarModeloModificado()
             }
           )
         }
@@ -352,10 +357,28 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
         return name ? this._filterPais(name as string) : this.paises.slice()
       }),
     )
+    this.armarModeloActual()
+    this.armarModeloModificado()
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabPersona = document.getElementById('tab-persona') as HTMLElement | null;
+      if (tabPersona) {
+        tabPersona.classList.add('tab-cambios')
+      }
+    }else{
+      const tabPersona = document.getElementById('tab-persona') as HTMLElement | null;
+      if (tabPersona) {
+        tabPersona.classList.remove('tab-cambios')
+      }
+    }
+  }
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       oldCode : this.oldCode,
       fullname : this.fullname,
@@ -512,23 +535,20 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
     return pais && pais.valor ? pais.valor : '';
   }
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.lastSearched = this.formatDate(selectedDate);
+    this.lastSearchedD = event.value;
+    if (moment.isMoment(this.lastSearchedD)) {
+      this.lastSearched = this.formatDate(this.lastSearchedD);
     }
   }
   selectFechaNacimiento(event: MatDatepickerInputEvent<Date>) {
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.birthDate = this.formatDate(selectedDate);
+    this.birthDateD = event.value;
+    if (moment.isMoment(this.birthDateD)) {
+      this.birthDate = this.formatDate(this.birthDateD);
     }
   }
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   historicoPedidos(){
     const dialog = this.dialog.open(HistoricoPedidosComponent,{
@@ -727,7 +747,8 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
             })
             this.router.navigate(['informes/persona/detalle/'+this.id]);
 
-            this.armarModeloNuevo();
+            this.armarModeloActual();
+            this.armarModeloModificado();
           }else{
             if(loader){
               loader.classList.add('hide-loader');
@@ -767,6 +788,10 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
 
           const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
           this.personaService.addPerson(this.modeloModificado[0]).subscribe((response) => {
+            const tabPersona = document.getElementById('tab-persona') as HTMLElement | null;
+            if (tabPersona) {
+              tabPersona.classList.add('tab-con-datos')
+            }
             if(loader){
               loader.classList.remove('hide-loader');
             }
@@ -784,7 +809,8 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
                 width: '30rem',
                 heightAuto: true
               })
-              this.armarModeloNuevo()
+              this.armarModeloActual()
+              this.armarModeloModificado()
             }else{
               if(loader){
                 loader.classList.add('hide-loader');
@@ -827,7 +853,7 @@ constructor(private dialog : MatDialog, private comboService : ComboService,
   salir(){
     this.armarModeloModificado();
 
-    if(JSON.stringify(this.modeloNuevo) !== JSON.stringify(this.modeloModificado)){
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
       Swal.fire({
         title: '¿Está seguro de salir sin guardar los cambios?',
         text: "",

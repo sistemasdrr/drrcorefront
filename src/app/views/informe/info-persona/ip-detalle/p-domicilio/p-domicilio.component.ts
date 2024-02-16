@@ -31,7 +31,7 @@ export class PDomicilioComponent implements OnInit {
   homeCommentary = ""
   homeCommentaryEng = ""
 
-  modeloNuevo : Domicilio[] = []
+  modeloActual : Domicilio[] = []
   modeloModificado : Domicilio[] = []
 
   constructor(public dialog: MatDialog, private domicilioService : DomicilioService, private activatedRoute: ActivatedRoute, private router : Router) {
@@ -44,6 +44,7 @@ export class PDomicilioComponent implements OnInit {
     console.log(this.id)
   }
 
+  compararModelosF : any
   ngOnInit(): void {
     const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
     if(loader){
@@ -72,6 +73,9 @@ export class PDomicilioComponent implements OnInit {
           if(loader){
             loader.classList.add('hide-loader');
           }
+
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -81,10 +85,28 @@ export class PDomicilioComponent implements OnInit {
       }
     }
 
+    this.armarModeloActual()
+    this.armarModeloModificado()
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabDomicilio = document.getElementById('tab-domicilio') as HTMLElement | null;
+      if (tabDomicilio) {
+        tabDomicilio.classList.add('tab-cambios')
+      }
+    }else{
+      const tabDomicilio = document.getElementById('tab-domicilio') as HTMLElement | null;
+      if (tabDomicilio) {
+        tabDomicilio.classList.remove('tab-cambios')
+      }
+    }
+  }
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idPerson : this.idPerson,
       ownHome : this.ownHome,
@@ -123,8 +145,8 @@ export class PDomicilioComponent implements OnInit {
   }
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -142,9 +164,13 @@ export class PDomicilioComponent implements OnInit {
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.domicilioService.addDomicilio(this.modeloNuevo[0]).subscribe(
+          this.domicilioService.addDomicilio(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabDomicilio = document.getElementById('tab-domicilio') as HTMLElement | null;
+                if (tabDomicilio) {
+                  tabDomicilio.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -152,7 +178,7 @@ export class PDomicilioComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -197,7 +223,7 @@ export class PDomicilioComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

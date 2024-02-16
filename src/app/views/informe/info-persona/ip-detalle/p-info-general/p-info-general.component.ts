@@ -27,7 +27,7 @@ export class PInfoGeneralComponent implements OnInit{
   generalInformation = ""
   generalInformationEng  = ""
 
-  modeloNuevo : InfoGeneralP[] = []
+  modeloActual : InfoGeneralP[] = []
   modeloModificado : InfoGeneralP[] = []
 
   constructor(private infoGeneralService : InfoGeneralPService, private activatedRoute: ActivatedRoute){
@@ -39,6 +39,8 @@ export class PInfoGeneralComponent implements OnInit{
     }
     console.log(this.idPerson)
   }
+
+  compararModelosF : any
   ngOnInit(): void {
     const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
     if(loader){
@@ -63,6 +65,9 @@ export class PInfoGeneralComponent implements OnInit{
           if(loader){
             loader.classList.add('hide-loader');
           }
+
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -70,9 +75,29 @@ export class PInfoGeneralComponent implements OnInit{
         loader.classList.add('hide-loader');
       }
     }
+
+    this.armarModeloActual()
+    this.armarModeloModificado()
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabInfoGeneral = document.getElementById('tab-p-info-general') as HTMLElement | null;
+      if (tabInfoGeneral) {
+        tabInfoGeneral.classList.add('tab-cambios')
+      }
+    }else{
+      const tabInfoGeneral = document.getElementById('tab-p-info-general') as HTMLElement | null;
+      if (tabInfoGeneral) {
+        tabInfoGeneral.classList.remove('tab-cambios')
+      }
+    }
+  }
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idPerson : this.idPerson,
       generalInformation : this.generalInformation,
@@ -99,8 +124,8 @@ export class PInfoGeneralComponent implements OnInit{
   }
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -118,9 +143,13 @@ export class PInfoGeneralComponent implements OnInit{
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.infoGeneralService.addInfoGeneral(this.modeloNuevo[0]).subscribe(
+          this.infoGeneralService.addInfoGeneral(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabInfoGeneral = document.getElementById('tab-p-info-general') as HTMLElement | null;
+                if (tabInfoGeneral) {
+                  tabInfoGeneral.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -128,7 +157,7 @@ export class PInfoGeneralComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -173,7 +202,7 @@ export class PInfoGeneralComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

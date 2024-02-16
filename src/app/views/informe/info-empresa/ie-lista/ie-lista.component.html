@@ -132,7 +132,10 @@
               <button  mat-mini-fab class="bg-white" matTooltip="Socios" (click)="sociosEmpresa(empresa.id)">
                 <app-feather-icons [icon]="'users'" class="tbl-fav-socios"></app-feather-icons>
               </button>
-              <button  mat-mini-fab class="bg-white" matTooltip="Generar Documento" (click)="generarDocumento(empresa.id, empresa.code)">
+              <!--button  mat-mini-fab class="bg-white" matTooltip="Generar Documento" (click)="generarDocumento(empresa.id, empresa.code)">
+                <app-feather-icons [icon]="'file-text'" class="tbl-fav-pdf"></app-feather-icons>
+              </!--button-->
+              <button  mat-mini-fab class="bg-white" matTooltip="Generar Documento" (click)="descargarDocumento(empresa.id, empresa.code,'E','pdf')">
                 <app-feather-icons [icon]="'file-text'" class="tbl-fav-pdf"></app-feather-icons>
               </button>
               <button  mat-mini-fab class="bg-white" matTooltip="" *ngIf="empresa.enable" (click)="desactivarWebEmpresa(empresa.id)" matTooltip="Desactivar">

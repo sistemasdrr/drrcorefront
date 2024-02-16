@@ -9,6 +9,7 @@ import { HistoricoVentas } from 'app/models/informes/empresa/situacion-financier
 import { ComboService } from 'app/services/combo.service';
 import { FinanzasService } from 'app/services/informes/empresa/finanzas.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-historico-ventas',
@@ -34,7 +35,7 @@ export class HistoricoVentasComponent implements OnInit {
   listaMonedas : ComboData[] = []
   idMoneda = 0
   fecha : string = ""
-  fechaD : Date | null = null
+  fechaD : Date = new Date()
   ventas = 0
   tc = 0
   equivaleDolar = 0
@@ -70,16 +71,8 @@ export class HistoricoVentasComponent implements OnInit {
                   this.ventas = historicoVenta.amount
                   this.tc = historicoVenta.exchangeRate
                   this.equivaleDolar = historicoVenta.equivalentToDollars
-                  if(historicoVenta.date !== null || historicoVenta.date !== ''){
-                    const fecha = historicoVenta.date.split("/")
-                    if(fecha){
-                      this.fechaD = new Date(parseInt(fecha[2]),parseInt(fecha[1])-1,parseInt(fecha[0]))
-                      this.fecha = historicoVenta.date
-                    }
-                  }else{
-                    this.fecha = ""
-                    this.fechaD = null
-                  }
+                  this.fechaD = new Date(historicoVenta.date)
+
                 }
               }
             }
@@ -89,24 +82,22 @@ export class HistoricoVentasComponent implements OnInit {
     )
   }
   selectFecha(event: MatDatepickerInputEvent<Date>) {
-    this.fechaD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.fecha = this.formatDate(selectedDate);
+    this.fechaD = event.value!;
+    if (moment.isMoment(this.fechaD)) {
+      this.fecha = this.formatDate(this.fechaD);
     }
   }
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
+
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   armarModelo(){
     this.modelo[0] = {
       id : this.id,
       idCompany : this.idCompany,
       idCurrency : this.idMoneda,
-      date : this.fecha,
+      date : new Date(this.fechaD),
       amount : this.ventas,
       exchangeRate : this.tc,
       equivalentToDollars : this.equivaleDolar

@@ -30,7 +30,7 @@ export class InformacionGeneralComponent implements OnInit {
   generalInfo = ""
   generalInfoEng = ""
 
-  modeloNuevo : InformacionGeneral[] = []
+  modeloActual : InformacionGeneral[] = []
   modeloModificado : InformacionGeneral[] = []
 
   constructor(private activatedRoute : ActivatedRoute, private informacionGeneralService : InformacionGeneralService){
@@ -42,6 +42,7 @@ export class InformacionGeneralComponent implements OnInit {
     }
   }
 
+  compararModelosF : any
   ngOnInit(): void {
     const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
     if(paginaDetalleEmpresa){
@@ -66,6 +67,8 @@ export class InformacionGeneralComponent implements OnInit {
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.add('hide-loader');
           }
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -73,9 +76,29 @@ export class InformacionGeneralComponent implements OnInit {
         paginaDetalleEmpresa.classList.add('hide-loader');
       }
     }
+    this.armarModeloActual()
+    this.armarModeloModificado()
+
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabInfoGeneral = document.getElementById('tab-info-general') as HTMLElement | null;
+      if (tabInfoGeneral) {
+        tabInfoGeneral.classList.add('tab-cambios')
+      }
+    }else{
+      const tabInfoGeneral = document.getElementById('tab-info-general') as HTMLElement | null;
+      if (tabInfoGeneral) {
+        tabInfoGeneral.classList.remove('tab-cambios')
+      }
+    }
+  }
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idCompany : this.idCompany,
       generalInfo : this.generalInfo,
@@ -104,8 +127,8 @@ export class InformacionGeneralComponent implements OnInit {
   guardar(){
 
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -123,9 +146,13 @@ export class InformacionGeneralComponent implements OnInit {
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.remove('hide-loader');
           }
-          this.informacionGeneralService.addGeneralInformation(this.modeloNuevo[0]).subscribe(
+          this.informacionGeneralService.addGeneralInformation(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabInfoGeneral = document.getElementById('tab-info-general') as HTMLElement | null;
+                  if (tabInfoGeneral) {
+                    tabInfoGeneral.classList.add('tab-con-datos')
+                  }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -133,7 +160,7 @@ export class InformacionGeneralComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -178,7 +205,7 @@ export class InformacionGeneralComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

@@ -35,7 +35,7 @@ export class OpinionCreditoComponent implements OnInit {
   currentCommentaryEng = ""
   previousCommentary = ""
 
-  modeloNuevo : OpinionCredito[] = []
+  modeloActual : OpinionCredito[] = []
   modeloModificado : OpinionCredito[] = []
 
   constructor(private opinionCreditoService : OpinionCreditoService ,private dialog : MatDialog, private activatedRoute : ActivatedRoute){
@@ -47,6 +47,7 @@ export class OpinionCreditoComponent implements OnInit {
       }
   }
 
+  compararModelosF : any
   ngOnInit(): void {
     const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
     if(paginaDetalleEmpresa){
@@ -71,7 +72,7 @@ export class OpinionCreditoComponent implements OnInit {
                 this.currentCommentaryEng = opinionCredito.traductions[2].value
               }
             }
-            this.armarModeloNuevo()
+            this.armarModeloActual()
             this.armarModeloModificado()
           }
         }
@@ -87,9 +88,30 @@ export class OpinionCreditoComponent implements OnInit {
         paginaDetalleEmpresa.classList.add('hide-loader');
       }
     }
+    this.armarModeloActual()
+    this.armarModeloModificado()
+
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabOpinion = document.getElementById('tab-opinion-credito') as HTMLElement | null;
+      if (tabOpinion) {
+        tabOpinion.classList.add('tab-cambios')
+      }
+    }else{
+      const tabOpinion = document.getElementById('tab-opinion-credito') as HTMLElement | null;
+      if (tabOpinion) {
+        tabOpinion.classList.remove('tab-cambios')
+      }
+    }
+  }
+
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idCompany : this.idCompany,
       creditRequest : this.creditRequest,
@@ -196,8 +218,8 @@ export class OpinionCreditoComponent implements OnInit {
 
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -215,9 +237,13 @@ export class OpinionCreditoComponent implements OnInit {
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.remove('hide-loader');
           }
-          this.opinionCreditoService.addCreditOpinion(this.modeloNuevo[0]).subscribe(
+          this.opinionCreditoService.addCreditOpinion(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabOpinion = document.getElementById('tab-opinion-credito') as HTMLElement | null;
+                  if (tabOpinion) {
+                    tabOpinion.classList.add('tab-con-datos')
+                  }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -225,7 +251,8 @@ export class OpinionCreditoComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -270,7 +297,7 @@ export class OpinionCreditoComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

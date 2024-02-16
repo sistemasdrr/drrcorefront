@@ -92,8 +92,8 @@
                 </div>
                 <div class="col-md-5">
                   <mat-form-field class="w-100">
-                    <mat-label>Tal cual fue Solicitado</mat-label>
-                    <input matInput placeholder=""  [readonly]="true">
+                    <mat-label>Año de Fundación</mat-label>
+                    <input matInput placeholder="" type="number" mask="9999"  [(ngModel)]="yearFundation">
                   </mat-form-field>
                 </div>
               </div>
@@ -103,7 +103,7 @@
                 <div class="col-md-12">
                   <mat-card class="w-100">
                     <img mat-card-image>
-                    <mat-card-content style="height: 10rem; border-radius: 10px 10px 0 0;" [ngClass]="quality === 'A ' ? 'bg-green' : quality === 'B ' ? 'bg-blue' : quality === 'C ' ? 'bg-orange' : quality === 'D ' ? 'bg-red' : ''">
+                    <mat-card-content style="height: 10rem; border-radius: 10px 10px 0 0;" [ngClass]="quality === 'A' ? 'bg-green' : quality === 'B' ? 'bg-blue' : quality === 'C' ? 'bg-orange' : quality === 'D' ? 'bg-red' : ''">
                       <div class="row h-100">
                         <div class="col-md-12 h-100">
                           <div class="w-100 h-100 d-flex justify-content-center align-items-center">
@@ -128,19 +128,11 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+
+          <div class="col-md-7">
             <mat-form-field class="w-100">
-              <mat-label>Año de Fundación</mat-label>
-              <input matInput placeholder="" type="number" mask="9999"  [(ngModel)]="yearFundation">
-            </mat-form-field>
-          </div>
-          <div class="col-md-4">
-            <mat-form-field color="primary" style="width: 100%;">
-              <mat-label>Fecha de Constitución</mat-label>
-              <input matInput [matDatepicker]="fecha_constitucion" #fechaInput [ngModel]="constitutionDateD" [readonly]="true" (dateChange)="selectFechaConstitucion($event)">
-              <mat-datepicker-toggle matIconSuffix [for]="fecha_constitucion"></mat-datepicker-toggle>
-              <mat-datepicker #fecha_constitucion color="primary"></mat-datepicker>
-              <mat-hint style="color: red;" *ngIf="yearFundation !==  constitutionDateD?.getFullYear()+''">Año de Fundación Diferente. Explique.</mat-hint>
+              <mat-label>Tal cual fue Solicitado</mat-label>
+              <input matInput placeholder=""  [readonly]="true">
             </mat-form-field>
           </div>
           <div class="col-md-5">

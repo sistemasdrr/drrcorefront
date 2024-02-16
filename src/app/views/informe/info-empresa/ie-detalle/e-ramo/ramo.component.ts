@@ -135,7 +135,7 @@ export class RamoComponent implements OnInit{
   specificActivities = ""
   specificActivitiesEng = ""
 
-  modeloNuevo : CompanyBranch[] = []
+  modeloActual : CompanyBranch[] = []
   modeloModificado : CompanyBranch[] = []
 
   listaSectorPrincipal : ComboData[] = []
@@ -188,6 +188,8 @@ export class RamoComponent implements OnInit{
       this.idCompany = parseInt(id + '')
     }
   }
+  compararModelosF : any
+
   ngOnInit() {
     const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
     if(paginaDetalleEmpresa){
@@ -264,16 +266,17 @@ export class RamoComponent implements OnInit{
               this.tabCommentary = ramoNegocio.tabCommentary
 
               if(ramoNegocio.traductions.length > 0){
-                this.cashSaleComentaryEng = ramoNegocio.traductions[0].value
-                this.creditSaleComentaryEng = ramoNegocio.traductions[1].value
-                this.territorySaleComentaryEng = ramoNegocio.traductions[2].value
-                this.abroadSaleComentaryEng = ramoNegocio.traductions[3].value
-                this.nationalPurchasesComentaryEng = ramoNegocio.traductions[4].value
-                this.internationalPurchasesComentaryEng = ramoNegocio.traductions[5].value
-                this.totalAreaEng = ramoNegocio.traductions[6].value
-                this.otherLocationsEng = ramoNegocio.traductions[7].value
-                this.activityDetailCommentaryEng = ramoNegocio.traductions[8].value
-                this.aditionalCommentaryEng = ramoNegocio.traductions[9].value
+
+                this.cashSaleComentaryEng = ramoNegocio.traductions[0].value === null ? "" : ramoNegocio.traductions[0].value
+                this.creditSaleComentaryEng = ramoNegocio.traductions[1].value === null ? "" : ramoNegocio.traductions[1].value
+                this.territorySaleComentaryEng = ramoNegocio.traductions[2].value === null ? "" : ramoNegocio.traductions[2].value
+                this.abroadSaleComentaryEng = ramoNegocio.traductions[3].value === null ? "" : ramoNegocio.traductions[3].value
+                this.nationalPurchasesComentaryEng = ramoNegocio.traductions[4].value === null ? "" : ramoNegocio.traductions[4].value
+                this.internationalPurchasesComentaryEng = ramoNegocio.traductions[5].value === null ? "" : ramoNegocio.traductions[5].value
+                this.totalAreaEng = ramoNegocio.traductions[6].value === null ? "" : ramoNegocio.traductions[6].value
+                this.otherLocationsEng = ramoNegocio.traductions[7].value === null ? "" : ramoNegocio.traductions[7].value
+                this.activityDetailCommentaryEng = ramoNegocio.traductions[8].value === null ? "" : ramoNegocio.traductions[8].value
+                this.aditionalCommentaryEng = ramoNegocio.traductions[9].value === null ? "" : ramoNegocio.traductions[9].value
               }
               if(ramoNegocio.countriesImport !== '' && ramoNegocio.countriesImport !== null){
                 this.countriesImport = ramoNegocio.countriesImport
@@ -309,6 +312,8 @@ export class RamoComponent implements OnInit{
             paginaDetalleEmpresa.classList.add('hide-loader');
           }
           this.chart2()
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -368,6 +373,26 @@ export class RamoComponent implements OnInit{
         return name ? this._filter(name as string) : this.options.slice();
       }),
     );
+
+    this.armarModeloActual()
+    this.armarModeloModificado()
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
+  }
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabRamo = document.getElementById('tab-ramo-negocio') as HTMLElement | null;
+      if (tabRamo) {
+        tabRamo.classList.add('tab-cambios')
+      }
+    }else{
+      const tabAntecedentes = document.getElementById('tab-ramo-negocio') as HTMLElement | null;
+      if (tabAntecedentes) {
+        tabAntecedentes.classList.remove('tab-cambios')
+      }
+    }
   }
   private chart1() {
     this.areaChartOptions = {
@@ -514,6 +539,7 @@ export class RamoComponent implements OnInit{
             if(response.isSuccess === true && response.isWarning === false){
               this.dataSourceWorkerHistory.data = response.data
               this.dataSourceWorkerHistory.sort = this.sort
+              this.chart2()
             }
           }
         )
@@ -534,6 +560,7 @@ export class RamoComponent implements OnInit{
             if(response.isSuccess === true && response.isWarning === false){
               this.dataSourceWorkerHistory.data = response.data
               this.dataSourceWorkerHistory.sort = this.sort
+              this.chart2()
             }
           }
         )
@@ -543,8 +570,8 @@ export class RamoComponent implements OnInit{
   eliminarHistorialTrabajador(id : number){
 
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idCompany : this.idCompany,
       idBranchSector : this.idBranchSector,
@@ -963,8 +990,8 @@ export class RamoComponent implements OnInit{
           this.countriesExport += pais.valor + ', '
         }
       });
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -982,9 +1009,14 @@ export class RamoComponent implements OnInit{
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.remove('hide-loader');
           }
-          this.ramoNegocioService.addRamoNegocio(this.modeloNuevo[0]).subscribe(
+          this.ramoNegocioService.addRamoNegocio(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+
+                const tabRamo = document.getElementById('tab-ramo-negocio') as HTMLElement | null;
+                if (tabRamo) {
+                  tabRamo.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -992,7 +1024,7 @@ export class RamoComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -1053,7 +1085,7 @@ export class RamoComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

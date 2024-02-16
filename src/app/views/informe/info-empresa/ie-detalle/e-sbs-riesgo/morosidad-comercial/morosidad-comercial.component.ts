@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MorosidadComercial } from 'app/models/informes/empresa/sbs-riesgo';
 import { SbsRiesgoService } from 'app/services/informes/empresa/sbs-riesgo.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-morosidad-comercial',
@@ -197,24 +198,19 @@ export class MorosidadComercialComponent implements OnInit{
 
   selectFecha1(event: MatDatepickerInputEvent<Date>) {
     this.dateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.date = this.formatDate(selectedDate);
+    if (moment.isMoment(this.dateD)) {
+      this.date = this.formatDate(this.dateD);
     }
   }
   selectFecha2(event: MatDatepickerInputEvent<Date>) {
     this.pendingPaymentDateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.pendingPaymentDate = this.formatDate(selectedDate);
+    if (moment.isMoment(this.pendingPaymentDateD)) {
+      this.pendingPaymentDate = this.formatDate(this.pendingPaymentDateD);
     }
   }
 
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
 }

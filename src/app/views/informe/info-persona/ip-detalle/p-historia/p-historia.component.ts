@@ -27,7 +27,7 @@ export class PHistoriaComponent implements OnInit {
   historyCommentary = ""
   historyCommentaryEng = ""
 
-  modeloNuevo : HistorialP[] = []
+  modeloActual : HistorialP[] = []
   modeloModificado : HistorialP[] = []
 
   constructor(private historialService : HistorialPService, private activatedRoute: ActivatedRoute, private router : Router){
@@ -39,6 +39,7 @@ export class PHistoriaComponent implements OnInit {
     }
     console.log(this.id)
   }
+  compararModelosF : any
   ngOnInit(): void {
     const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
     if(loader){
@@ -63,6 +64,8 @@ export class PHistoriaComponent implements OnInit {
           if(loader){
             loader.classList.add('hide-loader');
           }
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -70,9 +73,29 @@ export class PHistoriaComponent implements OnInit {
         loader.classList.add('hide-loader');
       }
     }
+
+    this.armarModeloActual()
+    this.armarModeloModificado()
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabHistoria = document.getElementById('tab-historia') as HTMLElement | null;
+      if (tabHistoria) {
+        tabHistoria.classList.add('tab-cambios')
+      }
+    }else{
+      const tabHistoria = document.getElementById('tab-historia') as HTMLElement | null;
+      if (tabHistoria) {
+        tabHistoria.classList.remove('tab-cambios')
+      }
+    }
+  }
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idPerson : this.idPerson,
       historyCommentary : this.historyCommentary,
@@ -99,8 +122,8 @@ export class PHistoriaComponent implements OnInit {
   }
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -118,9 +141,13 @@ export class PHistoriaComponent implements OnInit {
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.historialService.addHistorial(this.modeloNuevo[0]).subscribe(
+          this.historialService.addHistorial(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabHistoria = document.getElementById('tab-historia') as HTMLElement | null;
+                if (tabHistoria) {
+                  tabHistoria.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -128,7 +155,7 @@ export class PHistoriaComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -173,7 +200,7 @@ export class PHistoriaComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
