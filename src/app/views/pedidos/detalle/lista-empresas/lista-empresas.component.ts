@@ -31,13 +31,14 @@ export class ListaEmpresasComponent implements OnInit {
     valor: '',
     bandera: ''
   }
+  filterBy='N'
   msgPais = ""
   colorMsgPais = ""
   //FILTROS
   razonSocial = ""
   filtroRB = "C"
   idPais = 0
-  chkConInforme = true
+  chkConInforme = false
 
 
   dataSource: MatTableDataSource<TCompany>;
@@ -105,12 +106,15 @@ export class ListaEmpresasComponent implements OnInit {
     if (pais !== null && pais !== undefined) {
       this.iconoSeleccionado = pais.bandera
       this.idPais = pais.id
-      console.log(this.idPais)
+     
       if (typeof pais === 'string' || pais === null) {
         this.msgPais = "Seleccione una opción."
         this.idPais = 0
         this.colorMsgPais = "red"
       } else {
+        if(this.idPais!==0){       
+         this.filtrarEmpresas()
+        }
         this.msgPais = "Opción Seleccionada"
         this.colorMsgPais = "green"
       }
