@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 import { ListaEmpresasComponent } from './lista-empresas/lista-empresas.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
 
 export interface data {
   name: string;
@@ -121,6 +122,10 @@ constructor(
   }
   compararModelosF : any
   ngOnInit() {
+    const input = document.getElementById('input_fecha_constitucion') as HTMLElement | null;
+    if(input){
+      input.focus()
+    }
     const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
     if(paginaDetalleEmpresa){
       paginaDetalleEmpresa.classList.remove('hide-loader');
@@ -228,7 +233,6 @@ constructor(
         }).add(() => {
           this.currentPaidCapitalCurrencyInforme = this.listaMonedas.filter(x => x.id === this.currentPaidCapitalCurrency)[0]
           this.currencyInforme = this.listaMonedas.filter(x => x.id === this.currency)[0]
-          this.armarModeloActual()
           const input = document.getElementById('input_fecha_constitucion') as HTMLElement | null;
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.add('hide-loader');
@@ -236,6 +240,8 @@ constructor(
           if(input){
             input.focus()
           }
+          this.armarModeloActual()
+          this.armarModeloModificado()
         });
     });
 
@@ -247,10 +253,12 @@ constructor(
         return name ? this._filter(name as string) : this.listaMonedas.slice();
       }),
     );
+    this.armarModeloActual()
+    this.armarModeloModificado()
 
     this.compararModelosF = setInterval(() => {
       this.compararModelos();
-    }, 5000);
+    }, 2000);
   }
   ngOnDestroy(): void {
     clearInterval(this.compararModelosF)
@@ -443,23 +451,20 @@ constructor(
 
   selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
-    if (selectedDate) {
+    if (moment.isMoment(selectedDate)) {
       this.constitutionDate = this.formatDate(selectedDate);
     }
   }
   selectFechaUltimaConsulta(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
-    if (selectedDate) {
+    if (moment.isMoment(selectedDate)) {
       this.lastQueryRrpp = this.formatDate(selectedDate);
     }
   }
 
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
 
   //TITULOS DE COMENTARIOS
@@ -640,6 +645,7 @@ constructor(
             })
 
             this.armarModeloActual();
+            this.armarModeloModificado();
           }else{
             if(paginaDetalleEmpresa){
               paginaDetalleEmpresa.classList.add('hide-loader');
@@ -682,6 +688,11 @@ constructor(
               paginaDetalleEmpresa.classList.remove('hide-loader');
             }
             if(response.isSuccess === true && response.isWarning === false){
+
+              const tabAntecedentes = document.getElementById('tab-antecedentes') as HTMLElement | null;
+              if (tabAntecedentes) {
+                tabAntecedentes.classList.add('tab-con-datos')
+              }
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');
               }
@@ -695,7 +706,8 @@ constructor(
                 width: '30rem',
                 heightAuto: true
               })
-              this.armarModeloActual()
+              this.armarModeloActual();
+              this.armarModeloModificado();
             }else{
               if(paginaDetalleEmpresa){
                 paginaDetalleEmpresa.classList.add('hide-loader');

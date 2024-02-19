@@ -27,7 +27,7 @@ export class POtrasActividadesComponent implements OnInit {
   activitiesCommentary = ""
   activitiesCommentaryEng = ""
 
-  modeloNuevo : ActividadesP[] = []
+  modeloActual : ActividadesP[] = []
   modeloModificado : ActividadesP[] = []
 
   constructor(private actividadesServices : ActividadesPService, private activatedRoute: ActivatedRoute, private router : Router){
@@ -39,6 +39,7 @@ export class POtrasActividadesComponent implements OnInit {
     }
     console.log(this.idPerson)
   }
+  compararModelosF : any
   ngOnInit(): void {
     const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
     if(loader){
@@ -63,6 +64,8 @@ export class POtrasActividadesComponent implements OnInit {
           if(loader){
             loader.classList.add('hide-loader');
           }
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -70,10 +73,29 @@ export class POtrasActividadesComponent implements OnInit {
         loader.classList.add('hide-loader');
       }
     }
-  }
+    this.armarModeloActual()
+    this.armarModeloModificado()
 
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
+  }
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabActividades = document.getElementById('tab-actividades') as HTMLElement | null;
+      if (tabActividades) {
+        tabActividades.classList.add('tab-cambios')
+      }
+    }else{
+      const tabActividades = document.getElementById('tab-actividades') as HTMLElement | null;
+      if (tabActividades) {
+        tabActividades.classList.remove('tab-cambios')
+      }
+    }
+  }
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idPerson : this.idPerson,
       activitiesCommentary : this.activitiesCommentary,
@@ -100,8 +122,8 @@ export class POtrasActividadesComponent implements OnInit {
   }
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -119,9 +141,13 @@ export class POtrasActividadesComponent implements OnInit {
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.actividadesServices.addActividad(this.modeloNuevo[0]).subscribe(
+          this.actividadesServices.addActividad(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabActividades = document.getElementById('tab-actividades') as HTMLElement | null;
+                if (tabActividades) {
+                  tabActividades.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -129,7 +155,7 @@ export class POtrasActividadesComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -174,7 +200,7 @@ export class POtrasActividadesComponent implements OnInit {
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

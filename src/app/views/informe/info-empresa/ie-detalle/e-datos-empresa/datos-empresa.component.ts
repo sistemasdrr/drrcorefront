@@ -18,6 +18,7 @@ import { ComboService } from 'app/services/combo.service';
 import { ComboData, PoliticaPagos, Reputacion, RiesgoCrediticio } from 'app/models/combo';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-datos-empresa',
@@ -294,8 +295,8 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             this.language = DatosEmpresa.language
             this.typeRegister = DatosEmpresa.typeRegister
             this.yearFundation = DatosEmpresa.yearFundation
-            this.quality = DatosEmpresa.quality.trim()          
-           
+            this.quality = DatosEmpresa.quality.trim()
+
             if(DatosEmpresa.idLegalPersonType > 0 && DatosEmpresa.idLegalPersonType !== null){
               this.idLegalPersonType = DatosEmpresa.idLegalPersonType
               this.personeriaJuridicaInforme = this.personeriaJuridica.filter(x => x.id === this.idLegalPersonType)[0]
@@ -370,23 +371,10 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
         }
       }).add(() => {
         this.armarModeloActual()
-        this.tabDatosEmpresa()
         this.compararModelosF = setInterval(() => {
           this.compararModelos();
         }, 2000);
       })
-    }
-  }
-  tabDatosEmpresa() {
-    if (this.language != '' || this.typeRegister != '' || this.yearFundation != '' || this.name != '' ||
-      this.socialName != '' || this.taxTypeName != '' || this.taxTypeCode != '' || this.identificacionCommentary != '' ||
-      this.identificacionCommentaryEng != '' || this.address != '' || this.duration != '' || this.place != '' ||
-      this.subTelephone != '' || this.telephone != '' || this.cellphone != '' || this.postalCode != '' ||
-      this.whatsappPhone != '' || this.email != '' || this.webPage != '') {
-      const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
-      if (tabDatosEmpresa) {
-        tabDatosEmpresa.classList.add('tab-con-datos')
-      }
     }
   }
   compararModelos(): void {
@@ -406,10 +394,6 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     clearInterval(this.compararModelosF);
-    const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
-    if (tabDatosEmpresa) {
-      tabDatosEmpresa.classList.remove('tab-cambios')
-    }
   }
   armarModeloActual() {
     this.datosEmpresaActual[0] = {
@@ -678,22 +662,20 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
     this.lastSearchedD = event.value!
     const selectedDate = event.value;
-    if (selectedDate) {
-      this.lastSearched = this.formatDate(selectedDate);
+    if (moment.isMoment(this.lastSearchedD)) {
+      this.lastSearched = this.formatDate(this.lastSearchedD);
     }
   }
   selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
     this.constitutionDateD = event.value!
     const selectedDate = event.value;
-    if (selectedDate) {
-      this.constitutionDate = this.formatDate(selectedDate);
+    if (moment.isMoment(this.constitutionDateD)) {
+      this.constitutionDate = this.formatDate(this.constitutionDateD);
     }
   }
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   historicoPedidos() {
     const dialog = this.dialog.open(HistoricoPedidosComponent, {
@@ -744,6 +726,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   guardar() {
     this.armarModeloModificado()
+    console.log(this.datosEmpresaModificado)
     if(this.id > 0){
       Swal.fire({
         title: '¿Está seguro de guardar los cambios?',

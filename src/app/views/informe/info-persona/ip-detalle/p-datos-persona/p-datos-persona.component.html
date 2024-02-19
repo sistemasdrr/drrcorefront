@@ -158,7 +158,11 @@
           <mat-form-field class="w-100">
             <mat-label>Situación RUC</mat-label>
             <input type="text" matInput [formControl]="controlSituacionRUC"  [matAutocomplete]="auto2" [(ngModel)]="situacionRucInforme" (ngModelChange)="cambioSituacionRuc(situacionRucInforme)">
-            <mat-hint [ngClass]="idLegalRegisterSituation === 0 ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="idLegalRegisterSituation === 0"></i><i class="fa-solid fa-circle-check" *ngIf="idLegalRegisterSituation !== 0"></i>&nbsp;{{msgSituacionRuc}}</mat-hint>
+            <mat-hint [ngClass]="idLegalRegisterSituation === 0 ? 'col-red': 'col-green'" >
+              <i class="fa-solid fa-circle-exclamation" *ngIf="idLegalRegisterSituation === 0"></i>
+              <i class="fa-solid fa-circle-check" *ngIf="idLegalRegisterSituation !== 0"></i>
+              &nbsp;{{msgSituacionRuc}}
+            </mat-hint>
             <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" (click)="limpiarSeleccionSituacionRUC()" #tooltip="matTooltip" matTooltip="Limpiar">
               <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
             </button>

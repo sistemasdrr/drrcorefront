@@ -16,6 +16,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { TraduccionDialogComponent } from '@shared/components/traduccion-dialog/traduccion-dialog.component';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-sbs-riesgo',
@@ -60,7 +61,7 @@ export class SbsRiesgoComponent implements OnInit{
   totalesMD = 0
 
   listaOpcionalCommentary : ComboData[] = []
-  modeloNuevo : CompanySbs[] = []
+  modeloActual : CompanySbs[] = []
   modeloModificado : CompanySbs[] = []
 
   dataSourceProveedor: MatTableDataSource<ProveedorT>
@@ -84,6 +85,8 @@ export class SbsRiesgoComponent implements OnInit{
       this.idCompany = parseInt(id + '')
     }
   }
+  compararModelosF : any
+
   ngOnInit(): void {
     const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
     if(paginaDetalleEmpresa){
@@ -154,6 +157,8 @@ export class SbsRiesgoComponent implements OnInit{
               }
             }
           ).add(() => {
+
+            this.armarModeloActual()
             this.armarModeloModificado()
             if(paginaDetalleEmpresa){
               paginaDetalleEmpresa.classList.add('hide-loader');
@@ -200,9 +205,30 @@ export class SbsRiesgoComponent implements OnInit{
         }
       }
     )
+    this.armarModeloActual()
+    this.armarModeloModificado()
+
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabSbs = document.getElementById('tab-sbs-riesgo') as HTMLElement | null;
+      if (tabSbs) {
+        tabSbs.classList.add('tab-cambios')
+      }
+    }else{
+      const tabSbs = document.getElementById('tab-sbs-riesgo') as HTMLElement | null;
+      if (tabSbs) {
+        tabSbs.classList.remove('tab-cambios')
+      }
+    }
+  }
+
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idCompany : this.idCompany,
       idOpcionalCommentarySbs : this.idOpcionalCommentarySbs,
@@ -634,31 +660,27 @@ export class SbsRiesgoComponent implements OnInit{
   }
 
   selectFecha1(event: MatDatepickerInputEvent<Date>) {
-    this.dateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.date = this.formatDate(selectedDate);
+    console.log(event.value);
+    this.dateD = event.value;
+    if (moment.isMoment(this.dateD)) {
+      this.date = this.formatDate(this.dateD);
     }
   }
   selectFecha2(event: MatDatepickerInputEvent<Date>) {
-    this.debtRecordedDateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.debtRecordedDate = this.formatDate(selectedDate);
+    this.debtRecordedDateD = event.value;
+    if (moment.isMoment(this.debtRecordedDateD)) {
+      this.debtRecordedDate = this.formatDate(this.debtRecordedDateD);
     }
   }
 
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -676,9 +698,14 @@ export class SbsRiesgoComponent implements OnInit{
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.remove('hide-loader');
           }
-          this.sbsService.addCompanySbs(this.modeloNuevo[0]).subscribe(
+          this.sbsService.addCompanySbs(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+
+                const tabSbs = document.getElementById('tab-sbs-riesgo') as HTMLElement | null;
+                if (tabSbs) {
+                  tabSbs.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -686,7 +713,7 @@ export class SbsRiesgoComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -731,7 +758,7 @@ export class SbsRiesgoComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

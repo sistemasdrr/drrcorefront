@@ -217,6 +217,27 @@ export class IEListaComponent implements OnInit{
       },
     });
   }
+  descargarDocumento(idCompany : number, oldCode : string, idioma : string, formato:string){
+    const listaEmpresas = document.getElementById('loader-lista-empresas') as HTMLElement | null;
+    if(listaEmpresas){
+      listaEmpresas.classList.remove('hide-loader');
+    }
+    this.datosEmpresaService.downloadReportF8(idCompany,"E","pdf").subscribe(response=>{
+      let blob : Blob = response.body as Blob;
+      let a =document.createElement('a');
+      const language = idioma === "I" ? "ENG" : "SPA"
+      const extension = formato === "pdf" ? '.pdf' : formato === "word" ? '.doc' : '.xls'
+      a.download= oldCode+"_"+language+"_"+Date.now()+extension;
+      a.href=window.URL.createObjectURL(blob);
+      a.click();
+    }).add(
+      () => {
+        if(listaEmpresas){
+          listaEmpresas.classList.add('hide-loader');
+        }
+      }
+    );
+  }
   eliminarEmpresa(id : number){
     Swal.fire({
       title: '¿Está seguro de eliminar este registro?',

@@ -5,6 +5,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DeudaBancaria } from 'app/models/informes/empresa/sbs-riesgo';
 import { PersonSbsService } from 'app/services/informes/persona/person-sbs.service';
+import * as moment from 'moment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -96,18 +97,14 @@ export class PDeudaBancariaComponent implements OnInit {
   }
   selectFecha1(event: MatDatepickerInputEvent<Date>) {
     this.debtDateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.debtDate = this.formatDate(selectedDate);
+    if (moment.isMoment(this.debtDateD)) {
+      this.debtDate = this.formatDate(this.debtDateD);
     }
   }
 
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   guardar(){
     this.armarModelo()

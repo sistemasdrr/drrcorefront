@@ -1,6 +1,6 @@
 
 <div class="container" >
-  <mat-dialog-content class="mat-typography container-scrollable" style="min-width: 50rem;">
+  <mat-dialog-content class="mat-typography container-scrollable" style="min-width: 70rem;">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -42,9 +42,14 @@
           </div>
           <hr>
             <div class="row" *ngIf="tipo ==='ckeditor'">
-              <div class="col-md-12">
+              <div class="col-md-6">
                 <div class="body mat-elevation-z8">
-                <ckeditor [editor]="Editor" style="min-height: 12rem; " data="" [(ngModel)]="comentario_es" ></ckeditor>
+                <ckeditor [editor]="Editor" style="min-height: 20rem; " data="" [(ngModel)]="comentario_es" ></ckeditor>
+               </div>
+              </div>
+              <div class="col-md-6">
+                <div class="body mat-elevation-z8">
+                <ckeditor [editor]="Editor" style="min-height: 20rem; " data="" [(ngModel)]="comentario_en" ></ckeditor>
                </div>
               </div>
             </div>

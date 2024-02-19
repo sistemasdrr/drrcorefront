@@ -8,6 +8,7 @@ import { Balance } from 'app/models/informes/empresa/balance';
 import { ComboService } from 'app/services/combo.service';
 import { BalanceFinancieroService } from 'app/services/informes/empresa/balance-financiero.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-balance',
@@ -106,12 +107,19 @@ export class BalanceComponent implements OnInit {
       () => {
         this.balanceService.getBalances(this.idCompany, 'GENERAL').subscribe(
           (response) => {
-            if(response.isSuccess === true && response.isWarning === false){
+            if(response.isSuccess === true && response.isWarning === false && response.data.length > 0){
               this.listaBalances = response.data
+              this.listaBalances.sort((b, a) => a.valor.localeCompare(b.valor));
+            }else{
+              if(paginaDetalleEmpresa){
+                paginaDetalleEmpresa.classList.add('hide-loader');
+              }
             }
           }
         ).add(
           () => {
+            this.balanceSeleccionado = this.listaBalances[0].id
+            this.actualizarBalance(this.balanceSeleccionado)
             if(paginaDetalleEmpresa){
               paginaDetalleEmpresa.classList.add('hide-loader');
             }
@@ -199,13 +207,10 @@ export class BalanceComponent implements OnInit {
 
 
 //(selectionChange)="actualizarBalance($event.value)"
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
-  }
+formatDate(date: moment.Moment): string {
+  const formattedDate = date.format('DD/MM/YYYY');
+  return formattedDate;
+}
 
   agregarBalance(){
     this.agregar = true
@@ -257,9 +262,8 @@ export class BalanceComponent implements OnInit {
   }
   selectFecha(event: MatDatepickerInputEvent<Date>) {
     this.dateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.date = this.formatDate(selectedDate);
+    if (moment.isMoment(this.dateD)) {
+      this.date = this.formatDate(this.dateD);
     }
   }
   editarBalance(){

@@ -1,4 +1,3 @@
-import { Pais } from 'app/models/combo';
 
 export interface Company{
   id : number
@@ -74,4 +73,15 @@ export interface Duracion {
 export interface Traduction{
   key : string
   value : string
+}
+export interface StatusCompany {
+  company : boolean
+  background : boolean
+  branch : boolean
+  financial : boolean
+  balance : boolean
+  sbs : boolean
+  opinion : boolean
+  infoGeneral : boolean
+  images : boolean
 }

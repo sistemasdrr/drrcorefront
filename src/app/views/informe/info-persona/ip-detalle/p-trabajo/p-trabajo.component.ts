@@ -12,6 +12,7 @@ import { DatosEmpresaService } from 'app/services/informes/empresa/datos-empresa
 import { TrabajoPService } from 'app/services/informes/persona/trabajo-p.service';
 import { ListaEmpresasComponent } from 'app/views/pedidos/detalle/lista-empresas/lista-empresas.component';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-p-trabajo',
@@ -53,7 +54,7 @@ export class PTrabajoComponent implements OnInit{
   jobDetails = ""
   jobDetailsEng = ""
 
-  modeloNuevo : TrabajoA[] = []
+  modeloActual : TrabajoA[] = []
   modeloModificado : TrabajoA[] = []
 
   listaCargo : ComboData[] = []
@@ -67,6 +68,7 @@ export class PTrabajoComponent implements OnInit{
     }
     console.log(this.idPerson)
   }
+  compararModelosF : any
   ngOnInit(): void {
     const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
     if(loader){
@@ -128,6 +130,9 @@ export class PTrabajoComponent implements OnInit{
           if(loader){
             loader.classList.add('hide-loader');
           }
+
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -136,27 +141,44 @@ export class PTrabajoComponent implements OnInit{
         loader.classList.add('hide-loader');
       }
     }
+    this.armarModeloActual()
+    this.armarModeloModificado()
+
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
 
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloModificado) !== JSON.stringify(this.modeloModificado)){
+      const tabTrabajo = document.getElementById('tab-trabajo') as HTMLElement | null;
+      if (tabTrabajo) {
+        tabTrabajo.classList.add('tab-cambios')
+      }
+    }else{
+      const tabTrabajo = document.getElementById('tab-trabajo') as HTMLElement | null;
+      if (tabTrabajo) {
+        tabTrabajo.classList.remove('tab-cambios')
+      }
+    }
+  }
   selectFechaIngreso(event: MatDatepickerInputEvent<Date>) {
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.startDate = this.formatDate(selectedDate);
+    this.startDateD = event.value;
+    if (moment.isMoment(this.startDateD)) {
+      this.startDate = this.formatDate(this.startDateD);
     }
   }
   selectFechaCese(event: MatDatepickerInputEvent<Date>) {
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.endDate = this.formatDate(selectedDate);
+    this.endDateD = event.value;
+    if (moment.isMoment(this.endDateD)) {
+      this.endDate = this.formatDate(this.endDateD);
     }
   }
 
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   agregarComentario(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
     const dialogRef = this.dialog.open(TraduccionDialogComponent, {
@@ -214,8 +236,8 @@ export class PTrabajoComponent implements OnInit{
       }
     });
   }
-  armarModeloNuevo(){
-   this.modeloNuevo[0] = {
+  armarModeloActual(){
+   this.modeloActual[0] = {
     id : this.id,
     idPerson : this.idPerson,
     idCompany : this.idCompany,
@@ -325,8 +347,8 @@ export class PTrabajoComponent implements OnInit{
   }
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -344,9 +366,13 @@ export class PTrabajoComponent implements OnInit{
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.trabajoService.addTrabajo(this.modeloNuevo[0]).subscribe(
+          this.trabajoService.addTrabajo(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabTrabajo = document.getElementById('tab-trabajo') as HTMLElement | null;
+                if (tabTrabajo) {
+                  tabTrabajo.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -354,7 +380,7 @@ export class PTrabajoComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -399,7 +425,7 @@ export class PTrabajoComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

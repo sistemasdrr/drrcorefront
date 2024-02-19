@@ -5,6 +5,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { ActivatedRoute } from '@angular/router';
 import { CompanyImages } from 'app/models/informes/empresa/imagenes';
 import { ImagenesService } from 'app/services/informes/empresa/imagenes.service';
+import { catchError, map, of } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -45,7 +46,7 @@ export class ImagenesComponent implements OnInit{
   img3 = ""
   img4 = ""
 
-  modeloNuevo : CompanyImages[] = []
+  modeloActual : CompanyImages[] = []
   modeloModificado : CompanyImages[] = []
 
   files: File[] = []
@@ -103,61 +104,88 @@ export class ImagenesComponent implements OnInit{
                 this.imgDescEng4 = companyImg.traductions[3].value
               }
               this.armarModeloModificado()
-              this.armarModeloNuevo()
+              this.armarModeloActual()
             }
           }
         }
       ).add(
         () => {
           if(this.id !== 0 && this.id !== null){
-            this.imagenesService.downloadImage(this.path1).subscribe(
-              (response) => {
+            this.imagenesService.downloadImage(this.path1).pipe(
+              catchError((error) => {
+                console.error('Error al descargar la imagen:', error);
+                return of(null); // Retorna un observable que emite null en caso de error
+              }),
+              map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
                     this.img1 = reader.result as string;
                   };
                   reader.readAsDataURL(response.body as Blob);
+                } else {
+                  console.error('Respuesta no válida:', response);
                 }
-              }
-            );
-            this.imagenesService.downloadImage(this.path2).subscribe(
-              (response) => {
+              })
+            ).subscribe();
+            this.imagenesService.downloadImage(this.path2).pipe(
+              catchError((error) => {
+                console.error('Error al descargar la imagen:', error);
+                return of(null); // Retorna un observable que emite null en caso de error
+              }),
+              map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
                     this.img2 = reader.result as string;
                   };
                   reader.readAsDataURL(response.body as Blob);
+                } else {
+                  console.error('Respuesta no válida:', response);
                 }
-              }
-            );
-            this.imagenesService.downloadImage(this.path3).subscribe(
-              (response) => {
+              })
+            ).subscribe();
+            this.imagenesService.downloadImage(this.path3).pipe(
+              catchError((error) => {
+                console.error('Error al descargar la imagen:', error);
+                return of(null); // Retorna un observable que emite null en caso de error
+              }),
+              map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
                     this.img3 = reader.result as string;
                   };
                   reader.readAsDataURL(response.body as Blob);
+                } else {
+                  console.error('Respuesta no válida:', response);
                 }
-              }
-            );
-            this.imagenesService.downloadImage(this.path4).subscribe(
-              (response) => {
+              })
+            ).subscribe();
+            this.imagenesService.downloadImage(this.path4).pipe(
+              catchError((error) => {
+                console.error('Error al descargar la imagen:', error);
+                return of(null); // Retorna un observable que emite null en caso de error
+              }),
+              map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
                   const reader = new FileReader();
                   reader.onloadend = () => {
                     this.img4 = reader.result as string;
                   };
                   reader.readAsDataURL(response.body as Blob);
+                } else {
+                  console.error('Respuesta no válida:', response);
                 }
-              }
-            ).add(
+              })
+            ).subscribe()
+            .add(
               () => {
                 if(paginaDetalleEmpresa){
                   paginaDetalleEmpresa.classList.add('hide-loader');
                 }
+                this.armarModeloActual()
+                this.armarModeloModificado()
               }
             );
           }else{
@@ -169,9 +197,12 @@ export class ImagenesComponent implements OnInit{
         }
       )
     }
+    this.armarModeloActual()
+    this.armarModeloModificado()
+
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idCompany : this.idCompany,
       imgDesc1 : this.imgDesc1,
@@ -405,8 +436,8 @@ export class ImagenesComponent implements OnInit{
   guardar(card : number, desc : string, descIng : string){
     console.log(card)
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -419,10 +450,33 @@ export class ImagenesComponent implements OnInit{
         width: '20rem',
         heightAuto : true
       }).then((result) => {
+        const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
         if (result.value) {
-          this.imagenesService.addCompanyImg(this.modeloNuevo[0]).subscribe(
+          if(card === 1){
+            this.imgDesc1 = desc
+            this.imgDescEng1 = descIng
+          }else if(card === 2){
+            this.imgDesc2 = desc
+            this.imgDescEng2 = descIng
+          }else if(card === 3){
+            this.imgDesc3 = desc
+            this.imgDescEng3 = descIng
+          }else if(card === 4){
+            this.imgDesc4 = desc
+            this.imgDescEng4 = descIng
+          }
+
+          this.agregarImagen(card)
+          this.imagenesService.addCompanyImg(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabImages = document.getElementById('tab-imagenes') as HTMLElement | null;
+                if (tabImages) {
+                  tabImages.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -430,11 +484,15 @@ export class ImagenesComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
               }
+            }
+          ).add(
+            () => {
+              this.subirImagen(card)
             }
           )
         }
@@ -471,6 +529,7 @@ export class ImagenesComponent implements OnInit{
               this.imgDescEng4 = descIng
             }
             this.agregarImagen(card)
+            this.armarModeloActual()
             this.armarModeloModificado()
             this.imagenesService.addCompanyImg(this.modeloModificado[0]).subscribe(
               (response) => {

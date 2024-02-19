@@ -12,6 +12,7 @@ import { Observable, map, startWith } from 'rxjs';
 import Swal from 'sweetalert2';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-detalle-proveedor',
@@ -170,15 +171,13 @@ export class DetalleProveedorComponent implements OnInit {
   selectFecha(event: MatDatepickerInputEvent<Date>) {
     this.dateD = event.value!
     const selectedDate = event.value;
-    if (selectedDate) {
-      this.date = this.formatDate(selectedDate);
+    if (moment.isMoment(this.dateD)) {
+      this.date = this.formatDate(this.dateD);
     }
   }
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   armarModelo() {
     this.modelo[0] = {

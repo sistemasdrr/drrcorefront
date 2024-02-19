@@ -127,7 +127,10 @@
         </mat-form-field>
       </div>
       <div class="col-md-5 d-flex justify-content-end">
-        <button mat-mini-fab class="bg-blue" style="margin: .7rem;" [class]="mainFixedAssets === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloActivos,subtituloActivos,mainFixedAssets,mainFixedAssetsEng,'principalesActivos')" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
+        <button mat-mini-fab class="bg-blue" style="margin: .7rem;" [class]="tabCommentary === null || tabCommentary === '' ? 'sin-traduccion' : ''" (click)="cuadroTabulado('Cuadro Tabulado - Información Financiera','',tabCommentary,tabCommentaryEng,'tab')" #tooltip="matTooltip" matTooltip="Cuadro Tabulado">
+          <mat-icon class="col-white">table</mat-icon>
+        </button>
+        <button mat-mini-fab class="bg-blue" style="margin: .7rem;" [class]="tabCommentary === null || tabCommentary === '' ? 'sin-traduccion' : ''" (click)="agregarComentario(tituloActivos,subtituloActivos,mainFixedAssets,mainFixedAssetsEng,'principalesActivos')" #tooltip="matTooltip" matTooltip="Principales Activos Fijos de la Empresa (Inmuebles, Vehículos, etc.)">
           <mat-icon class="col-white">real_estate_agent</mat-icon>
         </button>
         <button mat-mini-fab class="bg-blue" style="margin: .7rem;" (click)="balanceSituacional(1)" #tooltip="matTooltip" matTooltip="Balance Situacional">

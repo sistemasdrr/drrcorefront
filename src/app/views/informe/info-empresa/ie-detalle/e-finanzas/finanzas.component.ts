@@ -73,6 +73,8 @@ export class FinanzasComponent implements OnInit, OnDestroy{
   mainFixedAssetsEng = ""
   analystCommentary = ""
   analystCommentaryEng = ""
+  tabCommentary = ""
+  tabCommentaryEng = ""
   traductions : Traduction[] = []
 
   checkComentarioConBalance : boolean = false
@@ -123,6 +125,7 @@ export class FinanzasComponent implements OnInit, OnDestroy{
           (response) => {
             if(response.isSuccess === true && response.isWarning === false){
               this.listaSituacionFinanciera = response.data
+              console.log(this.listaSituacionFinanciera)
             }
           }
         ).add(
@@ -140,17 +143,20 @@ export class FinanzasComponent implements OnInit, OnDestroy{
                     this.interviewCommentary = finanzas.interviewCommentary
                     this.auditors = finanzas.auditors
                     this.idFinancialSituacion = finanzas.idFinancialSituacion
+                    this.selectSituacionFinanciera(this.idFinancialSituacion)
                     this.reportCommentWithBalance = finanzas.reportCommentWithBalance
                     this.reportCommentWithoutBalance = finanzas.reportCommentWithoutBalance
                     this.financialCommentarySelected = finanzas.financialCommentarySelected
                     this.mainFixedAssets = finanzas.mainFixedAssets
                     this.analystCommentary = finanzas.analystCommentary
+                    this.tabCommentary = finanzas.tabCommentary
                     this.traductions = finanzas.traductions
                     finanzas.traductions[0].value === null ? this.workPositionEng = '' : this.workPositionEng = finanzas.traductions[0].value
                     finanzas.traductions[1].value === null ? this.interviewCommentaryEng = '' : this.interviewCommentaryEng = finanzas.traductions[1].value
                     finanzas.traductions[3].value === null ? this.financialCommentarySelectedEng = '' : this.financialCommentarySelectedEng = finanzas.traductions[3].value
                     finanzas.traductions[2].value === null ? this.mainFixedAssetsEng = '' : this.mainFixedAssetsEng = finanzas.traductions[2].value
                     finanzas.traductions[4].value === null ? this.analystCommentaryEng = '' : this.analystCommentaryEng = finanzas.traductions[4].value
+                    finanzas.traductions[5].value === null ? this.tabCommentaryEng = '' : this.tabCommentaryEng = finanzas.traductions[5].value
                   }
                 }else{
                   const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
@@ -165,15 +171,23 @@ export class FinanzasComponent implements OnInit, OnDestroy{
                   (response) => {
                     if(response.isSuccess === true && response.isWarning === false){
                       this.dataSourceHistoricoVentas.data = response.data
+                      console.log(this.dataSourceHistoricoVentas.data)
                     }
                   }
                 ).add(
                   () => {
 
-                    this.chart2()
+                    this.armarModeloActual()
+                    this.armarModeloModificado()
                     const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
                     if(paginaDetalleEmpresa){
                       paginaDetalleEmpresa.classList.add('hide-loader');
+                    }
+                    try {
+
+                      this.chart2()
+                    } catch (error) {
+                      console.log(error)
                     }
                   }
                 )
@@ -188,26 +202,25 @@ export class FinanzasComponent implements OnInit, OnDestroy{
         )
       }
     );
-
   }
   compararModelos(): void {
     this.armarModeloModificado();
-    const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
+    const tabFinanzas = document.getElementById('tab-finanzas') as HTMLElement | null;
     if (JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)) {
-      if (tabDatosEmpresa) {
-        tabDatosEmpresa.classList.add('tab-cambios');
+      if (tabFinanzas) {
+        tabFinanzas.classList.add('tab-cambios');
       }
     } else {
-      if (tabDatosEmpresa) {
-        tabDatosEmpresa.classList.remove('tab-cambios');
+      if (tabFinanzas) {
+        tabFinanzas.classList.remove('tab-cambios');
       }
     }
   }
   ngOnDestroy(): void {
     clearInterval(this.compararModelosF);
-    const tabDatosEmpresa = document.getElementById('tab-datos-empresa') as HTMLElement | null;
-    if (tabDatosEmpresa) {
-      tabDatosEmpresa.classList.remove('tab-cambios')
+    const tabFinanzas = document.getElementById('tab-finanzas') as HTMLElement | null;
+    if (tabFinanzas) {
+      tabFinanzas.classList.remove('tab-cambios')
     }
   }
   private chart1() {
@@ -541,6 +554,29 @@ export class FinanzasComponent implements OnInit, OnDestroy{
       }
     });
   }
+  cuadroTabulado(titulo : string, subtitulo : string, comentario_es : string, comentario_en : string, input : string) {
+    const dialogRef = this.dialog.open(TraduccionDialogComponent, {
+      data: {
+        titulo : titulo,
+        subtitulo : subtitulo,
+        tipo : 'ckeditor',
+        comentario_es : comentario_es,
+        comentario_en : comentario_en
+        },
+      });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        console.log(data)
+        switch(input){
+          case 'tab':
+          this.tabCommentary = data.comentario_es;
+          this.tabCommentaryEng = data.comentario_en;
+          break
+        }
+      }
+    });
+  }
   balanceSituacional(idCompany : number) {
     const dialogRef = this.dialog.open(BalanceSituacionalComponent, {
       data : this.idCompany,
@@ -581,6 +617,7 @@ export class FinanzasComponent implements OnInit, OnDestroy{
       financialCommentarySelected : this.financialCommentarySelected,
       mainFixedAssets : this.mainFixedAssets,
       analystCommentary : this.analystCommentary,
+      tabCommentary : this.tabCommentary,
       traductions : [
         {
           key : 'S_F_JOB',
@@ -601,6 +638,10 @@ export class FinanzasComponent implements OnInit, OnDestroy{
         {
           key : 'L_F_ANALISTCOM',
           value : this.analystCommentaryEng
+        },
+        {
+          key : 'L_F_TABCOMM',
+          value : this.tabCommentaryEng
         },
       ]
     }
@@ -620,6 +661,7 @@ export class FinanzasComponent implements OnInit, OnDestroy{
       financialCommentarySelected : this.financialCommentarySelected,
       mainFixedAssets : this.mainFixedAssets,
       analystCommentary : this.analystCommentary,
+      tabCommentary : this.tabCommentary,
       traductions : [
         {
           key : 'S_F_JOB',
@@ -641,6 +683,10 @@ export class FinanzasComponent implements OnInit, OnDestroy{
           key : 'L_F_ANALISTCOM',
           value : this.analystCommentaryEng
         },
+        {
+          key : 'L_F_TABCOMM',
+          value : this.tabCommentaryEng
+        },
       ]
     }
   }
@@ -648,62 +694,129 @@ export class FinanzasComponent implements OnInit, OnDestroy{
   guardar(){
     this.armarModeloModificado()
     console.log(this.modeloModificado)
-    Swal.fire({
-      title: '¿Está seguro de guardar los cambios?',
-      text: "",
-      icon: 'warning',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Sí',
-      width: '30rem',
-      heightAuto: true
-    }).then((result) => {
-      if (result.value) {
-        const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
-        if(paginaDetalleEmpresa){
-          paginaDetalleEmpresa.classList.remove('hide-loader');
-        }
-        this.finanzasService.addOrUpdateFinanzas(this.modeloModificado[0]).subscribe((response) => {
-        if(response.isSuccess === true && response.isWarning === false){
+    if(this.id === 0){
+      Swal.fire({
+        title: '¿Está seguro de agregar este registro?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
+          this.finanzasService.addOrUpdateFinanzas(this.modeloModificado[0]).subscribe((response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Se agrego el registro correctamente',
+              text: "",
+              icon: 'success',
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto: true
+            })
+            console.log(response.data)
+            this.id = response.data
+            const tabFinanzas = document.getElementById('tab-finanzas') as HTMLElement | null;
+            if (tabFinanzas) {
+              tabFinanzas.classList.add('tab-con-datos');
+            }
+            this.armarModeloActual();
+            this.armarModeloModificado();
+          }else{
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Ocurrió un problema.',
+              text: 'Comunicarse con Sistemas',
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
+          }
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.add('hide-loader');
           }
-          Swal.fire({
-            title: 'Se guardaron los cambios correctamente',
-            text: "",
-            icon: 'success',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ok',
-            width: '30rem',
-            heightAuto: true
-          })
-          console.log(response.data)
-          this.id = response.data
-          this.armarModeloActual();
-        }else{
+        })
+        }
+      });
+    }else{
+      Swal.fire({
+        title: '¿Está seguro de guardar los cambios?',
+        text: "",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí',
+        width: '30rem',
+        heightAuto: true
+      }).then((result) => {
+        if (result.value) {
+          const paginaDetalleEmpresa = document.getElementById('pagina-detalle-empresa') as HTMLElement | null;
+          if(paginaDetalleEmpresa){
+            paginaDetalleEmpresa.classList.remove('hide-loader');
+          }
+          this.finanzasService.addOrUpdateFinanzas(this.modeloModificado[0]).subscribe((response) => {
+          if(response.isSuccess === true && response.isWarning === false){
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Se guardaron los cambios correctamente',
+              text: "",
+              icon: 'success',
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto: true
+            })
+            console.log(response.data)
+            this.id = response.data
+
+            this.armarModeloActual();
+            this.armarModeloModificado();
+          }else{
+            if(paginaDetalleEmpresa){
+              paginaDetalleEmpresa.classList.add('hide-loader');
+            }
+            Swal.fire({
+              title: 'Ocurrió un problema.',
+              text: 'Comunicarse con Sistemas',
+              icon: 'warning',
+              confirmButtonColor: 'blue',
+              confirmButtonText: 'Ok',
+              width: '30rem',
+              heightAuto : true
+            }).then(() => {
+            })
+          }
           if(paginaDetalleEmpresa){
             paginaDetalleEmpresa.classList.add('hide-loader');
           }
-          Swal.fire({
-            title: 'Ocurrió un problema.',
-            text: 'Comunicarse con Sistemas',
-            icon: 'warning',
-            confirmButtonColor: 'blue',
-            confirmButtonText: 'Ok',
-            width: '30rem',
-            heightAuto : true
-          }).then(() => {
-          })
+        })
         }
-        if(paginaDetalleEmpresa){
-          paginaDetalleEmpresa.classList.add('hide-loader');
-        }
-      })
-      }
-    });
+      });
+    }
+
   }
   salir() {
     this.armarModeloModificado();

@@ -67,3 +67,14 @@ export interface TPersona
   enable : boolean
   quality : string
 }
+export interface StatusPerson {
+  person : boolean
+  home : boolean
+  job : boolean
+  activities : boolean
+  properties : boolean
+  sbs : boolean
+  history : boolean
+  infoGeneral : boolean
+  images : boolean
+}

@@ -27,7 +27,7 @@ export class PPropiedadesComponent implements OnInit{
   propertiesCommentary = ""
   propertiesCommentaryEng = ""
 
-  modeloNuevo : PropiedadP[] = []
+  modeloActual : PropiedadP[] = []
   modeloModificado : PropiedadP[] = []
 
   constructor(private propiedadService : PropiedadPService, private activatedRoute: ActivatedRoute, private router : Router){
@@ -39,6 +39,7 @@ export class PPropiedadesComponent implements OnInit{
     }
     console.log(this.idPerson)
   }
+  compararModelosF : any
   ngOnInit(): void {
     const loader = document.getElementById('pagina-detalle-persona') as HTMLElement | null;
     if(loader){
@@ -63,6 +64,8 @@ export class PPropiedadesComponent implements OnInit{
           if(loader){
             loader.classList.add('hide-loader');
           }
+          this.armarModeloActual()
+          this.armarModeloModificado()
         }
       )
     }else{
@@ -70,9 +73,29 @@ export class PPropiedadesComponent implements OnInit{
         loader.classList.add('hide-loader');
       }
     }
+    this.armarModeloActual()
+    this.armarModeloModificado()
+
+    this.compararModelosF = setInterval(() => {
+      this.compararModelos();
+    }, 2000);
   }
-  armarModeloNuevo(){
-    this.modeloNuevo[0] = {
+  compararModelos(){
+    this.armarModeloModificado()
+    if(JSON.stringify(this.modeloActual) !== JSON.stringify(this.modeloModificado)){
+      const tabPropiedades = document.getElementById('tab-propiedades') as HTMLElement | null;
+      if (tabPropiedades) {
+        tabPropiedades.classList.add('tab-cambios')
+      }
+    }else{
+      const tabPropiedades = document.getElementById('tab-propiedades') as HTMLElement | null;
+      if (tabPropiedades) {
+        tabPropiedades.classList.remove('tab-cambios')
+      }
+    }
+  }
+  armarModeloActual(){
+    this.modeloActual[0] = {
       id : this.id,
       idPerson : this.idPerson,
       propertiesCommentary : this.propertiesCommentary,
@@ -99,8 +122,8 @@ export class PPropiedadesComponent implements OnInit{
   }
   guardar(){
     if(this.id === 0){
-      this.armarModeloNuevo()
-      console.log(this.modeloNuevo[0])
+      this.armarModeloModificado()
+      console.log(this.modeloModificado[0])
       Swal.fire({
         title: '¿Está seguro de guardar este registro?',
         text: "",
@@ -118,9 +141,13 @@ export class PPropiedadesComponent implements OnInit{
           if(loader){
             loader.classList.remove('hide-loader');
           }
-          this.propiedadService.addPropiedad(this.modeloNuevo[0]).subscribe(
+          this.propiedadService.addPropiedad(this.modeloModificado[0]).subscribe(
             (response) => {
               if(response.isSuccess === true && response.isWarning === false){
+                const tabPropiedades = document.getElementById('tab-propiedades') as HTMLElement | null;
+                if (tabPropiedades) {
+                  tabPropiedades.classList.add('tab-con-datos')
+                }
                 Swal.fire({
                   title: 'El registro se guardo correctamente.',
                   text: '',
@@ -128,7 +155,7 @@ export class PPropiedadesComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data
@@ -173,7 +200,7 @@ export class PPropiedadesComponent implements OnInit{
                   width: '30rem',
                   heightAuto: true
                 }).then(() => {
-                  this.armarModeloNuevo()
+                  this.armarModeloActual()
                   this.armarModeloModificado()
                 })
                 this.id = response.data

@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Avales } from 'app/models/informes/empresa/sbs-riesgo';
 import { SbsRiesgoService } from 'app/services/informes/empresa/sbs-riesgo.service';
 import Swal from 'sweetalert2';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-avales',
@@ -180,17 +181,13 @@ export class AvalesComponent implements OnInit{
 
   selectFecha(event: MatDatepickerInputEvent<Date>) {
     this.dateD = event.value!
-    const selectedDate = event.value;
-    if (selectedDate) {
-      this.date = this.formatDate(selectedDate);
+    if (moment.isMoment(this.dateD)) {
+      this.date = this.formatDate(this.dateD);
     }
   }
 
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
 }
