@@ -39,13 +39,14 @@ export class ListaEmpresasComponent implements OnInit {
   filtroRB = "C"
   idPais = 0
   chkConInforme = false
-
+ 
 
   dataSource: MatTableDataSource<TCompany>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
   columnsToDisplay = ['idioma', 'rucInit', 'razonSocial', 'pais','acciones' ];
+  columnsToDisplaySimilar = ['idioma', 'razonSocial', 'descargado', 'pais','acciones' ];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,private datosEmpresaService : DatosEmpresaService,private router : Router, private paisService : PaisService,public dialogRef: MatDialogRef<ListaEmpresasComponent>,){
     this.dataSource = new MatTableDataSource()
@@ -148,15 +149,18 @@ export class ListaEmpresasComponent implements OnInit {
     if(listaEmpresas){
       listaEmpresas.classList.remove('hide-loader');
     }
+    console.log(this.chkConInforme);
     const busqueda = {
       razonSocial : this.razonSocial,
       filtro : this.filtroRB,
       idPais : this.idPais,
-      conInforme : this.chkConInforme
+      conInforme : this.chkConInforme,
+      similar:this.filterBy==='S'
     }
     this.loading=true;
+   
     localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda))
-    this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme).subscribe(
+    this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme,this.filterBy==='S').subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
           this.dataSource = new MatTableDataSource(response.data)

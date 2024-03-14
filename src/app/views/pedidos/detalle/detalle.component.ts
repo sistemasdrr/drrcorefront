@@ -1,4 +1,4 @@
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource} from '@angular/material/table';
@@ -18,6 +18,8 @@ import { formatDate } from '@angular/common';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { tick } from '@angular/core/testing';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 
 
@@ -37,7 +39,8 @@ import { tick } from '@angular/core/testing';
 })
 export class DetalleComponent implements OnInit {
   loading: boolean = false;
-
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   tipo = ""
   cupon = ""
 
@@ -76,6 +79,7 @@ export class DetalleComponent implements OnInit {
   creditrisk = 0
   enable = true
   requestedName = ""
+  remainingCoupons=0;
 
 
   /**/
@@ -112,6 +116,7 @@ export class DetalleComponent implements OnInit {
   creditoConsultado = ""
   indicacionesAbonado = ""
   datosAdicionales = ""
+  tipoFacturacion=""
 
 
   idCreditRisk = 0
@@ -123,7 +128,7 @@ export class DetalleComponent implements OnInit {
 
   continentes: data[] = [];
 
-  columnsToDisplay = ['tipo', 'cupon', 'nombreSolicitado', 'despacho', 'abonado', 'tramite'];
+  columnsToDisplay = ['tipo', 'cupon', 'nombreSolicitado','nombreDespachado', 'despacho', 'abonado', 'tramite'];
   dataSource: MatTableDataSource<HistorialPedido>;
 
   public tipo_formulario: string | null = '';
@@ -162,8 +167,8 @@ export class DetalleComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.realExpireDateD = this.addDays(5,new Date(this.orderDateD));
-      this.expireDateD = this.addDays(6,new Date(this.orderDateD));
+    this.expireDateD = this.addDays(5,new Date(this.orderDateD));
+      this.realExpireDateD = this.addDays(6,new Date(this.orderDateD));
       this.orderDateD = new Date;
    
     this.loading = true
@@ -202,9 +207,10 @@ export class DetalleComponent implements OnInit {
               this.enable = ticket.enable
               this.requestedName = ticket.requestedName
               this.precio = ticket.price
-              this.orderDateD=ticket.orderDate   
+              this.orderDateD=ticket.orderDate                
               this.expireDateD=ticket.expireDate
               this.realExpireDateD=ticket.realExpireDate
+            
             }
           }
         }
@@ -223,6 +229,7 @@ export class DetalleComponent implements OnInit {
                   this.indicacionesAbonado = abonado.indications;
                   this.aditionalData = abonado.observations;
                   this.language = abonado.language
+                  this.tipoFacturacion=abonado.facturationType;
                 }
               }
             }
@@ -262,6 +269,8 @@ export class DetalleComponent implements OnInit {
                                   }
                                 }
                                 this.dataSource.data = tipoReporte.listSameSearched
+                                this.dataSource.sort = this.sort
+                                this.dataSource.paginator = this.paginator
                               }
                             }
                           }
@@ -429,8 +438,8 @@ export class DetalleComponent implements OnInit {
     this.orderDateD = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
-      this.realExpireDateD = this.addDays(5,new Date(this.orderDateD));
-      this.expireDateD = this.addDays(6,new Date(this.orderDateD));
+      this.expireDateD = this.addDays(5,new Date(this.orderDateD));
+      this.realExpireDateD = this.addDays(6,new Date(this.orderDateD));
       this.orderDate = this.formatDate(new Date(selectedDate));
     }
    
@@ -503,7 +512,9 @@ export class DetalleComponent implements OnInit {
             this.estado = abonado.enable;
             this.indicacionesAbonado = abonado.indications;
             this.aditionalData = abonado.observations;
-            this.language = abonado.language
+            this.language = abonado.language;
+            this.tipoFacturacion=abonado.facturationType;
+            this.remainingCoupons=abonado.remainingCoupons;
           }
         }
       }
@@ -568,6 +579,8 @@ export class DetalleComponent implements OnInit {
                     }
                   }
                   this.dataSource.data = tipoReporte.listSameSearched
+                  this.dataSource.sort = this.sort
+                  this.dataSource.paginator = this.paginator
                   this.loading=false;
                 }
               }
@@ -598,7 +611,9 @@ export class DetalleComponent implements OnInit {
                 this.estado = abonado.enable;
                 this.indicacionesAbonado = abonado.indications;
                 this.aditionalData = abonado.observations;
-                this.language = abonado.language
+                this.language = abonado.language;
+                this.tipoFacturacion=abonado.facturationType;
+                this.remainingCoupons=abonado.remainingCoupons;
               }
             }else{
               this.idSubscriber = 0

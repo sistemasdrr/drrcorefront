@@ -46,6 +46,7 @@ export interface Abonado{
   facturationType : string //FM = FACT. MENSUAL, CC = CON CUPONES, OL = ONLINE
   normalPrice : boolean
   enable : boolean
+  remainingCoupons:number
 }
 
 export interface PrecioAbonado{

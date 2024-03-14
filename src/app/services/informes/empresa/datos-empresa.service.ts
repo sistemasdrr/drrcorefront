@@ -15,8 +15,8 @@ export class DatosEmpresaService {
 
   constructor(private http : HttpClient) {
   }
-  getDatosEmpresas(razonSocial : string, tipoFiltro : string, idPais : number, conInforme : boolean): Observable<Response<TCompany[]>>{
-    return this.http.post<Response<TCompany[]>>(this.url + this.controllerCompany + '/getbyname?name='+razonSocial+'&form='+tipoFiltro+'&idCountry='+idPais,'')
+  getDatosEmpresas(razonSocial : string, tipoFiltro : string, idPais : number, conInforme : boolean, similar:boolean ): Observable<Response<TCompany[]>>{
+    return this.http.post<Response<TCompany[]>>(this.url + this.controllerCompany + '/getbyname?name='+razonSocial+'&form='+tipoFiltro+'&idCountry='+idPais+'&similar='+similar+'&haveReport='+conInforme,'')
     .pipe(catchError(this.handleErrorGet));
   }
   getStatus(idCompany : number): Observable<Response<StatusCompany>>{

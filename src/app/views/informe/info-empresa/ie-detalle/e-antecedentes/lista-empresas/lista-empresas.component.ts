@@ -163,7 +163,7 @@ export class ListaEmpresasComponent implements OnInit {
       conInforme : this.chkConInforme
     }
     localStorage.setItem('busquedaEmpresas', JSON.stringify(busqueda))
-    this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme).subscribe(
+    this.datosEmpresaService.getDatosEmpresas(this.razonSocial.trim(), this.filtroRB, this.idPais, this.chkConInforme,false).subscribe(
       (response) => {
         if(response.isSuccess === true && response.isWarning === false){
           this.dataSource = new MatTableDataSource(response.data)

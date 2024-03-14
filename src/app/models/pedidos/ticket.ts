@@ -3,6 +3,7 @@ export interface CurrentTicket{
   strValue : string
 }
 export interface Ticket{
+ 
   id : number
   number : number
   idSubscriber : number

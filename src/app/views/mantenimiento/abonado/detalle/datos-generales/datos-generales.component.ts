@@ -298,7 +298,8 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       idCurrency : this.idCurrency,
       facturationType : this.facturationType,
       normalPrice : this.normalPrice,
-      enable : true
+      enable : true,
+      remainingCoupons:0
     }
   }
   armarModeloModificado(){
@@ -337,7 +338,8 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
       idCurrency : this.idCurrency,
       facturationType : this.facturationType,
       normalPrice : this.normalPrice,
-      enable : true
+      enable : true,
+      remainingCoupons:0
     }
   }
   guardar(){

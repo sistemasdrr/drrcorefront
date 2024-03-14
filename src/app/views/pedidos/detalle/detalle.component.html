@@ -22,7 +22,18 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-2 d-flex align-items-center justify-content-center">
+              <ul>
+                <li *ngIf="this.tipoFacturacion==='FM'" style="color : red; font-size: 16px;"><b>FACTURACIÓN MENSUAL</b></li>
+                <li *ngIf="this.tipoFacturacion==='CC'" style="color : red; font-size: 16px;"><b>FACTURACIÓN CON CUPONES</b></li>
+                <li *ngIf="this.tipoFacturacion==='CC' && this.remainingCoupons<50" style="color : red; font-size: 14px;"><b>Cupones Restantes : {{this.remainingCoupons}}</b></li>
+                <li *ngIf="this.tipoFacturacion==='CC' && this.remainingCoupons>=50 && this.remainingCoupons<100" style="color : orange; font-size: 14px;"><b>Cupones Restantes : {{this.remainingCoupons}}</b></li>
+                <li *ngIf="this.tipoFacturacion==='CC' && this.remainingCoupons>=100" style="color : rgb(9, 194, 9); font-size: 14px;"><b>Cupones Restantes : {{this.remainingCoupons}}</b></li>
+                <li *ngIf="this.tipoFacturacion==='CC' && this.remainingCoupons<50" style="color : red; font-size: 14px;"><b>¡¡Avisar a ADMINISTRACIÓN!!</b></li>
+              </ul>             
+            </div>
             <div>
+              
               <button mat-mini-fab color="warn" style="margin: 0 .5rem .5rem .5rem;"  #tooltip="matTooltip" matTooltip="Volver" (click)="volver()">
                 <mat-icon class="col-white">arrow_back</mat-icon>
               </button>
@@ -316,9 +327,9 @@
           <div class="col-md-12" >
             <div class="counter-box shadow" style="overflow-x: auto;">
               <h4>Abonados que Pidieron este Informe</h4>
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" >
+              <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8 w-100" matSort >
                 <ng-container matColumnDef="tipo">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Tipo </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center" style="font-size: 18px;"> Tipo </th>
                   <td mat-cell *matCellDef="let report" class="text-center" >
                     <div *ngIf="report.typeReport === 'OR'">
                       <div class="badge badge-solid-orange" style="font-size: 16px;">OR</div>
@@ -336,27 +347,31 @@
                 </ng-container>
 
                 <ng-container matColumnDef="cupon">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Cupón </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center" style="font-size: 18px;"> Cupón </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.ticketNumber}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="nombreSolicitado">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Nombre Solicitado </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center" style="font-size: 18px;"> Nombre Solicitado </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.requestedName}} </td>
                 </ng-container>
-
-                <ng-container matColumnDef="despacho">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Despacho </th>
+                <ng-container matColumnDef="nombreDespachado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center" style="font-size: 18px;"> Nombre Despachado </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.dispatch}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="despacho">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center" style="font-size: 18px;"> Despacho </th>
+                  <td mat-cell *matCellDef="let report" class="text-center" > {{report.dispatchtDateString}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="abonado">
-                  <th mat-header-cell *matHeaderCellDef class="text-center" style="font-size: 18px;"> Abonado </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center" style="font-size: 18px;"> Abonado </th>
                   <td mat-cell *matCellDef="let report" class="text-center" > {{report.subscriber}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="tramite">
-                  <th mat-header-cell *matHeaderCellDef  class="text-center" style="font-size: 18px;"> Trámite </th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header  class="text-center" style="font-size: 18px;"> Trámite </th>
                   <td mat-cell *matCellDef="let report" class="text-center" >
                     <div *ngIf="report.procedure === 'T1'">
                       <div class="badge badge-solid-blue">T1</div>
@@ -367,14 +382,15 @@
                     <div *ngIf="report.procedure === 'T3'">
                       <div class="badge badge-solid-cyan">T3</div>
                     </div>
-                    <div *ngIf="report.procedure === 'TB'">
-                      <div class="badge badge-solid-brown">TB</div>
+                    <div *ngIf="report.procedure === 'BC'">
+                      <div class="badge badge-solid-brown">BC</div>
                     </div>
                   </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                 <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
               </table>
+              <mat-paginator [pageSizeOptions]="[10,20,30]" aria-label="Seleccionar página" class="w-100"></mat-paginator>
             </div>
           </div>
         </div>
