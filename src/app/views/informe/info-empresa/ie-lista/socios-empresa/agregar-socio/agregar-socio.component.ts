@@ -12,6 +12,7 @@ import { SociosEmpresa } from 'app/models/informes/empresa/socios-empresa';
 import Swal from 'sweetalert2';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-agregar-socio',
@@ -49,7 +50,7 @@ export class AgregarSocioComponent implements OnInit {
   idCompany = 0
   idPerson = 0
   mainExecutive = false
-  idProfession = 0
+  profession = ""
   participation = 0
   startDate = ""
   startDateD : Date | null = null
@@ -130,7 +131,7 @@ export class AgregarSocioComponent implements OnInit {
             if(socio){
               this.idPerson = socio.idPerson
               this.mainExecutive = socio.mainExecutive
-              this.idProfession = socio.idProfession
+              this.profession = socio.profession
               this.participation = socio.participation
               if(socio.startDate !== null && socio.startDate !== ""){
                 const fecha = socio.startDate.split("/")
@@ -144,9 +145,6 @@ export class AgregarSocioComponent implements OnInit {
         }
       ).add(
         () => {
-          if(this.idProfession !== null && this.idProfession !== 0){
-            this.profesion = this.listaProfesion.filter(x => x.id === this.idProfession)[0]
-          }
           if(this.idPerson !== null && this.idPerson !== 0){
             this.datosGeneralesService.getPersonaById(this.idPerson).subscribe(
               (response) => {
@@ -213,7 +211,7 @@ export class AgregarSocioComponent implements OnInit {
       idCompany : this.idCompany,
       idPerson : this.idPerson,
       mainExecutive : this.mainExecutive,
-      idProfession : this.idProfession,
+      profession : this.profession,
       participation : this.participation,
       startDate : this.startDate
     }
@@ -223,28 +221,25 @@ export class AgregarSocioComponent implements OnInit {
   }
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
-    if (selectedDate) {
+    if (moment.isMoment(selectedDate)) {
       this.lastSearched = this.formatDate(selectedDate);
     }
   }
   selectFechaNacimiento(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
-    if (selectedDate) {
+    if (moment.isMoment(selectedDate)) {
       this.birthDate = this.formatDate(selectedDate);
     }
   }
   selectFechaInicio(event: MatDatepickerInputEvent<Date>) {
     const selectedDate = event.value;
-    if (selectedDate) {
+    if (moment.isMoment(selectedDate)) {
       this.startDate = this.formatDate(selectedDate);
     }
   }
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-
-    return `${day}/${month}/${year}`;
+  formatDate(date: moment.Moment): string {
+    const formattedDate = date.format('DD/MM/YYYY');
+    return formattedDate;
   }
   private _filterSituacionRuc(description: string): ComboData[] {
     const filterValue = description.toLowerCase();
@@ -280,19 +275,20 @@ export class AgregarSocioComponent implements OnInit {
   }
   limpiarSeleccionProfesion() {
     this.controlProfesion.reset();
-    this.idProfession = 0
+    this.profession = ""
   }
-  cambioProfesion(profesion: ComboData) {
+  cambioProfesion(profesion: any) {
+    console.log(profesion)
     if (typeof profesion === 'string' || profesion === null) {
       this.msgProfesion = "Seleccione una opción."
-      this.idProfession = 0
+      this.profession = profesion
       this.colorMsgProfesion = "red"
     } else {
       this.msgProfesion = "Opción Seleccionada."
-      this.idProfession = profesion.id
+      this.profession = profesion.valor
       this.colorMsgProfesion = "green"
     }
-    console.log(this.idProfession)
+    console.log(this.profession)
   }
   seleccionarPersona(){
     const dialogRef = this.dialog.open(SeleccionarPersonaComponent);

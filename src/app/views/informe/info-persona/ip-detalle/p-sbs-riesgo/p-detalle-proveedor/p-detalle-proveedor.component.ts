@@ -70,7 +70,9 @@ export class PDetalleProveedorComponent implements OnInit{
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   iconoSeleccionado = ""
   constructor(private comboService : ComboService, public dialogRef: MatDialogRef<PDetalleProveedorComponent>, private dialog: MatDialog,

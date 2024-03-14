@@ -148,7 +148,7 @@
         <mat-form-field class="w-100">
           <mat-label>Cargo</mat-label>
           <input type="text" matInput [formControl]="controlProfesion"  [matAutocomplete]="auto3" [(ngModel)]="profesion" (ngModelChange)="cambioProfesion(profesion)">
-          <mat-hint [ngClass]="idProfession === 0 || idProfession === null ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="idProfession === 0 || idProfession === null "></i><i class="fa-solid fa-circle-check" *ngIf="idProfession !== 0 && idProfession !== null"></i>&nbsp;{{msgSituacionRuc}}</mat-hint>
+          <mat-hint [ngClass]="profession === '' || profession === null ? 'col-red': 'col-green'" ><i class="fa-solid fa-circle-exclamation" *ngIf="profession === '' || profession === null "></i><i class="fa-solid fa-circle-check" *ngIf="profession !== '' && profession !== null"></i>&nbsp;{{msgSituacionRuc}}</mat-hint>
           <button matSuffix mat-icon-button color="primary" style="background-color: rgba(0,0,0,0);" (click)="limpiarSeleccionProfesion()" #tooltip="matTooltip" matTooltip="Limpiar">
             <i class="fa-solid fa-xmark" style="color: black; font-size: 20px;"></i>
           </button>

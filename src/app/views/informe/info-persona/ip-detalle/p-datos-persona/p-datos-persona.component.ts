@@ -64,7 +64,9 @@ export class PDatosPersonaComponent implements OnInit{
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
 
   //DATOS DE LA PERSONA
@@ -426,7 +428,7 @@ compararModelosF : any
           value : this.nationalityEng
         },
         {
-          key : "S_P_BIRTHDATE",
+          key : "S_P_BIRTHPLACE",
           value : this.birthPlaceEng
         },
         {
@@ -497,7 +499,7 @@ compararModelosF : any
           value : this.nationalityEng
         },
         {
-          key : "S_P_BIRTHDATE",
+          key : "S_P_BIRTHPLACE",
           value : this.birthPlaceEng
         },
         {
@@ -591,6 +593,7 @@ compararModelosF : any
       this.colorMsgSituacionRuc = "red"
     } else {
       this.msgSituacionRuc = "Opción Seleccionada."
+      console.log( situacionRuc.id)
       this.idLegalRegisterSituation = situacionRuc.id
       this.colorMsgSituacionRuc = "green"
     }

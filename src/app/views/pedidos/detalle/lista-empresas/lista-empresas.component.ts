@@ -29,7 +29,9 @@ export class ListaEmpresasComponent implements OnInit {
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   filterBy='N'
   msgPais = ""
@@ -137,7 +139,9 @@ export class ListaEmpresasComponent implements OnInit {
     this.paisSeleccionado = {
       id: 0,
       valor: '',
-      bandera: ''
+      bandera: '',
+      regtrib: '',
+      codCel: '',
     }
     this.chkConInforme = true
 

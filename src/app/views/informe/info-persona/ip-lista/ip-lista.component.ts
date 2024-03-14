@@ -57,7 +57,9 @@ export class IPListaComponent implements OnInit{
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   msgPais = ""
   colorMsgPais = ""
@@ -157,7 +159,9 @@ export class IPListaComponent implements OnInit{
     this.paisSeleccionado = {
       id: 0,
       valor: '',
-      bandera: ''
+      bandera: '',
+      regtrib: '',
+      codCel: '',
     }
     this.chkConInforme = true
 

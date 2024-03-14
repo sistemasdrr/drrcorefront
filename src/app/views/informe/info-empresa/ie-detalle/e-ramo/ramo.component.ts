@@ -149,9 +149,11 @@ export class RamoComponent implements OnInit{
   paisesSeleccionadosImpo : Pais[] = []
   filterPaisImpo : Observable<Pais[]>
   paisInformeImpo : Pais = {
-    id : 0,
-    valor : '',
-    bandera : ''
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
 
   controlPaisesExpo = new FormControl<string | Pais>('')
@@ -159,9 +161,11 @@ export class RamoComponent implements OnInit{
   paisesSeleccionadosExpo : Pais[] = []
   filterPaisExpo : Observable<Pais[]>
   paisInformeExpo : Pais = {
-    id : 0,
-    valor : '',
-    bandera : ''
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
 
   columnsWorkerHistory : string[] = ['numberYear', 'numberWorker','acciones']

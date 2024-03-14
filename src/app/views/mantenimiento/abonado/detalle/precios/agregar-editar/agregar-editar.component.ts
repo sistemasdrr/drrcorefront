@@ -29,9 +29,11 @@ export class AgregarEditarPrecioAbonadoComponent implements OnInit {
   idContinent = 0
   idCountry = 0
   countryPrecio : Pais = {
-    id : 0,
-    valor : "",
-    bandera : ""
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   idCurrency = 0
   priceT1 = 0

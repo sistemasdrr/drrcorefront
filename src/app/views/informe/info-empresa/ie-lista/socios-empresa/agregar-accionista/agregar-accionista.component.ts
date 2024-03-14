@@ -79,7 +79,9 @@ export class AgregarAccionistaComponent implements OnInit{
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
 
   modeloNuevo : AccionistasEmpresa[] = []

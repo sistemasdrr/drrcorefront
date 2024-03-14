@@ -56,7 +56,7 @@ export class DetalleComponent implements OnInit {
   orderDateD : Date = new Date();
   expireDate = ""
   expireDateD : Date=new Date();
- 
+
   realExpireDate = ""
   realExpireDateD : Date=new Date();
   idContinent = 0
@@ -84,9 +84,11 @@ export class DetalleComponent implements OnInit {
 
   precio = 0
   countryAbonado : Pais = {
-    id : 0,
-    valor : "",
-    bandera : ""
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
 
   //DATOS GENERALES
@@ -160,12 +162,12 @@ export class DetalleComponent implements OnInit {
     }
     this.dataSource = new MatTableDataSource()
   }
-  
+
   ngOnInit() {
     this.realExpireDateD = this.addDays(5,new Date(this.orderDateD));
       this.expireDateD = this.addDays(6,new Date(this.orderDateD));
       this.orderDateD = new Date;
-   
+
     this.loading = true
     if(this.id !== 0){
       this.ticketService.getById(this.id).subscribe(
@@ -202,14 +204,14 @@ export class DetalleComponent implements OnInit {
               this.enable = ticket.enable
               this.requestedName = ticket.requestedName
               this.precio = ticket.price
-              this.orderDateD=ticket.orderDate   
+              this.orderDateD=ticket.orderDate
               this.expireDateD=ticket.expireDate
               this.realExpireDateD=ticket.realExpireDate
             }
           }
         }
       ).add(
-        () => {          
+        () => {
           this.abonadoService.getAbonadoPorId(this.idSubscriber).subscribe(
             (response) => {
               console.log(response)
@@ -320,11 +322,11 @@ export class DetalleComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource();
   }
-  addDays(noOfDaysToAdd:number,orderDate:Date){     
+  addDays(noOfDaysToAdd:number,orderDate:Date){
     var endDate : Date=new Date, count = 0;
     while(count < noOfDaysToAdd){
         endDate = new Date(orderDate.setDate(orderDate.getDate() + 1));
-        if(endDate.getDay() != 0 && endDate.getDay() != 6){           
+        if(endDate.getDay() != 0 && endDate.getDay() != 6){
            count++;
         }
     }
@@ -424,8 +426,8 @@ export class DetalleComponent implements OnInit {
         }
       )
   }
-  selectFecha1(event: MatDatepickerInputEvent<Date>) { 
-   
+  selectFecha1(event: MatDatepickerInputEvent<Date>) {
+
     this.orderDateD = event.value!
     const selectedDate = event.value;
     if (selectedDate) {
@@ -433,7 +435,7 @@ export class DetalleComponent implements OnInit {
       this.expireDateD = this.addDays(6,new Date(this.orderDateD));
       this.orderDate = this.formatDate(new Date(selectedDate));
     }
-   
+
   }
   selectFecha2(event: MatDatepickerInputEvent<Date>) {
     this.expireDateD = event.value!
@@ -530,7 +532,7 @@ export class DetalleComponent implements OnInit {
       },
     });
     dialogRef1.afterClosed().subscribe((data) => {
-    
+
       if(data.idCompany > 0){
       this.loading = true;
       this.datosEmpresaService.getDatosEmpresaPorId(data.idCompany).subscribe(

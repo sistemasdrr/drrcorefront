@@ -72,7 +72,9 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
 
   btnGuardar = false
@@ -164,7 +166,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     this.filterDuracion = new Observable<string[]>()
     this.filterPais = new Observable<Pais[]>()
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-
+    this.taxTypeName = ""
     this.activatedRoute.params.subscribe(params => {
       const relacionar = params['relacionar'];
       const idCompany = params['idCompany'];
@@ -273,17 +275,17 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
       this.getCompanyByID()
     })
   }
-  getCompanyByID(){
+  async getCompanyByID(){
     if (this.id > 0) {
       this.datosEmpresaService.getDatosEmpresaPorId(this.id).subscribe(
         (response) => {
           if (response.isSuccess === true && response.isWarning === false) {
             console.log(response.data)
             const DatosEmpresa = response.data
-            this.oldCode = DatosEmpresa.oldCode
-            this.name = DatosEmpresa.name
-            this.socialName = DatosEmpresa.socialName
-            this.lastSearched = DatosEmpresa.lastSearched
+            this.oldCode = DatosEmpresa.oldCode == null ? "" : DatosEmpresa.oldCode
+            this.name = DatosEmpresa.name == null ? "" : DatosEmpresa.name
+            this.socialName = DatosEmpresa.socialName == null ? "" : DatosEmpresa.socialName
+            this.lastSearched = DatosEmpresa.lastSearched == null ? "" : DatosEmpresa.lastSearched
             if(DatosEmpresa.lastSearched !== '' && DatosEmpresa.lastSearched !== null){
               const fecha1 = this.lastSearched.split("/");
               if (fecha1) {
@@ -292,9 +294,9 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             }else{
               this.lastSearchedD = null
             }
-            this.language = DatosEmpresa.language
-            this.typeRegister = DatosEmpresa.typeRegister
-            this.yearFundation = DatosEmpresa.yearFundation
+            this.language = DatosEmpresa.language == null ? "" : DatosEmpresa.language
+            this.typeRegister = DatosEmpresa.typeRegister == null ? "" : DatosEmpresa.typeRegister
+            this.yearFundation = DatosEmpresa.yearFundation == null ? "" : DatosEmpresa.yearFundation
             this.quality = DatosEmpresa.quality.trim()
 
             if(DatosEmpresa.idLegalPersonType > 0 && DatosEmpresa.idLegalPersonType !== null){
@@ -303,30 +305,32 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
             }else{
               this.limpiarSeleccionPersoneriaJuridica()
             }
-            this.taxTypeName = DatosEmpresa.taxTypeName
-            this.taxTypeCode = DatosEmpresa.taxTypeCode
+            this.taxTypeName = DatosEmpresa.taxTypeName == null ? "" : DatosEmpresa.taxTypeName
+            this.taxTypeCode = DatosEmpresa.taxTypeCode == null ? "" : DatosEmpresa.taxTypeCode
             if(DatosEmpresa.idLegalRegisterSituation > 0 && DatosEmpresa.idLegalRegisterSituation !== null){
               this.idLegalRegisterSituation = DatosEmpresa.idLegalRegisterSituation
               this.situacionRucInforme = this.situacionRuc.filter(x => x.id === this.idLegalRegisterSituation)[0]
             }else{
               this.limpiarSeleccionSituacionRUC()
             }
-            this.address = DatosEmpresa.address
-            this.duration = DatosEmpresa.duration
-            this.place = DatosEmpresa.place
+            this.address = DatosEmpresa.address == null ? "" : DatosEmpresa.address
+            this.duration = DatosEmpresa.duration == null ? "" : DatosEmpresa.duration
+            this.place = DatosEmpresa.place == null ? "" : DatosEmpresa.place
             if(DatosEmpresa.idCountry > 0 && DatosEmpresa.idCountry !== null){
               this.idCountry = DatosEmpresa.idCountry
               this.paisSeleccionado = this.paises.filter(x => x.id === this.idCountry)[0]
+              this.taxTypeName = this.paisSeleccionado.regtrib
+              this.subTelephone = this.paisSeleccionado.codCel
             }else{
               this.limpiarSeleccionPais()
             }
-            this.subTelephone = DatosEmpresa.subTelephone
-            this.cellphone = DatosEmpresa.cellphone
-            this.telephone = DatosEmpresa.telephone
-            this.postalCode = DatosEmpresa.postalCode
-            this.whatsappPhone = DatosEmpresa.whatsappPhone
-            this.email = DatosEmpresa.email
-            this.webPage = DatosEmpresa.webPage
+            this.subTelephone = DatosEmpresa.subTelephone == null ? "" : DatosEmpresa.subTelephone
+            this.cellphone = DatosEmpresa.cellphone == null ? "" : DatosEmpresa.cellphone
+            this.telephone = DatosEmpresa.telephone == null ? "" : DatosEmpresa.telephone
+            this.postalCode = DatosEmpresa.postalCode == null ? "" : DatosEmpresa.postalCode
+            this.whatsappPhone = DatosEmpresa.whatsappPhone == null ? "" : DatosEmpresa.whatsappPhone
+            this.email = DatosEmpresa.email == null ? "" : DatosEmpresa.email
+            this.webPage = DatosEmpresa.webPage == null ? "" : DatosEmpresa.webPage
             if(DatosEmpresa.idCreditRisk > 0 && DatosEmpresa.idCreditRisk !== null){
               this.idCreditRisk = DatosEmpresa.idCreditRisk
               this.riesgoCrediticioSeleccionado = this.calificacionCrediticia.filter(x => x.id === this.idCreditRisk)[0]
@@ -370,6 +374,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
           this.print = DatosEmpresa.print
         }
       }).add(() => {
+        this.armarModeloModificado()
         this.armarModeloActual()
         this.compararModelosF = setInterval(() => {
           this.compararModelos();
@@ -395,7 +400,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     clearInterval(this.compararModelosF);
   }
-  armarModeloActual() {
+  async armarModeloActual() {
     this.datosEmpresaActual[0] = {
       id: this.id,
       oldCode: this.oldCode,
@@ -450,7 +455,7 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
       print : this.print
     }
   }
-  armarModeloModificado() {
+  async armarModeloModificado() {
     this.datosEmpresaModificado[0] = {
       id: this.id,
       oldCode: this.oldCode,
@@ -544,19 +549,25 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
     this.controlPaises.reset();
     this.idCountry = 0
     this.iconoSeleccionado = ""
+    this.taxTypeName = ""
+    this.subTelephone = ""
   }
-  cambioPais(pais: Pais) {
+  async cambioPais(pais: Pais) {
     if (pais !== null) {
       if (typeof pais === 'string' || pais === null || this.paisSeleccionado.id === 0) {
         this.msgPais = "Seleccione una opción."
         this.colorMsgPais = "red"
         this.iconoSeleccionado = ""
         this.idCountry = 0
+        this.taxTypeName = ""
+        this.subTelephone = ""
       } else {
         this.msgPais = "Opción Seleccionada"
         this.colorMsgPais = "green"
-        this.iconoSeleccionado =pais.bandera
+        this.iconoSeleccionado = pais.bandera
         this.idCountry = pais.id
+        this.taxTypeName = pais.regtrib
+        this.subTelephone = pais.codCel
       }
     } else {
       this.idCountry = 0
@@ -661,14 +672,12 @@ export class DatosEmpresaComponent implements OnInit, OnDestroy {
   }
   selectFechaInforme(event: MatDatepickerInputEvent<Date>) {
     this.lastSearchedD = event.value!
-    const selectedDate = event.value;
     if (moment.isMoment(this.lastSearchedD)) {
       this.lastSearched = this.formatDate(this.lastSearchedD);
     }
   }
   selectFechaConstitucion(event: MatDatepickerInputEvent<Date>) {
     this.constitutionDateD = event.value!
-    const selectedDate = event.value;
     if (moment.isMoment(this.constitutionDateD)) {
       this.constitutionDate = this.formatDate(this.constitutionDateD);
     }

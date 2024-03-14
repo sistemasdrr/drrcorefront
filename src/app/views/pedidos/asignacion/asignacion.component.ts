@@ -10,10 +10,11 @@ import { ComentarioComponent } from '@shared/components/comentario/comentario.co
 import { MatDialog } from '@angular/material/dialog';
 import { AdjuntarArchivosComponent } from '@shared/components/adjuntar-archivos/adjuntar-archivos.component';
 import { ComboData } from 'app/models/combo';
-import { TicketListPending } from 'app/models/pedidos/ticket';
+import { SaveTicketAssignation, TicketListPending } from 'app/models/pedidos/ticket';
 import { TicketService } from 'app/services/pedidos/ticket.service';
 import { Pedido } from 'app/models/pedidos/pedido';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+
 
 
 @Component({
@@ -29,6 +30,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ],
 })
 export class AsignacionComponent implements OnInit {
+  idUser = 0;
   //BREADCRUMB
   breadscrums = [
     {
@@ -37,38 +39,37 @@ export class AsignacionComponent implements OnInit {
       active: 'Asignación',
     },
   ];
- 
+
   lista : ComboData[] = [
     {
-      id : 5,
+      id : 21,
       valor : "KATIA BUSTAMANTE"
     },
     {
-      id : 42,
+      id : 33,
       valor : "MARIELA ACOSTA"
     },
     {
-      id : 50,
+      id : 37,
       valor : "MONICA YEPEZ"
     },
     {
-      id : 51,
+      id : 38,
       valor : "RAFAEL DEL RISCO"
     },
     {
-      id : 55,
+      id : 42,
       valor : "CECILIA RODRIGUEZ"
     },
     {
-      id : 64,
+      id : 50,
       valor : "JESSICA LIAU"
     },
     {
-      id : 8,
+      id : 23,
       valor : "CECILIA SAYAS"
     },
   ]
-
   //TABLA
   dataSource: MatTableDataSource<TicketListPending>;
   columnsToDisplay = ['position','number', 'busineesName','subscriberCode', 'reportType', 'procedureType', 'orderDate', 'expireDate', 'Acciones' ];
@@ -82,6 +83,9 @@ export class AsignacionComponent implements OnInit {
   constructor(private ticketService : TicketService, private router : Router, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
     console.log(this.dataSource)
+    const auth = JSON.parse(localStorage.getItem('authCache')+'')
+    this.idUser = parseInt(auth.idUser)
+    console.log(parseInt(auth.idUser))
   }
 
   ngOnInit(): void {
@@ -128,12 +132,49 @@ export class AsignacionComponent implements OnInit {
     this.router.navigate(['pedidos/lista']);
   }
   guardar(){
+    let lista : SaveTicketAssignation[] = []
     this.selection.selected.forEach(element => {
-      
+      const ticket : SaveTicketAssignation ={
+        id : element.id,
+        idEmisor : this.idUser,
+        idReceptor : element.receptor,
+        commentary : element.commentary
+      }
+      lista.push(ticket)
     });
-    
+    this.ticketService.savePreassign(lista).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          console.log('guardado')
+        }
+      }
+    )
 
     console.log(this.selection.selected);
+    console.log(lista);
+  }
+
+  guardarEnviar(){
+    let lista : SaveTicketAssignation[] = []
+    this.selection.selected.forEach(element => {
+      const ticket : SaveTicketAssignation ={
+        id : element.id,
+        idEmisor : this.idUser,
+        idReceptor : element.receptor,
+        commentary : element.commentary
+      }
+      lista.push(ticket)
+    });
+    this.ticketService.saveAndSendPreassign(lista).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          console.log('guardado')
+        }
+      }
+    )
+
+    console.log(this.selection.selected);
+    console.log(lista);
   }
 
   //ACCIONES
@@ -144,7 +185,7 @@ export class AsignacionComponent implements OnInit {
       cupon: cupon,
       comentario : comentario
     },
-  }); 
+  });
     dialogRef.afterClosed().subscribe((data) => {
       console.log(data)
       if (data) {
@@ -166,6 +207,5 @@ export class AsignacionComponent implements OnInit {
     //   }
     // });
   }
-
 
 }

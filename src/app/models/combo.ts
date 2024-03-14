@@ -36,4 +36,6 @@ export interface Pais{
   id : number
   valor : string
   bandera : string
+  regtrib : string
+  codCel : string
 }

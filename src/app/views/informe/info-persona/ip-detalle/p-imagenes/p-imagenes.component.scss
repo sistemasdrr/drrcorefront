@@ -16,8 +16,15 @@ mat-form-field{
   }
   input:read-only{
     border-bottom: 3px solid rgb(163, 163, 247);
+  }
+  mat-select{
+    border-bottom: 3px solid rgb(200, 233, 200);
 
   }
+  mat-select:disabled{
+    border-bottom: 3px solid rgb(163, 163, 247);
+  }
+
   mat-select{
     border-bottom: 3px solid rgb(200, 233, 200);
   }

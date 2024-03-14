@@ -1,12 +1,9 @@
 
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { MatTableDataSource} from '@angular/material/table';
 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-
-import { Pedido } from 'app/models/pedidos/pedido';
-import { PedidoService } from 'app/services/pedido.service';
 
 import { Router } from '@angular/router';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -14,65 +11,66 @@ import { ComentarioComponent } from '@shared/components/comentario/comentario.co
 import { MatDialog } from '@angular/material/dialog';
 import { AdjuntarArchivosComponent } from '@shared/components/adjuntar-archivos/adjuntar-archivos.component';
 import { SeleccionarAgenteComponent } from './seleccionar-agente/seleccionar-agente.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { ListTicket } from 'app/models/pedidos/ticket';
+import { TicketService } from 'app/services/pedidos/ticket.service';
+
 
 @Component({
   selector: 'app-asignacion2',
   templateUrl: './asignacion2.component.html',
-  styleUrls: ['./asignacion2.component.scss']
+  styleUrls: ['./asignacion2.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
-export class Asignacion2Component implements AfterViewInit {
+export class Asignacion2Component implements OnInit {
+  userTo = ""
   //BREADCRUMB
   breadscrums = [
     {
-      title: 'Asignación de Empleados',
+      title: 'Bandeja de Asignación',
       items: ['Producción','Pedidos'],
       active: 'Asignación',
     },
   ];
 
   //TABLA
-  dataSource: MatTableDataSource<Pedido>;
-  columnsToDisplay = ['cupon', 'informe', 'fechaIngreso','fechaVencimiento','calidad','tipoInforme', 'tipoTramite',  'Acciones' ];
-  selection = new SelectionModel<Pedido>(true, []);
+  dataSource: MatTableDataSource<ListTicket>;
+  columnsToDisplay = ['number', 'busineesName','subscriberCode', 'reportType', 'procedureType', 'orderDate', 'expireDate', 'Acciones' ];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  expandedOrder: ListTicket | null = null;
+    selection = new SelectionModel<ListTicket>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('filter') filter!: ElementRef;
 
-  constructor(private pedidoService : PedidoService,
+  constructor(private  ticketService : TicketService,
     private router : Router,
     public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource(this.pedidoService.getPedidos());
+    this.dataSource = new MatTableDataSource();
     console.log(this.dataSource)
+    const auth = JSON.parse(localStorage.getItem('authCache')+'')
+    this.userTo = auth.idUser
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.ticketService.getTicketPreassigned(this.userTo).subscribe(
+      (response) => {
+        if(response.isSuccess === true && response.isWarning === false){
+          this.dataSource.data = response.data
+          console.log(response.data)
+        }
+      }
+    )
   }
-
-  //CHECKBOX
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-  checkboxLabel(row?: Pedido): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
-  }
-
 
   volver(){
     this.router.navigate(['pedidos/lista']);

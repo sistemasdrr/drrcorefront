@@ -2,9 +2,11 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { CompanyImages } from 'app/models/informes/empresa/imagenes';
 import { ImagenesService } from 'app/services/informes/empresa/imagenes.service';
+import { ImageEditorEComponent } from 'app/views/informe/info-persona/ip-detalle/p-imagenes/image-editor/image-editor.component';
 import { catchError, map, of } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -64,7 +66,7 @@ export class ImagenesComponent implements OnInit{
 
   tituloSeleccion : string = ""
 
-  constructor( private activatedRoute: ActivatedRoute, private imagenesService : ImagenesService) {
+  constructor(private dialog : MatDialog, private activatedRoute: ActivatedRoute, private imagenesService : ImagenesService) {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id?.includes('nuevo')) {
       this.idCompany = 0
@@ -114,7 +116,7 @@ export class ImagenesComponent implements OnInit{
             this.imagenesService.downloadImage(this.path1).pipe(
               catchError((error) => {
                 console.error('Error al descargar la imagen:', error);
-                return of(null); // Retorna un observable que emite null en caso de error
+                return of(null);
               }),
               map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
@@ -131,7 +133,7 @@ export class ImagenesComponent implements OnInit{
             this.imagenesService.downloadImage(this.path2).pipe(
               catchError((error) => {
                 console.error('Error al descargar la imagen:', error);
-                return of(null); // Retorna un observable que emite null en caso de error
+                return of(null);
               }),
               map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
@@ -148,7 +150,7 @@ export class ImagenesComponent implements OnInit{
             this.imagenesService.downloadImage(this.path3).pipe(
               catchError((error) => {
                 console.error('Error al descargar la imagen:', error);
-                return of(null); // Retorna un observable que emite null en caso de error
+                return of(null);
               }),
               map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
@@ -165,7 +167,7 @@ export class ImagenesComponent implements OnInit{
             this.imagenesService.downloadImage(this.path4).pipe(
               catchError((error) => {
                 console.error('Error al descargar la imagen:', error);
-                return of(null); // Retorna un observable que emite null en caso de error
+                return of(null);
               }),
               map((response) => {
                 if (response instanceof HttpResponse && response.ok) {
@@ -265,7 +267,123 @@ export class ImagenesComponent implements OnInit{
       ]
     }
   }
+  seleccionarImagen() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
 
+    input.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        this.files = []
+        this.files.push(file)
+      }
+    };
+
+    input.click();
+  }
+  pegarImagen() {
+
+    const clipboardData = navigator.clipboard;
+    if (!clipboardData) {
+      console.log("El navegador no admite el acceso al portapapeles.");
+      return;
+    }
+
+    clipboardData.read()
+      .then(data => {
+        for (const item of data) {
+          for (const type of item.types) {
+            if (type.startsWith('image/')) {
+              const mimeType = type.split('/')[1];
+              item.getType(type).then(blob => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const base64String = reader.result as string;
+
+                  // Convertir base64 a blob
+                  const byteCharacters = atob(base64String.split(',')[1]);
+                  const byteArrays = [];
+                  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                    const slice = byteCharacters.slice(offset, offset + 512);
+
+                    const byteNumbers = new Array(slice.length);
+                    for (let i = 0; i < slice.length; i++) {
+                      byteNumbers[i] = slice.charCodeAt(i);
+                    }
+
+                    const byteArray = new Uint8Array(byteNumbers);
+                    byteArrays.push(byteArray);
+                  }
+                  const blob = new Blob(byteArrays, { type: mimeType });
+
+                  // Crear objeto File a partir del blob
+                  const file = new File([blob], 'image.' + mimeType, { type: mimeType });
+                  this.files = []
+                  this.files.push(file); // Agregar el archivo al arreglo existente
+                };
+                reader.readAsDataURL(blob);
+              }).catch(error => {
+                console.error("Error al obtener la imagen del portapapeles:", error);
+              });
+              return;
+            }
+          }
+        }
+
+        if (this.files.length > 0) {
+          // Hacer lo que quieras con el arreglo de archivos de imagen
+          console.log("Imagenes obtenidas del portapapeles:", this.files);
+        } else {
+          Swal.fire({
+            title: 'No se encontraron imágenes en el portapapeles',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok',
+            width: '20rem',
+            heightAuto: true
+          });
+        }
+      })
+      .catch(err => {
+        console.error("Error al leer el portapapeles:", err);
+      });
+  }
+  fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        resolve(base64String);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  editarImagen(){
+    let base64 = ""
+    this.fileToBase64(this.files[0]).then(base64String => {
+      base64 = base64String
+      console.log(base64)
+      const dialogRef = this.dialog.open(ImageEditorEComponent, {
+        data: {
+          image : base64String
+        },
+      });
+      dialogRef.afterClosed().subscribe(
+        (data) => {
+          if(data){
+            this.files[0] = new File([this.dataURItoBlob(data.base64)], this.idCompany +".png", { type: 'image/png' });
+          }
+        }
+      )
+    })
+
+  }
   onSelect(event : any) {
     this.files = []
     this.imgSeleccionadaCheck = false

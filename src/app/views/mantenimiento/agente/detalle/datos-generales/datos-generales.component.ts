@@ -30,9 +30,11 @@ export class DatosGeneralesAgenteComponent implements OnInit {
   language = ""
   idCountry = 0
   countryAgente : Pais = {
-    id : 0,
-    valor : "",
-    bandera : ""
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   observations = ""
   status = true

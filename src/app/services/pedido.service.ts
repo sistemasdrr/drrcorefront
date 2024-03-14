@@ -33,9 +33,11 @@ export class PedidoService {
       codigo: "12345",
       revelarNombre: true,
       pais: {
-        id : 182,
-        valor : "Perú",
-        bandera : "pe"
+        id: 0,
+        valor: '',
+        bandera: '',
+        regtrib: '',
+        codCel: '',
       },
       codigoPais: "pe",
       estado: "INACTIVO",
@@ -49,9 +51,11 @@ export class PedidoService {
       codigoRT : 'codigo rt',
       continenteEmpresa : 1,
       paisEmpresa : {
-        id : 182,
-        valor : "Perú",
-        bandera : "pe"
+        id: 0,
+        valor: '',
+        bandera: '',
+        regtrib: '',
+        codCel: '',
       },
       ciudadEmpresa : 'ciudad',
       direccionEmpresa : 'direccion',

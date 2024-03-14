@@ -35,7 +35,7 @@ export class AgregarSocioPersonaComponent implements OnInit {
   idCompany = 0
   idPerson = 0
   mainExecutive = false
-  idProfession = 0
+  profession = ""
   participation = 0
   startDate = ""
   startDateD : Date | null = null
@@ -84,7 +84,9 @@ export class AgregarSocioPersonaComponent implements OnInit {
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
 
   modeloNuevo : SociosEmpresa[] = []
@@ -150,7 +152,7 @@ export class AgregarSocioPersonaComponent implements OnInit {
             if(socio){
               this.idCompany = socio.idCompany
               this.idPerson = socio.idPerson
-              this.idProfession = socio.idProfession
+              this.profession = socio.profession
               this.mainExecutive = socio.mainExecutive
               this.participation = socio.participation
               if(socio.startDate !== null && socio.startDate !== null){
@@ -165,9 +167,7 @@ export class AgregarSocioPersonaComponent implements OnInit {
         }
       ).add(
         () => {
-          if(this.idProfession !== null && this.idProfession !== 0){
-            this.profesion = this.listaProfesion.filter(x => x.id === this.idProfession)[0]
-          }
+
           if(this.idCompany !== null && this.idCompany !== 0){
             this.datosEmpresaService.getDatosEmpresaPorId(this.idCompany).subscribe(
               (response) => {
@@ -239,19 +239,19 @@ export class AgregarSocioPersonaComponent implements OnInit {
   }
   limpiarSeleccionProfesion() {
     this.controlProfesion.reset();
-    this.idProfession = 0
+    this.profession = ""
   }
   cambioProfesion(profesion: ComboData) {
     if (typeof profesion === 'string' || profesion === null) {
       this.msgProfesion = "Seleccione una opción."
-      this.idProfession = 0
+      this.profession = ""
       this.colorMsgProfesion = "red"
     } else {
       this.msgProfesion = "Opción Seleccionada."
-      this.idProfession = profesion.id
+      this.profession = profesion.valor
       this.colorMsgProfesion = "green"
     }
-    console.log(this.idProfession)
+    console.log(this.profession)
   }
   displayPais(pais: Pais): string {
     return pais && pais.valor ? pais.valor : '';
@@ -386,7 +386,7 @@ export class AgregarSocioPersonaComponent implements OnInit {
       idCompany : this.idCompany,
       idPerson : this.idPerson,
       mainExecutive : this.mainExecutive,
-      idProfession : this.idProfession,
+      profession : this.profession,
       participation : this.participation,
       startDate : this.startDate
     }

@@ -46,7 +46,9 @@ export class SeleccionarPersonaComponent implements OnInit{
   paisSeleccionado: Pais = {
     id: 0,
     valor: '',
-    bandera: ''
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   msgPais = ""
   colorMsgPais = ""
@@ -137,7 +139,9 @@ export class SeleccionarPersonaComponent implements OnInit{
     this.paisSeleccionado = {
       id: 0,
       valor: '',
-      bandera: ''
+      bandera: '',
+      regtrib: '',
+      codCel: '',
     }
     this.chkConInforme = true
 
