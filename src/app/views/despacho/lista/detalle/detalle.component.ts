@@ -66,9 +66,11 @@ export class DetalleComponent implements OnInit{
     this.fechaVencimientoDate = new Date(parseInt(fechaVencimiento[2]),parseInt(fechaVencimiento[1])-1,parseInt(fechaVencimiento[0]))
   }
   paisSeleccionado : Pais = {
-    id : 0,
-    valor : "",
-    bandera : ""
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   iconoSeleccionado: string = ""
   actualizarSeleccion(obj : Pais) {

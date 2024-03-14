@@ -120,17 +120,24 @@ export interface TicketQuery{
   queryDate: Date,
   idSubscriber: number,
   subscriberName: string,
-  language: string,  
+  language: string,
   email: string,
-  message: string, 
+  message: string,
   status: number,
   report: string
 }
-export interface SendQuery{  
+export interface SendQuery{
     idTicket: number,
     queryDate: Date,
     idSubscriber: number,
     language: string,
     email: string,
-    message: string   
+    message: string
+}
+
+export interface SaveTicketAssignation{
+  id : number
+  idEmisor : number
+  idReceptor : number
+  commentary : string
 }

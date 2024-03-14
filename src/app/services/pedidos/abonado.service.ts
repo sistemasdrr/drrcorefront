@@ -8,59 +8,13 @@ const listaAbonado : Abonado[] = [
     codigo : "12345",
     revelarNombre : true,
     pais : {
-      id: 182,
-      valor: "Perú",
-      bandera: "pe"
+      id: 0,
+      valor: '',
+      bandera: '',
+      regtrib: '',
+      codCel: '',
     },
     estado : "INACTIVO",
-    nroReferencia : "1234546789",
-    creditoConsultado : "1 000 000",
-    indicaciones : "Aqui van las indicaciones",
-    dtsAdicionales : "Datos adicionales"
-  },
-  {
-    id : "2",
-    nombre : "Abonado 2",
-    codigo : "12346",
-    revelarNombre : true,
-    pais : {
-      id: 182,
-      valor: "Perú",
-      bandera: "pe"
-    },
-    estado : "ACTIVO",
-    nroReferencia : "1234546789",
-    creditoConsultado : "1 000 000",
-    indicaciones : "Aqui van las indicaciones",
-    dtsAdicionales : "Datos adicionales"
-  },
-  {
-    id : "3",
-    nombre : "Abonado 3",
-    codigo : "12347",
-    revelarNombre : true,
-    pais : {
-      id: 182,
-      valor: "Perú",
-      bandera: "pe"
-    },
-    estado : "ACTIVO",
-    nroReferencia : "1234546789",
-    creditoConsultado : "1 000 000",
-    indicaciones : "Aqui van las indicaciones",
-    dtsAdicionales : "Datos adicionales"
-  },
-  {
-    id : "4",
-    nombre : "Abonado 4",
-    codigo : "12348",
-    revelarNombre : true,
-    pais : {
-      id: 182,
-      valor: "Perú",
-      bandera: "pe"
-    },
-    estado : "ACTIVO",
     nroReferencia : "1234546789",
     creditoConsultado : "1 000 000",
     indicaciones : "Aqui van las indicaciones",
@@ -72,9 +26,11 @@ const listaAbonado : Abonado[] = [
     codigo : "12349",
     revelarNombre : false,
     pais : {
-      id: 182,
-      valor: "Perú",
-      bandera: "pe"
+      id: 0,
+      valor: '',
+      bandera: '',
+      regtrib: '',
+      codCel: '',
     },
     estado : "ACTIVO",
     nroReferencia : "1234546789",

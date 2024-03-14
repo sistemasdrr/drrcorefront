@@ -2,75 +2,90 @@
   <div class="col-md-12 mb-2"(paste)="onPaste($event)" >
     <div class="row counter-box shadow mb-2">
       <div class="w-100 d-flex justify-content-between align-items-center">
-        <h4>Imágenes de la Empresa</h4>
+        <h4>Imágenes de la Persona&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
 
       </div>
       <hr>
-      <div class="col-md-8" >
-        <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" style="height: 20rem;" [accept]="'image/*'" (change)="onSelect($event)"   [disabled]="cardSeleccionada === 0">
-          <div class="d-flex justify-content-center" style="background-size: cover; width: 100%; height: 100%" *ngIf="imgSeleccionadaCheck === true">
-          </div>
-          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="w-100 h-100 d-flex justify-content-center" *ngFor="let file of files" [file]="file" >
-
-
-          </ngx-dropzone-image-preview>
+      <div class="col-md-7" >
+        <div class="container d-flex justify-content-center" style="min-width: 100%; height: 300px; border: 2px groove black;">
+          <img [src]="base64.includes('data:image/') === true ? base64 : 'data:image/png;base64,'+base64" class="img-fluid">
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-5">
         <div class="d-flex ">
-          <div class="w-100 d-flex align-items-center" style="font-size: 20px;">
-            {{tituloSeleccion}}
-          </div>
-          <div class="w-100 d-flex justify-content-end">
-            <button mat-mini-fab class="bg-cyan" style="margin: 0 .5rem .5rem .5rem;" #tooltip="matTooltip" matTooltip="Guardar" (click)="guardar(cardSeleccionada, desc, descIng)" [disabled]="cardSeleccionada === 0">
-              <mat-icon class="col-white">save</mat-icon>
-            </button>
+          <div class="w-100 d-flex justify-content-between">
+            <div>
+              <button mat-mini-fab [class]="id > -1 ? 'bg-blue' : 'bg-grey'" style="margin: 0 .5rem .5rem .5rem;" matTooltip="Seleccionar Imagen" (click)="seleccionarImagen()" [disabled]="id === -1">
+                <mat-icon class="col-white">upload_file</mat-icon>
+              </button>
+              <button mat-mini-fab [class]="id > -1 ? 'bg-green' : 'bg-grey'"  style="margin: 0 .5rem .5rem .5rem;" matTooltip="Pegar Imagén (Ctrl + V)" (click)="pegarImagen()" [disabled]="id === -1">
+                <mat-icon class="col-white">content_paste</mat-icon>
+              </button>
+              <button mat-mini-fab [class]="base64 !== '' && base64 !== null ? 'bg-orange' : 'bg-grey'"  style="margin: 0 .5rem .5rem .5rem;" matTooltip="Editar Imagén" (click)="editarImagen()" [disabled]="base64 !== null && base64 !== '' ? false : true">
+                <mat-icon class="col-white">content_cut</mat-icon>
+              </button>
+            </div>
+            <div>
+              <button mat-mini-fab [class]="'bg-blue'"  style="margin: 0 .5rem .5rem .5rem;" matTooltip="Nuevo" (click)="nuevo()">
+                <mat-icon class="col-white">add</mat-icon>
+              </button>
+              <button mat-mini-fab [class]="id > -1 ? 'bg-cyan' : 'bg-grey'"  style="margin: 0 .5rem .5rem .5rem;" matTooltip="Guardar" (click)="guardar(id)" [disabled]="id === -1">
+                <mat-icon class="col-white">save</mat-icon>
+              </button>
+            </div>
           </div>
         </div>
+        <h4>{{numImg === -1 ? 'Seleccione o Cree una nueva Imagen ' : numImg === 0  ? 'Imagen Nueva' : 'Imagen ' + numImg}}</h4>
         <hr>
         <div class="col-md-12">
           <mat-form-field class="w-100">
             <mat-label>Descripción</mat-label>
-            <input matInput [(ngModel)]="desc"  [disabled]="cardSeleccionada === 0">
+            <input matInput [(ngModel)]="description"  [disabled]="id === -1">
           </mat-form-field>
         </div>
         <div class="col-md-12">
           <mat-form-field class="w-100">
             <mat-label>Descripción Inglés</mat-label>
-            <input matInput [(ngModel)]="descIng"  [disabled]="cardSeleccionada === 0">
+            <input matInput [(ngModel)]="descriptionEng"  [disabled]="id === -1">
           </mat-form-field>
         </div>
+        <div class="col-md-12">
+          <mat-slide-toggle [(ngModel)]="printImg" color="primary" [disabled]="id === -1">
+             Imprimir?
+          </mat-slide-toggle>
+
+        </div>
       </div>
-
-      <div class="col-md-12">
-
-      </div>
-
     </div>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-4" *ngFor="let item of listaFotos">
     <mat-card>
-      <img mat-card-image src="{{img1}}" >
+      <img mat-card-image [src]="item.base64.includes('data:image/') === true ? item.base64 : 'data:image/png;base64,'+item.base64" style="max-height: 500px;">
       <mat-card-content>
-        <p><b>Descripción : </b>{{imgDesc1}}</p>
-        <p><b>Descripción Inglés: </b>{{imgDescEng1}}</p>
+        <p><b>Descripción : </b>{{item.description}}</p>
+        <p><b>Descripción Inglés: </b>{{item.descriptionEng}}</p>
+        <p><b>Imprimir?: </b>{{item.printImg === true ? "Sí" : "No"}}</p>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions class="w-100" style="display: unset;">
         <div fxLayout="row">
-          <div class="w-100 d-flex justify-content-end">
-            <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(1)" #tooltip="matTooltip" matTooltip="Seleccionar">
-              <mat-icon class="col-white">task_alt</mat-icon>
-            </button>
-            <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="borrarImagen(1)" [disabled]="!(imgDesc1 !== '')">
-              <mat-icon class="col-white">delete</mat-icon>
-            </button>
+          <div class="w-100 d-flex justify-content-between">
+            <h4>Imagen {{item.numImg}}</h4>
+            <div class="d-flex">
+              <button mat-mini-fab color="primary" style="margin: 0 .5rem 0 .5rem;" (click)="seleccionarCard(item.id)" matTooltip="Seleccionar">
+                <mat-icon class="col-white">task_alt</mat-icon>
+              </button>
+              <button mat-mini-fab color="warn" style="margin: 0 .5rem 0 .5rem;" (click)="eliminarFoto(item.id)" matTooltip="Eliminar" [disabled]="!(item.base64 !== '')">
+                <mat-icon class="col-white">delete</mat-icon>
+              </button>
+            </div>
+
           </div>
         </div>
       </mat-card-actions>
     </mat-card>
   </div>
-  <div class="col-md-6">
+  <!--div class="col-md-6">
     <mat-card>
       <img mat-card-image src="{{img2}}">
       <mat-card-content>
@@ -91,8 +106,8 @@
         </div>
       </mat-card-actions>
     </mat-card>
-  </div>
-  <div class="col-md-12 mt-2">
+  </!--div>
+  <div-- class="col-md-12 mt-2">
     <mat-card>
       <img mat-card-image src="{{img3}}">
       <mat-card-content>
@@ -113,5 +128,5 @@
         </div>
       </mat-card-actions>
     </mat-card>
-  </div>
+  </div-->
 </div>

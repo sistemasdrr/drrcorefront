@@ -11,3 +11,13 @@ export interface PersonImages{
   path3 : string
   traductions : Traduction[]
 }
+export interface PersonPhoto{
+  id : number
+  idPerson : number
+  numImg : number
+  base64 : string
+  description : string
+  descriptionEng : string
+  printImg : boolean
+
+}

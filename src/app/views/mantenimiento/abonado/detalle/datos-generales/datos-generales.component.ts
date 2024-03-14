@@ -26,9 +26,11 @@ export class DatosGeneralesAbonadoComponent implements OnInit {
   idContinent = 0
 
   countryAbonado : Pais = {
-    id : 0,
-    valor : "",
-    bandera : ""
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   idCountry = 0
 

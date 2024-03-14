@@ -48,9 +48,11 @@ export class DetallePersonalComponent implements OnInit {
   lugarNac = ""
   ciudadNac = ""
   paisNac : Pais = {
-    id : 0,
-    valor : '',
-    bandera : ''
+    id: 0,
+    valor: '',
+    bandera: '',
+    regtrib: '',
+    codCel: '',
   }
   fechaNacimientoDate : Date | null = new Date()
   fechaNacimiento : string | null = ""

@@ -57,6 +57,7 @@ export function createTranslateLoader(http: HttpClient) {
     LoadingBarRouterModule,
     NgScrollbarModule,
     MatNativeDateModule,
+    
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,0 +1,73 @@
+<div class="container m-0 p-0" >
+  <mat-dialog-content style="min-width: 80rem; min-height: 40rem;">
+    <div class="row m-0 p-0">
+      <div class="col-md-12 mb-3" style="background-color: #dae1f3;">
+        <div class="d-flex justify-content-between">
+          <h3 class="p-2">Recortar Imagen</h3>
+          <div class="d-flex justify-content-center">
+            <button mat-mini-fab class="bg-cyan" style="margin: .5rem .5rem 0 .5rem" (click)="guardar()" matTooltip="Guardar" >
+              <mat-icon class="col-white">save</mat-icon>
+            </button>
+            <button mat-mini-fab color="warn"  style="margin: .5rem 0 .5rem  .5rem" (click)="salir()" matTooltip="Cerrar" >
+              <mat-icon class="col-white">logout</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h4>Imagen Original - {{baseOr}} x {{alturaOr}} - {{pesoOr}}</h4>
+        <br>
+        <div class="d-flex justify-content-center">
+          <angular-cropper #cropper [cropperOptions]="config" [imageUrl]="config.ImageUrl"></angular-cropper>
+        </div>
+        <br>
+        <div class="w-100 d-flex justify-content-between">
+          <div class="d-flex justify-content-between">
+            <button mat-mini-fab class="bg-blue"  style="margin: 0 .5rem 0 0;" matTooltip="Acercar" (click)="zoomIn()">
+              <mat-icon class="col-white">zoom_in_map</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-blue"  style="margin: 0 0 0 .5rem;" matTooltip="Alejar" (click)="zoomOut()">
+              <mat-icon class="col-white">zoom_out_map</mat-icon>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between">
+            <button mat-mini-fab class="bg-blue" style="margin: 0 .5rem 0 0;" matTooltip="Rotar a la Derecha" (click)="rotateRight()">
+              <mat-icon class="col-white">rotate_right</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-blue" style="margin: 0 0 0 .5rem;" matTooltip="Rotar a la Izquierda" (click)="rotateLeft()">
+              <mat-icon class="col-white">rotate_left</mat-icon>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between">
+            <button mat-mini-fab class="bg-blue" style="margin: 0 .5rem 0 0;" matTooltip="Ratio de 16/9" (click)="aspectRatio(16/9)">
+              <mat-icon class="col-white">crop_16_9</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-blue" style="margin: 0 .5rem 0 .5rem;" matTooltip="Ratio de 1/2" (click)="aspectRatio(1/2)">
+              <mat-icon class="col-white">crop_portrait</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-blue" style="margin: 0 0 0 .5rem;" matTooltip="Ratio Personalizado" (click)="ratioPersonalizado()">
+              <mat-icon class="col-white">aspect_ratio</mat-icon>
+            </button>
+          </div>
+          <div class="d-flex justify-content-between">
+            <button mat-mini-fab class="bg-cyan"  style="margin: 0 .5rem 0 0;" matTooltip="Revertir Cambios" (click)="resetChanges()">
+              <mat-icon class="col-white">settings_backup_restore</mat-icon>
+            </button>
+            <button mat-mini-fab class="bg-green" style="margin: 0 0 0 .5rem;" matTooltip="Recortar" (click)="saveChanges()">
+              <mat-icon class="col-white">content_cut</mat-icon>
+            </button>
+          </div>
+        </div>
+       </div>
+       <div class="col-md-6">
+        <h4>Imagen Recortada - {{baseRe}} x {{alturaRe}} - {{pesoRe}}</h4>
+        <br>
+        <div class="d-flex justify-content-center">
+          <img [src]="imagenResultanteUrl" *ngIf="imagenResultanteUrl" class="img-fluid" alt="Imagen Recortada">
+        </div>
+        <br>
+
+      </div>
+     </div>
+  </mat-dialog-content>
+</div>
